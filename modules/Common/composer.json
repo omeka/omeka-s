@@ -1,0 +1,32 @@
+{
+    "name": "daniel-km/omeka-s-module-common",
+    "type": "library",
+    "description": "Module for Omeka S that manages internal features used in various modules: bulk functions, form elements, view helpers, one-time methods for install, etc.",
+    "license": "CECILL-2.1",
+    "authors": [
+        {
+            "name": "Daniel Berthereau",
+            "email": "Daniel.packagist@Berthereau.net"
+        }
+    ],
+    "homepage": "https://gitlab.com/Daniel-KM/Omeka-S-module-Common",
+    "support": {
+        "issues": "https://gitlab.com/Daniel-KM/Omeka-S-module-Common/-/issues",
+        "forum": "https://forum.omeka.org/"
+    },
+    "keywords": [
+        "Omeka S",
+        "Omeka S module",
+        "development"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Common\\": "src/"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "7.4"
+        }
+    }
+}

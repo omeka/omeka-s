@@ -1,0 +1,28 @@
+    <?php
+    $results = $this->results;
+    ?>
+
+    <h1>Resultados da Consulta ao GraphDB</h1>
+
+    <?php if (isset($results['results']['bindings']) && !empty($results['results']['bindings'])): ?>
+        <table>
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Predicate</th>
+                    <th>Object</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($results['results']['bindings'] as $row): ?>
+                    <tr>
+                        <td><?php echo $row['subject']['value']; ?></td>
+                        <td><?php echo $row['predicate']['value']; ?></td>
+                        <td><?php echo $row['object']['value']; ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p>Nenhum resultado encontrado.</p>
+    <?php endif; ?>

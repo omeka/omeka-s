@@ -1,0 +1,72 @@
+{
+    "name": "longitude-one/doctrine-spatial",
+    "type": "library",
+    "description": "Doctrine2 multi-platform support for spatial types and functions",
+    "keywords": ["orm", "dbal", "database", "postgresql", "mysql", "opengis", "postgis", "gis", "spatial", "geometry", "geography"],
+    "authors": [
+        {
+            "name": "Derek Lambert",
+            "email": "dlambert@dereklambert.com"
+        },
+        {
+            "name": "Alexandre Tranchant",
+            "email": "alexandre.tranchant@gmail.com"
+        }
+    ],
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true
+        }
+    },
+    "license": "MIT",
+    "replace": {
+        "creof/doctrine2-spatial": "*"
+    },
+    "require": {
+        "php": "^7.4|^8.0",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "creof/geo-parser": "~2.2",
+        "creof/wkt-parser": "~2.2",
+        "creof/wkb-parser": "~2.3",
+        "doctrine/orm": "^2.8.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "phpmd/phpmd": "^2.10",
+        "phpunit/phpunit": "^9.5",
+        "phpunit/phpcov": "^8.2",
+        "php-coveralls/php-coveralls": "^2.4",
+        "squizlabs/php_codesniffer": "^3.6",
+        "cache/array-adapter": "^1.1",
+        "dg/bypass-finals": "^1.3"
+    },
+    "scripts": {
+        "check-quality-code": [
+            "php-cs-fixer fix --dry-run --config=.php-cs-fixer.dist.php --allow-risky=yes -vvv",
+            "phpcs --standard=phpcs.xml.dist -s",
+            "phpmd lib text ./phpmd.lib.xml",
+            "phpmd tests text ./phpmd.test.xml --exclude OrmTestCase.php"
+        ],
+        "phpcs": "phpcs --standard=phpcs.xml.dist -s",
+        "phpcsfixer": "php-cs-fixer --config=.php-cs-fixer.dist.php fix --allow-risky=yes -vvv",
+        "phpmd": [
+            "phpmd lib text ./phpmd.lib.xml",
+            "phpmd tests text ./phpmd.test.xml --exclude OrmTestCase.php"
+        ],
+        "test": [
+            "phpunit --configuration phpunit.mysql5.7.xml",
+            "phpunit --configuration phpunit.mysql8.0.xml",
+            "phpunit --configuration phpunit.pgsql.xml"
+        ],
+        "test-mysql5.7": "phpunit --configuration phpunit.mysql5.7.xml",
+        "test-mysql8.0": "phpunit --configuration phpunit.mysql8.0.xml",
+        "test-pgsql": "phpunit --configuration phpunit.pgsql.xml"
+    },
+    "autoload": {
+        "psr-0": {
+            "LongitudeOne\\Spatial": "lib/",
+            "LongitudeOne\\Spatial\\Tests": "tests/"
+        }
+    }
+}

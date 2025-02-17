@@ -1,0 +1,14 @@
+<div id='mapping-module' class='mapping-group'>
+    <a href="#" class="expand" aria-label="<?php echo $this->translate('Expand'); ?>" title="Expand">
+        <h4><?php echo $this->translate('Mapping'); ?></h4>
+    </a>
+    <div class="collapsible">
+        <select name="mapping-module" data-flag-class="mapping-module" data-flag-label="<?php echo $this->translate('Mapping'); ?>">
+            <option value="default"><?php echo $this->translate('Select below'); ?></option>
+            <option data-flag-name="column-map-lat" value="1"><?php echo $this->translate('Latitude'); ?></option>
+            <option data-flag-name="column-map-lng" value="1"><?php echo $this->translate('Longitude'); ?></option>
+            <option data-flag-name="column-map-latlng" value="1"><?php echo $this->translate('Latitude/Longitude'); ?></option>
+            <option data-flag-name="column-map-bounds" value="1"><?php echo $this->translate('Default Bounds (sw_lng,sw_lat,ne_lng,ne_lat)'); ?></option>
+        </select>
+    </div>
+</div>

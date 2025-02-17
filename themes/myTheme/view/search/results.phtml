@@ -1,0 +1,37 @@
+<?php
+// Mockup temporário (remova depois)
+$mockItems = [
+    [
+        'title' => 'Arrowhead 1',
+        'type' => 'Arrowhead',
+        'location' => 'Castanheira do Vento',
+        'image' => 'https://via.placeholder.com/100x100',
+    ],
+    [
+        'title' => 'Axe 1',
+        'type' => 'Axe',
+        'location' => 'Foxbury',
+        'image' => 'https://via.placeholder.com/100x100',
+    ],
+];
+?>
+
+<div class="filters">
+  <input type="text" placeholder="Search here..." class="search-bar">
+  <select class="chronology-filter">
+    <option>2800 B.C - 1900 B.C</option>
+  </select>
+</div>
+
+<div class="results-grid">
+  <?php foreach ($mockItems as $item): ?>
+    <div class="search-result-item">
+      <img src="<?= $item['image'] ?>" alt="<?= $item['title'] ?>">
+      <div class="item-metadata">
+        <h3><?= $item['title'] ?></h3>
+        <p class="item-type"><?= $item['type'] ?></p>
+        <p class="item-location"><?= $item['location'] ?></p>
+      </div>
+    </div>
+  <?php endforeach; ?>
+</div>

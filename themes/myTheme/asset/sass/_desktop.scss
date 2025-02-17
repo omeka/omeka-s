@@ -1,0 +1,341 @@
+#content {
+    padding: 0 (2 * $spacing-l) $spacing-l;
+}
+
+table {
+    margin: $spacing-l 0;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    text-align: left;
+    padding: $spacing-s $spacing-m;
+    padding-bottom: $spacing-s - 1px;
+    border-bottom: 1px solid $gray;
+}
+
+.field .field-meta {
+    width: 30%;
+    align-self: flex-start;
+}
+
+.field .inputs {
+    width: 70%;
+    padding-left: $spacing-l;
+}
+
+.field .value select {
+    width: initial;
+    margin-bottom: 0;
+}
+
+/* @group ----- Header ----- */
+
+header {
+    position: relative;
+    padding: $spacing-m 0 0;
+    margin-bottom: 2 * $spacing-l;
+}
+
+header > * {
+    padding: 0 (2 * $spacing-l);
+}
+
+h1.site-title {
+    margin: $spacing-s auto;
+    padding: 0 (2 * $spacing-l);
+}
+
+.banner {
+    margin-top: (-2 * $spacing-l);
+}
+
+/* @end */
+
+/* @group ----- Footer ----- */
+
+footer {
+    padding: 0 (2 * $spacing-l) $spacing-l;
+}
+
+/* @end */
+
+/* @group ----- Navigation ----- */
+
+header nav {
+    margin: 0 auto !important;
+    position: static;
+    padding: 0 (2 * $spacing-l);
+}
+
+header nav:before {
+    content: "";
+    border: 0;
+    display: none;
+}
+
+header nav ul a {
+    padding: 0;
+}
+
+header nav ul li {
+    position: static;
+}
+
+header nav ul a:hover {
+    background-color: transparent;
+}
+
+header nav ul li,
+header nav > ul li:last-child,
+header nav > ul ul:hover > li {
+    border: 0;
+}
+
+header nav ul.navigation {
+    margin-left: -$spacing-s;
+    position: static;
+    display: flex;
+    align-items: flex-end;
+    height: auto;
+
+    li ul:before {
+        display: none;
+    }
+
+    & > li:not(:last-child) {
+        margin-right: $spacing-m;
+    }
+
+    & > li > ul {
+        position: absolute;
+        top: 100%;
+        left: -9999px;
+        background-color: #fff;
+        padding: 0;
+        list-style: none;
+        width: 100%;
+        padding: ($spacing-m - 1px) 0 ($spacing-s - 1px);
+        display: flex;
+        flex-direction: row;
+        flex-flow: row wrap;
+        z-index: 1;
+    }
+
+    ul ul {
+        height: 0;
+    }
+
+    & > li:hover > ul {
+        @include container;
+        padding: $spacing-m (2 * $spacing-l);
+        left: 0;
+        right: 0;
+        border-bottom: 0;
+        border-color: $light;
+        height: auto;
+
+        &:after {
+            content: "";
+            left: -9999px;
+            right: -9999px;
+            background-color: #fff;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            border-bottom: 1px solid $light;
+            border-top: 1px solid $light;
+            z-index: -1;
+        }
+    }
+
+    & > li > ul > li {
+        width: 25%;
+        font-size: .75 * $base-font-size;
+        font-weight: bold;
+        padding-bottom: $spacing-l;
+    }
+
+    & > li > ul > li ul {
+        font-weight: normal;
+        padding: 0;
+        list-style-type: none;
+        height: auto;
+    }
+    
+    li.parent {
+        position: static;
+    }
+}
+
+header nav > ul > li > a {
+    margin: $spacing-s;
+}
+
+header nav > ul > li > .parent-link {
+    display: inline-block;
+    width: 100%;
+}
+
+header nav > ul > li > .parent-link > a {
+    margin: $spacing-s;
+    width: 100%;
+}
+
+/* All top-level nav items with siblings are parent items and get an arrow. */
+header nav > ul > li > .parent-link a:after {
+    font-family: "Font Awesome 5 Free";
+    content: "\f107";
+    font-weight: 900;
+    display: inline-block;
+    margin-left: $spacing-s;
+}
+
+header nav > ul li:hover ul li {
+    height: auto;
+    padding: 0;
+}
+
+.child-toggle {
+    display: none;
+}
+
+/* Second and Third level items */
+header .parent ul a {
+    padding-left: 0;
+}
+
+header .parent .parent .parent ul a {
+    padding-left: .5 * $spacing-l;
+}
+
+.sub-menu ul {
+    border-bottom: 1px solid $light;
+    padding-bottom: ($spacing-m - 1px);
+}
+
+.sub-menu li {
+    display: inline-block;
+    border: 0;
+    padding: 0;
+    margin-right: $spacing-m;
+
+    &:first-of-type {
+        border: 0;
+        padding: 0;
+    }
+}
+
+#search {
+    left: 75%;
+    border-left: 1px solid $light;
+    padding: $spacing-s;
+}
+
+#search form input[type="text"],
+#search form button[type="submit"] {
+    height: $base-line-height;
+    font-size: .75 * $base-font-size;
+    line-height: $base-line-height;
+}
+
+#search form button[type="submit"] {
+    width: $base-line-height;
+    height: $base-line-height;
+    padding: 0;
+
+    &:before {
+        line-height: $base-line-height;
+    }
+}
+
+.items.search #search {
+    display: block;
+}
+
+/* @end */
+
+/* @group ----- Resource List ----- */
+
+ul.resource-list .resource img {
+    width: 4 * $spacing-l;
+    height: auto;
+    float: right;
+    margin-left: $spacing-m;
+}
+
+ul.resource-list .resource img ~ * {
+    width: calc(100% - #{4.5 * $spacing-l});
+}
+
+/* @end */
+
+/* @group ----- Item Set ----- */
+
+body.item-set.item #content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-end;
+
+    & > h2,
+    & > h3 {
+        width: 100%;
+    }
+}
+
+body.item-set .metadata {
+    width: span(4 of 12 alpha);
+    border-left: 5px solid $light;
+    padding-left: $spacing-l;
+    margin-right: $spacing-l;
+}
+
+body.item-set .metadata h4:first-of-type {
+    margin-top: 0;
+}
+
+body.item-set #content .metadata ~ * {
+    width: span(8 of 12 omega);
+    border-left: 1px solid $light;
+    padding-left: $spacing-l;
+}
+
+body.item-set .item-set-items h3 {
+    margin-top: 0;
+}
+
+body.item-set .metadata ~ nav.pagination:first-of-type {
+    margin-bottom: 0;
+}
+
+/* @group ----- Search ----- */
+
+.results > ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.results > ul > li {
+  width: calc(50% - #{$spacing-l});
+  
+  &:nth-child(2n) {
+    margin-left: $spacing-l;
+  }
+}
+
+/* @end */
+
+/* @group ----- Page and blocks ----- */
+
+.preview-block {
+    clear: both;
+}
+
+ul.preview.resource-list li:first-of-type {
+    border-top: 1px solid $light;
+    padding-top: ($spacing-l - 1px);
+}
+
+/* @end */

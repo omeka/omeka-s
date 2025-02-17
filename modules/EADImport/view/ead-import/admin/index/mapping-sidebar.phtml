@@ -1,0 +1,18 @@
+<div id="add-ead-mapping" class="selector sidebar flags">
+    <div class="confirm-main">
+        <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close'); ?></span></a>
+        <h3><?php echo $this->translate('Add mapping'); ?></h3>
+        <?php echo $this->PropertyLoader(); ?>
+    </div>
+    <div class="confirm-panel">
+        <button type="button"><?php echo $this->translate('Apply changes'); ?></button>
+    </div>
+</div>
+
+<div id="list-ead-mapping" class="selector sidebar">
+    <div class="confirm-main">
+        <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close'); ?></span></a>
+        <h3><?php echo $this->translate('Mapping models'); ?></h3>
+        <?php echo $this->MappingLoader(); ?>
+    </div>
+</div>

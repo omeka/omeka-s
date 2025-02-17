@@ -1,0 +1,140 @@
+language: php
+dist: bionic
+
+cache:
+  directories:
+    - vendor
+    - $HOME/.composer/cache
+
+install:
+  - composer config -g  discard-changes 1 # because we used travis cache and, sometimes, packages change
+  - mkdir -p ./build/coverage
+  - mkdir -p ./build/logs
+  - composer install --prefer-source
+
+script:
+  - |
+    if [ "x$COVERAGE" == "xyes" ]; then
+       ./vendor/bin/phpunit -v --configuration tests/travis/$DB.travis.xml --coverage-php build/coverage/coverage-$DB-$TRAVIS_PHP_VERSION-2.7.cov
+    else
+       ./vendor/bin/phpunit -v --configuration tests/travis/$DB.travis.xml
+    fi
+  # Code shall respect rules
+  - composer check-quality-code
+
+after_script:
+  - |
+    if [ "x$COVERAGE" == "xyes" ]; then
+       ./vendor/bin/phpcov merge --clover build/logs/clover.xml build/coverage
+       ./vendor/bin/php-coveralls -vvv --exclude-no-stmt
+    fi
+
+notifications:
+  webhooks: https://coveralls.io/webhook?repo_token=$COVERALLS_WEBHOOK
+
+jobs:
+  include:
+    #MySQL 5.7 PHP 7.4
+    - stage: PHP7.4
+      name: 'MySQL5.7'
+      php: 7.4
+      env: DB=mysql MYSQL_VERSION=5.7 COVERAGE=yes
+      services:
+        - mysql
+    #MySQL 8 PHP 7.4
+    - stage: PHP7.4
+      name: MySQL8
+      php: 7.4
+      env: DB=mysql.docker MYSQL_VERSION=8.0 COVERAGE=yes
+      sudo: required
+      services:
+        - docker
+      before_script:
+        - bash ./tests/travis/install-mysql-8.0.sh
+    #MySQLi5.7 PHP 7.4
+    - stage: PHP7.4
+      name: MySQLi5.7
+      php: 7.4
+      env: DB=mysqli MYSQL_VERSION=5.7 COVERAGE=yes
+      services:
+        - mysql
+    #MySQLi8 PHP 7.4
+    - stage: PHP7.4
+      name: MySQLi8.0
+      php: 7.4
+      env: DB=mysqli.docker MYSQL_VERSION=8.0 COVERAGE=yes
+      sudo: required
+      services:
+        - docker
+      before_script:
+        - bash ./tests/travis/install-mysql-8.0.sh
+    #PostgreSQL9.6 PHP7.4 Postgis 2.5
+    - stage: PHP7.4
+      name: PgSQL9.6 Postgis 2.5
+      php: 7.4
+      env: DB=pgsql POSTGRESQL_VERSION=9.6 COVERAGE=yes
+      addons:
+        postgresql: "9.6"
+        apt:
+          packages:
+            - postgis
+            - postgresql-9.6-postgis-2.5
+    #PostgreSQL10 PHP7.4 Postgis 2.5
+    - stage: PHP7.4
+      name: PgSQL10 Postgis 2.5
+      php: 7.4
+      env: DB=pgsql POSTGRESQL_VERSION=10.0 COVERAGE=yes
+      sudo: required
+      addons:
+        postgresql: "10"
+        apt:
+          packages:
+            - postgresql-10
+            - postgresql-client-10
+            - postgis
+            - postgresql-10-postgis-2.5
+    #PostgreSQL11 PHP7.4 Postgis 2.5
+    - stage: PHP7.4
+      name: PostgreSQL11 Postgis2.5
+      php: 7.4
+      env: DB=pgsql POSTGRESQL_VERSION=11.0 COVERAGE=yes
+      sudo: required
+      addons:
+        postgresql: "11"
+        apt:
+          packages:
+            - postgis
+            - postgresql-11-postgis-2.5
+
+    #MySQL 8 PHP 8.0
+    - stage: PHP8
+      name: MySQL8
+      php: 8.0
+      env: DB=mysql.docker MYSQL_VERSION=8.0
+      sudo: required
+      services:
+        - docker
+      before_script:
+        - bash ./tests/travis/install-mysql-8.0.sh
+    #MySQLi 8 PHP 8.0
+    - stage: PHP8
+      name: MySQLi8
+      php: 8.0
+      env: DB=mysqli.docker MYSQL_VERSION=8.0
+      sudo: required
+      services:
+        - docker
+      before_script:
+        - bash ./tests/travis/install-mysql-8.0.sh
+    #PostgreSQL11 PHP 8.0 Postgis 2.5
+    - stage: PHP8
+      name: PostgreSQL11 Postgis 2.5
+      php: 8.0
+      env: DB=pgsql POSTGRESQL_VERSION=11.0
+      sudo: required
+      addons:
+        postgresql: "11"
+        apt:
+          packages:
+            - postgis
+            - postgresql-11-postgis-2.5

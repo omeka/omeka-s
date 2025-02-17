@@ -1,0 +1,42 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SiteRepresentation|null $site
+ * @var \Sparql\Form\SparqlForm $form
+ * @var array $result array representation of a standard sparql response
+ * @var \EasyRdf\Sparql\Result|\EasyRdf\Graph|null $resultEasyRdf Unused currently.
+ * @var string $query
+ * @var string $format "text" or "html"
+ * @var string $interface "default" or "yasgui"
+ * @var array $namespaces
+ * @var string $errorMessage
+ * @var array $yasgui Options for yasgui, included endpoint
+ * And passed options from the helper.
+ */
+
+$plugins = $this->getHelperPluginManager();
+$assetUrl = $plugins->get('assetUrl');
+
+$prefixes = '';
+foreach ($namespaces as $prefix => $iri) $prefixes .= "PREFIX $prefix: <$iri>\n";
+$script = <<<'JS'
+const sparqlEndpoint = %1$s;
+const sparqlQuery = %2$s;
+JS;
+$sparqlQuery = <<<'SPARQL'
+SELECT * WHERE {
+  ?sub ?pred ?obj .
+} LIMIT 10
+SPARQL;
+$this->headLink()
+    ->appendStylesheet($assetUrl('css/sparql.css', 'Sparql'))
+    ->appendStylesheet($assetUrl('vendor/yasgui/yasgui.min.css', 'Sparql'));
+$this->headScript()
+    ->appendScript(sprintf($script, json_encode($yasgui['endpoint'], 320), json_encode($prefixes . "\n" . $sparqlQuery), 320))
+    ->appendFile($assetUrl('vendor/yasgui/yasgui.min.js', 'Sparql'), 'text/javascript', ['defer' => 'defer'])
+    ->appendFile($assetUrl('js/sparql.js', 'Sparql'), 'text/javascript', ['defer' => 'defer']);
+
+$this->htmlElement('body')->appendAttribute('class', 'sparql');
+?>
+
+<div id="yasgui"></div>

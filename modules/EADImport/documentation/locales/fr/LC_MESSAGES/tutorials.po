@@ -1,0 +1,69 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, BibLibre
+# This file is distributed under the same license as the EADImport package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: EADImport \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-21 08:53+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.13.1\n"
+
+#: ../../tutorials.rst:2
+msgid "Tutorials"
+msgstr "Tutoriels"
+
+#: ../../tutorials.rst:5
+msgid "New import configuration"
+msgstr "Configuration d'un nouvel import"
+
+#: ../../tutorials.rst:7
+msgid ""
+"When you launch a new import, once you've defined the name and path of "
+"the XML file, you can check its structure according to the \"EAD 2002\" "
+"schema and assign its content to a particular site."
+msgstr ""
+"Lorsque vous lancez une nouvelle importation, une fois que vous avez défini le nom et le chemin d'accès du "
+"du fichier XML, vous pouvez vérifier sa structure en fonction du schéma de la norme "EAD 2002" et affecter son contenu à un site particulier."
+
+#: ../../tutorials.rst:12
+msgid ""
+"On submission of this first form you then define the mappings of the xml "
+"nodes found (we've specified a node list within the module). One or more "
+"properties can take the value of the selected node."
+msgstr ""
+"Lors de la soumission de ce premier formulaire, vous définissez les mappings des nœuds xml "
+"trouvés (nous avons spécifié une liste de nœuds dans le module). Une ou plusieurs "
+"propriétés peuvent prendre la valeur du nœud sélectionné."
+
+#: ../../tutorials.rst:18
+msgid ""
+"Each tab will represent the value of the \"`level`\" attribute of each "
+"`<c>` tag. You choose the type of resource produced by each tab, with the"
+" option of completely ignoring the tab and the resulting resources."
+msgstr ""
+"Chaque onglet représentera la valeur de l'attribut `level` de chaque "
+"`<c>`. Vous choisissez le type de ressource produit par chaque onglet, avec la possibilité d'ignorer complètement l'onglet et les ressources qui en résultent."
+
+#: ../../tutorials.rst:23
+msgid "You also have the option of inheriting properties in child nodes."
+msgstr "Vous avez également la possibilité de faire hériter des propriétés dans les noeuds enfants."
+
+#: ../../tutorials.rst:25
+msgid ""
+"The link between resources is then automatically established by the "
+"`dcterms:isPartOf` and `dcterms:hasPart` properties."
+msgstr ""
+"Le lien entre les ressources est ensuite automatiquement établi par les propriétés "
+"`dcterms:isPartOf` et `dcterms:hasPart`."
+

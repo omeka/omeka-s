@@ -1,0 +1,14 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Sparql\Site\BlockLayout\Sparql $block
+ * @var string $interface "default" or "yasgui"
+ */
+
+?>
+
+<div class="block block-sparql">
+    <?= $this->sparqlSearch([
+        'interface' => $interface,
+    ]) ?>
+</div>

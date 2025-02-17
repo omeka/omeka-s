@@ -1,0 +1,34 @@
+<?php
+$this->headLink()->appendStylesheet($this->assetUrl('css/page-blocks.css', 'Omeka'));
+$this->headLink()->appendStylesheet($this->assetUrl('css/home.css'));
+$this->htmlElement('body')->appendAttribute('class', $pageBodyClass);
+$this->htmlElement('body')->appendAttribute('class', 'home-template');
+$this->pageTitle($page->title(), 2);
+$nav = $site->publicNav();
+$assetLayout = new Omeka\Site\BlockLayout\Asset;
+$mediaLayout = new Omeka\Site\BlockLayout\Media;
+$showPagePagination = $this->siteSetting('show_page_pagination', true);
+?>
+
+<?php $this->trigger('view.show.before'); ?>
+<div class="blocks">
+    <?php 
+    $blocks = $page->blocks();
+    foreach($blocks as $block) {
+        $blockLayout = $block->layout();
+        if ($blockLayout == 'asset') {
+            echo $assetLayout->render($this, $block, "common/block-layout/home-asset");
+        } else if ($blockLayout == 'media') {
+            echo $mediaLayout->render($this, $block, "common/block-layout/home-media");
+        } else if ($blockLayout == 'blockGroup') {
+            echo $this->partial("common/block-layout/home-block-group", ['block' => $block]);
+        } else {
+            echo $this->blockLayout()->render($block);
+        }
+    }
+    ?>
+</div>
+<?php $this->trigger('view.show.after'); ?>
+<?php if ($showPagePagination): ?>
+<?php echo $this->sitePagePagination(); ?>
+<?php endif; ?>

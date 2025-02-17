@@ -1,0 +1,105 @@
+<?php
+$this->headLink()->appendStylesheet($this->assetUrl('css/eadimport.css', 'EADImport'));
+?>
+<?php echo $this->pageTitle($this->translate('Mapping'), 1, $this->translate('EAD Import')); ?>
+
+<?php $this->trigger('view.index.before'); ?>
+
+<?php $form->prepare(); ?>
+<?php echo $this->form()->openTag($form); ?>
+<fieldset id='page-actions'>
+    <button type="submit"><?php echo $this->translate('Import'); ?></button>
+</fieldset>
+<nav class="section-nav">
+    <ul>
+        <?php foreach(array_keys($nodeList['nodes_paths']) as $type): ?>
+            <?php $nodesCount  = $nodeList['nodes_counts'][$type] ?>
+            <li><a href=<?php echo "#" . $this->translate($type) ?>><?php echo ucfirst($this->translate($type)) . " ($nodesCount)" ?></a></li>
+        <?php endforeach; ?>
+    </ul>
+</nav>
+
+<?php $this->trigger('view.index.form.before'); ?>
+
+<?php echo $this->formCollection($form); ?>
+<?php foreach(array_keys($nodeList['nodes_paths']) as $type): ?>
+<fieldset id="<?php echo $this->translate($type) ?>" class="section" data-column="<?php echo $type ?>">
+<div>
+    <ul class="actions">
+        <li><?php echo $this->translate('Mapping models'); ?>
+            <a href="#" class="o-icon-menu sidebar-content" id="list-mapping" data-sidebar-selector="#list-ead-mapping" aria-label="<?php echo $this->translate('Mapping models'); ?>" title="<?php echo $this->translate('Mapping models'); ?>"></a>
+        </li>
+    </ul>
+    <table class="batch-edit tablesaw tablesaw-stack" data-level=<?php echo $type ?> data-tablesaw-mode="stack">
+        <thead>
+            <tr>
+                <th><?php echo $this->translate("Level attribute"); ?></th>
+                <th><?php echo $this->translate("Transform into"); ?></th>
+                <th><?php echo $this->translate("Skip"); ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="element mappable" data-element-id="<?php echo $type; ?>">
+                <td>
+                    <span class="column-header"><?php echo "<i>level='$type'</i>" ?></span>
+                </td>
+                <td class="mapping element">
+                    <select class="level_mapping" name="level_mapping[<?php echo $type ?>]" required>
+                        <option value=""><?php echo " -- "?></option>
+                        <option value="item_sets"><?php echo $this->translate("Item sets")?></option>
+                        <option value="items"><?php echo $this->translate("Items")?></option>
+                        <option value="none"><?php echo $this->translate("None")?></option>
+                        <option hidden value="skipped"><?php echo $this->translate("Skipped")?></option>
+                    </select>
+                </td>
+                <td>
+                    <input class="skip_option" type="checkbox" name="level_mapping[<?php echo $type ?>][skip]" value="1"/>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="batch-edit tablesaw tablesaw-stack table-<?php echo $type ?>" data-tablesaw-mode="stack">
+        <thead>
+            <tr>
+                <th><?php echo $this->translate(ucfirst($type) . " - Xpaths")?></th>
+                <th><?php echo $this->translate("Mappings"); ?></th>
+                <th>
+                    <?php echo $this->translate("Make inherit "); ?>
+                    <i class="fa fa-regular fa-clone"></i>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <input type="hidden" name="xmlFilePath" value="<?php echo $xmlFilePath ?>" />
+            <input type="hidden" name="importName" value="<?php echo $importName ?>" />
+            <input type="hidden" name="siteId" value="<?php echo $siteId ?>" />
+
+            <?php foreach( $nodeList['nodes_paths'][$type] as $xpath => $exists ): ?>
+                <tr class="element mappable" data-element-id="<?php echo $xpath; ?>" data-column="<?php echo $type ?>">
+                    <td>
+                        <span class="column-header"><?php echo $xpath ?></span>
+                        <ul class="actions">
+                            <li><a href="#" class="o-icon-add sidebar-content" data-sidebar-selector="#add-ead-mapping" aria-label="<?php echo $this->translate('Add mapping'); ?>" title="<?php echo $this->translate('Add mapping'); ?>"></a></li>
+                        </ul>
+                    </td>
+                    <td class="mapping element">
+                        <ul class="mappings elements"></ul>
+                    </td>
+                    <td>
+                        <input disabled class="make_inherit" type="checkbox" name="nodes_mapping[<?php echo $type ?>][<?php echo $xpath ?>][make_inherit]" value="1">
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</fieldset>
+
+<?php endforeach; ?>
+
+<?php echo $this->partial('ead-import/admin/index/mapping-sidebar'); ?>
+
+<?php $this->trigger('view.index.form.after'); ?>
+
+<?php echo $this->form()->closeTag(); ?>
+
+<?php $this->trigger('view.index.after'); ?>

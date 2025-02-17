@@ -1,0 +1,12 @@
+engines:
+  fixme:
+    enabled: true
+  exclude_fingerprints:
+    - 0e42fe74e27f82ddadc820474016e78e
+  phpcodesniffer:
+    enabled: true
+  phpmd:
+    enabled: true
+ratings:
+  paths:
+    - "**.php"

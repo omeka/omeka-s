@@ -1,0 +1,57 @@
+version: "3.6"
+services:
+  php8:
+    container_name: "spatial-php8"
+    build:
+      context: ./php8
+    volumes:
+      - ${APP_FOLDER}:/var/www
+  php7:
+    container_name: "spatial-php7"
+    build:
+      context: ./php7
+    volumes:
+      - ${APP_FOLDER}:/var/www
+  database-pgsql:
+    container_name: "spatial-postgis"
+    image: postgis/postgis
+    environment:
+      POSTGRES_USER: main
+      POSTGRES_PASSWORD: main
+      POSTGRES_DB: main
+      PGDATA: /var/lib/postgresql/data-postgis/pgdata
+    ports:
+      - "5432:5432"
+  database-mysql5:
+    image: mysql:5.7
+    container_name: "spatial-mysql5"
+    restart: always
+    environment:
+      MYSQL_DATABASE: main
+      MYSQL_USER: main
+      MYSQL_PASSWORD: main
+      MYSQL_ROOT_PASSWORD: main
+      MYSQL_PORT: 3306
+    ports:
+      - "3357:3306"
+  database-mysql8:
+    image: mysql:8
+    container_name: "spatial-mysql8"
+    restart: always
+    environment:
+      MYSQL_DATABASE: main
+      MYSQL_USER: main
+      MYSQL_PASSWORD: main
+      MYSQL_ROOT_PASSWORD: main
+      MYSQL_PORT: 3306
+    ports:
+      - "3380:3306"
+  service_doc:
+    container_name: "spatial-doc"
+    build:
+      context: ./sphinx
+    volumes:
+      - ${APP_FOLDER}/docs:/etc/Sphinx/source
+      - ${APP_FOLDER}/docs/build:/etc/Sphinx/build
+    ports:
+      - 8100:80

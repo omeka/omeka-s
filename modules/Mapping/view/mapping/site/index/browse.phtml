@@ -1,0 +1,37 @@
+<?php
+$this->headLink()->appendStylesheet($this->assetUrl('node_modules/leaflet/dist/leaflet.css', 'Mapping'));
+$this->headLink()->appendStylesheet($this->assetUrl('node_modules/leaflet.markercluster/dist/MarkerCluster.css', 'Mapping'));
+$this->headLink()->appendStylesheet($this->assetUrl('node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css', 'Mapping'));
+$this->headLink()->appendStylesheet($this->assetUrl('node_modules/leaflet.fullscreen/Control.FullScreen.css', 'Mapping'));
+$this->headLink()->appendStylesheet($this->assetUrl('css/mapping.css', 'Mapping'));
+
+$this->headScript()->appendFile($this->assetUrl('node_modules/leaflet/dist/leaflet.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('node_modules/leaflet.markercluster/dist/leaflet.markercluster-src.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('node_modules/leaflet-providers/leaflet-providers.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('node_modules/leaflet.fullscreen/Control.FullScreen.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('node_modules/Leaflet.Deflate/dist/L.Deflate.js', 'Mapping'));
+
+$this->headScript()->appendFile($this->assetUrl('js/control.fit-bounds.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('js/mapping-browse.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
+
+$query['mapping_basemap_provider'] = $query['mapping_basemap_provider'] ?? '';
+?>
+<?php echo $this->pageTitle($this->translate('Map'), 2); ?>
+
+<div id="mapping-map" style="height:700px; width: 80%; margin:0 auto;"
+    data-disable-clustering="<?php echo $this->siteSetting('mapping_disable_clustering') ? '1' : '0'; ?>"
+    data-basemap-provider="<?php echo $this->escapeHtml($this->siteSetting('mapping_basemap_provider')); ?>"
+></div>
+
+<?php echo $this->pagination(); ?>
+
+<form id="advanced-search">
+    <?php echo $this->partial('common/advanced-search', ['query' => $query, 'resourceType' => 'item']); ?>
+    <button type="submit"><?php echo $this->translate('Search Map'); ?></button>
+    <input type="hidden" name="mapping_basemap_provider" value="<?php echo $this->escapeHtml($query['mapping_basemap_provider']); ?>">
+</form>
+
+<?php foreach ($features as $feature): ?>
+<?php echo $this->partial('common/mapping-feature-popup', ['feature' => $feature]); ?>
+<?php endforeach; ?>

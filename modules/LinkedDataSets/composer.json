@@ -1,0 +1,50 @@
+{
+    "name": "netwerk-digitaal-erfgoed/omeka-s-module-linked-data-sets",
+    "description": "This module provides assistance to use your Omeka-S system to describe and publish your data collections as so called LinkedDataSets, following the guidelines described in NDE Requirements for datasets.",
+    "type": "project",
+    "require": {
+        "php": ">=7.4",
+        "ext-zlib": "*",
+      "ext-json": "*"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.10",
+        "phpunit/phpunit": "^9.0",
+        "friendsofphp/php-cs-fixer": "^3.15",
+        "laminas/laminas-test": "^4.0",
+        "phpmd/phpmd": "^2.13",
+        "squizlabs/php_codesniffer": "^3.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "LinkedDataSets\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LinkedDataSetsTest\\": "test/"
+        }
+    },
+
+    "scripts": {
+        "test": [
+            "@phpstan",
+            "@phpmd",
+            "@phpcs",
+            "@phpunit",
+            "@security-tests"
+        ],
+        "phpmd": "./vendor/bin/phpmd --exclude vendor . text cleancode",
+        "phpcs": "./vendor/bin/phpcs . --ignore=vendor",
+	    "phpcbf": "./vendor/bin/phpcbf --standard=PSR12 src",
+        "phpunit": "./vendor/bin/phpunit --do-not-cache-result test/",
+        "phpstan": "XDEBUG_MODE=off ./vendor/bin/phpstan analyse -l 9 .",
+        "security-tests": "composer audit"
+    },
+    "authors": [
+        {
+            "name": "Paul Rijke",
+            "email": "paul@ibuildings.nl"
+        }
+    ]
+}

@@ -1,0 +1,61 @@
+<?php echo $this->formElement($element->getCopyActionElement()) ?>
+
+<div id="mapping-copy-coordinates-by-property">
+    <?php echo $this->formElement($element->getPropertyElement()) ?>
+    <div>
+        <span><?php echo $this->translate('Order'); ?></span>
+        <span style="float: right;"><?php echo $this->formElement($element->getOrderElement()) ?></span>
+    </div>
+    <div>
+        <span><?php echo $this->translate('Delimiter'); ?></span>
+        <span style="float: right;"><?php echo $this->formElement($element->getDelimiterElement()) ?></span>
+    </div>
+</div>
+
+<div id="mapping-copy-coordinates-by-properties">
+    <?php echo $this->formElement($element->getPropertyLatElement()) ?>
+    <?php echo $this->formElement($element->getPropertyLngElement()) ?>
+</div>
+
+<div id="mapping-copy-coordinates-assign-media">
+    <span><?php echo $this->translate('Assign media to marker?'); ?></span>
+    <span style="float: right;"><?php echo $this->formElement($element->getAssignMediaElement()) ?></span>
+</div>
+
+<script>
+const byPropertyDiv = $('#mapping-copy-coordinates-by-property');
+const byPropertiesDiv = $('#mapping-copy-coordinates-by-properties');
+const assignMediaDiv = $('#mapping-copy-coordinates-assign-media');
+byPropertyDiv.hide();
+byPropertiesDiv.hide();
+assignMediaDiv.hide();
+$('[name="mapping_copy_coordinates[copy_action]"]').on('change', function(e) {
+    const thisRadio = $(this);
+    switch (thisRadio.val()) {
+        case 'by_item_property':
+            byPropertyDiv.show();
+            byPropertiesDiv.hide();
+            assignMediaDiv.hide();
+            break;
+        case 'by_item_properties':
+            byPropertyDiv.hide();
+            byPropertiesDiv.show();
+            assignMediaDiv.hide();
+            break;
+        case 'by_media_property':
+            byPropertyDiv.show();
+            byPropertiesDiv.hide();
+            assignMediaDiv.show();
+            break;
+        case 'by_media_properties':
+            byPropertyDiv.hide();
+            byPropertiesDiv.show();
+            assignMediaDiv.show();
+            break;
+        default:
+            byPropertyDiv.hide();
+            byPropertiesDiv.hide();
+            assignMediaDiv.hide();
+    }
+});
+</script>

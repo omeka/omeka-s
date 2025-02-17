@@ -1,0 +1,8 @@
+<footer class="footer">
+    <?php if ($footerContent = $this->themeSetting('footer')):?>
+        <?php echo $footerContent;?>
+    <?php else:?>
+        <?php echo $this->translate('Powered by Omeka S');?>
+    <?php endif;?>
+    <a href="/support">Support</a>
+</footer>

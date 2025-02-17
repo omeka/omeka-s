@@ -1,0 +1,15 @@
+.mapping-block, #mapping-map {
+  position: relative;
+  z-index: 0;
+}
+
+#mapping-map + .pagination  {
+  margin: 1rem auto;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+}
+
+.leaflet-control-geosearch form input {
+  border: 0 !important;
+}

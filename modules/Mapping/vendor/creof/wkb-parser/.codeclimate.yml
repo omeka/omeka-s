@@ -1,0 +1,10 @@
+engines:
+  fixme:
+    enabled: true
+  phpcodesniffer:
+    enabled: true
+  phpmd:
+    enabled: true
+ratings:
+  paths:
+    - "**.php"

@@ -1,0 +1,11 @@
+{
+  "vocabulary": {
+    "o:namespace_uri": "https://schema.org/",
+    "o:prefix": "sdo",
+    "o:label": "Schema.org for LinkedDataSets",
+    "o:comment": "A small portion of the large Schema.org vocabulary with the base properties and classes to describe Linked Datasets."
+  },
+  "strategy": "file",
+  "file": "schema.rdf",
+  "format": "rdfxml"
+}

@@ -1,0 +1,32 @@
+{
+    "name": "creof/wkb-parser",
+    "type": "library",
+    "description": "Parser for well-known binary (WKB/EWKB) object data",
+    "keywords": ["parser", "string", "text", "geometry", "geography", "spatial", "wkb", "ewkb"],
+    "authors": [
+        {
+            "name":  "Derek J. Lambert",
+            "email": "dlambert@dereklambert.com"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php":     ">=5.3.3",
+        "ext-SPL": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit":               ">=4.8",
+        "codeclimate/php-test-reporter": "dev-master",
+        "satooshi/php-coveralls":        "~1.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "CrEOF\\Geo\\WKB": "lib/"
+        }
+    },
+    "autoload-dev": {
+        "psr-0": {
+            "CrEOF\\Geo\\WKB\\Tests": "tests/"
+        }
+    }
+}

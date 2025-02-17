@@ -1,0 +1,117 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'mappings browse');
+?>
+
+<?php echo $this->pageTitle($translate('Mapping models'), 1, $this->translate('EAD Import')); ?>
+
+<?php $this->trigger('view.browse.before'); ?>
+<?php if (count($mappingModels)): ?>
+<form method="post" class="disable-unsaved-warning">
+
+<table class="tablesaw batch-edit" data-tablesaw-mode="stack">
+    <thead>
+        <tr>
+            <th>
+                <?php echo $translate('Name'); ?>
+            </th>
+            <th><?php echo $translate('Created'); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($mappingModels as $model): ?>
+        <tr>
+            <td>
+                <?php echo $model->name(); ?>
+                <ul class="actions">
+                    <li>
+                        <?php echo $this->hyperlink(
+                            '',
+                            $this->url('admin/eadimport/mapping-model-id',
+                                [   
+                                'controller' => 'MappingModel',
+                                'action' => 'show',
+                                'id' => $model->id()
+                                ]
+                            ),                    
+                            [
+                                'class' => 'o-icon-view',
+                                'title' => $translate('View'),
+                            ]) 
+                        ?>
+                    </li>
+                    <li>
+                        <?php echo $this->hyperlink(
+                            '',
+                            '#', 
+                            [
+                                'data-sidebar-content-url' => $this->url('admin/eadimport/mapping-model-id', 
+                                [
+                                    'controller' => 'MappingModel',
+                                    'action' => 'edit',
+                                    'id' => $model->id()
+                                ]
+                                ),
+                                'class' => 'o-icon-edit sidebar-content',
+                                'title' => $translate('Edit'),
+                                'data-sidebar-selector' => '#sidebar',
+                            ]
+                        ); ?>
+                    </li>
+                    <li>
+                        <?php echo $this->hyperlink(
+                            '',
+                            '#', 
+                            [
+                                'data-sidebar-content-url' => $this->url('admin/eadimport/mapping-model-id', 
+                                [
+                                    'controller' => 'MappingModel',
+                                    'action' => 'deleteConfirm',
+                                    'id' => $model->id()
+                                ]
+                                ),
+                                'class' => 'o-icon-delete sidebar-content',
+                                'title' => $translate('Delete'),
+                                'data-sidebar-selector' => '#sidebar',
+                            ]
+                        ); ?>
+                    </li>
+                </ul>
+            </td>
+            <td><?php echo $escape($this->i18n()->dateFormat($model->created())); ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+</form>
+
+<?php $this->trigger('view.browse.after'); ?>
+
+<div id="sidebar" class="sidebar">
+    <?php echo $this->hyperlink('', '#', [
+        'class' => 'sidebar-close o-icon-close',
+        'title' => $translate('Close'),
+    ]); ?>
+    <div class="sidebar-content">
+        <div id="sidebar-confirm">
+            <h3>
+                <?php echo sprintf($translate('Delete %1$s mapping'), '<strong><span id="selected-mapping-name"></span></strong>');?>
+            </h3>
+            <p><?php echo $translate('Are you sure you would like to delete this mapping ?'); ?></p>
+            <p class="error">
+                <?php echo sprintf($translate('%1$s: this action will permanently cannot be undone.'), sprintf('<strong>%s</strong>', $translate('Warning'))); ?>
+            </p>
+            <?php echo $this->form($this->formDeleteSelected); ?>
+        </div>
+    </div>
+</div>
+
+<?php else: ?>
+
+<div class="no-resources">
+    <p><?php echo $translate('Omeka could not find any mapping models.'); ?></p>
+</div>
+
+<?php endif; ?>

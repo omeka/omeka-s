@@ -1,0 +1,40 @@
+<?php
+use Laminas\Form;
+
+$elementAddress = (new Form\Element\Text('mapping_address'))
+    ->setLabel($this->translate('Address'))
+    ->setValue($query['mapping_address'] ?? '')
+    ->setAttribute('id', 'mapping_address');
+$elementRadius = (new Form\Element\Text('mapping_radius'))
+    ->setLabel($this->translate('Radius'))
+    ->setValue($query['mapping_radius'] ?? '')
+    ->setAttribute('id', 'mapping_radius')
+    ->setAttribute('size', '5');
+$elementRadiusUnit = (new Form\Element\Select('mapping_radius_unit'))
+    ->setLabel($this->translate('Unit'))
+    ->setValueOptions([
+        'km' => $this->translate('Kilometers'),
+        'miles' => $this->translate('Miles'),
+    ])
+    ->setValue($query['mapping_radius_unit'] ?? '')
+    ->setAttribute('id', 'mapping_radius_unit');
+
+$this->headLink()->appendStylesheet($this->assetUrl('css/mapping-advanced-search.css', 'Mapping'));
+?>
+
+<div id="mapping-geographic-location" class="field" role="group" aria-labelledby="mapping-geographic-location-label">
+    <div class="field-meta">
+        <span class="label" id="mapping-geographic-location-label"><?php echo $this->translate('Search by geographic location'); ?></span>
+    </div>
+    <div class="inputs">
+        <div>
+            <?php echo $this->formLabel($elementAddress), $this->formElement($elementAddress); ?>
+        </div>
+        <div>
+            <?php echo $this->formLabel($elementRadius), $this->formElement($elementRadius); ?>
+        </div>
+        <div>
+            <?php echo $this->formLabel($elementRadiusUnit), $this->formElement($elementRadiusUnit); ?>
+        </div>
+    </div>
+</div>

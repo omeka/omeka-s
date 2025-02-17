@@ -1,0 +1,16 @@
+<?php
+$this->headLink()->appendStylesheet($this->assetUrl('css/numeric-data-types.css', 'NumericDataTypes'));
+$this->headScript()->appendFile($this->assetUrl('js/numeric-data-types.js', 'NumericDataTypes'));
+$formNumber = clone($this->plugin('formNumber'));
+$formNumber->addTranslatableAttribute('aria-label');
+?>
+<div class="numeric-integer">
+    <div class="error invalid-value"
+        data-invalid-message="<?php echo $this->escapeHtml($this->translate('Invalid value: %s')); ?>"
+        data-custom-validity="<?php echo $this->escapeHtml($this->translate('Value must be an integer')); ?>">
+    </div>
+    <?php echo $this->formHidden($element->getValueElement()); ?>
+    <div class="numeric-integer-inputs">
+        <?php echo $formNumber($element->getIntegerElement()); ?>
+    </div>
+</div>

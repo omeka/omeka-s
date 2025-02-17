@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+    IMPORTANT NOTE: because query in file agg-empty-group.rq looks like SELECT ?x (MAX(?value) AS ?max),
+                    the head has to contain x as variable too. in other files, such variables are available too.
+
+                    another change is the removal of spaces between <result> and </result>.
+-->
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+	<head>
+		<variable name="x"/>
+		<variable name="max"/>
+	</head>
+	<results>
+		<result></result>
+	</results>
+</sparql>

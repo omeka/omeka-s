@@ -1,0 +1,35 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, BibLibre
+# This file is distributed under the same license as the EADImport package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: EADImport \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-21 08:53+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.13.1\n"
+
+#: ../../interface-with-other-modules.rst:2
+msgid "Interface with other modules"
+msgstr "Intéraction avec d'autres modules"
+
+#: ../../interface-with-other-modules.rst:4
+msgid ""
+"ItemSetParty_ is a module which allows to allows you to view a hierarchy "
+"of resources based on the item sets defined in its parameters. Resources "
+"are linked using the `dcterms:hasPart property`."
+msgstr ""
+"ItemSetParty_ est un module qui permet de visualiser une hiérarchie "
+"de ressources basée sur les collections définies dans ses paramètres. Les ressources "
+"sont liées en utilisant la propriété `dcterms:hasPart`."
+

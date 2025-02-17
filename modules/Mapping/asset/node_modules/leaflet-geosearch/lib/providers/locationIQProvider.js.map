@@ -1,0 +1,1 @@
+{"version":3,"file":"locationIQProvider.js","sourceRoot":"","sources":["../../src/providers/locationIQProvider.ts"],"names":[],"mappings":"AAAA,OAAO,qBAEN,MAAM,yBAAyB,CAAC;AAEjC,MAAM,CAAC,OAAO,OAAO,kBAAmB,SAAQ,qBAAqB;IACnE,YAAY,OAAqC;QAC/C,KAAK,iCACA,OAAO,KACV,SAAS,EAAE,sCAAsC,EACjD,UAAU,EAAE,uCAAuC,IACnD,CAAC;IACL,CAAC;CACF"}

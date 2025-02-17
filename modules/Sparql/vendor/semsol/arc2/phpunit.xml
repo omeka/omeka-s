@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" backupGlobals="false" backupStaticAttributes="false" bootstrap="tests/bootstrap.php" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" processIsolation="false" stopOnFailure="false" verbose="true">
+  <coverage processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">./extractors</directory>
+      <directory suffix=".php">./parsers</directory>
+      <directory suffix=".php">./serializers</directory>
+      <directory suffix=".php">./sparqlscript</directory>
+      <directory suffix=".php">./src</directory>
+      <directory suffix=".php">./store</directory>
+    </include>
+  </coverage>
+  <php>
+    <ini name="error_reporting" value="-1"/>
+    <ini name="intl.error_level" value="0"/>
+    <ini name="display_errors" value="On"/>
+  </php>
+  <testsuites>
+    <testsuite name="all">
+      <directory suffix="Test.php">./tests</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>

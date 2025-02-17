@@ -1,0 +1,442 @@
+<http://dbpedia.org/resource/Sydney> <http://xmlns.com/foaf/0.1/name> "Cumberland"@en .
+<http://dbpedia.org/resource/Sydney> <http://xmlns.com/foaf/0.1/name> "Sydney"@en .
+<http://dbpedia.org/resource/Sydney> <http://www.w3.org/2003/01/geo/wgs84_pos#long> "151.2111111111111"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://dbpedia.org/resource/Sydney> <http://dbpedia.org/ontology/populationTotal> "4399722"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> .
+<http://dbpedia.org/resource/Sydney> <http://www.georss.org/georss/point> "33.859972222222225 151.2111111111111"@en .
+<http://dbpedia.org/resource/Sydney> <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "33.859972222222225"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://dbpedia.org/resource/Sydney> <http://dbpedia.org/ontology/country> <http://dbpedia.org/resource/Australia> .
+<http://dbpedia.org/resource/Adams_County,_Idaho> <http://dbpedia.org/ontology/foundingYear> "1911"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://dbpedia.org/resource/Adams_County,_Idaho> <http://dbpedia.org/ontology/percentageOfAreaWater> "0.4"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://dbpedia.org/resource/Adams_County,_Idaho> <http://dbpedia.org/ontology/populationDensity> "1.0"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Adams_County,_Idaho> <http://dbpedia.org/ontology/areaLand> "3.53533377060864E9"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Adams_County,_Idaho> <http://dbpedia.org/ontology/areaLand> "3.534E9"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Adams_County,_Idaho> <http://dbpedia.org/ontology/areaWater> "1.4E7"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Adams_County,_Idaho> <http://dbpedia.org/ontology/state> <http://dbpedia.org/resource/Idaho> .
+<http://dbpedia.org/resource/Adams_County,_Idaho> <http://xmlns.com/foaf/0.1/name> "Adams County"@en .
+<http://dbpedia.org/resource/Adams_County,_Idaho> <http://dbpedia.org/ontology/countySeat> <http://dbpedia.org/resource/Council,_Idaho> .
+<http://dbpedia.org/resource/Adams_County,_Idaho> <http://dbpedia.org/ontology/populationDensity> "0.9652553963561148"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Adams_County,_Idaho> <http://dbpedia.org/ontology/censusYear> "2000"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://dbpedia.org/resource/Adams_County,_Idaho> <http://dbpedia.org/ontology/largestCity> <http://dbpedia.org/resource/Council,_Idaho> .
+<http://dbpedia.org/resource/Adams_County,_Idaho> <http://dbpedia.org/ontology/areaWater> "1.294994055168E7"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Adams_County,_Idaho> <http://dbpedia.org/ontology/country> <http://dbpedia.org/resource/United_States> .
+<http://dbpedia.org/resource/Adams_County,_Idaho> <http://dbpedia.org/ontology/populationTotal> "3476"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> .
+<http://dbpedia.org/resource/Adams_County,_Idaho> <http://dbpedia.org/ontology/areaTotal> "3.548E9"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Adams_County,_Idaho> <http://dbpedia.org/ontology/areaTotal> "3.54828371116032E9"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Chuck_Cecil> <http://dbpedia.org/ontology/highschool> <http://dbpedia.org/resource/Helix_High_School> .
+<http://dbpedia.org/resource/Chuck_Cecil> <http://xmlns.com/foaf/0.1/name> "Charles Douglas Cecil"@en .
+<http://dbpedia.org/resource/Chuck_Cecil> <http://dbpedia.org/ontology/number> "26"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://dbpedia.org/resource/Chuck_Cecil> <http://dbpedia.org/ontology/college> <http://dbpedia.org/resource/University_of_Arizona> .
+<http://dbpedia.org/resource/Chuck_Cecil> <http://dbpedia.org/ontology/birthPlace> <http://dbpedia.org/resource/Red_Bluff,_California> .
+<http://dbpedia.org/resource/Chuck_Cecil> <http://xmlns.com/foaf/0.1/name> "Chuck Cecil"@en .
+<http://dbpedia.org/resource/Chuck_Cecil> <http://dbpedia.org/ontology/position> "Free safety"@en .
+<http://dbpedia.org/resource/Chuck_Cecil> <http://dbpedia.org/ontology/height> "1.8288"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Chuck_Cecil> <http://dbpedia.org/ontology/team> <http://dbpedia.org/resource/Tennessee_Titans> .
+<http://dbpedia.org/resource/Chuck_Cecil> <http://dbpedia.org/ontology/birthDate> "1964-11-08"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://dbpedia.org/resource/Chuck_Cecil> <http://dbpedia.org/ontology/weight> "83462.4"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Chuck_Cecil> <http://dbpedia.org/ontology/status> "Active (coach)"@en .
+<http://dbpedia.org/resource/Chuck_Cecil> <http://dbpedia.org/ontology/birthPlace> <http://dbpedia.org/resource/United_States> .
+<http://dbpedia.org/resource/Daugava_River> <http://dbpedia.org/ontology/sourceCountry> <http://dbpedia.org/resource/Latvia> .
+<http://dbpedia.org/resource/Daugava_River> <http://dbpedia.org/ontology/riverMouth> <http://dbpedia.org/resource/Gulf_of_Riga> .
+<http://dbpedia.org/resource/Daugava_River> <http://dbpedia.org/ontology/mouthElevation> "0.0"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Daugava_River> <http://dbpedia.org/ontology/elevation> "221.0"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Daugava_River> <http://dbpedia.org/ontology/sourceCountry> <http://dbpedia.org/resource/Lithuania> .
+<http://dbpedia.org/resource/Daugava_River> <http://dbpedia.org/ontology/sourceCountry> <http://dbpedia.org/resource/Russia> .
+<http://dbpedia.org/resource/Daugava_River> <http://dbpedia.org/ontology/riverMouth> <http://dbpedia.org/resource/Baltic_Sea> .
+<http://dbpedia.org/resource/Daugava_River> <http://dbpedia.org/ontology/origin> <http://dbpedia.org/resource/Russia> .
+<http://dbpedia.org/resource/Daugava_River> <http://xmlns.com/foaf/0.1/name> "Daugava"@en .
+<http://dbpedia.org/resource/Daugava_River> <http://dbpedia.org/ontology/length> "1020000.0"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Daugava_River> <http://dbpedia.org/ontology/watershed> "8.79E10"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Daugava_River> <http://dbpedia.org/ontology/sourceCountry> <http://dbpedia.org/resource/Estonia> .
+<http://dbpedia.org/resource/Daugava_River> <http://dbpedia.org/ontology/sourceCountry> <http://dbpedia.org/resource/Belarus> .
+<http://dbpedia.org/resource/Daugava_River> <http://dbpedia.org/ontology/discharge> "678.0"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Lake_Huron> <http://dbpedia.org/ontology/inflow> <http://dbpedia.org/resource/St._Marys_River_%28Michigan-Ontario%29> .
+<http://dbpedia.org/resource/Lake_Huron> <http://dbpedia.org/ontology/city> <http://dbpedia.org/resource/Michigan> .
+<http://dbpedia.org/resource/Lake_Huron> <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-82.4"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://dbpedia.org/resource/Lake_Huron> <http://dbpedia.org/ontology/city> <http://dbpedia.org/resource/Sarnia,_Ontario> .
+<http://dbpedia.org/resource/Lake_Huron> <http://dbpedia.org/ontology/city> <http://dbpedia.org/resource/Goderich,_Ontario> .
+<http://dbpedia.org/resource/Lake_Huron> <http://dbpedia.org/ontology/location> <http://dbpedia.org/resource/North_America> .
+<http://dbpedia.org/resource/Lake_Huron> <http://dbpedia.org/ontology/width> "244620.288"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Lake_Huron> <http://dbpedia.org/ontology/length> "331524.864"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Lake_Huron> <http://dbpedia.org/ontology/outflow> <http://dbpedia.org/resource/St._Clair_River> .
+<http://dbpedia.org/resource/Lake_Huron> <http://dbpedia.org/ontology/city> <http://dbpedia.org/resource/St._Ignace,_Michigan> .
+<http://dbpedia.org/resource/Lake_Huron> <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "44.8"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://dbpedia.org/resource/Lake_Huron> <http://xmlns.com/foaf/0.1/name> "Lake Huron"@en .
+<http://dbpedia.org/resource/Lake_Huron> <http://dbpedia.org/ontology/depth> "228.6"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Lake_Huron> <http://dbpedia.org/ontology/areaOfCatchment> "1.934721118420992E11"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Lake_Huron> <http://dbpedia.org/ontology/inflow> <http://dbpedia.org/resource/Straits_of_Mackinac> .
+<http://dbpedia.org/resource/Lake_Huron> <http://dbpedia.org/ontology/elevation> "175.8696"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Lake_Huron> <http://dbpedia.org/ontology/city> <http://dbpedia.org/resource/Alpena,_Michigan> .
+<http://dbpedia.org/resource/Lake_Huron> <http://dbpedia.org/ontology/city> <http://dbpedia.org/resource/Ontario> .
+<http://dbpedia.org/resource/Lake_Huron> <http://dbpedia.org/ontology/city> <http://dbpedia.org/resource/Bay_City,_Michigan> .
+<http://dbpedia.org/resource/Lake_Huron> <http://dbpedia.org/ontology/city> <http://dbpedia.org/resource/Cheboygan,_Michigan> .
+<http://dbpedia.org/resource/Lake_Huron> <http://dbpedia.org/ontology/depth> "59.436"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Lake_Huron> <http://dbpedia.org/ontology/island> <http://dbpedia.org/resource/Manitoulin_Island> .
+<http://dbpedia.org/resource/Lake_Huron> <http://dbpedia.org/ontology/shoreLength> "6155740.8"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Lake_Huron> <http://www.georss.org/georss/point> "44.8 -82.4"@en .
+<http://dbpedia.org/resource/Lake_Huron> <http://dbpedia.org/ontology/city> <http://dbpedia.org/resource/Port_Huron,_Michigan> .
+<http://dbpedia.org/resource/Lake_Huron> <http://dbpedia.org/ontology/volume> "3.5387863697990693E12"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Lake_Huron> <http://dbpedia.org/ontology/areaTotal> "5.959562641883136E10"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Manzanar> <http://dbpedia.org/ontology/location> <http://dbpedia.org/resource/Inyo_County,_California> .
+<http://dbpedia.org/resource/Manzanar> <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-118.15444444444445"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://dbpedia.org/resource/Manzanar> <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "36.72833333333333"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://dbpedia.org/resource/Manzanar> <http://www.georss.org/georss/point> "36.72833333333333 -118.15444444444445"@en .
+<http://dbpedia.org/resource/Manzanar> <http://dbpedia.org/ontology/numberOfVisitorsAsOf> "2008"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://dbpedia.org/resource/Manzanar> <http://dbpedia.org/ontology/added> "1976-07-30"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://dbpedia.org/resource/Manzanar> <http://dbpedia.org/ontology/numberOfVisitors> "78468"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> .
+<http://dbpedia.org/resource/Manzanar> <http://dbpedia.org/ontology/area> "3293903.278336"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Manzanar> <http://xmlns.com/foaf/0.1/name> "Manzanar War Relocation Center"@en .
+<http://dbpedia.org/resource/Manzanar> <http://dbpedia.org/ontology/nearestCity> <http://dbpedia.org/resource/Independence,_California> .
+<http://dbpedia.org/resource/Manzanar> <http://dbpedia.org/ontology/governingBody> <http://dbpedia.org/resource/National_Park_Service> .
+<http://dbpedia.org/resource/Manzanar> <http://dbpedia.org/ontology/nrhpReferenceNumber> "76000484"@en .
+<http://dbpedia.org/resource/Manzanar> <http://dbpedia.org/ontology/yearOfConstruction> "1942"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://dbpedia.org/resource/Charles_Dickens__1> <http://dbpedia.org/ontology/title> "Writer"@en .
+<http://dbpedia.org/resource/Delaware_River__sourcePosition__1> <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "42.45333333333333"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://dbpedia.org/resource/Delaware_River__sourcePosition__1> <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-74.60722222222222"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://dbpedia.org/resource/Delaware_River__sourcePosition__1> <http://www.georss.org/georss/point> "42.45333333333333 -74.60722222222222"@en .
+<http://dbpedia.org/resource/Johnny_Unitas> <http://dbpedia.org/ontology/deathDate> "2002-09-11"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://dbpedia.org/resource/Johnny_Unitas> <http://dbpedia.org/ontology/height> "1.8542"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Johnny_Unitas> <http://dbpedia.org/ontology/formerTeam> <http://dbpedia.org/resource/San_Diego_Chargers> .
+<http://dbpedia.org/resource/Johnny_Unitas> <http://dbpedia.org/ontology/activeYearsEndYear> "1973"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://dbpedia.org/resource/Johnny_Unitas> <http://dbpedia.org/ontology/draftPick> "102"@en .
+<http://dbpedia.org/resource/Johnny_Unitas> <http://dbpedia.org/ontology/activeYearsStartYear> "1956"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://dbpedia.org/resource/Johnny_Unitas> <http://dbpedia.org/ontology/draftRound> "9"@en .
+<http://dbpedia.org/resource/Johnny_Unitas> <http://dbpedia.org/ontology/weight> "87998.4"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Johnny_Unitas> <http://dbpedia.org/ontology/formerTeam> <http://dbpedia.org/resource/Pittsburgh_Steelers> .
+<http://dbpedia.org/resource/Johnny_Unitas> <http://dbpedia.org/ontology/draftYear> "1955"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://dbpedia.org/resource/Johnny_Unitas> <http://dbpedia.org/ontology/birthDate> "1933-05-07"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://dbpedia.org/resource/Johnny_Unitas> <http://dbpedia.org/ontology/number> "19"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://dbpedia.org/resource/Johnny_Unitas> <http://dbpedia.org/ontology/formerTeam> <http://dbpedia.org/resource/History_of_the_Indianapolis_Colts> .
+<http://dbpedia.org/resource/Johnny_Unitas> <http://dbpedia.org/ontology/debutTeam> <http://dbpedia.org/resource/History_of_the_Indianapolis_Colts> .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://dbpedia.org/ontology/numberOfPostgraduateStudents> "17024"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://xmlns.com/foaf/0.1/homepage> <http://www.usc.edu/> .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://dbpedia.org/ontology/provost> <http://dbpedia.org/resource/C._L._Max_Nikias> .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://xmlns.com/foaf/0.1/nick> "Men/Women of Troy"@en .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://dbpedia.org/ontology/numberOfStudents> "33389"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://dbpedia.org/ontology/type> <http://dbpedia.org/resource/Private_university> .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://dbpedia.org/ontology/staff> "14300"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://dbpedia.org/ontology/motto> "Let whoever earns the palm bear it"@en .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://dbpedia.org/ontology/president> <http://dbpedia.org/resource/Steven_B._Sample> .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://dbpedia.org/ontology/facultySize> "4597"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://dbpedia.org/ontology/city> <http://dbpedia.org/resource/Los_Angeles,_California> .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://dbpedia.org/ontology/affiliation> <http://dbpedia.org/resource/Pacific-10_Conference> .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://dbpedia.org/ontology/state> <http://dbpedia.org/resource/California> .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://xmlns.com/foaf/0.1/nick> "Trojans"@en .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://dbpedia.org/ontology/athletics> <http://dbpedia.org/resource/National_Collegiate_Athletic_Association> .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://dbpedia.org/ontology/campus> <http://dbpedia.org/resource/Urban_area> .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://xmlns.com/foaf/0.1/name> "University of Southern California"@en .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://dbpedia.org/ontology/endowment> "2.5E9"^^<http://dbpedia.org/datatype/usDollar> .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://dbpedia.org/ontology/mascot> "Traveler"@en .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://dbpedia.org/ontology/motto> "Palmam qui meruit ferat"@en .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://dbpedia.org/ontology/officialSchoolColour> "USC Cardinal and USC Gold"@en .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://dbpedia.org/ontology/numberOfUndergraduateStudents> "16384"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://dbpedia.org/ontology/country> <http://dbpedia.org/resource/United_States> .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://dbpedia.org/ontology/affiliation> <http://dbpedia.org/resource/Association_of_American_Universities> .
+<http://dbpedia.org/resource/University_of_Southern_California> <http://dbpedia.org/ontology/affiliation> <http://dbpedia.org/resource/Mountain_Pacific_Sports_Federation> .
+<http://dbpedia.org/resource/Mount_Hood> <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "45.37351388888889"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://dbpedia.org/resource/Mount_Hood> <http://dbpedia.org/ontology/eruptionYear> "1866"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://dbpedia.org/resource/Mount_Hood> <http://dbpedia.org/ontology/locatedInArea> <http://dbpedia.org/resource/United_States> .
+<http://dbpedia.org/resource/Mount_Hood> <http://dbpedia.org/ontology/mountainRange> <http://dbpedia.org/resource/Cascade_Range> .
+<http://dbpedia.org/resource/Mount_Hood> <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-121.69591944444444"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://dbpedia.org/resource/Mount_Hood> <http://www.georss.org/georss/point> "45.37351388888889 -121.69591944444444"@en .
+<http://dbpedia.org/resource/Mount_Hood> <http://dbpedia.org/ontology/type> <http://dbpedia.org/resource/Stratovolcano> .
+<http://dbpedia.org/resource/Mount_Hood> <http://dbpedia.org/ontology/prominence> "2348.7888"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Mount_Hood> <http://dbpedia.org/ontology/locatedInArea> <http://dbpedia.org/resource/Clackamas_County,_Oregon> .
+<http://dbpedia.org/resource/Mount_Hood> <http://dbpedia.org/ontology/locatedInArea> <http://dbpedia.org/resource/Oregon> .
+<http://dbpedia.org/resource/Mount_Hood> <http://dbpedia.org/ontology/firstAscentYear> "1857"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://dbpedia.org/resource/Mount_Hood> <http://dbpedia.org/ontology/elevation> "3428.6952"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Mount_Hood> <http://dbpedia.org/ontology/firstAscentPerson> <http://dbpedia.org/resource/Henry_Pittock> .
+<http://dbpedia.org/resource/Mount_Hood> <http://dbpedia.org/ontology/nationalTopographicSystemMapNumber> "USGS Mount Hood South 45121-C6"@en .
+<http://dbpedia.org/resource/Mount_Hood> <http://dbpedia.org/ontology/locatedInArea> <http://dbpedia.org/resource/Hood_River_County,_Oregon> .
+<http://dbpedia.org/resource/Mount_Hood> <http://xmlns.com/foaf/0.1/name> "Mount Hood"@en .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://xmlns.com/foaf/0.1/name> "Wah Yan College, Hong Kong"@en .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://xmlns.com/foaf/0.1/homepage> <http://www.wahyan.edu.hk> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "22.27408"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/religion> <http://dbpedia.org/resource/Roman_Catholic> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://www.georss.org/georss/point> "22.27408 114.17615"@en .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/authority> <http://dbpedia.org/resource/Society_of_Jesus> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/sport> <http://dbpedia.org/resource/Swimming_%28sport%29> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/campusSize> "20000.0"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/foundingYear> "1919"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/region> <http://dbpedia.org/resource/Wan_Chai> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/sport> <http://dbpedia.org/resource/Orienteering> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/alumni> <http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong%23Notable_alumni> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/sport> <http://dbpedia.org/resource/Water_polo> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/schoolCode> "WYHK"@en .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/sport> <http://dbpedia.org/resource/Fencing> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/address> "281 Queen's Road East"@en .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/type> <http://dbpedia.org/resource/Secondary_school> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/status> "Open"@en .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/sport> <http://dbpedia.org/resource/Basketball> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/sport> <http://dbpedia.org/resource/Badminton> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/officialSchoolColour> "Red, green, blue, white"@en .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/sport> <http://dbpedia.org/resource/Table_tennis> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/sport> <http://dbpedia.org/resource/Tennis> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/motto> "In Hoc Signo Vinces"@en .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/sport> <http://dbpedia.org/resource/Ice_hockey> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/sport> <http://dbpedia.org/resource/Athletics_%28track_and_field%29> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://www.w3.org/2003/01/geo/wgs84_pos#long> "114.17615"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/head> <http://dbpedia.org/resource/Tam_Siu_Ping> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/offeredClasses> "26"@en .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/sport> <http://dbpedia.org/resource/Cross_country_running> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/motto> "(\"In this sign you shall conquer\")"@en .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/sport> <http://dbpedia.org/resource/Association_football> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/city> <http://dbpedia.org/resource/Hong_Kong> .
+<http://dbpedia.org/resource/Wah_Yan_College,_Hong_Kong> <http://dbpedia.org/ontology/numberOfStudents> "944"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> .
+<http://dbpedia.org/resource/Radio_Free_Europe/Radio_Liberty__2> <http://dbpedia.org/ontology/title> "President"@en .
+<http://dbpedia.org/resource/Radio_Free_Europe/Radio_Liberty__2> <http://dbpedia.org/ontology/person> <http://dbpedia.org/resource/Jeffrey_Gedmin> .
+<http://dbpedia.org/resource/Christ%27s_Hospital> <http://dbpedia.org/ontology/foundedBy> <http://dbpedia.org/resource/King_Edward_VI> .
+<http://dbpedia.org/resource/Christ%27s_Hospital> <http://dbpedia.org/ontology/headLabel> "Headmaster"@en .
+<http://dbpedia.org/resource/Christ%27s_Hospital> <http://dbpedia.org/ontology/country> <http://dbpedia.org/resource/England> .
+<http://dbpedia.org/resource/Christ%27s_Hospital> <http://dbpedia.org/ontology/motto> "Honour All Men, Love the Brotherhood, Fear God, Honour the King."@en .
+<http://dbpedia.org/resource/Christ%27s_Hospital> <http://dbpedia.org/ontology/foundingYear> "1552"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://dbpedia.org/resource/Christ%27s_Hospital> <http://xmlns.com/foaf/0.1/name> "Christ's Hospital"@en .
+<http://dbpedia.org/resource/Christ%27s_Hospital> <http://dbpedia.org/ontology/county> <http://dbpedia.org/resource/West_Sussex> .
+<http://dbpedia.org/resource/Christ%27s_Hospital> <http://xmlns.com/foaf/0.1/homepage> <http://www.christs-hospital.org.uk> .
+<http://dbpedia.org/resource/Christ%27s_Hospital> <http://dbpedia.org/ontology/upperAge> "18"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> .
+<http://dbpedia.org/resource/Christ%27s_Hospital> <http://dbpedia.org/ontology/type> <http://dbpedia.org/resource/Independent_school> .
+<http://dbpedia.org/resource/Christ%27s_Hospital> <http://dbpedia.org/ontology/religiousHead> <http://dbpedia.org/resource/BSc> .
+<http://dbpedia.org/resource/Christ%27s_Hospital> <http://dbpedia.org/ontology/head> <http://dbpedia.org/resource/John_Franklin_%28headmaster%29> .
+<http://dbpedia.org/resource/Christ%27s_Hospital> <http://dbpedia.org/ontology/officialSchoolColour> "Blue & Yellow"@en .
+<http://dbpedia.org/resource/Christ%27s_Hospital> <http://dbpedia.org/ontology/numberOfStudents> "831"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> .
+<http://dbpedia.org/resource/Christ%27s_Hospital> <http://dbpedia.org/ontology/lowerAge> "11"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> .
+<http://dbpedia.org/resource/Christ%27s_Hospital> <http://dbpedia.org/ontology/country> <http://dbpedia.org/resource/United_Kingdom> .
+<http://dbpedia.org/resource/Christ%27s_Hospital> <http://dbpedia.org/ontology/president> <http://dbpedia.org/resource/Prince_Richard,_Duke_of_Gloucester> .
+<http://dbpedia.org/resource/WKHX-FM> <http://xmlns.com/foaf/0.1/homepage> <http://www.kicks1015.com> .
+<http://dbpedia.org/resource/WKHX-FM> <http://dbpedia.org/ontology/slogan> "Today's Best Country Hits"@en .
+<http://dbpedia.org/resource/WKHX-FM> <http://dbpedia.org/ontology/city> <http://dbpedia.org/resource/Marietta,_Georgia> .
+<http://dbpedia.org/resource/WKHX-FM> <http://dbpedia.org/ontology/sisterStation> <http://dbpedia.org/resource/WYAY> .
+<http://dbpedia.org/resource/WKHX-FM> <http://dbpedia.org/ontology/shareOfAudience> "4.0"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://dbpedia.org/resource/WKHX-FM> <http://dbpedia.org/ontology/formerCallsign> "WBIE-FM (1968-1981)"@en .
+<http://dbpedia.org/resource/WKHX-FM> <http://dbpedia.org/ontology/shareSource> "R&R"@en .
+<http://dbpedia.org/resource/WKHX-FM> <http://www.georss.org/georss/point> "33.80722222222222 -84.33944444444444"@en .
+<http://dbpedia.org/resource/WKHX-FM> <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "33.80722222222222"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://dbpedia.org/resource/WKHX-FM> <http://dbpedia.org/ontology/programmeFormat> <http://dbpedia.org/resource/Country_music> .
+<http://dbpedia.org/resource/WKHX-FM> <http://dbpedia.org/ontology/licensee> "Radio License Holding II, LLC, Debtor in possession"@en .
+<http://dbpedia.org/resource/WKHX-FM> <http://dbpedia.org/ontology/formerCallsign> "WKHX (1981-1987)"@en .
+<http://dbpedia.org/resource/WKHX-FM> <http://dbpedia.org/ontology/broadcastNetwork> <http://dbpedia.org/resource/Premiere_Radio_Networks> .
+<http://dbpedia.org/resource/WKHX-FM> <http://dbpedia.org/ontology/frequency> "1.015E8"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/WKHX-FM> <http://dbpedia.org/ontology/owner> <http://dbpedia.org/resource/Citadel_Broadcasting> .
+<http://dbpedia.org/resource/WKHX-FM> <http://dbpedia.org/ontology/broadcastStationClass> "C0"@en .
+<http://dbpedia.org/resource/WKHX-FM> <http://dbpedia.org/ontology/facilityId> "73161"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://dbpedia.org/resource/WKHX-FM> <http://xmlns.com/foaf/0.1/name> "WKHX-FM"@en .
+<http://dbpedia.org/resource/WKHX-FM> <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-84.33944444444444"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://dbpedia.org/resource/WKHX-FM> <http://dbpedia.org/ontology/city> <http://dbpedia.org/resource/Georgia_%28U.S._state%29> .
+<http://dbpedia.org/resource/WKHX-FM> <http://dbpedia.org/ontology/alias> "Kicks 101.5"@en .
+<http://dbpedia.org/resource/WKHX-FM> <http://dbpedia.org/ontology/broadcastNetwork> <http://dbpedia.org/resource/ABC_Radio> .
+<http://dbpedia.org/resource/WKHX-FM> <http://dbpedia.org/ontology/broadcastArea> <http://dbpedia.org/resource/Atlanta_metropolitan_area> .
+<http://dbpedia.org/resource/Peter_Forsberg> <http://dbpedia.org/ontology/height> "1.8288"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Peter_Forsberg> <http://dbpedia.org/ontology/shoots> "Left"@en .
+<http://dbpedia.org/resource/Peter_Forsberg> <http://dbpedia.org/ontology/activeYearsStartYear> "1990"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://dbpedia.org/resource/Peter_Forsberg> <http://dbpedia.org/ontology/formerTeam> <http://dbpedia.org/resource/National_Hockey_League> .
+<http://dbpedia.org/resource/Peter_Forsberg> <http://dbpedia.org/ontology/team> <http://dbpedia.org/resource/Modo_Hockey> .
+<http://dbpedia.org/resource/Peter_Forsberg> <http://dbpedia.org/ontology/draftYear> "1991"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://dbpedia.org/resource/Peter_Forsberg> <http://dbpedia.org/ontology/draftTeam> <http://dbpedia.org/resource/Philadelphia_Flyers> .
+<http://dbpedia.org/resource/Peter_Forsberg> <http://dbpedia.org/ontology/position> "Centre"@en .
+<http://dbpedia.org/resource/Peter_Forsberg> <http://dbpedia.org/ontology/draft> "6th overall"@en .
+<http://dbpedia.org/resource/Peter_Forsberg> <http://dbpedia.org/ontology/birthDate> "1973-07-20"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://dbpedia.org/resource/Peter_Forsberg> <http://dbpedia.org/ontology/formerTeam> <http://dbpedia.org/resource/Philadelphia_Flyers> .
+<http://dbpedia.org/resource/Peter_Forsberg> <http://dbpedia.org/ontology/formerTeam> <http://dbpedia.org/resource/Quebec_Nordiques> .
+<http://dbpedia.org/resource/Peter_Forsberg> <http://dbpedia.org/ontology/birthPlace> <http://dbpedia.org/resource/%C3%96rnsk%C3%B6ldsvik> .
+<http://dbpedia.org/resource/Peter_Forsberg> <http://dbpedia.org/ontology/league> <http://dbpedia.org/resource/Elitserien> .
+<http://dbpedia.org/resource/Peter_Forsberg> <http://dbpedia.org/ontology/formerTeam> <http://dbpedia.org/resource/Nashville_Predators> .
+<http://dbpedia.org/resource/Peter_Forsberg> <http://dbpedia.org/ontology/formerTeam> <http://dbpedia.org/resource/Colorado_Avalanche> .
+<http://dbpedia.org/resource/Peter_Forsberg> <http://dbpedia.org/ontology/weight> "95256.0"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Peter_Forsberg> <http://dbpedia.org/ontology/birthPlace> <http://dbpedia.org/resource/Sweden> .
+<http://dbpedia.org/resource/German_submarine_U-238> <http://dbpedia.org/ontology/status> "Sunk by Surface Craft, 09 February 1944"@en .
+<http://dbpedia.org/resource/German_submarine_U-238> <http://dbpedia.org/ontology/builder> <http://dbpedia.org/resource/Kiel> .
+<http://dbpedia.org/resource/German_submarine_U-238> <http://xmlns.com/foaf/0.1/name> "U-238"@en .
+<http://dbpedia.org/resource/German_submarine_U-238> <http://dbpedia.org/ontology/shipLaunch> "1943-01-07"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://dbpedia.org/resource/German_submarine_U-238> <http://dbpedia.org/ontology/commissioningDate> "1943-02-20"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://dbpedia.org/resource/German_submarine_U-238> <http://dbpedia.org/ontology/builder> <http://dbpedia.org/resource/Germaniawerft> .
+<http://dbpedia.org/resource/German_submarine_U-238> <http://dbpedia.org/ontology/layingDown> "1942-04-21"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://dbpedia.org/resource/Stairway_to_Heaven> <http://dbpedia.org/ontology/releaseDate> "1971-11-08"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://dbpedia.org/resource/Stairway_to_Heaven> <http://dbpedia.org/ontology/trackNumber> "4"^^<http://www.w3.org/2001/XMLSchema#positiveInteger> .
+<http://dbpedia.org/resource/Stairway_to_Heaven> <http://dbpedia.org/ontology/subsequentWork> <http://dbpedia.org/resource/Misty_Mountain_Hop> .
+<http://dbpedia.org/resource/Stairway_to_Heaven> <http://dbpedia.org/ontology/previousWork> <http://dbpedia.org/resource/The_Battle_of_Evermore> .
+<http://dbpedia.org/resource/Stairway_to_Heaven> <http://dbpedia.org/ontology/album> <http://dbpedia.org/resource/Led_Zeppelin_IV> .
+<http://dbpedia.org/resource/Stairway_to_Heaven> <http://dbpedia.org/ontology/writer> <http://dbpedia.org/resource/Robert_Plant> .
+<http://dbpedia.org/resource/Stairway_to_Heaven> <http://dbpedia.org/ontology/genre> <http://dbpedia.org/resource/Rock_music> .
+<http://dbpedia.org/resource/Stairway_to_Heaven> <http://dbpedia.org/ontology/recordLabel> <http://dbpedia.org/resource/Atlantic_Records> .
+<http://dbpedia.org/resource/Stairway_to_Heaven> <http://dbpedia.org/ontology/writer> <http://dbpedia.org/resource/Jimmy_Page> .
+<http://dbpedia.org/resource/Stairway_to_Heaven> <http://xmlns.com/foaf/0.1/name> "Stairway to Heaven"@en .
+<http://dbpedia.org/resource/Stairway_to_Heaven> <http://dbpedia.org/ontology/producer> <http://dbpedia.org/resource/Jimmy_Page> .
+<http://dbpedia.org/resource/Stairway_to_Heaven> <http://dbpedia.org/ontology/artist> <http://dbpedia.org/resource/Led_Zeppelin> .
+<http://dbpedia.org/resource/Stairway_to_Heaven> <http://dbpedia.org/ontology/runtime> "475.0"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Frankfurt_am_Main> <http://dbpedia.org/ontology/populationMetro> "5800000"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> .
+<http://dbpedia.org/resource/Frankfurt_am_Main> <http://xmlns.com/foaf/0.1/name> "Frankfurt am Main"@en .
+<http://dbpedia.org/resource/Frankfurt_am_Main> <http://dbpedia.org/ontology/areaCode> "069, 06109, 06101"@en .
+<http://dbpedia.org/resource/Frankfurt_am_Main> <http://dbpedia.org/ontology/postalCode> "60001-60599, 65901-65936"@en .
+<http://dbpedia.org/resource/Frankfurt_am_Main> <http://dbpedia.org/ontology/populationAsOf> "2008-03-31"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://dbpedia.org/resource/Frankfurt_am_Main> <http://dbpedia.org/ontology/populationTotal> "651899"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> .
+<http://dbpedia.org/resource/Frankfurt_am_Main> <http://www.georss.org/georss/point> "50.110277777777775 8.682222222222222"@en .
+<http://dbpedia.org/resource/Frankfurt_am_Main> <http://dbpedia.org/ontology/country> <http://dbpedia.org/resource/Germany> .
+<http://dbpedia.org/resource/Frankfurt_am_Main> <http://dbpedia.org/ontology/foundingYear> "0001"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://dbpedia.org/resource/Frankfurt_am_Main> <http://www.w3.org/2003/01/geo/wgs84_pos#long> "8.682222222222222"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://dbpedia.org/resource/Frankfurt_am_Main> <http://xmlns.com/foaf/0.1/homepage> <http://www.frankfurt.de/> .
+<http://dbpedia.org/resource/Frankfurt_am_Main> <http://dbpedia.org/ontology/areaTotal> "2.4831E8"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Frankfurt_am_Main> <http://dbpedia.org/ontology/administrativeDistrict> <http://dbpedia.org/resource/Darmstadt> .
+<http://dbpedia.org/resource/Frankfurt_am_Main> <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "50.110277777777775"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/network> <http://dbpedia.org/resource/Associated_TeleVision> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/voice> <http://dbpedia.org/resource/Sylvia_Anderson> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/composer> <http://dbpedia.org/resource/Barry_Gray> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/editor> <http://dbpedia.org/resource/David_Lane_%28director%29> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/director> <http://dbpedia.org/resource/David_Elliott_%28director%29> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/author> <http://dbpedia.org/resource/Tony_Barwick> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/voice> <http://dbpedia.org/resource/Peter_Dyneley> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/related> <http://dbpedia.org/resource/Thunderbirds_2086> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/person> <http://dbpedia.org/resource/John_Read_%28producer%29> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/numberOfSeasons> "2"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/format> <http://dbpedia.org/resource/Supermarionation> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/runtime> "3000.0"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/voice> <http://dbpedia.org/resource/John_Tate_%28actor%29> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/author> <http://dbpedia.org/resource/Gerry_Anderson> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/genre> <http://dbpedia.org/resource/Science_fiction> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/releaseDate> "1965-09-30"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/director> <http://dbpedia.org/resource/Desmond_Saunders> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/country> <http://dbpedia.org/resource/Television_in_the_United_Kingdom> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/voice> <http://dbpedia.org/resource/Shane_Rimmer> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/genre> <http://dbpedia.org/resource/Disaster_film> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/distributor> <http://dbpedia.org/resource/ITC_Entertainment> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/author> <http://dbpedia.org/resource/Alan_Fennell> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/genre> <http://dbpedia.org/resource/Action_%28genre%29> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/genre> <http://dbpedia.org/resource/Adventure_%28genre%29> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/voice> <http://dbpedia.org/resource/Matt_Zimmerman> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/language> <http://dbpedia.org/resource/English_language> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/subsequentWork> <http://dbpedia.org/resource/Thunderbirds_Are_Go> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/company> <http://dbpedia.org/resource/AP_Films> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/voice> <http://dbpedia.org/resource/Jeremy_Wilkin> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/author> <http://dbpedia.org/resource/Sylvia_Anderson> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/producer> <http://dbpedia.org/resource/Reg_Hill> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/voice> <http://dbpedia.org/resource/Charles_Tingwell> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/genre> <http://dbpedia.org/resource/Children%27s_television_series> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/voice> <http://dbpedia.org/resource/Paul_Maxwell> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/author> <http://dbpedia.org/resource/Dennis_Spooner> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/format> <http://dbpedia.org/resource/Monaural> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/creator> <http://dbpedia.org/resource/Sylvia_Anderson> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/voice> <http://dbpedia.org/resource/Christine_Finn> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/format> <http://dbpedia.org/resource/Film> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/numberOfEpisodes> "32"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/voice> <http://dbpedia.org/resource/David_Holliday> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/voice> <http://dbpedia.org/resource/David_Graham_%28actor%29> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/director> <http://dbpedia.org/resource/David_Lane_%28director%29> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/creator> <http://dbpedia.org/resource/Gerry_Anderson> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://dbpedia.org/ontology/voice> <http://dbpedia.org/resource/Ray_Barrett> .
+<http://dbpedia.org/resource/Thunderbirds_%28TV_series%29> <http://xmlns.com/foaf/0.1/name> "Thunderbirds"@en .
+<http://dbpedia.org/resource/Uranus> <http://dbpedia.org/ontology/discoverer> <http://dbpedia.org/resource/William_Herschel> .
+<http://dbpedia.org/resource/Uranus> <http://dbpedia.org/ontology/orbitalPeriod> "3.6908352E9"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Uranus> <http://dbpedia.org/ontology/maximumTemperature> "57.0"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Uranus> <http://dbpedia.org/ontology/volume> "6.833E9"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Uranus> <http://dbpedia.org/ontology/periapsis> "2.748938461E12"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Uranus> <http://dbpedia.org/ontology/density> "1270.0"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Uranus> <http://dbpedia.org/ontology/orbitalPeriod> "2.6610418080000005E9"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Uranus> <http://dbpedia.org/ontology/periapsis> "2.748860873947125E12"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Uranus> <http://dbpedia.org/ontology/minimumTemperature> "49.0"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Uranus> <http://dbpedia.org/ontology/discovered> "1781-03-13"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://dbpedia.org/resource/Uranus> <http://dbpedia.org/ontology/albedo> "0.51"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Uranus> <http://dbpedia.org/ontology/orbitalPeriod> "2.661031504799999E9"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Uranus> <http://dbpedia.org/ontology/epoch> "J2000"@en .
+<http://dbpedia.org/resource/Uranus> <http://xmlns.com/foaf/0.1/name> "Uranus"@en .
+<http://dbpedia.org/resource/Uranus> <http://dbpedia.org/ontology/volume> "63.086"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Uranus> <http://dbpedia.org/ontology/escapeVelocity> "76680.0"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Uranus> <http://dbpedia.org/ontology/apparentMagnitude> "5.9"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Uranus> <http://dbpedia.org/ontology/apoapsis> "3.004374037087353E12"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Uranus> <http://dbpedia.org/ontology/meanTemperature> "76.0"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Uranus> <http://dbpedia.org/ontology/meanTemperature> "53.0"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Uranus> <http://dbpedia.org/ontology/apoapsis> "3.004419704E12"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Uranus> <http://dbpedia.org/ontology/averageSpeed> "24516.0"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Uranus> <http://dbpedia.org/ontology/albedo> "0.3"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/neighboringMunicipality> <http://dbpedia.org/resource/Br%C3%BCtten> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/neighboringMunicipality> <http://dbpedia.org/resource/Seuzach> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/municipalityCode> "0230"@en .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/neighboringMunicipality> <http://dbpedia.org/resource/Neftenbach> .
+<http://dbpedia.org/resource/Winterthur> <http://xmlns.com/foaf/0.1/name> "Winterthur"@en .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/neighboringMunicipality> <http://dbpedia.org/resource/Pfungen> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/country> <http://dbpedia.org/resource/Switzerland> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/maximumElevation> "687.0"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/twinCity> <http://dbpedia.org/resource/Plze%C5%88> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/postalCode> "8400"@en .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/neighboringMunicipality> <http://dbpedia.org/resource/Elsau> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/neighboringMunicipality> <http://dbpedia.org/resource/Dinhard> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/neighboringMunicipality> <http://dbpedia.org/resource/Oberembrach> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/highestPlace> <http://dbpedia.org/resource/Hulmen> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/populationTotal> "100000"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/neighboringMunicipality> <http://dbpedia.org/resource/Wiesendangen> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/areaTotal> "6.793E7"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/neighboringMunicipality> <http://dbpedia.org/resource/Zell,_Zurich> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/neighboringMunicipality> <http://dbpedia.org/resource/Illnau-Effretikon> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/neighboringMunicipality> <http://dbpedia.org/resource/Lindau,_Switzerland> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/twinCity> <http://dbpedia.org/resource/Yverdon-les-Bains> .
+<http://dbpedia.org/resource/Winterthur> <http://www.w3.org/2003/01/geo/wgs84_pos#long> "8.75"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/twinCity> <http://dbpedia.org/resource/Hall_in_Tirol> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/elevation> "439.0"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/neighboringMunicipality> <http://dbpedia.org/resource/Kyburg,_Zurich> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/district> <http://dbpedia.org/resource/Winterthur_%28district%29> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/canton> <http://dbpedia.org/resource/Zurich_%28canton%29> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/neighboringMunicipality> <http://dbpedia.org/resource/Schlatt,_Zurich> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/neighboringMunicipality> <http://dbpedia.org/resource/Hettlingen> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/twinCity> <http://dbpedia.org/resource/La_Chaux-de-Fonds> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/censusYear> "2008"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/minimumElevation> "393.0"^^<http://www.w3.org/2001/XMLSchema#double> .
+<http://dbpedia.org/resource/Winterthur> <http://dbpedia.org/ontology/neighboringMunicipality> <http://dbpedia.org/resource/Rickenbach,_Zurich> .
+<http://dbpedia.org/resource/Winterthur> <http://www.georss.org/georss/point> "47.5 8.75"@en .
+<http://dbpedia.org/resource/Winterthur> <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "47.5"^^<http://www.w3.org/2001/XMLSchema#float> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/militaryBranch> <http://dbpedia.org/resource/Air_Force> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/militaryUnitSize> "327,452 active personnel"@en .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/country> <http://dbpedia.org/resource/United_States_of_America> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftFighter> <http://dbpedia.org/resource/F-16_Fighting_Falcon> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftTransport> <http://dbpedia.org/resource/McDonnell_Douglas_C-9> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftElectronic> <http://dbpedia.org/resource/EC-130> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/colourName> "Ultramarine Blue & Air Force Yellow"@en .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/march> <http://dbpedia.org/resource/The_U.S._Air_Force_%28song%29> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftTransport> <http://dbpedia.org/resource/KC-10_Extender> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://xmlns.com/foaf/0.1/name> "United States Air Force"@en .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftBomber> <http://dbpedia.org/resource/B-2_Spirit> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftHelicopter> <http://dbpedia.org/resource/HH-60_Pave_Hawk> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftElectronic> <http://dbpedia.org/resource/E-3_Sentry> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftElectronic> <http://dbpedia.org/resource/Boeing_EC-135> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftElectronic> <http://dbpedia.org/resource/E-8_Joint_STARS> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftAttack> <http://dbpedia.org/resource/A-10_Thunderbolt_II> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftTrainer> <http://dbpedia.org/resource/T-1A_Jayhawk> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/activeYearsStartYear> "1947"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftRecon> <http://dbpedia.org/resource/Lockheed_U-2> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/commander> <http://dbpedia.org/resource/Norton_A._Schwartz> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftTransport> <http://dbpedia.org/resource/C-17_Globemaster_III> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/militaryUnitSize> "450 ICBMs"@en .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftAttack> <http://dbpedia.org/resource/Lockheed_AC-130> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftTransport> <http://dbpedia.org/resource/VC-25> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftHelicopter> <http://dbpedia.org/resource/UH-1N_Twin_Huey> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/commandStructure> <http://dbpedia.org/resource/United_States_Department_of_Defense> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftTransport> <http://dbpedia.org/resource/C-12_Huron> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftRecon> <http://dbpedia.org/resource/Boeing_RC-135> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftTransport> <http://dbpedia.org/resource/KC-135_Stratotanker> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftBomber> <http://dbpedia.org/resource/B-1_Lancer> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftRecon> <http://dbpedia.org/resource/RQ-1_Predator> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftTransport> <http://dbpedia.org/resource/C-40_Clipper> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/thirdCommander> <http://dbpedia.org/resource/James_A._Roy> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/identificationSymbol> "50px"@en .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftRecon> <http://dbpedia.org/resource/RQ-4_Global_Hawk> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftTransport> <http://dbpedia.org/resource/V-22_Osprey> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftTrainer> <http://dbpedia.org/resource/TG-10> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/militaryUnitSize> "5,573 aircraft, of which 2,132 are fighters"@en .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftTransport> <http://dbpedia.org/resource/Gulfstream_G500> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftTransport> <http://dbpedia.org/resource/C-135> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftBomber> <http://dbpedia.org/resource/B-52_Stratofortress> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/garrison> <http://dbpedia.org/resource/The_Pentagon> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/battle> <http://dbpedia.org/resource/Korean_War> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftTrainer> <http://dbpedia.org/resource/Boeing_T-43> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftFighter> <http://dbpedia.org/resource/F-15E_Strike_Eagle> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftFighter> <http://dbpedia.org/resource/F-15_Eagle> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftTransport> <http://dbpedia.org/resource/Learjet_35A> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/role> "\"To fly, fight and win ... in air, space and cyberspace.\""@en .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftTrainer> <http://dbpedia.org/resource/T-38_Talon> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftTransport> <http://dbpedia.org/resource/Boeing_C-32> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/militaryUnitSize> "32 satellites"@en .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/motto> "\"Above All\" (as of 19 Feb. 2008)"@en .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/secondCommander> <http://dbpedia.org/resource/Carrol_H._Chandler> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftTrainer> <http://dbpedia.org/resource/T-6_Texan_II> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftTransport> <http://dbpedia.org/resource/C-5_Galaxy> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/colour> <http://dbpedia.org/resource/Ultramarine> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftTransport> <http://dbpedia.org/resource/C-130_Hercules> .
+<http://dbpedia.org/resource/United_States_Air_Force> <http://dbpedia.org/ontology/aircraftFighter> <http://dbpedia.org/resource/F-22_Raptor> .
+<http://dbpedia.org/resource/Skuld_%28Oh_My_Goddess%21%29> <http://dbpedia.org/ontology/relative> <http://dbpedia.org/resource/Belldandy> .
+<http://dbpedia.org/resource/Skuld_%28Oh_My_Goddess%21%29> <http://dbpedia.org/ontology/creator> <http://dbpedia.org/resource/Kosuke_Fujishima> .

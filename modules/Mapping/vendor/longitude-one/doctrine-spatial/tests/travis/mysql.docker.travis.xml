@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phpunit colors="true"
+         bootstrap="../LongitudeOne/Spatial/Tests/TestInit.php"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutChangesToGlobalState="true"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+>
+
+    <php>
+        <ini name="error_reporting" value="-1" />
+
+        <var name="db_type" value="pdo_mysql"/>
+        <var name="db_host" value="127.0.0.1" />
+        <var name="db_username" value="root" />
+        <var name="db_password" value="" />
+        <var name="db_name" value="spatial_tests" />
+        <var name="db_port" value="33306" />
+        <var name="opt_mark_sql" value="true" />        <!-- Execute dummy SELECT statement before each test to mark DB query log -->
+        <var name="opt_use_debug_stack" value="true" /> <!-- Enable SQLLoggerStack and query logging exception in tests -->
+    </php>
+
+    <testsuites>
+        <testsuite name="Doctrine spatial library tests for docker MySQL">
+            <directory>../LongitudeOne/Spatial/Tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <groups>
+        <exclude>
+            <group>srid</group>
+            <group>mysql5</group>
+            <group>pgsql-only</group>
+        </exclude>
+    </groups>
+
+    <coverage cacheDirectory="build/cache/"
+              processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">../../lib</directory>
+        </include>
+    </coverage>
+</phpunit>

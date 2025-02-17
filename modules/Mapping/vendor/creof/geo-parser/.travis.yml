@@ -1,0 +1,15 @@
+language: php
+
+php:
+  - 7.1
+  - 7.2
+  - 7.3
+
+before_script:
+  - composer --prefer-source install
+
+script:
+  - ./vendor/bin/phpunit -v --coverage-clover ./build/logs/clover.xml
+
+after_script:
+  - ./vendor/bin/test-reporter --coverage-report ./build/logs/clover.xml

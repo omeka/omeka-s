@@ -1,0 +1,191 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-10-06 08:49+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: view/ead-import/admin/index/load.phtml:6
+msgid "Load from file"
+msgstr ""
+
+#: view/ead-import/admin/index/load.phtml:6
+#: view/ead-import/admin/index/map.phtml:4
+#: view/ead-import/admin/index/past-imports.phtml:8
+#: view/ead-import/admin/mapping-model/browse.phtml:7
+msgid "EAD Import"
+msgstr ""
+
+#: view/ead-import/admin/index/map.phtml:4
+msgid "Mapping"
+msgstr ""
+
+#: view/ead-import/admin/index/map.phtml:29
+#: view/ead-import/admin/index/map.phtml:30
+#: view/ead-import/admin/index/mapping-sidebar.phtml:15
+#: view/ead-import/admin/mapping-model/browse.phtml:7
+msgid "Mapping models"
+msgstr ""
+
+#: view/ead-import/admin/index/map.phtml:36
+#: view/ead-import/admin/mapping-model/show-details.phtml:22
+msgid "Level attribute"
+msgstr ""
+
+#: view/ead-import/admin/index/map.phtml:37
+msgid "Transform into"
+msgstr ""
+
+#: view/ead-import/admin/index/map.phtml:38
+msgid "Skip"
+msgstr ""
+
+#: view/ead-import/admin/index/map.phtml:52
+msgid "Skipped"
+msgstr ""
+
+#: view/ead-import/admin/index/map.phtml:64
+msgid " - Xpaths"
+msgstr ""
+
+#: view/ead-import/admin/index/map.phtml:65
+msgid "Mappings"
+msgstr ""
+
+#: view/ead-import/admin/index/map.phtml:67
+msgid "Make inherit "
+msgstr ""
+
+#: view/ead-import/admin/index/map.phtml:82
+#: view/ead-import/admin/index/mapping-sidebar.phtml:4
+msgid "Add mapping"
+msgstr ""
+
+#: view/ead-import/admin/index/past-imports.phtml:8
+msgid "Past imports"
+msgstr ""
+
+#: view/ead-import/admin/index/past-imports.phtml:59
+msgid "Job details"
+msgstr ""
+
+#: view/ead-import/admin/mapping-model/browse.phtml:100
+#, php-format
+msgid "Delete %1$s mapping"
+msgstr ""
+
+#: view/ead-import/admin/mapping-model/browse.phtml:102
+msgid "Are you sure you would like to delete this mapping ?"
+msgstr ""
+
+#: view/ead-import/admin/mapping-model/browse.phtml:104
+#, php-format
+msgid "%1$s: this action will permanently cannot be undone."
+msgstr ""
+
+#: view/ead-import/admin/mapping-model/browse.phtml:114
+msgid "Omeka could not find any mapping models."
+msgstr ""
+
+#: view/ead-import/admin/mapping-model/edit.phtml:3
+msgid "Edit model"
+msgstr ""
+
+#: view/ead-import/admin/mapping-model/save.phtml:3
+msgid "Add new model"
+msgstr ""
+
+#: view/ead-import/admin/mapping-model/show-details.phtml:12
+msgid " level attribute(s) mapped: "
+msgstr ""
+
+#: view/ead-import/admin/mapping-model/show-details.phtml:15
+#: view/ead-import/admin/mapping-model/show.phtml:18
+msgid "* heritage"
+msgstr ""
+
+#: view/ead-import/admin/mapping-model/show-details.phtml:25
+#: view/ead-import/admin/mapping-model/show.phtml:24
+msgid "Nodes"
+msgstr ""
+
+#: view/ead-import/admin/mapping-model/show.phtml:10
+msgid "Back to the list"
+msgstr ""
+
+#: view/ead-import/admin/mapping-model/show.phtml:15
+msgid "Level attribute - "
+msgstr ""
+
+#: view/ead-import/admin/mapping-sidebar/mapping-loader.phtml:26
+msgid "None mapping model save yet"
+msgstr ""
+
+#: src/Api/Adapter/MappingModelAdapter.php:45
+msgid "A model must have a name to save it."
+msgstr ""
+
+#: src/Api/Adapter/MappingModelAdapter.php:49
+msgid "Mapping must exists."
+msgstr ""
+
+#: src/Form/MappingModelSaverForm.php:19 src/Form/MappingModelEditForm.php:18
+msgid "Mapping model name"
+msgstr ""
+
+#: src/Form/LoadForm.php:19
+msgid "Import name"
+msgstr ""
+
+#: src/Form/LoadForm.php:30
+msgid "File path"
+msgstr ""
+
+#: src/Form/LoadForm.php:40
+msgid "Check structure with schema"
+msgstr ""
+
+#: src/Form/LoadForm.php:41
+msgid "Validation with XSD formatted schema"
+msgstr ""
+
+#: src/Controller/Admin/IndexController.php:82
+msgid "/"
+msgstr ""
+
+#: src/Controller/Admin/IndexController.php:113
+#, php-format
+msgid "Importing in background (%sjob #%d%s)"
+msgstr ""
+
+#: src/Controller/Admin/MappingModelController.php:80
+msgid "Mapping model successfully updated"
+msgstr ""
+
+#: src/Controller/Admin/MappingModelController.php:115
+msgid "Mapping model successfully added"
+msgstr ""
+
+#: src/Controller/Admin/MappingModelController.php:123
+msgid "Name or mapping is empty"
+msgstr ""
+
+#: src/Controller/Admin/MappingModelController.php:146
+msgid "mapping model"
+msgstr ""
+
+#: src/Controller/Admin/MappingModelController.php:159
+msgid "Mapping model successfully deleted"
+msgstr ""

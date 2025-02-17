@@ -1,0 +1,96 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-08 00:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: data/scripts/upgrade_from_rdfdatatype.php:279
+msgid "The module RdfDatatype was automatically uninstalled."
+msgstr ""
+
+#: data/scripts/upgrade_from_rdfdatatype.php:285
+msgid "The module RdfDatatype cannot be automatically uninstalled."
+msgstr ""
+
+#: data/scripts/upgrade.php:29 Module.php:59
+#, php-format
+msgid "The module %1$s should be upgraded to version %2$s or later."
+msgstr ""
+
+#: src/DataType/Boolean.php:34 src/DataType/Boolean.php:80
+msgid "false"
+msgstr ""
+
+#: src/DataType/Boolean.php:35 src/DataType/Boolean.php:79
+msgid "true"
+msgstr ""
+
+#: data/scripts/upgrade.php:40
+msgid ""
+"It’s now possible to choose mode of display to edit html values of resources "
+"in main params."
+msgstr ""
+
+#: data/scripts/upgrade.php:47
+msgid "Data type xml is now displayed with colors in resource form."
+msgstr ""
+
+#: data/scripts/upgrade.php:54
+msgid ""
+"A new data type has been added for json. Warning: the RDF specification is "
+"still in {link}discussion{link_end}. In particular, keys of objects should "
+"be stored in dictionnary order."
+msgstr ""
+
+#: src/Form/SettingsFieldset.php:10
+msgid "Data Type Rdf"
+msgstr ""
+
+#: src/Form/SettingsFieldset.php:26
+msgid "Html edition mode for resources"
+msgstr ""
+
+#: src/Form/SettingsFieldset.php:28
+msgid "Inline (default)"
+msgstr ""
+
+#: src/Form/SettingsFieldset.php:29
+msgid "Document (maximizable)"
+msgstr ""
+
+#: src/Form/SettingsFieldset.php:41
+msgid "Html edition config and toolbar for resources"
+msgstr ""
+
+#: src/DataType/AbstractDataTypeRdf.php:17
+msgid "Data Type RDF"
+msgstr ""
+
+#: src/DataType/Boolean.php:23 config/module.config.php:57
+msgid "Boolean"
+msgstr ""
+
+#: config/module.config.php:45
+msgid "Html"
+msgstr ""
+
+#: config/module.config.php:49
+msgid "Xml"
+msgstr ""
+
+#: config/module.config.php:53
+msgid "Json"
+msgstr ""

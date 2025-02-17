@@ -1,0 +1,41 @@
+<?php return array(
+    'root' => array(
+        'name' => '__root__',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => 'a71e2794c54dac5582484efdccbdffa7acfb9bd5',
+        'type' => 'library',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'dev' => false,
+    ),
+    'versions' => array(
+        '__root__' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => 'a71e2794c54dac5582484efdccbdffa7acfb9bd5',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'james-heinrich/getid3' => array(
+            'pretty_version' => 'v1.9.21',
+            'version' => '1.9.21.0',
+            'reference' => '36f5dabb1325415a4b07a401113f8db2eb81eca1',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../james-heinrich/getid3',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'php-jsonpointer/php-jsonpointer' => array(
+            'pretty_version' => 'v3.0.2',
+            'version' => '3.0.2.0',
+            'reference' => '4428f86c6f23846e9faa5a420c4ef14e485b3afb',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../php-jsonpointer/php-jsonpointer',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+    ),
+);

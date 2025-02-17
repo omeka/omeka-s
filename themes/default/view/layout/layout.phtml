@@ -1,0 +1,106 @@
+<?php
+$escape = $this->plugin('escapeHtml');
+$translate = $this->plugin('translate');
+$siteTitle = $site->title();
+$this->htmlElement('html')->setAttribute('lang', $this->lang());
+$this->headMeta()->setCharset('utf-8');
+$this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1');
+$this->headTitle($siteTitle)->setSeparator(' · ');
+$this->headTitle()->append($this->setting('installation_title', 'Omeka S'));
+$this->headLink()->prependStylesheet($this->assetUrl('css/style.css'));
+$this->headLink()->prependStylesheet($this->assetUrl('css/iconfonts.css', 'Omeka'));
+$this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700italic,700');
+$this->headScript()->prependFile($this->assetUrl('js/default.js'));
+$this->headScript()->prependFile($this->assetUrl('js/global.js', 'Omeka'));
+$this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 'Omeka'));
+$this->jsTranslate();
+$banner = $this->themeSettingAssetUrl('banner');
+$bannerHeight = $this->themeSetting('banner_height');
+$bannerHeightMobile = $this->themeSetting('banner_height_mobile');
+$bannerPosition = ($this->themeSetting('banner_position')) ? str_replace('_','-', $this->themeSetting('banner_position')) : 'center';
+$browseBodyTruncation = ($this->themeSetting('browse_body_truncation')) ? $this->themeSetting('browse_body_truncation') : 'fade';
+$this->htmlElement('body')->appendAttribute('class', 'body-truncate-' . $browseBodyTruncation);
+$this->trigger('view.layout'); 
+$userBar = $this->userBar();
+?>
+<?php echo $this->doctype(); ?>
+<?php echo $this->htmlElement('html'); ?>
+    <head>
+        <?php echo $this->headMeta(); ?>
+        <?php echo $this->headTitle(); ?>
+        <?php echo $this->headLink(); ?>
+        <?php echo $this->headStyle(); ?>
+        <?php echo $this->headScript(); ?>
+        
+        <style>
+            <?php if ($accentColor = $this->themeSetting('accent_color')): ?>
+            a:link,
+            a:visited {
+                color: <?php echo $accentColor; ?>
+            }
+            
+            a:active,
+            a:hover {
+                color: <?php echo $accentColor; ?>;
+                opacity: .75;
+            }
+            <?php endif; ?>
+
+            .banner {
+                height: <?php echo ($bannerHeight !== '') ? $bannerHeight: 'auto'  ?>;
+                align-items: <?php echo $bannerPosition; ?>;
+            }
+            <?php if ($bannerHeightMobile !== ''): ?>
+                @media screen and (max-width:640px) {
+                    .banner {
+                        height: <?php echo $bannerHeightMobile; ?>;
+                    }
+                }
+            <?php endif; ?>
+        </style>
+    </head>
+
+    <?php echo $this->htmlElement('body'); ?>
+        <a id="skipnav" href="#content"><?php echo $this->translate('Skip to main content'); ?></a>
+        <?php echo $userBar; ?>
+        <header>
+            <h1 class="site-title">
+                <a href="<?php echo $site->url(); ?>">
+                <?php if ($this->themeSetting('logo')): ?>
+                    <img src="<?php echo $this->themeSettingAssetUrl('logo'); ?>" alt="<?php echo $escape($siteTitle); ?>" />
+                <?php else: ?>
+                    <?php echo $escape($siteTitle); ?>
+                <?php endif; ?>
+                </a>
+            </h1>
+            <nav id="top-nav">
+            <button type="button" id="mobile-nav-toggle" aria-expanded="false" aria-label="<?php echo $translate('Toggle Menu'); ?>" title="<?php echo $translate('Toggle Menu'); ?>" aria-expanded="false"></button>
+            <?php
+            echo $site->publicNav()->menu()->renderMenu(null, [
+                'maxDepth' => $this->themeSetting('nav_depth') - 1,
+                'id' => 'top-nav-contents'
+            ]);
+            ?>
+            </nav>
+            <div id="search">
+                <?php echo $this->partial('common/search-form'); ?>
+            </div>
+            <?php if ($banner): ?>
+            <div class="banner">
+                <img role="presentation" src="<?php echo $this->themeSettingAssetUrl('banner'); ?>" title="Banner">
+            </div>
+            <?php endif; ?>
+
+        </header>
+        <div id="content" role="main">
+            <?php echo $this->content; ?>
+        </div>
+        <footer>
+            <?php if ($footerContent = $this->themeSetting('footer')): ?>
+            <?php echo $footerContent; ?>
+            <?php else: ?>
+                <?php echo $this->translate('Powered by Omeka S'); ?>
+            <?php endif; ?>
+        </footer>
+    </body>
+</html>

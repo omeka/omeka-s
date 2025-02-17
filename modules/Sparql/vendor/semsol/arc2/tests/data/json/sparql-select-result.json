@@ -1,0 +1,78 @@
+{
+	"head": {
+	   "link": [
+		   "http://www.w3.org/TR/rdf-sparql-XMLres/example.rq"
+		   ],
+	   "vars": [
+		   "x",
+		   "hpage",
+		   "name",
+		   "mbox",
+		   "age",
+		   "blurb",
+		   "friend"
+		   ]
+	   },
+   "results": {
+       "bindings": [
+               {
+                   "x" : {
+                     "type": "bnode",
+                     "value": "r1"
+                   },
+
+                   "hpage" : {
+                     "type": "uri",
+                     "value": "http://work.example.org/alice/"
+                   },
+
+                   "name" : {
+                     "type": "literal",
+                     "value": "Alice"
+                   },
+                   
+                   "mbox" : {
+                     "type": "literal",
+                     "value": ""
+                   },
+
+                   "blurb" : {
+                     "datatype": "http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral",
+                     "type": "typed-literal",
+                     "value": "<p xmlns=\"http://www.w3.org/1999/xhtml\">My name is <b>alice</b></p>"
+                   },
+
+                   "friend" : {
+                     "type": "bnode",
+                     "value": "r2"
+                   }
+               },{
+                   "x" : {
+                     "type": "bnode",
+                     "value": "r2"
+                   },
+                   
+                   "hpage" : {
+                     "type": "uri",
+                     "value": "http://work.example.org/bob/"
+                   },
+                   
+                   "name" : {
+                     "type": "literal",
+                     "value": "Bob",
+                     "xml:lang": "en"
+                   },
+
+                   "mbox" : {
+                     "type": "uri",
+                     "value": "mailto:bob@work.example.org"
+                   },
+
+                   "friend" : {
+                     "type": "bnode",
+                     "value": "r1"
+                   }
+               }
+           ]
+       }
+   }

@@ -1,0 +1,83 @@
+name: Doctrine spatial test
+on:
+  push: ~
+  pull_request:
+    branches: [ dev, main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: 'Test environment'
+    strategy:
+      matrix:
+        php: [ '7.4', '8.0' ]
+    name: PHP${{ matrix.php }}/MySQL5.7/MySQL8.0/PgSQL
+    services:
+      mysql5:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: main
+          MYSQL_USER: main
+          MYSQL_PASSWORD: main
+          MYSQL_ROOT_PASSWORD: main
+        ports:
+          - 3357:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      mysql8:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: main
+          MYSQL_USER: main
+          MYSQL_PASSWORD: main
+          MYSQL_ROOT_PASSWORD: main
+        ports:
+          - 3380:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      postgres:
+        # Docker Hub image
+        image: postgis/postgis
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: main
+          POSTGRES_USER: main
+          POSTGRES_DATABASE: main
+        ports:
+          - 5432:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@master
+      - name: Validate composer.json
+        run: composer validate --strict
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+      - name: Setup PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+      - name: Echo PHP version
+        run: php -v
+      - name: Copy testsuites
+        run: cp .github/phpunit.*.xml .
+      - name: Install libraries
+        run: composer update -vvv
+      - name: Run test suite and covergage
+        uses: paambaati/codeclimate-action@v2.7.5
+        env:
+           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+        with:
+           coverageCommand: composer run-script test
+           coverageLocations: ${{github.workspace}}/.phpunit.cache/clover*.xml:clover
+      - name: Check quality code
+        run: composer run-script check-quality-code

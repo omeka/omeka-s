@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Advanced Example</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+  <link rel="stylesheet" href="../../src/leaflet.groupedlayercontrol.css" />
+</head>
+<body>
+  <div id="map" style="width: 600px; height: 400px"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+  <script src="../../src/leaflet.groupedlayercontrol.js"></script>
+  <script src="exampledata.js"></script>
+  <script>
+    var map = L.map('map', {
+      center: [39.73, -104.99],
+      zoom: 10,
+      layers: [ExampleData.Basemaps.Grayscale, ExampleData.LayerGroups.cities]
+    });
+
+    // Overlay layers are grouped
+    var groupedOverlays = {
+      "Landmarks": {
+        "Cities": ExampleData.LayerGroups.cities,
+        "Restaurants": ExampleData.LayerGroups.restaurants
+      },
+      "Random": {
+        "Dogs": ExampleData.LayerGroups.dogs,
+        "Cats": ExampleData.LayerGroups.cats
+      }
+    };
+
+    var options = {
+      // Make the "Landmarks" group exclusive (use radio inputs)
+      exclusiveGroups: ["Landmarks"],
+      // Show a checkbox next to non-exclusive group labels for toggling all
+      groupCheckboxes: true
+    };
+
+    // Use the custom grouped layer control, not "L.control.layers"
+    var layerControl = L.control.groupedLayers(ExampleData.Basemaps, groupedOverlays, options);
+    map.addControl(layerControl);
+
+    // Remove and add a layer
+    //layerControl.removeLayer(cities);
+    //layerControl.addOverlay(cities, "Cities", "New Category");
+  </script>
+</body>
+</html>

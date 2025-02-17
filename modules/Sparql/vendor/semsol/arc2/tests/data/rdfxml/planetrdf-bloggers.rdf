@@ -1,0 +1,1439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- this is a comment -->
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:rss="http://purl.org/rss/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:html="http://www.w3.org/1999/xhtml">
+
+<foaf:Agent rdf:nodeID="id2245565"> 
+<foaf:name>Planet RDF</foaf:name> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://blog.planetrdf.com/"> 
+<dc:title>Planet RDF site blog</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://blog.planetrdf.com/rss.xml"> 
+<foaf:maker rdf:nodeID="id2245565"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2245590"> 
+<foaf:name>AKSW Group - University of Leipzig</foaf:name> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://blog.aksw.org/"> 
+<dc:title>AKSW Group - University of Leipzig</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://blog.aksw.org/feed/rdf/"> 
+<foaf:maker rdf:nodeID="id2245590"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2245615"> 
+<foaf:name>Dean Allemang</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://dallemang.typepad.com/"> 
+<dc:title>S is for Semantics by Dean Allemang</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://dallemang.typepad.com/my_weblog/index.rdf"> 
+<foaf:maker rdf:nodeID="id2245615"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2245641"> 
+<foaf:name>Zoltan Andrejkovics</foaf:name> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://www.andzol.com/"> 
+<dc:title>Zoltan Andrejkovics</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://www.andzol.com/?feed=rdf"> 
+<foaf:maker rdf:nodeID="id2245641"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2245665"> 
+<foaf:name>Al Baker</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>AlBaker_Dev</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://linkedjava.blogspot.com/"> 
+<dc:title>Linked Java by Al Baker</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://linkedjava.blogspot.com/feeds/posts/default"> 
+<foaf:maker rdf:nodeID="id2245665"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2245701"> 
+<foaf:name>Dave Beckett</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>dajobe</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://journal.dajobe.org/journal/"> 
+<dc:title>Journalblog by Dave Beckett</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://journal.dajobe.org/journal/comments.rdf"> 
+<foaf:maker rdf:nodeID="id2245701"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2245737"> 
+<foaf:name>Tim Berners-Lee</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>timberners_lee</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://dig.csail.mit.edu/breadcrumbs/blog/4"> 
+<dc:title>Tim Berners-Lee</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://dig.csail.mit.edu/breadcrumbs/blog/feed/4"> 
+<foaf:maker rdf:nodeID="id2245737"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2245776"> 
+<foaf:name>Uldis Bojars</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>CaptSolo</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://captsolo.net/info/"> 
+<dc:title>Uldis Bojars (Captain Solo)</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://captsolo.net/info/xmlsrv/rdf.php?blog=2&amp;cat=3"> 
+<foaf:maker rdf:nodeID="id2245776"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2245809"> 
+<foaf:name>John Breslin</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>johnbreslin</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://www.johnbreslin.com/blog/"> 
+<dc:title>Cloudlands by John Breslin</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://www.johnbreslin.com/blog/category/semantic-web/rdf"> 
+<foaf:maker rdf:nodeID="id2245809"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2245844"> 
+<foaf:name>Dan Brickley</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>danbri</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://danbri.org/words/"> 
+<dc:title>danbri's foaf stories</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://danbri.org/words/category/technology/rdf"> 
+<foaf:maker rdf:nodeID="id2245844"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2245877"> 
+<foaf:name>Jeen Broekstra</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>jeenbroekstra</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://rivuli-development.com/weblog/"> 
+<dc:title>Rivuli by Jeen Broekstra</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://rivuli-development.com/feed/rdf"> 
+<foaf:maker rdf:nodeID="id2245877"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2245911"> 
+<foaf:name>Dries Buytaert</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>dries</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://buytaert.net/tag/semantic-web"> 
+<dc:title>Dries Buytaert - Semantic Web</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://buytaert.net/taxonomy/term/61/0/feed"> 
+<foaf:maker rdf:nodeID="id2245911"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2245946"> 
+<foaf:name>Cambridge Semantics</foaf:name> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://www.cambridgesemantics.com/blog/"> 
+<dc:title>Cambridge Semantics</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://feeds.feedburner.com/EnterpriseSemantics"> 
+<foaf:maker rdf:nodeID="id2245946"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2245972"> 
+<foaf:name>Clark and Parsia</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>candp</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://clarkparsia.com/weblog/"> 
+<dc:title>Tales of a Semantic Web Consultancy by Clark and Parsia</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://clarkparsia.com/weblog/feed/rdf"> 
+<foaf:maker rdf:nodeID="id2245972"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257265"> 
+<foaf:name>Dan Connolly</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>dckc</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://www.madmode.com/"> 
+<dc:title>Dan Connolly</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://www.madmode.com/feeds/posts/default"> 
+<foaf:maker rdf:nodeID="id2257265"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257300"> 
+<foaf:name>Richard Cyganiak</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>cygri</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://dowhatimean.net/"> 
+<dc:title>Richard Cyganiak</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://dowhatimean.net/category/semantic-web/rdf"> 
+<foaf:maker rdf:nodeID="id2257300"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257332"> 
+<foaf:name>Datagraph</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>datagraph</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://blog.datagraph.org/"> 
+<dc:title>Datagraph</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://feeds.feedburner.com/datagraph"> 
+<foaf:maker rdf:nodeID="id2257332"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257365"> 
+<foaf:name>Phil Dawes</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>phildawes</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://www.phildawes.net/blog/"> 
+<dc:title>Phil Dawes</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://www.phildawes.net/blog/category/semantic-web/rdf"> 
+<foaf:maker rdf:nodeID="id2257365"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257399"> 
+<foaf:name>Yves Raimond</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>moustaki</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://blog.dbtune.org/"> 
+<dc:title>DBTune by Yves Raimond</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://blog.dbtune.org/feed/rss2"> 
+<foaf:maker rdf:nodeID="id2257399"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257433"> 
+<foaf:name>DERI Galway</foaf:name> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://blog.deri.ie/"> 
+<dc:title>DERI Galway</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://www.deri.ie/fileadmin/feed.rdf"> 
+<foaf:maker rdf:nodeID="id2257433"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257457"> 
+<foaf:name>DOAP Project</foaf:name> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://usefulinc.com/doap"> 
+<dc:title>DOAP Project</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://usefulinc.com/doap/news/rss"> 
+<foaf:maker rdf:nodeID="id2257457"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257481"> 
+<foaf:name>Leigh Dodds</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>ldodds</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://ldodds.com/blog/"> 
+<dc:title>Lost Boy by Leigh Dodds</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://www.ldodds.com/blog/index.rdf"> 
+<foaf:maker rdf:nodeID="id2257481"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257514"> 
+<foaf:name>Dublin Core Metadata Initiative</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>DublinCore</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://www.dublincore.org/"> 
+<dc:title>Dublin Core Metadata Initiative</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://dublincore.org/news.rss"> 
+<foaf:maker rdf:nodeID="id2257514"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257547"> 
+<foaf:name>Bob DuCharme</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>bobdc</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://www.snee.com/bobdc.blog/"> 
+<dc:title>bobdc.blog by Bob DuCharme</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://www.snee.com/bobdc.blog/bobdcblog.rdf"> 
+<foaf:maker rdf:nodeID="id2257547"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257581"> 
+<foaf:name>Edd Dumbill</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>edd</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://usefulinc.com/edd/blog"> 
+<dc:title>behind the times by Edd Dumbill</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://times.usefulinc.com/rss"> 
+<foaf:maker rdf:nodeID="id2257581"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257615"> 
+<foaf:name>Ebiquity research group UMBC</foaf:name> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://ebiquity.umbc.edu/blogger"> 
+<dc:title>Ebiquity research group UMBC</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://ebiquity.umbc.edu/blogger/category/semanticweb/rdf"> 
+<foaf:maker rdf:nodeID="id2257615"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257642"> 
+<foaf:name>Dydra</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>dydradata</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://blog.dydra.com/"> 
+<dc:title>Dydra</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://feeds.feedburner.com/dydra"> 
+<foaf:maker rdf:nodeID="id2257642"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257675"> 
+<foaf:name>EnAKTing project</foaf:name> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://blogs.ecs.soton.ac.uk/enakting/"> 
+<dc:title>EnAKTing project</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://blogs.ecs.soton.ac.uk/enakting/feed/rdf/"> 
+<foaf:maker rdf:nodeID="id2257675"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257701"> 
+<foaf:name>Orri Erling</foaf:name> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://www.openlinksw.com/weblogs/oerling/"> 
+<dc:title>Orri Erling by </dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://www.openlinksw.com/weblogs/oerling/gems/index.rdf"> 
+<foaf:maker rdf:nodeID="id2257701"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257726"> 
+<foaf:name>Lee Feigenbaum</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>LeeFeigenbaum</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://www.thefigtrees.net/lee/blog/semantic_web/"> 
+<dc:title>Lee Feigenbaum</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://thefigtrees.net/lee/blog/semantic_web/index.rdf"> 
+<foaf:maker rdf:nodeID="id2257726"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257760"> 
+<foaf:name>Sergio Fernández</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://www.wikier.org/blog/"> 
+<dc:title>Sergio Fernández</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://feeds.feedburner.com/wikier-semantics"> 
+<foaf:maker rdf:nodeID="id2257760"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257787"> 
+<foaf:name>FOAF Project</foaf:name> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://blog.foaf-project.org/"> 
+<dc:title>FOAF Project blog</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://blog.foaf-project.org/feed/rdf/"> 
+<foaf:maker rdf:nodeID="id2257787"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257813"> 
+<foaf:name>Morten Frederiksen</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>mortenf</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://www.wasab.dk/morten/blog/"> 
+<dc:title>Binary Relations by Morten Frederiksen</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://www.wasab.dk/morten/blog/archives/category/semweb/feed/"> 
+<foaf:maker rdf:nodeID="id2257813"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257847"> 
+<foaf:name>Frederick Giasson</foaf:name> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://fgiasson.com/blog/"> 
+<dc:title>Frederick Giasson</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://fgiasson.com/blog/index.php/category/fredblog/web/semantic-web/feed/rdf/"> 
+<foaf:maker rdf:nodeID="id2257847"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257872"> 
+<foaf:name>John Goodwin</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>gothwin</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://johngoodwin225.wordpress.com/"> 
+<dc:title>John Goodwin</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://johngoodwin225.wordpress.com/feed/rdf/"> 
+<foaf:maker rdf:nodeID="id2257872"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257906"> 
+<foaf:name>Richard Hancock</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://blog.3kbo.com/"> 
+<dc:title>3kbo by Richard Hancock</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://blog.3kbo.com/feed/rdf"> 
+<foaf:maker rdf:nodeID="id2257906"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257931"> 
+<foaf:name>Michael Hausenblas</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>mhausenblas</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://webofdata.wordpress.com/"> 
+<dc:title>Web of Data by Michael Hausenblas</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://webofdata.wordpress.com/feed/rdf"> 
+<foaf:maker rdf:nodeID="id2257931"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2257966"> 
+<foaf:name>Sandro Hawke</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>sandhawke</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://decentralyze.com/"> 
+<dc:title> Decentralyze – Programming the Data Cloud by Sandro Hawke</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://decentralyze.com/feed/rdf/"> 
+<foaf:maker rdf:nodeID="id2257966"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258003"> 
+<foaf:name>Tom Heath</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>tommyh</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://tomheath.com/blog/"> 
+<dc:title>Displacement Activities by Tom Heath</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://tomheath.com/blog/comments/feed/rdf/"> 
+<foaf:maker rdf:nodeID="id2258003"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258035"> 
+<foaf:name>Ivan Herman</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>ivan_herman</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://ivanherman.wordpress.com/tag/work-related/semantic-web/"> 
+<dc:title>Ivan Herman</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://ivan-herman.name/category/work-related/semantic-web/feed"> 
+<foaf:maker rdf:nodeID="id2258035"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258069"> 
+<foaf:name>Kingsley Idehen</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>Kidehen</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://www.openlinksw.com/blog/~kidehen/"> 
+<dc:title>Data Space by Kingsley Idehen</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://www.openlinksw.com/blog/~kidehen/gems/index.rdf"> 
+<foaf:maker rdf:nodeID="id2258069"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258104"> 
+<foaf:name>Learn Linked Data</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>learnlinkeddata</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://learnlinkeddata.com/"> 
+<dc:title>Learn Linked Data</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://feeds.feedburner.com/learnlinkeddata"> 
+<foaf:maker rdf:nodeID="id2258104"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258138"> 
+<foaf:name>Talis</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>nodalities</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://blogs.talis.com/nodalities/"> 
+<dc:title>Nodalities by Talis</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://blogs.talis.com/nodalities/index.rdf"> 
+<foaf:maker rdf:nodeID="id2258138"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258172"> 
+<foaf:name>Seevl</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>seevl</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://blog.seevl.net/category/technology/"> 
+<dc:title>Seevl technology</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://blog.seevl.net/category/technology/feed/"> 
+<foaf:maker rdf:nodeID="id2258172"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258208"> 
+<foaf:name>Semantic Web Company (Austria)</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>semwebcompany</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://blog.semantic-web.at/"> 
+<dc:title>Semantic Puzzle by Semantic Web Company (Austria)</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://blog.semantic-web.at/feed/rdf"> 
+<foaf:maker rdf:nodeID="id2258208"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258266"> 
+<foaf:name>SchemaWeb</foaf:name> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://www.schemaweb.info/"> 
+<dc:title>SchemaWeb</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://www.schemaweb.info/blogrss.aspx?blogid=2"> 
+<foaf:maker rdf:nodeID="id2258266"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258290"> 
+<foaf:name>Ora Lassila</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://www.lassila.org/blog/"> 
+<dc:title>Wilbur-and-O by Ora Lassila</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://www.lassila.org/blog/index.rdf"> 
+<foaf:maker rdf:nodeID="id2258290"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258316"> 
+<foaf:name>Peter Mika</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://tripletalk.wordpress.com/"> 
+<dc:title>Tripletalk by Peter Mika</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://tripletalk.wordpress.com/feed/rdf"> 
+<foaf:maker rdf:nodeID="id2258316"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258342"> 
+<foaf:name>Andrew Matthews</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://aabs.wordpress.com/"> 
+<dc:title>The Wandering Glitch 2 by Andrew Matthews</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://aabs.wordpress.com/category/semanticweb/rdf"> 
+<foaf:maker rdf:nodeID="id2258342"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258368"> 
+<foaf:name>ZDNet Semantic Web by Paul Miller</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>PaulMiller</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://blogs.zdnet.com/semantic-web/"> 
+<dc:title>ZDNet Semantic Web by Paul Miller</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://www.zdnet.com/blog/semantic-web/rss"> 
+<foaf:maker rdf:nodeID="id2258368"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258402"> 
+<foaf:name>Libby Miller</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>libbymiller</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://planb.nicecupoftea.org/"> 
+<dc:title>Plan B by Libby Miller</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://planb.nicecupoftea.org/feed/?feed=rdf"> 
+<foaf:maker rdf:nodeID="id2258402"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258436"> 
+<foaf:name>Benjamin Nowack</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>bengee</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://www.bnode.org/en-semweblog"> 
+<dc:title>bnode by Benjamin Nowack</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://www.bnode.org/rdfxml/page/en-semweblog"> 
+<foaf:maker rdf:nodeID="id2258436"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258470"> 
+<foaf:name>Open Sahara blog</foaf:name> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://opensahara.com/en/blog"> 
+<dc:title>Open Sahara blog</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://feeds.feedburner.com/OpenSahara-Blog"> 
+<foaf:maker rdf:nodeID="id2258470"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258505"> 
+<foaf:name>Alexandre Passant</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>terraces</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://apassant.net/blog/"> 
+<dc:title>Alexandre Passant</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://apassant.net/taxonomy/term/3/feed"> 
+<foaf:maker rdf:nodeID="id2258505"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258537"> 
+<foaf:name>Davide Palmisano</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>dpalmisano</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://davidepalmisano.wordpress.com/"> 
+<dc:title>turn off the lights, please by Davide Palmisano</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://davidepalmisano.wordpress.com/feed/rdf/"> 
+<foaf:maker rdf:nodeID="id2258537"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258573"> 
+<foaf:name>POWDER WG blog</foaf:name> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://www.w3.org/blog/powder"> 
+<dc:title>POWDER WG blog</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://www.w3.org/blog/powder?tempskin=_rdf"> 
+<foaf:maker rdf:nodeID="id2258573"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258598"> 
+<foaf:name>RDFa</foaf:name> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://rdfa.info/"> 
+<dc:title>RDFa</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://rdfa.info/feed/rdf"> 
+<foaf:maker rdf:nodeID="id2258598"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258622"> 
+<foaf:name>Dave Raggett</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>draggett</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://people.w3.org/~dsr/blog/"> 
+<dc:title>Dave Raggett</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://people.w3.org/~dsr/blog/?feed=rdf"> 
+<foaf:maker rdf:nodeID="id2258622"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258655"> 
+<foaf:name>David Robillard</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>drobilla</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://drobilla.net/category/semweb/"> 
+<dc:title>David Robillard</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://drobilla.net/category/semweb/feed/rdf/"> 
+<foaf:maker rdf:nodeID="id2258655"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258688"> 
+<foaf:name>RDF Resource Guide</foaf:name> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://planetrdf.com/guide/"> 
+<dc:title>Dave Beckett's RDF Resource Guide</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://planetrdf.com/guide/rss.rdf"> 
+<foaf:maker rdf:nodeID="id2258688"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258714"> 
+<foaf:name>Peter Shaw</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://shawfactor.com/"> 
+<dc:title>Shawfactor by Peter Shaw</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://shawfactor.com/tag/semantic/feed/"> 
+<foaf:maker rdf:nodeID="id2258714"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258740"> 
+<foaf:name>schema.org</foaf:name> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://blog.schema.org/"> 
+<dc:title>schema.org</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://blog.schema.org/feeds/posts/default?alt=rss"> 
+<foaf:maker rdf:nodeID="id2258740"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258766"> 
+<foaf:name>Henry Story</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>bblfish</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://blogs.sun.com/bblfish/"> 
+<dc:title>BabelFish by Henry Story</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://blogs.sun.com/bblfish/page/rss10.xml"> 
+<foaf:maker rdf:nodeID="id2258766"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258801"> 
+<foaf:name>Jeni Tennison</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>JeniT</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://www.jenitennison.com/blog/"> 
+<dc:title>Jeni Tennison - Musings</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://www.jenitennison.com/blog/atom/feed"> 
+<foaf:maker rdf:nodeID="id2258801"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258835"> 
+<foaf:name>Tetherless World Constellation group RPI</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>jahendler</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://tw.rpi.edu/weblog/feed/rdf/"> 
+<dc:title>Tetherless World Constellation group RPI</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://tw.rpi.edu/weblog/feed/rdf/"> 
+<foaf:maker rdf:nodeID="id2258835"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258869"> 
+<foaf:name>Elias Torres</foaf:name> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://torrez.us/"> 
+<dc:title>Elias Torres</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://torrez.us/archives/category/semweb/feed/rdf"> 
+<foaf:maker rdf:nodeID="id2258869"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258903"> 
+<foaf:name>Sebastian Trueg</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://trueg.wordpress.com/"> 
+<dc:title>Semantic Desktop by Sebastian Trueg</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://trueg.wordpress.com/feed/rdf"> 
+<foaf:maker rdf:nodeID="id2258903"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258928"> 
+<foaf:name>W3C Semantic Web News</foaf:name> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://www.w3.org/2001/sw/"> 
+<dc:title>W3C Semantic Web News</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://www.w3.org/blog/xmlsrv/rdf.php?blog=13"> 
+<foaf:maker rdf:nodeID="id2258928"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258952"> 
+<foaf:name>W3C Read Write Web Community Group</foaf:name> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://www.w3.org/community/rww/"> 
+<dc:title>W3C Read Write Web Community Group Blog</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://www.w3.org/community/rww/feed/"> 
+<foaf:maker rdf:nodeID="id2258952"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2258979"> 
+<foaf:name>W3C Blog Semantic Web News</foaf:name> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://www.w3.org/QA/"> 
+<dc:title>W3C Blog Semantic Web News</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://www.ivan-herman.net/cgi-bin/toRss1.py?uri=http://www.w3.org/QA/atom.xml&amp;categories=[Semantic+Web]&amp;title=W3C+QA+Blog,+Semantic+Web&amp;link=http://www.w3.org/QA/atom.xml"> 
+<foaf:maker rdf:nodeID="id2258979"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2259004"> 
+<foaf:name>Norm Walsh</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>ndw</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://norman.walsh.name/"> 
+<dc:title>Norm Walsh</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://norman.walsh.name/index.rss"> 
+<foaf:maker rdf:nodeID="id2259004"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2259036"> 
+<foaf:name>Mark Watson</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>mark_l_watson</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://markwatson.com/blog/"> 
+<dc:title>Mark Watson</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://markwatson.com/blog/atom.xml"> 
+<foaf:maker rdf:nodeID="id2259036"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2259070"> 
+<foaf:name>Danny Weitzner</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>djweitzner</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://people.w3.org/~djweitzner/blog/?cat=8"> 
+<dc:title>Open Internet Policy by Danny Weitzner</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://people.w3.org/~djweitzner/blog/?cat=8&amp;feed=rdf"> 
+<foaf:maker rdf:nodeID="id2259070"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2259105"> 
+<foaf:name>Web of Data</foaf:name> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://webofdata.wordpress.com/"> 
+<dc:title>Web of Data</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://webofdata.wordpress.com/feed/rdf/"> 
+<foaf:maker rdf:nodeID="id2259105"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2259130"> 
+<foaf:name>Bill Roberts</foaf:name> 
+<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>billroberts</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://www.webofdatablog.com/"> 
+<dc:title>Web of Data by Bill Roberts</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://feeds2.feedburner.com/webofdatablog"> 
+<foaf:maker rdf:nodeID="id2259130"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2259165"> 
+<foaf:name>Web Semántica Hoy</foaf:name> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://www.wshoy.sidar.org/index.php"> 
+<dc:title>Web Semántica Hoy</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://www.wshoy.sidar.org/rss.php"> 
+<foaf:maker rdf:nodeID="id2259165"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2259199"> 
+<foaf:name>Gregory Williams</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>kasei</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://kasei.us/"> 
+<dc:title>Gregory Williams</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://kasei.us/archives/categories/technology/semantic_web/index.rdf"> 
+<foaf:maker rdf:nodeID="id2259199"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+<foaf:Agent rdf:nodeID="id2259232"> 
+<foaf:name>Egon Willighagen</foaf:name><foaf:holdsAccount><foaf:OnlineAccount><foaf:accountServiceHomepage rdf:resource="http://twitter.com/"/><foaf:accountName>egonwillighagen</foaf:accountName></foaf:OnlineAccount></foaf:holdsAccount> 
+<foaf:weblog> 
+<foaf:Document rdf:about="http://chem-bla-ics.blogspot.com/"> 
+<dc:title>chem-bla-ics by Egon Willighagen</dc:title> 
+<rdfs:seeAlso> 
+<rss:channel rdf:about="http://chem-bla-ics.blogspot.com/feeds/posts/default/-/RDF?alt=rss"> 
+<foaf:maker rdf:nodeID="id2259232"/> 
+<foaf:topic rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:topic rdf:resource="http://www.w3.org/RDF/"/> 
+</rss:channel> 
+</rdfs:seeAlso> 
+</foaf:Document> 
+</foaf:weblog> 
+<foaf:interest rdf:resource="http://www.w3.org/2001/sw/"/> 
+<foaf:interest rdf:resource="http://www.w3.org/RDF/"/> 
+</foaf:Agent> 
+
+</rdf:RDF> 
+

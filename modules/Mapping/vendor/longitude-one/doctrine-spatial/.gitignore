@@ -1,0 +1,11 @@
+*.phar
+.phpcs-cache
+.php-cs-fixer.cache
+.php_cs.cache
+.php-version
+.phpunit.cache/
+composer.*.lock
+composer.lock
+phpunit.xml
+/phpunit.*.xml
+vendor/

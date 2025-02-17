@@ -1,0 +1,392 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-03-25 00:00+0000"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: Module.php:68
+#, php-format
+msgid "The module %1$s should be upgraded to version %2$s or later."
+msgstr ""
+
+#: view/common/sparql-search.phtml:32
+msgid "Namespaces"
+msgstr ""
+
+#: view/common/sparql-search.phtml:65 view/common/sparql-search.phtml:102
+msgid "Results"
+msgstr ""
+
+#: view/sparql/sparql/error.phtml:10 view/sparql/sparql/sparql.phtml:19
+msgid "Sparql"
+msgstr ""
+
+#: view/sparql/sparql/error.phtml:13
+msgid "The RDF triplestore is not available currently."
+msgstr ""
+
+#: view/sparql/sparql/sparql.phtml:19
+msgid "Triplestore"
+msgstr ""
+
+#: Module.php:79
+msgid "The directory \"{directory}\" is not writeable."
+msgstr ""
+
+#: Module.php:96 Module.php:183 src/Job/IndexTriplestore.php:359
+msgid ""
+"The module DataTypeGeometry should be at least version 3.4.4 to index "
+"geographic and geometric values."
+msgstr ""
+
+#: Module.php:102
+msgid ""
+"You should index your data first for the internal sparql server or for an "
+"external one. The internal one is available at {link} and a form can be "
+"anywhere via the site page block \"sparql\"."
+msgstr ""
+
+#: Module.php:167
+msgid ""
+"The data types html and xml are currently not supported and converted into "
+"literal."
+msgstr ""
+
+#: Module.php:198
+msgid ""
+"Indexing json-ld triplestore in background ({link_job}job #{job_id}"
+"{link_end}, {link_log}logs{link_end})."
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:241
+msgid ""
+"Sparql dataset \"{dataset}\": it is useless to index fuseki by resource and "
+"by file at the same time. The latter is skipped."
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:257
+msgid ""
+"Sparql dataset \"{dataset}\": no index defined. Existing indexes are kept."
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:264
+msgid "Sparql dataset \"{dataset}\": indexing formats: {formats}."
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:291
+msgid ""
+"Sparql dataset \"{dataset}\": end of indexing. {total} resources indexed "
+"({total_errors} errors). Execution time: {duration} seconds."
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:298
+msgid "Sparql dataset \"{dataset}\": skipped formats: {formats}."
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:370
+msgid ""
+"Sparql dataset \"{dataset}\": Medias cannot be indexed without indexing "
+"items."
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:630 src/Job/IndexTriplestore.php:728
+#: src/Job/IndexTriplestore.php:1188
+msgid "Sparql dataset \"{dataset}\" ({format}): {message}"
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:655
+msgid ""
+"Sparql dataset \"{dataset}\" ({format}): A sparql endpoint is required to "
+"index resources in Fuseki."
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:666
+msgid ""
+"Sparql dataset \"{dataset}\" ({format}): A authentication mode is set, but "
+"no user name/password."
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:683
+msgid ""
+"Sparql dataset \"{dataset}\" ({format}): the endpoint is not available: "
+"{message}"
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:755
+msgid ""
+"Sparql dataset \"{dataset}\" ({format}): the dataset cannot be deleted: "
+"{message}"
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:774
+msgid ""
+"Sparql dataset \"{dataset}\" ({format}): the dataset cannot be created: "
+"{message}"
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:789
+msgid "Sparql dataset \"{dataset}\" ({format}): output is invalid."
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:807
+msgid ""
+"Sparql dataset \"{dataset}\" ({format}): the dataset cannot be activated: "
+"{message}"
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:837
+msgid "Sparql dataset \"{dataset}\": indexing {total} item sets."
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:852
+msgid ""
+"Sparql dataset \"{dataset}\": The job was stopped. Indexed {count}/{total} "
+"item sets."
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:858
+msgid "Sparql dataset \"{dataset}\": indexed {count}/{total} item sets."
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:884
+msgid ""
+"Sparql dataset \"{dataset}\": indexing {total} items and attached medias."
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:889
+msgid "Sparql dataset \"{dataset}\": indexing {total} items."
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:915
+msgid ""
+"Sparql dataset \"{dataset}\": The job was stopped. Indexed {count}/{total} "
+"items."
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:921
+msgid "Sparql dataset \"{dataset}\": indexed {count}/{total} items."
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:992 src/Job/IndexTriplestore.php:1015
+msgid "Sparql dataset \"{dataset}\", {resource_type} #{resource_id}: {message}"
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:1063 src/Job/IndexTriplestore.php:1112
+msgid ""
+"Sparql dataset \"{dataset}\" ({format}), {resource_type} #{resource_id}: "
+"{message}"
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:1084
+msgid ""
+"Sparql dataset \"{dataset}\" ({format}), {resource_type} #{resource_id}: no "
+"triples."
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:1129
+msgid ""
+"Sparql dataset \"{dataset}\" ({format}): a triplestore file is required to "
+"index fuseki from file."
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:1137
+msgid ""
+"Sparql dataset \"{dataset}\" ({format}): the triplestore file required to "
+"index fuseki is empty."
+msgstr ""
+
+#: src/Job/IndexTriplestore.php:1203
+msgid ""
+"Sparql dataset \"{dataset}\" ({format}), {resource_type} #{resource_id}: "
+"unable to store data."
+msgstr ""
+
+#: src/Form/ConfigForm.php:21
+msgid "Limit indexation to specific resources"
+msgstr ""
+
+#: src/Form/ConfigForm.php:25
+msgid "Medias"
+msgstr ""
+
+#: src/Form/ConfigForm.php:36
+msgid "Limit indexation of items with a query"
+msgstr ""
+
+#: src/Form/ConfigForm.php:46
+msgid "Output private resources and values"
+msgstr ""
+
+#: src/Form/ConfigForm.php:56
+msgid "Omeka metadata to include"
+msgstr ""
+
+#: src/Form/ConfigForm.php:66
+msgid "Title as rdf label"
+msgstr ""
+
+#: src/Form/ConfigForm.php:77
+msgid "Limit indexation to specific properties"
+msgstr ""
+
+#: src/Form/ConfigForm.php:85 src/Form/ConfigForm.php:100
+msgid "Select properties…"
+msgstr ""
+
+#: src/Form/ConfigForm.php:92
+msgid "Skip indexation for specific properties"
+msgstr ""
+
+#: src/Form/ConfigForm.php:107
+msgid "Limit indexation to specific data types"
+msgstr ""
+
+#: src/Form/ConfigForm.php:121
+msgid "Skip indexation for specific data types"
+msgstr ""
+
+#: src/Form/ConfigForm.php:136
+msgid "Write access key for Arc2 (random)"
+msgstr ""
+
+#: src/Form/ConfigForm.php:150
+msgid "Fuseki endpoint"
+msgstr ""
+
+#: src/Form/ConfigForm.php:161
+msgid "Fuseki authentication mode"
+msgstr ""
+
+#: src/Form/ConfigForm.php:164
+msgid "Basic"
+msgstr ""
+
+#: src/Form/ConfigForm.php:165
+msgid "Digest"
+msgstr ""
+
+#: src/Form/ConfigForm.php:176
+msgid "Fuseki username"
+msgstr ""
+
+#: src/Form/ConfigForm.php:186
+msgid "Fuseki password"
+msgstr ""
+
+#: src/Form/ConfigForm.php:197
+msgid "Index in sparql engine"
+msgstr ""
+
+#: src/Form/ConfigForm.php:199
+msgid "Internal database (used for the internal sparql endpoint)"
+msgstr ""
+
+#: src/Form/ConfigForm.php:200
+msgid "Fuseki (by resource)"
+msgstr ""
+
+#: src/Form/ConfigForm.php:201
+msgid "Fuseki (in bulk via file)"
+msgstr ""
+
+#: src/Form/ConfigForm.php:202
+msgid ""
+"Triplestore (turtle file, used to index in bulk any third party sparql "
+"server)"
+msgstr ""
+
+#: src/Form/ConfigForm.php:214
+msgid "Index"
+msgstr ""
+
+#: src/Form/ConfigForm.php:218
+msgid "Process"
+msgstr ""
+
+#: src/Form/ConfigForm.php:228
+msgid "Endpoint"
+msgstr ""
+
+#: src/Form/ConfigForm.php:229
+msgid ""
+"When using yasgui, clear the cache of the browser after modifying these "
+"options."
+msgstr ""
+
+#: src/Form/ConfigForm.php:231
+msgid "Automatic (external if any, else internal if any)"
+msgstr ""
+
+#: src/Form/ConfigForm.php:233
+msgid "Internal (/sparql)"
+msgstr ""
+
+#: src/Form/ConfigForm.php:234
+msgid "External (set below)"
+msgstr ""
+
+#: src/Form/ConfigForm.php:235
+msgid "Internal and external (set below)"
+msgstr ""
+
+#: src/Form/ConfigForm.php:247
+msgid "External endpoint"
+msgstr ""
+
+#: src/Form/ConfigForm.php:248
+msgid ""
+"When Fuseki is installed locally, the url to index may be \"http://localhost/"
+"sparql\" and the external endpoint may be \"http://example.org/sparql/"
+"triplestore\"."
+msgstr ""
+
+#: src/Form/ConfigForm.php:258
+msgid "Max results per page (internal endpoint)"
+msgstr ""
+
+#: src/Form/SparqlFieldset.php:18
+msgid "Block title"
+msgstr ""
+
+#: src/Form/SparqlFieldset.php:28
+msgid "Interface"
+msgstr ""
+
+#: src/Form/SparqlFieldset.php:30
+msgid "Simple (internal engine)"
+msgstr ""
+
+#: src/Form/SparqlFieldset.php:31
+msgid "Yasgui"
+msgstr ""
+
+#: src/Form/SparqlFieldset.php:45
+msgid "Template to display"
+msgstr ""
+
+#: src/Form/SparqlFieldset.php:46
+msgid ""
+"Templates are in folder \"common/block-layout\" of the theme and should "
+"start with \"sparql\"."
+msgstr ""
+
+#: src/Form/SparqlForm.php:34
+msgid "Prepend prefixes"
+msgstr ""
+
+#: src/Form/SparqlForm.php:47
+msgid "Table"
+msgstr ""

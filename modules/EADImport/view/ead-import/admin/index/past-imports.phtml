@@ -1,0 +1,111 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'eadimporter jobs');
+$escape = $this->plugin('escapeHtml');
+$translate = $this->plugin('translate');
+$this->headLink()->appendStylesheet($this->assetUrl('css/eadimport.css', 'EADImport'));
+?>
+
+<?php echo $this->pageTitle($this->translate('Past imports'), 1, $this->translate('EAD Import')); ?>
+<?php if (empty($imports)): ?>
+
+<?php else: ?>
+<?php echo $this->pagination(); ?>
+
+    <table class="tablesaw" data-tablesaw-mode="stack">
+        <thead>
+            <tr>
+                <th>
+                    <?php echo $this->sortLink($escape($this->translate('Date')), 'id');?>
+                </th>
+                <th><?php echo $escape($translate('Name'));?></th>
+                <th><?php echo $escape($translate('Site'));?></th>
+                <th><?php echo $escape($translate('Resource'));?></th>
+                <th><?php echo $escape($translate('Status'));?></th>
+                <th><?php echo $escape($translate('Owner'));?></th>
+                <th><?php echo $escape($translate('Save'));?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($imports as $import): ?>
+                <form method='POST'>
+
+                    <?php $job = $import->job(); ?>
+                    <?php $resourceType = $import->resourceType(); ?>
+                    <?php $site = $import->site(); ?>
+                    <?php $jobArgs = $job->args(); ?>
+                    <?php $importName = $jobArgs['importName']; ?>
+                    <?php $nodesMapping = $import->mapping(); ?>
+
+                    <tr id="import-<?php echo $import->id() ;?>">
+                        <input type="hidden" name="import_name" value="<?php echo $importName ?>" />
+                        <input type="hidden" name="mapping" value='<?php echo $nodesMapping ?>' />
+                        <td>
+                            <?php echo $escape($this->i18n()->dateFormat($job->started())); ?>
+                        </td>
+                        <td>
+                            <?php echo $jobArgs['importName'];?>
+                        </td>
+                        <td>
+                            <?php echo $site->slug();?>
+                        </td>
+                        <td>
+                            <?php echo $escape($translate($resourceType));?>
+                        </td>
+                        <td>
+                            <div>
+                            <?php echo $escape($translate($job->status()));?>
+                            </div>
+                            <span class="ead-import-job-param">
+                                <?php echo $this->hyperlink($this->translate('Job details'), $this->url('admin/id', ['controller' => 'job', 'action' => 'show', 'id' => $job->id()])); ?>
+                            </span>
+                            <?php if ($job->log()): ?>
+                            /
+                            <span class="ead-import-job-log">
+                                <?php echo $this->hyperlink($this->translate('Log'), $this->url('admin/id', ['controller' => 'job', 'action' => 'log', 'id' => $job->id()]), ['target' => '_blank']); ?>
+                            </span>
+                            <?php endif; ?>
+                        </td>
+                        <td><?php
+                        $owner = $job->owner();
+                        if ($owner):
+                            echo $this->hyperlink($owner->name(), $this->url('admin/id', ['controller' => 'user', 'action' => 'show', 'id' => $owner->id()]));
+                        endif;
+                        ?></td>
+                        <td>
+                        <?php echo $this->hyperlink(
+                            '',
+                            '#',
+                            [
+                                'data-sidebar-content-url' => $this->url(
+                                    'admin/eadimport/mapping-model',
+                                    [
+                                    'controller' => 'MappingModel',
+                                    'action' => 'save',
+                                    ],
+                                    [
+                                        'query' => [
+                                            'import_name' => $import->name(),
+                                            'import_mapping' => $import->mapping(),
+                                        ],
+                                    ]
+                                ),
+                                'class' => 'fa fal fa-save sidebar-content',
+                                'title' => $translate('Save'),
+                                'data-sidebar-selector' => '#sidebar',
+                            ],
+                        ); ?>
+                        </td>
+                    </tr>
+                </form>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php endif; ?>
+
+<div id="sidebar" class="sidebar">
+    <?php echo $this->hyperlink('', '#', [
+        'class' => 'sidebar-close o-icon-close',
+        'title' => $translate('Close'),
+    ]); ?>
+    <div class="sidebar-content"></div>
+</div>

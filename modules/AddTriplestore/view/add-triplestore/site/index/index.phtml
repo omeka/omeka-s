@@ -1,0 +1,28 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$this->headLink()->appendStylesheet($this->assetUrl('css/addTriplestore.css', 'AddTriplestore'). '?v='. time());
+?>
+
+<div class="add-triplestore">
+    <h1>Upload Data to Triple Store</h1>
+    <?php if (!empty($result)): ?>
+        <div style="color: <?php echo strpos($result, 'successfully') !== false ? 'green' : 'red'; ?>">
+            <strong><?php echo $this->escapeHtml($result); ?></strong>
+        </div>
+    <?php endif; ?>
+
+    <form action="<?php echo $this->url('site/add-triplestore/upload', ['site-slug' => $site->slug()], true); ?>" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="file">Select file to upload:</label>
+            <input type="file" name="file" id="file">
+        </div>
+        <div>
+            <input type="submit" value="Upload" name="submit">
+        </div>
+    </form>
+</div>
+
+
+
+

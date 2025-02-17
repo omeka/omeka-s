@@ -1,0 +1,6 @@
+{
+    "require": {
+        "php-jsonpointer/php-jsonpointer": "^3",
+        "james-heinrich/getid3": "^1"
+    }
+}

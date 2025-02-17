@@ -1,0 +1,52 @@
+name: MySQL 5.7 Tests
+
+on: [push, pull_request]
+
+jobs:
+    pdo-mysql:
+        name: MySQL 5.7 Tests - PHP ${{ matrix.php }} PDO mysql
+        runs-on: ubuntu-latest
+
+        env:
+            DB_ADAPTER: pdo
+            DB_PDO_PROTOCOL: mysql
+
+        strategy:
+            # if one of the matrix-entries break, all entries getting canceled.
+            fail-fast: true
+            matrix:
+                php:
+                    - 8.0
+                    - 8.1
+                    - 8.2
+                    - 8.3
+
+        services:
+            testdb:
+                image: mysql:5.7
+                env:
+                    MYSQL_ROOT_PASSWORD: Pass123
+                    MYSQL_DATABASE: arc2_test
+                    MYSQL_ALLOW_EMPTY_PASSWORD: false
+                ports:
+                    - 3306
+                options: --health-cmd="mysqladmin ping" --health-interval=15s --health-timeout=3s --health-retries=4
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v2
+
+            -   name: Install PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.php }}
+                    ini-values: memory_limit=1G
+
+            -   name: Install Composer dependencies
+                run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+
+            -   name: Tests
+                run: |
+                    vendor/bin/phpunit
+                env:
+                    DB_PORT: ${{ job.services.testdb.ports[3306] }}

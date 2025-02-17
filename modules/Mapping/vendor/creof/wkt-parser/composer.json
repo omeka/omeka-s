@@ -1,0 +1,32 @@
+{
+    "name": "creof/wkt-parser",
+    "type": "library",
+    "description": "Parser for well-known text (WKT) object strings",
+    "keywords": ["parser", "lexer", "string", "text", "geometry", "geography", "spatial", "wkt", "ewkt"],
+    "authors": [
+        {
+            "name":  "Derek J. Lambert",
+            "email": "dlambert@dereklambert.com"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php":            ">=5.3.3",
+        "ext-SPL":        "*",
+        "doctrine/lexer": "~1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit":               ">=4.8",
+        "codeclimate/php-test-reporter": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "CrEOF\\Geo\\WKT": "lib/"
+        }
+    },
+    "autoload-dev": {
+        "psr-0": {
+            "CrEOF\\Geo\\WKT\\Tests": "tests/"
+        }
+    }
+}

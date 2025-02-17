@@ -1,0 +1,105 @@
+
+
+        <!--
+        <div class="filters">
+            <input type="text" placeholder="Search here..." class="search-bar">
+            <select class="chronology-filter">
+                <option>2800 B.C - 1900 B.C</option>
+            </select>
+        </div>-->
+
+        <!--
+        <div class="results-grid">
+            < ?php foreach ($items as $item): ?>
+                < ?= $this->partial('common/item-card', ['item' => $item]) ?>
+            < ?php endforeach; ?>
+        </div> -->
+
+        <!--
+        <section class="hero" style="background-image:url('/application/asset/img/main-wallpaper.png');">
+            <div class="hero-content">
+                <h1>I am looking for...</h1>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search">
+                    <button>Explore Data</button>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="about" id="about">
+            <div class="container">
+                <h2>About Us</h2>
+                <p>
+                    Our platform's mission is to bridge the gap between archaeological discoveries and the public by providing an accessible, interactive, and collaborative space.
+                </p>
+                <button>Learn more</button>
+            </div>
+        </section>
+
+        <section class="gallery">
+            <div class="container">
+                <h2>Popular Excavations</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-card">
+                        <div class="overlay">Exacavtions</div>
+                    </div>
+                    <div class="gallery-card">
+                        <div class="overlay"> Arrowheads</div>
+                    </div>
+                    <div class="gallery-card">
+                        <div class="overlay"> Axes</div>
+                    </div>
+                </div>
+            </div>
+        </section>-->
+
+
+        
+
+<?php
+$translate = $this->plugin('translate');
+$this->headMeta()->setCharset('utf-8');
+$this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1');
+$this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,400italic,700,700italic');
+$this->headTitle($this->setting('installation_title', 'Omeka S'))->setSeparator(' · ');
+$this->headLink()->appendStylesheet($this->assetUrl('css/iconfonts.css', 'Omeka'));
+$this->headLink()->prependStylesheet($this->assetUrl('css/style.css'). '?v='. time());
+
+
+$this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/global.js', 'Omeka'));
+$this->trigger('view.layout');
+$userBar = $this->userBar();
+?>
+<?php echo $this->doctype(); ?>
+<?php echo $this->htmlElement('html')->setAttribute('lang', $this->lang()); ?>
+    <head>
+        <?php echo $this->headMeta(); ?>
+        <?php echo $this->headTitle(); ?>
+        <?php echo $this->headLink(); ?>
+        <?php echo $this->headStyle(); ?>
+        <?php echo $this->headScript(); ?>
+    </head>
+    <?php echo $this->htmlElement('body')->appendAttribute('class', 'minimal'); ?>
+        <?php echo $userBar; ?>
+        
+        <?php
+        echo $this->partial('common/header.phtml');
+        ?>
+    
+        <div id="content" role="main">
+            <?php echo $this->messages(); ?>
+            <?php echo $this->content; ?>
+        </div>
+        
+        <?php
+        echo $this->partial('common/footer.phtml');
+        ?>
+    </body>
+</html>
+
+
+
+
+

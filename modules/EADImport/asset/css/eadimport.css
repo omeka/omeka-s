@@ -1,0 +1,360 @@
+.ead-import-fieldset-label {
+    display: block;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.1875em;
+    border-bottom-style: solid;
+    padding-bottom: 0.1875em;
+    margin-bottom: 0.375em;
+    font-size: 125%;
+}
+
+.ead-import-fieldset-label .collapse,
+.ead-import-fieldset-label .expand {
+    display: block;
+    float: right;
+}
+
+#mapping-data {
+    margin-top: -24px;
+}
+
+#mapping-data .batch-inputs {
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    background-color: rgba(0,0,0,0.04);
+    border: 1px solid #dfdfdf;
+    border-bottom: 0;
+    border-radius: 3px 3px 0 0;
+}
+
+#batch-edit-options {
+    margin-bottom: 0;
+    font-size: 14px;
+    line-height: 24px;
+    min-height: 0;
+    padding: 0 6px;
+}
+
+#batch-edit-options.inactive {
+    background-color: rgba(0,0,0,0.04);
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.15) inset;
+    color: #a7a7a7;
+    cursor: default;
+}
+
+#mapping-data .batch-inputs ~ table {
+    border-radius: 0 0 3px 3px;
+}
+
+tr.active {
+    background-color: rgba(0,0,0, .08);
+}
+
+tr.mappable td {
+    vertical-align: top;
+}
+
+#mapping-data .select-all, 
+tr.mappable input[type="checkbox"] {
+    margin-right: .5em;
+}
+
+td.comment {
+    max-width: 300px;
+}
+
+ul.mappings.elements {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.sidebar ul {
+    padding-left: 0;
+}
+
+ul.options {
+    padding: unset;
+    width: 100%;
+    margin: 0;
+}
+
+ul.options li {
+    display: flex;
+}
+
+li {
+    list-style: none;
+}
+
+li.mapping {
+    display: flex;
+}
+
+li.mapping.delete {
+    background-color: #fcc;
+}
+
+li.option.delete {
+    background-color: #fcc;
+}
+
+.sidebar a.button {
+    width: 100%
+}
+
+.sidebar-chooser {
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-chooser li {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.sidebar-chooser a.button {
+    font-size: 13px;
+    margin: 3px 0;
+    width: 100px;
+}
+
+#resource-data a,
+#property-selector a,
+#media-source a {
+    text-align: left;
+}
+
+#select-item-set {
+    height: 100px;
+}
+
+.sidebar .options {
+    margin-top: 10px;
+
+}
+
+.sidebar .options p {
+    margin: 3px;
+}
+
+.sidebar input.value-language[type="text"].active {
+    display: block;
+    margin: 3px;
+    background-color: #fff;
+    padding: 6px;
+}
+
+li.column-multivalue {
+    display: flex;
+}
+
+.resource-mapping li.column-multivalue {
+    display: block;
+}
+
+.ead-import-job-param,
+.ead-import-job-log {
+    font-size: smaller;
+    font-style: italic;
+}
+
+.eadimporter.jobs td ul {
+    padding-left: 0;
+}
+
+.toggle-nav {
+    display: flex;
+    margin-bottom: 12px;
+}
+
+.sidebar .toggle-nav button {
+    width: auto;
+    box-shadow: none;
+    border-radius: 0;
+    background-color: #00000014;
+    color: #676767;
+    border: 1px solid #dfdfdf;
+    margin: 0;
+}
+
+.sidebar .toggle-nav button:hover {
+    box-shadow: none !important;
+}
+
+.sidebar .toggle-nav button:not(:disabled):hover {
+    border: 1px solid #999;
+}
+
+.sidebar .toggle-nav button:disabled {
+    background-color: #0000000a;
+    cursor: default;
+    font-weight: bold;
+}
+
+.sidebar .toggle-nav button:first-child {
+    border-radius: 3px 0 0 3px;
+}
+
+.sidebar .toggle-nav button:last-child {
+    border-radius: 0 3px 3px 0;
+}
+
+.toggle-view {
+    display: none;
+}
+
+.toggle-view.active {
+    display: block;
+}
+
+.mappable .tablesaw-cell-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.column-header {
+    max-width: calc(100% - 72px);
+    word-wrap: break-word;
+}
+
+#column-options .batch-edit-heading,
+#column-options.batch-edit .single-column-heading,
+#column-options .batch-edit-description,
+#column-options .reset-link {
+    display: none;
+}
+
+#column-options.batch-edit .batch-edit-heading,
+#column-options.batch-edit .batch-edit-description,
+#column-options.batch-edit .batch-edit-touched .reset-link {
+    display: block;
+}
+
+#column-options.batch-edit .option {
+    padding: 6px;
+    border: 1px solid #dfdfdf;
+    border-radius: 3px;
+}
+
+#column-options .batch-edit-touched.option {
+    background-color: #fff;
+    border-left-width: 5px;
+}
+
+#column-options .reset-link {
+    font-size: 14px;
+}
+
+.flags .mapping:not(:last-child),
+#column-options .option:not(:last-child) {
+    margin-bottom: 24px;
+}
+
+#column-options.sidebar label,
+.flags.sidebar label {
+    padding: 0;
+    margin: 0;
+}
+
+#column-options.sidebar label:after,
+.flags.sidebar label:after {
+    content: none;
+}
+
+.one-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.one-line label {
+    width: calc(100% - 1em);
+}
+
+.sidebar span.description {
+    width: 100%;
+}
+
+.resource-type-select ~ .mapping {
+    margin-top: 24px;
+    border-top: 1px solid #dfdfdf;
+    padding-top: 23px;
+}
+
+.resource-type-select ~ .mapping:not(.active) {
+    display: none;
+}
+
+.selector li.selected {
+    background-color: #0000000a;
+}
+
+.flags .expand h4 {
+    font-weight: normal;
+}
+
+.flags .collapse h4 {
+    font-weight: bold;
+}
+
+.flags .expand,
+.flags .collapse {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flags .collapse {
+    border-bottom: 3px solid #dfdfdf;
+    padding-bottom: 3px;
+}
+
+.flags span.description {
+    margin: 0 0 12px 0;
+    display: block;
+}
+
+.flags .mapping-group:not(:last-child) .expand {
+    border-bottom: 1px solid #dfdfdf;
+    padding-bottom: 11px;
+    margin-bottom: 12px;
+}
+
+.flags .collapse + .collapsible {
+    overflow: visible;
+    padding: 12px 0 0;
+    margin-bottom: 24px;
+}
+
+.eadimporter.jobs th:first-of-type {
+    width: 4em;
+}
+
+.eadimporter.jobs td {
+    vertical-align: top;
+}
+
+.eadimporter.jobs table ul,
+.eadimporter.jobs table p {
+    margin: 0;
+}
+
+@media screen and (max-width: 640px) {
+    tr.mappable td:first-child {
+        max-width: 100%;
+    }
+
+    .tablesaw-stack tbody td.mapping.element,
+    .tablesaw-stack tbody td.element-options {
+        display: flex;
+    }
+}
+
+.skipping_mapping {
+    text-decoration-line: line-through;
+    background-color: #eee !important;
+    font-style: italic;
+}

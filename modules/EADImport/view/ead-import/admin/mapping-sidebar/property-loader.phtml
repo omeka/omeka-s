@@ -1,0 +1,40 @@
+<?php
+$escape = $this->plugin('escapeHtml');
+$this->headScript()->appendFile($this->assetUrl('js/eadimport.js', 'EADImport'));
+?>
+<div id="property-selector" class="mapping-group">
+    <h4><?php echo $escape($this->translate('Properties'));?></h4>
+    <div>
+        <input type="text" class="selector-filter" placeholder="<?php echo $this->translate('Filter properties'); ?>">
+        <ul class="selectable-list">
+            <?php foreach ($vocabularies as $vocabulary): ?>
+            <?php
+            $properties = $vocabulary->properties();
+            if (!$properties) {
+                // Do not render vocabularies without properties.
+                continue;
+            }
+            ?>
+            <li class='selector-parent'
+                data-vocabulary-id="<?php echo $escape($vocabulary->id()); ?>">
+                <span><?php echo $escape($this->translate($vocabulary->label())); ?></span> (<span class="selector-child-count"><?php echo count($vocabulary->properties()); ?></span>)
+                <ul>
+                    <?php foreach ($properties as $property): ?>
+                    <li class='selector-child'
+                        data-child-search="<?php echo $escape($this->translate($property->label())); ?>"
+                        data-property-id="<?php echo $escape($property->id()); ?>"
+                        data-property-term="<?php echo $escape($property->term()); ?>"
+                        data-property-make-inherit="false">
+                        <div class="description">
+                            <p class="o-icon-info"><span class="screen-reader-text"><?php echo $this->translate('More info'); ?></span></p>
+                            <p class="field-comment"><?php echo $escape($this->translate($property->comment())); ?></p>
+                        </div>
+                        <span class="selectable"><?php echo $escape($this->translate($property->label())); ?></span>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</div>

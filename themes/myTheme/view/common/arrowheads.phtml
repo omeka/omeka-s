@@ -1,0 +1,18 @@
+<h1>Arrowheads</h1>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Shape</th>
+        <th>Variant</th>
+        <th>Typometry</th>
+    </tr>
+    <?php foreach ($this->arrowheads as $row): ?>
+        <tr>
+            <td><?= htmlspecialchars($row["arrowhead"]["value"]) ?></td>
+            <td><?= isset($row["shape"]) ? htmlspecialchars($row["shape"]["value"]) : "N/A" ?></td>
+            <td><?= isset($row["variant"]) ? htmlspecialchars($row["variant"]["value"]) : "N/A" ?></td>
+            <td><?= isset($row["typometry"]) ? htmlspecialchars($row["typometry"]["value"]) : "N/A" ?></td>
+        </tr>
+    <?php endforeach; ?>
+</table>

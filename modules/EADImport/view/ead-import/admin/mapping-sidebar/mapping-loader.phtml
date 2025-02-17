@@ -1,0 +1,28 @@
+<?php
+$escape = $this->plugin('escapeHtml');
+$this->headScript()->appendFile($this->assetUrl('js/mapping-handler.js', 'EADImport'));
+?>
+<div id="mapping-loader" class="mapping-group">
+<?php if(! empty($mappingModels)) : ?>
+        <ul class="selectable-list">
+            <?php foreach ($mappingModels as $model): 
+                $fields = $model->mapping(); ?>
+            <li class='selector-parent'
+                data-mapping-id="<?php echo $escape($model->id()); ?>">
+                <span><?php echo $escape($this->translate($model->name())); ?></span>
+                <ul>
+                    <?php foreach ($fields as $field => $values): ?>
+                        <li class="selector-child"
+                            data-field-level="<?php echo $escape($field);?>"
+                            data-field-mapping="<?php echo $escape(json_encode($values));?>">
+                            <span class="selectable"><?php echo $escape($field); ?></span>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else: ?>
+        <p><?php echo $this->translate('None mapping model save yet'); ?></p>
+<?php endif; ?>
+</div>

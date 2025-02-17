@@ -1,0 +1,16 @@
+<?php
+use Mapping\Module;
+use Mapping\Site\Navigation\Link\MapBrowse;
+use Laminas\Form\Element;
+
+$escape = $this->plugin('escapeHtml');
+$label = isset($data['label']) && '' !== trim($data['label']) ? $data['label'] : null;
+$basemapProviderSelect = (new Element\Select('basemap_provider'))
+    ->setValue(MapBrowse::getBasemapProvider($data ?? []))
+    ->setValueOptions(Module::BASEMAP_PROVIDERS)
+    ->setEmptyOption('[Default provider]') // @translate
+    ->setAttribute('data-name', 'basemap_provider');
+?>
+<label><?php echo $this->translate('Type'); ?> <input type="text" value="<?php echo $escape($this->translate($link->getName())); ?>" disabled></label>
+<label><?php echo $this->translate('Label'); ?> <input type="text" data-name="label" value="<?php echo $escape($label); ?>"></label>
+<label><?php echo $this->translate('Basemap provider'); ?> <?php echo $this->formSelect($basemapProviderSelect); ?></label>

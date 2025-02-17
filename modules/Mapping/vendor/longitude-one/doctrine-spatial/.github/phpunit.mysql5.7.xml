@@ -1,0 +1,42 @@
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+         bootstrap="tests/LongitudeOne/Spatial/Tests/TestInit.php"
+         cacheResultFile=".phpunit.cache/test-results"
+         executionOrder="depends,defects"
+         verbose="true">
+    <testsuites>
+        <testsuite name="default">
+            <directory>tests/LongitudeOne/Spatial/Tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <groups>
+        <exclude>
+            <group>pgsql-only</group>
+            <group>srid</group>
+        </exclude>
+    </groups>
+
+    <php>
+        <var name="db_type" value="pdo_mysql"/>
+<!--        <var name="db_host" value="spatial-mysql5" />-->
+        <var name="db_host" value="127.0.0.1" />
+        <var name="db_username" value="main" />
+        <var name="db_password" value="main" /> <!-- Change it -->
+        <var name="db_name" value="main" />
+        <var name="db_port" value="3357" />
+        <!-- Execute dummy SELECT statement before each test to mark DB query log -->
+        <var name="opt_mark_sql" value="true" />
+        <!-- Enable SQLLoggerStack and query logging exception in tests -->
+        <var name="opt_use_debug_stack" value="true" />
+    </php>
+
+    <coverage cacheDirectory=".phpunit.cache/code-coverage" processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">lib</directory>
+        </include>
+        <report>
+            <clover outputFile=".phpunit.cache/clover-mysql57.xml"/>
+        </report>
+    </coverage>
+</phpunit>

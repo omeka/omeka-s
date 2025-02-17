@@ -7,8 +7,6 @@
 /logs/sql.log
 /logs/application.log
 /files/
-/modules/
-/themes/
 /application/test/config/database.ini
 /application/test/.phpunit.result.cache
 /application/asset/css/font-awesome/

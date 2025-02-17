@@ -1,0 +1,15 @@
+<?php
+$form->prepare();
+$escapeHtml = $this->plugin('escapeHtml');
+?>
+
+<?php echo $this->pageTitle($this->translate('Load from file'), 1, $this->translate('EAD Import')); ?>
+
+<?php echo $this->form()->openTag($form); ?>
+<fieldset id='page-actions'>
+    <button type="submit"><?php echo $this->translate('Next'); ?></button>
+</fieldset>
+<?php echo $this->formCollection($form, false); ?>
+
+<?php echo $this->form()->closeTag($form); ?>
+

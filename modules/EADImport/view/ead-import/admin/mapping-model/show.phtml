@@ -1,0 +1,51 @@
+<?php
+    $escape = $this->plugin('escapeHtml');
+    $translate = $this->plugin('translate');
+    $name = $mappingModel->name();
+    $mappings = $mappingModel->mapping();
+?>
+
+<?php echo $this->pageTitle($name); ?>
+<div id="page-actions">
+    <?php echo $this->hyperlink($translate('Back to the list'),$this->url('admin/eadimport/mapping-model', ['controller' => 'mapping', 'action' => 'browse']), ['class' => 'button']); ?>
+</div>
+
+<?php foreach ($mappings as $levelMapped => $nodesMapped): ?>
+    <h4>
+        <?php echo $translate('Level attribute - ') . $levelMapped; ?>
+    </h4>
+    <em>
+        <?php echo $translate('* heritage') ?>
+    </em>
+    <table class="tablesaw" data-tablesaw-mode="stack">
+        <thead>
+            <tr>
+                <th>
+                    <?php echo $translate('Nodes'); ?>
+                </th>
+                <th>
+                    <?php echo $translate('Properties'); ?>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($nodesMapped as $node => $propertiesMapped): 
+                $propertiesTerm = [];
+            ?>
+                <tr>
+                    <td>
+                        <?php
+                            echo $node . (isset($propertiesMapped['make_inherit']) ? '*' : '');
+                        ?>
+                    </td>
+                    <?php foreach ($propertiesMapped['properties'] as $propertyId): ?>
+                        <?php $propertiesTerm[] = $propertiesMap[$propertyId] ?>
+                    <?php endforeach; ?>
+                    <td>
+                        <?php echo implode(' ; ', $propertiesTerm); ?>
+                    </td>
+                </tr> 
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php endforeach; ?>

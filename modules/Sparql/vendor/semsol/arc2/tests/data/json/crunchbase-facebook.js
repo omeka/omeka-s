@@ -1,0 +1,450 @@
+{"name": "Facebook",
+ "permalink": "facebook",
+ "homepage_url": "http://facebook.com",
+ "blog_url": "http://blog.facebook.com",
+ "blog_feed_url": "http://blog.facebook.com/atom.php",
+ "category_code": "web",
+ "number_of_employees": 450,
+ "founded_year": 2004,
+ "founded_month": 2,
+ "founded_day": 1,
+ "deadpooled_year": null,
+ "deadpooled_month": null,
+ "deadpooled_day": null,
+ "deadpooled_url": "",
+ "tag_list": "social, facebook, college, students, profiles, network, socialnetwork, socialmedia, platform",
+ "email_address": "",
+ "phone_number": "",
+ "overview": "\u003Cp\u003EOn February 4th, 2004 \u003Ca href=\"http://www.crunchbase.com/person/mark-zuckerberg\" title=\"Mark Zuckerberg\"\u003EMark Zuckerberg\u003C/a\u003E launched The Facebook, a social network that was at the time exclusively for Harvard students. It was a huge hit, in 2 weeks, half of the student body at Harvard had signed up.  Other schools in the Boston area began demanding a Facebook network. Zuckerberg immediately recruited his friends \u003Ca href=\"http://www.crunchbase.com/person/dustin-moskovitz\" title=\"Dustin Moskowitz\"\u003EDustin Moskowitz\u003C/a\u003E and Chris Hughes to help build Facebook, and within four months, Facebook added 30 more college networks. \u003C/p\u003E\n\n\u003Cp\u003EThe original idea for the term Facebook came from Zuckerberg\u0026#8217;s high school (Phillips Exeter Academy). The Exeter Face Book was passed around to every student as a way for students to get to know their classmates for the following year. It was a physical paper book until Zuckerberg brought it to the internet.\u003C/p\u003E\n\n\u003Cp\u003EWith this success, Zuckerberg, Moskowitz and Hughes moved out to Palo Alto for the summer and rented a sublet. A few weeks later, Zuckerberg ran into the former cofounder of Napster, Sean Parker. Parker soon moved in to Zuckerberg\u0026#8217;s apartment and they began working together.  Parker provided the introduction to their first investor, Peter Thiel, cofounder of PayPal and managing partner of the Founders Fund. Thiel invested $500,000 into Facebook. \u003C/p\u003E\n\n\u003Cp\u003EWith millions more users, Friendster \u003Ca href=\"http://www.techcrunch.com/2006/12/12/yahoos-project-fraternity-docs-leaked/\" title=\"attempted\"\u003Eattempted\u003C/a\u003E to acquire the company for $10 million in mid 2004. Facebook turned down the offer and subsequently received $12.7 million in funding from Accel Partners, at a valuation of \u003Ca href=\"http://www.techcrunch.com/2005/09/07/85-of-college-students-use-facebook/\" title=\"around $100 million\"\u003Earound $100 million\u003C/a\u003E. Facebook continued to grow, opening up to high school students in September 2005 and adding an immensely popular photo sharing feature the next month. The next spring, Facebook received $25 million in funding from Greylock Partners and Meritech Capital, as well as previous investors Accel Partners and Peter Thiel. The pre-money valuation for this deal was about $525 million. Facebook subsequently \u003Ca href=\"http://www.techcrunch.com/2006/04/26/facebook-goes-beyond-college-high-school-markets/\" title=\"opened\"\u003Eopened\u003C/a\u003E up to work networks, eventually amassing over 20,000 work networks. Finally in September 2006, Facebook \u003Ca href=\"http://www.techcrunch.com/2006/09/26/facebook-just-launched-open-registrations/\" title=\"opened\"\u003Eopened\u003C/a\u003E to anyone with an email address. \u003C/p\u003E\n\n\u003Cp\u003EIn the summer of 2006, Yahoo \u003Ca href=\"http://www.techcrunch.com/2006/09/21/facebook-and-yahoo-in-acquisition-talks-for-1-billion/\" title=\"attempted to acquire\"\u003Eattempted to acquire\u003C/a\u003E the company for $1 billion dollars. \u003Ca href=\"http://www.wired.com/techbiz/startups/news/2007/09/ff_facebook\" title=\"Reports\" rel=\"nofollow\"\u003EReports\u003C/a\u003E actually indicated that Zuckerberg made a verbal agreement to sell Facebook to Yahoo. A few days later when Yahoo\u0026#8217;s stock price took a dive, the offer was lowered to $800 million and Zuckerberg walked away from the deal.  Yahoo later \u003Ca href=\"http://www.techcrunch.com/2006/12/12/yahoos-project-fraternity-docs-leaked/\" title=\"offered\"\u003Eoffered\u003C/a\u003E $1 billion again, this time Zuckerberg turned Yahoo down and earned instant notoriety as the \u0026#8220;kid\u0026#8221; who turned down a billion. This was not the first time Zuckerberg turned down an acquisition offer; Viacom had previously \u003Ca href=\"http://www.techcrunch.com/2006/03/28/facebook-is-doing-the-skype-dance/\" title=\"unsuccessfully\"\u003Eunsuccessfully\u003C/a\u003E attempted to acquire the company for $750 million in March, 2006. \u003C/p\u003E\n\n\u003Cp\u003EOne sour note for Facebook has been the \u003Ca href=\"http://www.techcrunch.com/2007/07/16/the-ghost-of-zuckerbergs-past-may-haunt-facebook-ipo/\" title=\"controversy\"\u003Econtroversy\u003C/a\u003E with social network Uconnect. The founders of Uconnect, former classmates of Mark Zuckerberg at Harvard, allege that Zuckerberg stole their original source code for Facebook. The ordeal has \u003Ca href=\"http://www.techcrunch.com/2007/10/10/facebook-vs-connectu-facebook-makes-untrue-assertions-claims-connectu/\" title=\"gone to court\"\u003Egone to court\u003C/a\u003E, but is still unresolved. \u003C/p\u003E\n\n\u003Cp\u003ENotwithstanding this lingering controversy, Facebook\u0026#8217;s growth in the fall of 2007 was staggering. Over 1 million new users signed up every week, 200,000 daily, totaling over 50 million active users. Facebook received 40 billion page views a month.  Long gone were the days of Facebook as a social network for college students. 11% of users are over the age of 35, and the fastest growing demographic is users over 30. Facebook has also seen huge growth internationally; 15% of the user base is in Canada.  Facebook users\u0026#8217; \u003Ca href=\"http://www.techcrunch.com/2007/11/13/i-just-cant-be-a-college-student-without-facebook/\" title=\"passion\"\u003Epassion\u003C/a\u003E, or \u003Ca href=\"http://www.techcrunch.com/2007/03/09/career-advice-dont-choose-facebook-over-your-job/\" title=\"addiction\"\u003Eaddiction\u003C/a\u003E, to the site is unparalleled: more than half use the product every single day and users spend an average of 19 minutes a day on Facebook. Facebook is 6th most trafficked site in the US and top photo sharing site with \u003Ca href=\"http://www.techcrunch.com/2007/11/13/2-billion-photos-on-flickr/\" title=\"4.1 billion photos uploaded\"\u003E4.1 billion photos uploaded\u003C/a\u003E. \u003C/p\u003E\n\n\u003Cp\u003EBased on these types of numbers, \u003Ca href=\"http://www.techcrunch.com/2007/10/24/facebook-takes-the-microsoft-money-and-runs/\" title=\"Microsoft invested\"\u003EMicrosoft invested\u003C/a\u003E $240 million into Facebook for 1.6 percent of the company in October 2007.  This meant a valuation of over $15 billion, making Facebook the \u003Ca href=\"http://www.techcrunch.com/2007/10/25/perspective-facebook-is-now-5th-most-valuable-us-internet-company/\" title=\"5th most valuable US Internet company\"\u003E5th most valuable US Internet company\u003C/a\u003E, yet with only $150 million in annual revenue. Many explained Microsoft\u0026#8217;s decision as being solely driven by the desire to outbid Google. \u003C/p\u003E\n\n\u003Cp\u003EFacebook\u0026#8217;s competitors include \u003Ca href=\"http://www.crunchbase.com/company/myspace\" title=\"MySpace\"\u003EMySpace\u003C/a\u003E, \u003Ca href=\"http://www.crunchbase.com/company/Bebo\" title=\"Bebo\"\u003EBebo\u003C/a\u003E, \u003Ca href=\"http://www.crunchbase.com/company/Friendster\" title=\"Friendster\"\u003EFriendster\u003C/a\u003E, \u003Ca href=\"http://www.crunchbase.com/company/LinkedIn\" title=\"LinkedIn\"\u003ELinkedIn\u003C/a\u003E, \u003Ca href=\"http://www.crunchbase.com/company/tagged\" title=\"Tagged\"\u003ETagged\u003C/a\u003E, \u003Ca href=\"http://www.techcrunch.com/2007/01/20/hi5-traffic-surges-may-be-second-largest-social-network/\" title=\"Hi5\"\u003EHi5\u003C/a\u003E, \u003Ca href=\"http://www.techcrunch.com/2006/09/25/a-look-at-piczo-and-its-competitors/\" title=\"Piczo\"\u003EPiczo\u003C/a\u003E, and \u003Ca href=\"http://www.techcrunch.com/2007/10/30/details-revealed-google-opensocial-to-be-common-apis-for-building-social-apps/\" title=\"Open Social\"\u003EOpen Social\u003C/a\u003E. \u003C/p\u003E\n\n\u003Cp\u003E\u003Cimg src=\"http://farm3.static.flickr.com/2059/2046940872_73672f2007.jpg\" alt=\"Facebook Traffic\"/\u003E\u003C/p\u003E",
+ "image":
+  {"available_sizes":
+    [[[150,
+       56],
+      "assets/images/resized/0000/4552/4552v2-max-150x150.jpg"],
+     [[250,
+       94],
+      "assets/images/resized/0000/4552/4552v2-max-250x250.jpg"],
+     [[450,
+       169],
+      "assets/images/resized/0000/4552/4552v2-max-450x450.jpg"]],
+   "attribution": null},
+ "products":
+  [{"name": "Facebook Platform",
+    "permalink": "facebook-platform"},
+   {"name": "Facebook News Feed",
+    "permalink": "facebook-news-feed"},
+   {"name": "Facebook Chat",
+    "permalink": "facebook-chat"},
+   {"name": "Facebook Connect",
+    "permalink": "facebook-connect"},
+   {"name": "Facebook iPhone App",
+    "permalink": "facebook-iphone-app"}],
+ "relationships":
+  [{"is_past": false,
+    "title": "Founder and CEO, Board Of Directors",
+    "person":
+     {"first_name": "Mark",
+      "last_name": "Zuckerberg",
+      "permalink": "mark-zuckerberg"}},
+   {"is_past": false,
+    "title": "Co-founder and VP Engineering",
+    "person":
+     {"first_name": "Dustin",
+      "last_name": "Moskovitz",
+      "permalink": "dustin-moskovitz"}},
+   {"is_past": true,
+    "title": "Chief Revenue Officer, VP of Operations",
+    "person":
+     {"first_name": "Owen",
+      "last_name": "Van Natta",
+      "permalink": "owen-van-natta"}},
+   {"is_past": true,
+    "title": "VP of Product Management",
+    "person":
+     {"first_name": "Matt",
+      "last_name": "Cohler",
+      "permalink": "matt-cohler"}},
+   {"is_past": false,
+    "title": "Co-founder",
+    "person":
+     {"first_name": "Chris",
+      "last_name": "Hughes",
+      "permalink": "chris-hughes"}},
+   {"is_past": false,
+    "title": "VP of Product Marketing",
+    "person":
+     {"first_name": "Chamath",
+      "last_name": "Palihapitiya",
+      "permalink": "chamath-palihapitiya"}},
+   {"is_past": false,
+    "title": "CFO",
+    "person":
+     {"first_name": "Gideon",
+      "last_name": "Yu",
+      "permalink": "gideon-yu"}},
+   {"is_past": true,
+    "title": "CTO",
+    "person":
+     {"first_name": "Adam",
+      "last_name": "D'Angelo",
+      "permalink": "adam-d-angelo"}},
+   {"is_past": false,
+    "title": "COO",
+    "person":
+     {"first_name": "Sheryl",
+      "last_name": "Sandberg",
+      "permalink": "sheryl-sandberg"}},
+   {"is_past": false,
+    "title": "Senior Platform Manager",
+    "person":
+     {"first_name": "Dave",
+      "last_name": "Morin",
+      "permalink": "dave-morin"}},
+   {"is_past": false,
+    "title": "Director of Business Development",
+    "person":
+     {"first_name": "Ethan",
+      "last_name": "Beard",
+      "permalink": "ethan-beard"}},
+   {"is_past": false,
+    "title": "Chief Privacy Officer",
+    "person":
+     {"first_name": "Chris",
+      "last_name": "Kelly",
+      "permalink": "chris-kelly"}},
+   {"is_past": false,
+    "title": "",
+    "person":
+     {"first_name": "Justin",
+      "last_name": "Rosenstein",
+      "permalink": "justin-rosenstein"}},
+   {"is_past": false,
+    "title": "VP of Technical Operations",
+    "person":
+     {"first_name": "Jonathan",
+      "last_name": "Heiliger",
+      "permalink": "jonathan-heiliger"}},
+   {"is_past": false,
+    "title": "Director Platform Product Marketing",
+    "person":
+     {"first_name": "Ben",
+      "last_name": "Ling",
+      "permalink": "ben-ling"}},
+   {"is_past": false,
+    "title": "Product Lead for Facebook Platform",
+    "person":
+     {"first_name": "Ruchi",
+      "last_name": "Sanghvi",
+      "permalink": "ruchi-sanghvi"}},
+   {"is_past": false,
+    "title": "Board Of Directors",
+    "person":
+     {"first_name": "Jim",
+      "last_name": "Breyer",
+      "permalink": "jim-breyer"}},
+   {"is_past": false,
+    "title": "VP of Communications and Public Policy",
+    "person":
+     {"first_name": "Elliot",
+      "last_name": "Schrage",
+      "permalink": "elliot-schrage"}},
+   {"is_past": false,
+    "title": "Board Of Directors",
+    "person":
+     {"first_name": "Peter",
+      "last_name": "Thiel",
+      "permalink": "peter-thiel"}},
+   {"is_past": false,
+    "title": "Observer to Board of Directors",
+    "person":
+     {"first_name": "David",
+      "last_name": "Sze",
+      "permalink": "david-sze"}},
+   {"is_past": true,
+    "title": "President, Board of Directors",
+    "person":
+     {"first_name": "Sean",
+      "last_name": "Parker",
+      "permalink": "sean-parker"}},
+   {"is_past": false,
+    "title": "Board of directors",
+    "person":
+     {"first_name": "Marc",
+      "last_name": "Andreessen",
+      "permalink": "marc-andreessen"}}],
+ "competitions":
+  [{"competitor":
+     {"name": "MySpace",
+      "permalink": "myspace"}},
+   {"competitor":
+     {"name": "Friendster",
+      "permalink": "friendster"}},
+   {"competitor":
+     {"name": "Slide",
+      "permalink": "slide"}},
+   {"competitor":
+     {"name": "Zvents",
+      "permalink": "zvents"}},
+   {"competitor":
+     {"name": "FriendFeed",
+      "permalink": "friendfeed"}},
+   {"competitor":
+     {"name": "Qik",
+      "permalink": "qik"}},
+   {"competitor":
+     {"name": "hi5",
+      "permalink": "hi5"}},
+   {"competitor":
+     {"name": "Photobucket",
+      "permalink": "photobucket"}},
+   {"competitor":
+     {"name": "Webshots",
+      "permalink": "webshots"}},
+   {"competitor":
+     {"name": "Flickr",
+      "permalink": "flickr"}},
+   {"competitor":
+     {"name": "Spokeo",
+      "permalink": "spokeo"}},
+   {"competitor":
+     {"name": "HOT or NOT",
+      "permalink": "hotornot"}},
+   {"competitor":
+     {"name": "Piczo",
+      "permalink": "piczo"}},
+   {"competitor":
+     {"name": "Zyb",
+      "permalink": "zyb"}},
+   {"competitor":
+     {"name": "Multiply",
+      "permalink": "multiply"}},
+   {"competitor":
+     {"name": "YouTube",
+      "permalink": "youtube"}},
+   {"competitor":
+     {"name": "badoo",
+      "permalink": "badoo"}},
+   {"competitor":
+     {"name": "openPeople",
+      "permalink": "openpeople"}},
+   {"competitor":
+     {"name": "Bigsight Media Group",
+      "permalink": "bigsight-media-group"}},
+   {"competitor":
+     {"name": "Xiaonei",
+      "permalink": "xiaonei"}},
+   {"competitor":
+     {"name": "Daikana",
+      "permalink": "daikana"}},
+   {"competitor":
+     {"name": "Bebo",
+      "permalink": "bebo"}},
+   {"competitor":
+     {"name": "AOL",
+      "permalink": "aol"}},
+   {"competitor":
+     {"name": "CityIN",
+      "permalink": "cityin"}},
+   {"competitor":
+     {"name": "Xanga",
+      "permalink": "xanga"}},
+   {"competitor":
+     {"name": "Spleak",
+      "permalink": "spleak"}},
+   {"competitor":
+     {"name": "yuwie",
+      "permalink": "yuwie"}},
+   {"competitor":
+     {"name": "Rekatu",
+      "permalink": "rekatu"}},
+   {"competitor":
+     {"name": "5icampus",
+      "permalink": "5icampus"}},
+   {"competitor":
+     {"name": "Tagged",
+      "permalink": "tagged"}}],
+ "providerships":
+  [{"title": "",
+    "is_past": false,
+    "provider":
+     {"name": "OutCast Communications",
+      "permalink": "outcast-communications"}},
+   {"title": "Public Relations",
+    "is_past": false,
+    "provider":
+     {"name": "Blanc \u0026 Otus",
+      "permalink": "blanc-otus"}}],
+ "funding_rounds":
+  [{"round_code": "angel",
+    "source_url": "",
+    "source_description": "",
+    "raised_amount": 500000.0,
+    "raised_currency_code": "USD",
+    "funded_year": 2004,
+    "funded_month": 9,
+    "funded_day": 1,
+    "investments":
+     [{"company": null,
+       "financial_org":
+        {"name": "The Founders Fund",
+         "permalink": "founders-fund"},
+       "person": null}]},
+   {"round_code": "a",
+    "source_url": "http://www.techcrunch.com/2007/11/02/jim-breyer-extra-500-million-round-for-facebook-a-total-fiction/",
+    "source_description": "Jim Breyer: Extra $500 Million Round For Facebook A \u201cTotal Fiction\u201d",
+    "raised_amount": 12700000.0,
+    "raised_currency_code": "USD",
+    "funded_year": 2005,
+    "funded_month": 5,
+    "funded_day": 1,
+    "investments":
+     [{"company": null,
+       "financial_org":
+        {"name": "Accel Partners",
+         "permalink": "accel-partners"},
+       "person": null}]},
+   {"round_code": "b",
+    "source_url": "http://www.facebook.com/press/info.php?factsheet",
+    "source_description": "Facebook Funding",
+    "raised_amount": 27500000.0,
+    "raised_currency_code": "USD",
+    "funded_year": 2006,
+    "funded_month": 4,
+    "funded_day": 1,
+    "investments":
+     [{"company": null,
+       "financial_org":
+        {"name": "Greylock",
+         "permalink": "greylock"},
+       "person": null},
+      {"company": null,
+       "financial_org":
+        {"name": "Meritech Capital Partners",
+         "permalink": "meritech-capital-partners"},
+       "person": null},
+      {"company": null,
+       "financial_org": null,
+       "person":
+        {"first_name": "Peter",
+         "last_name": "Thiel",
+         "permalink": "peter-thiel"}}]},
+   {"round_code": "c",
+    "source_url": "http://www.techcrunch.com/2007/10/24/liveblogging-the-facebook-press-conference/#more-10260",
+    "source_description": "Liveblogging The Facebook Press Conference",
+    "raised_amount": 300000000.0,
+    "raised_currency_code": "USD",
+    "funded_year": 2007,
+    "funded_month": 10,
+    "funded_day": 1,
+    "investments":
+     [{"company":
+        {"name": "Microsoft",
+         "permalink": "microsoft"},
+       "financial_org": null,
+       "person": null},
+      {"company": null,
+       "financial_org": null,
+       "person":
+        {"first_name": "Li",
+         "last_name": "Ka-shing",
+         "permalink": "li-ka-shing"}},
+      {"company": null,
+       "financial_org": null,
+       "person":
+        {"first_name": "Marc",
+         "last_name": "Samwer",
+         "permalink": "marc-samwer"}},
+      {"company": null,
+       "financial_org": null,
+       "person":
+        {"first_name": "Oliver",
+         "last_name": "Samwer",
+         "permalink": "oliver-samwer"}},
+      {"company": null,
+       "financial_org": null,
+       "person":
+        {"first_name": "Alexander",
+         "last_name": "Samwer",
+         "permalink": "alexander-samwer"}}]},
+   {"round_code": "c",
+    "source_url": "http://www.marketwatch.com/news/story/hong-kong-tycoon-li-raises/story.aspx?guid=%7BE4097AA2-9EA3-4773-9100-456E68EE1C9A%7D",
+    "source_description": "",
+    "raised_amount": 40000000.0,
+    "raised_currency_code": "USD",
+    "funded_year": 2008,
+    "funded_month": 3,
+    "funded_day": null,
+    "investments":
+     [{"company": null,
+       "financial_org": null,
+       "person":
+        {"first_name": "Li",
+         "last_name": "Ka-shing",
+         "permalink": "li-ka-shing"}}]},
+   {"round_code": "c",
+    "source_url": "",
+    "source_description": "Reneigh is sexy",
+    "raised_amount": 15000000.0,
+    "raised_currency_code": "USD",
+    "funded_year": 2008,
+    "funded_month": 1,
+    "funded_day": 15,
+    "investments":
+     [{"company": null,
+       "financial_org":
+        {"name": "European Founders Fund",
+         "permalink": "european-founders-fund"},
+       "person": null}]},
+   {"round_code": "debt_round",
+    "source_url": "http://www.businessweek.com/technology/content/may2008/tc2008059_855064.htm",
+    "source_description": "",
+    "raised_amount": 100000000.0,
+    "raised_currency_code": "USD",
+    "funded_year": 2008,
+    "funded_month": 5,
+    "funded_day": null,
+    "investments":
+     [{"company": null,
+       "financial_org":
+        {"name": "TriplePoint Capital",
+         "permalink": "triplepoint-capital"},
+       "person": null}]}],
+ "investments":
+  [],
+ "acquisition": null,
+ "acquisitions":
+  [{"price_amount": null,
+    "price_currency_code": "USD",
+    "term_code": "cash",
+    "source_url": null,
+    "source_description": null,
+    "acquired_year": 2007,
+    "acquired_month": 7,
+    "acquired_day": 1,
+    "company":
+     {"name": "Parakey",
+      "permalink": "parakey"}}],
+ "offices":
+  [{"description": null,
+    "address1": "156 University Avenue",
+    "address2": "",
+    "zip_code": "94301",
+    "city": "Palo Alto",
+    "state_code": "CA",
+    "country_code": "USA",
+    "latitude": 37.444173,
+    "longitude": -122.163294}],
+ "milestones":
+  [{"description": "Facebook adds comments to Mini-Feed",
+    "stoned_year": 2008,
+    "stoned_month": 6,
+    "stoned_day": 25,
+    "source_url": "http://venturebeat.com/2008/06/25/facebook-adds-comment-to-the-mini-feed-its-like-friendfeed-is-looking-in-the-mirror/",
+    "source_description": "Facebook adds comments to the Mini-Feed. It\u2019s like FriendFeed is looking in the mirror"}],
+ "ipo": null,
+ "video_embeds":
+  [{"embed_code": "\u003Cscript type=\"text/javascript\" src=\"http://www.podtech.net/player/popup.js\"\u003E\u003C/script\u003E\u003Cobject classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0\" width=\"450\" height=\"299\" id=\"player73536e08d3f742de9d31b25a319af359\" align=\"middle\"\u003E\u003Cparam name=\"allowScriptAccess\" value=\"always\" /\u003E\u003Cparam name=\"FlashVars\" value=\"content=http://media1.podtech.net/media/2007/09/PID012533/PodtechRandiZuckerberg2.flv\u0026totalTime=2149000\u0026permalink=http://www.podtech.net/home/4118/the-first-sister-of-facebook\u0026breadcrumb=73536e08d3f742de9d31b25a319af359\" height=\"299\" width=\"450\" /\u003E\u003Cparam name=\"movie\" value=\"http://www.podtech.net/player/podtech-player.swf?bc=73536e08d3f742de9d31b25a319af359\" /\u003E\u003Cparam name=\"quality\" value=\"high\" /\u003E\u003Cparam name=\"scale\" value=\"noscale\" /\u003E\u003Cparam name=\"bgcolor\" value=\"#000000\" /\u003E\u003Cembed name=\"player73536e08d3f742de9d31b25a319af359\" type=\"application/x-shockwave-flash\" src=\"http://www.podtech.net/player/podtech-player.swf?bc=73536e08d3f742de9d31b25a319af359\" flashvars=\"content=http://media1.podtech.net/media/2007/09/PID012533/PodtechRandiZuckerberg2.flv\u0026totalTime=2149000\u0026permalink=http://www.podtech.net/home/4118/the-first-sister-of-facebook\u0026breadcrumb=73536e08d3f742de9d31b25a319af359\" height=\"299\" width=\"450\" allowScriptAccess=\"always\" /\u003E\u003C/object\u003E\u003Cnoscript\u003EYour browser does not support JavaScript. This media can be viewed at http://www.podtech.net/home/4118/the-first-sister-of-facebook\u003C/noscript\u003E",
+    "description": "\u003Cp\u003ERobert Scoble\u2019s video from www.podtech.net/scobleshow:\u003C/p\u003E"}],
+ "external_links":
+  [{"external_url": "http://www.marketwatch.com/news/story/story.aspx?guid={E4097AA2-9EA3-4773-9100-456E68EE1C9A}",
+    "title": "Hong Kong tycoon Li raises personal Facebook investment above $100 mln"}]}

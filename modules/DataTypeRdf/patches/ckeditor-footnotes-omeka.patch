@@ -1,0 +1,78 @@
+diff --git a/footnotes/plugin.js b/footnotes/plugin.js
+index c6684dc..6a5eff0 100644
+--- a/footnotes/plugin.js
++++ b/footnotes/plugin.js
+@@ -1,11 +1,15 @@
+ ﻿/**
+  * Basic sample plugin inserting footnotes elements into CKEditor editing area.
+  *
+- * Version 1.0.9
++ * Version 1.2.0
+  * https://github.com/andykirk/CKEditorFootnotes
+  *
+  */
+ // Register the plugin within the editor.
++
++/**
++ * Adapted for Omeka to use paths of the module Block Plus.
++ */
+ (function() {
+     "use strict";
+ 
+@@ -13,17 +17,20 @@
+ 
+         footnote_ids: [],
+         requires: 'widget',
+-        icons: 'footnotes',
+-
++        // Icons css is set below.
++        // icons: 'footnotes',
+ 
+         // The plugin initialization logic goes inside this method.
+         init: function(editor) {
+ 
++            let pathFootnotes = this.path.split(/\//).slice(0, this.path.split(/\//).length - 7).join('/') + '/modules/DataTypeRdf/asset/vendor/ckeditor-footnotes/footnotes/';
++
+             // Allow `cite` to be editable:
+             CKEDITOR.dtd.$editable['cite'] = 1;
+ 
+             // Add some CSS tweaks:
+             var css = '.footnotes{background:#eee; padding:1px 15px;} .footnotes cite{font-style: normal;}';
++            css += '.cke_button__footnotes_icon{background-image:url(' + pathFootnotes + 'icons/footnotes.png);background-size:auto;}';
+             CKEDITOR.addCss(css);
+ 
+             var $this = this;
+@@ -132,7 +139,8 @@
+             });
+ 
+             // Register our dialog file. this.path is the plugin folder path.
+-            CKEDITOR.dialog.add('footnotesDialog', this.path + 'dialogs/footnotes.js');
++            // CKEDITOR.dialog.add('footnotesDialog', this.path + 'dialogs/footnotes.js');
++            CKEDITOR.dialog.add('footnotesDialog', pathFootnotes + 'dialogs/footnotes.js');
+         },
+ 
+ 
+@@ -256,7 +264,7 @@
+ 
+             // Find all the markers in the document:
+             var markers = contents.find('sup[data-footnote-id]').toArray();
+-            
++
+             // If there aren't any, remove the Footnotes container:
+             if (markers.length == 0) {
+                 contents.findOne('.footnotes').getParent().remove();
+@@ -303,12 +311,10 @@
+               , l = data.order.length;
+             for (i; i < l; i++) {
+                 footnote_id   = data.order[i];
+-                footnote_text = contents.findOne('.footnotes [data-footnote-id="' + footnote_id + '"] cite').getHtml();
++                footnote_text = contents.findOne('.footnotes [data-footnote-id="' + footnote_id + '"] cite');
+                 // If the footnotes text can't be found in the editor, it may be in the tmp store
+                 // following a cut:
+-                if (!footnote_text) {
+-                    footnote_text = editor.footnotes_tmp[footnote_id];
+-                }
++                footnote_text = footnote_text ? footnote_text.getHtml() : editor.footnotes_tmp[footnote_id];
+                 footnotes += this.buildFootnote(footnote_id, footnote_text, data, editor);
+                 // Store the footnotes for later use (post cut/paste):
+                 editor.footnotes_store[footnote_id] = footnote_text;

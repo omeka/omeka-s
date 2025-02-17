@@ -1,0 +1,63 @@
+{
+    "name": "semsol/arc2",
+    "type": "library",
+    "description": "ARC2 is a PHP library for working with RDF. It also provides a MySQL-based triplestore with SPARQL support.",
+    "keywords": ["rdf","sparql"],
+    "homepage": "https://github.com/semsol/arc2",
+    "license": [
+       "GPL-2.0-or-later",
+       "W3C"
+    ],
+    "support": {
+        "issues": "https://github.com/semsol/arc2/issues"
+    },
+    "authors": [
+        {
+            "name": "Benji Nowack",
+            "homepage": "http://bnowack.de/",
+            "role": "Creator, Developer"
+        },
+        {
+            "name": "Konrad Abicht",
+            "homepage": "https://inspirito.de",
+            "email": "hi@inspirito.de",
+            "role": "Maintainer, Developer"
+        }
+    ],
+    "require": {
+        "ext-mbstring": "*",
+        "php": "^8.0.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3",
+        "phpunit/phpunit": "^9"
+    },
+    "autoload": {
+        "classmap": ["parsers/", "serializers/", "store/"],
+        "files": [
+            "./ARC2.php",
+            "./ARC2_Class.php",
+            "./ARC2_getFormat.php",
+            "./ARC2_getPreferredFormat.php",
+            "./ARC2_Graph.php",
+            "./ARC2_Reader.php",
+            "./ARC2_Resource.php"
+        ],
+        "psr-4": {
+            "ARC2\\": [
+                "src/ARC2/"
+            ]
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": [
+                "tests"
+            ]
+        }
+    },
+    "scripts": {
+        "phpunit": "vendor/bin/phpunit",
+        "phpunit-with-coverage": "vendor/bin/phpunit --coverage-clover gen/coverage/clover.xml"
+    }
+}

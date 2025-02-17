@@ -1,0 +1,13 @@
+<?php
+$translate = $this->plugin('translate');
+$form->prepare();
+?>
+
+<?php echo $this->pageTitle($vocab ? $translate('Update') : $translate('Import'), 1, $translate('Custom Vocab'), $vocab ? $vocab->label() : null); ?>
+<?php echo $this->form()->openTag($form); ?>
+<div id="page-actions">
+    <?php echo $this->hyperlink($this->translate('Cancel'), $this->url('admin/custom-vocab', ['action' => 'browse'], true), ['class' => 'button']); ?>
+    <button><?php echo $translate('Submit'); ?></button>
+</div>
+<?php echo $this->formCollection($form, false); ?>
+<?php echo $this->form()->closeTag(); ?>

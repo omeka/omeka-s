@@ -1,0 +1,96 @@
+label.numeric-toggle-time.button {
+    display: inline-flex;
+    align-items: center;
+    width: auto;
+    padding: 6px;
+}
+
+label.numeric-toggle-time:before {
+    content: "\f017";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 400;
+    margin-right: 6px;
+    text-indent: 0;
+}
+
+[id*="numeric-"] .inputs {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.inputs div[class*="numeric"] {
+    display: flex;
+    flex-wrap: wrap;
+    height: auto;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.numeric-datetime-inputs div {
+    margin-top: .25rem !important;
+}
+
+.field .inputs select[class*="numeric"],
+.field .inputs select[name*="numeric"] {
+    margin-right: .25rem;
+    display: inline-block;
+    height: auto;
+}
+
+.field .inputs [class*="numeric"]:not(div),
+.field .inputs [name*="numeric"]:not(div) {
+    margin: .25rem .25rem .25rem 0;
+    height: auto;
+    margin-top: 6px;
+    flex-wrap: wrap;
+}
+
+.numeric-datetime-inputs select {
+    margin: 0;
+    width: auto;
+}
+
+.numeric-datetime-inputs input {
+    min-width: 4em;
+    width: 8em;
+    margin: 0;
+    height: 100%;
+}
+
+.numeric-datetime-inputs input[type="checkbox"] {
+    min-width: 0;
+    width: auto;
+    margin-right: 0;
+    cursor: pointer;
+    height: 1em;
+}
+
+.numeric-datetime-inputs input:not(:last-child),
+.numeric-datetime-inputs select:not(:last-child) {
+    margin-right: 4px;
+}
+
+.sidebar .numeric-datetime-inputs input:not(:last-child),
+.sidebar .numeric-datetime-inputs select:not(:last-child) {
+    margin-bottom: .5rem;
+}
+
+#resource-values .numeric-date-inputs {
+    margin-top: 0;
+}
+
+.value[data-data-type="numeric:timestamp"] .input-body,
+.value[data-data-type="numeric:interval"] .input-body,
+.value[data-data-type="numeric:duration"] .input-body,
+.value[data-data-type="numeric:integer"] .input-body {
+    background-color: transparent;
+}
+
+.numeric-integer-integer[type="number"] {
+    margin-top: .25rem;
+    width: auto;
+}
+.sidebar [data-data-type="numeric:integer"] .input-footer .actions {
+    flex-direction: row;
+}

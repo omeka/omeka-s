@@ -1,0 +1,110 @@
+@media screen {
+    .o-icon-html::before {
+        /* Unavailable in the default config of Omeka. */
+        /* content: "\f13b"; */
+        content: "\f121";
+    }
+    .o-icon-json::before {
+        content: "{}";
+    }
+    .o-icon-xml::before {
+        content: "\f121";
+    }
+    .o-icon-boolean::before {
+        content: "\f00c";
+    }
+
+    .inputs .cke_textarea_inline {
+        resize: vertical;
+        line-height: 1.5;
+        background-color: #fff;
+        min-width: 0;
+    }
+    .inputs .value .cke_textarea_inline {
+        width: 100%;
+        margin: 0;
+    }
+    .inputs .value a.value-language ~ .cke_textarea_inline {
+        padding-left: 42px;
+    }
+    .inputs input[type="text"].value-language.active.active ~ .cke_textarea_inline {
+        padding-left: 6px;
+        border-top: 0;
+    }
+
+    /* Footnotes (against core styles) */
+    section.footnotes header {
+        background-color: inherit;
+        width: auto;
+        min-height: initial;
+        text-align: initial;
+        padding: initial;
+        color: initial;
+    }
+    section.footnotes header h2 {
+        font-size: 16px;
+    }
+    .cke_button_icon.cke_button__footnotes_icon {
+        background-image: url("../vendor/ckeditor-footnotes/footnotes/icons/footnotes.png");
+        background-size: auto;
+    }
+
+    .inputs .value[data-data-type="boolean"] .input-body {
+        background-color: inherit;
+        text-align: center;
+    }
+    .inputs .value[data-data-type="boolean"] .input-body input[type=checkbox] {
+        vertical-align: middle;
+    }
+    .inputs .value[data-data-type="boolean"] .input-body label.radio-boolean {
+        margin-right: 1em;
+    }
+
+    #value-annotation-sidebar .sidebar-content .value-annotation .value[data-data-type="html"] {
+        display: block;
+    }
+    #value-annotation-sidebar .sidebar-content .value-annotation .value[data-data-type="html"] a.value-language {
+        width: 36px;
+        display: inline-block;
+    }
+    #value-annotation-sidebar .sidebar-content .value-annotation .value[data-data-type="html"] input.value-language{
+        width: calc( 100% - 36px );
+        display: inline-block;
+    }
+    #value-annotation-sidebar .sidebar-content .value-annotation .value[data-data-type="html"] .input-footer {
+        float: right;
+    }
+    .sidebar-content .value-annotation .value[data-data-type="boolean"] input[type=checkbox] {
+        width: 100%;
+        height: 1em;
+        margin-top: 18px;
+    }
+
+    [data-data-type="json"] .CodeMirror,
+    [data-data-type="xml"] .CodeMirror {
+        font-family: inherit;
+        font-size: unset;
+        height: 96px;
+        border: 1px solid silver;
+        min-height: 96px;
+    }
+    [data-data-type="json"] .inputs .CodeMirror,
+    [data-data-type="xml"] .inputs .CodeMirror {
+        font-family: inherit;
+        font-size: unset;
+        height: 96px;
+        line-height: normal;
+    }
+    [data-data-type="json"] .CodeMirror pre.CodeMirror-line,
+    [data-data-type="xml"] .CodeMirror pre.CodeMirror-line {
+        line-height: normal;
+    }
+    [data-data-type="json"] .CodeMirror-scroll,
+    [data-data-type="xml"] .CodeMirror-scroll {
+        min-height: 96px;
+    }
+    [data-data-type="json"] .CodeMirror pre.CodeMirror-placeholder,
+    [data-data-type="xml"] .CodeMirror pre.CodeMirror-placeholder {
+        color: #999;
+    }
+}

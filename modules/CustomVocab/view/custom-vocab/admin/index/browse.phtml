@@ -1,0 +1,61 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$this->headLink()->appendStylesheet($this->assetUrl('css/custom-vocab.css', 'CustomVocab'));
+?>
+
+<?php echo $this->pageTitle($translate('Browse'), 1, $translate('Custom Vocab')); ?>
+
+<div id="page-actions">
+    <?php if ($this->userIsAllowed('CustomVocab\Api\Adapter\CustomVocabAdapter', 'create')): ?>
+    <?php echo $this->hyperlink($translate('Import from file'), $this->url('admin/custom-vocab/default', ['action' => 'import']), ['class' => 'button']); ?>
+    <?php echo $this->hyperlink($translate('Add new vocab'), $this->url('admin/custom-vocab/default', ['action' => 'add']), ['class' => 'button']); ?>
+    <?php endif; ?>
+</div>
+
+<?php if (!$vocabs): ?>
+<div class="no-resources">
+    <p><?php echo $translate('Omeka could not find any custom vocabularies.'); ?></p>
+</div>
+<?php else: ?>
+<div class="browse-controls">
+    <?php echo $this->pagination(); ?>
+</div>
+<table class="tablesaw" data-tablesaw-mode="stack">
+    <thead>
+        <tr>
+            <th><?php echo $translate('Label'); ?></th>
+            <th><?php echo $translate('Owner'); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($vocabs as $vocab): ?>
+        <tr>
+            <td>
+                <ul class="actions">
+                    <?php if ($vocab->userIsAllowed('update')): ?>
+                    <li><?php echo $vocab->link('', 'edit', ['class' => 'o-icon-edit', 'aria-label' => $translate('Edit'), 'title' => $translate('Edit')]); ?></li>
+                    <?php endif; ?>
+                    <?php if ($vocab->userIsAllowed('delete')): ?>
+                    <li><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete sidebar-content', 'data-sidebar-content-url' => $vocab->url('delete-confirm'), 'aria-label' => $translate('Delete'), 'title' => $translate('Delete')]); ?></li>
+                    <?php endif; ?>
+                    <li><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-more sidebar-content', 'data-sidebar-content-url' => $vocab->url('show-details'), 'aria-label' => $translate('Details'), 'title' => $translate('Details')]); ?></li>
+                </ul>
+                <?php echo $escape($vocab->label()); ?></td>
+            <td><?php echo $escape($vocab->owner() ? $vocab->owner()->name() : $translate('[Unknown]')); ?></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+<div class="browse-controls">
+    <?php echo $this->pagination(); ?>
+</div>
+<?php endif; ?>
+
+<div class="sidebar">
+    <a href="#"
+        class="sidebar-close o-icon-close"
+        aria-label="<?php echo $escape($translate('Close')); ?>"
+        title="<?php echo $escape($translate('Close')); ?>"></a>
+    <div class="sidebar-content"></div>
+</div>

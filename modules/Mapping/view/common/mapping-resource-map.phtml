@@ -1,0 +1,49 @@
+<?php
+$mapping = null;
+$features = [];
+switch (get_class($resource)) {
+    case 'Omeka\Api\Representation\ItemRepresentation':
+        $mapping = $this->api()->searchOne('mappings', ['item_id' => $resource->id()])->getContent();
+        $features = $this->api()->search('mapping_features', ['item_id' => $resource->id()])->getContent();
+        break;
+    case 'Omeka\Api\Representation\ItemSetRepresentation':
+        $features = $this->api()->search('mapping_features', ['item_set_id' => $resource->id()])->getContent();
+        break;
+    default:
+        return;
+}
+
+if (!($mapping || $features)) {
+    return;
+}
+
+$this->headLink()->appendStylesheet($this->assetUrl('node_modules/leaflet/dist/leaflet.css', 'Mapping'));
+$this->headLink()->appendStylesheet($this->assetUrl('node_modules/leaflet.markercluster/dist/MarkerCluster.css', 'Mapping'));
+$this->headLink()->appendStylesheet($this->assetUrl('node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css', 'Mapping'));
+$this->headLink()->appendStylesheet($this->assetUrl('node_modules/leaflet.fullscreen/Control.FullScreen.css', 'Mapping'));
+$this->headLink()->appendStylesheet($this->assetUrl('css/mapping.css', 'Mapping'));
+
+$this->headScript()->appendFile($this->assetUrl('node_modules/leaflet/dist/leaflet.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('node_modules/leaflet.markercluster/dist/leaflet.markercluster-src.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('node_modules/leaflet.fullscreen/Control.FullScreen.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('node_modules/leaflet-providers/leaflet-providers.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('node_modules/Leaflet.Deflate/dist/L.Deflate.js', 'Mapping'));
+
+$this->headScript()->appendFile($this->assetUrl('js/mapping-show.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('js/control.fit-bounds.js', 'Mapping'));
+
+$disableClustering = $this->status()->isSiteRequest() ? $this->siteSetting('mapping_disable_clustering') : null;
+$basemapProvider = $this->status()->isSiteRequest() ? $this->siteSetting('mapping_basemap_provider') : null;
+?>
+
+<div id="mapping-section" class="section">
+    <div id="mapping-map" style="height:700px;"
+        data-mapping="<?php echo $this->escapeHtml(json_encode($mapping)); ?>"
+        data-disable-clustering="<?php echo $disableClustering ? '1' : '0'; ?>"
+        data-basemap-provider="<?php echo $basemapProvider ?? ''; ?>"
+    ></div>
+</div>
+
+<?php foreach ($features as $feature): ?>
+<?php echo $this->partial('common/mapping-feature-popup', ['feature' => $feature]); ?>
+<?php endforeach; ?>

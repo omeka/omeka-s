@@ -1,0 +1,7 @@
+{
+    "name": "omeka-s-themes/default",
+    "type": "omeka-s-theme",
+    "require": {
+        "omeka/omeka-s": "*"
+    }
+}

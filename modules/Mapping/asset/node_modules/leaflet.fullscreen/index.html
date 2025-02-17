@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<title>Leaflet.Control.FullScreen Demo</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@latest/dist/leaflet.css" />
+	<link rel="stylesheet" href="Control.FullScreen.css" />
+	<style type="text/css">
+		#map { width: 700px; max-width: 100%; height: 433px; }
+	</style>
+	<script src="https://unpkg.com/leaflet@latest/dist/leaflet.js"></script>
+	<script src="Control.FullScreen.js"></script>
+</head>
+<body>
+
+	<div id="map"></div>
+
+	<script>
+		var base = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+			maxZoom: 19,
+			subdomains: 'abcd',
+			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+		});
+
+		var map = L.map('map', {
+			layers: [base],
+			tap: false, // ref https://github.com/Leaflet/Leaflet/issues/7255
+			center: new L.LatLng(48.5, -4.5),
+			zoom: 5,
+			fullscreenControl: true,
+			fullscreenControlOptions: { // optional
+				title:"Show me the fullscreen !",
+				titleCancel:"Exit fullscreen mode"
+			}
+		});
+
+		// detect fullscreen toggling
+		map.on('enterFullscreen', function(){
+			if(window.console) window.console.log('enterFullscreen');
+		});
+		map.on('exitFullscreen', function(){
+			if(window.console) window.console.log('exitFullscreen');
+		});
+	</script>
+</body>
+</html>

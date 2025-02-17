@@ -1,0 +1,14 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ */
+
+$plugins = $this->getHelperPluginManager();
+$translate = $plugins->get('translate');
+?>
+
+<?= $this->pageTitle($translate('Sparql'), 1, $translate('Sparql')) ?>
+
+<p>
+     <?= $translate('The RDF triplestore is not available currently.') ?>
+</p>

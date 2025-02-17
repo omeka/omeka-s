@@ -1,0 +1,39 @@
+#extract-metadata h2,
+#extract-metadata h2 + p {
+    display: inline-block;
+    margin: 0;
+}
+
+#extract-metadata h2 {
+    margin-right: 1rem;
+}
+
+.extracted-metadata {
+    max-height: 20rem;
+    overflow: auto;
+    border: 1px solid #dfdfdf;
+    padding: 0 1rem;
+    margin: 0 0 2rem;
+    font-size: 14px;
+}
+
+#extract-metadata .collapse, 
+#extract-metadata .expand {
+    width: 100%;
+    display: block;
+    border: 1px solid #dfdfdf;
+    border-bottom: 0;
+    padding: .25rem .5rem;
+    text-align: right;
+    background-color: rgba(0,0,0,.04);
+    margin-top: .5rem;
+}
+
+#extract-metadata .expand + .collapsible {
+    overflow: auto;
+    display: block;
+}
+
+#extract-metadata .collapse + .collapsible {
+    max-height: none;
+}

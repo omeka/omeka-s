@@ -1,0 +1,26 @@
+// Colors
+
+$gray:                                  #ababab;
+$bold:                                  darken($gray, 20%);
+$light:                                 lighten($gray, 20%);
+$bg:                                    lighten($gray, 30%);
+$link:                                  #920b0b;
+
+// Typography
+
+$base-font-size:                        20px;
+$base-line-height:                      30px;
+
+// Units
+
+$spacing-s:                             .25 * $base-line-height;
+$spacing-m:                             .5 * $base-line-height;
+$spacing-l:                             $base-line-height;
+
+// Mixins
+
+@mixin container {
+    max-width: 1700px;
+    margin-left: auto;
+    margin-right: auto;
+}

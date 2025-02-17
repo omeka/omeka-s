@@ -1,0 +1,11 @@
+<?php echo $this->formRow($propertyId); ?>
+<?php echo $this->formRow($min); ?>
+<?php echo $this->formRow($max); ?>
+<?php echo $this->formRow($step); ?>
+<?php echo $this->partial('show-all', [
+    'label' => $this->translate('Show all available values.'),
+    'url' => $this->url('admin/site/slug/numeric-data-types-faceted-browse', ['controller' => 'index', 'action' => 'integer-values'], true),
+    'queryParams' => [
+        'property_id' => '#value-greater-than-property-id',
+    ],
+]); ?>

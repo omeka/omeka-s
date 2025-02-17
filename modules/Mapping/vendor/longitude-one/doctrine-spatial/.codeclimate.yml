@@ -1,0 +1,46 @@
+version: "2"
+checks:
+  argument-count:
+    config:
+      threshold: 4
+  complex-logic:
+    config:
+      threshold: 4
+  file-lines:
+    config:
+      threshold: 250
+  method-complexity:
+    config:
+      threshold: 5
+  method-count:
+    config:
+      threshold: 20
+  method-lines:
+    config:
+      threshold: 25
+  nested-control-flow:
+    config:
+      threshold: 4
+  return-statements:
+    config:
+      threshold: 4
+exclude_patterns:
+  - 'docs/'
+  - 'tests/'
+  - 'vendor/'
+plugins:
+  duplication:
+    enabled: true
+    config:
+      languages:
+        php:
+          mass_threshold: 42
+    checks:
+      Similar code:
+        enabled: false
+  fixme:
+    enabled: true
+  phpcodesniffer:
+    enabled: true
+  phpmd:
+    enabled: true

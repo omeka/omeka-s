@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
+
+    <arg name="basepath" value="."/>
+    <arg name="cache" value=".phpcs-cache"/>
+    <arg name="colors"/>
+    <arg name="extensions" value="php"/>
+
+    <description>
+        The coding standard of Alexandre Tranchant's application, based on the Generic, PSR2.
+    </description>
+
+    <!-- Exclude git -->
+    <exclude-pattern>*/.git/*</exclude-pattern>
+    <!-- Exclude third party code -->
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+
+    <rule ref="PSR2"/>
+
+    <!--
+        A class or interface must not be defined in multiple files.
+    -->
+    <rule ref="Generic.Classes.DuplicateClassName"/>
+
+    <!--
+      Files must not have closing tags to avoid whitespace issues.
+    -->
+    <rule ref="Zend.Files.ClosingTag"/>
+
+    <!--
+      Variables have to be camel case and should not contain numbers.
+    -->
+    <rule ref="Zend.NamingConventions.ValidVariableName"/>
+
+    <rule ref="Zend.NamingConventions.ValidVariableName.PrivateNoUnderscore">
+        <severity>0</severity>
+    </rule>
+
+    <!--
+      Statements may not have an empty body.
+    -->
+    <rule ref="Generic.CodeAnalysis.EmptyStatement"/>
+
+    <!--
+      All 'for' loops that could be simplified to a 'while' loop
+      must be simplified.
+    -->
+    <rule ref="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop"/>
+
+    <!--
+      If- and elseif-statements may not be unconditional.
+    -->
+    <rule ref="Generic.CodeAnalysis.UnconditionalIfStatement"/>
+
+    <!--
+      No unnecessary final modifiers inside of final classes.
+    -->
+    <rule ref="Generic.CodeAnalysis.UnnecessaryFinalModifier"/>
+
+    <!--
+      No unnecessary overridden methods, that simply call their parent,
+      are allowed.
+    -->
+    <rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
+
+    <!--
+      No unused function parameters are allowed.
+    -->
+    <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter">
+        <exclude name="Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassBeforeLastUsed" />
+        <exclude name="Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed" />
+    </rule>
+
+    <!--
+      There may not be any TO DO comments
+    -->
+    <rule ref="Generic.Commenting.Todo">
+        <severity>0</severity>
+    </rule>
+
+    <!--
+      There may not be any FIX ME comments
+    -->
+    <rule ref="Generic.Commenting.Fixme"/>
+
+    <!--
+      Inline control structures like 'if($a) continue;' are not allowed
+    -->
+    <rule ref="Generic.ControlStructures.InlineControlStructure"/>
+
+    <!--
+      UNIX line endings.
+    -->
+    <rule ref="Generic.Files.LineEndings">
+        <properties>
+            <property name="eolChar" value="\n"/>
+        </properties>
+    </rule>
+
+    <!--
+      Lines should not longer than 120 (warning) and
+      must not be longer than 120 (error).
+    -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="120"/>
+            <property name="absoluteLineLimit" value="120"/>
+        </properties>
+    </rule>
+
+    <!--
+      There must be only on statement per line.
+    -->
+    <rule ref="Generic.Formatting.DisallowMultipleStatements"/>
+
+    <!--
+      There must be a space after a cast statement.
+    -->
+    <rule ref="Generic.Formatting.SpaceAfterCast"/>
+
+    <!--
+      Disallows usage of call-time pass-by-reference
+      http://php.net/manual/en/language.references.pass.php
+    -->
+    <rule ref="Generic.Functions.CallTimePassByReference"/>
+
+    <!--
+      Function declarations must follow the "BSD/Allman style".
+      The function brace is on the line following the function declaration and
+      is indented to the same column as the start of the function declaration.
+    -->
+    <rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman">
+        <exclude name="Generic.Functions.OpeningFunctionBraceBsdAllman.BraceOnSameLine" />
+    </rule>
+
+
+    <!--
+      Disallows to complex function determined by the cyclomatic complexity
+      (McCabe, http://en.wikipedia.org/wiki/Cyclomatic_complexity) of that function.
+    -->
+    <rule ref="Generic.Metrics.CyclomaticComplexity" />
+
+    <!--
+      Defines a maximum $nestingLevel and $absoluteNestingLevel for functions.
+    -->
+    <rule ref="Generic.Metrics.NestingLevel" />
+
+    <!--
+      Disallows usage of PHP 4 style constructors.
+    -->
+    <rule ref="Generic.NamingConventions.ConstructorName"/>
+
+    <!--
+      Ensures camel case function naming and that only PHP core functions
+      have a double underscore.
+    -->
+    <rule ref="Generic.NamingConventions.CamelCapsFunctionName"/>
+
+    <!--
+      Constants must be uppercase.
+    -->
+    <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+
+    <!--
+      The constants 'true', 'false' or 'null' must be written in lowercase.
+    -->
+    <rule ref="Generic.PHP.LowerCaseConstant"/>
+
+    <!--
+      Disallows the use of any deprecated functions.
+    -->
+    <rule ref="Generic.PHP.DeprecatedFunctions"/>
+
+    <!--
+      Makes sure that shorthand PHP open tags are not used.
+    -->
+    <rule ref="Generic.PHP.DisallowShortOpenTag"/>
+
+    <!--
+      Disallows the use of alias functions that are kept in PHP for
+      compatibility with older versions.
+    -->
+    <rule ref="Generic.PHP.ForbiddenFunctions"/>
+
+    <!--
+      Disallows usage of the @ operator.
+    -->
+    <rule ref="Generic.PHP.NoSilencedErrors"/>
+
+    <!--
+      Strings must not be concatenated when they could be written as one string.
+    -->
+    <rule ref="Generic.Strings.UnnecessaryStringConcat"/>
+
+    <!--
+      Spaces, not tabs, must be used for indentation.
+    -->
+    <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
+
+    <!--
+      Checks that control structures are structured correctly and their content
+      is indented correctly. This sniff will throw errors if tabs are used for
+      indentation rather than spaces.
+    -->
+    <rule ref="Generic.WhiteSpace.ScopeIndent">
+        <properties>
+            <property name="indent" value="4"/>
+        </properties>
+    </rule>
+
+    <!-- Ensures that eval() is not used to create objects. -->
+    <rule ref="MySource.PHP.EvalObjectFactory"/>
+
+    <!--
+      Disallows the direct usage of $_REQUEST, $_GET, $_POST and $_FILES.
+      It's only allowed in a class called "Security" in a function called "getRequestData".
+    -->
+    <rule ref="MySource.PHP.GetRequestData" />
+
+    <!--
+      Warns when function values are returned directly.
+      The Sniff enforces that the result of a function call should be
+      assigned to a variable before being returned.
+    -->
+    <rule ref="MySource.PHP.ReturnFunctionValue">
+        <severity>0</severity>
+    </rule>
+
+    <!--
+      Classes must have their opening brace on a new line and
+      must indeted by $indent spaces.
+    -->
+    <rule ref="PEAR.Classes.ClassDeclaration">
+        <properties>
+            <property name="indent" value="4"/>
+        </properties>
+    </rule>
+
+    <!--
+      Ensure that parameters defined for a function that have a default value
+      come at the end of the function signature.
+    -->
+    <rule ref="PEAR.Functions.ValidDefaultValue"/>
+
+    <!--
+      Each class must be in a file by itself and must be in a namespace of
+      at least one level depth.
+    -->
+    <rule ref="PSR1.Classes.ClassDeclaration"/>
+
+    <!--
+      Ensures a file declare new symbols and causes no other side effects,
+      or executes logic with side effects, but not both.
+    -->
+    <rule ref="PSR1.Files.SideEffects"/>
+
+    <!--
+      Check that the class declaration adheres to all PSR2 rules.
+    -->
+    <rule ref="PSR2.Classes.ClassDeclaration"/>
+
+    <!--
+      Check that the property declaration adheres to all PSR2 rules.
+    -->
+    <rule ref="PSR2.Classes.PropertyDeclaration"/>
+
+    <!--
+      Checks that control structures have PSR2 style spacing around brackets.
+    -->
+    <rule ref="PSR2.ControlStructures.ControlStructureSpacing"/>
+
+    <!--
+      Ensures that switch statements are defined according to PSR2.
+    -->
+    <rule ref="PSR2.ControlStructures.SwitchDeclaration">
+        <properties>
+            <property name="indent" value="4"/>
+        </properties>
+    </rule>
+
+    <!--
+      Ensures the file ends with a newline character.
+    -->
+    <rule ref="PSR2.Files.EndFileNewline"/>
+
+    <!--
+      Check that the method declaration adheres to all PSR2 rules.
+    -->
+    <rule ref="PSR2.Methods.MethodDeclaration"/>
+
+    <!--
+      There must be one blank line after the namespace declaration.
+    -->
+    <rule ref="PSR2.Namespaces.NamespaceDeclaration"/>
+
+    <!--
+      Ensures USE blocks are declared according to PSR2.
+    -->
+    <rule ref="PSR2.Namespaces.UseDeclaration"/>
+
+    <rule ref="Squiz.Commenting.EmptyCatchComment"/>
+
+    <!--
+      Enforces function comments and their format.
+    -->
+    <rule ref="Squiz.Commenting.FunctionComment">
+        <!-- we don't want spacing with alignment -->
+        <!--        <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamType"/>-->
+        <!--        <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamName"/>-->
+
+        <exclude name="Squiz.Commenting.FunctionComment.IncorrectParamVarName"/>
+
+        <!-- doesn't work with self as typehint -->
+        <exclude name="Squiz.Commenting.FunctionComment.TypeHintMissing"/>
+
+        <!-- Scalar type hints are available in PHP >= 7 -->
+        <exclude name="Squiz.Commenting.FunctionComment.ScalarTypeHintMissing"/>
+
+        <!-- AT excludes : int nor integer are not invalid -->
+        <exclude name="Squiz.Commenting.FunctionComment.InvalidReturn" />
+
+        <!-- AT excludes: Parameter comment must start with a capital letter -->
+        <exclude name="Squiz.Commenting.FunctionComment.ParamCommentNotCapital" />
+
+        <!-- AT excludes: Parameter comment must end with a full stop -->
+        <exclude name="Squiz.Commenting.FunctionComment.ParamCommentFullStop" />
+
+        <!-- AT excludes: Missing @return tag in function comment -->
+        <exclude name="Squiz.Commenting.FunctionComment.MissingReturn" />
+
+        <!-- AT excludes: throws tag comment must start with a capital letter -->
+        <exclude name="Squiz.Commenting.FunctionComment.ThrowsNotCapital" />
+
+        <!-- AT excludes: throws tag comment must end with a full stop -->
+        <exclude name="Squiz.Commenting.FunctionComment.ThrowsNoFullStop" />
+
+    </rule>
+
+    <rule ref="Squiz.Commenting.VariableComment.IncorrectVarType">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="Squiz.Commenting.FunctionCommentThrowTag" />
+
+    <!--
+      Enforces function comments and their format.
+    -->
+    <rule ref="Squiz.Commenting.VariableComment" />
+
+    <!--
+      Try to ensure that there is no commented out code.
+      If a comment is more than $value percent code, a warning will be shown.
+    -->
+    <rule ref="Squiz.PHP.CommentedOutCode">
+        <properties>
+            <property name="maxPercentage" value="35"/>
+        </properties>
+    </rule>
+
+    <!--
+      Ensures that there are no `error_log` and `print_r` function calls.
+    -->
+    <rule ref="Squiz.PHP.DiscouragedFunctions"/>
+
+    <!--
+      Warns about usage for the eval() function.
+    -->
+    <rule ref="Squiz.PHP.Eval"/>
+
+    <!--
+      Disallows the use of alias functions that are kept in PHP for
+      compatibility with older versions.
+    -->
+    <!-- phpcs: ERROR: Referenced sniff "Squiz.PHP.ForbiddenFunctions" does not exist -->
+    <!-- <rule ref="Squiz.PHP.ForbiddenFunctions"/> -->
+
+    <rule ref="Squiz.Functions.FunctionDeclarationArgumentSpacing">
+        <properties>
+            <property name="equalsSpacing" value="1"/>
+        </properties>
+    </rule>
+
+    <!--
+      In the argument list, there MUST NOT be a space before each comma,
+      and there MUST be one space after each comma.
+    -->
+    <rule ref="Squiz.Functions.FunctionDeclarationArgumentSpacing">
+        <properties>
+            <property name="equalsSpacing" value="1"/>
+        </properties>
+    </rule>
+
+    <rule ref="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingAfterHint">
+        <severity>0</severity>
+    </rule>
+
+    <!--
+      Argument lists MAY be split across multiple lines, where each subsequent
+      line is indented once. When doing so, the first item in the list MUST be
+      on the next line, and there MUST be only one argument per line. When the
+      argument list is split across multiple lines, the closing parenthesis and
+      opening brace MUST be placed together on their own line with one space
+      between them.
+    -->
+    <rule ref="Squiz.Functions.MultiLineFunctionDeclaration">
+        <properties>
+            <property name="indent" value="4"/>
+        </properties>
+    </rule>
+
+    <rule ref="Squiz.Functions.LowercaseFunctionKeywords"/>
+
+    <!--
+      Ensures that the "global" keyword isn't used.
+    -->
+    <rule ref="Squiz.PHP.GlobalKeyword"/>
+
+    <!--
+      Ensures that there are no function definitions inside of functions.
+      Closure are ok.
+    -->
+    <rule ref="Squiz.PHP.InnerFunctions"/>
+
+    <!--
+      Ensures that class members have scope modifiers
+      (public, protected, private).
+    -->
+    <rule ref="Squiz.Scope.MemberVarScope"/>
+
+    <!--
+      Ensures that methods have scope modifiers (public, protected, private).
+    -->
+    <rule ref="Squiz.Scope.MethodScope"/>
+
+    <!--
+      Ensures that $this is not used in static methods to avoid runtime errors.
+    -->
+    <rule ref="Squiz.Scope.StaticThisUsage"/>
+
+    <!--
+      Ensure cast statements dont contain whitespace.
+      Wrong: (array ) or ( array)
+      Correct: (array)
+    -->
+    <rule ref="Squiz.WhiteSpace.CastSpacing"/>
+
+    <!--
+      Ensures that control structures have a certain style of spacing
+      around brackets:
+      - No spaces after opening bracket and no spaces before closing bracket
+      - No blank lines at the start or the end of a control structure
+    -->
+    <rule ref="Squiz.WhiteSpace.ControlStructureSpacing"/>
+
+    <!--
+      Checks that there are no blank lines after a functions opening brace and
+      that opening braces are on the new line.
+    -->
+    <rule ref="Squiz.WhiteSpace.FunctionOpeningBraceSpace"/>
+
+    <!--
+      Ensures all language constructs (without brackets) contain a single
+      space between themselves and their content.
+    -->
+    <rule ref="Squiz.WhiteSpace.LanguageConstructSpacing"/>
+
+    <!--
+      Ensures that there is one space before and after a logical operator.
+    -->
+    <rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
+
+    <!--
+      Ensures that there is one blank lines between each member declaration.
+    -->
+    <rule ref="Squiz.WhiteSpace.MemberVarSpacing">
+        <exclude name="Squiz.WhiteSpace.MemberVarSpacing.FirstIncorrect" />
+    </rule>
+
+    <!--
+      Ensures there is no whitespace around a ObjectOperator ( -> )
+    -->
+    <rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing">
+        <!--Allow multiline declarations-->
+        <exclude name="Squiz.WhiteSpace.ObjectOperatorSpacing.Before"/>
+    </rule>
+
+    <!--
+      Ensures that operators have one space surrounding them.
+    -->
+    <!-- This rule is already checked by PHPCSFIXER. -->
+    <!-- <rule ref="Squiz.WhiteSpace.OperatorSpacing"/> -->
+
+    <!--
+      Ensures that the closing braces of scopes are on a new line
+      and indented correctly.
+    -->
+    <rule ref="Squiz.WhiteSpace.ScopeClosingBrace"/>
+
+    <!--
+      Ensure there is a single space after scope keywords.
+    -->
+    <rule ref="Squiz.WhiteSpace.ScopeKeywordSpacing"/>
+
+    <!--
+      Ensures that there is no whitespace before a semicolon.
+    -->
+    <rule ref="Squiz.WhiteSpace.SemicolonSpacing">
+        <severity>0</severity>
+    </rule>
+
+    <file>lib/</file>
+    <file>tests/</file>
+</ruleset>

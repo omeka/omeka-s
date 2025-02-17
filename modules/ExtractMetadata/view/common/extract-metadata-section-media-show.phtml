@@ -1,0 +1,15 @@
+<div id="extract-metadata" class="section">
+    <?php foreach ($metadataEntities as $metadataEntity): ?>
+    <div class="extractor">
+        <h2><?php echo $this->extractMetadata()->getExtractor($metadataEntity->getExtractor())->getLabel(); ?></h2>
+        <p><?php echo sprintf(
+            $this->translate('Last extracted %s.'),
+            $this->i18n()->dateFormat($metadataEntity->getExtracted(), 'long', 'long')
+        ); ?></p>
+        <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $this->translate('Expand')]); ?>
+        <div class="extracted-metadata collapsible">
+            <pre><?php echo $this->escapeHtml(json_encode($metadataEntity->getMetadata(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE)); ?></pre>
+        </div>
+    </div>
+    <?php endforeach; ?>
+</div>

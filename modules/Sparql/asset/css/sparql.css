@@ -1,0 +1,66 @@
+@media screen {
+
+    #form-sparql textarea {
+        height: auto;
+        width: 100%;
+    }
+    #form-sparql .inputs label.type-radio,
+    #form-sparql .inputs label.type-radio input[type=radio] {
+        display: inline-block;
+        width: auto;
+    }
+
+    body.minimal.sparql #page-actions button#submit {
+        background-color: #fff;
+    }
+    body.minimal.sparql .inputs input {
+        width: initial;
+        vertical-align: initial;
+    }
+
+    .namespaces label {
+        display: inline-block;
+    }
+    .namespaces label + .expand,
+    .namespaces label + .collapse {
+        color: #676767;
+        margin-left: 6px;
+    }
+    .namespaces dl {
+        display: flex;
+        flex-flow: row wrap;
+    }
+    .namespaces dt {
+        flex-basis: 30%;
+        padding: 2px 4px;
+    }
+    .namespaces dd {
+        flex-basis: 70%;
+        flex-grow: 1;
+        margin: 0;
+        padding: 2px 4px 2px 1.6949152542%;
+    }
+    body.sparql.minimal .namespaces dd {
+        padding-left: 4px;
+    }
+
+    .result table {
+        width: 100%;
+    }
+    .result-html a.data-type,
+    .result-html span.data-type,
+    .result-html span.language {
+        user-select: none;
+    }
+    .result a.data-type,
+    .result span.data-type,
+    .result span.language {
+        vertical-align: super;
+        font-size: 80%;
+    }
+
+    #yasgui .yasgui .autocompleteWrapper {
+        display: none !important;
+    }
+
+}

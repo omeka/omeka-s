@@ -1,0 +1,30 @@
+<?php 
+$escape = $this->plugin('escapeHtml'); 
+?>
+<div class="assets template-3-grid">
+<?php foreach ($attachments as $attachment): ?>
+    <?php $asset = $attachment['asset']; ?>
+    <div class="asset">
+        <?php $assetImage = ($asset) ? $this->thumbnail($asset, 'square') : ''; ?>
+        <?php $page = (array_key_exists('page', $attachment)) ? $attachment['page'] : null; ?>
+        <?php if ($page): ?>
+            <a href="<?php echo $escape($page->siteUrl()); ?>">
+                <?php if ($assetImage !== ''): ?>
+                <div class="asset-container">
+                    <?php echo $assetImage; ?>
+                </div>
+                <?php endif; ?>
+                <?php $altLinkTitle = ($attachment['alt_link_title'] !== '') ? $escape($attachment['alt_link_title']) : false; ?>
+                <span class="link-title"><?php echo ($altLinkTitle) ? $altLinkTitle : $escape($page->title()); ?></span>
+            </a>
+        <?php else: ?>
+            <div class="asset-container">
+                <?php echo $assetImage; ?>
+            </div>
+        <?php endif; ?>
+        <?php if ($attachment['caption'] !== ''): ?>
+        <div class="caption"><?php echo $escape($attachment['caption']); ?></div>
+        <?php endif; ?>
+    </div>
+<?php endforeach; ?>
+</div>

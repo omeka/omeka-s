@@ -1,0 +1,9 @@
+<?php echo $this->formRow($elementPropertyId); ?>
+<?php echo $this->formRow($elementValues); ?>
+<?php echo $this->partial('show-all', [
+    'label' => $this->translate('Show all available values.'),
+    'url' => $this->url('admin/site/slug/numeric-data-types-faceted-browse', ['controller' => 'index', 'action' => 'duration-values'], true),
+    'queryParams' => [
+        'property_id' => '#duration-less-than-property-id',
+    ],
+]); ?>

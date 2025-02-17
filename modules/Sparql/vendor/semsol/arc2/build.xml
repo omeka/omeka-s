@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="run-tests" name="arc2" basedir=".">
+
+	<property environment="env" />
+	<property name="tests-dir" location="${basedir}/tests"/>
+	<property name="coverage-dir" location="${tests-dir}/coverage"/>
+
+	<target name="run-tests" depends="run-unit-tests, run-functional-tests"/>
+	
+	<target name="run-unit-tests">
+		<exec dir="${tests-dir}/unit" executable="phpunit" failonerror="true">
+			<arg line="--coverage-html ${coverage-dir} --filter Test ." />
+		</exec>
+	</target>
+
+	<target name="run-functional-tests">
+		<exec dir="${tests-dir}/functional" executable="phpunit" failonerror="true">
+			<arg line="--filter Test ." />
+		</exec>
+	</target>
+
+</project>

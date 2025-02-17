@@ -1,0 +1,20 @@
+{
+  "name": "omeka-s-mapping",
+  "description": "Add location info to your items and sites.",
+  "author": "Corporation for Digital Scholarship",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omeka-s-modules/Mapping.git"
+  },
+  "dependencies": {
+    "Leaflet.Deflate": "^2.1.0",
+    "leaflet": "^1.9.3",
+    "leaflet-draw": "^1.0.4",
+    "leaflet-geosearch": "^3.7.0",
+    "leaflet-groupedlayercontrol": "^0.6.1",
+    "leaflet-providers": "^1.13.0",
+    "leaflet.fullscreen": "^2.4.0",
+    "leaflet.markercluster": "^1.5.3"
+  }
+}

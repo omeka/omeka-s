@@ -1,0 +1,240 @@
+<?php
+$wmsOverlayTemplate = '
+<tr class="mapping-wms-overlay">
+    <td>
+        <input type="checkbox" class="mapping-wms-open">
+        <input type="hidden" name="o:block[__blockIndex__][o:data][wms][__mappingWmsIndex__][label]">
+        <input type="hidden" name="o:block[__blockIndex__][o:data][wms][__mappingWmsIndex__][base_url]">
+        <input type="hidden" name="o:block[__blockIndex__][o:data][wms][__mappingWmsIndex__][layers]">
+        <input type="hidden" name="o:block[__blockIndex__][o:data][wms][__mappingWmsIndex__][styles]">
+        <input type="hidden" name="o:block[__blockIndex__][o:data][wms][__mappingWmsIndex__][open]">
+        <span class="mapping-wms-overlay-title"></span>
+    </td>
+    <td>
+        <ul class="actions">
+            <a href="#" class="mapping-wms-overlay-edit o-icon-edit" aria-label="Edit" title="Edit" ></a>
+            <a href="#" class="mapping-wms-overlay-delete o-icon-delete" aria-label="Delete" title="Delete"></a>
+        </ul>
+    </td>
+</tr>';
+?>
+<a href="#" class="mapping-map-expander expand"><h4><?php echo $this->translate('Default View'); ?></h4></a>
+<div class="collapsible">
+    <?php echo $this->formRow($basemapProviderSelect); ?>
+    <?php echo $this->formRow($minZoomInput); ?>
+    <?php echo $this->formRow($maxZoomInput); ?>
+    <?php echo $this->formRow($scrollWheelZoom); ?>
+    <p><?php echo sprintf(
+        $this->translate('Set the default view using the in-map controls. The current zoom level is %s.'),
+        '<span class="current-zoom"></span>'
+    ); ?></p>
+    <div class="mapping-map" style="height:300px;">
+        <input type="hidden" name="o:block[__blockIndex__][o:data][bounds]" value="<?php echo $this->escapeHtml($data['bounds']); ?>">
+    </div>
+</div>
+
+<a href="#" class="expand"><h4><?php echo $this->translate('WMS Overlays'); ?></h4></a>
+<div class="collapsible">
+    <p><?php echo $this->translate('Add, edit, and delete Web Map Service (WMS) overlays below. You may check which overlay you want open by default.'); ?></p>
+    <table class="tablesaw mapping-wms-overlays" data-wms-overlay-template="<?php echo $this->escapeHtml($wmsOverlayTemplate); ?>">
+        <?php foreach ($data['wms'] as $wmsOverlay): ?>
+        <tr class="mapping-wms-overlay">
+            <td>
+                <input type="checkbox" class="mapping-wms-open"<?php echo $wmsOverlay['open'] ? ' checked="checked"' : '' ?>>
+                <input type="hidden" name="o:block[__blockIndex__][o:data][wms][__mappingWmsIndex__][label]" value="<?php echo $this->escapeHtml($wmsOverlay['label']); ?>">
+                <input type="hidden" name="o:block[__blockIndex__][o:data][wms][__mappingWmsIndex__][base_url]" value="<?php echo $this->escapeHtml($wmsOverlay['base_url']); ?>">
+                <input type="hidden" name="o:block[__blockIndex__][o:data][wms][__mappingWmsIndex__][layers]" value="<?php echo $this->escapeHtml($wmsOverlay['layers']); ?>">
+                <input type="hidden" name="o:block[__blockIndex__][o:data][wms][__mappingWmsIndex__][styles]" value="<?php echo $this->escapeHtml($wmsOverlay['styles']); ?>">
+                <input type="hidden" name="o:block[__blockIndex__][o:data][wms][__mappingWmsIndex__][open]" value="<?php echo $this->escapeHtml($wmsOverlay['open']); ?>">
+                <span class="mapping-wms-overlay-title"><?php echo $wmsOverlay['label']; ?></span>
+            </td>
+            <td>
+                <ul class="actions">
+                    <a href="#" class="mapping-wms-overlay-edit o-icon-edit" aria-label="Edit" title="Edit" ></a>
+                    <a href="#" class="mapping-wms-overlay-delete o-icon-delete" aria-label="Delete" title="Delete"></a>
+                </ul>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+    <div class="mapping-wms-fields">
+        <div class="field">
+            <div class="field-meta">
+                <label><?php echo $this->translate('Label'); ?></label>
+                <div class="field-description"></div>
+            </div>
+            <div class="inputs">
+                <input type="text" class="mapping-wms-label">
+            </div>
+        </div>
+        <div class="field">
+            <div class="field-meta">
+                <label><?php echo $this->translate('Base URL'); ?></label>
+                <div class="field-description"></div>
+            </div>
+            <div class="inputs">
+                <input type="text" class="mapping-wms-base-url">
+            </div>
+        </div>
+        <div class="field">
+            <div class="field-meta">
+                <label><?php echo $this->translate('Layers'); ?></label><a href="#" class="expand"></a>
+                <div class="collapsible">
+                    <div class="field-description"><?php echo $this->translate('The WMS layers, if any (comma-separated).'); ?></div>
+                </div>
+            </div>
+            <div class="inputs">
+                <input type="text" class="mapping-wms-layers">
+            </div>
+        </div>
+        <div class="field">
+            <div class="field-meta">
+                <label>Styles</label><a href="#" class="expand"></a>
+                <div class="collapsible">
+                    <div class="field-description"><?php echo $this->translate('The WMS styles, if any (comma-separated).'); ?></div>
+                </div>
+            </div>
+            <div class="inputs">
+                <input type="text" class="mapping-wms-styles">
+            </div>
+        </div>
+    </div>
+    <button type="button" class="mapping-wms-add"><?php echo $this->translate('Add Overlay'); ?></button>
+    <button type="button" class="mapping-wms-edit" style="display:none;"><?php echo $this->translate('Save Changes'); ?></button>
+    <button type="button" class="mapping-wms-clear"><?php echo $this->translate('Clear Inputs'); ?></button>
+</div>
+
+<?php if ($timelineIsAvailable): ?>
+<a href="#" class="expand"><h4><?php echo $this->translate('Timeline'); ?></h4></a>
+<div class="collapsible" style="overflow: visible;">
+    <div class="field">
+        <div class="field-meta">
+            <label><?php echo $this->translate('Title headline'); ?></label>
+            <div class="field-description"></div>
+        </div>
+        <div class="inputs">
+            <?php
+            $titleHeadline = new \Laminas\Form\Element\Text("o:block[__blockIndex__][o:data][timeline][title_headline]");
+            $titleHeadline->setAttributes([
+                'value' => isset($data['timeline']['title_headline']) ? $data['timeline']['title_headline'] : null,
+            ]);
+            echo $this->formElement($titleHeadline);
+            ?>
+        </div>
+    </div>
+    <div class="field">
+        <div class="field-meta">
+            <label><?php echo $this->translate('Title text'); ?></label>
+            <div class="field-description"></div>
+        </div>
+        <div class="inputs">
+            <?php
+            $titleText = new \Laminas\Form\Element\Textarea("o:block[__blockIndex__][o:data][timeline][title_text]");
+            $titleText->setAttributes([
+                'class' => 'block-html full wysiwyg',
+                'value' => isset($data['timeline']['title_text']) ? $data['timeline']['title_text'] : null,
+            ]);
+            echo $this->formElement($titleText);
+            ?>
+        </div>
+    </div>
+    <div class="field">
+        <div class="field-meta">
+            <label><?php echo $this->translate('Fly to'); ?></label>
+            <a href="#" class="expand"></a>
+            <div class="collapsible">
+                <div class="field-description"><?php echo $this->translate('Select the map view to fly to when navigating between events.'); ?></div>
+            </div>
+        </div>
+        <div class="inputs">
+            <?php
+            $flyTo = new \Laminas\Form\Element\Select("o:block[__blockIndex__][o:data][timeline][fly_to]");
+            $flyTo->setValueOptions([
+                '' => $this->translate('Default view'),
+                '0' => $this->translate('Event marker, zoom 0'),
+                '2' => $this->translate('Event marker, zoom 2'),
+                '4' => $this->translate('Event marker, zoom 4'),
+                '6' => $this->translate('Event marker, zoom 6'),
+                '8' => $this->translate('Event marker, zoom 8'),
+                '10' => $this->translate('Event marker, zoom 10'),
+                '12' => $this->translate('Event marker, zoom 12'),
+                '14' => $this->translate('Event marker, zoom 14'),
+                '16' => $this->translate('Event marker, zoom 16'),
+                '18' => $this->translate('Event marker, zoom 18'),
+            ]);
+            $flyTo->setAttributes([
+                'value' => isset($data['timeline']['fly_to']) ? $data['timeline']['fly_to'] : '',
+            ]);
+            echo $this->formElement($flyTo);
+            ?>
+        </div>
+    </div>
+    <div class="field">
+        <div class="field-meta">
+            <label><?php echo $this->translate('Show contemporaneous events?'); ?></label>
+            <a href="#" class="expand"></a>
+            <div class="collapsible">
+                <div class="field-description"><?php echo $this->translate('Check this if you want to show all events on the map that exist in the same time period as the current event (default view only).'); ?></div>
+            </div>
+        </div>
+        <div class="inputs">
+            <?php
+            $showContemporaneous = new \Laminas\Form\Element\Checkbox("o:block[__blockIndex__][o:data][timeline][show_contemporaneous]");
+            $showContemporaneous->setAttributes([
+                'value' => isset($data['timeline']['show_contemporaneous']) ? $data['timeline']['show_contemporaneous'] : '',
+            ]);
+            echo $this->formElement($showContemporaneous);
+            ?>
+        </div>
+    </div>
+    <div class="field">
+        <div class="field-meta">
+            <label><?php echo $this->translate('Timeline navigation position'); ?></label>
+            <a href="#" class="expand"></a>
+            <div class="collapsible">
+                <div class="field-description"><?php echo $this->translate('Select the position of the timeline navigation.'); ?></div>
+            </div>
+        </div>
+        <div class="inputs">
+            <?php
+            $timenavPosition = new \Laminas\Form\Element\Select("o:block[__blockIndex__][o:data][timeline][timenav_position]");
+            $timenavPosition->setEmptyOption('Default position');
+            $timenavPosition->setValueOptions([
+                'full_width_below' => $this->translate('Full width, below story slider and map'),
+                'full_width_above' => $this->translate('Full width, above story slider and map'),
+            ]);
+            $timenavPosition->setAttributes([
+                'value' => isset($data['timeline']['timenav_position']) ? $data['timeline']['timenav_position'] : '',
+            ]);
+            echo $this->formElement($timenavPosition);
+            ?>
+        </div>
+    </div>
+    <div class="field">
+        <div class="field-meta">
+            <label><?php echo $this->translate('Property'); ?></label>
+            <a href="#" class="expand"></a>
+            <div class="collapsible">
+                <div class="field-description"><?php echo $this->translate('Select the timestamp or interval property to use when populating the timeline.'); ?></div>
+            </div>
+        </div>
+        <div class="inputs">
+            <?php
+            echo $this->numericPropertySelect([
+                'name' => 'o:block[__blockIndex__][o:data][timeline][data_type_properties]',
+                'attributes' => [
+                    'class' => 'chosen-select',
+                    'data-placeholder' => 'Select property…', // @translate
+                    'value' => isset($data['timeline']['data_type_properties']) ? $data['timeline']['data_type_properties'][0] : null,
+                ],
+                'options' => [
+                    'empty_option' => '',
+                    'numeric_data_type' => ['timestamp', 'interval'],
+                    'numeric_data_type_disambiguate' => true,
+                ],
+            ]);
+            ?>
+        </div>
+    </div>
+</div>
+<?php endif; ?>

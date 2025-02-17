@@ -1,0 +1,87 @@
+{
+    "name": "daniel-km/omeka-s-module-data-type-rdf",
+    "type": "library",
+    "description": "Implement some W3C RDF datatypes (html, xml, boolean) in order to simplify user input and to give more semanticity to values of resources.",
+    "license": "CECILL-2.1",
+    "authors": [
+        {
+            "name": "Daniel Berthereau",
+            "email": "Daniel.packagist@Berthereau.net"
+        }
+    ],
+    "homepage": "https://gitlab.com/Daniel-KM/Omeka-S-module-DataTypeRdf",
+    "support": {
+        "issues": "https://gitlab.com/Daniel-KM/Omeka-S-module-DataTypeRdf/-/issues",
+        "forum": "https://forum.omeka.org/"
+    },
+    "keywords": [
+        "Omeka S",
+        "module",
+        "data type",
+        "footnotes"
+    ],
+    "require": {
+        "ext-xml": "*",
+        "andykirk/ckeditor-footnotes": "1.2",
+        "codemirror/codemirror": "^5.65",
+        "cweagans/composer-patches": "^1.7",
+        "oomphinc/composer-installers-extender": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "DataTypeRdf\\": "src/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "andykirk/ckeditor-footnotes",
+                "version": "1.2.0",
+                "type": "omeka-addon-asset",
+                "source": {
+                    "type": "git",
+                    "reference": "v1.2.0",
+                    "url": "https://github.com/andykirk/CKEditor-Footnotes.git"
+                },
+                "dist": {
+                    "type": "zip",
+                    "url": "https://github.com/andykirk/CKEditorFootnotes/archive/refs/tags/v1.2.0.zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "type": "omeka-addon-asset",
+                "name": "codemirror/codemirror",
+                "version": "5.65.13",
+                "dist": {
+                    "type": "tar",
+                    "url": "https://codemirror.net/5/codemirror.zip"
+                }
+            }
+        }
+    ],
+    "extra": {
+        "installer-types": ["omeka-addon-asset"],
+        "installer-paths": {
+            "asset/vendor/{$name}/": [
+                "type:omeka-addon-asset"
+            ]
+        },
+        "installer-name" : "DataTypeRdf",
+        "patches": {
+            "andykirk/ckeditor-footnotes": {
+                "Fix footnotes": "patches/ckeditor-footnotes-omeka.patch"
+            }
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "cweagans/composer-patches": true,
+            "oomphinc/composer-installers-extender": true
+        }
+    }
+}

@@ -1,0 +1,137 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-08 00:00+0000\n"
+"PO-Revision-Date: 2024-07-08 00:00+0000\n"
+"Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.2.2\n"
+
+#: data/scripts/upgrade_from_rdfdatatype.php:279
+msgid "The module RdfDatatype was automatically uninstalled."
+msgstr "Le module RdfDatatype a été désinstallé automatiquement."
+
+#: data/scripts/upgrade_from_rdfdatatype.php:285
+msgid "The module RdfDatatype cannot be automatically uninstalled."
+msgstr "Le module RdfDatatype ne peut pas être automatiquement désinstallé."
+
+#: data/scripts/upgrade.php:29 Module.php:59
+#, php-format
+msgid "The module %1$s should be upgraded to version %2$s or later."
+msgstr "Le module %1$s doit être mis à niveau à la version %2$s ou supérieure."
+
+#: src/DataType/Boolean.php:34 src/DataType/Boolean.php:80
+msgid "false"
+msgstr "faux"
+
+#: src/DataType/Boolean.php:35 src/DataType/Boolean.php:79
+msgid "true"
+msgstr "vrai"
+
+#: data/scripts/upgrade.php:40
+msgid ""
+"It’s now possible to choose mode of display to edit html values of resources "
+"in main params."
+msgstr ""
+"Il est désormais possible de choisir un mode d’édition pour modifier les "
+"valeurs html des ressources dans les paramètres généraux."
+
+#: data/scripts/upgrade.php:47
+msgid "Data type xml is now displayed with colors in resource form."
+msgstr ""
+"Le type de données xml s’affiche désormais avec des couleurs dans le "
+"formulaire de ressource."
+
+#: data/scripts/upgrade.php:54
+msgid ""
+"A new data type has been added for json. Warning: the RDF specification is "
+"still in {link}discussion{link_end}. In particular, keys of objects should "
+"be stored in dictionnary order."
+msgstr ""
+"Un nouveau type de données a été ajouté pour json. Attention : la "
+"spécification RDF est encore en {link}discussion{link_end}. En particulier, "
+"les clés des objets doivent être enregistrées dans l’ordre du dictionnaire."
+
+#: src/Form/SettingsFieldset.php:10
+msgid "Data Type Rdf"
+msgstr "Data Type RDF"
+
+#: src/Form/SettingsFieldset.php:26
+msgid "Html edition mode for resources"
+msgstr "Mode d’édition Html des ressources"
+
+#: src/Form/SettingsFieldset.php:28
+msgid "Inline (default)"
+msgstr "En ligne (défaut)"
+
+#: src/Form/SettingsFieldset.php:29
+msgid "Document (maximizable)"
+msgstr "Document (maximisable)"
+
+#: src/Form/SettingsFieldset.php:41
+msgid "Html edition config and toolbar for resources"
+msgstr "Configuration de l’éditeur html pour les ressources"
+
+#: src/DataType/AbstractDataTypeRdf.php:17
+msgid "Data Type RDF"
+msgstr "Data Type RDF"
+
+#: src/DataType/Boolean.php:23 config/module.config.php:57
+msgid "Boolean"
+msgstr "Booléen"
+
+#: config/module.config.php:45
+msgid "Html"
+msgstr "Html"
+
+#: config/module.config.php:49
+msgid "Xml"
+msgstr "Xml"
+
+#: config/module.config.php:53
+msgid "Json"
+msgstr "Json"
+
+#, php-format
+#~ msgid "This module requires the module \"%s\"."
+#~ msgstr "Ce module requiert le module \"%s\"."
+
+#, php-format
+#~ msgid "This module requires modules \"%s\"."
+#~ msgstr "Ce module requiert les modules \"%s\"."
+
+#~ msgid "This module has resources that cannot be installed."
+#~ msgstr "Ce module a des ressources qui ne peuvent pas être installées."
+
+#~ msgid ""
+#~ "This module cannot install its tables, because they exist already. Try to "
+#~ "remove them first."
+#~ msgstr ""
+#~ "Ce module ne peut pas installer ses tables car elles existent déjà. "
+#~ "Essayez de les supprimer manuellement."
+
+#, php-format
+#~ msgid "The module removed tables \"%s\" from a previous broken install."
+#~ msgstr ""
+#~ "Le module a supprimé les tables « %s » depuis une installation échouée."
+
+#, php-format
+#~ msgid ""
+#~ "The module \"%s\" was automatically deactivated because the dependencies "
+#~ "are unavailable."
+#~ msgstr ""
+#~ "Le module \"%s\" a été automatiquement désactivé car ses dépendances ne "
+#~ "sont plus disponibles."
+
+#~ msgid "@value"
+#~ msgstr "@value"

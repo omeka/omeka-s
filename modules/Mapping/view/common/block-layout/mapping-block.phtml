@@ -1,0 +1,53 @@
+<?php
+$this->headLink()->appendStylesheet($this->assetUrl('node_modules/leaflet/dist/leaflet.css', 'Mapping'));
+$this->headLink()->appendStylesheet($this->assetUrl('node_modules/leaflet.markercluster/dist/MarkerCluster.css', 'Mapping'));
+$this->headLink()->appendStylesheet($this->assetUrl('node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css', 'Mapping'));
+$this->headLink()->appendStylesheet($this->assetUrl('node_modules/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.css', 'Mapping'));
+$this->headLink()->appendStylesheet($this->assetUrl('node_modules/leaflet.fullscreen/Control.FullScreen.css', 'Mapping'));
+
+$this->headScript()->appendFile($this->assetUrl('node_modules/leaflet/dist/leaflet.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('node_modules/leaflet.markercluster/dist/leaflet.markercluster-src.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('node_modules/leaflet-providers/leaflet-providers.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('node_modules/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('node_modules/leaflet.fullscreen/Control.FullScreen.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('node_modules/Leaflet.Deflate/dist/L.Deflate.js', 'Mapping'));
+
+$this->headScript()->appendFile($this->assetUrl('js/control.opacity.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('js/mapping-block.js', 'Mapping'));
+
+if ($isTimeline) {
+    $this->headLink()->appendStylesheet('https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css');
+    $this->headScript()->appendFile('https://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js');
+    $this->headLink()->appendStylesheet($this->assetUrl('css/timeline.css', 'Mapping'));
+}
+// Set the classes for the mapping block container div.
+$mappingBlockClasses = ['mapping-block'];
+if ($isTimeline) {
+    $mappingBlockClasses[] = 'timeline';
+    $timenavPosition = $data['timeline']['timenav_position'];
+    $mappingBlockClasses[] = $timenavPosition;
+    if ('full_width_below' === $timenavPosition) {
+        $mappingBlockClasses[] = 'timenav-full-width-below';
+    }
+    if ('full_width_above' === $timenavPosition) {
+        $mappingBlockClasses[] = 'timenav-full-width-above';
+    }
+}
+?>
+<div class="<?php echo implode(' ', $mappingBlockClasses); ?>">
+    <?php if ($isTimeline): ?>
+    <div class='mapping-timeline' style="height: 500px"
+        data-data="<?php echo $this->escapeHtml(json_encode($timelineData)); ?>"
+        data-options="<?php echo $this->escapeHtml(json_encode($timelineOptions)); ?>"
+    ></div>
+    <?php endif; ?>
+    <div class="mapping-map" style="height:500px;"
+        data-data="<?php echo $this->escapeHtml(json_encode($data)); ?>"
+        data-disable-clustering="<?php echo $this->siteSetting('mapping_disable_clustering') ? '1' : '0'; ?>"
+        data-basemap-provider="<?php echo $this->escapeHtml($this->siteSetting('mapping_basemap_provider')); ?>"
+    ></div>
+
+    <?php foreach ($features as $feature): ?>
+    <?php echo $this->partial('common/mapping-feature-popup', ['feature' => $feature]); ?>
+    <?php endforeach; ?>
+</div>

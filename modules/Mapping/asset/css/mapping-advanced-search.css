@@ -1,0 +1,16 @@
+#mapping-geographic-location .inputs {
+    display: flex;
+    gap: .5em;
+}
+
+#mapping-geographic-location .inputs > div:first-child {
+    flex-grow: 1;
+}
+
+#mapping-geographic-location .inputs > div:first-child > input {
+    width: 100%;
+}
+
+#mapping-geographic-location .inputs input, #mapping-geographic-location .inputs select {
+    display: block;
+}

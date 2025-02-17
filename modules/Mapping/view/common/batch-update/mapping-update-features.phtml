@@ -1,0 +1,22 @@
+<div>
+    <span><?php echo $this->translate('Media image'); ?></span>
+    <span style="float: right;"><?php echo $this->formElement($element->getImageElement()) ?></span>
+</div>
+<?php echo $this->formElement($element->getLabelPropertyElement()); ?>
+<div id="mapping-update-features-label-source">
+    <span><?php echo $this->translate('Label source'); ?></span>
+    <span style="float: right;"><?php echo $this->formElement($element->getLabelPropertySourceElement()) ?></span>
+</div>
+
+<script>
+const labelSourceDiv = $('#mapping-update-features-label-source');
+labelSourceDiv.hide();
+$('[name="mapping_update_features[label_property]"]').on('change', function(e) {
+    const thisSelect = $(this);
+    if (thisSelect.val()) {
+        labelSourceDiv.show();
+    } else {
+        labelSourceDiv.hide();
+    }
+});
+</script>

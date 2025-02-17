@@ -1,0 +1,48 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+?>
+<div class="resource-details">
+    <h3 class="o-title">
+        <?php echo $resource->name(); ?>
+    </h3>
+
+    <div class="meta-group">
+        <h4>
+            <?php echo count($resource->mapping()) . $translate(' level attribute(s) mapped: ') ?>
+        </h4>
+        <em>
+            <?php echo $translate('* heritage') ?>
+        </em>
+        <div class="value">
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            <?php echo $translate('Level attribute') ?>
+                        </th>
+                        <th>
+                            <?php echo $translate('Nodes') ?>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <?php foreach ($resource->mapping() as $level => $nodes) : ?>
+                        <tr>
+                            <td>
+                                <?php echo $level ?>
+                            </td>
+                            <td>
+                                <?php foreach ($nodes as $node => $mapping) : ?>
+                                    <?php
+                                        echo $node . (isset($mapping['make_inherit']) ? '*' : '') . ' ; ';
+                                    ?>
+                                <?php endforeach ?>
+                            </td>
+                        </tr>
+                        <?php endforeach ?>
+                    </tbody>
+                </table>
+            </div>
+    </div>
+</div>

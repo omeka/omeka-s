@@ -1,0 +1,379 @@
+#content {
+    padding: 0 (2 * $spacing-l) $spacing-l;
+}
+
+table {
+    margin: $spacing-l 0;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    text-align: left;
+    padding: $spacing-s $spacing-m;
+    padding-bottom: $spacing-s - 1px;
+    border-bottom: 1px solid $gray;
+}
+
+.field .field-meta {
+    width: 30%;
+    align-self: flex-start;
+}
+
+.field .inputs {
+    width: 70%;
+    padding-left: $spacing-l;
+}
+
+.field .value select {
+    width: initial;
+    margin-bottom: 0;
+}
+
+/* @group ----- Header ----- */
+
+header {
+    position: relative;
+    margin-bottom: 2 * $spacing-l;
+}
+
+.site-title,
+#top-nav {
+    padding: 0 (2 * $spacing-l);
+    position: relative;
+
+    &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: -9999px;
+        right: -9999px;
+        background-color: #fff;
+        z-index: -1;
+    }
+}
+
+#top-nav {
+    border-bottom: 1px solid $light;
+}
+
+#top-nav:after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    height: 1px;
+    left: -9999px;
+    right: -9999px;
+    background-color: $light;
+}
+
+h1.site-title {
+    margin: 0 auto;
+    padding: $spacing-m (2 * $spacing-l);
+}
+
+#search {
+    width: 100%;
+    position: absolute;
+    margin-top: -1px;
+    text-align: right;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#search form {
+    display: inline-flex;
+    padding: $spacing-s;
+    border-left: 1px solid $light;
+    border-right: 1px solid $light;
+}
+
+#search form input[type="text"],
+#search form button[type="submit"] {
+    height: $base-line-height;
+    font-size: .75 * $base-font-size;
+    line-height: $base-line-height;
+}
+
+#search form button[type="submit"] {
+    width: $base-line-height;
+    height: $base-line-height;
+    padding: 0;
+
+    &:before {
+        line-height: $base-line-height;
+    }
+}
+
+#top-nav {
+    position: relative;
+}
+
+.banner {
+    z-index: -1;
+}
+/* @end */
+
+/* @group ----- Footer ----- */
+
+footer {
+    padding: 0 (2 * $spacing-l) $spacing-l;
+}
+
+/* @end */
+
+/* @group ----- Navigation ----- */
+
+#mobile-nav-toggle {
+    display: none;
+}
+
+header nav {
+    margin: 0 auto !important;
+    position: static;
+    padding: 0 (2 * $spacing-l);
+}
+
+header nav ul a {
+    padding: 0;
+}
+
+header nav ul li {
+    position: static;
+}
+
+header nav ul a:hover {
+    background-color: transparent;
+}
+
+header nav ul li,
+header nav > ul li:last-child,
+header nav > ul ul:hover > li {
+    border: 0;
+}
+
+header nav ul.navigation {
+    margin-left: -$spacing-s;
+    position: static;
+    display: flex;
+    align-items: flex-end;
+    height: auto;
+
+    li ul:before {
+        display: none;
+    }
+
+    & > li:not(:last-child) {
+        margin-right: $spacing-m;
+    }
+
+    & > li > ul {
+        display: none;
+    }
+
+    & > li:hover > ul,
+    & > .parent > ul.open {
+        @include container;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #fff;
+        list-style: none;
+        width: 100%;
+        padding: ($spacing-m - 1px) (2 * $spacing-l);
+        border-bottom: 0;
+        border-color: $light;
+        height: auto;
+        overflow: visible;
+        display: flex;
+        flex-direction: row;
+        flex-flow: row wrap;
+        z-index: 1;
+
+        &:after {
+            content: "";
+            left: -9999px;
+            right: -9999px;
+            background-color: #fff;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            border-bottom: 1px solid $light;
+            border-top: 1px solid $light;
+            z-index: -1;
+        }
+    }
+
+    & > li > ul > li {
+        width: 25%;
+        font-size: .75 * $base-font-size;
+        font-weight: bold;
+    }
+
+    & > li > ul > li ul {
+        font-weight: normal;
+        padding-left: $spacing-m;
+        list-style-type: none;
+        height: auto;
+    }
+    
+    li.parent {
+        position: static;
+    }
+}
+
+header nav > ul ul li {
+    height: auto;
+    overflow: visible;
+}
+
+header nav > ul > li > a {
+    margin: $spacing-s;
+}
+
+header nav > ul > li > * {
+    display: inline-flex;
+    width: 100%;
+}
+
+header nav ul.open > li {
+    border-top: 0;
+}
+
+header nav > ul > li > .parent-link > a {
+    margin: $spacing-s 0 $spacing-s $spacing-s;
+    width: calc(100% - #{$spacing-l});
+}
+
+header nav ul .child-toggle {
+    display: inline-block;
+    padding: 0;
+    border-left: 0;
+    width: $spacing-l;
+    color: $link;
+}
+
+header nav .parent .parent .child-toggle {
+    display: none;
+}
+
+header nav ul ul {
+    display: block;
+}
+
+/* Second and Third level items */
+header .parent ul a {
+    padding-left: 0;
+}
+
+header .parent .parent .parent ul a {
+    padding-left: .5 * $spacing-l;
+}
+
+.sub-menu ul {
+    border-bottom: 1px solid $light;
+    padding-bottom: ($spacing-m - 1px);
+}
+
+.sub-menu li {
+    display: inline-block;
+    border: 0;
+    padding: 0;
+    margin-right: $spacing-m;
+
+    &:first-of-type {
+        border: 0;
+        padding: 0;
+    }
+}
+
+.items.search #search {
+    display: block;
+}
+
+/* @end */
+
+/* @group ----- Resource List ----- */
+
+ul.resource-list .resource img {
+    width: 4 * $spacing-l;
+    height: auto;
+    float: right;
+    margin-left: $spacing-m;
+}
+
+ul.resource-list .resource img ~ * {
+    width: calc(100% - #{4.5 * $spacing-l});
+}
+
+/* @end */
+
+/* @group ----- Item Set ----- */
+
+body.item-set.item #content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-end;
+
+    & > h2,
+    & > h3 {
+        width: 100%;
+    }
+}
+
+body.item-set .metadata {
+    width: 35%;
+    border-left: 5px solid $light;
+    padding: 0 $spacing-l;
+}
+
+body.item-set .metadata h4:first-of-type {
+    margin-top: 0;
+}
+
+body.item-set #content .metadata ~ * {
+    width: 65%;
+    border-left: 1px solid $light;
+    padding-left: $spacing-l;
+}
+
+body.item-set .item-set-items h3 {
+    margin-top: 0;
+}
+
+body.item-set .metadata ~ nav.pagination:first-of-type {
+    margin-bottom: 0;
+}
+
+/* @group ----- Search ----- */
+
+.results > ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.results > ul > li {
+  width: calc(50% - #{$spacing-l});
+  
+  &:nth-child(2n) {
+    margin-left: $spacing-l;
+  }
+}
+
+/* @end */
+
+/* @group ----- Page and blocks ----- */
+
+.preview-block {
+    clear: both;
+}
+
+ul.preview.resource-list li:first-of-type {
+    border-top: 1px solid $light;
+    padding-top: ($spacing-l - 1px);
+}
+
+/* @end */

@@ -1,0 +1,65 @@
+{
+    "name": "daniel-km/omeka-s-module-sparql",
+    "type": "library",
+    "description": "Module for Omeka S to create a rdf triplestore and to query Omeka S via the Sparql language.",
+    "license": "CECILL-2.1",
+    "authors": [
+        {
+            "name": "Daniel Berthereau",
+            "email": "Daniel.packagist@Berthereau.net"
+        }
+    ],
+    "homepage": "https://gitlab.com/Daniel-KM/Omeka-S-module-Sparql",
+    "support": {
+        "issues": "https://gitlab.com/Daniel-KM/Omeka-S-module-Sparql/-/issues",
+        "forum": "https://forum.omeka.org/"
+    },
+    "keywords": [
+        "Omeka S",
+        "Omeka S module",
+        "rdf",
+        "sparql",
+        "triplestore",
+        "yasgui"
+    ],
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "type": "omeka-addon-asset",
+                "name": "triplydb/yasgui",
+                "version": "4.2.28",
+                "dist": {
+                    "type": "zip",
+                    "url": "https://github.com/Daniel-KM/Omeka-S-module-Sparql/releases/download/3.4.1/yasgui-4.2.28.zip"
+                }
+            }
+        }
+    ],
+    "require": {
+        "oomphinc/composer-installers-extender": "^2.0",
+        "semsol/arc2": "^3.0",
+        "triplydb/yasgui": "4.2.28"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sparql\\": "src/"
+        }
+    },
+    "extra": {
+        "installer-types": [
+            "omeka-addon-asset"
+        ],
+        "installer-paths": {
+            "asset/vendor/{$name}/": [
+                "type:omeka-addon-asset"
+            ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "oomphinc/composer-installers-extender": true
+        }
+    }
+}

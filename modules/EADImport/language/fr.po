@@ -1,0 +1,197 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-10-06 08:49+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: view/ead-import/admin/index/load.phtml:6
+msgid "Load from file"
+msgstr "Charger depuis un fichier"
+
+#: view/ead-import/admin/index/load.phtml:6
+#: view/ead-import/admin/index/map.phtml:4
+#: view/ead-import/admin/index/past-imports.phtml:8
+#: view/ead-import/admin/mapping-model/browse.phtml:7
+msgid "EAD Import"
+msgstr "Import EAD"
+
+#: view/ead-import/admin/index/map.phtml:4
+msgid "Mapping"
+msgstr "Correspondance"
+
+#: view/ead-import/admin/index/map.phtml:29
+#: view/ead-import/admin/index/map.phtml:30
+#: view/ead-import/admin/index/mapping-sidebar.phtml:15
+#: view/ead-import/admin/mapping-model/browse.phtml:7
+msgid "Mapping models"
+msgstr "Modèles de correspondances"
+
+#: view/ead-import/admin/index/map.phtml:36
+#: view/ead-import/admin/mapping-model/show-details.phtml:22
+msgid "Level attribute"
+msgstr "Attribut level"
+
+#: view/ead-import/admin/index/map.phtml:37
+msgid "Transform into"
+msgstr "Transformer en"
+
+#: view/ead-import/admin/index/map.phtml:38
+msgid "Skip"
+msgstr "Ignorer"
+
+#: view/ead-import/admin/index/map.phtml:52
+msgid "Skipped"
+msgstr "Ignoré"
+
+#: view/ead-import/admin/index/map.phtml:64
+msgid " - Xpaths"
+msgstr " - Xpaths"
+
+#: view/ead-import/admin/index/map.phtml:65
+msgid "Mappings"
+msgstr "Correspondances"
+
+#: view/ead-import/admin/index/map.phtml:67
+msgid "Make inherit "
+msgstr "Faire hériter"
+
+#: view/ead-import/admin/index/map.phtml:82
+#: view/ead-import/admin/index/mapping-sidebar.phtml:4
+msgid "Add mapping"
+msgstr "Ajouter une correspondance"
+
+#: view/ead-import/admin/index/past-imports.phtml:8
+msgid "Past imports"
+msgstr "Imports passés"
+
+#: view/ead-import/admin/index/past-imports.phtml:59
+msgid "Job details"
+msgstr "Détails de la tâche"
+
+#: view/ead-import/admin/mapping-model/browse.phtml:100
+#, php-format
+msgid "Delete %1$s mapping"
+msgstr "Supprimer le modèle %1$s"
+
+#: view/ead-import/admin/mapping-model/browse.phtml:102
+msgid "Are you sure you would like to delete this mapping ?"
+msgstr "Êtes vous sûrs de vouloir supprimer ce modèle ?"
+
+#: view/ead-import/admin/mapping-model/browse.phtml:104
+#, php-format
+msgid "%1$s: this action will permanently cannot be undone."
+msgstr "%1$s: cette action est irréversible"
+
+#: view/ead-import/admin/mapping-model/browse.phtml:114
+msgid "Omeka could not find any mapping models."
+msgstr "Omeka ne trouve aucun modèle de correspondance"
+
+#: view/ead-import/admin/mapping-model/edit.phtml:3
+msgid "Edit model"
+msgstr "Editer le modèle"
+
+#: view/ead-import/admin/mapping-model/save.phtml:3
+msgid "Add new model"
+msgstr "Ajouter un modèle"
+
+#: view/ead-import/admin/mapping-model/show-details.phtml:12
+msgid " level attribute(s) mapped: "
+msgstr " attribut(s) level correspondant(s): "
+
+#: view/ead-import/admin/mapping-model/show-details.phtml:15
+#: view/ead-import/admin/mapping-model/show.phtml:18
+msgid "* heritage"
+msgstr " * héritage"
+
+#: view/ead-import/admin/mapping-model/show-details.phtml:25
+#: view/ead-import/admin/mapping-model/show.phtml:24
+msgid "Nodes"
+msgstr "Noeuds"
+
+#: view/ead-import/admin/mapping-model/show.phtml:10
+msgid "Back to the list"
+msgstr "Retour à la liste"
+
+#: view/ead-import/admin/mapping-model/show.phtml:15
+msgid "Level attribute - "
+msgstr "Attribute level - "
+
+#: view/ead-import/admin/mapping-sidebar/mapping-loader.phtml:26
+msgid "None mapping model save yet"
+msgstr "Aucun modèle de correspondance encore sauvegardé"
+
+#: src/Api/Adapter/MappingModelAdapter.php:45
+msgid "A model must have a name to save it."
+msgstr "Un modèle doit avoir un nom pour être sauvegardé"
+
+#: src/Api/Adapter/MappingModelAdapter.php:49
+msgid "Mapping must exists."
+msgstr "Des correspondances doivent exister"
+
+#: src/Form/MappingModelSaverForm.php:19 src/Form/MappingModelEditForm.php:18
+msgid "Mapping model name"
+msgstr "Nom du modèle de correspondances"
+
+#: src/Form/LoadForm.php:19
+msgid "Import name"
+msgstr "Nom de l'import"
+
+#: src/Form/LoadForm.php:30
+msgid "File path"
+msgstr "Chemin du fichier"
+
+#: src/Form/LoadForm.php:40
+msgid "Check structure with schema"
+msgstr "Vérifier la structure avec un schéma"
+
+#: src/Form/LoadForm.php:41
+msgid "Validation with XSD formatted schema"
+msgstr "Validation avec le schéma XSD"
+
+#: src/Controller/Admin/IndexController.php:82
+msgid "/"
+msgstr "/"
+
+#: src/Controller/Admin/IndexController.php:113
+#, php-format
+msgid "Importing in background (%sjob #%d%s)"
+msgstr "Import en cours (%sjob #%d%s)"
+
+#: src/Controller/Admin/MappingModelController.php:80
+msgid "Mapping model successfully updated"
+msgstr "Modèle de correspondance mis à jour avec succès"
+
+#: src/Controller/Admin/MappingModelController.php:115
+msgid "Mapping model successfully added"
+msgstr "Modèle de correspondance ajouté avec succès"
+
+#: src/Controller/Admin/MappingModelController.php:123
+msgid "Name or mapping is empty"
+msgstr "Le nom ou les correspondances sont vides"
+
+#: src/Controller/Admin/MappingModelController.php:146
+msgid "mapping model"
+msgstr "modèle de correspondances"
+
+#: src/Controller/Admin/MappingModelController.php:159
+msgid "Mapping model successfully deleted"
+msgstr "Modèle de correspondance supprimé avec succès"
+
+#~ msgid "Heritage"
+#~ msgstr "Héritage"
+
+#~ msgid "* "
+#~ msgstr "* "

@@ -1,0 +1,282 @@
+
+
+/* General Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: #333;
+    line-height: 1.6;
+    background-color: #b57f4f;
+
+}
+
+
+
+/* Header */
+.header {
+    background-color: #333;
+    color: #fff;
+    padding: 15px 0;
+}
+
+.header .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.header .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.header .nav a {
+    color: #fff;
+    margin-left: 20px;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.header .nav a:hover {
+    color: #b57f4f;
+}
+
+.header .sign-in {
+    background-color: #b57f4f;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+/* Hero Section */
+/*.hero {
+    background-size: cover;
+    background-position: center;
+    background-color: #594b42;
+    color: #fff;
+    text-align: center;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.hero .search-bar {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.hero .search-bar input {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    width: 300px;
+}
+
+.hero .search-bar button {
+    background-color: #b57f4f;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}*/
+
+/* About Section */
+.about {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #3a2c24;
+    color: #fff;
+}
+
+.about h2 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+.about button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #b57f4f;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Excavations Section */
+.gallery {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #1f1712;
+    color: #fff;
+}
+ 
+.gallery h2 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+.gallery-grid {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.gallery-card {
+    position: relative;
+    width: 300px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+
+
+.gallery-card .overlay {
+    position: absolute;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    font-size: 1.2rem;
+}
+
+/* Footer */
+.footer {
+    text-align: left;
+    padding: 5px;
+    background-color: black;
+    color: #fff;
+}
+
+.footer a {
+    color: #fff;
+    text-decoration: none;
+}
+
+
+/* Search */
+
+
+.search-results .results-meta {
+    font-size: 1.2rem;
+    margin: 20px 0;
+}
+
+.search-results .result-item {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.search-results .pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+
+.search-results .view-details {
+    background-color: #b57f4f;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-results .view-details:hover {
+    background-color: #9f6a3f;
+}
+
+
+/* Filtros */
+.filters {
+    padding: 1rem;
+    background: #f5f5f5;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .search-bar {
+    padding: 0.5rem;
+    width: 300px;
+    border: 1px solid #ddd;
+  }
+  
+  /* Grid de Resultados */
+  .results-grid {
+    display: grid;
+    gap: 1rem;
+  }
+  
+  .search-result-item {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    background: white;
+  }
+  
+  .search-result-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 1rem;
+  }
+
+
+  /* Item Card Component */
+.item-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    background: white;
+    transition: transform 0.2s;
+  }
+  
+  .item-card:hover {
+    transform: translateY(-4px);
+  }
+  
+  .item-thumbnail img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .item-metadata {
+    padding: 1rem;
+  }
+  
+  .item-metadata h3 {
+    margin: 0 0 0.5rem 0;
+    color: #2c3e50;
+  }
+  
+  .item-material, .item-location {
+    margin: 0.3rem 0;
+    color: #7f8c8d;
+  }
+
+#content {
+    background-color: #594b42;
+    color: #fff;
+}

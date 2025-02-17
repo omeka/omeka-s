@@ -1,0 +1,61 @@
+<?php
+$this->headLink()->appendStylesheet($this->assetUrl('node_modules/leaflet/dist/leaflet.css', 'Mapping'));
+$this->headLink()->appendStylesheet($this->assetUrl('node_modules/leaflet-draw/dist/leaflet.draw.css', 'Mapping'));
+$this->headLink()->appendStylesheet($this->assetUrl('node_modules/leaflet-geosearch/dist/geosearch.css', 'Mapping'));
+$this->headLink()->appendStylesheet($this->assetUrl('node_modules/leaflet.fullscreen/Control.FullScreen.css', 'Mapping'));
+
+$this->headScript()->appendFile($this->assetUrl('node_modules/leaflet/dist/leaflet.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('node_modules/leaflet-draw/dist/leaflet.draw.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('node_modules/leaflet-providers/leaflet-providers.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('node_modules/leaflet-geosearch/dist/bundle.min.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('node_modules/leaflet.fullscreen/Control.FullScreen.js', 'Mapping'));
+
+$this->headScript()->appendFile($this->assetUrl('js/mapping-form.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('js/control.opacity.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('js/control.fit-bounds.js', 'Mapping'));
+$this->headScript()->appendFile($this->assetUrl('js/control.default-view.js', 'Mapping'));
+
+$mapping = null;
+$features = [];
+$itemMedia = [];
+if (isset($item)) {
+    $mapping = $this->api()->searchOne('mappings', ['item_id' => $item->id()])->getContent();
+    $features = $this->api()->search('mapping_features', ['item_id' => $item->id()])->getContent();
+    $itemMedia = $item->media();
+}
+?>
+<fieldset id="mapping-section" class="section">
+    <legend id="mapping-legend"><?php echo $this->translate('Mapping'); ?></legend>
+    <div id="mapping-map" style="height:700px;"
+        data-mapping="<?php echo $this->escapeHtml(json_encode($mapping)); ?>"
+        data-features="<?php echo $this->escapeHtml(json_encode($features)); ?>"
+    ></div>
+    <div id="mapping-feature-image-selector" class="sidebar">
+        <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close Me'); ?></span></a>
+        <h3><?php echo $this->translate('Feature image'); ?></h3>
+        <label><input type="radio" class="mapping-feature-image-select" name="feature-image" value="" checked><?php echo $this->translate(' No Image'); ?></label>
+        <?php foreach ($itemMedia as $media): ?>
+        <?php if ($media->hasThumbnails()): ?>
+        <label style="cursor:pointer;">
+            <input type="radio" class="mapping-feature-image-select" name="feature-image" style="display:none;"
+                value="<?php echo $this->escapeHtml($media->id()); ?>"
+                data-media-thumbnail-url="<?php echo $this->escapeHtml($media->thumbnailUrl('medium')); ?>"
+                data-media-title="<?php echo $this->escapeHtml($media->displayTitle()); ?>">
+            <img src="<?php echo $this->escapeHtml($media->thumbnailUrl('medium')); ?>"
+                title="<?php echo $this->escapeHtml($media->displayTitle()); ?>">
+        </label>
+        <?php endif; ?>
+        <?php endforeach; ?>
+    </div>
+    <div id="mapping-form">
+        <input type="hidden" name="o-module-mapping:mapping[o:id]">
+        <input type="hidden" name="o-module-mapping:mapping[o-module-mapping:bounds]" value="">
+    </div>
+</fieldset>
+
+<div class="mapping-feature-popup-content template">
+    <div><?php echo $this->translate('Feature label'); ?></div>
+    <input type="text" class="mapping-feature-popup-label" size="30">
+    <div class="mapping-feature-popup-image"></div>
+    <button class="mapping-feature-popup-image-select"><?php echo $this->translate('Select feature image'); ?></button>
+</div>

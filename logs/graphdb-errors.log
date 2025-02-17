@@ -352,3 +352,76 @@ _:547ce2f2603643e08845b23118959f0367984 <http://www.w3.org/ns/shacl#sourceShape>
 2025-02-14T09:55:39+00:00 INFO (6): Response Status: 204 | Response Body:
 2025-02-14T09:56:02+00:00 INFO (6): Response Status: 204 | Response Body:
 2025-02-14T09:58:28+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-14T10:40:14+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-17T10:24:24+00:00 ERR (3): Data upload failed: SHACL validation errors: SHACL validation query failed.
+2025-02-17T10:24:31+00:00 ERR (3): Data upload failed: SHACL validation errors: SHACL validation query failed.
+2025-02-17T10:24:36+00:00 ERR (3): Data upload failed: SHACL validation errors: SHACL validation query failed.
+2025-02-17T10:26:02+00:00 ERR (3): Data upload failed: SHACL validation errors: SHACL validation query failed.
+2025-02-17T10:26:05+00:00 ERR (3): Data upload failed: SHACL validation errors: SHACL validation query failed.
+2025-02-17T10:26:51+00:00 ERR (3): Data upload failed: SHACL validation errors: SHACL validation query failed.
+2025-02-17T10:26:55+00:00 ERR (3): Data upload failed: SHACL validation errors: SHACL validation query failed.
+2025-02-17T10:26:58+00:00 ERR (3): Data upload failed: SHACL validation errors: SHACL validation query failed.
+2025-02-17T10:32:06+00:00 ERR (3): Data upload failed: SHACL validation errors: Failed to clean up temporary validation data.
+2025-02-17T10:32:13+00:00 ERR (3): Data upload failed: SHACL validation errors: Failed to clean up temporary validation data.
+2025-02-17T10:35:07+00:00 ERR (3): Data upload failed: SHACL validation errors: Failed to clean up temporary data for subject <http://www.purl.com/ah/ms/ahMS#arrowhead4>: 400 - MALFORMED QUERY: Encountered " "delete" "DELETE "" at line 1, column 1.
+Was expecting one of:
+    "base" ...
+    "prefix" ...
+    "select" ...
+    "construct" ...
+    "describe" ...
+    "ask" ...
+
+2025-02-17T10:36:17+00:00 ERR (3): Data upload failed: SHACL validation errors: Failed to clean up temporary data for subject <http://www.purl.com/ah/ms/ahMS#arrowhead1>: 400 - MALFORMED QUERY: Encountered " "delete" "DELETE "" at line 1, column 1.
+Was expecting one of:
+    "base" ...
+    "prefix" ...
+    "select" ...
+    "construct" ...
+    "describe" ...
+    "ask" ...
+
+2025-02-17T10:38:22+00:00 ERR (3): Data upload failed: SHACL validation errors: Failed to clean up temporary data for subject <http://www.purl.com/ah/ms/ahMS#arrowhead1>: 400 - MALFORMED QUERY: Encountered " "delete" "DELETE "" at line 1, column 1.
+Was expecting one of:
+    "base" ...
+    "prefix" ...
+    "select" ...
+    "construct" ...
+    "describe" ...
+    "ask" ...
+
+2025-02-17T10:44:26+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-17T10:44:31+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-17T10:45:02+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-17T10:45:16+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-17T10:47:41+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-17T10:47:47+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-17T10:48:15+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-17T10:49:52+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-17T10:51:59+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-17T10:58:43+00:00 ERR (3): Data upload failed: SHACL validation errors: SHACL validation failed: 405 - Method Not Allowed
+
+2025-02-17T10:58:50+00:00 ERR (3): Data upload failed: SHACL validation errors: SHACL validation failed: 405 - Method Not Allowed
+
+2025-02-17T11:01:55+00:00 ERR (3): Data upload failed: SHACL validation errors: SHACL validation failed: 400 - MALFORMED QUERY: Lexical error at line 1, column 6.  Encountered: '61' (61), after prefix "query"
+2025-02-17T11:02:14+00:00 ERR (3): Data upload failed: SHACL validation errors: SHACL validation failed: 400 - MALFORMED QUERY: Lexical error at line 1, column 6.  Encountered: '61' (61), after prefix "query"
+2025-02-17T11:03:39+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-17T11:04:00+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-17T11:07:32+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-17T11:11:37+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-17T11:11:58+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-17T11:23:05+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-17T11:24:26+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-17T11:25:09+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-17T11:26:25+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-17T11:29:55+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-17T11:41:58+00:00 ERR (3): Error decoding JSON response: Syntax error
+2025-02-17T11:41:58+00:00 ERR (3): Data upload failed: SHACL validation errors: Error decoding JSON response: Syntax error
+2025-02-17T11:43:52+00:00 ERR (3): Error decoding JSON response: Syntax error
+2025-02-17T11:43:52+00:00 ERR (3): Data upload failed: SHACL validation errors: Error decoding JSON response: Syntax error
+2025-02-17T11:51:34+00:00 ERR (3): Error decoding JSON response: Syntax error
+2025-02-17T11:51:34+00:00 ERR (3): Data upload failed: SHACL validation errors: Error decoding JSON response: Syntax error
+2025-02-17T11:51:54+00:00 ERR (3): Error decoding JSON response: Syntax error
+2025-02-17T11:51:54+00:00 ERR (3): Data upload failed: SHACL validation errors: Error decoding JSON response: Syntax error
+2025-02-17T11:54:24+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-17T11:54:28+00:00 ERR (3): Data upload failed: SHACL validation errors: Violation at node: http://www.purl.com/ah/ms/ahMS#arrowhead3, predicate: http://www.w3.org/1999/02/22-rdf-syntax-ns#type, object: http://www.cidoc-crm.org/cidoc-crm/E24_Physical_Man-Made_Thing; Violation at node: http://www.purl.com/ah/ms/ahMS#arrowhead3, predicate: http://www.purl.com/ah/ms/ahMS#shape, object: http://www.purl.com/ah/kos/ah-shape/triangle; Violation at node: http://www.purl.com/ah/ms/ahMS#arrowhead3, predicate: http://www.purl.com/ah/ms/ahMS#variant, object: http://www.purl.com/ah/kos/ah-variant/flat; Violation at node: http://www.purl.com/ah/ms/ahMS#arrowhead3, predicate: http://www.purl.com/ah/ms/ahMS#point, object: true; Violation at node: http://www.purl.com/ah/ms/ahMS#arrowhead3, predicate: http://www.purl.com/ah/ms/ahMS#body, object: false; Violation at node: http://www.purl.com/ah/ms/ahMS#arrowhead3, predicate: http://www.purl.com/ah/ms/ahMS#base, object: http://www.purl.com/ah/kos/ah-base/straight; Violation at node: http://www.purl.com/ah/ms/ahMS#arrowhead3, predicate: http://www.purl.com/ah/ms/ahMS#mode, object: http://www.purl.com/ah/kos/ah-chippingMode/plane; Violation at node: http://www.purl.com/ah/ms/ahMS#arrowhead3, predicate: http://www.purl.com/ah/ms/ahMS#amplitude, object: true; Violation at node: http://www.purl.com/ah/ms/ahMS#arrowhead3, predicate: http://www.purl.com/ah/ms/ahMS#direction, object: http://www.purl.com/ah/kos/ah-chippingDirection/direct; Violation at node: http://www.purl.com/ah/ms/ahMS#arrowhead3, predicate: http://www.purl.com/ah/ms/ahMS#orientation, object: true; Violation at node: http://www.purl.com/ah/ms/ahMS#arrowhead3, predicate: http://www.purl.com/ah/ms/ahMS#delineation, object: http://www.purl.com/ah/kos/ah-chippingDelineation/continuous; Violation at node: http://www.purl.com/ah/ms/ahMS#arrowhead3, predicate: http://www.purl.com/ah/ms/ahMS#chippinglocation-Side, object: http://www.purl.com/ah/kos/ah-chippingLocation/distal; Violation at node: http://www.purl.com/ah/ms/ahMS#arrowhead3, predicate: http://www.purl.com/ah/ms/ahMS#chippinglocation-Transversal, object: http://www.purl.com/ah/kos/ah-chippingLocation/median; Violation at node: http://www.purl.com/ah/ms/ahMS#arrowhead3, predicate: http://www.purl.com/ah/ms/ahMS#chippingShape, object: http://www.purl.com/ah/kos/ah-chippingShape/straight; Violation at node: http://www.purl.com/ah/ms/ahMS#arrowhead3, predicate: http://www.purl.com/ah/ms/ahMS#hasId, object: AH0043

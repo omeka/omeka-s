@@ -17,3 +17,4 @@
 .sass-cache
 .DS_Store
 /application/language/debug.*
+/logs/

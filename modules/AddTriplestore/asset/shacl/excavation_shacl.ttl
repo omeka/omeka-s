@@ -1,72 +1,234 @@
-@prefix ah: <http://www.purl.com/ah/ms/ahMS#> .
+@prefix ah: <http://www.purl.com/ah/ms/ahMS#>.
 @prefix ah-vocab:<http://www.purl.com/ah/kos#>.
 @prefix excav:<https://purl.org/ah/ms/excavationMS#>.
-@prefix dct: <http://purl.org/dc/terms/> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix schema: <http://schema.org/> .
-@prefix voaf: <http://purl.org/vocommons/voaf#> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix vann: <http://purl.org/vocab/vann/> .
-@prefix dbo: <http://dbpedia.org/ontology/> .
-@prefix time: <http://www.w3.org/2006/time#> .
-@prefix edm:<http://www.europeana.eu/schemas/edm#> . 
-@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
-@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
-@prefix crmsci: <https://cidoc-crm.org/extensions/crmsci/> .
-@prefix crmarchaeo: <http://www.cidoc-crm.org/extensions/crmarchaeo/> .
-@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix schema: <http://schema.org/>.
+@prefix voaf: <http://purl.org/vocommons/voaf#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix vann: <http://purl.org/vocab/vann/>.
+@prefix dbo: <http://dbpedia.org/ontology/>.
+@prefix time: <http://www.w3.org/2006/time#>.
+@prefix edm:<http://www.europeana.eu/schemas/edm#>. 
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#>.
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/>.
+@prefix crmsci: <https://cidoc-crm.org/extensions/crmsci/>.
+@prefix crmarchaeo: <http://www.cidoc-crm.org/extensions/crmarchaeo/>.
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
 @prefix sh: <http://www.w3.org/ns/shacl#>.
 
-# Shape for Excavation
+
 excav:ExcavationShape
   a sh:NodeShape;
   sh:targetClass crmarchaeo:A9_Archaeological_Excavation;
   sh:property [
-    sh:path excav:hasGPSCoordinates;
-    sh:class geo:SpatialThing; # Assuming geo:SpatialThing is defined elsewhere
+    sh:path dct:identifier;
+    sh:minCount 1;
+    sh:maxCount 1;
+    sh:datatype xsd:string
+  ];
+  sh:property [
+    sh:path dul:hasLocation;
+    sh:minCount 0;
+    sh:maxCount 1;  # Cardinality 0-1
+    sh:class dbo:Place
   ];
   sh:property [
     sh:path excav:hasPersonInCharge;
-    sh:class excav:Archaeologist;
+    sh:minCount 0;
+    sh:maxCount 1;  # Cardinality 0-1
+    sh:class excav:Archaeologist
   ];
   sh:property [
     sh:path excav:hasContext;
-    sh:node excav:ContextShape;
+    sh:minCount 1;  # Cardinality 1-M
+    sh:class crmarchaeo:A1_Excavation_Processing_Unit
   ].
 
-# Shape for Context
+excav:ArchaeologistShape
+  a sh:NodeShape;
+  sh:targetClass excav:Archaeologist;
+  sh:property [
+    sh:path foaf:account;
+    sh:minCount 1;
+    sh:maxCount 1;  # Cardinality 1-1
+    sh:datatype xsd:anyURI
+  ];
+  sh:property [
+    sh:path foaf:name;
+    sh:minCount 0;
+    sh:maxCount 1;  # Cardinality 0-1
+    sh:datatype xsd:string
+  ];
+  sh:property [
+    sh:path foaf:mbox;
+    sh:minCount 0;  # Cardinality 0-M
+    sh:datatype xsd:anyURI
+  ].
+
 excav:ContextShape
   a sh:NodeShape;
   sh:targetClass crmarchaeo:A1_Excavation_Processing_Unit;
   sh:property [
+    sh:path dct:identifier;
+    sh:minCount 1;
+    sh:maxCount 1;
+    sh:datatype xsd:string
+  ];
+  sh:property [
     sh:path excav:hasSVU;
-    sh:node excav:SVUShape;
+    sh:minCount 0;  # Cardinality 0-M
+    sh:class crmarchaeo:A2_Stratigraphic_Volume_Unit
   ].
 
-# Shape for Stratigraphic Volume Unit (SVU)
 excav:SVUShape
   a sh:NodeShape;
   sh:targetClass crmarchaeo:A2_Stratigraphic_Volume_Unit;
   sh:property [
-    sh:path excav:hasTimeline;
-    sh:class time:TemporalEntity;
+    sh:path dct:identifier;
+    sh:minCount 1;
+    sh:maxCount 1;
+    sh:datatype xsd:string
+  ];
+  sh:property [
+    sh:path dct:description;
+    sh:minCount 0;
+    sh:maxCount 1;  # Cardinality 0-1
+    sh:datatype xsd:string
+  ];
+  sh:property [
+    sh:path excav:hasTimeLine;
+    sh:minCount 0;
+    sh:maxCount 1;  # Cardinality 0-1
+    sh:class time:TemporalEntity
   ].
 
-# Shape for Encounter Event (Finding)
-excav:EncounterEventShape
+dbo:PlaceShape
+  a sh:NodeShape;
+  sh:targetClass dbo:Place;
+  sh:property [
+    sh:path dbo:informationName;
+    sh:minCount 0;
+    sh:maxCount 1;  # Cardinality 0-1
+    sh:datatype xsd:string
+  ];
+  sh:property [
+    sh:path excav:hasGPSCoordinates;
+    sh:minCount 0;
+    sh:maxCount 1;  # Cardinality 0-1
+    sh:class geo:SpatialThing
+  ];
+  sh:property [
+    sh:path dbo:district;
+    sh:minCount 0;
+    sh:maxCount 1;  # Cardinality 0-1
+    sh:class dbo:District
+  ];
+  sh:property [
+    sh:path dbo:Parish;
+    sh:minCount 0;
+    sh:maxCount 1;  # Cardinality 0-1
+    sh:class dbo:Parish
+  ].
+
+geo:SpatialThingShape
+  a sh:NodeShape;
+  sh:targetClass geo:SpatialThing;
+  sh:property [
+    sh:path geo:lat;
+    sh:minCount 0;
+    sh:maxCount 1;  # Cardinality 0-1
+    sh:datatype xsd:decimal
+  ];
+  sh:property [
+    sh:path geo:long;
+    sh:minCount 0;
+    sh:maxCount 1;  # Cardinality 0-1
+    sh:datatype xsd:decimal
+  ].
+
+time:TemporalEntityShape
+  a sh:NodeShape;
+  sh:targetClass time:TemporalEntity;
+  sh:property [
+    sh:path time:hasBeginning;
+    sh:minCount 0;  # Cardinality 0-M
+    sh:class time:Instant
+  ];
+  sh:property [
+    sh:path time:hasEnd;
+    sh:minCount 0;  # Cardinality 0-M
+    sh:class time:Instant
+  ].
+
+time:InstantShape
+  a sh:NodeShape;
+  sh:targetClass time:Instant;
+  sh:property [
+    sh:path time:inXSDYear;
+    sh:minCount 0;
+    sh:maxCount 1;  # Cardinality 0-1
+    sh:datatype xsd:gYear
+  ];
+  sh:property [
+    sh:path excav:bc;
+    sh:minCount 0;
+    sh:maxCount 1;  # Cardinality 0-1
+    sh:datatype xsd:boolean
+  ].
+
+dbo:DistrictShape
+  a sh:NodeShape;
+  sh:targetClass dbo:District;
+  sh:property [
+    sh:path dbo:informationName;
+    sh:minCount 1;  
+    sh:maxCount 1;  
+    sh:datatype xsd:string
+  ].
+
+dbo:ParishShape
+  a sh:NodeShape;
+  sh:targetClass dbo:Parish;
+  sh:property [
+    sh:path dbo:informationName;
+    sh:minCount 1;  
+    sh:maxCount 1; 
+    sh:datatype xsd:string
+  ].
+
+crmsci:EncounterEventShape
   a sh:NodeShape;
   sh:targetClass crmsci:S19_Encounter_Event;
   sh:property [
+    sh:path dct:date;
+    sh:minCount 0;
+    sh:maxCount 1;  # Cardinality 0-1
+    sh:datatype xsd:date
+  ];
+  sh:property [
+    sh:path dbo:depth;
+    sh:minCount 0;
+    sh:maxCount 1;  # Cardinality 0-1
+    sh:datatype xsd:decimal
+  ];
+  sh:property [
     sh:path excav:foundInSVU;
-    sh:class crmarchaeo:A2_Stratigraphic_Volume_Unit;
+    sh:minCount 0;
+    sh:maxCount 1;  # Cardinality 0-1
+    sh:class crmarchaeo:A2_Stratigraphic_Volume_Unit
   ];
   sh:property [
     sh:path excav:foundInAContext;
-    sh:class crmarchaeo:A1_Excavation_Processing_Unit;
+    sh:minCount 0;
+    sh:maxCount 1;  # Cardinality 0-1
+    sh:class crmarchaeo:A1_Excavation_Processing_Unit
   ];
   sh:property [
     sh:path excav:foundInAExcavation;
-    sh:class crmarchaeo:A9_Archaeological_Excavation;
+    sh:minCount 0;
+    sh:maxCount 1;  # Cardinality 0-1
+    sh:class crmarchaeo:A9_Archaeological_Excavation
   ].

@@ -1,0 +1,87 @@
+@prefix ah: <http://www.purl.com/ah/ms/ahMS#>.
+@prefix ah-vocab:<http://www.purl.com/ah/kos#>.
+@prefix excav:<https://purl.org/ah/ms/excavationMS#>.
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix schema: <http://schema.org/>.
+@prefix voaf: <http://purl.org/vocommons/voaf#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix vann: <http://purl.org/vocab/vann/>.
+@prefix dbo: <http://dbpedia.org/ontology/>.
+@prefix time: <http://www.w3.org/2006/time#>.
+@prefix edm:<http://www.europeana.eu/schemas/edm#>. 
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#>.
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/>.
+@prefix crmsci: <https://cidoc-crm.org/extensions/crmsci/>.
+@prefix crmarchaeo: <http://www.cidoc-crm.org/extensions/crmarchaeo/>.
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
+
+
+<https://purl.org/ah/ms/excavationMS/resource/Excavation_2>
+  a crmarchaeo:A9_Archaeological_Excavation;
+  dul:hasLocation <https://purl.org/ah/ms/excavationMS/resource/Location_002>;
+  excav:hasPersonInCharge <https://purl.org/ah/ms/excavationMS/resource/Archaeologist_002>;
+  excav:hasContext <https://purl.org/ah/ms/excavationMS/resource/Context_002>.
+
+<https://purl.org/ah/ms/excavationMS/resource/Archaeologist_002>
+  a excav:Archaeologist;
+  foaf:account "http://orcid.org/0000-0002-1234-5678"^^xsd:anyURI;
+  foaf:name "Jane Doe";
+  foaf:mbox "jane.doe@example.org"^^xsd:anyURI;.
+
+<https://purl.org/ah/ms/excavationMS/resource/Context_002>
+  a crmarchaeo:A1_Excavation_Processing_Unit;
+  dct:identifier "CONTEXT_002";
+  excav:hasSVU <https://purl.org/ah/ms/excavationMS/resource/SVU_002>.
+
+<https://purl.org/ah/ms/excavationMS/resource/SVU_002>
+  a crmarchaeo:A2_Stratigraphic_Volume_Unit;
+  dct:identifier "SVU_002";
+  dct:description "Stratigraphic Unit Description";
+  excav:hasTimeLine <https://purl.org/ah/ms/excavationMS/resource/Timeline_002>.
+
+<https://purl.org/ah/ms/excavationMS/resource/Timeline_002>
+  a time:TemporalEntity;
+  time:hasBeginning <https://purl.org/ah/ms/excavationMS/resource/Instant_002>;
+  time:hasEnd <https://purl.org/ah/ms/excavationMS/resource/Instant_002>.
+
+<https://purl.org/ah/ms/excavationMS/resource/Instant_002>
+  a time:Instant;
+  time:inXSDDate "1000-02-02"^^xsd:date;
+  excav:bc true.
+
+<https://purl.org/ah/ms/excavationMS/resource/Instant_002>
+  a time:Instant;
+  time:inXSDDate "2000-02-02"^^xsd:date;
+  excav:bc false.
+
+<https://purl.org/ah/ms/excavationMS/resource/Location_002>
+  a dbo:Place;
+  dbo:informationName "Location_002";
+  excav:hasGPSCoordinates <https://purl.org/ah/ms/excavationMS/resource/Coordinates_002>;
+  dbo:district <https://purl.org/ah/ms/excavationMS/resource/District_002>;
+  dbo:Parish <https://purl.org/ah/ms/excavationMS/resource/Parish_002>.
+
+<https://purl.org/ah/ms/excavationMS/resource/Coordinates_002>
+  a geo:SpatialThing;
+  geo:lat "40.123"^^xsd:decimal;
+  geo:long "-8.456"^^xsd:decimal.
+
+<https://purl.org/ah/ms/excavationMS/resource/District_002>
+  a dbo:District;
+  dbo:informationName "District_002".
+
+<https://purl.org/ah/ms/excavationMS/resource/Parish_002>
+  a dbo:Parish;
+  dbo:informationName "Parish_002".
+
+<https://purl.org/ah/ms/excavationMS/resource/Encounter_002>
+  a crmsci:S19_Encounter_Event;
+  dct:date "2023-07-15"^^xsd:date;
+  dbo:depth "1.23"^^xsd:decimal;
+  crmsci:O19_encountered_object <https://purl.org/ah/ms/ahMS/resource/Arrowhead_002>;  # Replace with your actual arrowhead URI
+  excav:foundInSVU <https://purl.org/ah/ms/excavationMS/resource/SVU_002>;
+  excav:foundInAContext <https://purl.org/ah/ms/excavationMS/resource/Context_002>;
+  excav:foundInAExcavation <https://purl.org/ah/ms/excavationMS/resource/Excavation_2>.

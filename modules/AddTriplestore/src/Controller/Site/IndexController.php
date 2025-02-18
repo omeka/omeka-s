@@ -64,6 +64,8 @@ class IndexController extends AbstractActionController
             $graphUri = $this->dataGraphUri;
 
             $validationResult = $this->validateData($data, $graphUri);
+            // log the validation result    
+            error_log('Validation Result: '. implode('; ', $validationResult));
 
             if (!empty($validationResult)) {
                 $errorMessage = 'Data upload failed: SHACL validation errors: ' . implode('; ', $validationResult);

@@ -1,12 +1,12 @@
 $(document).ready(function() {
 
     // Initiate the browse defaults elements on load.
-    $('.browse-defualts-form-element').each(function() {
+    $('.browse-defaults-form-element').each(function() {
         const thisFormElement = $(this);
         const browseDefaultsInput = thisFormElement.find('input.browse-defaults');
-        const sortBySelect = thisFormElement.find('.browse-defualts-sort-by');
-        const customSortByInput = thisFormElement.find('.browse-defualts-custom-sort-by');
-        const sortOrderSelect = thisFormElement.find('.browse-defualts-sort-order');
+        const sortBySelect = thisFormElement.find('.browse-defaults-sort-by');
+        const customSortByInput = thisFormElement.find('.browse-defaults-custom-sort-by');
+        const sortOrderSelect = thisFormElement.find('.browse-defaults-sort-order');
 
         const browseDefaults = JSON.parse(browseDefaultsInput.val());
         const sortBy = browseDefaults.sort_by;
@@ -23,10 +23,10 @@ $(document).ready(function() {
     });
 
     // Handle sort by change.
-    $(document).on('change', '.browse-defualts-sort-by', function(e) {
+    $(document).on('change', '.browse-defaults-sort-by', function(e) {
         const thisSelect = $(this);
-        const formElement = thisSelect.closest('.browse-defualts-form-element');
-        const customSortByInput = formElement.find('.browse-defualts-custom-sort-by');
+        const formElement = thisSelect.closest('.browse-defaults-form-element');
+        const customSortByInput = formElement.find('.browse-defaults-custom-sort-by');
         if ('' === thisSelect.val()) {
             customSortByInput.show();
         } else {
@@ -37,12 +37,12 @@ $(document).ready(function() {
 
     // Handle form submission.
     $(document).on('submit', 'form', function(e) {
-        $('.browse-defualts-form-element').each(function() {
+        $('.browse-defaults-form-element').each(function() {
             const thisFormElement = $(this);
             const browseDefaultsInput = thisFormElement.find('input.browse-defaults');
-            const sortBySelect = thisFormElement.find('.browse-defualts-sort-by');
-            const customSortByInput = thisFormElement.find('.browse-defualts-custom-sort-by');
-            const sortOrderSelect = thisFormElement.find('.browse-defualts-sort-order');
+            const sortBySelect = thisFormElement.find('.browse-defaults-sort-by');
+            const customSortByInput = thisFormElement.find('.browse-defaults-custom-sort-by');
+            const sortOrderSelect = thisFormElement.find('.browse-defaults-sort-order');
 
             let sortBy = customSortByInput.val().trim();
             if (0 === sortBy.length) {

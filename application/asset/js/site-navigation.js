@@ -8,6 +8,13 @@ navTree.jstree({
         'check_callback': true,
         'force_text': true,
         'data': navTree.data('jstree-data'),
+        'keyboard': {
+        	'f3': function (e) {
+				// aria defines space only with Ctrl
+				e.preventDefault();
+				this.edit(e.currentTarget);
+		    },
+        }
     },
     'plugins': ['privateStatus', 'dnd', 'removenode', 'editlink', 'display']
 }).on('loaded.jstree', function() {

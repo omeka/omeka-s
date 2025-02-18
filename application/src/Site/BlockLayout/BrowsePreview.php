@@ -138,13 +138,16 @@ class BrowsePreview extends AbstractBlockLayout implements TemplateableBlockLayo
         $query['site_id'] = $site->id();
         $query['limit'] = $block->dataValue('limit', 12);
 
+        $sortBySetting = $view->siteSetting('browse_defualts_sort_by');
+        $sortOrderSetting = $view->siteSetting('browse_defualts_sort_order');
+
         if (!isset($query['sort_by'])) {
             $query['sort_by_default'] = '';
-            $query['sort_by'] = 'created';
+            $query['sort_by'] = (isset($sortBySetting)) ? $sortBySetting : '' ;
         }
         if (!isset($query['sort_order'])) {
             $query['sort_order_default'] = '';
-            $query['sort_order'] = 'desc';
+            $query['sort_order'] = (isset($sortOrderSetting)) ? $sortOrderSetting : '' ;
         }
 
         //Show all resource components if none set

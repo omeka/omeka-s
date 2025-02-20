@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arrowheads>
+    <item>
+        <material>Flint</material>
+        <length>5.2</length>
+        <chippingMode>Pressure</chippingMode>
+        <chippingDirection>Bifacial</chippingDirection>
+        <chippingDelineation>Straight</chippingDelineation>
+        <chippingLocation>Tip</chippingLocation>
+        <chippingShape>Concave</chippingShape>
+    </item>
+</arrowheads>

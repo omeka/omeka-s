@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:ah="http://www.purl.com/ah/ms/ahMS#"
+    xmlns:ah-shape="http://www.purl.com/ah/kos/ah-shape/"
+    xmlns:ah-variant="http://www.purl.com/ah/kos/ah-variant/"
+    xmlns:ah-base="http://www.purl.com/ah/kos/ah-base/"
+    xmlns:ah-chippingMode="http://www.purl.com/ah/kos/ah-chippingMode/"
+    xmlns:ah-chippingDirection="http://www.purl.com/ah/kos/ah-chippingDirection/"
+    xmlns:ah-chippingDelineation="http://www.purl.com/ah/kos/ah-chippingDelineation/"
+    xmlns:ah-chippingLocation="http://www.purl.com/ah/kos/ah-chippingLocation/"
+    xmlns:ah-chippingShape="http://www.purl.com/ah/kos/ah-chippingShape/">
+
+    <xsl:output method="xml" indent="yes"/>
+
+    <xsl:template match="/">
+        <rdf:RDF>
+            <xsl:apply-templates/>
+        </rdf:RDF>
+    </xsl:template>
+
+    <xsl:template match="item"> <!-- Adjust based on actual XML structure -->
+        <ah:Arrowhead>
+            <xsl:attribute name="rdf:about">
+                <xsl:value-of select="@id"/>
+            </xsl:attribute>
+            
+            <ah:hasType>
+                <xsl:value-of select="type"/>
+            </ah:hasType>
+            
+            <ah:hasMaterial>
+                <xsl:value-of select="material"/>
+            </ah:hasMaterial>
+            
+            <ah:hasLength rdf:datatype="xsd:decimal">
+                <xsl:value-of select="length"/>
+            </ah:hasLength>
+            
+            <ah-chippingMode:mode>
+                <xsl:value-of select="chippingMode"/>
+            </ah-chippingMode:mode>
+            
+            <ah-chippingDirection:direction>
+                <xsl:value-of select="chippingDirection"/>
+            </ah-chippingDirection:direction>
+            
+            <ah-chippingDelineation:delineation>
+                <xsl:value-of select="chippingDelineation"/>
+            </ah-chippingDelineation:delineation>
+            
+            <ah-chippingLocation:location>
+                <xsl:value-of select="chippingLocation"/>
+            </ah-chippingLocation:location>
+            
+            <ah-chippingShape:shape>
+                <xsl:value-of select="chippingShape"/>
+            </ah-chippingShape:shape>
+        </ah:Arrowhead>
+    </xsl:template>
+</xsl:stylesheet>

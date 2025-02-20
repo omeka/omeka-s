@@ -8,6 +8,7 @@ use Laminas\View\Model\ViewModel;
 use Laminas\Http\Client;
 use Laminas\Log\Logger;
 use Laminas\Log\Writer\Stream;
+use EasyRdf\Graph;
 
 class IndexController extends AbstractActionController
 {
@@ -37,22 +38,92 @@ class IndexController extends AbstractActionController
 
         if ($request->isPost()) {
             error_log('Processing file upload');
-            $file = $request->getFiles()->file;
+            $file = $request->getFiles()->file;            
             if ($file && $file['error'] === UPLOAD_ERR_OK) {
-                error_log('File uploaded successfully');
-                $data = file_get_contents($file['tmp_name']);
-                $result = $this->sendToGraphDB($data);
+                $fileExtension = pathinfo($file['name'], PATHINFO_EXTENSION);
+                if (strtolower($fileExtension) === 'ttl') { // is a ttl file set type to ttl, because MIME does not recognize it.
+                    $file['type'] = 'application/x-turtle';
+                    error_log('File type: '. $file['type']);
+                }
+                if (in_array($file['type'], ['application/x-turtle', 'application/xml', 'text/xml'])) { // if is a xml file
+                    // if is a xml file, convert to rdf xml and then to ttl and set the data to the file
+                    if($file['type'] === 'application/xml' || $file['type'] === 'text/xml'){
+                        $rdfXmlData = $this->xmlParser($file); // Get the RDF/XML data
+                        $ttlData = $this->xmlTtlConverter($rdfXmlData); // Convert to TTL
+                        $result = $this->sendToGraphDB($ttlData);
+                    }
+                    else {
+                        error_log('File uploaded successfully');
+                        $data = file_get_contents($file['tmp_name']);
+                        $result = $this->sendToGraphDB($data);
+                    }
+                } else {
+                    error_log('Invalid file type: ' . $file['type']);
+                    $result = 'Invalid file type. Please upload a valid .ttl or .xml file.';
+                }
             } else {
                 error_log('File upload error: '. $file['error']);
                 $result = 'File upload error: '. $file['error'];
             }
         }
-
+    
         error_log('Final result: '. $result);
-
+    
         return (new ViewModel(['result' => $result, 'site' => $this->currentSite()]))
             ->setTemplate('add-triplestore/site/index/index'); 
     }
+
+
+    public function xmlParser($file){ // parse file xml to rdf xml
+        // load xsml file
+        $xslt = new \DOMDocument();
+        $xsltPath = '/Applications/XAMPP/xamppfiles/htdocs/omeka-s/modules/AddTriplestore/asset/xlst/xlst.xml';
+        
+        // failed to load xsml file
+        if(!$xslt->load($xsltPath)){
+            error_log('Failed to load xsml file');
+            return 'Failed to load xsml file';
+        }
+
+        // Load the uploaded XML file into a DOMDocument
+        $auxFile = new \DOMDocument();
+        if(!$auxFile->load($file['tmp_name'])){
+            error_log('Failed to load xml file');
+            return 'Failed to load xml file';
+        }
+
+        // convert xlm to xlm rdf 
+        $convert = new \XSLTProcessor();
+        $convert->importStylesheet($xslt);
+        $rdfXmlConverted = $convert->transformToXML($auxFile);
+
+        // check if conversion fail 
+        if(!$rdfXmlConverted){
+            error_log('Failed to convert xml to rdf xml');
+            return 'Failed to convert xml to rdf xml';
+        }
+
+        return $rdfXmlConverted;
+    }
+
+    public function xmlTtlConverter($rdfXmlData){
+        // log here
+        error_log('Converting RDF-XML to TTL');
+        // Load the RDF-XML data into a Graph
+        $rdfGraph = new Graph();
+        $rdfGraph->parse($rdfXmlData, 'rdfxml'); // Parse RDF-XML data
+
+        // log here
+        error_log('RDF-XML data loaded into graph');
+    
+        $ttlData = $rdfGraph->serialise('turtle'); // Convert to TTL file
+
+        // log here
+        error_log('RDF-XML data converted to TTL');
+    
+        return $ttlData; // Directly return the TTL data
+    }
+
 
     private function sendToGraphDB($data)
     {

@@ -1,6 +1,7 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$query = $this->params()->fromQuery();
 $this->htmlElement('body')->appendAttribute('class', 'sites browse');
 ?>
 
@@ -18,6 +19,14 @@ $this->htmlElement('body')->appendAttribute('class', 'sites browse');
 </div>
 <?php $this->trigger('view.browse.before'); ?>
 
+<div>
+    <input
+        id="view-all"
+        type="checkbox"
+        data-url="<?php echo $escape($this->url()); ?>"
+        <?php if (isset($query['user_has_role'])): ?>checked<?php endif; ?>
+    ><label for="view-all"><?php echo $translate('View all'); ?></label>
+</div>
 <?php if (count($sites) > 0): ?>
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
@@ -81,3 +90,13 @@ $this->htmlElement('body')->appendAttribute('class', 'sites browse');
 </div>
 
 <?php endif; ?>
+
+<script>
+$('#view-all').on('click', function(e) {
+    // Toggle the view all behavior.
+    const thisCheckbox = $(this);
+    const url = thisCheckbox.data('url');
+    const query = thisCheckbox.is(':checked') ? '?user_has_role=0' : '';
+    window.location.href = url + query;
+});
+</script>

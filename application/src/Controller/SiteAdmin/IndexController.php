@@ -49,7 +49,12 @@ class IndexController extends AbstractActionController
     public function indexAction()
     {
         $this->browse()->setDefaults('sites');
-        $response = $this->api()->search('sites', $this->params()->fromQuery());
+        $query = $this->params()->fromQuery();
+        if (!isset($query['user_has_role'])) {
+            // By default, filter out sites where the logged in user has no role.
+            $query['user_has_role'] = '1';
+        }
+        $response = $this->api()->search('sites', $query);
         $this->paginator($response->getTotalResults());
 
         $view = new ViewModel;

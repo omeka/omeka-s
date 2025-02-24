@@ -613,15 +613,15 @@ return [
     'browse_defaults' => [
         'admin' => [
             'items' => [
-                'sort_by' => 'created',
+                'sort_by' => 'id',
                 'sort_order' => 'desc',
             ],
             'item_sets' => [
-                'sort_by' => 'created',
+                'sort_by' => 'id',
                 'sort_order' => 'desc',
             ],
             'media' => [
-                'sort_by' => 'created',
+                'sort_by' => 'id',
                 'sort_order' => 'desc',
             ],
             'sites' => [
@@ -685,24 +685,28 @@ return [
                 'resource_class_label' => 'Resource class', // @translate
                 'owner_name' => 'Owner', // @translate
                 'created' => 'Created', // @translate
+                'id' => 'ID', // @translate
             ],
             'item_sets' => [
                 'title' => 'Title', // @translate
                 'resource_class_label' => 'Resource class', // @translate
                 'owner_name' => 'Owner', // @translate
                 'created' => 'Created', // @translate
+                'id' => 'ID', // @translate
             ],
             'media' => [
                 'title' => 'Title', // @translate
                 'resource_class_label' => 'Resource class', // @translate
                 'owner_name' => 'Owner', // @translate
                 'created' => 'Created', // @translate
+                'id' => 'ID', // @translate
             ],
             'sites' => [
                 'title' => 'Title', // @translate
                 'slug' => 'URL slug', // @translate
                 'owner_name' => 'Owner', // @translate
                 'created' => 'Created', // @translate
+                'id' => 'ID', // @translate
             ],
             'assets' => [
                 'name' => 'Name', // @translate
@@ -719,27 +723,32 @@ return [
                 'resource_class_label' => 'Resource class', // @translate
                 'owner_name' => 'Owner', // @translate
                 'item_count' => 'Item count', // @translate
+                'id' => 'ID', // @translate
             ],
             'users' => [
                 'email' => 'Email', // @translate
                 'role' => 'Role', // @translate
                 'created' => 'Created', // @translate
+                'id' => 'ID', // @translate
             ],
             'vocabularies' => [
                 'label' => 'Label', // @translate
                 'prefix' => 'Prefix', // @translate
                 'resource_class_count' => 'Resource class count', // @translate
                 'property_count' => 'Property count', // @translate
+                'id' => 'ID', // @translate
             ],
             'resource_classes' => [
                 'label' => 'Label', // @translate
                 'local_name' => 'Term', // @translate
                 'item_count' => 'Item count', // @translate
+                'id' => 'ID', // @translate
             ],
             'properties' => [
                 'label' => 'Label', // @translate
                 'local_name' => 'Term', // @translate
                 'item_count' => 'Item count', // @translate
+                'id' => 'ID', // @translate
             ],
             'site_pages' => [
                 'title' => 'Title', // @translate
@@ -747,6 +756,7 @@ return [
                 'created' => 'Created', // @translate
                 'modified' => 'Modified', // @translate
                 'nav' => 'Navigation', // @translate
+                'id' => 'ID', // @translate
             ],
         ],
         'public' => [

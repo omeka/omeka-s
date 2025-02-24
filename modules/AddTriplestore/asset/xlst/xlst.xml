@@ -24,9 +24,9 @@
         <crm:E24_Physical_Man-Made_Thing rdf:about="ah:arrowhead{substring-after(@id, 'AH')}"> 
             <ah:hasId><xsl:value-of select="@id"/></ah:hasId>
             <ah:hasAnnotation><xsl:value-of select="annotation"/></ah:hasAnnotation>
-            <xsl:if test="shape">
-                <ah:shape rdf:resource="{shape}"/>
-            </xsl:if>
+            <xsl:for-each select="shape">  
+                <ah:shape rdf:resource="{.}"/> 
+            </xsl:for-each>
 
             <xsl:if test="variant"> 
                 <ah:variant rdf:resource="{variant}"/>

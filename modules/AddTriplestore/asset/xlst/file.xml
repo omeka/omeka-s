@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item id="AH0025">
     <shape>ah-shape:triangle</shape>
-    <shape>ah-shape:square</shape>
     <variant>ah-variant:flat</variant>
     <point>true</point>
     <body>false</body>
@@ -13,5 +12,9 @@
     <delineation>ah-chippingDelineation:continuous</delineation>
     <chippinglocation-Side>ah-chippingLocation:distal</chippinglocation-Side>
     <chippinglocation-Transversal>ah-chippingLocation:median</chippinglocation-Transversal>
+    <chippinglocation-Transversal>ah-chippingLocation:distal</chippinglocation-Transversal>
+    <chippinglocation-Transveffrsal>ah-chippingLocation:proximal</chippinglocation-Transversal>
+    
+
     <chippingShape>ah-chippingShape:straight</chippingShape>
 </item>

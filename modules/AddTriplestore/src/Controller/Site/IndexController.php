@@ -15,7 +15,6 @@ class IndexController extends AbstractActionController
     private $graphdbEndpoint = "http://localhost:7200/repositories/arch-project-shacl/rdf-graphs/service"; 
     private $graphdbQueryEndpoint = "http://localhost:7200/repositories/arch-project-shacl"; // SPARQL endpoint
     private $dataGraphUri = "http://www.arch-project.com/data";
-    private $shapesGraphUri = "http://www.arch-project.com/shapes";
 
 
     public function indexAction()
@@ -38,39 +37,57 @@ class IndexController extends AbstractActionController
 
         if ($request->isPost()) {
             error_log('Processing file upload');
-            $file = $request->getFiles()->file;            
+            $file = $request->getFiles()->file;
+        
             if ($file && $file['error'] === UPLOAD_ERR_OK) {
                 $fileExtension = pathinfo($file['name'], PATHINFO_EXTENSION);
-                if (strtolower($fileExtension) === 'ttl') { // is a ttl file set type to ttl, because MIME does not recognize it.
-                    $file['type'] = 'application/x-turtle';
-                    error_log('File type: '. $file['type']);
+                $fileType = $file['type'];
+        
+                // Determine file type based on extension if MIME type is not recognized
+                if (strtolower($fileExtension) === 'ttl' && $fileType!== 'application/x-turtle') {
+                    $fileType = 'application/x-turtle';
+                    error_log('File type set to application/x-turtle based on extension.');
                 }
-                if (in_array($file['type'], ['application/x-turtle', 'application/xml', 'text/xml'])) { // if is a xml file
-                    // if is a xml file, convert to rdf xml and then to ttl and set the data to the file
-                    if($file['type'] === 'application/xml' || $file['type'] === 'text/xml'){
-                        $rdfXmlData = $this->xmlParser($file); // Get the RDF/XML data
-                        $ttlData = $this->xmlTtlConverter($rdfXmlData); // Convert to TTL
-                        $result = $this->sendToGraphDB($ttlData);
-                    }
-                    else {
-                        error_log('File uploaded successfully');
-                        $data = file_get_contents($file['tmp_name']);
-                        $result = $this->sendToGraphDB($data);
+        
+                if (in_array($fileType, ['application/x-turtle', 'application/xml', 'text/xml'])) {
+                    try {
+                        if ($fileType === 'application/xml' || $fileType === 'text/xml') {
+                            // XML processing
+                            $rdfXmlData = $this->xmlParser($file);
+                            if ($rdfXmlData === 'Failed to load xsml file') {
+                                throw new \Exception('Failed to load xsml file');
+                            }
+                            if ($rdfXmlData === 'Failed to load xml file') {
+                                throw new \Exception('Failed to load xml file');
+                            }
+                            if ($rdfXmlData === 'Failed to convert xml to rdf xml') {
+                                throw new \Exception('Failed to convert xml to rdf xml');
+                            }
+                            $ttlData = $this->xmlTtlConverter($rdfXmlData);
+                            $result = $this->sendToGraphDB($ttlData);
+                        } else {
+                            // TTL processing
+                            $data = file_get_contents($file['tmp_name']);
+                            $result = $this->sendToGraphDB($data);
+                        }
+                    } catch (\Exception $e) {
+                        $result = 'Error processing file: '. $e->getMessage();
+                        error_log($result);
                     }
                 } else {
-                    error_log('Invalid file type: ' . $file['type']);
-                    $result = 'Invalid file type. Please upload a valid .ttl or .xml file.';
+                    $result = 'Invalid file type. Please upload a valid.ttl or.xml file.';
+                    error_log('Invalid file type: '. $fileType);
                 }
             } else {
-                error_log('File upload error: '. $file['error']);
                 $result = 'File upload error: '. $file['error'];
+                error_log($result);
             }
         }
     
         error_log('Final result: '. $result);
     
         return (new ViewModel(['result' => $result, 'site' => $this->currentSite()]))
-            ->setTemplate('add-triplestore/site/index/index'); 
+        ->setTemplate('add-triplestore/site/index/index'); 
     }
 
 

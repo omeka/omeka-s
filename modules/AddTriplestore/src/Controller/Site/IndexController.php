@@ -106,22 +106,75 @@ class IndexController extends AbstractActionController
         return $rdfXmlConverted;
     }
 
-    public function xmlTtlConverter($rdfXmlData){
-        // log here
+    public function xmlTtlConverter($rdfXmlData) {
         error_log('Converting RDF-XML to TTL');
-        // Load the RDF-XML data into a Graph
+    
         $rdfGraph = new Graph();
-        $rdfGraph->parse($rdfXmlData, 'rdfxml'); // Parse RDF-XML data
-
-        // log here
+        $rdfGraph->parse($rdfXmlData, 'rdfxml');
+    
         error_log('RDF-XML data loaded into graph');
     
-        $ttlData = $rdfGraph->serialise('turtle'); // Convert to TTL file
-
-        // log here
+        $ttlData = $rdfGraph->serialise('turtle');
+    
         error_log('RDF-XML data converted to TTL');
     
-        return $ttlData; // Directly return the TTL data
+    
+        // Fix boolean values
+        $ttlData = str_replace('"true"', 'true', $ttlData);
+        $ttlData = str_replace('"false"', 'false', $ttlData);
+
+     
+        // Add prefixes
+        $ttlData = $this->addPrefixesToTTL($ttlData, [
+            'ah' => 'http://www.purl.com/ah/ms/ahMS#',
+            'ah-shape' => 'http://www.purl.com/ah/kos/ah-shape/',
+            'ah-variant' => 'http://www.purl.com/ah/kos/ah-variant/',
+            'ah-base' => 'http://www.purl.com/ah/kos/ah-base/',
+            'ah-chippingMode' => 'http://www.purl.com/ah/kos/ah-chippingMode/',
+            'ah-chippingDirection' => 'http://www.purl.com/ah/kos/ah-chippingDirection/',
+            'ah-chippingDelineation' => 'http://www.purl.com/ah/kos/ah-chippingDelineation/',
+            'ah-chippingLocation' => 'http://www.purl.com/ah/kos/ah-chippingLocation/',
+            'ah-chippingShape' => 'http://www.purl.com/ah/kos/ah-chippingShape/',
+            'crm' => 'http://www.cidoc-crm.org/cidoc-crm/',
+            'rdf' => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+            'xsd' => 'http://www.w3.org/2001/XMLSchema#',
+            'rdfs' => 'http://www.w3.org/2000/01/rdf-schema#',
+            'owl' => 'http://www.w3.org/2002/07/owl#',
+            'skos' => 'http://www.w3.org/2004/02/skos/core#',
+            'dc' => 'http://purl.org/dc/elements/1.1/',
+            'dcterms' => 'http://purl.org/dc/terms/',
+            'foaf' => 'http://xmlns.com/foaf/0.1/',
+        ]);
+
+        // Remove angle brackets from specific predicates
+        $patterns = [
+            '/<ah-shape:([^>]+)>/' => 'ah-shape:$1',
+            '/<ah-variant:([^>]+)>/' => 'ah-variant:$1',
+            '/<ah-base:([^>]+)>/' => 'ah-base:$1',
+            '/<ah-chippingMode:([^>]+)>/' => 'ah-chippingMode:$1',
+            '/<ah-chippingDirection:([^>]+)>/' => 'ah-chippingDirection:$1',
+            '/<ah-chippingDelineation:([^>]+)>/' => 'ah-chippingDelineation:$1',
+            '/<ah-chippingLocation:([^>]+)>/' => 'ah-chippingLocation:$1',
+            '/<ah-chippingShape:([^>]+)>/' => 'ah-chippingShape:$1',
+        ];
+
+        foreach ($patterns as $pattern => $replacement) {
+            $ttlData = preg_replace($pattern, $replacement, $ttlData);
+        }
+        error_log("Cleaned TTL: ". $ttlData);
+    
+        return $ttlData;
+    }
+    
+
+    private function addPrefixesToTTL($ttlData, $prefixes) {
+        $prefixLines = '';
+        foreach ($prefixes as $prefix => $iri) {
+            $prefixLines.= "@prefix $prefix: <$iri>.\n";
+            // log here
+            error_log("Adding prefix: $prefix: <$iri>");
+        }
+        return $prefixLines. $ttlData;
     }
 
 

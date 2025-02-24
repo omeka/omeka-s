@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<arrowheads>
-    <item>
-        <material>Flint</material>
-        <length>5.2</length>
-        <chippingMode>Pressure</chippingMode>
-        <chippingDirection>Bifacial</chippingDirection>
-        <chippingDelineation>Straight</chippingDelineation>
-        <chippingLocation>Tip</chippingLocation>
-        <chippingShape>Concave</chippingShape>
-    </item>
-</arrowheads>
+<item id="AH0025">
+    <shape>ah-shape:triangle</shape>
+    <shape>ah-shape:square</shape>
+    <variant>ah-variant:flat</variant>
+    <point>true</point>
+    <body>false</body>
+    <base>ah-base:straight</base>
+    <mode>ah-chippingMode:plane</mode>
+    <amplitude>true</amplitude>
+    <direction>ah-chippingDirection:direct</direction>
+    <orientation>true</orientation>
+    <delineation>ah-chippingDelineation:continuous</delineation>
+    <chippinglocation-Side>ah-chippingLocation:distal</chippinglocation-Side>
+    <chippinglocation-Transversal>ah-chippingLocation:median</chippinglocation-Transversal>
+    <chippingShape>ah-chippingShape:straight</chippingShape>
+</item>

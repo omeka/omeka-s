@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+<xsl:stylesheet version="1.0" 
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
     xmlns:ah="http://www.purl.com/ah/ms/ahMS#"
     xmlns:ah-shape="http://www.purl.com/ah/kos/ah-shape/"
     xmlns:ah-variant="http://www.purl.com/ah/kos/ah-variant/"
@@ -11,53 +10,76 @@
     xmlns:ah-chippingDirection="http://www.purl.com/ah/kos/ah-chippingDirection/"
     xmlns:ah-chippingDelineation="http://www.purl.com/ah/kos/ah-chippingDelineation/"
     xmlns:ah-chippingLocation="http://www.purl.com/ah/kos/ah-chippingLocation/"
-    xmlns:ah-chippingShape="http://www.purl.com/ah/kos/ah-chippingShape/">
+    xmlns:ah-chippingShape="http://www.purl.com/ah/kos/ah-chippingShape/"
+    xmlns:crm="http://www.cidoc-crm.org/cidoc-crm/"> 
 
     <xsl:output method="xml" indent="yes"/>
-
     <xsl:template match="/">
         <rdf:RDF>
             <xsl:apply-templates/>
         </rdf:RDF>
     </xsl:template>
 
-    <xsl:template match="item"> <!-- Adjust based on actual XML structure -->
-        <ah:Arrowhead>
-            <xsl:attribute name="rdf:about">
-                <xsl:value-of select="@id"/>
-            </xsl:attribute>
-            
-            <ah:hasType>
-                <xsl:value-of select="type"/>
-            </ah:hasType>
-            
-            <ah:hasMaterial>
-                <xsl:value-of select="material"/>
-            </ah:hasMaterial>
-            
-            <ah:hasLength rdf:datatype="xsd:decimal">
-                <xsl:value-of select="length"/>
-            </ah:hasLength>
-            
-            <ah-chippingMode:mode>
-                <xsl:value-of select="chippingMode"/>
-            </ah-chippingMode:mode>
-            
-            <ah-chippingDirection:direction>
-                <xsl:value-of select="chippingDirection"/>
-            </ah-chippingDirection:direction>
-            
-            <ah-chippingDelineation:delineation>
-                <xsl:value-of select="chippingDelineation"/>
-            </ah-chippingDelineation:delineation>
-            
-            <ah-chippingLocation:location>
-                <xsl:value-of select="chippingLocation"/>
-            </ah-chippingLocation:location>
-            
-            <ah-chippingShape:shape>
-                <xsl:value-of select="chippingShape"/>
-            </ah-chippingShape:shape>
-        </ah:Arrowhead>
+    <xsl:template match="item">
+        <crm:E24_Physical_Man-Made_Thing rdf:about="ah:arrowhead{substring-after(@id, 'AH')}"> 
+            <ah:hasId><xsl:value-of select="@id"/></ah:hasId>
+            <ah:hasAnnotation><xsl:value-of select="annotation"/></ah:hasAnnotation>
+            <xsl:if test="shape">
+                <ah:shape rdf:resource="{shape}"/>
+            </xsl:if>
+
+            <xsl:if test="variant"> 
+                <ah:variant rdf:resource="{variant}"/>
+            </xsl:if>
+
+            <xsl:if test="point">
+                 <ah:point><xsl:value-of select="point"/></ah:point>
+            </xsl:if>
+
+            <xsl:if test="body">
+                <ah:body><xsl:value-of select="body"/></ah:body>
+            </xsl:if>
+
+            <xsl:if test="base">
+                <ah:base rdf:resource="{base}"/>
+            </xsl:if>
+
+            <xsl:if test="mode">
+                <ah:mode rdf:resource="{mode}"/>
+            </xsl:if>
+
+            <xsl:if test="amplitude">
+                <ah:amplitude><xsl:value-of select="amplitude"/></ah:amplitude>
+            </xsl:if>
+
+            <xsl:for-each select="direction[position() &lt;= 3]">
+                <ah:direction rdf:resource="{.}"/>
+            </xsl:for-each>
+
+
+            <xsl:if test="orientation">
+                <ah:orientation><xsl:value-of select="orientation"/></ah:orientation>
+            </xsl:if>
+
+            <xsl:if test="delineation">
+                <ah:delineation rdf:resource="{delineation}"/>
+            </xsl:if>
+
+            <xsl:for-each select="chippinglocation-Side[position() &lt;= 3]">  <ah:chippinglocation-Side rdf:resource="{.}"/>
+            </xsl:for-each>
+
+            <xsl:for-each select="chippinglocation-Transversal[position() &lt;= 3]">  <ah:chippinglocation-Transversal rdf:resource="{.}"/>
+            </xsl:for-each>
+
+            <xsl:if test="chippingShape">
+                <ah:chippingShape rdf:resource="{chippingShape}"/>
+            </xsl:if>
+
+            <xsl:if test="hasMedia">
+                <ah:hasMedia rdf:resource="{hasMedia}"/>
+            </xsl:if>
+
+        </crm:E24_Physical_Man-Made_Thing>
     </xsl:template>
+
 </xsl:stylesheet>

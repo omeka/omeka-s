@@ -143,7 +143,7 @@ $this->htmlElement('body')->appendAttribute('class', 'items browse');
                 sprintf('<strong>%s</strong>', number_format($this->pagination()->getPaginator()->getTotalCount()))
             ); ?></p>
             <label><input type="checkbox" name="confirm-delete-all-check"> <?php echo $translate('Are you sure?'); ?></label>
-            <span id="delete-confirm-sr-alerts" class="sr-only" aria-live="polite" aria-atomic="true" data-active-message="<?php echo $translate(sprintf('%s active.', $translate('Confirm Delete'))); ?>" data-inactive-message="<?php echo $translate(sprintf('%s inactive.', $translate('Confirm Delete'))); ?>"></span>
+            <span id="delete-confirm-sr-alerts" class="sr-only" aria-live="polite" aria-atomic="true" data-active-message="<?php echo $translate(sprintf('%s button active.', $translate('Confirm Delete'))); ?>" data-inactive-message="<?php echo $translate(sprintf('%s button inactive.', $translate('Confirm Delete'))); ?>"></span>
             <?php echo $this->form($this->formDeleteAll); ?>
         </div>
     </div>

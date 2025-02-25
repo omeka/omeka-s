@@ -20,12 +20,10 @@ $this->htmlElement('body')->appendAttribute('class', 'sites browse');
 <?php $this->trigger('view.browse.before'); ?>
 
 <div>
-    <input
-        id="view-all"
-        type="checkbox"
-        data-url="<?php echo $escape($this->url()); ?>"
-        <?php if (isset($query['user_has_role'])): ?>checked<?php endif; ?>
-    ><label for="view-all"><?php echo $translate('View all'); ?></label>
+    <?php if (!$isAdmin): ?>
+    <input id="view-all" type="checkbox" data-url="<?php echo $escape($this->url()); ?>"<?php if (isset($query['user_has_role'])): ?>checked<?php endif; ?>>
+    <label for="view-all"><?php echo $translate('View all'); ?></label>
+    <?php endif; ?>
 </div>
 <?php if (count($sites) > 0): ?>
 <table class="tablesaw" data-tablesaw-mode="stack">

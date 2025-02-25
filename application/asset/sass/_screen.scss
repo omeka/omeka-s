@@ -193,8 +193,8 @@ body {
     :disabled {
         background-color: $gray-on-white;
         box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
-        color: lighten($copy-gray, 25);
-        -webkit-text-fill-color: lighten($copy-gray, 25);
+        color: $copy-gray;
+        -webkit-text-fill-color: $copy-gray;
         cursor: default;
 
         &:hover {
@@ -3895,8 +3895,8 @@ input[type=text].query-form-query {
     input[type="submit"]:disabled {
         background-color: $gray-on-white;
         box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
-        color: lighten($copy-gray, 25);
-        -webkit-text-fill-color: lighten($copy-gray, 25);
+        color: $copy-gray;
+        -webkit-text-fill-color: $copy-gray;
         cursor: default;
 
         &:hover {

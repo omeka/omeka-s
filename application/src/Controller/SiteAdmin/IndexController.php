@@ -56,10 +56,10 @@ class IndexController extends AbstractActionController
         $this->browse()->setDefaults('sites');
         $query = $this->params()->fromQuery();
 
+        // By default, and when the current user is not an admin, filter out
+        // sites where the logged in user has no role.
         $isAdmin = $this->acl->isAdminRole($this->identity()->getRole());
         if (!$isAdmin && !isset($query['user_has_role'])) {
-            // By default, and when the current user is not an admin, filter out
-            // sites where the logged in user has no role.
             $query['user_has_role'] = '1';
         }
 

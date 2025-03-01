@@ -200,7 +200,10 @@ class Request
      *     - representation: an API resource representation (implements Omeka\Api\Representation\RepresentationInterface)
      *     - reference: an API resource reference (instance of Omeka\Api\Representation\ResourceReference)
      *     - resource: an API resource (implements Omeka\Api\ResourceInterface)
-     *
+     * - skipPaginatorCount: (bool) Set whether to skip the Paginator count. Setting
+     *     to true will skip getting the total count from the Paginaor, a potentially
+     *     expensive query that's not needed when expecting all results to return
+     *     from one search.
      * @param string|int|array $spec
      * @param mixed $value
      */

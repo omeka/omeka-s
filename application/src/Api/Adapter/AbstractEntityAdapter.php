@@ -272,26 +272,21 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
 
         // Add the LIMIT clause.
         $this->limitQuery($qb, $query);
-
-        // Set whether to skip the Paginator count. Setting to true, or setting
-        // none of the queries used for pagination, will skip getting the total
-        // count from the Paginaor.
-        $skipPaginatorCount = $request->getOption('skipPaginatorCount');
-        if (null === $skipPaginatorCount
-            && !isset($query['page'])
-            && !isset($query['per_page'])
-            && !isset($query['limit'])
-            && !isset($query['offset'])
-        ) {
-            $skipPaginatorCount = true;
-        }
+        $maxResults = $qb->getMaxResults();
+        $firstResult = $qb->getFirstResult();
 
         // Before adding the ORDER BY clause, set a paginator responsible for
-        // getting the total count. This optimization excludes the ORDER BY
-        // clause from the count query, greatly speeding up response time.
-        $countQb = clone $qb;
-        $countQb->select('1')->resetDQLPart('orderBy');
-        $countPaginator = new Paginator($countQb, false);
+        // getting the total count (unless configured not to or when no search
+        // params needed for pagination are set).
+        $countQueryDefault = $maxResults || $firstResult > 0;
+        $countQuery = $request->getOption('countQuery') ?? $countQueryDefault;
+        if ($countQuery) {
+            $countQb = clone $qb;
+            // This optimization excludes the ORDER BY clause from the count
+            // query, greatly speeding up response time.
+            $countQb->select('1')->resetDQLPart('orderBy');
+            $countPaginator = new Paginator($countQb, false);
+        }
 
         // Add the ORDER BY clause. Always sort by entity ID in addition to any
         // sorting the adapters add.
@@ -328,7 +323,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             }
             $content = array_column($qb->getQuery()->getScalarResult(), $scalarField, 'id');
             $response = new Response($content);
-            $response->setTotalResults($skipPaginatorCount ? count($content) : $countPaginator->count());
+            $response->setTotalResults($countQuery ? $countPaginator->count() : count($content));
             return $response;
         }
 
@@ -343,7 +338,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $entities = [];
         // Don't make the request if the LIMIT is set to zero. Useful if the
         // only information needed is total results.
-        if ($qb->getMaxResults() || null === $qb->getMaxResults()) {
+        if ($maxResults !== 0) {
             foreach ($paginator as $entity) {
                 if (is_array($entity)) {
                     // Remove non-entity columns added to the SELECT. You can use
@@ -355,7 +350,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         }
 
         $response = new Response($entities);
-        $response->setTotalResults($skipPaginatorCount ? count($entities) : $countPaginator->count());
+        $response->setTotalResults($countQuery ? $countPaginator->count() : count($entities));
         return $response;
     }
 

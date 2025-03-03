@@ -4,7 +4,7 @@ namespace Omeka\Stdlib;
 use Laminas\I18n\Translator\TranslatorInterface;
 
 /**
- * Message with a a list of placeholders formatted for sprintf().
+ * Message with a list of placeholders formatted for sprintf().
  */
 class Message implements MessageInterface
 {
@@ -58,6 +58,26 @@ class Message implements MessageInterface
      * @return bool
      */
     public function hasArgs()
+    {
+        return (bool) $this->args;
+    }
+
+    /**
+     * Get the message arguments.
+     *
+     * @return array
+     */
+    public function getContext()
+    {
+        return $this->args;
+    }
+
+    /**
+     * Does this message have arguments?
+     *
+     * @return bool
+     */
+    public function hasContext(): bool
     {
         return (bool) $this->args;
     }

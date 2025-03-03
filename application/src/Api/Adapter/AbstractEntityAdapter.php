@@ -276,9 +276,9 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $firstResult = $qb->getFirstResult();
 
         // Before adding the ORDER BY clause, set a paginator responsible for
-        // getting the total count (unless configured not to or when no search
-        // params needed for pagination are set).
-        $countQueryDefault = $maxResults || $firstResult > 0;
+        // getting the total count (unless configured not to or when no pagination
+        // is set.
+        $countQueryDefault = $maxResults !== null || $firstResult > 0;
         $countQuery = $request->getOption('countQuery') ?? $countQueryDefault;
         if ($countQuery) {
             $countQb = clone $qb;

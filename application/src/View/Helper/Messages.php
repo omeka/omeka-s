@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Laminas\I18n\Translator\TranslatorAwareInterface;
 use Laminas\View\Helper\AbstractHelper;
 use Omeka\Mvc\Controller\Plugin\Messenger;
 use Omeka\Stdlib\MessageInterface;
@@ -18,7 +17,7 @@ class Messages extends AbstractHelper
      */
     public function get()
     {
-        $messenger = new Messenger;
+        $messenger = new Messenger();
         $messages = $messenger->get();
         $messenger->clear();
         return $messages;
@@ -40,25 +39,32 @@ class Messages extends AbstractHelper
         $escape = $view->plugin('escapeHtml');
         $translate = $view->plugin('translate');
         $translator = $translate->getTranslator();
-        $output = '<ul class="messages">';
+
         $typeToClass = [
             Messenger::ERROR => 'error',
             Messenger::SUCCESS => 'success',
             Messenger::WARNING => 'warning',
             Messenger::NOTICE => 'notice',
         ];
-        foreach ($allMessages as $type => $messages) {
-            $class = isset($typeToClass[$type]) ? $typeToClass[$type] : 'notice';
-            foreach ($messages as $message) {
-                $translation = $view->translate($message);
 
-                if (!($message instanceof MessageInterface) || $message->escapeHtml()) {
+        $output = '<ul class="messages">';
+        foreach ($allMessages as $type => $messages) {
+            $class = $typeToClass[$type] ?? 'notice';
+            foreach ($messages as $message) {
+                if ($message instanceof MessageInterface) {
+                    $translation = $message->translate($translator);
+                    if ($message->escapeHtml()) {
+                        $translation = $escape($translation);
+                    }
+                } else {
+                    $translation = $translate($message);
                     $translation = $escape($translation);
                 }
                 $output .= sprintf('<li class="%s">%s</li>', $class, $translation);
             }
         }
         $output .= '</ul>';
+
         return $output;
     }
 }

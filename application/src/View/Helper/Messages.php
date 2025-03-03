@@ -53,7 +53,7 @@ class Messages extends AbstractHelper
             foreach ($messages as $message) {
                 if ($message instanceof MessageInterface) {
                     $translation = $message->translate($translator);
-                    if ($message->escapeHtml()) {
+                    if ($message->getEscapeHtml()) {
                         $translation = $escape($translation);
                     }
                 } else {

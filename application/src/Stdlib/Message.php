@@ -87,6 +87,19 @@ class Message implements MessageInterface
         $this->escapeHtml = (bool) $escapeHtml;
     }
 
+    /**
+     * Get the flag escapeHtml.
+     */
+    public function getEscapeHtml(): bool
+    {
+        return $this->escapeHtml;
+    }
+
+    /**
+     * Get the flag escapeHtml. Kept for compatibility.
+     *
+     * @deprecated This is a getter, so use getEscapeHtml().
+     */
     public function escapeHtml()
     {
         return $this->escapeHtml;

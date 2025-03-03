@@ -13,12 +13,15 @@ trait PsrInterpolateTrait
      * Keys that are not stringable are kept as class or type.
      *
      * @see https://www.php-fig.org/psr/psr-3/
+     * @see \Laminas\Log\Processor\PsrPlaceholder
+     *
+     * psr/log is a dependency of Omeka.
      *
      * @param string $message Message with PSR-3 placeholders.
-     * @param array $context Associative array with placeholders and strings.
+     * @param array $context Associative array of placeholders and stringable data.
      * @return string
      */
-    public function interpolate($message, array $context = null): string
+    public function interpolate($message, ?array $context = null): string
     {
         $message = (string) $message;
 
@@ -32,19 +35,23 @@ trait PsrInterpolateTrait
 
         $replacements = [];
         foreach ($context as $key => $val) {
-            if (is_null($val)
-                || is_scalar($val)
-                || (is_object($val) && method_exists($val, '__toString'))
-            ) {
-                $replacements['{' . $key . '}'] = $val;
-            } elseif (is_array($val)) {
-                $replacements['{' . $key . '}'] = 'array' . @json_encode($val);
-            } elseif (is_object($val)) {
-                $replacements['{' . $key . '}'] = '[object ' . get_class($val) . ']';
-            } elseif (is_resource($val)) {
-                $replacements['{' . $key . '}'] = '[resource ' . get_resource_type($val) . ']';
-            } else {
-                $replacements['{' . $key . '}'] = '[' . gettype($val) . ']';
+            try {
+                if (is_null($val)
+                    || is_scalar($val)
+                    || (is_object($val) && method_exists($val, '__toString'))
+                ) {
+                    $replacements['{' . $key . '}'] = $val;
+                } elseif (is_array($val)) {
+                    $replacements['{' . $key . '}'] = @json_encode($val, 448);
+                } elseif (is_object($val)) {
+                    $replacements['{' . $key . '}'] = '[object ' . get_class($val) . ']';
+                } elseif (is_resource($val)) {
+                    $replacements['{' . $key . '}'] = '[resource ' . get_resource_type($val) . ']';
+                } else {
+                    $replacements['{' . $key . '}'] = '[' . gettype($val) . ']';
+                }
+            } catch (\Exception $e) {
+                // Skip.
             }
         }
 

@@ -279,7 +279,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         // getting the total count (unless configured not to or when no pagination
         // is set.
         $countQueryDefault = $maxResults !== null || $firstResult > 0;
-        $countQuery = $request->getOption('countQuery') ?? $countQueryDefault;
+        $countQuery = $request->getOption('countQuery', $countQueryDefault);
         if ($countQuery) {
             $countQb = clone $qb;
             // This optimization excludes the ORDER BY clause from the count

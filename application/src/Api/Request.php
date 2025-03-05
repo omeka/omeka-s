@@ -200,7 +200,12 @@ class Request
      *     - representation: an API resource representation (implements Omeka\Api\Representation\RepresentationInterface)
      *     - reference: an API resource reference (instance of Omeka\Api\Representation\ResourceReference)
      *     - resource: an API resource (implements Omeka\Api\ResourceInterface)
-     *
+     * - countQuery: (bool) Set whether to run the total count query during a SEARCH
+     *     request. Setting to false will skip getting the total count from the
+     *     Paginaor, a potentially expensive query that's not needed when expecting
+     *     all results to return from one search. Note that setting none of the
+     *     search params needed for pagination is equivalent to countQuery=false.
+     *     Default is true.
      * @param string|int|array $spec
      * @param mixed $value
      */

@@ -72,7 +72,7 @@ class ResourceBatchUpdateForm extends Form implements EventManagerAwareInterface
                 'id' => 'resource-template-select',
                 'class' => 'chosen-select',
                 'data-placeholder' => 'Select a template', // @translate
-                'data-api-base-url' => $urlHelper('api/default', ['resource' => 'resource_templates']),
+                'data-api-base-url' => $urlHelper('api-local/default', ['resource' => 'resource_templates']),
             ],
             'options' => [
                 'label' => 'Set template', // @translate

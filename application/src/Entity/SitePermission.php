@@ -1,11 +1,13 @@
 <?php
 namespace Omeka\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @Entity
- * @Table(
+ * @ORM\Entity
+ * @ORM\Table(
  *     uniqueConstraints={
- *         @UniqueConstraint(
+ *         @ORM\UniqueConstraint(
  *             columns={"site_id", "user_id"}
  *         )
  *     }
@@ -18,26 +20,26 @@ class SitePermission extends AbstractEntity
     const ROLE_VIEWER = 'viewer';
 
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="Site", inversedBy="sitePermissions")
-     * @JoinColumn(nullable=false, onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="Site", inversedBy="sitePermissions")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $site;
 
     /**
-     * @ManyToOne(targetEntity="User")
-     * @JoinColumn(nullable=false, onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $user;
 
     /**
-     * @Column(length=80)
+     * @ORM\Column(length=80)
      */
     protected $role;
 

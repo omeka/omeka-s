@@ -1,14 +1,16 @@
 <?php
 namespace Omeka\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @Entity
+ * @ORM\Entity
  */
 class Migration extends AbstractEntity
 {
     /**
-     * @Id
-     * @Column(type="string", length=16)
+     * @ORM\Id
+     * @ORM\Column(type="string", length=16)
      */
     protected $version;
 

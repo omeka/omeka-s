@@ -133,7 +133,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
      * {@inheritDoc}
      * @internal generated method: use only when explicitly handling proxy specific loading logic
      */
-    public function __setInitializer(\Closure $initializer = null): void
+    public function __setInitializer(?\Closure $initializer = null): void
     {
         $this->__initializer__ = $initializer;
     }
@@ -151,7 +151,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
      * {@inheritDoc}
      * @internal generated method: use only when explicitly handling proxy specific loading logic
      */
-    public function __setCloner(\Closure $cloner = null): void
+    public function __setCloner(?\Closure $cloner = null): void
     {
         $this->__cloner__ = $cloner;
     }
@@ -283,7 +283,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setThumbnail(\Omeka\Entity\Asset $thumbnail = NULL)
+    public function setThumbnail(?\Omeka\Entity\Asset $thumbnail = NULL)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setThumbnail', [$thumbnail]);
@@ -327,7 +327,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setHomepage(\Omeka\Entity\SitePage $homepage = NULL)
+    public function setHomepage(?\Omeka\Entity\SitePage $homepage = NULL)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setHomepage', [$homepage]);
@@ -371,7 +371,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setOwner(\Omeka\Entity\User $owner = NULL)
+    public function setOwner(?\Omeka\Entity\User $owner = NULL)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOwner', [$owner]);

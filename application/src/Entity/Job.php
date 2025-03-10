@@ -3,10 +3,11 @@ namespace Omeka\Entity;
 
 use DateTime;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @Entity
- * @HasLifecycleCallbacks
+ * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class Job extends AbstractEntity
 {
@@ -29,50 +30,50 @@ class Job extends AbstractEntity
     /**#@-*/
 
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     protected $id;
 
     /**
-     * @Column(nullable=true)
+     * @ORM\Column(nullable=true)
      */
     protected $pid;
 
     /**
-     * @Column(nullable=true)
+     * @ORM\Column(nullable=true)
      */
     protected $status;
 
     /**
-     * @Column
+     * @ORM\Column
      */
     protected $class;
 
     /**
-     * @Column(type="json_array", nullable=true)
+     * @ORM\Column(type="json_array", nullable=true)
      */
     protected $args;
 
     /**
-     * @Column(type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $log;
 
     /**
-     * @ManyToOne(targetEntity="User")
-     * @JoinColumn(onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $owner;
 
     /**
-     * @Column(type="datetime")
+     * @ORM\Column(type="datetime")
      */
     protected $started;
 
     /**
-     * @Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     protected $ended;
 
@@ -167,7 +168,7 @@ class Job extends AbstractEntity
     }
 
     /**
-     * @PrePersist
+     * @ORM\PrePersist
      */
     public function prePersist(LifecycleEventArgs $eventArgs)
     {

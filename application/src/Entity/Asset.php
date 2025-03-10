@@ -1,46 +1,48 @@
 <?php
 namespace Omeka\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @Entity
+ * @ORM\Entity
  */
 class Asset extends AbstractEntity
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="User")
-     * @JoinColumn(onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $owner;
 
     /**
-     * @Column
+     * @ORM\Column
      */
     protected $name;
 
     /**
-     * @Column
+     * @ORM\Column
      */
     protected $mediaType;
 
     /**
-     * @Column(length=190, unique=true)
+     * @ORM\Column(length=190, unique=true)
      */
     protected $storageId;
 
     /**
-     * @Column(nullable=true)
+     * @ORM\Column(nullable=true)
      */
     protected $extension;
 
     /**
-     * @Column(type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $altText;
 

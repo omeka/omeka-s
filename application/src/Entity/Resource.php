@@ -3,23 +3,24 @@ namespace Omeka\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * A resource, representing the subject in an RDF triple.
  *
  * Note that the discriminator map is loaded dynamically.
  *
- * @Entity
- * @InheritanceType("JOINED")
- * @DiscriminatorColumn(name="resource_type", type="string")
- * @Table(
+ * @ORM\Entity
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="resource_type", type="string")
+ * @ORM\Table(
  *     indexes={
- *         @Index(
+ *         @ORM\Index(
  *             name="title",
  *             columns={"title"},
  *             options={"lengths":{190}}
  *         ),
- *         @Index(
+ *         @ORM\Index(
  *             name="is_public",
  *             columns={"is_public"}
  *         )
@@ -31,64 +32,64 @@ use Doctrine\Common\Collections\ArrayCollection;
 abstract class Resource extends AbstractEntity
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="User")
-     * @JoinColumn(onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $owner;
 
     /**
-     * @ManyToOne(targetEntity="ResourceClass", inversedBy="resources")
-     * @JoinColumn(onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="ResourceClass", inversedBy="resources")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $resourceClass;
 
     /**
-     * @ManyToOne(targetEntity="ResourceTemplate", inversedBy="resources")
-     * @JoinColumn(onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="ResourceTemplate", inversedBy="resources")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $resourceTemplate;
 
     /**
-     * @ManyToOne(targetEntity="Asset")
-     * @JoinColumn(onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="Asset")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $thumbnail;
 
     /**
-     * @Column(type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $title;
 
     /**
-     * @Column(type="boolean")
+     * @ORM\Column(type="boolean")
      */
     protected $isPublic = true;
 
     /**
-     * @Column(type="datetime")
+     * @ORM\Column(type="datetime")
      */
     protected $created;
 
     /**
-     * @Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     protected $modified;
 
     /**
-     * @OneToMany(
+     * @ORM\OneToMany(
      *     targetEntity="Value",
      *     mappedBy="resource",
      *     orphanRemoval=true,
      *     cascade={"persist", "remove", "detach"}
      * )
-     * @OrderBy({"id" = "ASC"})
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $values;
 

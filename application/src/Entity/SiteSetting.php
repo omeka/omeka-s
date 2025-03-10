@@ -1,26 +1,28 @@
 <?php
 namespace Omeka\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @Entity
+ * @ORM\Entity
  */
 class SiteSetting extends AbstractEntity
 {
     /**
-     * @Id
-     * @Column(type="string", length=190)
+     * @ORM\Id
+     * @ORM\Column(type="string", length=190)
      */
     protected $id;
 
     /**
-     * @Id
-     * @ManyToOne(targetEntity="Site")
-     * @JoinColumn(nullable=false, onDelete="CASCADE")
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="Site")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $site;
 
     /**
-     * @Column(type="json_array")
+     * @ORM\Column(type="json_array")
      */
     protected $value;
 

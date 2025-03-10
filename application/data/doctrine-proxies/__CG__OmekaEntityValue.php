@@ -133,7 +133,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
      * {@inheritDoc}
      * @internal generated method: use only when explicitly handling proxy specific loading logic
      */
-    public function __setInitializer(\Closure $initializer = null): void
+    public function __setInitializer(?\Closure $initializer = null): void
     {
         $this->__initializer__ = $initializer;
     }
@@ -151,7 +151,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
      * {@inheritDoc}
      * @internal generated method: use only when explicitly handling proxy specific loading logic
      */
-    public function __setCloner(\Closure $cloner = null): void
+    public function __setCloner(?\Closure $cloner = null): void
     {
         $this->__cloner__ = $cloner;
     }
@@ -195,7 +195,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setResource(\Omeka\Entity\Resource $resource = NULL)
+    public function setResource(?\Omeka\Entity\Resource $resource = NULL)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setResource', [$resource]);
@@ -327,7 +327,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setValueResource(\Omeka\Entity\Resource $valueResource = NULL)
+    public function setValueResource(?\Omeka\Entity\Resource $valueResource = NULL)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setValueResource', [$valueResource]);
@@ -382,7 +382,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setValueAnnotation(\Omeka\Entity\ValueAnnotation $valueAnnotation = NULL)
+    public function setValueAnnotation(?\Omeka\Entity\ValueAnnotation $valueAnnotation = NULL)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setValueAnnotation', [$valueAnnotation]);

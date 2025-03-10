@@ -1,24 +1,26 @@
 <?php
 namespace Omeka\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @Entity
+ * @ORM\Entity
  */
 class Session
 {
     /**
-     * @Id
-     * @Column(type="string", length=190)
+     * @ORM\Id
+     * @ORM\Column(type="string", length=190)
      */
     protected $id;
 
     /**
-     * @Column(type="blob")
+     * @ORM\Column(type="blob")
      */
     protected $data;
 
     /**
-     * @Column(type="integer")
+     * @ORM\Column(type="integer")
      */
     protected $modified;
 }

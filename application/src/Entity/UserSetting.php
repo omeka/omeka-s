@@ -1,26 +1,28 @@
 <?php
 namespace Omeka\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @Entity
+ * @ORM\Entity
  */
 class UserSetting extends AbstractEntity
 {
     /**
-     * @Id
-     * @Column(type="string", length=190)
+     * @ORM\Id
+     * @ORM\Column(type="string", length=190)
      */
     protected $id;
 
     /**
-     * @Id
-     * @ManyToOne(targetEntity="User")
-     * @JoinColumn(nullable=false, onDelete="CASCADE")
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $user;
 
     /**
-     * @Column(type="json_array")
+     * @ORM\Column(type="json_array")
      */
     protected $value;
 

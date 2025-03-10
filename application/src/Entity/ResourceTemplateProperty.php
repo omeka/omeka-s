@@ -1,11 +1,13 @@
 <?php
 namespace Omeka\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @Entity
- * @Table(
+ * @ORM\Entity
+ * @ORM\Table(
  *     uniqueConstraints={
- *         @UniqueConstraint(
+ *         @ORM\UniqueConstraint(
  *             columns={"resource_template_id", "property_id"}
  *         )
  *     }
@@ -14,56 +16,56 @@ namespace Omeka\Entity;
 class ResourceTemplateProperty extends AbstractEntity
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="ResourceTemplate", inversedBy="resourceTemplateProperties")
-     * @JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="ResourceTemplate", inversedBy="resourceTemplateProperties")
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $resourceTemplate;
 
     /**
-     * @ManyToOne(targetEntity="Property")
-     * @JoinColumn(nullable=false, onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="Property")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $property;
 
     /**
-     * @Column(nullable=true)
+     * @ORM\Column(nullable=true)
      */
     protected $alternateLabel;
 
     /**
-     * @Column(type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $alternateComment;
 
     /**
-     * @Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $position;
 
     /**
-     * @Column(type="json_array", nullable=true)
+     * @ORM\Column(type="json_array", nullable=true)
      */
     protected $dataType;
 
     /**
-     * @Column(type="boolean")
+     * @ORM\Column(type="boolean")
      */
     protected $isRequired = false;
 
     /**
-     * @Column(type="boolean")
+     * @ORM\Column(type="boolean")
      */
     protected $isPrivate = false;
 
     /**
-     * @Column(nullable=true)
+     * @ORM\Column(nullable=true)
      */
     protected $defaultLang;
 

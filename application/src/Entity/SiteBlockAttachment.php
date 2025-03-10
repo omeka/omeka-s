@@ -1,11 +1,13 @@
 <?php
 namespace Omeka\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @Entity
- * @Table(
+ * @ORM\Entity
+ * @ORM\Table(
  *     indexes={
- *         @Index(
+ *         @ORM\Index(
  *             name="block_position",
  *             columns={"block_id", "position"}
  *         )
@@ -15,37 +17,37 @@ namespace Omeka\Entity;
 class SiteBlockAttachment extends AbstractEntity
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="SitePageBlock", inversedBy="attachments")
-     * @JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="SitePageBlock", inversedBy="attachments")
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $block;
 
     /**
-     * @ManyToOne(targetEntity="Item", inversedBy="siteBlockAttachments")
-     * @JoinColumn(onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="Item", inversedBy="siteBlockAttachments")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $item;
 
     /**
-     * @ManyToOne(targetEntity="Media")
-     * @JoinColumn(onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="Media")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $media;
 
     /**
-     * @Column(type="text")
+     * @ORM\Column(type="text")
      */
     protected $caption;
 
     /**
-     * @Column(type="integer")
+     * @ORM\Column(type="integer")
      */
     protected $position;
 

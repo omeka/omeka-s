@@ -2,16 +2,17 @@
 namespace Omeka\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * A property, representing the predicate in an RDF triple.
  *
  * Properties define relationships between resources and their values.
  *
- * @Entity
- * @Table(
+ * @ORM\Entity
+ * @ORM\Table(
  *     uniqueConstraints={
- *         @UniqueConstraint(
+ *         @ORM\UniqueConstraint(
  *             columns={"vocabulary_id", "local_name"}
  *         )
  *     }
@@ -20,41 +21,41 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Property extends AbstractEntity
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="User", inversedBy="properties")
-     * @JoinColumn(onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="properties")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $owner;
 
     /**
-     * @ManyToOne(targetEntity="Vocabulary", inversedBy="properties")
-     * @JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="Vocabulary", inversedBy="properties")
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $vocabulary;
 
     /**
-     * @Column(options={"collation"="utf8mb4_bin"}, length=190)
+     * @ORM\Column(options={"collation"="utf8mb4_bin"}, length=190)
      */
     protected $localName;
 
     /**
-     * @Column
+     * @ORM\Column
      */
     protected $label;
 
     /**
-     * @Column(type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $comment;
 
     /**
-     * @OneToMany(
+     * @ORM\OneToMany(
      *     targetEntity="Value",
      *     mappedBy="property",
      *     fetch="EXTRA_LAZY"

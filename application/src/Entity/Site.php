@@ -3,89 +3,90 @@ namespace Omeka\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @Entity
+ * @ORM\Entity
  */
 class Site extends AbstractEntity
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     protected $id;
 
     /**
-     * @Column(length=190, unique=true)
+     * @ORM\Column(length=190, unique=true)
      */
     protected $slug;
 
     /**
-     * @Column(length=190)
+     * @ORM\Column(length=190)
      */
     protected $theme;
 
     /**
-     * @Column(length=190)
+     * @ORM\Column(length=190)
      */
     protected $title;
 
     /**
-     * @Column(type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $summary;
 
     /**
-     * @ManyToOne(targetEntity="Asset")
-     * @JoinColumn(onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="Asset")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $thumbnail;
 
     /**
-     * @Column(type="json_array")
+     * @ORM\Column(type="json_array")
      */
     protected $navigation;
 
     /**
-     * @OneToOne(targetEntity="SitePage")
-     * @JoinColumn(onDelete="SET NULL")
+     * @ORM\OneToOne(targetEntity="SitePage")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $homepage;
 
     /**
-     * @Column(type="json_array")
+     * @ORM\Column(type="json_array")
      */
     protected $itemPool;
 
     /**
-     * @ManyToOne(targetEntity="User", inversedBy="sites")
-     * @JoinColumn(onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="sites")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $owner;
 
     /**
-     * @Column(type="datetime")
+     * @ORM\Column(type="datetime")
      */
     protected $created;
 
     /**
-     * @Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     protected $modified;
 
     /**
-     * @Column(type="boolean")
+     * @ORM\Column(type="boolean")
      */
     protected $isPublic = true;
 
     /**
-     * @Column(type="boolean", options={"default":false})
+     * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $assignNewItems = false;
 
     /**
-     * @OneToMany(
+     * @ORM\OneToMany(
      *     targetEntity="SitePage",
      *     mappedBy="site",
      *     orphanRemoval=true,
@@ -96,7 +97,7 @@ class Site extends AbstractEntity
     protected $pages;
 
     /**
-     * @OneToMany(
+     * @ORM\OneToMany(
      *     targetEntity="SitePermission",
      *     mappedBy="site",
      *     orphanRemoval=true,
@@ -106,19 +107,19 @@ class Site extends AbstractEntity
     protected $sitePermissions;
 
     /**
-     * @OneToMany(
+     * @ORM\OneToMany(
      *     targetEntity="SiteItemSet",
      *     mappedBy="site",
      *     orphanRemoval=true,
      *     cascade={"persist", "remove"}
      * )
-     * @OrderBy({"position" = "ASC"})
+     * @ORM\OrderBy({"position" = "ASC"})
      */
     protected $siteItemSets;
 
     /**
-     * @ManyToMany(targetEntity="Item", mappedBy="sites", fetch="EXTRA_LAZY")
-     * @JoinTable(name="item_site")
+     * @ORM\ManyToMany(targetEntity="Item", mappedBy="sites", fetch="EXTRA_LAZY")
+     * @ORM\JoinTable(name="item_site")
      */
     protected $items;
 

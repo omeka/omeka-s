@@ -2,68 +2,69 @@
 namespace Omeka\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * A vocabulary.
  *
  * Vocabularies are defined sets of classes and properties.
  *
- * @Entity
+ * @ORM\Entity
  */
 class Vocabulary extends AbstractEntity
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="User", inversedBy="vocabularies")
-     * @JoinColumn(onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="vocabularies")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $owner;
 
     /**
-     * @Column(unique=true, length=190)
+     * @ORM\Column(unique=true, length=190)
      */
     protected $namespaceUri;
 
     /**
-     * @Column(unique=true, length=190)
+     * @ORM\Column(unique=true, length=190)
      */
     protected $prefix;
 
     /**
-     * @Column
+     * @ORM\Column
      */
     protected $label;
 
     /**
-     * @Column(type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $comment;
 
     /**
-     * @OneToMany(
+     * @ORM\OneToMany(
      *     targetEntity="ResourceClass",
      *     mappedBy="vocabulary",
      *     orphanRemoval=true,
      *     cascade={"persist", "remove"}
      * )
-     * @OrderBy({"label" = "ASC"})
+     * @ORM\OrderBy({"label" = "ASC"})
      */
     protected $resourceClasses;
 
     /**
-     * @OneToMany(
+     * @ORM\OneToMany(
      *     targetEntity="Property",
      *     mappedBy="vocabulary",
      *     orphanRemoval=true,
      *     cascade={"persist", "remove"}
      * )
-     * @OrderBy({"label" = "ASC"})
+     * @ORM\OrderBy({"label" = "ASC"})
      */
     protected $properties;
 

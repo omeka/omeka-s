@@ -2,62 +2,63 @@
 namespace Omeka\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @Entity
+ * @ORM\Entity
  */
 class ResourceTemplate extends AbstractEntity
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     protected $id;
 
     /**
-     * @Column(unique=true, length=190)
+     * @ORM\Column(unique=true, length=190)
      */
     protected $label;
 
     /**
-     * @ManyToOne(targetEntity="User", inversedBy="resourceTemplates")
-     * @JoinColumn(onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="resourceTemplates")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $owner;
 
     /**
-     * @ManyToOne(targetEntity="ResourceClass")
-     * @JoinColumn(onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="ResourceClass")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $resourceClass;
 
     /**
-     * @ManyToOne(targetEntity="Property")
-     * @JoinColumn(onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="Property")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $titleProperty;
 
     /**
-     * @ManyToOne(targetEntity="Property")
-     * @JoinColumn(onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="Property")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $descriptionProperty;
 
     /**
-     * @OneToMany(
+     * @ORM\OneToMany(
      *     targetEntity="ResourceTemplateProperty",
      *     mappedBy="resourceTemplate",
      *     orphanRemoval=true,
      *     cascade={"persist", "remove", "detach"},
      *     indexBy="property_id"
      * )
-     * @OrderBy({"position" = "ASC"})
+     * @ORM\OrderBy({"position" = "ASC"})
      */
     protected $resourceTemplateProperties;
 
     /**
-     * @OneToMany(
+     * @ORM\OneToMany(
      *     targetEntity="Resource",
      *     mappedBy="resourceTemplate",
      *     fetch="EXTRA_LAZY"

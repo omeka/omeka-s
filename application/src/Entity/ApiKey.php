@@ -2,11 +2,12 @@
 namespace Omeka\Entity;
 
 use DateTime;
+use Doctrine\ORM\Mapping as ORM;
 use Laminas\Math\Rand;
 
 /**
- * @Entity
- * @HasLifecycleCallbacks
+ * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class ApiKey extends AbstractEntity
 {
@@ -25,48 +26,48 @@ class ApiKey extends AbstractEntity
     /**
      * The key identity
      *
-     * @Id
-     * @Column(length=32)
+     * @ORM\Id
+     * @ORM\Column(length=32)
      */
     protected $id;
 
     /**
-     * @Column
+     * @ORM\Column
      */
     protected $label;
 
     /**
      * The hashed key credential
      *
-     * @Column(length=60)
+     * @ORM\Column(length=60)
      */
     protected $credentialHash;
 
     /**
-     * @Column(type="ip_address", nullable=true)
+     * @ORM\Column(type="ip_address", nullable=true)
      */
     protected $lastIp;
 
     /**
-     * @Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     protected $lastAccessed;
 
     /**
-     * @Column(type="datetime")
+     * @ORM\Column(type="datetime")
      */
     protected $created;
 
     /**
      * The associated user
      *
-     * @ManyToOne(targetEntity="User", inversedBy="keys", fetch="EAGER")
-     * @JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="keys", fetch="EAGER")
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $owner;
 
     /**
-     * @PrePersist
+     * @ORM\PrePersist
      */
     public function prePersist()
     {

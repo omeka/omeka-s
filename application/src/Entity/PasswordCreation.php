@@ -4,34 +4,35 @@ namespace Omeka\Entity;
 use DateInterval;
 use DateTime;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @Entity
- * @HasLifecycleCallbacks
+ * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class PasswordCreation extends AbstractEntity
 {
     /**
-     * @Id
-     * @Column(options={"collation"="utf8mb4_bin"}, length=32)
+     * @ORM\Id
+     * @ORM\Column(options={"collation"="utf8mb4_bin"}, length=32)
      */
     protected $id;
 
     /**
-     * @OneToOne(targetEntity="User")
-     * @JoinColumn(nullable=false, onDelete="CASCADE")
+     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $user;
 
     /**
-     * @Column(type="datetime")
+     * @ORM\Column(type="datetime")
      */
     protected $created;
 
     /**
      * Whether to activate the user after setting a new password.
      *
-     * @Column(type="boolean")
+     * @ORM\Column(type="boolean")
      */
     protected $activate = true;
 
@@ -84,7 +85,7 @@ class PasswordCreation extends AbstractEntity
     }
 
     /**
-     * @PrePersist
+     * @ORM\PrePersist
      */
     public function prePersist(LifecycleEventArgs $eventArgs)
     {

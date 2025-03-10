@@ -17,7 +17,6 @@
         "ml/json-ld": "^1.1",
         "ezyang/htmlpurifier": "^4.8",
         "composer/semver": "^3.2",
-        "laminas/laminas-zendframework-bridge": "^1.0",
         "laminas/laminas-authentication": "^2.5.3",
         "laminas/laminas-config": "^3.7.0",
         "laminas/laminas-dom": "^2.6",

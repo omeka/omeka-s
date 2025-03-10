@@ -1,18 +1,18 @@
 <?php
 namespace Omeka\Service;
 
-use Doctrine\Common\Cache\ArrayCache;
-use Doctrine\Common\Cache\ApcuCache;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
-use Doctrine\ORM\Tools\Setup;
+use Doctrine\ORM\ORMSetup;
+use Interop\Container\ContainerInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Omeka\Db\Event\Listener\ResourceDiscriminatorMap;
 use Omeka\Db\Event\Subscriber\Entity;
 use Omeka\Db\ProxyAutoloader;
-use Laminas\ServiceManager\Factory\FactoryInterface;
-use Interop\Container\ContainerInterface;
+use Symfony\Component\Cache\Adapter\ApcuAdapter;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 /**
  * Factory for creating the Doctrine entity manager.
@@ -52,24 +52,26 @@ class EntityManagerFactory implements FactoryInterface
             $isDevMode = self::IS_DEV_MODE;
         }
 
-        $arrayCache = new ArrayCache();
+        $arrayCache = new ArrayAdapter();
         if (extension_loaded('apcu') && !$isDevMode) {
-            $cache = new ApcuCache();
+            $cache = new ApcuAdapter();
         } else {
             $cache = $arrayCache;
         }
 
         // Set up the entity manager configuration.
-        $emConfig = Setup::createAnnotationMetadataConfiguration(
-            $config['entity_manager']['mapping_classes_paths'],
+        $emConfig = ORMSetup::createConfiguration(
             $isDevMode,
             OMEKA_PATH . '/application/data/doctrine-proxies',
             $cache
         );
+        $emConfig->setMetadataDriverImpl(
+            ORMSetup::createDefaultAnnotationDriver($config['entity_manager']['mapping_classes_paths'])
+        );
 
         // Force non-persistent query cache, workaround for issue with SQL filters
         // that vary by user, permission level
-        $emConfig->setQueryCacheImpl($arrayCache);
+        $emConfig->setQueryCache($arrayCache);
 
         // Use the underscore naming strategy to preempt potential compatibility
         // issues with the case sensitivity of various operating systems.
@@ -97,13 +99,14 @@ class EntityManagerFactory implements FactoryInterface
         // HACK: Doctrine takes an integer here and just happens to do nothing (which is
         // what we want) if the number is not one of the defined proxy generation
         // constants.
-        $emConfig->setAutoGenerateProxyClasses(-1);
+        // This hack is no more allowed, but "false" can be used instead.
+        $emConfig->setAutoGenerateProxyClasses(false);
         ProxyAutoloader::register($config['entity_manager']['proxy_paths'],
             $emConfig->getProxyNamespace());
 
         // Set up the entity manager.
         $connection = $serviceLocator->get('Omeka\Connection');
-        $em = EntityManager::create($connection, $emConfig);
+        $em = new EntityManager($connection, $emConfig);
         $em->getEventManager()->addEventListener(
             Events::loadClassMetadata,
             new ResourceDiscriminatorMap($config['entity_manager']['resource_discriminator_map'])

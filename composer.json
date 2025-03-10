@@ -47,7 +47,8 @@
         "omeka/composer-addon-installer": "*",
         "omeka-s-themes/default": "dev-develop",
         "beberlei/doctrineextensions": "^1.0",
-        "lsolesen/pel": "^0.9.6"
+        "lsolesen/pel": "^0.9.6",
+        "symfony/cache": "^5.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^9",

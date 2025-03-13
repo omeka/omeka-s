@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Excavation>
+  <excav:identifier>EXCAVATION-001</excav:identifier>
+
+  <dul:hasLocation>
+    <dbo:Place>
+      <dbo:informationName>Castanheiro do Vento</dbo:informationName>
+      <excav:hasGPSCoordinates>
+        <geo:SpatialThing>
+          <geo:lat>41.063611</geo:lat>
+          <geo:long>-7.321667</geo:long>
+        </geo:SpatialThing>
+      </excav:hasGPSCoordinates>
+      <dbo:district>
+        <dbo:District>
+          <dbo:informationName>Guarda</dbo:informationName>
+        </dbo:District>
+      </dbo:district>
+      <dbo:Parish>
+        <dbo:Parish>
+          <dbo:informationName>Horta do Douro</dbo:informationName>
+        </dbo:Parish>
+      </dbo:Parish>
+    </dbo:Place>
+  </dul:hasLocation>
+
+  <excav:hasPersonInCharge>
+    <excav:Archaeologist>
+      <foaf:account>http://www.orcid.org/0000-0001-5289-7583</foaf:account>
+      <foaf:name>Joao Muralha</foaf:name>
+      <foaf:mbox>jccardoso@fcsh.unl.pt</foaf:mbox>
+    </excav:Archaeologist>
+  </excav:hasPersonInCharge>
+
+  <excav:hasContext>
+    <crmarchaeo:A1_Excavation_Processing_Unit>
+      <dct:identifier>95,26</dct:identifier>
+      <excav:hasSVU>
+        <crmarchaeo:A2_Stratigraphic_Volume_Unit>
+          <dct:identifier>SVU-003</dct:identifier>
+          <dct:description>Grande Estrutura Circular 7</dct:description>
+          <excav:hasTimeLine>
+            <time:TemporalEntity>
+              <time:hasBeginning>
+                <time:Instant>
+                  <time:inXSDYear>2800</time:inXSDYear>
+                  <excav:bc>true</excav:bc>
+                </time:Instant>
+              </time:hasBeginning>
+              <time:hasEnd>
+                <time:Instant>
+                  <time:inXSDYear>1500</time:inXSDYear>
+                  <excav:bc>true</excav:bc>
+                </time:Instant>
+              </time:hasEnd>
+            </time:TemporalEntity>
+          </excav:hasTimeLine>
+        </crmarchaeo:A2_Stratigraphic_Volume_Unit>
+      </excav:hasSVU>
+    </crmarchaeo:A1_Excavation_Processing_Unit>
+  </excav:hasContext>
+
+  </Excavation>

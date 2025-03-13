@@ -161,6 +161,40 @@ class IndexController extends AbstractActionController
             'dc' => 'http://purl.org/dc/elements/1.1/',
             'dcterms' => 'http://purl.org/dc/terms/',
             'foaf' => 'http://xmlns.com/foaf/0.1/',
+            /* add the missing: @prefix ah: <http://www.purl.com/ah/ms/ahMS#>.
+@prefix ah-vocab:<http://www.purl.com/ah/kos#>.
+@prefix excav:<https://purl.org/ah/ms/excavationMS#>.
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix schema: <http://schema.org/>.
+@prefix voaf: <http://purl.org/vocommons/voaf#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix vann: <http://purl.org/vocab/vann/>.
+@prefix dbo: <http://dbpedia.org/ontology/>.
+@prefix time: <http://www.w3.org/2006/time#>.
+@prefix edm:<http://www.europeana.eu/schemas/edm#>. 
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#>.
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/>.
+@prefix crmsci: <https://cidoc-crm.org/extensions/crmsci/>.
+@prefix crmarchaeo: <http://www.cidoc-crm.org/extensions/crmarchaeo/>.
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
+@prefix sh: <http://www.w3.org/ns/shacl#>.*/
+            'ah-vocab' => 'http://www.purl.com/ah/kos#',
+            'excav' => 'https://purl.org/ah/ms/excavationMS#',
+            'dct' => 'http://purl.org/dc/terms/',
+            'schema' => 'http://schema.org/',
+            'voaf' => 'http://purl.org/vocommons/voaf#',   
+            'vann' => 'http://purl.org/vocab/vann/',
+            'dbo' => 'http://dbpedia.org/ontology/',
+            'time' => 'http://www.w3.org/2006/time#',
+            'edm' => 'http://www.europeana.eu/schemas/edm#',
+            'dul' => 'http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#',
+            'crmsci' => 'https://cidoc-crm.org/extensions/crmsci/',
+            'crmarchaeo' => 'http://www.cidoc-crm.org/extensions/crmarchaeo/',
+            'geo' => 'http://www.w3.org/2003/01/geo/wgs84_pos#',
+            'sh' => 'http://www.w3.org/ns/shacl#'
         ]);
 
         // Remove angle brackets from specific predicates

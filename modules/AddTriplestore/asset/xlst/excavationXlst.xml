@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:excav="https://purl.org/ah/ms/excavationMS#"
+  xmlns:dct="http://purl.org/dc/terms/"
+  xmlns:foaf="http://xmlns.com/foaf/0.1/"
+  xmlns:dbo="http://dbpedia.org/ontology/"
+  xmlns:time="http://www.w3.org/2006/time#"
+  xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+  xmlns:crmarchaeo="http://www.cidoc-crm.org/extensions/crmarchaeo/"
+  xmlns:crmsci="https://cidoc-crm.org/extensions/crmsci/"
+  xmlns:dul="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#">  
+
+  <xsl:output method="xml" indent="yes" />
+
+  <xsl:template match="/">
+    <rdf:RDF>
+      <xsl:apply-templates select="//Excavation" />
+    </rdf:RDF>
+  </xsl:template>
+
+  <xsl:template match="Excavation">
+    <crmarchaeo:A9_Archaeological_Excavation rdf:about="{excav:identifier}">
+      <dct:identifier>
+        <xsl:value-of select="excav:identifier" />
+      </dct:identifier>
+
+      <xsl:if test="dul:hasLocation">
+        <dul:hasLocation rdf:resource="{dul:hasLocation}" />
+      </xsl:if>
+
+      <xsl:if test="excav:hasPersonInCharge">
+        <excav:hasPersonInCharge rdf:resource="{excav:hasPersonInCharge}" />
+      </xsl:if>
+
+      <xsl:for-each select="excav:hasContext">
+        <excav:hasContext rdf:resource="{.}" />
+      </xsl:for-each>
+    </crmarchaeo:A9_Archaeological_Excavation>
+
+    <xsl:apply-templates select="excav:hasPersonInCharge" />
+    <xsl:apply-templates select="dul:hasLocation" />
+    <xsl:apply-templates select="excav:hasContext" />
+  </xsl:template>
+
+  <xsl:template match="excav:hasPersonInCharge">
+    <excav:Archaeologist rdf:about="{foaf:account}">
+      <foaf:account>
+        <xsl:value-of select="foaf:account" />
+      </foaf:account>
+      <xsl:if test="foaf:name">
+        <foaf:name>
+          <xsl:value-of select="foaf:name" />
+        </foaf:name>
+      </xsl:if>
+      <xsl:for-each select="foaf:mbox[position() &lt;= 1]"> 
+        <foaf:mbox>
+          <xsl:value-of select="." />
+        </foaf:mbox>
+      </xsl:for-each>
+    </excav:Archaeologist>
+  </xsl:template>
+
+  <xsl:template match="dul:hasLocation">
+    <dbo:Place rdf:about="{dbo:informationName}">
+      <dbo:informationName>
+        <xsl:value-of select="dbo:informationName" />
+      </dbo:informationName>
+      <xsl:if test="excav:hasGPSCoordinates">
+        <excav:hasGPSCoordinates rdf:resource="{excav:hasGPSCoordinates}" />
+      </xsl:if>
+      <xsl:if test="dbo:district">
+        <dbo:district rdf:resource="{dbo:district}" />
+      </xsl:if>
+      <xsl:if test="dbo:Parish">
+        <dbo:Parish rdf:resource="{dbo:Parish}" />
+      </xsl:if>
+    </dbo:Place>
+
+    <xsl:apply-templates select="excav:hasGPSCoordinates" />
+    <xsl:apply-templates select="dbo:district" />
+    <xsl:apply-templates select="dbo:Parish" />
+  </xsl:template>
+
+  <xsl:template match="excav:hasContext">
+    <crmarchaeo:A1_Excavation_Processing_Unit rdf:about="{dct:identifier}">
+      <dct:identifier>
+        <xsl:value-of select="dct:identifier" />
+      </dct:identifier>
+      <xsl:for-each select="excav:hasSVU">
+        <excav:hasSVU rdf:resource="{.}" />
+      </xsl:for-each>
+    </crmarchaeo:A1_Excavation_Processing_Unit>
+
+    <xsl:apply-templates select="excav:hasSVU" />
+  </xsl:template>
+
+  <xsl:template match="excav:hasSVU">
+    <crmarchaeo:A2_Stratigraphic_Volume_Unit rdf:about="{dct:identifier}">
+      <dct:identifier>
+        <xsl:value-of select="dct:identifier" />
+      </dct:identifier>
+      <xsl:if test="dct:description">
+        <dct:description>
+          <xsl:value-of select="dct:description" />
+        </dct:description>
+      </xsl:if>
+      <xsl:if test="excav:hasTimeLine">
+        <excav:hasTimeLine rdf:resource="{excav:hasTimeLine}" />
+      </xsl:if>
+    </crmarchaeo:A2_Stratigraphic_Volume_Unit>
+
+    <xsl:apply-templates select="excav:hasTimeLine" />
+  </xsl:template>
+
+  <xsl:template match="excav:hasGPSCoordinates">
+    <geo:SpatialThing rdf:about=".">
+      <xsl:if test="geo:lat">
+        <geo:lat>
+          <xsl:value-of select="geo:lat" />
+        </geo:lat>
+      </xsl:if>
+      <xsl:if test="geo:long">
+        <geo:long>
+          <xsl:value-of select="geo:long" />
+        </geo:long>
+      </xsl:if>
+    </geo:SpatialThing>
+  </xsl:template>
+
+  <xsl:template match="dbo:district">
+    <dbo:District rdf:about=".">
+      <dbo:informationName>
+        <xsl:value-of select="dbo:informationName" />
+      </dbo:informationName>
+    </dbo:District>
+  </xsl:template>
+
+  <xsl:template match="dbo:Parish">
+    <dbo:Parish rdf:about=".">
+      <dbo:informationName>
+        <xsl:value-of select="dbo:informationName" />
+      </dbo:informationName>
+    </dbo:Parish>
+  </xsl:template>
+
+  <xsl:template match="excav:hasTimeLine">
+    <time:TemporalEntity rdf:about=".">
+      <xsl:for-each select="time:hasBeginning">
+        <time:hasBeginning rdf:resource="{.}" />
+      </xsl:for-each>
+      <xsl:for-each select="time:hasEnd">
+        <time:hasEnd rdf:resource="{.}" />
+      </xsl:for-each>
+    </time:TemporalEntity>
+
+    <xsl:apply-templates select="time:hasBeginning" />
+    <xsl:apply-templates select="time:hasEnd" />
+  </xsl:template>
+
+  <xsl:template match="time:hasBeginning | time:hasEnd">
+    <time:Instant rdf:about=".">
+      <xsl:if test="time:inXSDYear">
+        <time:inXSDYear>
+          <xsl:value-of select="time:inXSDYear" />
+        </time:inXSDYear>
+      </xsl:if>
+      <xsl:if test="excav:bc">
+        <excav:bc>
+          <xsl:value-of select="excav:bc" />
+        </excav:bc>
+      </xsl:if>
+    </time:Instant>
+  </xsl:template>
+
+  <xsl:template match="crmsci:S19_Encounter_Event">
+    <crmsci:S19_Encounter_Event rdf:about=".">
+      <xsl:if test="dct:date">
+        <dct:date>
+          <xsl:value-of select="dct:date" />
+        </dct:date>
+      </xsl:if>
+      <xsl:if test="dbo:depth">
+        <dbo:depth>
+          <xsl:value-of select="dbo:depth" />
+        </dbo:depth>
+      </xsl:if>
+      <xsl:if test="excav:foundInSVU">
+        <excav:foundInSVU rdf:resource="{excav:foundInSVU}" />
+      </xsl:if>
+      <xsl:if test="excav:foundInAContext">
+        <excav:foundInAContext rdf:resource="{excav:foundInAContext}" />
+      </xsl:if>
+      <xsl:if test="excav:foundInAExcavation">
+        <excav:foundInAExcavation rdf:resource="{excav:foundInAExcavation}" />
+      </xsl:if>
+    </crmsci:S19_Encounter_Event>
+  </xsl:template>
+
+</xsl:stylesheet>

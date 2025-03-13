@@ -16,3 +16,4 @@
 .DS_Store
 /application/language/debug.*
 /logs/
+/logs/graphdb-error.log

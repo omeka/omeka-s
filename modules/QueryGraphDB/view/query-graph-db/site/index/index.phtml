@@ -1,28 +1,40 @@
-    <?php
-    $results = $this->results;
-    ?>
+<?php
+$results = $this->results;
+$currentFilter = $this->filter ?? 'all'; // Get the current filter
+?>
 
-    <h1>Resultados da Consulta ao GraphDB</h1>
+<h1>Resultados da Consulta ao GraphDB</h1>
 
-    <?php if (isset($results['results']['bindings']) && !empty($results['results']['bindings'])): ?>
-        <table>
-            <thead>
+<!-- Menu with filters -->
+<nav>
+    <ul>
+        <li><a href="<?php echo $this->url(null, [], ['query' => ['filter' => 'all']], true); ?>" <?php echo $currentFilter === 'all' ? 'style="font-weight: bold;"' : ''; ?>>Todos</a></li>
+        <li><a href="<?php echo $this->url(null, [], ['query' => ['filter' => 'arrowheads']], true); ?>" <?php echo $currentFilter === 'arrowheads' ? 'style="font-weight: bold;"' : ''; ?>>Arrowheads</a></li>
+        <li><a href="<?php echo $this->url(null, [], ['query' => ['filter' => 'excavations']], true); ?>" <?php echo $currentFilter === 'excavations' ? 'style="font-weight: bold;"' : ''; ?>>Excavations</a></li>
+        <li><a href="<?php echo $this->url(null, [], ['query' => ['filter' => 'archaeologists']], true); ?>" <?php echo $currentFilter === 'archaeologists' ? 'style="font-weight: bold;"' : ''; ?>>Archaeologists</a></li>
+        <li><a href="<?php echo $this->url(null, [], ['query' => ['filter' => 'countries']], true); ?>" <?php echo $currentFilter === 'countries' ? 'style="font-weight: bold;"' : ''; ?>>Countries</a></li>
+    </ul>
+</nav>
+
+<?php if (isset($results['results']['bindings']) && !empty($results['results']['bindings'])): ?>
+    <table>
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Predicate</th>
+                <th>Object</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($results['results']['bindings'] as $row): ?>
                 <tr>
-                    <th>Subject</th>
-                    <th>Predicate</th>
-                    <th>Object</th>
+                    <td><?php echo htmlspecialchars($row['subject']['value']); ?></td>
+                    <td><?php echo htmlspecialchars($row['predicate']['value']); ?></td>
+                    <td><?php echo htmlspecialchars($row['object']['value']); ?></td>
                 </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($results['results']['bindings'] as $row): ?>
-                    <tr>
-                        <td><?php echo $row['subject']['value']; ?></td>
-                        <td><?php echo $row['predicate']['value']; ?></td>
-                        <td><?php echo $row['object']['value']; ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    <?php else: ?>
-        <p>Nenhum resultado encontrado.</p>
-    <?php endif; ?>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php else: ?>
+    <p>Nenhum resultado encontrado.</p>
+<?php endif; ?>

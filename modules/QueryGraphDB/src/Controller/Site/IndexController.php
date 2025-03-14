@@ -16,39 +16,87 @@ class IndexController extends AbstractActionController
     }
 
     public function indexAction()
-    {
-        // URL do endpoint do GraphDB
-        $graphdbEndpoint = "http://localhost:7200/repositories/arch-project-shacl";
+{
+    // Get the filter from the URL (if set)
+    $filter = $this->params()->fromQuery('filter', 'all'); // Default to 'all'
 
-        // Query SPARQL
-        $sparqlQuery = "
-            PREFIX ah: <http://www.purl.com/ah/ms/ahMS#>
+    // Define GraphDB endpoint
+    $graphdbEndpoint = "http://localhost:7200/repositories/arch-project-shacl";
 
-            SELECT?subject?predicate?object
-                WHERE {
-                    ah:arrowhead1?predicate?object.
-                    BIND(ah:arrowhead5 AS?subject)  
+    // Define base SPARQL query
+    $sparqlQuery = "
+        PREFIX ah: <http://www.purl.com/ah/ms/ahMS#>
+        SELECT ?subject ?predicate ?object WHERE { 
+            ?subject ?predicate ?object.
+        } 
+        LIMIT 50
+    ";
+
+    // Modify query based on filter
+    switch ($filter) {
+        case 'arrowheads':
+            $sparqlQuery = "
+                PREFIX ah: <http://www.purl.com/ah/ms/ahMS#>
+                SELECT ?subject ?predicate ?object WHERE { 
+                    ?subject ?predicate ?object.
+                    FILTER(STRSTARTS(STR(?subject), 'http://www.purl.com/ah/ms/ahMS#arrowhead'))
                 }
-        ";
+                LIMIT 50
+            ";
+            break;
 
-        // Configuração da requisição HTTP
-        $client = $this->httpClient;
-        $client->setUri($graphdbEndpoint);
-        $client->setHeaders([
-            'Accept' => 'application/sparql-results+json',
-        ]);
-        $client->setParameterGet(['query' => $sparqlQuery]);
+        case 'excavations':
+            $sparqlQuery = "
+                PREFIX excav: <https://purl.org/ah/ms/excavationMS#>
 
-        // Executa a consulta
-        $client->setMethod('GET');
-        $response = $client->send();
+                SELECT ?subject ?predicate ?object WHERE { 
+                    ?subject ?predicate ?object.
+                    FILTER(STRSTARTS(STR(?subject), 'https://purl.org/ah/ms/excavationMS/resource/Excavation'))
+                }
+                LIMIT 50
+            ";
+            break;
 
-        // Decodifica a resposta JSON
-        $results = json_decode($response->getBody(), true);
+        case 'archaeologists':
+            $sparqlQuery = "
+               PREFIX excav: <https://purl.org/ah/ms/excavationMS#>
 
-        // Passa os resultados para a view
-        return new ViewModel([
-            'results' => $results,
-        ]);
+                SELECT ?subject ?predicate ?object WHERE { 
+                    ?subject ?predicate ?object.
+                    FILTER(STRSTARTS(STR(?subject), 'https://purl.org/ah/ms/excavationMS/resource/Archaeologist'))
+                }
+                LIMIT 50
+            ";
+            break;
+
+        case 'countries':
+            $sparqlQuery = "
+                PREFIX ah: <http://www.purl.com/ah/ms/ahMS#>
+                SELECT ?subject ?predicate ?object WHERE { 
+                    ?subject ?predicate ?object.
+                    FILTER(STRSTARTS(STR(?subject), 'http://www.purl.com/ah/ms/ahMS#country'))
+                }
+                LIMIT 50
+            ";
+            break;
     }
+
+    // Configure HTTP request
+    $client = $this->httpClient;
+    $client->setUri($graphdbEndpoint);
+    $client->setHeaders(['Accept' => 'application/sparql-results+json']);
+    $client->setParameterGet(['query' => $sparqlQuery]);
+
+    // Execute query
+    $client->setMethod('GET');
+    $response = $client->send();
+    $results = json_decode($response->getBody(), true);
+
+    // Send results to the view
+    return new ViewModel([
+        'results' => $results,
+        'filter' => $filter, // Pass filter to view
+    ]);
+}
+
 }

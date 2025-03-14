@@ -23,14 +23,33 @@ class IndexController extends AbstractActionController
     // Define GraphDB endpoint
     $graphdbEndpoint = "http://localhost:7200/repositories/arch-project-shacl";
 
-    // Define base SPARQL query
     $sparqlQuery = "
-        PREFIX ah: <http://www.purl.com/ah/ms/ahMS#>
-        SELECT ?subject ?predicate ?object WHERE { 
-            ?subject ?predicate ?object.
-        } 
-        LIMIT 50
-    ";
+    PREFIX ah: <http://www.purl.com/ah/ms/ahMS#>
+    PREFIX excav: <https://purl.org/ah/ms/excavationMS#>
+    PREFIX dct: <http://purl.org/dc/terms/>
+    PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+    SELECT ?subject ?predicate ?object WHERE { 
+        {
+            ?subject ah:hasId ?object.
+            BIND(ah:hasId AS ?predicate)
+        } UNION {
+            ?subject dct:identifier ?object.
+            FILTER(STRSTARTS(STR(?subject), 'https://purl.org/ah/ms/excavationMS/resource/Excavation'))
+            BIND(dct:identifier AS ?predicate)
+        } UNION {
+            ?subject foaf:name ?object.
+            BIND(foaf:name AS ?predicate)
+        }
+    } 
+    LIMIT 50
+";
+
+
+
+
+
+    
 
     // Modify query based on filter
     switch ($filter) {

@@ -48,9 +48,6 @@ class IndexController extends AbstractActionController
 
 
 
-
-    
-
     // Modify query based on filter
     switch ($filter) {
         case 'arrowheads':
@@ -78,26 +75,19 @@ class IndexController extends AbstractActionController
 
         case 'archaeologists':
             $sparqlQuery = "
-               PREFIX excav: <https://purl.org/ah/ms/excavationMS#>
+                PREFIX excav: <https://purl.org/ah/ms/excavationMS#>
+                PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 
                 SELECT ?subject ?predicate ?object WHERE { 
-                    ?subject ?predicate ?object.
+                    ?subject foaf:name ?object.
                     FILTER(STRSTARTS(STR(?subject), 'https://purl.org/ah/ms/excavationMS/resource/Archaeologist'))
-                }
+                    BIND(foaf:name AS ?predicate)
+                } 
                 LIMIT 50
             ";
+
             break;
 
-        case 'countries':
-            $sparqlQuery = "
-                PREFIX ah: <http://www.purl.com/ah/ms/ahMS#>
-                SELECT ?subject ?predicate ?object WHERE { 
-                    ?subject ?predicate ?object.
-                    FILTER(STRSTARTS(STR(?subject), 'http://www.purl.com/ah/ms/ahMS#country'))
-                }
-                LIMIT 50
-            ";
-            break;
     }
 
     // Configure HTTP request

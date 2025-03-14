@@ -12,7 +12,6 @@ $currentFilter = $this->filter ?? 'all'; // Get the current filter
         <li><a href="<?php echo $this->url(null, [], ['query' => ['filter' => 'arrowheads']], true); ?>" <?php echo $currentFilter === 'arrowheads' ? 'style="font-weight: bold;"' : ''; ?>>Arrowheads</a></li>
         <li><a href="<?php echo $this->url(null, [], ['query' => ['filter' => 'excavations']], true); ?>" <?php echo $currentFilter === 'excavations' ? 'style="font-weight: bold;"' : ''; ?>>Excavations</a></li>
         <li><a href="<?php echo $this->url(null, [], ['query' => ['filter' => 'archaeologists']], true); ?>" <?php echo $currentFilter === 'archaeologists' ? 'style="font-weight: bold;"' : ''; ?>>Archaeologists</a></li>
-        <li><a href="<?php echo $this->url(null, [], ['query' => ['filter' => 'countries']], true); ?>" <?php echo $currentFilter === 'countries' ? 'style="font-weight: bold;"' : ''; ?>>Countries</a></li>
     </ul>
 </nav>
 

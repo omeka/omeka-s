@@ -136,6 +136,20 @@ final class Module extends GenericModule
         $response = $this->api->read('items', $id);
         $content = $response->getContent();
         $resourceTemplate = $content->resourceTemplate();
+
+        var_dump($resourceTemplate); // Add this line before line 139
+        error_log('Resource template: ' . $resourceTemplate);
+        // Add this before line 139
+        if ($resourceTemplate === null) {
+            error_log('Resource template is null');
+        } else {
+            error_log('Resource template: ' . $resourceTemplate->label());
+        }
+        if ($resourceTemplate === null) {
+            error_log('Resource template is null');
+            return;
+        }
+
         $label = $resourceTemplate->label();
         $useBackground = true; // later in config?
 

@@ -1,0 +1,7 @@
+<div id="content" role="main">
+    <h3><?php echo sprintf($this->translate('Collected Item: “%s”'), $cItem->item()->displayTitle()); ?></h3>
+    <?php echo $cItem->displayInputs(); ?>
+    <?php echo $cItem->item()->link(
+        $this->translate('Click here to view the corresponding item.')
+    ); ?>
+</div>

@@ -1,0 +1,7 @@
+<?php $this->collectingPrepareForm(); ?>
+
+<div id="content" role="main">
+    <?php echo $this->messages(); ?>
+    <h2><?php echo $this->escapeHtml($cForm->label()); ?></h2>
+    <?php echo $this->form($cForm->getForm()); ?>
+</div>

@@ -1,0 +1,45 @@
+<div class="resource-details">
+    <h3><?php echo $cItem->item()->displayTitle(); ?></h3>
+    <div class="meta-group">
+        <h4><?php echo $this->translate('Media'); ?></h4>
+        <?php foreach ($cItem->item()->media() as $media): ?>
+        <div class="value">
+            <a href="<?php echo $media->url(); ?>" target="_blank">
+                <img src="<?php echo $this->escapeHtml($media->thumbnailUrl('square')); ?>">
+                <span class="file-name"><?php echo $this->escapeHtml($media->displayTitle()); ?>
+            </a>
+        </div>
+        <?php endforeach; ?>
+    </div>
+    <div class="meta-group">
+        <?php echo $cItem->displayInputs(); ?>
+    </div>
+    <div class="meta-group">
+        <div>
+            <h4><?php echo $this->translate('User name'); ?></h4>
+            <div><?php
+            $name = $cItem->displayUserName();
+            echo null === $name ? $this->translate('[not asked]') : $name;
+            ?></div>
+        </div>
+        <div class="property">
+            <h4><?php echo $this->translate('User email'); ?></h4>
+            <div class="value"><?php
+            $email = $cItem->displayUserEmail();
+            echo null === $email ? $this->translate('[not asked]') : $email;
+            ?></div>
+        </div>
+        <div class="property">
+            <h4><?php echo $this->translate('Anonymous?'); ?></h4>
+            <div class="value"><?php
+            if (null === $cItem->anon()) {
+                echo $this->translate('[not asked]');
+            } elseif ($cItem->anon()) {
+                echo $this->translate('Yes');
+            } else {
+                echo $this->translate('No');
+            }
+            ?></div>
+        </div>
+    </div>
+</div>

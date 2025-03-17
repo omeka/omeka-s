@@ -1,0 +1,7 @@
+<div id="content" role="main">
+    <?php if ($cForm->successText()): ?>
+    <?php echo $cForm->successText(); ?>
+    <?php else: ?>
+    <p><?php echo $this->translate('Form successfully submitted!'); ?></p>
+    <?php endif; ?>
+</div>

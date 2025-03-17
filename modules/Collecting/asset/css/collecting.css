@@ -1,0 +1,16 @@
+#prompts-table td {
+  vertical-align: top;
+}
+
+#prompts-table .title-wrapper {
+    display: flex;
+    align-items: flex-start;
+}
+
+#prompts-table td:last-of-type {
+    min-width: 4em;
+}
+
+#prompts-table .actions {
+    padding-left: 0;
+}

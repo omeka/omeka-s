@@ -1,0 +1,57 @@
+<?php
+echo $this->pageTitle($this->translate('Collecting Forms'));
+?>
+
+<div id="page-actions">
+    <?php if ($site->userIsAllowed('add-collecting-form')): ?>
+    <a href="<?php echo $this->url('admin/site/slug/collecting/default', ['action' => 'add'], true); ?>" class="button"><?php echo $this->translate('Add new form'); ?></a>
+    <?php endif; ?>
+</div>
+
+<?php if ($cForms): ?>
+
+<div class="browse-controls">
+    <?php echo $this->pagination(); ?>
+</div>
+
+<table class="browse tablesaw" data-tablesaw-mode="stack">
+    <thead>
+    <tr>
+        <th><?php echo $this->translate('Label'); ?></th>
+        <th><?php echo $this->translate('Owner'); ?></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($cForms as $cForm): ?>
+    <?php
+    $owner = $cForm->owner();
+    $ownerName = $owner ? $owner->name() : null;
+    ?>
+    <tr>
+        <td>
+            <?php echo $cForm->link($cForm->label(), 'show'); ?>
+            <ul class="actions">
+                <?php if ($cForm->userIsAllowed('update')): ?>
+                <li><a href="<?php echo $this->url('admin/site/slug/collecting/id', ['action' => 'edit', 'form-id' => $cForm->id()], true); ?>" class="o-icon-edit" aria-label="<?php echo $this->translate('Edit'); ?>" title="<?php echo $this->translate('Edit'); ?>"></a></li>
+                <?php endif; ?>
+                <?php if ($cForm->userIsAllowed('delete')): ?>
+                <li><a href="#" class="sidebar-content o-icon-delete" aria-label="<?php echo $this->translate('Delete'); ?>" title="<?php echo $this->translate('Delete'); ?>" data-sidebar-content-url="<?php echo $this->url('admin/site/slug/collecting/id', ['action' => 'delete-confirm', 'form-id' => $cForm->id()], true); ?>"></a></li>
+                <?php endif; ?>
+            </ul>
+        </td>
+        <td><?php echo $ownerName; ?></td>
+    </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+
+<div class="sidebar">
+    <a href="#" class="sidebar-close o-icon-close" aria-label="<?php echo $this->translate('Close'); ?>" title="<?php echo $this->translate('Close'); ?>"></a>
+    <div class="sidebar-content"></div>
+</div>
+
+<?php else: ?>
+
+<p><?php echo $this->translate('This site has no collecting forms.'); ?></p>
+
+<?php endif; ?>

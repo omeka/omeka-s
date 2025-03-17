@@ -1,0 +1,15 @@
+<div>
+    <select class="collecting-form-select">
+        <option value=""><?php echo $this->translate('Select a form...'); ?></option>
+        <?php foreach ($cForms as $cForm): ?>
+        <option value="<?php echo $cForm->id(); ?>"><?php echo $this->escapeHtml($cForm->label()); ?></option>
+        <?php endforeach; ?>
+    </select>
+    <?php foreach ($cForms as $cForm): ?>
+    <div class="collecting-form <?php echo sprintf('collecting-form-%s', $cForm->id()); ?>">
+        <?php echo $this->partial('common/block-layout/collecting-block-one', [
+            'cForm' => $cForm,
+        ]); ?>
+    </div>
+    <?php endforeach; ?>
+</div>

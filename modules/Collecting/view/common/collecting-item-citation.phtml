@@ -1,0 +1,16 @@
+<?php
+$userName = $cItem->userName();
+if (null === $userName || $cItem->anon() || 'private' === $cItem->form()->anonType()) {
+    // Must set anonymous user, even when the current user has permission, so
+    // the citation remains safe to cut-and-paste.
+    $userName = $this->translate('[anonymous user]');
+}
+echo sprintf(
+    $this->translate('This item was submitted on %s by %s using the form “%s” on the site “%s”: %s'),
+    $this->i18n()->dateFormat($cItem->item()->created(), 'long'),
+    $userName,
+    $cItem->form()->label(),
+    $cItem->form()->site()->title(),
+    $cItem->form()->site()->siteUrl(null, true)
+);
+?>

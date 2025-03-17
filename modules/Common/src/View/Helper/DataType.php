@@ -29,7 +29,7 @@ class DataType extends \Omeka\View\Helper\DataType
      * {@inheritDoc}
      * @see \Omeka\View\Helper\DataType::getSelect()
      */
-    public function getSelect($name, $value = null, $attributes = [])
+    public function getSelect($name, $value = null, $attributes = [], $options = [])
     {
         $element = $this->formElementManager->get(\Common\Form\Element\DataTypeSelect::class);
         $element

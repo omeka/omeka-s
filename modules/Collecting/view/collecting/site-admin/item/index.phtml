@@ -1,0 +1,98 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'browse');
+echo $this->pageTitle(sprintf($this->translate('Collecting Form: “%s”'), $cForm->label()));
+?>
+
+<div class="breadcrumbs">
+    <a href="<?php echo $this->url('admin/site/slug/collecting', [], true); ?>" class="o-icon-left"><?php echo $this->translate('Back to collecting forms list'); ?></a>
+</div>
+
+<nav class="section-nav">
+    <?php echo $this->navigation('Laminas\Navigation\Collecting')->menu(); ?>
+</nav>
+
+<div class="browse-controls">
+    <?php echo $this->pagination(); ?>
+    <?php echo $this->hyperlink($this->translate('Needs review'), $this->url(null, [], ['query' => ['status' => 'needs_review']], true), ['class' => 'advanced-search']); ?>
+    <?php echo $this->hyperlink($this->translate('Reviewed: public'), $this->url(null, [], ['query' => ['status' => 'public']], true), ['class' => 'advanced-search']); ?>
+    <?php echo $this->hyperlink($this->translate('Reviewed: private'), $this->url(null, [], ['query' => ['status' => 'private']], true), ['class' => 'advanced-search']); ?>
+    <?php echo $this->sortSelector([
+        [
+            'label' => $this->translate('Date Created'),
+            'value' => 'created',
+        ],
+        [
+            'label' => $this->translate('Date Modified'),
+            'value' => 'modified',
+        ],
+        [
+            'label' => $this->translate('Reviewed'),
+            'value' => 'reviewed',
+        ],
+    ]); ?>
+</div>
+
+<?php if ($cItems): ?>
+
+<form method="post" action="<?php echo $this->escapeHtml($this->url('admin/site/slug/collecting/item/default', ['action' => 'update-statuses'], true)); ?>">
+
+<div id="page-actions">
+    <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter', 'update')): ?>
+    <input type="submit" value="<?php echo $this->translate('Update statuses'); ?>">
+    <?php endif; ?>
+</div>
+
+<table class="tablesaw" data-tablesaw-mode="stack">
+    <thead>
+    <tr>
+        <th><?php echo $this->translate('Title'); ?></th>
+        <th><?php echo $this->translate('Date Submitted'); ?></th>
+        <th><?php echo $this->translate('Reviewed By'); ?></th>
+        <th><?php echo $this->translate('Status'); ?></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($cItems as $cItem): ?>
+    <tr>
+        <td>
+            <?php if ($media = $cItem->item()->primaryMedia()): ?>
+            <img src="<?php echo $this->escapeHtml($media->thumbnailUrl('square')); ?>" style="width:2.25em;">
+            <?php endif; ?>
+            <?php echo $this->hyperlink($cItem->item()->displayTitle(), $cItem->item()->url() . '#collecting-section'); ?>
+        </td>
+        <td><?php echo $this->escapeHtml($this->i18n()->dateFormat($cItem->created(), 'medium', 'short')); ?></td>
+        <td><?php echo $cItem->reviewer() ? $cItem->reviewer()->link($cItem->reviewer()->name()) : $this->translate('[not reviewed]'); ?></td>
+        <td>
+            <ul class="actions">
+                <li><a href="#"
+                    data-sidebar-content-url="<?php echo $this->escapeHtml($cItem->url('show-details')); ?>"
+                    class="o-icon-more sidebar-content"
+                    aria-label="<?php echo $this->escapeHtml($this->translate('Details')); ?>"
+                    title="<?php echo $this->escapeHtml($this->translate('Details')); ?>"></a></li>
+            </ul>
+            <?php if ($cItem->userIsAllowed('update') && $cItem->item()->userIsAllowed('update')): ?>
+            <?php echo $this->formSelect($cItem->statusSelect()); ?>
+            <?php else: ?>
+            <?php echo $cItem->reviewed() ? $this->translate('Reviewed') : $this->translate('Needs review'); ?>
+            <?php endif; ?>
+        </td>
+    </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+
+</form>
+
+<div class="sidebar">
+    <a href="#"
+        class="sidebar-close o-icon-close"
+        aria-label="<?php echo $this->escapeHtml($this->translate('Close')); ?>"
+        title="<?php echo $this->escapeHtml($this->translate('Close')); ?>"></a>
+    <div class="sidebar-content"></div>
+</div>
+
+<?php else: ?>
+
+<p><?php echo $this->translate('No items found.'); ?></p>
+
+<?php endif; ?>

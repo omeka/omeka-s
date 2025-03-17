@@ -1,0 +1,64 @@
+<div id="collecting-section" class="section">
+
+    <h3><?php echo $this->translate('Collected Inputs'); ?></h3>
+
+    <?php if ($inputs = $cItem->inputs()): ?>
+
+    <table class="browse tablesaw" data-tablesaw-mode="stack">
+        <thead>
+        <tr>
+            <th><?php echo $this->translate('Prompt'); ?></th>
+            <th><?php echo $this->translate('User Input'); ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($inputs as $input): ?>
+        <?php
+        $prompt = $input->prompt();
+        $displayText = $input->displayText();
+        if ('item' !== $prompt->inputType()) {
+            $displayText = $this->escapeHtml($displayText);
+        }
+        ?>
+        <tr>
+            <td><?php echo $this->escapeHtml($prompt->displayText()); ?></td>
+            <td><?php echo nl2br($displayText); ?></td>
+        </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <?php endif; ?>
+
+    <h3><?php echo $this->translate('User Information'); ?></h3>
+    <div class="property">
+        <h4><?php echo $this->translate('User name'); ?></h4>
+        <div class="value"><?php
+        $name = $cItem->displayUserName();
+        echo null === $name ? $this->translate('[not asked]') : $name;
+        ?></div>
+    </div>
+    <div class="property">
+        <h4><?php echo $this->translate('User email'); ?></h4>
+        <div class="value"><?php
+        $email = $cItem->displayUserEmail();
+        echo null === $email ? $this->translate('[not asked]') : $email;
+        ?></div>
+    </div>
+    <div class="property">
+        <h4><?php echo $this->translate('Anonymous?'); ?></h4>
+        <div class="value"><?php
+        if (null === $cItem->anon()) {
+            echo $this->translate('[not asked]');
+        } elseif ($cItem->anon()) {
+            echo $this->translate('Yes');
+        } else {
+            echo $this->translate('No');
+        }
+        ?></div>
+    </div>
+    <div class="property">
+        <h4><?php echo $this->translate('Public citation') ?></h4>
+        <div class="value"><?php echo $cItem->displayCitation(); ?></div>
+    </div>
+</div>

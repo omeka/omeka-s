@@ -1,0 +1,153 @@
+<?php
+$form->prepare();
+$this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/collecting-form.js', 'Collecting'));
+$this->headLink()->appendStylesheet($this->assetUrl('css/collecting.css', 'Collecting'));
+$this->ckEditor();
+
+$pageTitle = $isEdit
+    ? sprintf($this->translate('Edit collecting form: “%s”'), $cForm->label())
+    : $this->translate('Add collecting form');
+$promptsData = $isEdit
+    ? json_encode($cForm->prompts())
+    : '[]';
+$promptRowTemplate = '
+<tr class="prompt">
+    <td>
+        <div class="title-wrapper">
+            <span class="sortable-handle"></span>
+            <span class="prompt-type-span"></span>
+            <input type="hidden" class="prompt-id" name="o-module-collecting:prompt[__INDEX__][o:id]">
+            <input type="hidden" class="prompt-type" name="o-module-collecting:prompt[__INDEX__][o-module-collecting:type]">
+            <input type="hidden" class="prompt-text" name="o-module-collecting:prompt[__INDEX__][o-module-collecting:text]">
+            <input type="hidden" class="prompt-input-type" name="o-module-collecting:prompt[__INDEX__][o-module-collecting:input_type]">
+            <input type="hidden" class="prompt-select-options" name="o-module-collecting:prompt[__INDEX__][o-module-collecting:select_options]">
+            <input type="hidden" class="prompt-resource-query" name="o-module-collecting:prompt[__INDEX__][o-module-collecting:resource_query]">
+            <input type="hidden" class="prompt-custom-vocab" name="o-module-collecting:prompt[__INDEX__][o-module-collecting:custom_vocab]">
+            <input type="hidden" class="prompt-media-type" name="o-module-collecting:prompt[__INDEX__][o-module-collecting:media_type]">
+            <input type="hidden" class="prompt-required" name="o-module-collecting:prompt[__INDEX__][o-module-collecting:required]">
+            <input type="hidden" class="prompt-property-id" name="o-module-collecting:prompt[__INDEX__][o:property][o:id]">
+            <ul class="actions">
+                <li><a href="#" class="prompt-edit o-icon-edit" aria-label="' . $this->translate('Edit') . '" title="' . $this->translate('Edit') . '"></a></li>
+                <li><a href="#" class="prompt-delete o-icon-delete" aria-label="' . $this->translate('Delete') . '" title="' . $this->translate('Delete') . '"></a></li>
+                <li><a href="#" class="prompt-undo-delete o-icon-undo" aria-label="' . $this->translate('Undo delete') . '" title="' . $this->translate('Undo delete') . '" style="display: none;"></a></li>
+            </ul>
+        </div>
+    </td>
+    <td><span class="prompt-text-span"></span></td>
+</tr>';
+
+echo $this->pageTitle($pageTitle);
+echo $this->form()->openTag($form);
+?>
+
+<div id="page-actions">
+    <?php if ($isEdit): ?>
+    <a href="#" class="sidebar-content delete button" data-sidebar-selector="#delete-confirm-sidebar" data-sidebar-content-url="<?php echo $this->url('admin/site/slug/collecting/id', ['action' => 'delete-confirm', 'id' => $cForm->id()], true); ?>"><?php echo $this->translate('Delete'); ?></a>
+    <?php endif; ?>
+    <button><?php echo $this->translate('Save'); ?></button>
+</div>
+
+<?php echo $this->formCollection($form, false); ?>
+
+<h3><?php echo $this->translate('Prompts'); ?></h3>
+
+<a href="#" id="prompt-add" class="button"><?php echo $this->translate('Add prompt'); ?></a>
+
+<table id="prompts-table" class="tablesaw" data-tablesaw-mode="stack">
+    <thead>
+    <tr>
+        <th><?php echo $this->translate('Type'); ?></th>
+        <th><?php echo $this->translate('Text'); ?></th>
+    </tr>
+    </thead>
+    <tbody id="prompts"
+        data-prompts-data="<?php echo $this->escapeHtml($promptsData); ?>"
+        data-prompt-row-template="<?php echo $this->escapeHtml($promptRowTemplate); ?>">
+    </tbody>
+</table>
+
+<?php echo $this->form()->closeTag(); ?>
+
+<div id="prompt-sidebar" class="sidebar">
+    <a href="#" class="sidebar-close o-icon-close" aria-label="<?php echo $this->translate('Close'); ?>" title="<?php echo $this->translate('Close'); ?>"></a>
+    <div class="sidebar-content">
+        <h3><?php echo $this->translate('Prompt'); ?></h3>
+
+        <div class="sidebar-section">
+            <h4><?php echo $this->translate('Prompt type'); ?></h4>
+            <select id="prompt-type" name="type">
+                <option value=""><?php echo $this->translate("Select a prompt type"); ?></option>
+                <?php foreach ($this->collecting()->types() as $key => $value): ?>
+                <option value="<?php echo $this->escapeHtml($key); ?>"><?php echo $this->translate($value); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div class="sidebar-section">
+            <h4><?php echo $this->translate('Property'); ?></h4>
+            <?php echo $this->propertySelect(['name' => 'property', 'options' => ['empty_option' => 'Select a property'], 'attributes' => ['id' => 'prompt-property']]); ?>
+        </div>
+
+        <div class="sidebar-section">
+            <h4><?php echo $this->translate('Media type'); ?></h4>
+            <select id="prompt-media-type" name="media-type">
+                <option value=""><?php echo $this->translate("Select a media type"); ?></option>
+                <?php foreach ($this->collecting()->mediaTypes() as $key => $value): ?>
+                <option value="<?php echo $this->escapeHtml($key); ?>"><?php echo $this->translate($value); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div class="sidebar-section">
+            <h4><?php echo $this->translate('Prompt text'); ?></h4>
+            <textarea id="prompt-text" name="text" style="width:100%;" rows="3"></textarea>
+        </div>
+
+        <div class="sidebar-section">
+            <h4><?php echo $this->translate('Input type'); ?></h4>
+            <select id="prompt-input-type" name="input-type">
+                <option value=""><?php echo $this->translate("Select an input type"); ?></option>
+                <?php foreach ($this->collecting()->inputTypes() as $key => $value): ?>
+                <?php
+                $isAvailable = $this->collecting()->inputTypeIsAvailable($key);
+                $value = $isAvailable ? $this->translate($value) : sprintf('%s %s', $this->translate($value), $this->translate('(unavailable)'));
+                ?>
+                <option value="<?php echo $this->escapeHtml($key); ?>"<?php echo $isAvailable ? '' : ' disabled'; ?>><?php echo $value; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div class="sidebar-section">
+            <h4><?php echo $this->translate('Select menu options'); ?></h4>
+            <textarea id="prompt-select-options" name="select-options" style="width:100%;" rows="3" placeholder="Option one&#13;&#10;Option two&#13;&#10;..."></textarea>
+        </div>
+
+        <div class="sidebar-section">
+            <h4><?php echo $this->translate('Filter query'); ?> <span title="<?php echo $this->translate('Filter resources by entering an advanced search URL query string.'); ?>">[?]</span></h4>
+            <input type="text" id="prompt-resource-query" name="resource-query" style="width:100%;">
+        </div>
+
+        <?php if ($this->collecting()->inputTypeIsAvailable('custom_vocab')): ?>
+        <?php $customVocabs = $this->collecting()->customVocabs(); ?>
+        <div class="sidebar-section">
+            <h4><?php echo $this->translate('Custom vocab'); ?></h4>
+            <select id="prompt-custom-vocab" name="custom-vocab">
+                <option value=""><?php echo $this->translate("Select a custom vocab"); ?></option>
+                <?php foreach ($customVocabs as $customVocabId => $customVocabLabel): ?>
+                <option value="<?php echo $this->escapeHtml($customVocabId); ?>"><?php echo $this->translate($customVocabLabel); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <?php endif; ?>
+
+        <div class="sidebar-section">
+            <h4><?php echo $this->translate('Required?'); ?></h4>
+            <input type="checkbox" id="prompt-required" name="required">
+        </div>
+
+        <a id="prompt-save" href="#" class="button"><?php echo $this->translate('Add changes'); ?></a>
+    </div>
+</div>
+
+<?php if ($isEdit): echo $this->deleteConfirm($cForm, 'collecting form'); endif;?>

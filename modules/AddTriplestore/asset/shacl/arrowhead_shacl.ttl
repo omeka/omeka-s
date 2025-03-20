@@ -29,8 +29,10 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix sh: <http://www.w3.org/ns/shacl#>.
 
+@prefix excav: <https://purl.org/ah/ms/excavationMS#>.
+
 ah:ArrowheadShape a sh:NodeShape;
-  # Target all instances of crm:E24_Physical_Man-Made_Thing_Physical_Man-Made_Thing
+  # Target all instances of crm:E24_Physical_Man-Made_Thing
   sh:targetClass crm:E24_Physical_Man-Made_Thing; 
   sh:property [
     sh:path ah:hasMedia;
@@ -122,4 +124,22 @@ ah:ArrowheadShape a sh:NodeShape;
     sh:in (ah-chippingShape:straight ah-chippingShape:convex ah-chippingShape:concave ah-chippingShape:sinuous);
     sh:minCount 0;  
     sh:maxCount 1;
+  ];
+  sh:property [
+    sh:path excav:foundInAExcavation;
+    sh:minCount 0;  # Cardinality 0-1
+    sh:maxCount 1;
+    sh:class crmarchaeo:A9_Archaeological_Excavation;
+  ];
+  sh:property [
+    sh:path excav:foundInAContext;
+    sh:minCount 0;  # Cardinality 0-1
+    sh:maxCount 1;
+    sh:class crmarchaeo:A1_Excavation_Processing_Unit;
+  ];
+  sh:property [
+    sh:path excav:foundInSVU;
+    sh:minCount 0;  # Cardinality 0-1
+    sh:maxCount 1;
+    sh:class crmarchaeo:A2_Stratigraphic_Volume_Unit;
   ].

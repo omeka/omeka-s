@@ -721,6 +721,18 @@ header {
     text-align: left;
     padding: 0 gutter() $spacing-large;
     color: lighten(saturate($blue, 20%), 50%);
+
+    button:focus-visible, 
+    [type="button"]:focus-visible, 
+    [type="reset"]:focus-visible, 
+    [type="submit"]:focus-visible {
+        outline: revert;
+    }
+
+    *:focus-visible {
+        z-index: 10;
+        position: relative;
+    }
 }
 
 .skip {
@@ -824,6 +836,7 @@ header {
     display: inline-block;
     vertical-align: top;
     margin: $spacing-large 0;
+    position: relative;
 }
 
 #search input[type="text"] {
@@ -863,6 +876,12 @@ header {
         width: 1.5 * $spacing-large;
         line-height: 1.5 * $spacing-large;
         text-align: center;
+    }
+
+    &[type="submit"] {
+        position: absolute;
+        top: 0;
+        right: 0;
     }
 }
 

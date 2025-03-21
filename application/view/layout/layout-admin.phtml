@@ -59,7 +59,6 @@ $this->trigger('view.layout');
                         <?php $searchValue = isset($_GET['fulltext_search']) ? $_GET['fulltext_search'] : ''; ?>
                         <input type="text" name="fulltext_search" value="<?php echo $escape($searchValue); ?>">
                         <button type="button" id="advanced"><?php echo $translate('Advanced options'); ?></button>
-                        <button type="submit"><?php echo $translate('Search'); ?></button>
                         <fieldset id="advanced-options">
                             <legend><?php echo $translate('Resource type'); ?></legend>
                             <input type="radio" name="resource-type" id="search-items" value="item" checked="checked"
@@ -75,6 +74,7 @@ $this->trigger('view.layout');
                                 data-action="<?php echo $escape($this->url('admin/default', ['controller' => 'media', 'action' => 'browse'])); ?>">
                             <label for="search-media"><?php echo $translate('Media'); ?></label>
                         </fieldset>
+                        <button type="submit"><?php echo $translate('Search'); ?></button>
                     </form>
                 </div>
                 <nav id="menu" role="navigation">

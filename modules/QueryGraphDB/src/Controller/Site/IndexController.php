@@ -63,27 +63,31 @@ class IndexController extends AbstractActionController
 
         case 'excavations':
             $sparqlQuery = "
-                PREFIX excav: <https://purl.org/ah/ms/excavationMS#>
+            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+            PREFIX crmarchaeo: <http://www.cidoc-crm.org/extensions/crmarchaeo/>
+            PREFIX dct: <http://purl.org/dc/terms/>
 
-                SELECT ?subject ?predicate ?object WHERE { 
-                    ?subject ?predicate ?object.
-                    FILTER(STRSTARTS(STR(?subject), 'https://purl.org/ah/ms/excavationMS/resource/Excavation'))
-                }
-                LIMIT 50
+            SELECT ?subject ?predicate ?object
+            WHERE {
+                ?subject rdf:type crmarchaeo:A9_Archaeological_Excavation .
+                BIND(rdf:type AS ?predicate) .
+                ?subject dct:identifier ?object .
+            }
             ";
             break;
 
         case 'archaeologists':
             $sparqlQuery = "
-                PREFIX excav: <https://purl.org/ah/ms/excavationMS#>
-                PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+            PREFIX excav: <https://purl.org/ah/ms/excavationMS#>
+            PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
-                SELECT ?subject ?predicate ?object WHERE { 
-                    ?subject foaf:name ?object.
-                    FILTER(STRSTARTS(STR(?subject), 'https://purl.org/ah/ms/excavationMS/resource/Archaeologist'))
-                    BIND(foaf:name AS ?predicate)
-                } 
-                LIMIT 50
+            SELECT ?subject ?predicate ?object
+            WHERE {
+                ?subject rdf:type excav:Archaeologist.
+                BIND(rdf:type AS ?predicate).
+                ?subject foaf:name ?object.
+            }
             ";
 
             break;

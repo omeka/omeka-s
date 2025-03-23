@@ -8,7 +8,6 @@
 @prefix voaf: <http://purl.org/vocommons/voaf#>.
 @prefix skos: <http://www.w3.org/2004/02/skos/core#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
-@prefix vann: <http://purl.org/vocab/vann/>.
 @prefix dbo: <http://dbpedia.org/ontology/>.
 @prefix time: <http://www.w3.org/2006/time#>.
 @prefix edm:<http://www.europeana.eu/schemas/edm#>. 
@@ -17,72 +16,70 @@
 @prefix crmsci: <https://cidoc-crm.org/extensions/crmsci/>.
 @prefix crmarchaeo: <http://www.cidoc-crm.org/extensions/crmarchaeo/>.
 @prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
+@prefix sh: <http://www.w3.org/ns/shacl#>.
 
+# Archaeologist
+<http://www.arch-project.com/data/archaeologist1> a excav:Archaeologist ;
+    foaf:account "http://www.arch-project.com/data/account1"^^xsd:anyURI ;
+    foaf:name "John Doe"^^xsd:string;
+    foaf:mbox "johndoe@example.com"^^xsd:anyURI.
 
-<https://purl.org/ah/ms/excavationMS/resource/Excavation_1>
-  a crmarchaeo:A9_Archaeological_Excavation;
-  dct:identifier "EXCAVATION_001";
-  dul:hasLocation <https://purl.org/ah/ms/excavationMS/resource/Location_001>;
-  excav:hasPersonInCharge <https://purl.org/ah/ms/excavationMS/resource/Archaeologist_001>;
-  excav:hasContext <https://purl.org/ah/ms/excavationMS/resource/Context_001>.
+# Excavation
+<http://www.arch-project.com/data/excavation1> a crmarchaeo:A9_Archaeological_Excavation ;
+    dct:identifier "EXC-001"^^xsd:string ;
+    dul:hasLocation <http://www.arch-project.com/data/place1> ;
+    excav:hasPersonInCharge <http://www.arch-project.com/data/archaeologist1> ;
+    excav:hasContext <http://www.arch-project.com/data/context1> .
 
-<https://purl.org/ah/ms/excavationMS/resource/Archaeologist_001>
-  a excav:Archaeologist;
-  foaf:account "http://orcid.org/0000-0001-1234-5678"^^xsd:anyURI;
-  foaf:name "Jane Doe";
-  foaf:mbox "jane.doe@example.org"^^xsd:anyURI;.
+# Context
+<http://www.arch-project.com/data/context1> a crmarchaeo:A1_Excavation_Processing_Unit ;
+    dct:identifier "CTX-001"^^xsd:string ;
+    excav:hasSVU <http://www.arch-project.com/data/svu1> .
 
-<https://purl.org/ah/ms/excavationMS/resource/Context_001>
-  a crmarchaeo:A1_Excavation_Processing_Unit;
-  dct:identifier "CONTEXT_001";
-  excav:hasSVU <https://purl.org/ah/ms/excavationMS/resource/SVU_001>.
+# Stratigraphic Volume Unit
+<http://www.arch-project.com/data/svu1> a crmarchaeo:A2_Stratigraphic_Volume_Unit ;
+    dct:identifier "SVU-001"^^xsd:string ;
+    dct:description "A stratigraphic layer containing artifacts"^^xsd:string ;
+    excav:hasTimeLine <http://www.arch-project.com/data/timeline1> .
 
-<https://purl.org/ah/ms/excavationMS/resource/SVU_001>
-  a crmarchaeo:A2_Stratigraphic_Volume_Unit;
-  dct:identifier "SVU_001";
-  dct:description "Stratigraphic Unit Description";
-  excav:hasTimeLine <https://purl.org/ah/ms/excavationMS/resource/Timeline_001>.
+# Time Entity
+<http://www.arch-project.com/data/timeline1> a time:TemporalEntity ;
+    time:hasBeginning <http://www.arch-project.com/data/instant1> ;
+    time:hasEnd <http://www.arch-project.com/data/instant2> .
 
-<https://purl.org/ah/ms/excavationMS/resource/Timeline_001>
-  a time:TemporalEntity;
-  time:hasBeginning <https://purl.org/ah/ms/excavationMS/resource/Instant_001>;
-  time:hasEnd <https://purl.org/ah/ms/excavationMS/resource/Instant_002>.
+# Time Instants
+<http://www.arch-project.com/data/instant1> a time:Instant ;
+    time:inXSDYear "0500"^^xsd:gYear ;
+    excav:bc "true"^^xsd:boolean .
 
-<https://purl.org/ah/ms/excavationMS/resource/Instant_001>
-  a time:Instant;
-  time:inXSDDate "1000-01-01"^^xsd:date;
-  excav:bc true.
+<http://www.arch-project.com/data/instant2> a time:Instant ;
+    time:inXSDYear "0450"^^xsd:gYear ;
+    excav:bc "true"^^xsd:boolean .
 
-<https://purl.org/ah/ms/excavationMS/resource/Instant_002>
-  a time:Instant;
-  time:inXSDDate "2000-01-01"^^xsd:date;
-  excav:bc false.
+# Place
+<http://www.arch-project.com/data/place1> a dbo:Place ;
+    dbo:informationName "Ancient Site A"^^xsd:string ;
+    excav:hasGPSCoordinates <http://www.arch-project.com/data/spatial1> ;
+    dbo:district <http://www.arch-project.com/data/district1> ;
+    dbo:Parish <http://www.arch-project.com/data/parish1> .
 
-<https://purl.org/ah/ms/excavationMS/resource/Location_001>
-  a dbo:Place;
-  dbo:informationName "Location_001";
-  excav:hasGPSCoordinates <https://purl.org/ah/ms/excavationMS/resource/Coordinates_001>;
-  dbo:district <https://purl.org/ah/ms/excavationMS/resource/District_001>;
-  dbo:Parish <https://purl.org/ah/ms/excavationMS/resource/Parish_001>.
+# Spatial Information
+<http://www.arch-project.com/data/spatial1> a geo:SpatialThing ;
+    geo:lat "40.1234"^^xsd:decimal ;
+    geo:long "-8.5678"^^xsd:decimal .
 
-<https://purl.org/ah/ms/excavationMS/resource/Coordinates_001>
-  a geo:SpatialThing;
-  geo:lat "40.123"^^xsd:decimal;
-  geo:long "-8.456"^^xsd:decimal.
+# District
+<http://www.arch-project.com/data/district1> a dbo:District ;
+    dbo:informationName "District X"^^xsd:string .
 
-<https://purl.org/ah/ms/excavationMS/resource/District_001>
-  a dbo:District;
-  dbo:informationName "District_001".
+# Parish
+<http://www.arch-project.com/data/parish1> a dbo:Parish ;
+    dbo:informationName "Parish Y"^^xsd:string .
 
-<https://purl.org/ah/ms/excavationMS/resource/Parish_001>
-  a dbo:Parish;
-  dbo:informationName "Parish_001".
-
-<https://purl.org/ah/ms/excavationMS/resource/Encounter_001>
-  a crmsci:S19_Encounter_Event;
-  dct:date "2023-07-15"^^xsd:date;
-  dbo:depth "1.23"^^xsd:decimal;
-  crmsci:O19_encountered_object <https://purl.org/ah/ms/ahMS/resource/Arrowhead_001>;  # Replace with your actual arrowhead URI
-  excav:foundInSVU <https://purl.org/ah/ms/excavationMS/resource/SVU_001>;
-  excav:foundInAContext <https://purl.org/ah/ms/excavationMS/resource/Context_001>;
-  excav:foundInAExcavation <https://purl.org/ah/ms/excavationMS/resource/Excavation_1>.
+# Encounter Event
+<http://www.arch-project.com/data/encounter1> a crmsci:S19_Encounter_Event ;
+    dct:date "2024-03-22"^^xsd:date ;
+    dbo:depth "2.5"^^xsd:decimal ;
+    excav:foundInSVU <http://www.arch-project.com/data/svu1> ;
+    excav:foundInAContext <http://www.arch-project.com/data/context1> ;
+    excav:foundInAExcavation <http://www.arch-project.com/data/excavation1> .

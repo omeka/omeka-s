@@ -2,134 +2,32 @@
 @prefix ah-shape: <http://www.purl.com/ah/kos/ah-shape/>.
 @prefix ah-variant: <http://www.purl.com/ah/kos/ah-variant/>.
 @prefix ah-base: <http://www.purl.com/ah/kos/ah-base/>.
-
 @prefix ah-chippingMode: <http://www.purl.com/ah/kos/ah-chippingMode/>.
 @prefix ah-chippingDirection: <http://www.purl.com/ah/kos/ah-chippingDirection/>.
 @prefix ah-chippingDelineation: <http://www.purl.com/ah/kos/ah-chippingDelineation/>.
 @prefix ah-chippingLocation: <http://www.purl.com/ah/kos/ah-chippingLocation/>.
 @prefix ah-chippingShape: <http://www.purl.com/ah/kos/ah-chippingShape/>.
 
-@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#>.
-
-@prefix owl: <http://www.w3.org/2002/07/owl#>.
-@prefix dct: <http://purl.org/dc/terms/>.
-@prefix foaf: <http://xmlns.com/foaf/0.1/>.
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
-@prefix schema: <http://schema.org/>.
-@prefix voaf: <http://purl.org/vocommons/voaf#>.
-@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
-@prefix vann: <http://purl.org/vocab/vann/>.
-@prefix dbo: <http://dbpedia.org/ontology/>.
-@prefix time: <http://www.w3.org/2006/time#>.
-@prefix edm: <http://www.europeana.eu/schemas/edm#>.
-@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/>.
-@prefix crmsci: <http://cidoc-crm.org/extensions/crmsci/>.
-@prefix crmarchaeo: <http://www.cidoc-crm.org/extensions/crmarchaeo/>.
-@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
-@prefix wdrs: <http://www.w3.org/2007/05/powder-s#>.
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix sh: <http://www.w3.org/ns/shacl#>.
-
-@prefix excav: <https://purl.org/ah/ms/excavationMS#>.
-
-@prefix ah: <http://www.purl.com/ah/ms/ahMS#>.
 @prefix excav: <https://purl.org/ah/ms/excavationMS#>.
 @prefix crm: <http://www.cidoc-crm.org/cidoc-crm/>.
-@prefix crmarchaeo: <http://www.cidoc-crm.org/extensions/crmarchaeo/>.
-@prefix crmsci: <https://cidoc-crm.org/extensions/crmsci/>.
-@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
-@prefix time: <http://www.w3.org/2006/time#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
-@prefix dct: <http://purl.org/dc/terms/>.
-@prefix foaf: <http://xmlns.com/foaf/0.1/>.
 
-# Define an Arrowhead
-<http://example.org/arrowhead/1>
-  a crm:E24_Physical_Man-Made_Thing;
-  ah:hasId "AH001";
-  ah:shape ah-shape:triangle;
-  ah:variant ah-variant:flat;
-  ah:point true;
-  ah:body true;
-  ah:base ah-base:straight;
-  ah:mode ah-chippingMode:plane;
-  ah:amplitude true;
-  ah:direction ah-chippingDirection:direct;
-  ah:orientation true;
-  ah:delineation ah-chippingDelineation:continuous;
-  ah:chippinglocation-Side ah-chippingLocation:distal;
-  ah:chippinglocation-Transversal ah-chippingLocation:proximal;
-  ah:chippingShape ah-chippingShape:straight.
-
-# Define an Excavation
-<http://example.org/excavation/1>
-  a crmarchaeo:A9_Archaeological_Excavation;
-  dct:identifier "EX001";
-  dul:hasLocation <http://example.org/place/1>;
-  excav:hasPersonInCharge <http://example.org/archaeologist/1>;
-  excav:hasContext <http://example.org/context/1>.
-
-# Define a Context (Processing Unit)
-<http://example.org/context/1>
-  a crmarchaeo:A1_Excavation_Processing_Unit;
-  dct:identifier "CTX001";
-  excav:hasSVU <http://example.org/svu/1>.
-
-# Define a Stratigraphic Volume Unit (SVU)
-<http://example.org/svu/1>
-  a crmarchaeo:A2_Stratigraphic_Volume_Unit;
-  dct:identifier "SVU001";
-  dct:description "A stratigraphic unit containing arrowheads.";
-  excav:hasTimeline <http://example.org/timeline/1>.
-
-# Define a Timeline
-<http://example.org/timeline/1>
-  a time:TemporalEntity;
-  time:hasBeginning <http://example.org/instant/1>;
-  time:hasEnd <http://example.org/instant/2>.
-
-# Define Time Instants
-<http://example.org/instant/1>
-  a time:Instant;
-  time:inXSDYear "1500"^^xsd:gYear;
-  excav:bc true.
-
-<http://example.org/instant/2>
-  a time:Instant;
-  time:inXSDYear "1400"^^xsd:gYear;
-  excav:bc true.
-
-# Define an Archaeologist
-<http://example.org/archaeologist/1>
-  a excav:Archaeologist;
-  foaf:account <http://example.org/archaeologist/1/account>;
-  foaf:name "Dr. John Doe";
-  foaf:mbox <mailto:johndoe@example.org>.
-
-# Define a Place (Location of Excavation)
-<http://example.org/place/1>
-  a dbo:Place;
-  dbo:informationName "Excavation Site A";
-  excav:hasGPSCoordinates <http://example.org/coordinates/1>.
-
-# Define GPS Coordinates
-<http://example.org/coordinates/1>
-  a geo:SpatialThing;
-  geo:lat "40.7128"^^xsd:decimal;
-  geo:long "-74.0060"^^xsd:decimal.
-
-# Define an Encounter Event
-<http://example.org/encounter/1>
-  a crmsci:S19_Encounter_Event;
-  dct:date "2023-10-01"^^xsd:date;
-  dbo:depth "1.5"^^xsd:decimal;
-  excav:foundInSVU <http://example.org/svu/1>;
-  excav:foundInAContext <http://example.org/context/1>;
-  excav:foundInAExcavation <http://example.org/excavation/1>.
-
-# Link the Arrowhead to the Encounter Event
-<http://example.org/arrowhead/1>
-  excav:foundInAExcavation <http://example.org/excavation/1>;
-  excav:foundInAContext <http://example.org/context/1>;
-  excav:foundInSVU <http://example.org/svu/1>.
+# Arrowhead Instance
+<http://www.arch-project.com/data/arrowhead1> a crm:E24_Physical_Man-Made_Thing ;
+  ah:hasId "AH-001"^^xsd:string ;
+  ah:shape ah-shape:triangle ;
+  ah:variant ah-variant:flat ;
+  ah:point "true"^^xsd:boolean ;
+  ah:body "true"^^xsd:boolean ;
+  ah:base ah-base:straight ;
+  ah:mode ah-chippingMode:plane ;
+  ah:amplitude "false"^^xsd:boolean ;
+  ah:direction ah-chippingDirection:direct ;
+  ah:orientation "true"^^xsd:boolean ;
+  ah:delineation ah-chippingDelineation:continuous ;
+  ah:chippinglocation-Side ah-chippingLocation:distal, ah-chippingLocation:median ;
+  ah:chippinglocation-Transversal ah-chippingLocation:distal ;
+  ah:chippingShape ah-chippingShape:straight ;
+  excav:foundInAExcavation <http://www.arch-project.com/data/excavation1> ;
+  excav:foundInAContext <http://www.arch-project.com/data/context1> ;
+  excav:foundInSVU <http://www.arch-project.com/data/svu1> .

@@ -37,7 +37,7 @@ class IndexController extends AbstractActionController
 
         if ($request->isPost()) {
             error_log('Processing file upload');
-            $file = $request->getFiles()->file;
+            $file = $request->getFiles()['file'] ?? null;
         
             if ($file && $file['error'] === UPLOAD_ERR_OK) {
                 $fileExtension = pathinfo($file['name'], PATHINFO_EXTENSION);
@@ -76,7 +76,7 @@ class IndexController extends AbstractActionController
                     }
                 } else {
                     $result = 'Invalid file type. Please upload a valid.ttl or.xml file.';
-                    error_log('Invalid file type: '. $fileType);
+                    error_log("Invalid file type: {$fileType}");
                 }
             } else {
                 $result = 'File upload error: '. $file['error'];
@@ -84,7 +84,7 @@ class IndexController extends AbstractActionController
             }
         }
     
-        error_log('Final result: '. $result);
+        error_log("Final result: {$result}");
     
         return (new ViewModel(['result' => $result, 'site' => $this->currentSite()]))
         ->setTemplate('add-triplestore/site/index/index'); 
@@ -104,7 +104,7 @@ class IndexController extends AbstractActionController
 
         // Load the uploaded XML file into a DOMDocument
         $auxFile = new \DOMDocument();
-        if(!$auxFile->load($file['tmp_name'])){
+        if(!$auxFile->load($file['tmp_name'], LIBXML_NOERROR | LIBXML_NOWARNING)){
             error_log('Failed to load xml file');
             return 'Failed to load xml file';
         }
@@ -119,6 +119,10 @@ class IndexController extends AbstractActionController
             error_log('Failed to convert xml to rdf xml');
             return 'Failed to convert xml to rdf xml';
         }
+
+        error_log('XML file converted to RDF-XML');
+        error_log($rdfXmlConverted);
+
 
         return $rdfXmlConverted;
     }
@@ -161,26 +165,7 @@ class IndexController extends AbstractActionController
             'dc' => 'http://purl.org/dc/elements/1.1/',
             'dcterms' => 'http://purl.org/dc/terms/',
             'foaf' => 'http://xmlns.com/foaf/0.1/',
-            /* add the missing: @prefix ah: <http://www.purl.com/ah/ms/ahMS#>.
-@prefix ah-vocab:<http://www.purl.com/ah/kos#>.
-@prefix excav:<https://purl.org/ah/ms/excavationMS#>.
-@prefix dct: <http://purl.org/dc/terms/>.
-@prefix foaf: <http://xmlns.com/foaf/0.1/>.
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
-@prefix schema: <http://schema.org/>.
-@prefix voaf: <http://purl.org/vocommons/voaf#>.
-@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
-@prefix vann: <http://purl.org/vocab/vann/>.
-@prefix dbo: <http://dbpedia.org/ontology/>.
-@prefix time: <http://www.w3.org/2006/time#>.
-@prefix edm:<http://www.europeana.eu/schemas/edm#>. 
-@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#>.
-@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/>.
-@prefix crmsci: <https://cidoc-crm.org/extensions/crmsci/>.
-@prefix crmarchaeo: <http://www.cidoc-crm.org/extensions/crmarchaeo/>.
-@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
-@prefix sh: <http://www.w3.org/ns/shacl#>.*/
+            
             'ah-vocab' => 'http://www.purl.com/ah/kos#',
             'excav' => 'https://purl.org/ah/ms/excavationMS#',
             'dct' => 'http://purl.org/dc/terms/',
@@ -212,8 +197,11 @@ class IndexController extends AbstractActionController
         foreach ($patterns as $pattern => $replacement) {
             $ttlData = preg_replace($pattern, $replacement, $ttlData);
         }
-        error_log("Cleaned TTL: ". $ttlData);
+        error_log("Cleaned TTL: {$ttlData}");
     
+        echo $ttlData;
+        error_log('TTL data ready for upload');
+        error_log($ttlData);
         return $ttlData;
     }
     
@@ -225,7 +213,7 @@ class IndexController extends AbstractActionController
             // log here
             error_log("Adding prefix: $prefix: <$iri>");
         }
-        return $prefixLines. $ttlData;
+        return "{$prefixLines}{$ttlData}";
     }
 
 
@@ -283,6 +271,8 @@ class IndexController extends AbstractActionController
     }
 
     private function validateData($data, $graphUri) {
+        // Use $data and $graphUri in the validation logic
+        error_log("Validating data for graph URI: {$graphUri}");
         $errors = [];
         $logger = new Logger(); // Initialize logger here
         $writer = new Stream(OMEKA_PATH . '/logs/graphdb-errors.log');
@@ -337,6 +327,7 @@ class IndexController extends AbstractActionController
             }
 
             $rawBody = $response->getBody();
+
             error_log("Raw GraphDB Response: " . $rawBody); // Keep logging the raw response
 
             $results = json_decode($rawBody, true);

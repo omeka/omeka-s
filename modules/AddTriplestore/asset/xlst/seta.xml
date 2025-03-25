@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<item id="AH0025">
+<item id="AH0076">
     <shape>ah-shape:triangle</shape>
     <variant>ah-variant:flat</variant>
     <point>true</point>
@@ -14,7 +14,17 @@
     <chippinglocation-Transversal>ah-chippingLocation:median</chippinglocation-Transversal>
     <chippinglocation-Transversal>ah-chippingLocation:distal</chippinglocation-Transversal>
     <chippinglocation-Transversal>ah-chippingLocation:proximal</chippinglocation-Transversal>
-    
-
     <chippingShape>ah-chippingShape:straight</chippingShape>
+    <rdf:Description rdf:about="http://arch-project.com/excavation/EXCAVATION-001">
+    <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/A9_Archaeological_Excavation"/>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://arch-project.com/context/CONTEXT-001">
+        <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/A1_Excavation_Processing_Unit"/>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://arch-project.com/svu/SVU-001">
+        <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/A2_Stratigraphic_Volume_Unit"/>
+    </rdf:Description>
+
 </item>

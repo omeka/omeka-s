@@ -37,7 +37,7 @@ class IndexController extends AbstractActionController
 
         if ($request->isPost()) {
             error_log('Processing file upload');
-            $file = $request->getFiles()['file'] ?? null;
+            $file = $request->getFiles()->file;
         
             if ($file && $file['error'] === UPLOAD_ERR_OK) {
                 $fileExtension = pathinfo($file['name'], PATHINFO_EXTENSION);
@@ -64,6 +64,7 @@ class IndexController extends AbstractActionController
                                 throw new \Exception('Failed to convert xml to rdf xml');
                             }
                             $ttlData = $this->xmlTtlConverter($rdfXmlData);
+                            error_log($ttlData, 3, OMEKA_PATH. '/logs/ttl-data.log');
                             $result = $this->sendToGraphDB($ttlData);
                         } else {
                             // TTL processing
@@ -76,7 +77,7 @@ class IndexController extends AbstractActionController
                     }
                 } else {
                     $result = 'Invalid file type. Please upload a valid.ttl or.xml file.';
-                    error_log("Invalid file type: {$fileType}");
+                    error_log('Invalid file type: '. $fileType);
                 }
             } else {
                 $result = 'File upload error: '. $file['error'];
@@ -84,7 +85,7 @@ class IndexController extends AbstractActionController
             }
         }
     
-        error_log("Final result: {$result}");
+        error_log('Final result: '. $result);
     
         return (new ViewModel(['result' => $result, 'site' => $this->currentSite()]))
         ->setTemplate('add-triplestore/site/index/index'); 
@@ -94,8 +95,7 @@ class IndexController extends AbstractActionController
     public function xmlParser($file){ // parse file xml to rdf xml
         // load xsml file
         $xslt = new \DOMDocument();
-        $xsltPath = '/Applications/XAMPP/xamppfiles/htdocs/omeka-s/modules/AddTriplestore/asset/xlst/xlst.xml';
-        
+        $xsltPath = OMEKA_PATH . '/modules/AddTriplestore/asset/xlst/xlst.xml';
         // failed to load xsml file
         if(!$xslt->load($xsltPath)){
             error_log('Failed to load xsml file');
@@ -104,7 +104,7 @@ class IndexController extends AbstractActionController
 
         // Load the uploaded XML file into a DOMDocument
         $auxFile = new \DOMDocument();
-        if(!$auxFile->load($file['tmp_name'], LIBXML_NOERROR | LIBXML_NOWARNING)){
+        if(!$auxFile->load($file['tmp_name'])){
             error_log('Failed to load xml file');
             return 'Failed to load xml file';
         }
@@ -120,10 +120,7 @@ class IndexController extends AbstractActionController
             return 'Failed to convert xml to rdf xml';
         }
 
-        error_log('XML file converted to RDF-XML');
-        error_log($rdfXmlConverted);
-
-
+        error_log($rdfXmlConverted, 3, OMEKA_PATH. '/logs/rdf-xml-data.log');
         return $rdfXmlConverted;
     }
 
@@ -165,7 +162,6 @@ class IndexController extends AbstractActionController
             'dc' => 'http://purl.org/dc/elements/1.1/',
             'dcterms' => 'http://purl.org/dc/terms/',
             'foaf' => 'http://xmlns.com/foaf/0.1/',
-            
             'ah-vocab' => 'http://www.purl.com/ah/kos#',
             'excav' => 'https://purl.org/ah/ms/excavationMS#',
             'dct' => 'http://purl.org/dc/terms/',
@@ -192,16 +188,18 @@ class IndexController extends AbstractActionController
             '/<ah-chippingDelineation:([^>]+)>/' => 'ah-chippingDelineation:$1',
             '/<ah-chippingLocation:([^>]+)>/' => 'ah-chippingLocation:$1',
             '/<ah-chippingShape:([^>]+)>/' => 'ah-chippingShape:$1',
+            '/<foundInAExcavation>([^<]+)<\/foundInAExcavation>/' => '<rdf:Description rdf:about="$1"><rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/A9_Archaeological_Excavation"/></rdf:Description>',
+            '/<foundInAContext>([^<]+)<\/foundInAContext>/' => '<rdf:Description rdf:about="$1"><rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/A1_Excavation_Processing_Unit"/></rdf:Description>',
+            '/<foundInSVU>([^<]+)<\/foundInSVU>/' => '<rdf:Description rdf:about="$1"><rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/A2_Stratigraphic_Volume_Unit"/></rdf:Description>',
+
+
         ];
 
         foreach ($patterns as $pattern => $replacement) {
             $ttlData = preg_replace($pattern, $replacement, $ttlData);
         }
-        error_log("Cleaned TTL: {$ttlData}");
+        error_log("Cleaned TTL: ". $ttlData);
     
-        echo $ttlData;
-        error_log('TTL data ready for upload');
-        error_log($ttlData);
         return $ttlData;
     }
     
@@ -213,7 +211,7 @@ class IndexController extends AbstractActionController
             // log here
             error_log("Adding prefix: $prefix: <$iri>");
         }
-        return "{$prefixLines}{$ttlData}";
+        return $prefixLines. $ttlData;
     }
 
 
@@ -271,8 +269,6 @@ class IndexController extends AbstractActionController
     }
 
     private function validateData($data, $graphUri) {
-        // Use $data and $graphUri in the validation logic
-        error_log("Validating data for graph URI: {$graphUri}");
         $errors = [];
         $logger = new Logger(); // Initialize logger here
         $writer = new Stream(OMEKA_PATH . '/logs/graphdb-errors.log');
@@ -327,7 +323,6 @@ class IndexController extends AbstractActionController
             }
 
             $rawBody = $response->getBody();
-
             error_log("Raw GraphDB Response: " . $rawBody); // Keep logging the raw response
 
             $results = json_decode($rawBody, true);

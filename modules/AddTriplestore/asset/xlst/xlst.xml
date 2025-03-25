@@ -11,7 +11,8 @@
     xmlns:ah-chippingDelineation="http://www.purl.com/ah/kos/ah-chippingDelineation/"
     xmlns:ah-chippingLocation="http://www.purl.com/ah/kos/ah-chippingLocation/"
     xmlns:ah-chippingShape="http://www.purl.com/ah/kos/ah-chippingShape/"
-    xmlns:crm="http://www.cidoc-crm.org/cidoc-crm/"> 
+    xmlns:crm="http://www.cidoc-crm.org/cidoc-crm/"
+    xmlns:excav="https://purl.org/ah/ms/excavationMS#">
 
     <xsl:output method="xml" indent="yes"/>
     <xsl:template match="/">
@@ -56,7 +57,6 @@
                 <ah:direction rdf:resource="{.}"/>
             </xsl:for-each>
 
-
             <xsl:if test="orientation">
                 <ah:orientation><xsl:value-of select="orientation"/></ah:orientation>
             </xsl:if>
@@ -65,10 +65,12 @@
                 <ah:delineation rdf:resource="{delineation}"/>
             </xsl:if>
 
-            <xsl:for-each select="chippinglocation-Side[position() &lt;= 3]">  <ah:chippinglocation-Side rdf:resource="{.}"/>
+            <xsl:for-each select="chippinglocation-Side[position() &lt;= 3]">  
+                <ah:chippinglocation-Side rdf:resource="{.}"/>
             </xsl:for-each>
 
-            <xsl:for-each select="chippinglocation-Transversal[position() &lt;= 3]">  <ah:chippinglocation-Transversal rdf:resource="{.}"/>
+            <xsl:for-each select="chippinglocation-Transversal[position() &lt;= 3]">  
+                <ah:chippinglocation-Transversal rdf:resource="{.}"/>
             </xsl:for-each>
 
             <xsl:if test="chippingShape">
@@ -78,6 +80,26 @@
             <xsl:if test="hasMedia">
                 <ah:hasMedia rdf:resource="{hasMedia}"/>
             </xsl:if>
+
+            <xsl:if test="foundInAExcavation">
+    <rdf:Description rdf:about="{foundInAExcavation}">
+        <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/A9_Archaeological_Excavation"/>
+    </rdf:Description>
+</xsl:if>
+
+<xsl:if test="foundInAContext">
+    <rdf:Description rdf:about="{foundInAContext}">
+        <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/A1_Excavation_Processing_Unit"/>
+    </rdf:Description>
+</xsl:if>
+
+<xsl:if test="foundInSVU">
+    <rdf:Description rdf:about="{foundInSVU}">
+        <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/A2_Stratigraphic_Volume_Unit"/>
+    </rdf:Description>
+</xsl:if>
+
+
 
         </crm:E24_Physical_Man-Made_Thing>
     </xsl:template>

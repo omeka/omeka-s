@@ -31,3 +31,4 @@
   excav:foundInAExcavation <http://www.arch-project.com/data/excavation1> ;
   excav:foundInAContext <http://www.arch-project.com/data/context1> ;
   excav:foundInSVU <http://www.arch-project.com/data/svu1> .
+

@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Excavation>
-  <excav:identifier>EXCAVATION-033301</excav:identifier>
+  <excav:identifier rdf:about="http://arch-project.com/excavation/EXCAVATION-001">EXCAVATION-001</excav:identifier>
 
   <dul:hasLocation>
-    <dbo:Place>
-      <dbo:informationName>Castanheiro do Vento</dbo:informationName>
+    <dbo:Place rdf:about="http://arch-project.com/place/Site_A">
+      <dbo:informationName>Site A</dbo:informationName>
       <excav:hasGPSCoordinates>
-        <geo:SpatialThing>
-          <geo:lat>41.063611</geo:lat>
-          <geo:long>-7.321667</geo:long>
+        <geo:SpatialThing rdf:about="http://arch-project.com/gps/Site_A_gps">
+          <geo:lat>40.123456</geo:lat>
+          <geo:long>-8.654321</geo:long>
         </geo:SpatialThing>
       </excav:hasGPSCoordinates>
-      <dbo:district>
+      <dbo:district rdf:resource="http://arch-project.com/district/District_A">
         <dbo:District>
-          <dbo:informationName>Guarda</dbo:informationName>
+          <dbo:informationName>District A</dbo:informationName>
         </dbo:District>
       </dbo:district>
-      <dbo:Parish>
+      <dbo:Parish rdf:resource="http://arch-project.com/parish/Parish_A">
         <dbo:Parish>
-          <dbo:informationName>Horta do Douro</dbo:informationName>
+          <dbo:informationName>Parish A</dbo:informationName>
         </dbo:Parish>
       </dbo:Parish>
     </dbo:Place>
   </dul:hasLocation>
 
   <excav:hasPersonInCharge>
-    <excav:Archaeologist>
-      <foaf:account>http://www.orcid.org/0000-0001-5289-7583</foaf:account>
-      <foaf:name>Joao Muralha</foaf:name>
-      <foaf:mbox>jccardoso@fcsh.unl.pt</foaf:mbox>
+    <excav:Archaeologist rdf:about="http://www.orcid.org/0000-0002-1234-5678">
+      <foaf:account>http://www.orcid.org/0000-0002-1234-5678</foaf:account>
+      <foaf:name>Dr. Jane Doe</foaf:name>
+      <foaf:mbox>mailto:jane.doe@arch-project.com</foaf:mbox>
     </excav:Archaeologist>
   </excav:hasPersonInCharge>
 
   <excav:hasContext>
-    <crmarchaeo:A1_Excavation_Processing_Unit>
-      <dct:identifier>95,26</dct:identifier>
-      <excav:hasSVU>
-        <crmarchaeo:A2_Stratigraphic_Volume_Unit>
-          <dct:identifier>SVU-003</dct:identifier>
-          <dct:description>Grande Estrutura Circular 7</dct:description>
-          <excav:hasTimeLine>
-            <time:TemporalEntity>
-              <time:hasBeginning>
-                <time:Instant>
-                  <time:inXSDYear>2800</time:inXSDYear>
+    <crmarchaeo:A1_Excavation_Processing_Unit rdf:about="http://arch-project.com/processing_unit/UNIT-01">
+      <dct:identifier>UNIT-01</dct:identifier>
+      <excav:hasSVU rdf:resource="http://arch-project.com/svu/SVU-001">
+        <crmarchaeo:A2_Stratigraphic_Volume_Unit rdf:about="http://arch-project.com/svu/SVU-001">
+          <dct:identifier>SVU-001</dct:identifier>
+          <dct:description>Layer with pottery remains</dct:description>
+          <excav:hasTimeLine rdf:resource="http://arch-project.com/timeline/SVU-001_timeline">
+            <time:TemporalEntity rdf:about="http://arch-project.com/timeline/SVU-001_timeline">
+              <time:hasBeginning rdf:resource="http://arch-project.com/instant/SVU-001_start">
+                <time:Instant rdf:about="http://arch-project.com/instant/SVU-001_start">
+                  <time:inXSDYear>3000</time:inXSDYear>
                   <excav:bc>true</excav:bc>
                 </time:Instant>
               </time:hasBeginning>
-              <time:hasEnd>
-                <time:Instant>
-                  <time:inXSDYear>1500</time:inXSDYear>
+              <time:hasEnd rdf:resource="http://arch-project.com/instant/SVU-001_end">
+                <time:Instant rdf:about="http://arch-project.com/instant/SVU-001_end">
+                  <time:inXSDYear>2000</time:inXSDYear>
                   <excav:bc>true</excav:bc>
                 </time:Instant>
               </time:hasEnd>
@@ -59,5 +59,5 @@
       </excav:hasSVU>
     </crmarchaeo:A1_Excavation_Processing_Unit>
   </excav:hasContext>
+</Excavation>
 
-  </Excavation>

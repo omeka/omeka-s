@@ -82,23 +82,17 @@
             </xsl:if>
 
             <xsl:if test="foundInAExcavation">
-    <rdf:Description rdf:about="{foundInAExcavation}">
-        <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/A9_Archaeological_Excavation"/>
-    </rdf:Description>
-</xsl:if>
+                <excav:foundInAExcavation rdf:resource="{foundInAExcavation}"/>
+            </xsl:if>
 
-<xsl:if test="foundInAContext">
-    <rdf:Description rdf:about="{foundInAContext}">
-        <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/A1_Excavation_Processing_Unit"/>
-    </rdf:Description>
-</xsl:if>
 
-<xsl:if test="foundInSVU">
-    <rdf:Description rdf:about="{foundInSVU}">
-        <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/A2_Stratigraphic_Volume_Unit"/>
-    </rdf:Description>
-</xsl:if>
+            <xsl:if test="foundInAContext">
+                <excav:foundInAContext rdf:resource="{foundInAContext}"/>
+            </xsl:if>
 
+            <xsl:if test="foundInSVU">
+                <excav:foundInSVU rdf:resource="{foundInSVU}"/>
+            </xsl:if>
 
 
         </crm:E24_Physical_Man-Made_Thing>

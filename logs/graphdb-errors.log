@@ -11690,3 +11690,167 @@ _:be9a1d83-e352-4db0-ae66-e23c09035cd0-49 <http://www.w3.org/ns/shacl#class> <ht
 
 2025-03-25T12:17:53+00:00 INFO (6): Response Status: 204 | Response Body:
 2025-03-25T12:19:23+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-03-25T12:22:50+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-03-25T12:23:28+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-03-25T12:25:05+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-03-25T12:25:27+00:00 INFO (6): Response Status: 500 | Response Body: _:7975660053a04e57a418b233e75681ac234375 <http://www.w3.org/ns/shacl#conforms> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+_:7975660053a04e57a418b233e75681ac234375 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationReport> .
+_:7975660053a04e57a418b233e75681ac234375 <http://rdf4j.org/schema/rdf4j#truncated> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+_:7975660053a04e57a418b233e75681ac234375 <http://www.w3.org/ns/shacl#result> _:7975660053a04e57a418b233e75681ac234376 .
+_:7975660053a04e57a418b233e75681ac234376 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:7975660053a04e57a418b233e75681ac234376 <http://www.w3.org/ns/shacl#focusNode> <ah:arrowhead0076> .
+_:7975660053a04e57a418b233e75681ac234376 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:7975660053a04e57a418b233e75681ac234376 <http://www.w3.org/ns/shacl#value> <http://arch-project.com/excavation/EXCAVATION-001> .
+_:7975660053a04e57a418b233e75681ac234376 <http://www.w3.org/ns/shacl#resultPath> <https://purl.org/ah/ms/excavationMS#foundInAExcavation> .
+_:7975660053a04e57a418b233e75681ac234376 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#ClassConstraintComponent> .
+_:7975660053a04e57a418b233e75681ac234376 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:6d986045-14de-43be-abb1-e7a339024ebe-47 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+_:7975660053a04e57a418b233e75681ac234376 <http://www.w3.org/ns/shacl#sourceShape> _:6d986045-14de-43be-abb1-e7a339024ebe-47 .
+_:6d986045-14de-43be-abb1-e7a339024ebe-47 <http://www.w3.org/ns/shacl#path> <https://purl.org/ah/ms/excavationMS#foundInAExcavation> .
+_:6d986045-14de-43be-abb1-e7a339024ebe-47 <http://www.w3.org/ns/shacl#class> <http://www.cidoc-crm.org/extensions/crmarchaeo/A9_Archaeological_Excavation> .
+_:7975660053a04e57a418b233e75681ac234375 <http://www.w3.org/ns/shacl#result> _:7975660053a04e57a418b233e75681ac234377 .
+_:7975660053a04e57a418b233e75681ac234377 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:7975660053a04e57a418b233e75681ac234377 <http://www.w3.org/ns/shacl#focusNode> <ah:arrowhead0076> .
+_:7975660053a04e57a418b233e75681ac234377 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:7975660053a04e57a418b233e75681ac234377 <http://www.w3.org/ns/shacl#value> <http://arch-project.com/context/CONTEXT-001> .
+_:7975660053a04e57a418b233e75681ac234377 <http://www.w3.org/ns/shacl#resultPath> <https://purl.org/ah/ms/excavationMS#foundInAContext> .
+_:7975660053a04e57a418b233e75681ac234377 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#ClassConstraintComponent> .
+_:7975660053a04e57a418b233e75681ac234377 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:b3713d98-6f83-445d-bd0c-45ed318756d1-48 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+_:7975660053a04e57a418b233e75681ac234377 <http://www.w3.org/ns/shacl#sourceShape> _:b3713d98-6f83-445d-bd0c-45ed318756d1-48 .
+_:b3713d98-6f83-445d-bd0c-45ed318756d1-48 <http://www.w3.org/ns/shacl#path> <https://purl.org/ah/ms/excavationMS#foundInAContext> .
+_:b3713d98-6f83-445d-bd0c-45ed318756d1-48 <http://www.w3.org/ns/shacl#class> <http://www.cidoc-crm.org/extensions/crmarchaeo/A1_Excavation_Processing_Unit> .
+_:7975660053a04e57a418b233e75681ac234375 <http://www.w3.org/ns/shacl#result> _:7975660053a04e57a418b233e75681ac234378 .
+_:7975660053a04e57a418b233e75681ac234378 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:7975660053a04e57a418b233e75681ac234378 <http://www.w3.org/ns/shacl#focusNode> <ah:arrowhead0076> .
+_:7975660053a04e57a418b233e75681ac234378 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:7975660053a04e57a418b233e75681ac234378 <http://www.w3.org/ns/shacl#value> <http://arch-project.com/svu/SVU-001> .
+_:7975660053a04e57a418b233e75681ac234378 <http://www.w3.org/ns/shacl#resultPath> <https://purl.org/ah/ms/excavationMS#foundInSVU> .
+_:7975660053a04e57a418b233e75681ac234378 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#ClassConstraintComponent> .
+_:7975660053a04e57a418b233e75681ac234378 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:be9a1d83-e352-4db0-ae66-e23c09035cd0-49 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+_:7975660053a04e57a418b233e75681ac234378 <http://www.w3.org/ns/shacl#sourceShape> _:be9a1d83-e352-4db0-ae66-e23c09035cd0-49 .
+_:be9a1d83-e352-4db0-ae66-e23c09035cd0-49 <http://www.w3.org/ns/shacl#path> <https://purl.org/ah/ms/excavationMS#foundInSVU> .
+_:be9a1d83-e352-4db0-ae66-e23c09035cd0-49 <http://www.w3.org/ns/shacl#class> <http://www.cidoc-crm.org/extensions/crmarchaeo/A2_Stratigraphic_Volume_Unit> .
+
+2025-03-25T12:25:27+00:00 ERR (3): Failed to upload data: Response Status: 500 | Response Body: _:7975660053a04e57a418b233e75681ac234375 <http://www.w3.org/ns/shacl#conforms> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+_:7975660053a04e57a418b233e75681ac234375 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationReport> .
+_:7975660053a04e57a418b233e75681ac234375 <http://rdf4j.org/schema/rdf4j#truncated> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+_:7975660053a04e57a418b233e75681ac234375 <http://www.w3.org/ns/shacl#result> _:7975660053a04e57a418b233e75681ac234376 .
+_:7975660053a04e57a418b233e75681ac234376 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:7975660053a04e57a418b233e75681ac234376 <http://www.w3.org/ns/shacl#focusNode> <ah:arrowhead0076> .
+_:7975660053a04e57a418b233e75681ac234376 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:7975660053a04e57a418b233e75681ac234376 <http://www.w3.org/ns/shacl#value> <http://arch-project.com/excavation/EXCAVATION-001> .
+_:7975660053a04e57a418b233e75681ac234376 <http://www.w3.org/ns/shacl#resultPath> <https://purl.org/ah/ms/excavationMS#foundInAExcavation> .
+_:7975660053a04e57a418b233e75681ac234376 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#ClassConstraintComponent> .
+_:7975660053a04e57a418b233e75681ac234376 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:6d986045-14de-43be-abb1-e7a339024ebe-47 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+_:7975660053a04e57a418b233e75681ac234376 <http://www.w3.org/ns/shacl#sourceShape> _:6d986045-14de-43be-abb1-e7a339024ebe-47 .
+_:6d986045-14de-43be-abb1-e7a339024ebe-47 <http://www.w3.org/ns/shacl#path> <https://purl.org/ah/ms/excavationMS#foundInAExcavation> .
+_:6d986045-14de-43be-abb1-e7a339024ebe-47 <http://www.w3.org/ns/shacl#class> <http://www.cidoc-crm.org/extensions/crmarchaeo/A9_Archaeological_Excavation> .
+_:7975660053a04e57a418b233e75681ac234375 <http://www.w3.org/ns/shacl#result> _:7975660053a04e57a418b233e75681ac234377 .
+_:7975660053a04e57a418b233e75681ac234377 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:7975660053a04e57a418b233e75681ac234377 <http://www.w3.org/ns/shacl#focusNode> <ah:arrowhead0076> .
+_:7975660053a04e57a418b233e75681ac234377 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:7975660053a04e57a418b233e75681ac234377 <http://www.w3.org/ns/shacl#value> <http://arch-project.com/context/CONTEXT-001> .
+_:7975660053a04e57a418b233e75681ac234377 <http://www.w3.org/ns/shacl#resultPath> <https://purl.org/ah/ms/excavationMS#foundInAContext> .
+_:7975660053a04e57a418b233e75681ac234377 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#ClassConstraintComponent> .
+_:7975660053a04e57a418b233e75681ac234377 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:b3713d98-6f83-445d-bd0c-45ed318756d1-48 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+_:7975660053a04e57a418b233e75681ac234377 <http://www.w3.org/ns/shacl#sourceShape> _:b3713d98-6f83-445d-bd0c-45ed318756d1-48 .
+_:b3713d98-6f83-445d-bd0c-45ed318756d1-48 <http://www.w3.org/ns/shacl#path> <https://purl.org/ah/ms/excavationMS#foundInAContext> .
+_:b3713d98-6f83-445d-bd0c-45ed318756d1-48 <http://www.w3.org/ns/shacl#class> <http://www.cidoc-crm.org/extensions/crmarchaeo/A1_Excavation_Processing_Unit> .
+_:7975660053a04e57a418b233e75681ac234375 <http://www.w3.org/ns/shacl#result> _:7975660053a04e57a418b233e75681ac234378 .
+_:7975660053a04e57a418b233e75681ac234378 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:7975660053a04e57a418b233e75681ac234378 <http://www.w3.org/ns/shacl#focusNode> <ah:arrowhead0076> .
+_:7975660053a04e57a418b233e75681ac234378 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:7975660053a04e57a418b233e75681ac234378 <http://www.w3.org/ns/shacl#value> <http://arch-project.com/svu/SVU-001> .
+_:7975660053a04e57a418b233e75681ac234378 <http://www.w3.org/ns/shacl#resultPath> <https://purl.org/ah/ms/excavationMS#foundInSVU> .
+_:7975660053a04e57a418b233e75681ac234378 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#ClassConstraintComponent> .
+_:7975660053a04e57a418b233e75681ac234378 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:be9a1d83-e352-4db0-ae66-e23c09035cd0-49 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+_:7975660053a04e57a418b233e75681ac234378 <http://www.w3.org/ns/shacl#sourceShape> _:be9a1d83-e352-4db0-ae66-e23c09035cd0-49 .
+_:be9a1d83-e352-4db0-ae66-e23c09035cd0-49 <http://www.w3.org/ns/shacl#path> <https://purl.org/ah/ms/excavationMS#foundInSVU> .
+_:be9a1d83-e352-4db0-ae66-e23c09035cd0-49 <http://www.w3.org/ns/shacl#class> <http://www.cidoc-crm.org/extensions/crmarchaeo/A2_Stratigraphic_Volume_Unit> .
+
+2025-03-25T12:27:32+00:00 INFO (6): Response Status: 500 | Response Body: _:7975660053a04e57a418b233e75681ac234419 <http://www.w3.org/ns/shacl#conforms> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+_:7975660053a04e57a418b233e75681ac234419 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationReport> .
+_:7975660053a04e57a418b233e75681ac234419 <http://rdf4j.org/schema/rdf4j#truncated> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+_:7975660053a04e57a418b233e75681ac234419 <http://www.w3.org/ns/shacl#result> _:7975660053a04e57a418b233e75681ac234420 .
+_:7975660053a04e57a418b233e75681ac234420 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:7975660053a04e57a418b233e75681ac234420 <http://www.w3.org/ns/shacl#focusNode> <ah:arrowhead0076> .
+_:7975660053a04e57a418b233e75681ac234420 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:7975660053a04e57a418b233e75681ac234420 <http://www.w3.org/ns/shacl#value> <http://arch-project.com/excavation/EXCAVATION-001> .
+_:7975660053a04e57a418b233e75681ac234420 <http://www.w3.org/ns/shacl#resultPath> <https://purl.org/ah/ms/excavationMS#foundInAExcavation> .
+_:7975660053a04e57a418b233e75681ac234420 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#ClassConstraintComponent> .
+_:7975660053a04e57a418b233e75681ac234420 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:6d986045-14de-43be-abb1-e7a339024ebe-47 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+_:7975660053a04e57a418b233e75681ac234420 <http://www.w3.org/ns/shacl#sourceShape> _:6d986045-14de-43be-abb1-e7a339024ebe-47 .
+_:6d986045-14de-43be-abb1-e7a339024ebe-47 <http://www.w3.org/ns/shacl#path> <https://purl.org/ah/ms/excavationMS#foundInAExcavation> .
+_:6d986045-14de-43be-abb1-e7a339024ebe-47 <http://www.w3.org/ns/shacl#class> <http://www.cidoc-crm.org/extensions/crmarchaeo/A9_Archaeological_Excavation> .
+_:7975660053a04e57a418b233e75681ac234419 <http://www.w3.org/ns/shacl#result> _:7975660053a04e57a418b233e75681ac234421 .
+_:7975660053a04e57a418b233e75681ac234421 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:7975660053a04e57a418b233e75681ac234421 <http://www.w3.org/ns/shacl#focusNode> <ah:arrowhead0076> .
+_:7975660053a04e57a418b233e75681ac234421 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:7975660053a04e57a418b233e75681ac234421 <http://www.w3.org/ns/shacl#value> <http://arch-project.com/context/CONTEXT-001> .
+_:7975660053a04e57a418b233e75681ac234421 <http://www.w3.org/ns/shacl#resultPath> <https://purl.org/ah/ms/excavationMS#foundInAContext> .
+_:7975660053a04e57a418b233e75681ac234421 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#ClassConstraintComponent> .
+_:7975660053a04e57a418b233e75681ac234421 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:b3713d98-6f83-445d-bd0c-45ed318756d1-48 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+_:7975660053a04e57a418b233e75681ac234421 <http://www.w3.org/ns/shacl#sourceShape> _:b3713d98-6f83-445d-bd0c-45ed318756d1-48 .
+_:b3713d98-6f83-445d-bd0c-45ed318756d1-48 <http://www.w3.org/ns/shacl#path> <https://purl.org/ah/ms/excavationMS#foundInAContext> .
+_:b3713d98-6f83-445d-bd0c-45ed318756d1-48 <http://www.w3.org/ns/shacl#class> <http://www.cidoc-crm.org/extensions/crmarchaeo/A1_Excavation_Processing_Unit> .
+_:7975660053a04e57a418b233e75681ac234419 <http://www.w3.org/ns/shacl#result> _:7975660053a04e57a418b233e75681ac234422 .
+_:7975660053a04e57a418b233e75681ac234422 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:7975660053a04e57a418b233e75681ac234422 <http://www.w3.org/ns/shacl#focusNode> <ah:arrowhead0076> .
+_:7975660053a04e57a418b233e75681ac234422 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:7975660053a04e57a418b233e75681ac234422 <http://www.w3.org/ns/shacl#value> <http://arch-project.com/svu/SVU-001> .
+_:7975660053a04e57a418b233e75681ac234422 <http://www.w3.org/ns/shacl#resultPath> <https://purl.org/ah/ms/excavationMS#foundInSVU> .
+_:7975660053a04e57a418b233e75681ac234422 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#ClassConstraintComponent> .
+_:7975660053a04e57a418b233e75681ac234422 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:be9a1d83-e352-4db0-ae66-e23c09035cd0-49 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+_:7975660053a04e57a418b233e75681ac234422 <http://www.w3.org/ns/shacl#sourceShape> _:be9a1d83-e352-4db0-ae66-e23c09035cd0-49 .
+_:be9a1d83-e352-4db0-ae66-e23c09035cd0-49 <http://www.w3.org/ns/shacl#path> <https://purl.org/ah/ms/excavationMS#foundInSVU> .
+_:be9a1d83-e352-4db0-ae66-e23c09035cd0-49 <http://www.w3.org/ns/shacl#class> <http://www.cidoc-crm.org/extensions/crmarchaeo/A2_Stratigraphic_Volume_Unit> .
+
+2025-03-25T12:27:32+00:00 ERR (3): Failed to upload data: Response Status: 500 | Response Body: _:7975660053a04e57a418b233e75681ac234419 <http://www.w3.org/ns/shacl#conforms> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+_:7975660053a04e57a418b233e75681ac234419 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationReport> .
+_:7975660053a04e57a418b233e75681ac234419 <http://rdf4j.org/schema/rdf4j#truncated> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+_:7975660053a04e57a418b233e75681ac234419 <http://www.w3.org/ns/shacl#result> _:7975660053a04e57a418b233e75681ac234420 .
+_:7975660053a04e57a418b233e75681ac234420 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:7975660053a04e57a418b233e75681ac234420 <http://www.w3.org/ns/shacl#focusNode> <ah:arrowhead0076> .
+_:7975660053a04e57a418b233e75681ac234420 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:7975660053a04e57a418b233e75681ac234420 <http://www.w3.org/ns/shacl#value> <http://arch-project.com/excavation/EXCAVATION-001> .
+_:7975660053a04e57a418b233e75681ac234420 <http://www.w3.org/ns/shacl#resultPath> <https://purl.org/ah/ms/excavationMS#foundInAExcavation> .
+_:7975660053a04e57a418b233e75681ac234420 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#ClassConstraintComponent> .
+_:7975660053a04e57a418b233e75681ac234420 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:6d986045-14de-43be-abb1-e7a339024ebe-47 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+_:7975660053a04e57a418b233e75681ac234420 <http://www.w3.org/ns/shacl#sourceShape> _:6d986045-14de-43be-abb1-e7a339024ebe-47 .
+_:6d986045-14de-43be-abb1-e7a339024ebe-47 <http://www.w3.org/ns/shacl#path> <https://purl.org/ah/ms/excavationMS#foundInAExcavation> .
+_:6d986045-14de-43be-abb1-e7a339024ebe-47 <http://www.w3.org/ns/shacl#class> <http://www.cidoc-crm.org/extensions/crmarchaeo/A9_Archaeological_Excavation> .
+_:7975660053a04e57a418b233e75681ac234419 <http://www.w3.org/ns/shacl#result> _:7975660053a04e57a418b233e75681ac234421 .
+_:7975660053a04e57a418b233e75681ac234421 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:7975660053a04e57a418b233e75681ac234421 <http://www.w3.org/ns/shacl#focusNode> <ah:arrowhead0076> .
+_:7975660053a04e57a418b233e75681ac234421 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:7975660053a04e57a418b233e75681ac234421 <http://www.w3.org/ns/shacl#value> <http://arch-project.com/context/CONTEXT-001> .
+_:7975660053a04e57a418b233e75681ac234421 <http://www.w3.org/ns/shacl#resultPath> <https://purl.org/ah/ms/excavationMS#foundInAContext> .
+_:7975660053a04e57a418b233e75681ac234421 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#ClassConstraintComponent> .
+_:7975660053a04e57a418b233e75681ac234421 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:b3713d98-6f83-445d-bd0c-45ed318756d1-48 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+_:7975660053a04e57a418b233e75681ac234421 <http://www.w3.org/ns/shacl#sourceShape> _:b3713d98-6f83-445d-bd0c-45ed318756d1-48 .
+_:b3713d98-6f83-445d-bd0c-45ed318756d1-48 <http://www.w3.org/ns/shacl#path> <https://purl.org/ah/ms/excavationMS#foundInAContext> .
+_:b3713d98-6f83-445d-bd0c-45ed318756d1-48 <http://www.w3.org/ns/shacl#class> <http://www.cidoc-crm.org/extensions/crmarchaeo/A1_Excavation_Processing_Unit> .
+_:7975660053a04e57a418b233e75681ac234419 <http://www.w3.org/ns/shacl#result> _:7975660053a04e57a418b233e75681ac234422 .
+_:7975660053a04e57a418b233e75681ac234422 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:7975660053a04e57a418b233e75681ac234422 <http://www.w3.org/ns/shacl#focusNode> <ah:arrowhead0076> .
+_:7975660053a04e57a418b233e75681ac234422 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:7975660053a04e57a418b233e75681ac234422 <http://www.w3.org/ns/shacl#value> <http://arch-project.com/svu/SVU-001> .
+_:7975660053a04e57a418b233e75681ac234422 <http://www.w3.org/ns/shacl#resultPath> <https://purl.org/ah/ms/excavationMS#foundInSVU> .
+_:7975660053a04e57a418b233e75681ac234422 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#ClassConstraintComponent> .
+_:7975660053a04e57a418b233e75681ac234422 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:be9a1d83-e352-4db0-ae66-e23c09035cd0-49 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+_:7975660053a04e57a418b233e75681ac234422 <http://www.w3.org/ns/shacl#sourceShape> _:be9a1d83-e352-4db0-ae66-e23c09035cd0-49 .
+_:be9a1d83-e352-4db0-ae66-e23c09035cd0-49 <http://www.w3.org/ns/shacl#path> <https://purl.org/ah/ms/excavationMS#foundInSVU> .
+_:be9a1d83-e352-4db0-ae66-e23c09035cd0-49 <http://www.w3.org/ns/shacl#class> <http://www.cidoc-crm.org/extensions/crmarchaeo/A2_Stratigraphic_Volume_Unit> .
+
+2025-03-25T12:31:21+00:00 INFO (6): Response Status: 204 | Response Body:

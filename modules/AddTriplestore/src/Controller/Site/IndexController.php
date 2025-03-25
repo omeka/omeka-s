@@ -188,9 +188,9 @@ class IndexController extends AbstractActionController
             '/<ah-chippingDelineation:([^>]+)>/' => 'ah-chippingDelineation:$1',
             '/<ah-chippingLocation:([^>]+)>/' => 'ah-chippingLocation:$1',
             '/<ah-chippingShape:([^>]+)>/' => 'ah-chippingShape:$1',
-            '/<foundInAExcavation>([^<]+)<\/foundInAExcavation>/' => '<rdf:Description rdf:about="$1"><rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/A9_Archaeological_Excavation"/></rdf:Description>',
-            '/<foundInAContext>([^<]+)<\/foundInAContext>/' => '<rdf:Description rdf:about="$1"><rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/A1_Excavation_Processing_Unit"/></rdf:Description>',
-            '/<foundInSVU>([^<]+)<\/foundInSVU>/' => '<rdf:Description rdf:about="$1"><rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/A2_Stratigraphic_Volume_Unit"/></rdf:Description>',
+            '/<excav:foundInAExcavation>([^<]+)<\/foundInAExcavation>/' => '<excav:foundInAExcavation rdf:resource="$1"/>',
+            '/<excav:foundInAContext>([^<]+)<\/foundInAContext>/' => '<excav:foundInAContext rdf:resource="$1"/>',
+            '/<excav:foundInSVU>([^<]+)<\/foundInSVU>/' => '<excav:foundInSVU rdf:resource="$1"/>',
 
 
         ];

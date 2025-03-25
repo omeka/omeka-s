@@ -621,6 +621,7 @@ class AclFactory implements FactoryInterface
             [
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
+                'Omeka\Controller\Admin\Media',
             ],
             ['sidebar-select', 'search']
         );
@@ -798,6 +799,7 @@ class AclFactory implements FactoryInterface
             [
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
+                'Omeka\Controller\Admin\Media',
             ],
             ['sidebar-select', 'search']
         );

@@ -461,7 +461,7 @@ class SiteAdapter extends AbstractEntityAdapter
             <p><big>This is the &quot;Big&quot; inline style.</big> This is normal text.</p>
             <p><small>This text is inside a &quot;small&quot; inline style.</small> This is normal text.</p>
             <p><code>This is the &quot;Computer Code&quot; inline style.</code></p>
-            <p><span dir="rtl">لكن لا بد أن أوضح لك أن كل هذه الأفكار المغلوطة حول استنكار النشوة وتمجيد الألم يعرض هذا النص من اليمين إلى اليسار.</span></p>
+            <p><span dir="rtl" lang="ar">لكن لا بد أن أوضح لك أن كل هذه الأفكار المغلوطة حول استنكار النشوة وتمجيد الألم يعرض هذا النص من اليمين إلى اليسار.</span></p>
         EOT);
     }
 }

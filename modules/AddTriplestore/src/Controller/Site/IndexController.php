@@ -133,6 +133,7 @@ class IndexController extends AbstractActionController
         error_log('RDF-XML data loaded into graph');
     
         $ttlData = $rdfGraph->serialise('turtle');
+        error_log($ttlData, 3, OMEKA_PATH. '/logs/ttl-data.log');
     
         error_log('RDF-XML data converted to TTL');
     
@@ -141,7 +142,15 @@ class IndexController extends AbstractActionController
         $ttlData = str_replace('"true"', 'true', $ttlData);
         $ttlData = str_replace('"false"', 'false', $ttlData);
 
-     
+        // check if ttl has <ah:arrowhead..> and echo true if it does
+        if(strpos($ttlData, '<ah:arrowhead') !== false){
+            echo('TTL has <ah:arrowhead..>');
+        }else{
+            echo('TTL does not have <ah:arrowhead..>');
+        }
+        
+
+
         // Add prefixes
         $ttlData = $this->addPrefixesToTTL($ttlData, [
             'ah' => 'http://www.purl.com/ah/ms/ahMS#',
@@ -177,23 +186,29 @@ class IndexController extends AbstractActionController
             'geo' => 'http://www.w3.org/2003/01/geo/wgs84_pos#',
             'sh' => 'http://www.w3.org/ns/shacl#'
         ]);
+        
+        if(strpos($ttlData, '<ah:arrowhead') !== false){
+            // Remove angle brackets from specific predicates
+            $patterns = [
+                '/<ah-shape:([^>]+)>/' => 'ah-shape:$1',
+                '/<ah-variant:([^>]+)>/' => 'ah-variant:$1',
+                '/<ah-base:([^>]+)>/' => 'ah-base:$1',
+                '/<ah-chippingMode:([^>]+)>/' => 'ah-chippingMode:$1',
+                '/<ah-chippingDirection:([^>]+)>/' => 'ah-chippingDirection:$1',
+                '/<ah-chippingDelineation:([^>]+)>/' => 'ah-chippingDelineation:$1',
+                '/<ah-chippingLocation:([^>]+)>/' => 'ah-chippingLocation:$1',
+                '/<ah-chippingShape:([^>]+)>/' => 'ah-chippingShape:$1',
+                '/<excav:foundInAExcavation>([^<]+)<\/foundInAExcavation>/' => '<excav:foundInAExcavation rdf:resource="$1"/>',
+                '/<excav:foundInAContext>([^<]+)<\/foundInAContext>/' => '<excav:foundInAContext rdf:resource="$1"/>',
+                '/<excav:foundInSVU>([^<]+)<\/foundInSVU>/' => '<excav:foundInSVU rdf:resource="$1"/>',
 
-        // Remove angle brackets from specific predicates
-        $patterns = [
-            '/<ah-shape:([^>]+)>/' => 'ah-shape:$1',
-            '/<ah-variant:([^>]+)>/' => 'ah-variant:$1',
-            '/<ah-base:([^>]+)>/' => 'ah-base:$1',
-            '/<ah-chippingMode:([^>]+)>/' => 'ah-chippingMode:$1',
-            '/<ah-chippingDirection:([^>]+)>/' => 'ah-chippingDirection:$1',
-            '/<ah-chippingDelineation:([^>]+)>/' => 'ah-chippingDelineation:$1',
-            '/<ah-chippingLocation:([^>]+)>/' => 'ah-chippingLocation:$1',
-            '/<ah-chippingShape:([^>]+)>/' => 'ah-chippingShape:$1',
-            '/<excav:foundInAExcavation>([^<]+)<\/foundInAExcavation>/' => '<excav:foundInAExcavation rdf:resource="$1"/>',
-            '/<excav:foundInAContext>([^<]+)<\/foundInAContext>/' => '<excav:foundInAContext rdf:resource="$1"/>',
-            '/<excav:foundInSVU>([^<]+)<\/foundInSVU>/' => '<excav:foundInSVU rdf:resource="$1"/>',
 
+            ];
+        }
 
-        ];
+        if(strpos($ttlData, '<ah:excavation') !== false){
+            $patterns = [];
+        }
 
         foreach ($patterns as $pattern => $replacement) {
             $ttlData = preg_replace($pattern, $replacement, $ttlData);

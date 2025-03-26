@@ -3,27 +3,27 @@ $translate = $this->plugin('translate');
 $hyperlink = $this->plugin('hyperlink');
 $urlHelper = $this->plugin('url');
 $this->headLink()->prependStylesheet($this->assetUrl('css/user-bar.css', 'Omeka'));
-$this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,400italic,700,700italic');
+$this->headLink()->prependStylesheet($this->assetUrl('css/fonts.css', 'Omeka'));
 ?>
 <nav id="user-bar" aria-label="<?php echo $translate('Omeka User'); ?>">
 <?php if ($user): ?>
-	<div class="site-links">
+    <div class="site-links">
     <?php foreach ($links as $link): ?>
-	    <span class="admin <?php echo $link['resource'] . ' ' . $link['action']; ?>">
-	        <?php echo $hyperlink($link['text'], $link['url']); ?>
-	    </span>
+        <span class="admin <?php echo $link['resource'] . ' ' . $link['action']; ?>">
+            <?php echo $hyperlink($link['text'], $link['url']); ?>
+        </span>
     <?php endforeach; ?>
-	</div>
+    </div>
 
-	<div class="user-links">
-	    <span class="user-id">
-	        <?php
-	        $url = $urlHelper('admin/id', ['controller' => 'user', 'id' => $user->getId()]);
-	        echo sprintf($translate('Signed in as %s'), $hyperlink($user->getName(), $url));
-	        ?>
-	    </span>
+    <div class="user-links">
+        <span class="user-id">
+            <?php
+            $url = $urlHelper('admin/id', ['controller' => 'user', 'id' => $user->getId()]);
+            echo sprintf($translate('Signed in as %s'), $hyperlink($user->getName(), $url));
+            ?>
+        </span>
         <?php echo $hyperlink($translate('Logout'), $urlHelper('logout'), ['class' => 'logout']); ?>
-	</div>
+    </div>
 <?php else: ?>
     <?php echo $hyperlink($translate('Log in'), $urlHelper('login'), ['class' => 'login']); ?>
 <?php endif; ?>

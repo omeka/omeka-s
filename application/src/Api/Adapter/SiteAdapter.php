@@ -458,7 +458,6 @@ class SiteAdapter extends AbstractEntityAdapter
             <h3 style="color:#aaaaaa;font-style:italic;">This is the &quot;Subtitle&quot; block style.</h3>
             <div style="background:#eeeeee;border:1px solid #cccccc;padding:5px 10px;">This is the &quot;Special Container&quot; block style.</div>
             <p><span class="marker">This is the &quot;Marker&quot; inline style. </span></p>
-            <p><big>This is the &quot;Big&quot; inline style.</big> This is normal text.</p>
             <p><small>This text is inside a &quot;small&quot; inline style.</small> This is normal text.</p>
             <p><code>This is the &quot;Computer Code&quot; inline style.</code></p>
             <p><span dir="rtl" lang="ar">لكن لا بد أن أوضح لك أن كل هذه الأفكار المغلوطة حول استنكار النشوة وتمجيد الألم يعرض هذا النص من اليمين إلى اليسار.</span></p>

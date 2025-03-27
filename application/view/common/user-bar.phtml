@@ -3,7 +3,7 @@ $translate = $this->plugin('translate');
 $hyperlink = $this->plugin('hyperlink');
 $urlHelper = $this->plugin('url');
 $this->headLink()->prependStylesheet($this->assetUrl('css/user-bar.css', 'Omeka'));
-$this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,400italic,700,700italic');
+$this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro%7CLato:400,400italic,700,700italic');
 ?>
 <nav id="user-bar" aria-label="<?php echo $translate('Omeka User'); ?>">
 <?php if ($user): ?>

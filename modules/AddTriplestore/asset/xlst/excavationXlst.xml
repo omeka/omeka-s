@@ -1,96 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-    xmlns:excav="https://purl.org/ah/ms/excavationMS#"
-    xmlns:dct="http://purl.org/dc/terms/"
-    xmlns:dul="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#"
-    xmlns:dbo="http://dbpedia.org/ontology/"
-    xmlns:foaf="http://xmlns.com/foaf/0.1/"
-    xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
-    xmlns:time="http://www.w3.org/2006/time#"
-    xmlns:crmarchaeo="http://www.cidoc-crm.org/extensions/crmarchaeo/"
-    xmlns:crmsci="https://cidoc-crm.org/extensions/crmsci/">
-    
+                xmlns:excav="https://purl.org/ah/ms/excavationMS#"
+                xmlns:dct="http://purl.org/dc/terms/"
+                xmlns:foaf="http://xmlns.com/foaf/0.1/"
+                xmlns:dbo="http://dbpedia.org/ontology/"
+                xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+                xmlns:time="http://www.w3.org/2006/time#"
+                xmlns:crmsci="https://cidoc-crm.org/extensions/crmsci/"
+                xmlns:crm="http://www.cidoc-crm.org/cidoc-crm/"
+                xmlns:crmarchaeo="http://www.cidoc-crm.org/extensions/crmarchaeo/"
+                xmlns:dul="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#"
+                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+
     <xsl:output method="xml" indent="yes"/>
-    
+
     <xsl:template match="/">
         <rdf:RDF>
-            <xsl:apply-templates/>
+            <xsl:apply-templates select="Excavation"/>
+            <xsl:apply-templates select="Archaeologist"/>
+            <xsl:apply-templates select="Context"/>
+            <xsl:apply-templates select="SVU"/>
+            <xsl:apply-templates select="Place"/>
+            <xsl:apply-templates select="EncounterEvent"/>
         </rdf:RDF>
     </xsl:template>
-    
-    <!-- Excavation -->
+
     <xsl:template match="Excavation">
-        <crmarchaeo:A9_Archaeological_Excavation>
-            <dct:identifier><xsl:value-of select="Identifier"/></dct:identifier>
-            <xsl:if test="Location">
-                <dul:hasLocation rdf:resource="{Location}"/>
-            </xsl:if>
-            <xsl:if test="PersonInCharge">
-                <excav:hasPersonInCharge rdf:resource="{PersonInCharge}"/>
-            </xsl:if>
-            <xsl:for-each select="Contexts/Context">
-                <excav:hasContext rdf:resource="{.}"/>
-            </xsl:for-each>
+        <crmarchaeo:A9_Archaeological_Excavation rdf:about="{@rdf:about}">
+            <dct:identifier><xsl:value-of select="identifier"/></dct:identifier>
+            <dul:hasLocation rdf:resource="{Location/@rdf:resource}"/>
+            <excav:hasPersonInCharge rdf:resource="{PersonInCharge/@rdf:resource}"/>
+            <excav:hasContext rdf:resource="{Context/@rdf:resource}"/>
         </crmarchaeo:A9_Archaeological_Excavation>
     </xsl:template>
-    
-    <!-- Archaeologist -->
+
     <xsl:template match="Archaeologist">
-        <excav:Archaeologist>
-            <foaf:account rdf:resource="{Account}"/>
-            <xsl:if test="Name">
-                <foaf:name><xsl:value-of select="Name"/></foaf:name>
-            </xsl:if>
-            <xsl:for-each select="Emails/Email">
-                <foaf:mbox rdf:resource="{.}"/>
-            </xsl:for-each>
+        <excav:Archaeologist rdf:about="{@rdf:about}">
+            <foaf:account><xsl:value-of select="account"/></foaf:account>
+            <foaf:name><xsl:value-of select="name"/></foaf:name>
+            <foaf:mbox><xsl:value-of select="mbox"/></foaf:mbox>
         </excav:Archaeologist>
     </xsl:template>
-    
-    <!-- Context -->
+
     <xsl:template match="Context">
-        <crmarchaeo:A1_Excavation_Processing_Unit>
-            <dct:identifier><xsl:value-of select="Identifier"/></dct:identifier>
-            <xsl:for-each select="SVUs/SVU">
-                <excav:hasSVU rdf:resource="{.}"/>
-            </xsl:for-each>
+        <crmarchaeo:A1_Excavation_Processing_Unit rdf:about="{@rdf:about}">
+            <dct:identifier><xsl:value-of select="identifier"/></dct:identifier>
+            <excav:hasSVU rdf:resource="{SVU/@rdf:resource}"/>
         </crmarchaeo:A1_Excavation_Processing_Unit>
     </xsl:template>
-    
-    <!-- Stratigraphic Volume Unit (SVU) -->
+
     <xsl:template match="SVU">
-        <crmarchaeo:A2_Stratigraphic_Volume_Unit>
-            <dct:identifier><xsl:value-of select="Identifier"/></dct:identifier>
-            <xsl:if test="Description">
-                <dct:description><xsl:value-of select="Description"/></dct:description>
-            </xsl:if>
-            <xsl:if test="TimeLine">
-                <excav:hasTimeLine rdf:resource="{TimeLine}"/>
-            </xsl:if>
+        <crmarchaeo:A2_Stratigraphic_Volume_Unit rdf:about="{@rdf:about}">
+            <dct:identifier><xsl:value-of select="identifier"/></dct:identifier>
+            <dct:description><xsl:value-of select="description"/></dct:description>
+            <excav:hasTimeLine rdf:resource="{TimeLine/@rdf:resource}"/>
         </crmarchaeo:A2_Stratigraphic_Volume_Unit>
     </xsl:template>
-    
-    <!-- Encounter Event -->
+
+    <xsl:template match="Place">
+        <dbo:Place rdf:about="{@rdf:about}">
+            <dbo:informationName><xsl:value-of select="informationName"/></dbo:informationName>
+            <excav:hasGPSCoordinates rdf:resource="{GPSCoordinates/@rdf:resource}"/>
+            <dbo:district rdf:resource="{district/@rdf:resource}"/>
+            <dbo:parish rdf:resource="{parish/@rdf:resource}"/>
+        </dbo:Place>
+    </xsl:template>
+
+    <xsl:template match="GPSCoordinates">
+        <geo:SpatialThing rdf:about="{@rdf:about}">
+            <geo:lat><xsl:value-of select="lat"/></geo:lat>
+            <geo:long><xsl:value-of select="long"/></geo:long>
+        </geo:SpatialThing>
+    </xsl:template>
+
+    <xsl:template match="TimeLine">
+        <time:TemporalEntity rdf:about="{@rdf:about}">
+            <time:hasBeginning rdf:resource="{Beginning/@rdf:resource}"/>
+            <time:hasEnd rdf:resource="{End/@rdf:resource}"/>
+        </time:TemporalEntity>
+    </xsl:template>
+
+    <xsl:template match="Beginning | End">
+        <time:Instant rdf:about="{@rdf:about}">
+            <time:inXSDYear><xsl:value-of select="year"/></time:inXSDYear>
+            <excav:bc><xsl:value-of select="bc"/></excav:bc>
+        </time:Instant>
+    </xsl:template>
+
+    <xsl:template match="District">
+        <dbo:District rdf:about="{@rdf:about}">
+            <dbo:informationName><xsl:value-of select="informationName"/></dbo:informationName>
+        </dbo:District>
+    </xsl:template>
+
+    <xsl:template match="Parish">
+        <dbo:Parish rdf:about="{@rdf:about}">
+            <dbo:informationName><xsl:value-of select="informationName"/></dbo:informationName>
+        </dbo:Parish>
+    </xsl:template>
+
     <xsl:template match="EncounterEvent">
-        <crmsci:S19_Encounter_Event>
-            <xsl:if test="Date">
-                <dct:date><xsl:value-of select="Date"/></dct:date>
-            </xsl:if>
-            <xsl:if test="Depth">
-                <dbo:depth><xsl:value-of select="Depth"/></dbo:depth>
-            </xsl:if>
-            <xsl:if test="FoundInSVU">
-                <excav:foundInSVU rdf:resource="{FoundInSVU}"/>
-            </xsl:if>
-            <xsl:if test="FoundInContext">
-                <excav:foundInAContext rdf:resource="{FoundInContext}"/>
-            </xsl:if>
-            <xsl:if test="FoundInExcavation">
-                <excav:foundInAExcavation rdf:resource="{FoundInExcavation}"/>
-            </xsl:if>
+        <crmsci:S19_Encounter_Event rdf:about="{@rdf:about}">
+            <dct:date><xsl:value-of select="date"/></dct:date>
+            <dbo:depth><xsl:value-of select="depth"/></dbo:depth>
+            <crmsci:O19_encountered_object rdf:resource="{encounteredObject/@rdf:resource}"/>
+            <excav:foundInSVU rdf:resource="{foundInSVU/@rdf:resource}"/>
+            <excav:foundInAContext rdf:resource="{foundInAContext/@rdf:resource}"/>
+            <excav:foundInAExcavation rdf:resource="{foundInAExcavation/@rdf:resource}"/>
         </crmsci:S19_Encounter_Event>
     </xsl:template>
-    
+
 </xsl:stylesheet>

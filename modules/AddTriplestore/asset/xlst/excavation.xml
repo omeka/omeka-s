@@ -1,72 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Excavation xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-            xmlns:excav="https://purl.org/ah/ms/excavationMS#"
-            xmlns:dul="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#"
-            xmlns:dbo="http://dbpedia.org/ontology/"
-            xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
-            xmlns:foaf="http://xmlns.com/foaf/0.1/"
-            xmlns:crmarchaeo="http://www.cidoc-crm.org/extensions/crmarchaeo/"
-            xmlns:time="http://www.w3.org/2006/time#"
-            xmlns:dct="http://purl.org/dc/terms/">
+<Data>
+    <Excavation rdf:about="http://www.arch-project.com/data/excavation1">
+        <identifier>EXC-041</identifier>
+        <Location rdf:resource="http://www.arch-project.com/data/place1"/>
+        <PersonInCharge rdf:resource="http://www.arch-project.com/data/archaeologist1"/>
+        <Context rdf:resource="http://www.arch-project.com/data/context1"/>
+    </Excavation>
 
-  <excav:identifier rdf:about="http://arch-project.com/excavation/EXCAVATION-001">EXCAVATION-001</excav:identifier>
+    <Archaeologist rdf:about="http://www.arch-project.com/data/archaeologist1">
+        <account>http://www.arch-project.com/data/account1</account>
+        <name>John Doe</name>
+        <mbox>johndoe@example.com</mbox>
+    </Archaeologist>
 
-  <dul:hasLocation rdf:resource="http://arch-project.com/place/Site_A"/>
+    <Context rdf:about="http://www.arch-project.com/data/context1">
+        <identifier>CTX-001</identifier>
+        <SVU rdf:resource="http://www.arch-project.com/data/svu1"/>
+    </Context>
 
-  <excav:hasPersonInCharge rdf:resource="http://www.orcid.org/0000-0002-1234-5678"/>
+    <SVU rdf:about="http://www.arch-project.com/data/svu1">
+        <identifier>SVU-001</identifier>
+        <description>A stratigraphic layer containing artifacts</description>
+        <TimeLine rdf:resource="http://www.arch-project.com/data/timeline1"/>
+    </SVU>
 
-  <excav:hasContext rdf:resource="http://arch-project.com/processing_unit/UNIT-01"/>
+    <Place rdf:about="http://www.arch-project.com/data/place1">
+        <informationName>Ancient Site A</informationName>
+        <GPSCoordinates rdf:resource="http://www.arch-project.com/data/spatial1"/>
+        <district rdf:resource="http://www.arch-project.com/data/district1"/>
+        <parish rdf:resource="http://www.arch-project.com/data/parish1"/>
+    </Place>
 
-  <dbo:Place rdf:about="http://arch-project.com/place/Site_A">
-      <dbo:informationName>Site A</dbo:informationName>
-      <excav:hasGPSCoordinates rdf:resource="http://arch-project.com/gps/Site_A_gps"/>
-      <dbo:district rdf:resource="http://arch-project.com/district/District_A"/>
-      <dbo:Parish rdf:resource="http://arch-project.com/parish/Parish_A"/>
-  </dbo:Place>
+    <GPSCoordinates rdf:about="http://www.arch-project.com/data/spatial1">
+        <lat>40.1234</lat>
+        <long>-8.5678</long>
+    </GPSCoordinates>
 
-  <excav:Archaeologist rdf:about="http://www.orcid.org/0000-0002-1234-5678">
-      <foaf:account>http://www.orcid.org/0000-0002-1234-5678</foaf:account>
-      <foaf:name>Dr. Jane Doe</foaf:name>
-      <foaf:mbox>mailto:jane.doe@arch-project.com</foaf:mbox>
-  </excav:Archaeologist>
+    <TimeLine rdf:about="http://www.arch-project.com/data/timeline1">
+        <Beginning rdf:resource="http://www.arch-project.com/data/instant1"/>
+        <End rdf:resource="http://www.arch-project.com/data/instant2"/>
+    </TimeLine>
 
-  <crmarchaeo:A1_Excavation_Processing_Unit rdf:about="http://arch-project.com/processing_unit/UNIT-01">
-      <dct:identifier>UNIT-01</dct:identifier>
-      <excav:hasSVU rdf:resource="http://arch-project.com/svu/SVU-001"/>
-  </crmarchaeo:A1_Excavation_Processing_Unit>
+    <Beginning rdf:about="http://www.arch-project.com/data/instant1">
+        <year>0500</year>
+        <bc>true</bc>
+    </Beginning>
 
-  <crmarchaeo:A2_Stratigraphic_Volume_Unit rdf:about="http://arch-project.com/svu/SVU-001">
-      <dct:identifier>SVU-001</dct:identifier>
-      <dct:description>Layer with pottery remains</dct:description>
-      <excav:hasTimeLine rdf:resource="http://arch-project.com/timeline/SVU-001_timeline"/>
-  </crmarchaeo:A2_Stratigraphic_Volume_Unit>
+    <End rdf:about="http://www.arch-project.com/data/instant2">
+        <year>0450</year>
+        <bc>true</bc>
+    </End>
 
-  <time:TemporalEntity rdf:about="http://arch-project.com/timeline/SVU-001_timeline">
-      <time:hasBeginning rdf:resource="http://arch-project.com/instant/SVU-001_start"/>
-      <time:hasEnd rdf:resource="http://arch-project.com/instant/SVU-001_end"/>
-  </time:TemporalEntity>
+    <District rdf:about="http://www.arch-project.com/data/district1">
+        <informationName>District X</informationName>
+    </District>
 
-  <time:Instant rdf:about="http://arch-project.com/instant/SVU-001_start">
-      <time:inXSDYear>3000</time:inXSDYear>
-      <excav:bc>true</excav:bc>
-  </time:Instant>
+    <Parish rdf:about="http://www.arch-project.com/data/parish1">
+        <informationName>Parish Y</informationName>
+    </Parish>
 
-  <time:Instant rdf:about="http://arch-project.com/instant/SVU-001_end">
-      <time:inXSDYear>2000</time:inXSDYear>
-      <excav:bc>true</excav:bc>
-  </time:Instant>
+    <EncounterEvent rdf:about="http://www.arch-project.com/data/encounter1">
+        <date>2024-03-22</date>
+        <depth>2.5</depth>
+        <encounteredObject rdf:resource="http://www.arch-project.com/data/object1" />
+        <foundInSVU rdf:resource="http://www.arch-project.com/data/svu1"/>
+        <foundInAContext rdf:resource="http://www.arch-project.com/data/context1"/>
+        <foundInAExcavation rdf:resource="http://www.arch-project.com/data/excavation1"/>
+    </EncounterEvent>
 
-  <geo:SpatialThing rdf:about="http://arch-project.com/gps/Site_A_gps">
-      <geo:lat>40.123456</geo:lat>
-      <geo:long>-8.654321</geo:long>
-  </geo:SpatialThing>
+    <PhysicalManMadeThing rdf:about="http://www.arch-project.com/data/object1" />
 
-  <dbo:District rdf:about="http://arch-project.com/district/District_A">
-      <dbo:informationName>District A</dbo:informationName>
-  </dbo:District>
-
-  <dbo:Parish rdf:about="http://arch-project.com/parish/Parish_A">
-      <dbo:informationName>Parish A</dbo:informationName>
-  </dbo:Parish>
-
-</Excavation>
+</Data>

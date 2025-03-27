@@ -1,63 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Excavation>
+<Excavation xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+            xmlns:excav="https://purl.org/ah/ms/excavationMS#"
+            xmlns:dul="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#"
+            xmlns:dbo="http://dbpedia.org/ontology/"
+            xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+            xmlns:foaf="http://xmlns.com/foaf/0.1/"
+            xmlns:crmarchaeo="http://www.cidoc-crm.org/extensions/crmarchaeo/"
+            xmlns:time="http://www.w3.org/2006/time#"
+            xmlns:dct="http://purl.org/dc/terms/">
+
   <excav:identifier rdf:about="http://arch-project.com/excavation/EXCAVATION-001">EXCAVATION-001</excav:identifier>
 
-  <dul:hasLocation>
-    <dbo:Place rdf:about="http://arch-project.com/place/Site_A">
-      <dbo:informationName>Site A</dbo:informationName>
-      <excav:hasGPSCoordinates>
-        <geo:SpatialThing rdf:about="http://arch-project.com/gps/Site_A_gps">
-          <geo:lat>40.123456</geo:lat>
-          <geo:long>-8.654321</geo:long>
-        </geo:SpatialThing>
-      </excav:hasGPSCoordinates>
-      <dbo:district rdf:resource="http://arch-project.com/district/District_A">
-        <dbo:District>
-          <dbo:informationName>District A</dbo:informationName>
-        </dbo:District>
-      </dbo:district>
-      <dbo:Parish rdf:resource="http://arch-project.com/parish/Parish_A">
-        <dbo:Parish>
-          <dbo:informationName>Parish A</dbo:informationName>
-        </dbo:Parish>
-      </dbo:Parish>
-    </dbo:Place>
-  </dul:hasLocation>
+  <dul:hasLocation rdf:resource="http://arch-project.com/place/Site_A"/>
 
-  <excav:hasPersonInCharge>
-    <excav:Archaeologist rdf:about="http://www.orcid.org/0000-0002-1234-5678">
+  <excav:hasPersonInCharge rdf:resource="http://www.orcid.org/0000-0002-1234-5678"/>
+
+  <excav:hasContext rdf:resource="http://arch-project.com/processing_unit/UNIT-01"/>
+
+  <dbo:Place rdf:about="http://arch-project.com/place/Site_A">
+      <dbo:informationName>Site A</dbo:informationName>
+      <excav:hasGPSCoordinates rdf:resource="http://arch-project.com/gps/Site_A_gps"/>
+      <dbo:district rdf:resource="http://arch-project.com/district/District_A"/>
+      <dbo:Parish rdf:resource="http://arch-project.com/parish/Parish_A"/>
+  </dbo:Place>
+
+  <excav:Archaeologist rdf:about="http://www.orcid.org/0000-0002-1234-5678">
       <foaf:account>http://www.orcid.org/0000-0002-1234-5678</foaf:account>
       <foaf:name>Dr. Jane Doe</foaf:name>
       <foaf:mbox>mailto:jane.doe@arch-project.com</foaf:mbox>
-    </excav:Archaeologist>
-  </excav:hasPersonInCharge>
+  </excav:Archaeologist>
 
-  <excav:hasContext>
-    <crmarchaeo:A1_Excavation_Processing_Unit rdf:about="http://arch-project.com/processing_unit/UNIT-01">
+  <crmarchaeo:A1_Excavation_Processing_Unit rdf:about="http://arch-project.com/processing_unit/UNIT-01">
       <dct:identifier>UNIT-01</dct:identifier>
-      <excav:hasSVU rdf:resource="http://arch-project.com/svu/SVU-001">
-        <crmarchaeo:A2_Stratigraphic_Volume_Unit rdf:about="http://arch-project.com/svu/SVU-001">
-          <dct:identifier>SVU-001</dct:identifier>
-          <dct:description>Layer with pottery remains</dct:description>
-          <excav:hasTimeLine rdf:resource="http://arch-project.com/timeline/SVU-001_timeline">
-            <time:TemporalEntity rdf:about="http://arch-project.com/timeline/SVU-001_timeline">
-              <time:hasBeginning rdf:resource="http://arch-project.com/instant/SVU-001_start">
-                <time:Instant rdf:about="http://arch-project.com/instant/SVU-001_start">
-                  <time:inXSDYear>3000</time:inXSDYear>
-                  <excav:bc>true</excav:bc>
-                </time:Instant>
-              </time:hasBeginning>
-              <time:hasEnd rdf:resource="http://arch-project.com/instant/SVU-001_end">
-                <time:Instant rdf:about="http://arch-project.com/instant/SVU-001_end">
-                  <time:inXSDYear>2000</time:inXSDYear>
-                  <excav:bc>true</excav:bc>
-                </time:Instant>
-              </time:hasEnd>
-            </time:TemporalEntity>
-          </excav:hasTimeLine>
-        </crmarchaeo:A2_Stratigraphic_Volume_Unit>
-      </excav:hasSVU>
-    </crmarchaeo:A1_Excavation_Processing_Unit>
-  </excav:hasContext>
-</Excavation>
+      <excav:hasSVU rdf:resource="http://arch-project.com/svu/SVU-001"/>
+  </crmarchaeo:A1_Excavation_Processing_Unit>
 
+  <crmarchaeo:A2_Stratigraphic_Volume_Unit rdf:about="http://arch-project.com/svu/SVU-001">
+      <dct:identifier>SVU-001</dct:identifier>
+      <dct:description>Layer with pottery remains</dct:description>
+      <excav:hasTimeLine rdf:resource="http://arch-project.com/timeline/SVU-001_timeline"/>
+  </crmarchaeo:A2_Stratigraphic_Volume_Unit>
+
+  <time:TemporalEntity rdf:about="http://arch-project.com/timeline/SVU-001_timeline">
+      <time:hasBeginning rdf:resource="http://arch-project.com/instant/SVU-001_start"/>
+      <time:hasEnd rdf:resource="http://arch-project.com/instant/SVU-001_end"/>
+  </time:TemporalEntity>
+
+  <time:Instant rdf:about="http://arch-project.com/instant/SVU-001_start">
+      <time:inXSDYear>3000</time:inXSDYear>
+      <excav:bc>true</excav:bc>
+  </time:Instant>
+
+  <time:Instant rdf:about="http://arch-project.com/instant/SVU-001_end">
+      <time:inXSDYear>2000</time:inXSDYear>
+      <excav:bc>true</excav:bc>
+  </time:Instant>
+
+  <geo:SpatialThing rdf:about="http://arch-project.com/gps/Site_A_gps">
+      <geo:lat>40.123456</geo:lat>
+      <geo:long>-8.654321</geo:long>
+  </geo:SpatialThing>
+
+  <dbo:District rdf:about="http://arch-project.com/district/District_A">
+      <dbo:informationName>District A</dbo:informationName>
+  </dbo:District>
+
+  <dbo:Parish rdf:about="http://arch-project.com/parish/Parish_A">
+      <dbo:informationName>Parish A</dbo:informationName>
+  </dbo:Parish>
+
+</Excavation>

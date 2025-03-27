@@ -1,22 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<item id="AH0016">
-    <shape>ah-shape:triangle</shape>
-    <variant>ah-variant:flat</variant>
+<item id="AH0033">
+  <images>
+    <image>http://example.com/image1.jpg</image>
+    <image>http://example.com/image2.png</image>
+  </images>
+  <models3d>
+    <model3d>http://example.com/model1.obj</model3d>
+  </models3d>
+  <shape>http://www.purl.com/ah/kos/ah-shape/triangle</shape>
+  <material>http://vocab.getty.edu/aat/300010351</material>
+  <observationDetails>
+    <detail>Slight damage on tip.</detail>
+    <detail>Found in layer 3.</detail>
+  </observationDetails>
+  <conditionState>true</conditionState>
+  <type>true</type>
+  <variant>http://www.purl.com/ah/kos/ah-variant/flat</variant>
+  <gpsCoordinates>GPS001</gpsCoordinates>
+  <morphology>
     <point>true</point>
-    <body>false</body>
-    <base>ah-base:straight</base>
-    <mode>ah-chippingMode:plane</mode>
-    <amplitude>true</amplitude>
-    <direction>ah-chippingDirection:direct</direction>
+    <body>true</body>
+    <base>http://www.purl.com/ah/kos/ah-base/straight</base>
+  </morphology>
+  <typometry>
+    <height>50</height>
+    <width>25</width>
+    <thickness>5</thickness>
+    <bodyLength>40</bodyLength>
+    <baseLength>15</baseLength>
+  </typometry>
+  <chipping>
+    <mode>http://www.purl.com/ah/kos/ah-chippingMode/plane</mode>
+    <amplitude>false</amplitude>
+    <direction>http://www.purl.com/ah/kos/ah-chippingDirection/direct</direction>
     <orientation>true</orientation>
-    <delineation>ah-chippingDelineation:continuous</delineation>
-    <chippinglocation-Side>ah-chippingLocation:distal</chippinglocation-Side>
-    <chippinglocation-Transversal>ah-chippingLocation:median</chippinglocation-Transversal>
-    <chippinglocation-Transversal>ah-chippingLocation:distal</chippinglocation-Transversal>
-    <chippinglocation-Transversal>ah-chippingLocation:proximal</chippinglocation-Transversal>
-    <chippingShape>ah-chippingShape:straight</chippingShape>
-    <foundInAExcavation>http://www.arch-project.com/data/excavation1</foundInAExcavation>
-    <foundInAContext>http://www.arch-project.com/data/context1</foundInAContext>
-    <foundInSVU>http://www.arch-project.com/data/svu1</foundInSVU>
-
+    <delineation>http://www.purl.com/ah/kos/ah-chippingDelineation/continuous</delineation>
+    <chippinglocation-Lateral>http://www.purl.com/ah/kos/ah-chippingLocation/distal</chippinglocation-Lateral>
+    <chippinglocation-Lateral>http://www.purl.com/ah/kos/ah-chippingLocation/median</chippinglocation-Lateral>
+    <chippingLocation-Transversal>http://www.purl.com/ah/kos/ah-chippingLocation/distal</chippingLocation-Transversal>
+    <chippingShape>http://www.purl.com/ah/kos/ah-chippingShape/straight</chippingShape>
+  </chipping>
+  <foundInExcavation>ExcavationSite1</foundInExcavation>
+  <gps>
+    <lat>34.0522</lat>
+    <long>-118.2437</long>
+  </gps>
 </item>

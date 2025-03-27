@@ -10,25 +10,54 @@
 
 @prefix excav: <https://purl.org/ah/ms/excavationMS#>.
 @prefix crm: <http://www.cidoc-crm.org/cidoc-crm/>.
+@prefix crmsci: <http://www.cidoc-crm.org/extensions/crmsci/>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix edm: <http://www.europeana.eu/schemas/edm#>.
+@prefix dbo: <http://dbpedia.org/ontology/>.
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
 
 # Arrowhead Instance
 <http://www.arch-project.com/data/arrowhead1> a crm:E24_Physical_Man-Made_Thing ;
-  ah:hasId "AH-001"^^xsd:string ;
+  dcterms:identifier "AH-001"^^xsd:string ;
+  edm:Webresource <http://example.com/image1.jpg>, <http://example.com/3dmodel1.obj>;
   ah:shape ah-shape:triangle ;
+  crm:E57_Material <http://vocab.getty.edu/aat/300010351> ; # Flint
+  dbo:Annotation "Slight damage on the tip."^^xsd:string, "Found in layer 3."^^xsd:string ;
+  crm:E3_Condition_State "true"^^xsd:boolean ; # Complete
+  crm:E55_Type "true"^^xsd:boolean ; # Elongate
   ah:variant ah-variant:flat ;
-  ah:point "true"^^xsd:boolean ;
-  ah:body "true"^^xsd:boolean ;
-  ah:base ah-base:straight ;
-  ah:mode ah-chippingMode:plane ;
-  ah:amplitude "false"^^xsd:boolean ;
-  ah:direction ah-chippingDirection:direct ;
-  ah:orientation "true"^^xsd:boolean ;
-  ah:delineation ah-chippingDelineation:continuous ;
-  ah:chippinglocation-Side ah-chippingLocation:distal, ah-chippingLocation:median ;
-  ah:chippinglocation-Transversal ah-chippingLocation:distal ;
-  ah:chippingShape ah-chippingShape:straight ;
-  excav:foundInAExcavation <http://www.arch-project.com/data/excavation1> ;
-  excav:foundInAContext <http://www.arch-project.com/data/context1> ;
-  excav:foundInSVU <http://www.arch-project.com/data/svu1> .
+  ah:foundInCoordinates <http://www.arch-project.com/data/gps1> ;
+  ah:hasMorphology <http://www.arch-project.com/data/morph1> ;
+  ah:hasTypometry <http://www.arch-project.com/data/type1> ;
+  crm:P12i_was_present_at <http://www.arch-project.com/data/encounter1> .
 
+# Morphology Instance
+<http://www.arch-project.com/data/morph1> a ah:Morphology ;
+  ah:point "true"^^xsd:boolean ; # Sharp
+  ah:body "true"^^xsd:boolean ; # Symmetrical
+  ah:base ah-base:straight .
+
+# Typometry Instance
+<http://www.arch-project.com/data/type1> a ah:Typometry ;
+  crm:E54_Dimension "50"^^xsd:decimal, "25"^^xsd:decimal, "5"^^xsd:decimal, "40"^^xsd:decimal, "15"^^xsd:decimal; # height, width, thickness, body length, base length
+  ah:hasChipping <http://www.arch-project.com/data/chip1> .
+
+# Chipping Instance
+<http://www.arch-project.com/data/chip1> a ah:Chipping ;
+  ah:mode ah-chippingMode:plane ;
+  ah:amplitude "false"^^xsd:boolean ; # Deep
+  ah:direction ah-chippingDirection:direct ;
+  ah:orientation "true"^^xsd:boolean ; # Lateral
+  ah:delineation ah-chippingDelineation:continuous ;
+  ah:chippinglocation-Lateral ah-chippingLocation:distal, ah-chippingLocation:median ;
+  ah:chippingLocation-Transveral ah-chippingLocation:distal ;
+  ah:chippingShape ah-chippingShape:straight .
+
+# Encounter Instance
+<http://www.arch-project.com/data/encounter1> a crmsci:S19_Encounter_Event .
+
+# GPS Instance
+<http://www.arch-project.com/data/gps1> a geo:SpatialThing ;
+  geo:lat "34.0522"^^xsd:decimal ;
+  geo:long "-118.2437"^^xsd:decimal .

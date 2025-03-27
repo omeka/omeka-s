@@ -12,7 +12,12 @@
     xmlns:ah-chippingLocation="http://www.purl.com/ah/kos/ah-chippingLocation/"
     xmlns:ah-chippingShape="http://www.purl.com/ah/kos/ah-chippingShape/"
     xmlns:crm="http://www.cidoc-crm.org/cidoc-crm/"
-    xmlns:excav="https://purl.org/ah/ms/excavationMS#">
+    xmlns:excav="https://purl.org/ah/ms/excavationMS#"
+    xmlns:dcterms="http://purl.org/dc/terms/"
+    xmlns:edm="http://www.europeana.eu/schemas/edm/"
+    xmlns:dbo="http://dbpedia.org/ontology/"
+    xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
 
     <xsl:output method="xml" indent="yes"/>
     <xsl:template match="/">
@@ -23,79 +28,73 @@
 
     <xsl:template match="item">
         <crm:E24_Physical_Man-Made_Thing rdf:about="ah:arrowhead{substring-after(@id, 'AH')}"> 
-            <ah:hasId><xsl:value-of select="@id"/></ah:hasId>
-            <ah:hasAnnotation><xsl:value-of select="annotation"/></ah:hasAnnotation>
-            <xsl:for-each select="shape">  
-                <ah:shape rdf:resource="{.}"/> 
+            <dcterms:identifier><xsl:value-of select="@id"/></dcterms:identifier> 
+
+            <xsl:for-each select="images/image">
+                <edm:Webresource rdf:resource="{.}"/>
+            </xsl:for-each>
+            <xsl:for-each select="models3d/model3d"> 
+                <edm:Webresource rdf:resource="{.}"/>
             </xsl:for-each>
 
-            <xsl:if test="variant"> 
-                <ah:variant rdf:resource="{variant}"/>
-            </xsl:if>
+            <ah:shape rdf:resource="{shape}"/>
 
-            <xsl:if test="point">
-                 <ah:point><xsl:value-of select="point"/></ah:point>
-            </xsl:if>
+            <crm:E57_Material rdf:resource="{material}"/>
 
-            <xsl:if test="body">
-                <ah:body><xsl:value-of select="body"/></ah:body>
-            </xsl:if>
-
-            <xsl:if test="base">
-                <ah:base rdf:resource="{base}"/>
-            </xsl:if>
-
-            <xsl:if test="mode">
-                <ah:mode rdf:resource="{mode}"/>
-            </xsl:if>
-
-            <xsl:if test="amplitude">
-                <ah:amplitude><xsl:value-of select="amplitude"/></ah:amplitude>
-            </xsl:if>
-
-            <xsl:for-each select="direction[position() &lt;= 3]">
-                <ah:direction rdf:resource="{.}"/>
+            <xsl:for-each select="observationDetails/detail">
+               <dbo:Annotation><xsl:value-of select="."/></dbo:Annotation>
             </xsl:for-each>
 
-            <xsl:if test="orientation">
-                <ah:orientation><xsl:value-of select="orientation"/></ah:orientation>
-            </xsl:if>
+            <crm:E3_Condition_State><xsl:value-of select="conditionState"/></crm:E3_Condition_State>
+            <crm:E55_Type><xsl:value-of select="type"/></crm:E55_Type>
 
-            <xsl:if test="delineation">
-                <ah:delineation rdf:resource="{delineation}"/>
-            </xsl:if>
+            <ah:variant rdf:resource="{variant}"/>
 
-            <xsl:for-each select="chippinglocation-Side[position() &lt;= 3]">  
-                <ah:chippinglocation-Side rdf:resource="{.}"/>
-            </xsl:for-each>
+            <ah:foundInCoordinates rdf:resource="ah:GPS_{gpsCoordinates}"/>
 
-            <xsl:for-each select="chippinglocation-Transversal[position() &lt;= 3]">  
-                <ah:chippinglocation-Transversal rdf:resource="{.}"/>
-            </xsl:for-each>
+            <ah:hasMorphology rdf:resource="ah:Morphology_{substring-after(@id, 'AH')}"/>
+            <ah:hasTypometry rdf:resource="ah:Typometry_{substring-after(@id, 'AH')}"/>
 
-            <xsl:if test="chippingShape">
-                <ah:chippingShape rdf:resource="{chippingShape}"/>
-            </xsl:if>
-
-            <xsl:if test="hasMedia">
-                <ah:hasMedia rdf:resource="{hasMedia}"/>
-            </xsl:if>
-
-            <xsl:if test="foundInAExcavation">
-                <excav:foundInAExcavation rdf:resource="{foundInAExcavation}"/>
-            </xsl:if>
-
-
-            <xsl:if test="foundInAContext">
-                <excav:foundInAContext rdf:resource="{foundInAContext}"/>
-            </xsl:if>
-
-            <xsl:if test="foundInSVU">
-                <excav:foundInSVU rdf:resource="{foundInSVU}"/>
-            </xsl:if>
-
+            <crm:P12i_was_present_at rdf:resource="ah:EncounterEvent_{foundInExcavation}"/>
+            <rdf:type rdf:resource="crmsci:S19_Encounter_Event"/>
 
         </crm:E24_Physical_Man-Made_Thing>
+
+        <ah:Morphology rdf:about="ah:Morphology_{substring-after(@id, 'AH')}">
+            <ah:point><xsl:value-of select="morphology/point"/></ah:point>
+            <ah:body><xsl:value-of select="morphology/body"/></ah:body>
+            <ah:base rdf:resource="{morphology/base}"/>
+        </ah:Morphology>
+
+        <ah:Typometry rdf:about="ah:Typometry_{substring-after(@id, 'AH')}">
+            <crm:E54_Dimension><xsl:value-of select="typometry/height"/></crm:E54_Dimension>
+            <crm:E54_Dimension><xsl:value-of select="typometry/width"/></crm:E54_Dimension>
+            <crm:E54_Dimension><xsl:value-of select="typometry/thickness"/></crm:E54_Dimension>
+            <crm:E54_Dimension><xsl:value-of select="typometry/bodyLength"/></crm:E54_Dimension>
+            <crm:E54_Dimension><xsl:value-of select="typometry/baseLength"/></crm:E54_Dimension>
+            <ah:hasChipping rdf:resource="ah:Chipping_{substring-after(@id, 'AH')}"/>
+        </ah:Typometry>
+
+        <ah:Chipping rdf:about="ah:Chipping_{substring-after(@id, 'AH')}">
+            <ah:mode rdf:resource="{chipping/mode}"/>
+            <ah:amplitude><xsl:value-of select="chipping/amplitude"/></ah:amplitude>
+            <ah:direction rdf:resource="{chipping/direction}"/>
+            <ah:orientation><xsl:value-of select="chipping/orientation"/></ah:orientation>
+            <ah:delineation rdf:resource="{chipping/delineation}"/>
+            <xsl:for-each select="chipping/chippinglocation-Lateral[position() &lt;= 3]">
+                <ah:chippinglocation-Lateral rdf:resource="{.}"/>
+            </xsl:for-each>
+            <xsl:for-each select="chipping/chippingLocation-Transversal[position() &lt;= 3]">
+                <ah:chippingLocation-Transversal rdf:resource="{.}"/>
+            </xsl:for-each>
+            <ah:chippingShape rdf:resource="{chipping/chippingShape}"/>
+        </ah:Chipping>
+
+        <geo:SpatialThing rdf:about="ah:GPS_{gpsCoordinates}">
+            <geo:lat><xsl:value-of select="gps/lat"/></geo:lat>
+            <geo:long><xsl:value-of select="gps/long"/></geo:long>
+        </geo:SpatialThing>
+
     </xsl:template>
 
 </xsl:stylesheet>

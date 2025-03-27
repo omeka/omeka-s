@@ -14,6 +14,7 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix schema: <http://schema.org/>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
 @prefix voaf: <http://purl.org/vocommons/voaf#>.
 @prefix skos: <http://www.w3.org/2004/02/skos/core#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
@@ -39,10 +40,11 @@ ah:ArrowheadShape a sh:NodeShape;
     sh:minCount 0;  # at least one media file
   ];
   sh:property [
-    sh:path ah:hasId;
-    sh:minCount 1;  # ID is required
-    sh:maxCount 1;  # only one ID
-  ];
+      sh:path dcterms:identifier; 
+      sh:datatype xsd:string;
+      sh:minCount 1;
+      sh:maxCount 1;
+    ];
   sh:property [
     sh:path ah:hasAnnotation;
     sh:minCount 0;  # annotation is optional
@@ -126,20 +128,8 @@ ah:ArrowheadShape a sh:NodeShape;
     sh:maxCount 1;
   ];
   sh:property [
-    sh:path excav:foundInAExcavation;
-    sh:minCount 0;  # Cardinality 0-1
+    sh:path crm:P12i_was_present_at;
+    sh:nodeKind sh:IRI;
+    sh:minCount 1;
     sh:maxCount 1;
-    sh:class crmarchaeo:A9_Archaeological_Excavation;
-  ];
-  sh:property [
-    sh:path excav:foundInAContext;
-    sh:minCount 0;  # Cardinality 0-1
-    sh:maxCount 1;
-    sh:class crmarchaeo:A1_Excavation_Processing_Unit;
-  ];
-  sh:property [
-    sh:path excav:foundInSVU;
-    sh:minCount 0;  # Cardinality 0-1
-    sh:maxCount 1;
-    sh:class crmarchaeo:A2_Stratigraphic_Volume_Unit;
-  ].
+].

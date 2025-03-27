@@ -300,6 +300,9 @@ class IndexController extends AbstractActionController
             $client->setMethod('POST');
             $client->setHeaders(['Content-Type' => 'text/turtle']);
             $client->setRawBody($data);
+
+            $client->setOptions(['timeout' => 60]); // Adjust the timeout as needed
+
             $response = $client->send();
     
             $status = $response->getStatusCode();

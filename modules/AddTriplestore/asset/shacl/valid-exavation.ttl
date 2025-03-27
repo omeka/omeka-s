@@ -10,7 +10,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 @prefix dbo: <http://dbpedia.org/ontology/>.
 @prefix time: <http://www.w3.org/2006/time#>.
-@prefix edm:<http://www.europeana.eu/schemas/edm#>. 
+@prefix edm:<http://www.europeana.eu/schemas/edm#>.
 @prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#>.
 @prefix crm: <http://www.cidoc-crm.org/cidoc-crm/>.
 @prefix crmsci: <https://cidoc-crm.org/extensions/crmsci/>.
@@ -19,67 +19,91 @@
 @prefix sh: <http://www.w3.org/ns/shacl#>.
 
 # Archaeologist
-<http://www.arch-project.com/data/archaeologist1> a excav:Archaeologist ;
-    foaf:account "http://www.arch-project.com/data/account1"^^xsd:anyURI ;
-    foaf:name "John Doe"^^xsd:string;
-    foaf:mbox "johndoe@example.com"^^xsd:anyURI.
+<http://www.arch-project.com/data/archaeologist1> 
+  a excav:Archaeologist ;
+  a excav:ArchaeologistShape ;
+  foaf:account "http://www.arch-project.com/data/account1"^^xsd:anyURI ;
+  foaf:name "John Doe"^^xsd:string ;
+  foaf:mbox "mailto:johndoe@example.com"^^xsd:anyURI .
 
 # Excavation
-<http://www.arch-project.com/data/excavation1> a crmarchaeo:A9_Archaeological_Excavation ;
-    dct:identifier "EXC-001"^^xsd:string ;
-    dul:hasLocation <http://www.arch-project.com/data/place1> ;
-    excav:hasPersonInCharge <http://www.arch-project.com/data/archaeologist1> ;
-    excav:hasContext <http://www.arch-project.com/data/context1> .
+<http://www.arch-project.com/data/excavation1> 
+  a crmarchaeo:A9_Archaeological_Excavation ;
+  a excav:ExcavationShape ;
+  dct:identifier "EXC-001"^^xsd:string ;
+  dul:hasLocation <http://www.arch-project.com/data/place1> ;
+  excav:hasPersonInCharge <http://www.arch-project.com/data/archaeologist1> ;
+  excav:hasContext <http://www.arch-project.com/data/context1> .
 
 # Context
-<http://www.arch-project.com/data/context1> a crmarchaeo:A1_Excavation_Processing_Unit ;
-    dct:identifier "CTX-001"^^xsd:string ;
-    excav:hasSVU <http://www.arch-project.com/data/svu1> .
+<http://www.arch-project.com/data/context1> 
+  a crmarchaeo:A1_Excavation_Processing_Unit ;
+  a excav:ContextShape ;
+  dct:identifier "CTX-001"^^xsd:string ;
+  excav:hasSVU <http://www.arch-project.com/data/svu1> .
 
 # Stratigraphic Volume Unit
-<http://www.arch-project.com/data/svu1> a crmarchaeo:A2_Stratigraphic_Volume_Unit ;
-    dct:identifier "SVU-001"^^xsd:string ;
-    dct:description "A stratigraphic layer containing artifacts"^^xsd:string ;
-    excav:hasTimeLine <http://www.arch-project.com/data/timeline1> .
+<http://www.arch-project.com/data/svu1> 
+  a crmarchaeo:A2_Stratigraphic_Volume_Unit ;
+  a excav:SVUShape ;
+  dct:identifier "SVU-001"^^xsd:string ;
+  dct:description "A stratigraphic layer containing artifacts"^^xsd:string ;
+  excav:hasTimeLine <http://www.arch-project.com/data/timeline1> .
 
 # Time Entity
-<http://www.arch-project.com/data/timeline1> a time:TemporalEntity ;
-    time:hasBeginning <http://www.arch-project.com/data/instant1> ;
-    time:hasEnd <http://www.arch-project.com/data/instant2> .
+<http://www.arch-project.com/data/timeline1> 
+  a time:TemporalEntity ;
+  a time:TemporalEntityShape ;
+  time:hasBeginning <http://www.arch-project.com/data/beginInstant> ;
+  time:hasEnd <http://www.arch-project.com/data/endInstant> .
 
 # Time Instants
-<http://www.arch-project.com/data/instant1> a time:Instant ;
-    time:inXSDYear "0500"^^xsd:gYear ;
-    excav:bc "true"^^xsd:boolean .
+<http://www.arch-project.com/data/beginInstant>
+  a time:Instant ;
+  a time:InstantShape ;
+  time:inXSDYear "0500"^^xsd:gYear ;
+  excav:bc true .
 
-<http://www.arch-project.com/data/instant2> a time:Instant ;
-    time:inXSDYear "0450"^^xsd:gYear ;
-    excav:bc "true"^^xsd:boolean .
+<http://www.arch-project.com/data/endInstant>
+  a time:Instant ;
+  a time:InstantShape ;
+  time:inXSDYear "0450"^^xsd:gYear ;
+  excav:bc true .
 
 # Place
-<http://www.arch-project.com/data/place1> a dbo:Place ;
-    dbo:informationName "Ancient Site A"^^xsd:string ;
-    excav:hasGPSCoordinates <http://www.arch-project.com/data/spatial1> ;
-    dbo:district <http://www.arch-project.com/data/district1> ;
-    dbo:Parish <http://www.arch-project.com/data/parish1> .
+<http://www.arch-project.com/data/place1> 
+  a dbo:Place ;
+  a dbo:PlaceShape ;
+  dbo:informationName "Ancient Site A"^^xsd:string ;
+  excav:hasGPSCoordinates <http://www.arch-project.com/data/spatial1> ;
+  dbo:district <http://www.arch-project.com/data/district1> ;
+  dbo:parish <http://www.arch-project.com/data/parish1> .
 
 # Spatial Information
-<http://www.arch-project.com/data/spatial1> a geo:SpatialThing ;
-    geo:lat "40.1234"^^xsd:decimal ;
-    geo:long "-8.5678"^^xsd:decimal .
+<http://www.arch-project.com/data/spatial1> 
+  a geo:SpatialThing ;
+  a geo:SpatialThingShape ;
+  geo:lat "40.1234"^^xsd:decimal ;
+  geo:long "-8.5678"^^xsd:decimal .
 
 # District
-<http://www.arch-project.com/data/district1> a dbo:District ;
-    dbo:informationName "District X"^^xsd:string .
+<http://www.arch-project.com/data/district1> 
+  a dbo:District ;
+  a dbo:DistrictShape ;
+  dbo:informationName "District X"^^xsd:string .
 
 # Parish
-<http://www.arch-project.com/data/parish1> a dbo:Parish ;
-    dbo:informationName "Parish Y"^^xsd:string .
+<http://www.arch-project.com/data/parish1> 
+  a dbo:Parish ;
+  a dbo:ParishShape ;
+  dbo:informationName "Parish Y"^^xsd:string .
 
 # Encounter Event
-<http://www.arch-project.com/data/encounter1> a crmsci:S19_Encounter_Event ;
-    dct:date "2024-03-22"^^xsd:date ;
-    dbo:depth "2.5"^^xsd:decimal ;
-    excav:foundInSVU <http://www.arch-project.com/data/svu1> ;
-    excav:foundInAContext <http://www.arch-project.com/data/context1> ;
-    excav:foundInAExcavation <http://www.arch-project.com/data/excavation1> .
+<http://www.arch-project.com/data/encounter1> 
+  a crmsci:S19_Encounter_Event ;
+  a crmsci:EncounterEventShape ;
+  dct:date "2024-03-22"^^xsd:date ;
+  dbo:depth "2.5"^^xsd:decimal ;
+  excav:foundInSVU <http://www.arch-project.com/data/svu1> ;
+  excav:foundInAContext <http://www.arch-project.com/data/context1> ;
+  excav:foundInAExcavation <http://www.arch-project.com/data/excavation1> .

@@ -1,73 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Data>
-    <Excavation rdf:about="http://www.arch-project.com/data/excavation1">
-        <identifier>EXC-041</identifier>
-        <Location rdf:resource="http://www.arch-project.com/data/place1"/>
-        <PersonInCharge rdf:resource="http://www.arch-project.com/data/archaeologist1"/>
-        <Context rdf:resource="http://www.arch-project.com/data/context1"/>
-    </Excavation>
+<Excavation>
+  <Acronym>EXC2023-01</Acronym>
+  
+  <Location>
+    <District>District5</District>
+    <Parish>StMarys</Parish>
+    <Name>Blackwater Site</Name>
+    <GPS>
+      <Lat>53.3498</Lat>
+      <Long>-6.2603</Long>
+    </GPS>
+  </Location>
 
-    <Archaeologist rdf:about="http://www.arch-project.com/data/archaeologist1">
-        <account>http://www.arch-project.com/data/account1</account>
-        <name>John Doe</name>
-        <mbox>johndoe@example.com</mbox>
-    </Archaeologist>
+  <PersonInCharge>
+    <ORCID>0000-0002-1825-0097</ORCID>
+    <Name>Dr. Aoife Byrne</Name>
+    <Emails>
+      <Email>aoife.byrne@iae.ie</Email>
+      <Email>director@blackwater.ie</Email>
+    </Emails>
+  </PersonInCharge>
 
-    <Context rdf:about="http://www.arch-project.com/data/context1">
-        <identifier>CTX-001</identifier>
-        <SVU rdf:resource="http://www.arch-project.com/data/svu1"/>
+  <Contexts>
+    <Context id="CTX-001">
+      <Description>Main occupation layer</Description>
+      
+      <StratigraphicUnit id="SVU-001">
+        <Description>Charcoal-rich layer</Description>
+        <Timeline>
+          <LowerBound year="-450" bc="true"/>
+          <UpperBound year="-350" bc="true"/>
+        </Timeline>
+      </StratigraphicUnit>
+
+      <EncounterEvent>
+        <Date>2023-05-15</Date>
+        <Depth>2.4</Depth>
+        <FoundItem>AH0093</FoundItem>
+      </EncounterEvent>
     </Context>
-
-    <SVU rdf:about="http://www.arch-project.com/data/svu1">
-        <identifier>SVU-001</identifier>
-        <description>A stratigraphic layer containing artifacts</description>
-        <TimeLine rdf:resource="http://www.arch-project.com/data/timeline1"/>
-    </SVU>
-
-    <Place rdf:about="http://www.arch-project.com/data/place1">
-        <informationName>Ancient Site A</informationName>
-        <GPSCoordinates rdf:resource="http://www.arch-project.com/data/spatial1"/>
-        <district rdf:resource="http://www.arch-project.com/data/district1"/>
-        <parish rdf:resource="http://www.arch-project.com/data/parish1"/>
-    </Place>
-
-    <GPSCoordinates rdf:about="http://www.arch-project.com/data/spatial1">
-        <lat>40.1234</lat>
-        <long>-8.5678</long>
-    </GPSCoordinates>
-
-    <TimeLine rdf:about="http://www.arch-project.com/data/timeline1">
-        <Beginning rdf:resource="http://www.arch-project.com/data/instant1"/>
-        <End rdf:resource="http://www.arch-project.com/data/instant2"/>
-    </TimeLine>
-
-    <Beginning rdf:about="http://www.arch-project.com/data/instant1">
-        <year>0500</year>
-        <bc>true</bc>
-    </Beginning>
-
-    <End rdf:about="http://www.arch-project.com/data/instant2">
-        <year>0450</year>
-        <bc>true</bc>
-    </End>
-
-    <District rdf:about="http://www.arch-project.com/data/district1">
-        <informationName>District X</informationName>
-    </District>
-
-    <Parish rdf:about="http://www.arch-project.com/data/parish1">
-        <informationName>Parish Y</informationName>
-    </Parish>
-
-    <EncounterEvent rdf:about="http://www.arch-project.com/data/encounter1">
-        <date>2024-03-22</date>
-        <depth>2.5</depth>
-        <encounteredObject rdf:resource="http://www.arch-project.com/data/object1" />
-        <foundInSVU rdf:resource="http://www.arch-project.com/data/svu1"/>
-        <foundInAContext rdf:resource="http://www.arch-project.com/data/context1"/>
-        <foundInAExcavation rdf:resource="http://www.arch-project.com/data/excavation1"/>
-    </EncounterEvent>
-
-    <PhysicalManMadeThing rdf:about="http://www.arch-project.com/data/object1" />
-
-</Data>
+  </Contexts>
+</Excavation>

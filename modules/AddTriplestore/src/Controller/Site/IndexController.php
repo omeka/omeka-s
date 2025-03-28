@@ -12,10 +12,9 @@ use EasyRdf\Graph;
 
 class IndexController extends AbstractActionController
 {
-    private $graphdbEndpoint = "http://localhost:7200/repositories/arch-project-shacl/rdf-graphs/service"; 
+    private $graphdbEndpoint = "http://localhost:7200/repositories/arch-project-shacl/rdf-graphs/service";
     private $graphdbQueryEndpoint = "http://localhost:7200/repositories/arch-project-shacl"; // SPARQL endpoint
     private $dataGraphUri = "http://www.arch-project.com/data";
-
 
     public function indexAction()
     {
@@ -38,17 +37,17 @@ class IndexController extends AbstractActionController
         if ($request->isPost()) {
             error_log('Processing file upload');
             $file = $request->getFiles()->file;
-        
+
             if ($file && $file['error'] === UPLOAD_ERR_OK) {
                 $fileExtension = pathinfo($file['name'], PATHINFO_EXTENSION);
                 $fileType = $file['type'];
-        
+
                 // Determine file type based on extension if MIME type is not recognized
-                if (strtolower($fileExtension) === 'ttl' && $fileType!== 'application/x-turtle') {
+                if (strtolower($fileExtension) === 'ttl' && $fileType !== 'application/x-turtle') {
                     $fileType = 'application/x-turtle';
                     error_log('File type set to application/x-turtle based on extension.');
                 }
-        
+
                 if (in_array($fileType, ['application/x-turtle', 'application/xml', 'text/xml'])) {
                     try {
                         if ($fileType === 'application/xml' || $fileType === 'text/xml') {
@@ -64,7 +63,7 @@ class IndexController extends AbstractActionController
                                 throw new \Exception('Failed to convert xml to rdf xml');
                             }
                             $ttlData = $this->xmlTtlConverter($rdfXmlData);
-                            error_log($ttlData, 3, OMEKA_PATH. '/logs/ttl-data.log');
+                            error_log('TTL data: ' . $ttlData, 3, OMEKA_PATH . '/logs/ttl-dddfdata.log');
                             $result = $this->sendToGraphDB($ttlData);
                         } else {
                             // TTL processing
@@ -72,71 +71,82 @@ class IndexController extends AbstractActionController
                             $result = $this->sendToGraphDB($data);
                         }
                     } catch (\Exception $e) {
-                        $result = 'Error processing file: '. $e->getMessage();
+                        $result = 'Error processing file: ' . $e->getMessage();
                         error_log($result);
                     }
                 } else {
-                    $result = 'Invalid file type. Please upload a valid.ttl or.xml file.';
-                    error_log('Invalid file type: '. $fileType);
+                    $result = 'Invalid file type. Please upload a valid .ttl or .xml file.';
+                    error_log('Invalid file type: ' . $fileType);
                 }
             } else {
-                $result = 'File upload error: '. $file['error'];
+                $result = 'File upload error: ' . $file['error'];
                 error_log($result);
             }
         }
-    
-        error_log('Final result: '. $result);
-    
+
+        error_log('Final result: ' . $result);
+
         return (new ViewModel(['result' => $result, 'site' => $this->currentSite()]))
-        ->setTemplate('add-triplestore/site/index/index'); 
+            ->setTemplate('add-triplestore/site/index/index');
     }
 
+    public function xmlParser($file)
+    {
+        // Determine which XSLT to use based on the file content
+        $xmlContent = file_get_contents($file['tmp_name']);
+        if (strpos($xmlContent, '<item id="AH') !== false) {
+            $xsltPath = OMEKA_PATH . '/modules/AddTriplestore/asset/xlst/xlst.xml'; // Arrowhead XSLT
+        } elseif (strpos($xmlContent, '<Excavation') !== false) {
+            $xsltPath = OMEKA_PATH . '/modules/AddTriplestore/asset/xlst/excavationXlst.xml'; // Excavation XSLT
 
-    public function xmlParser($file){ // parse file xml to rdf xml
+        } else {
+            error_log('Could not determine XML type for XSLT selection.');
+            return 'Could not determine XML type'; // Or throw an exception
+        }
+
         // load xsml file
         $xslt = new \DOMDocument();
-        $xsltPath = OMEKA_PATH . '/modules/AddTriplestore/asset/xlst/xlst.xml';
         // failed to load xsml file
-        if(!$xslt->load($xsltPath)){
-            error_log('Failed to load xsml file');
+        if (!$xslt->load($xsltPath)) {
+            error_log('Failed to load xsml file: ' . $xsltPath);
             return 'Failed to load xsml file';
         }
 
         // Load the uploaded XML file into a DOMDocument
         $auxFile = new \DOMDocument();
-        if(!$auxFile->load($file['tmp_name'])){
+        if (!$auxFile->load($file['tmp_name'])) {
             error_log('Failed to load xml file');
             return 'Failed to load xml file';
         }
 
-        // convert xlm to xlm rdf 
+        // convert xlm to xlm rdf
         $convert = new \XSLTProcessor();
         $convert->importStylesheet($xslt);
         $rdfXmlConverted = $convert->transformToXML($auxFile);
 
-        // check if conversion fail 
-        if(!$rdfXmlConverted){
+        // check if conversion fail
+        if (!$rdfXmlConverted) {
             error_log('Failed to convert xml to rdf xml');
             return 'Failed to convert xml to rdf xml';
         }
 
-        error_log($rdfXmlConverted, 3, OMEKA_PATH. '/logs/rdf-xml-data.log');
+        error_log($rdfXmlConverted, 3, OMEKA_PATH . '/logs/rdf-xml-finsal.log');
         return $rdfXmlConverted;
     }
 
-    public function xmlTtlConverter($rdfXmlData) {
+    public function xmlTtlConverter($rdfXmlData)
+    {
         error_log('Converting RDF-XML to TTL');
-    
+
         $rdfGraph = new Graph();
         $rdfGraph->parse($rdfXmlData, 'rdfxml');
-    
+
         error_log('RDF-XML data loaded into graph');
-    
+
         $ttlData = $rdfGraph->serialise('turtle');
-        error_log($ttlData, 3, OMEKA_PATH . '/logs/ttl-data.log');
-    
+
         error_log('RDF-XML data converted to TTL');
-    
+
         $ttlData = $this->addPrefixesToTTL($ttlData, [
             'ah' => 'http://www.purl.com/ah/ms/ahMS#',
             'ah-shape' => 'http://www.purl.com/ah/kos/ah-shape/',
@@ -157,7 +167,7 @@ class IndexController extends AbstractActionController
             'dcterms' => 'http://purl.org/dc/terms/',
             'foaf' => 'http://xmlns.com/foaf/0.1/',
             'ah-vocab' => 'http://www.purl.com/ah/kos#',
-            'excav' => 'https://purl.org/ah/ms/excavationMS#',
+            'excav' => 'https://purl.org/ah/ms/excavation/', // Corrected namespace
             'dct' => 'http://purl.org/dc/terms/',
             'schema' => 'http://schema.org/',
             'voaf' => 'http://purl.org/vocommons/voaf#',
@@ -170,122 +180,105 @@ class IndexController extends AbstractActionController
             'crmarchaeo' => 'http://www.cidoc-crm.org/extensions/crmarchaeo/',
             'geo' => 'http://www.w3.org/2003/01/geo/wgs84_pos#',
             'sh' => 'http://www.w3.org/ns/shacl#',
-            
-
         ]);
-        
+
         // Fix boolean values
         $ttlData = str_replace('"true"', 'true', $ttlData);
         $ttlData = str_replace('"false"', 'false', $ttlData);
 
-        error_log($rdfXmlData, 3, OMEKA_PATH . '/logs/rdf-xml-ttttttt.log');
-            
-    
         // Adjust patterns based on the XSLT output
-        if (strpos($ttlData, '<ah:arrowhead') !== false) {
-            // Remove angle brackets from specific predicates
+        if (strpos($ttlData, '<crm:E24_Physical_Man-Made_Thing') !== false && strpos($ttlData, '<ah:Morphology') !== false) {
+            // Arrowhead patterns (unchanged)
             $patterns = [
-                '/<ah-shape:([^>]+)>/' => 'ah-shape:$1',
-                '/<ah-variant:([^>]+)>/' => 'ah-variant:$1',
-                '/<ah-base:([^>]+)>/' => 'ah-base:$1',
-                '/<ah-chippingMode:([^>]+)>/' => 'ah-chippingMode:$1',
-                '/<ah-chippingDirection:([^>]+)>/' => 'ah-chippingDirection:$1',
-                '/<ah-chippingDelineation:([^>]+)>/' => 'ah-chippingDelineation:$1',
-                '/<ah-chippingLocation:([^>]+)>/' => 'ah-chippingLocation:$1',
-                '/<ah-chippingShape:([^>]+)>/' => 'ah-chippingShape:$1',
-                '/<crm:P12i_was_present_at rdf:resource="([^"]+)"\/>/' => '<crm:P12i_was_present_at rdf:resource="$1"/>',
-                '/<dcterms:identifier>([^<]+)<\/dcterms:identifier>/' => '<dcterms:identifier>$1</dcterms:identifier>',
-                '/<edm:Webresource rdf:resource="([^"]+)"\/>/' => '<edm:Webresource rdf:resource="$1"/>',
-                '/<crm:E57_Material rdf:resource="([^"]+)"\/>/' => '<crm:E57_Material rdf:resource="$1"/>',
-                '/<dbo:Annotation>([^<]+)<\/dbo:Annotation>/' => '<dbo:Annotation>$1</dbo:Annotation>',
-                '/<crm:E3_Condition_State>([^<]+)<\/crm:E3_Condition_State>/' => '<crm:E3_Condition_State>$1</crm:E3_Condition_State>',
-                '/<crm:E55_Type>([^<]+)<\/crm:E55_Type>/' => '<crm:E55_Type>$1</crm:E55_Type>',
-                '/<ah:foundInCoordinates rdf:resource="([^"]+)"\/>/' => '<ah:foundInCoordinates rdf:resource="$1"/>',
-                '/<ah:hasMorphology rdf:resource="([^"]+)"\/>/' => '<ah:hasMorphology rdf:resource="$1"/>',
-                '/<ah:hasTypometry rdf:resource="([^"]+)"\/>/' => '<ah:hasTypometry rdf:resource="$1"/>',
-                '/<ah:point>([^<]+)<\/ah:point>/' => '<ah:point>$1</ah:point>',
-                '/<ah:body>([^<]+)<\/ah:body>/' => '<ah:body>$1</ah:body>',
-                '/<ah:base rdf:resource="([^"]+)"\/>/' => '<ah:base rdf:resource="$1"/>',
-                '/<crm:E54_Dimension>([^<]+)<\/crm:E54_Dimension>/' => '<crm:E54_Dimension>$1</crm:E54_Dimension>',
-                '/<ah:hasChipping rdf:resource="([^"]+)"\/>/' => '<ah:hasChipping rdf:resource="$1"/>',
-                '/<ah:mode rdf:resource="([^"]+)"\/>/' => '<ah:mode rdf:resource="$1"/>',
-                '/<ah:amplitude>([^<]+)<\/ah:amplitude>/' => '<ah:amplitude>$1</ah:amplitude>',
-                '/<ah:direction rdf:resource="([^"]+)"\/>/' => '<ah:direction rdf:resource="$1"/>',
-                '/<ah:orientation>([^<]+)<\/ah:orientation>/' => '<ah:orientation>$1</ah:orientation>',
-                '/<ah:delineation rdf:resource="([^"]+)"\/>/' => '<ah:delineation rdf:resource="$1"/>',
-                '/<ah:chippinglocation-Lateral rdf:resource="([^"]+)"\/>/' => '<ah:chippinglocation-Lateral rdf:resource="$1"/>',
-                '/<ah:chippingLocation-Transversal rdf:resource="([^"]+)"\/>/' => '<ah:chippingLocation-Transversal rdf:resource="$1"/>',
-                '/<ah:chippingShape rdf:resource="([^"]+)"\/>/' => '<ah:chippingShape rdf:resource="$1"/>',
-                '/<geo:lat>([^<]+)<\/geo:lat>/' => '<geo:lat>$1</geo:lat>',
-                '/<geo:long>([^<]+)<\/geo:long>/' => '<geo:long>$1</geo:long>',
+                '/<ah:shape>([^<]+)<\/ah:shape>/' => 'ah:shape <ah-shape:$1>;',
+                '/<ah:variant>([^<]+)<\/ah:variant>/' => 'ah:variant <ah-variant:$1>;',
+                '/<crm:E57_Material>([^<]+)<\/crm:E57_Material>/' => 'crm:E57_Material <$1>;',
+                '/<ah:foundInCoordinates rdf:resource="([^"]+)"\/>/' => 'ah:foundInCoordinates <$1>;',
+                '/<ah:hasMorphology rdf:resource="([^"]+)"\/>/' => 'ah:hasMorphology <$1>;',
+                '/<ah:hasTypometry rdf:resource="([^"]+)"\/>/' => 'ah:hasTypometry <$1>;',
+                '/<ah:point>([^<]+)<\/ah:point>/' => 'ah:point "$1";',
+                '/<ah:body>([^<]+)<\/ah:body>/' => 'ah:body "$1";',
+                '/<ah:base>([^<]+)<\/ah:base>/' => 'ah:base <ah-base:$1>;',
+                '/<crm:E54_Dimension>([^<]+)<\/crm:E54_Dimension>/' => 'crm:E54_Dimension "$1"^^xsd:decimal;',
+                '/<ah:hasChipping rdf:resource="([^"]+)"\/>/' => 'ah:hasChipping <$1>;',
+                '/<ah:mode>([^<]+)<\/ah:mode>/' => 'ah:mode <ah-chippingMode:$1>;',
+                '/<ah:amplitude>([^<]+)<\/ah:amplitude>/' => 'ah:amplitude "$1";',
+                '/<ah:direction>([^<]+)<\/ah:direction>/' => 'ah:direction <ah-chippingDirection:$1>;',
+                '/<ah:orientation>([^<]+)<\/ah:orientation>/' => 'ah:orientation "$1";',
+                '/<ah:dileneation>([^<]+)<\/ah:dileneation>/' => 'ah:dileneation <ah-chippingDelineation:$1>;',
+                '/<ah:chippinglocation-Lateral>([^<]+)<\/ah:chippinglocation-Lateral>/' => 'ah:chippinglocation-Lateral <ah-chippingLocation:$1>;',
+                '/<ah:chippingLocation-Transversal>([^<]+)<\/ah:chippingLocation-Transversal>/' => 'ah:chippingLocation-Transversal <ah-chippingLocation:$1>;',
+                '/<ah:chippingShape>([^<]+)<\/ah:chippingShape>/' => 'ah:chippingShape <ah-chippingShape:$1>;',
+                '/<dcterms:identifier>([^<]+)<\/dcterms:identifier>/' => 'dcterms:identifier "$1";',
+                '/<edm:Webresource>([^<]+)<\/edm:Webresource>/' => 'edm:Webresource <$1>;',
+                '/<dbo:Annotation>([^<]+)<\/dbo:Annotation>/' => 'dbo:Annotation "$1";',
+                '/<crm:E3_Condition_State>([^<]+)<\/crm:E3_Condition_State>/' => 'crm:E3_Condition_State "$1";',
+                '/<crm:E55_Type>([^<]+)<\/crm:E55_Type>/' => 'crm:E55_Type "$1";',
+                '/<geo:lat>([^<]+)<\/geo:lat>/' => 'geo:lat "$1"^^xsd:decimal;',
+                '/<geo:long>([^<]+)<\/geo:long>/' => 'geo:long "$1"^^xsd:decimal;',
             ];
-    
-    
-        }
-        else{
+        } else {
+            // Excavation patterns (Adjusted for excavationXlst.xml output)
             $patterns = [
-                '/<dct:identifier>([^<]+)<\/dct:identifier>/' => '<dct:identifier>$1</dct:identifier>',
-                '/<dul:hasLocation rdf:resource="([^"]+)"\/>/' => '<dul:hasLocation rdf:resource="$1"/>',
-                '/<excav:hasPersonInCharge rdf:resource="([^"]+)"\/>/' => '<excav:hasPersonInCharge rdf:resource="$1"/>',
-                '/<excav:hasContext rdf:resource="([^"]+)"\/>/' => '<excav:hasContext rdf:resource="$1"/>',
-                '/<foaf:account>([^<]+)<\/foaf:account>/' => '<foaf:account>$1</foaf:account>',
-                '/<foaf:name>([^<]+)<\/foaf:name>/' => '<foaf:name>$1</foaf:name>',
-                '/<foaf:mbox>([^<]+)<\/foaf:mbox>/' => '<foaf:mbox>$1</foaf:mbox>',
-                '/<excav:hasSVU rdf:resource="([^"]+)"\/>/' => '<excav:hasSVU rdf:resource="$1"/>',
-                '/<dct:description>([^<]+)<\/dct:description>/' => '<dct:description>$1</dct:description>',
-                '/<excav:hasTimeLine rdf:resource="([^"]+)"\/>/' => '<excav:hasTimeLine rdf:resource="$1"/>',
-                '/<dbo:informationName>([^<]+)<\/dbo:informationName>/' => '<dbo:informationName>$1</dbo:informationName>',
-                '/<excav:hasGPSCoordinates rdf:resource="([^"]+)"\/>/' => '<excav:hasGPSCoordinates rdf:resource="$1"/>',
-                '/<dbo:district rdf:resource="([^"]+)"\/>/' => '<dbo:district rdf:resource="$1"/>',
-                '/<dbo:Parish rdf:resource="([^"]+)"\/>/' => '<dbo:Parish rdf:resource="$1"/>',
-                '/<geo:lat>([^<]+)<\/geo:lat>/' => '<geo:lat>$1</geo:lat>',
-                '/<geo:long>([^<]+)<\/geo:long>/' => '<geo:long>$1</geo:long>',
-                '/<time:hasBeginning rdf:resource="([^"]+)"\/>/' => '<time:hasBeginning rdf:resource="$1"/>',
-                '/<time:hasEnd rdf:resource="([^"]+)"\/>/' => '<time:hasEnd rdf:resource="$1"/>',
-                '/<time:inXSDYear>([^<]+)<\/time:inXSDYear>/' => '<time:inXSDYear>$1</time:inXSDYear>',
-                '/<excav:bc>([^<]+)<\/excav:bc>/' => '<excav:bc>$1</excav:bc>',
-                '/<dct:date>([^<]+)<\/dct:date>/' => '<dct:date>$1</dct:date>',
-                '/<dbo:depth>([^<]+)<\/dbo:depth>/' => '<dbo:depth>$1</dbo:depth>',
-                '/<crmsci:O19_encountered_object rdf:resource="([^"]+)"\/>/' => '<crmsci:O19_encountered_object rdf:resource="$1"/>',
-                '/<excav:foundInSVU rdf:resource="([^"]+)"\/>/' => '<excav:foundInSVU rdf:resource="$1"/>',
-                '/<excav:foundInAContext rdf:resource="([^"]+)"\/>/' => '<excav:foundInAContext rdf:resource="$1"/>',
-                '/<excav:foundInAExcavation rdf:resource="([^"]+)"\/>/' => '<excav:foundInAExcavation rdf:resource="$1"/>',
+                '/<dcterms:identifier>([^<]+)<\/dcterms:identifier>/' => 'dcterms:identifier "$1";',
+                '/<dul:hasLocation rdf:resource="([^"]+)"\/>/' => 'dul:hasLocation <$1>;',
+                '/<excav:hasPersonInCharge rdf:resource="([^"]+)"\/>/' => 'excav:hasPersonInCharge <$1>;',
+                '/<excav:hasContext rdf:resource="([^"]+)"\/>/' => 'excav:hasContext <$1>;',
+                '/<foaf:account>([^<]+)<\/foaf:account>/' => 'foaf:account <$1>;',
+                '/<foaf:name>([^<]+)<\/foaf:name>/' => 'foaf:name "$1";',
+                '/<foaf:mbox>([^<]+)<\/foaf:mbox>/' => 'foaf:mbox <$1>;',
+                '/<excav:hasSVU rdf:resource="([^"]+)"\/>/' => 'excav:hasSVU <$1>;',
+                '/<dcterms:description>([^<]+)<\/dcterms:description>/' => 'dcterms:description "$1";',
+                '/<excav:hasTimeLine rdf:resource="([^"]+)"\/>/' => 'excav:hasTimeLine <$1>;',
+                '/<dbo:informationName>([^<]+)<\/dbo:informationName>/' => 'dbo:informationName "$1";',
+                '/<excav:hasGPSCoordinates rdf:resource="([^"]+)"\/>/' => 'excav:hasGPSCoordinates <$1>;',
+                '/<geo:lat rdf:datatype="xsd:decimal">([^<]+)<\/geo:lat>/' => 'geo:lat "$1"^^xsd:decimal;',
+                '/<geo:long rdf:datatype="xsd:decimal">([^<]+)<\/geo:long>/' => 'geo:long "$1"^^xsd:decimal;',
+                '/<time:hasBeginning rdf:resource="([^"]+)"\/>/' => 'time:hasBeginning <$1>;',
+                '/<time:hasEnd rdf:resource="([^"]+)"\/>/' => 'time:hasEnd <$1>;',
+                '/<time:inXSDYear rdf:datatype="xsd:integer">([^<]+)<\/time:inXSDYear>/' => 'time:inXSDYear "$1"^^xsd:integer;',
+                '/<excav:bc>([^<]+)<\/excav:bc>/' => 'excav:bc "$1";',
+                '/<dcterms:date>([^<]+)<\/dcterms:date>/' => 'dcterms:date "$1";',
+                '/<dbo:depth>([^<]+)<\/dbo:depth>/' => 'dbo:depth "$1";',
+                '/<crmsci:O19_encountered_object rdf:resource="([^"]+)"\/>/' => 'crmsci:O19_encountered_object <$1>;',
+                '/<rdf:type rdf:resource="([^"]+)"\/>/' => 'a <$1>;',
+                // Adjustments based on excavationXlst.xml output:
+                '/<dbo:district rdf:resource="([^"]+)"\/>/' => 'dbo:district <$1>;',
+                '/<dbo:parish rdf:resource="([^"]+)"\/>/' => 'dbo:parish <$1>;',
             ];
-            
         }
-    
+
         foreach ($patterns as $pattern => $replacement) {
             $ttlData = preg_replace($pattern, $replacement, $ttlData);
         }
-        error_log("Cleaned TTL: " . $ttlData);
-    
+        error_log("Cleaned TTL: " . $ttlData, 3, OMEKA_PATH . '/logs/cleaned-ttlgef.log');
+
         return $ttlData;
     }
-    
 
-    private function addPrefixesToTTL($ttlData, $prefixes) {
+    private function addPrefixesToTTL($ttlData, $prefixes)
+    {
         $prefixLines = '';
         foreach ($prefixes as $prefix => $iri) {
-            $prefixLines.= "@prefix $prefix: <$iri>.\n";
+            $prefixLines .= "@prefix $prefix: <$iri>.\n";
             // log here
             error_log("Adding prefix: $prefix: <$iri>");
         }
-        return $prefixLines. $ttlData;
+        return $prefixLines . $ttlData;
     }
-
 
     private function sendToGraphDB($data)
     {
         $logger = new Logger();
-        $writer = new Stream(OMEKA_PATH. '/logs/graphdb-errors.log');
+        $writer = new Stream(OMEKA_PATH . '/logs/graphdb-errors.log');
         $logger->addWriter($writer);
-    
+
         try {
             $graphUri = $this->dataGraphUri;
 
             $validationResult = $this->validateData($data, $graphUri);
-            // log the validation result    
-            error_log('Validation Result: '. implode('; ', $validationResult));
+            // log the validation result
+            error_log('Validation Result: ' . implode('; ', $validationResult));
 
             if (!empty($validationResult)) {
                 $errorMessage = 'Data upload failed: SHACL validation errors: ' . implode('; ', $validationResult);
@@ -294,10 +287,9 @@ class IndexController extends AbstractActionController
                 return $errorMessage;
             }
 
-            
             // 2. Upload ONLY if validation passes
             $client = new Client();
-            $fullUrl = $this->graphdbEndpoint. '?graph='. urlencode($graphUri);
+            $fullUrl = $this->graphdbEndpoint . '?graph=' . urlencode($graphUri);
             $client->setUri($fullUrl);
             $client->setMethod('POST');
             $client->setHeaders(['Content-Type' => 'text/turtle']);
@@ -306,31 +298,31 @@ class IndexController extends AbstractActionController
             $client->setOptions(['timeout' => 60]); // Adjust the timeout as needed
 
             $response = $client->send();
-    
+
             $status = $response->getStatusCode();
             $body = $response->getBody();
             $message = "Response Status: $status | Response Body: $body";
             error_log($message);
-            $logger->info($message); 
-    
+            $logger->info($message);
+
             if ($response->isSuccess()) {
                 return 'Data uploaded and validated successfully.';
             } else {
-                $errorMessage = 'Failed to upload data: '. $message; 
+                $errorMessage = 'Failed to upload data: ' . $message;
                 error_log($errorMessage);
                 $logger->err($errorMessage);
-                return $errorMessage; 
+                return $errorMessage;
             }
-    
         } catch (\Exception $e) {
-            $errorMessage = 'Failed to upload data due to an exception: '. $e->getMessage();
-            $logger->err($errorMessage); 
+            $errorMessage = 'Failed to upload data due to an exception: ' . $e->getMessage();
+            $logger->err($errorMessage);
             error_log($errorMessage);
-            return $errorMessage; 
+            return $errorMessage;
         }
     }
 
-    private function validateData($data, $graphUri) {
+    private function validateData($data, $graphUri)
+    {
         $errors = [];
         $logger = new Logger(); // Initialize logger here
         $writer = new Stream(OMEKA_PATH . '/logs/graphdb-errors.log');
@@ -365,9 +357,9 @@ class IndexController extends AbstractActionController
               BIND(CONCAT('Violation at node: ', str(?focusNode), ', predicate: ', str(?predicate), ', object: ', str(?object)) AS ?message)
             }
             ";
-    
-        // 2. Execute the validation query
-        $client = new Client();
+
+            // 2. Execute the validation query
+            $client = new Client();
             $client->setUri($this->graphdbQueryEndpoint);
             $client->setMethod('POST');
             $client->setHeaders([
@@ -401,13 +393,13 @@ class IndexController extends AbstractActionController
                     $errors[] = $binding['message']['value'];
                 }
             }
-    } catch (\Exception $e) {
-        $errorMessage = 'SHACL validation failed due to an exception: ' . $e->getMessage();
-        $logger->err($errorMessage);
-        error_log($errorMessage);
-        return [$errorMessage];
-    }
+        } catch (\Exception $e) {
+            $errorMessage = 'SHACL validation failed due to an exception: ' . $e->getMessage();
+            $logger->err($errorMessage);
+            error_log($errorMessage);
+            return [$errorMessage];
+        }
 
-    return $errors;
-}
+        return $errors;
+    }
 }

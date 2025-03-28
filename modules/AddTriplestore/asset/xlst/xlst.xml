@@ -90,7 +90,7 @@
             <ah:chippingShape rdf:resource="{chipping/chippingShape}"/>
         </ah:Chipping>
 
-        <geo:SpatialThing rdf:about="ah:GPS_{gpsCoordinates}">
+        <geo:SpatialThing rdf:about="ah:GPS_{substring-after(@id, 'AH')}">
             <geo:lat><xsl:value-of select="gps/lat"/></geo:lat>
             <geo:long><xsl:value-of select="gps/long"/></geo:long>
         </geo:SpatialThing>

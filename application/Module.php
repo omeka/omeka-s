@@ -194,11 +194,10 @@ class Module extends AbstractModule
                 // Get the favicon href.
                 if (is_numeric($faviconAssetId)) {
                     $faviconAsset = $view->api()->searchOne('assets', ['id' => $faviconAssetId])->getContent();
-                    $href = $faviconAsset ? $faviconAsset->assetUrl() : null;
-                } else {
-                    $href = null; // Passing null clears the favicon.
+                    if ($faviconAsset) {
+                        $view->headLink(['rel' => 'icon', 'href' => $faviconAsset->assetUrl()], 'PREPEND');
+                    }
                 }
-                $view->headLink(['rel' => 'icon', 'href' => $href], 'PREPEND');
             }
         );
 

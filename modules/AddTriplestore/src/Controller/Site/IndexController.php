@@ -135,126 +135,162 @@ class IndexController extends AbstractActionController
     }
 
     public function xmlTtlConverter($rdfXmlData)
-    {
-        error_log('Converting RDF-XML to TTL');
+{
+    error_log('Converting RDF-XML to TTL');
 
-        $rdfGraph = new Graph();
-        $rdfGraph->parse($rdfXmlData, 'rdfxml');
+    $rdfGraph = new Graph();
+    $rdfGraph->parse($rdfXmlData, 'rdfxml');
 
-        error_log('RDF-XML data loaded into graph');
+    error_log('RDF-XML data loaded into graph');
 
-        $ttlData = $rdfGraph->serialise('turtle');
+    $ttlData = $rdfGraph->serialise('turtle');
 
-        error_log('RDF-XML data converted to TTL');
+    error_log('RDF-XML data converted to TTL');
 
-        $ttlData = $this->addPrefixesToTTL($ttlData, [
-            'ah' => 'http://www.purl.com/ah/ms/ahMS#',
-            'ah-shape' => 'http://www.purl.com/ah/kos/ah-shape/',
-            'ah-variant' => 'http://www.purl.com/ah/kos/ah-variant/',
-            'ah-base' => 'http://www.purl.com/ah/kos/ah-base/',
-            'ah-chippingMode' => 'http://www.purl.com/ah/kos/ah-chippingMode/',
-            'ah-chippingDirection' => 'http://www.purl.com/ah/kos/ah-chippingDirection/',
-            'ah-chippingDelineation' => 'http://www.purl.com/ah/kos/ah-chippingDelineation/',
-            'ah-chippingLocation' => 'http://www.purl.com/ah/kos/ah-chippingLocation/',
-            'ah-chippingShape' => 'http://www.purl.com/ah/kos/ah-chippingShape/',
-            'crm' => 'http://www.cidoc-crm.org/cidoc-crm/',
-            'rdf' => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-            'xsd' => 'http://www.w3.org/2001/XMLSchema#',
-            'rdfs' => 'http://www.w3.org/2000/01/rdf-schema#',
-            'owl' => 'http://www.w3.org/2002/07/owl#',
-            'skos' => 'http://www.w3.org/2004/02/skos/core#',
-            'dc' => 'http://purl.org/dc/elements/1.1/',
-            'dcterms' => 'http://purl.org/dc/terms/',
-            'foaf' => 'http://xmlns.com/foaf/0.1/',
-            'ah-vocab' => 'http://www.purl.com/ah/kos#',
-            'excav' => 'https://purl.org/ah/ms/excavation/', // Corrected namespace
-            'dct' => 'http://purl.org/dc/terms/',
-            'schema' => 'http://schema.org/',
-            'voaf' => 'http://purl.org/vocommons/voaf#',
-            'vann' => 'http://purl.org/vocab/vann/',
-            'dbo' => 'http://dbpedia.org/ontology/',
-            'time' => 'http://www.w3.org/2006/time#',
-            'edm' => 'http://www.europeana.eu/schemas/edm#',
-            'dul' => 'http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#',
-            'crmsci' => 'https://cidoc-crm.org/extensions/crmsci/',
-            'crmarchaeo' => 'http://www.cidoc-crm.org/extensions/crmarchaeo/',
-            'geo' => 'http://www.w3.org/2003/01/geo/wgs84_pos#',
-            'sh' => 'http://www.w3.org/ns/shacl#',
-        ]);
+    $ttlData = $this->addPrefixesToTTL($ttlData, [
+        'ah' => 'http://www.purl.com/ah/ms/ahMS#',
+        'ah-shape' => 'http://www.purl.com/ah/kos/ah-shape/',
+        'ah-variant' => 'http://www.purl.com/ah/kos/ah-variant/',
+        'ah-base' => 'http://www.purl.com/ah/kos/ah-base/',
+        'ah-chippingMode' => 'http://www.purl.com/ah/kos/ah-chippingMode/',
+        'ah-chippingDirection' => 'http://www.purl.com/ah/kos/ah-chippingDirection/',
+        'ah-chippingDelineation' => 'http://www.purl.com/ah/kos/ah-chippingDelineation/',
+        'ah-chippingLocation' => 'http://www.purl.com/ah/kos/ah-chippingLocation/',
+        'ah-chippingShape' => 'http://www.purl.com/ah/kos/ah-chippingShape/',
+        'crm' => 'http://www.cidoc-crm.org/cidoc-crm/',
+        'rdf' => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+        'xsd' => 'http://www.w3.org/2001/XMLSchema#',
+        'rdfs' => 'http://www.w3.org/2000/01/rdf-schema#',
+        'owl' => 'http://www.w3.org/2002/07/owl#',
+        'skos' => 'http://www.w3.org/2004/02/skos/core#',
+        'dc' => 'http://purl.org/dc/elements/1.1/',
+        'dcterms' => 'http://purl.org/dc/terms/',
+        'foaf' => 'http://xmlns.com/foaf/0.1/',
+        'ah-vocab' => 'http://www.purl.com/ah/kos#',
+        'excav' => 'https://purl.org/ah/ms/excavationMS#', // Corrected namespace
+        'dct' => 'http://purl.org/dc/terms/',
+        'schema' => 'http://schema.org/',
+        'voaf' => 'http://purl.org/vocommons/voaf#',
+        'vann' => 'http://purl.org/vocab/vann/',
+        'dbo' => 'http://dbpedia.org/ontology/',
+        'time' => 'http://www.w3.org/2006/time#',
+        'edm' => 'http://www.europeana.eu/schemas/edm#',
+        'dul' => 'http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#',
+        'crmsci' => 'https://cidoc-crm.org/extensions/crmsci/',
+        'crmarchaeo' => 'http://www.cidoc-crm.org/extensions/crmarchaeo/',
+        'geo' => 'http://www.w3.org/2003/01/geo/wgs84_pos#',
+        'sh' => 'http://www.w3.org/ns/shacl#',
+    ]);
 
-        // Fix boolean values
-        $ttlData = str_replace('"true"', 'true', $ttlData);
-        $ttlData = str_replace('"false"', 'false', $ttlData);
+    
+    $ttlData = preg_replace_callback(
+        '/time:inXSDYear "(-?\d+)"\^\^xsd:gYear/',
+        function($matches) {
+            $year = str_replace('-', '', $matches[1]);
+            return 'time:inXSDYear "' . $year . '"^^xsd:gYear';
+        },
+        $ttlData
+    );
 
-        // Adjust patterns based on the XSLT output
-        if (strpos($ttlData, '<crm:E24_Physical_Man-Made_Thing') !== false && strpos($ttlData, '<ah:Morphology') !== false) {
-            // Arrowhead patterns (unchanged)
-            $patterns = [
-                '/<ah:shape>([^<]+)<\/ah:shape>/' => 'ah:shape <ah-shape:$1>;',
-                '/<ah:variant>([^<]+)<\/ah:variant>/' => 'ah:variant <ah-variant:$1>;',
-                '/<crm:E57_Material>([^<]+)<\/crm:E57_Material>/' => 'crm:E57_Material <$1>;',
-                '/<ah:foundInCoordinates rdf:resource="([^"]+)"\/>/' => 'ah:foundInCoordinates <$1>;',
-                '/<ah:hasMorphology rdf:resource="([^"]+)"\/>/' => 'ah:hasMorphology <$1>;',
-                '/<ah:hasTypometry rdf:resource="([^"]+)"\/>/' => 'ah:hasTypometry <$1>;',
-                '/<ah:point>([^<]+)<\/ah:point>/' => 'ah:point "$1";',
-                '/<ah:body>([^<]+)<\/ah:body>/' => 'ah:body "$1";',
-                '/<ah:base>([^<]+)<\/ah:base>/' => 'ah:base <ah-base:$1>;',
-                '/<crm:E54_Dimension>([^<]+)<\/crm:E54_Dimension>/' => 'crm:E54_Dimension "$1"^^xsd:decimal;',
-                '/<ah:hasChipping rdf:resource="([^"]+)"\/>/' => 'ah:hasChipping <$1>;',
-                '/<ah:mode>([^<]+)<\/ah:mode>/' => 'ah:mode <ah-chippingMode:$1>;',
-                '/<ah:amplitude>([^<]+)<\/ah:amplitude>/' => 'ah:amplitude "$1";',
-                '/<ah:direction>([^<]+)<\/ah:direction>/' => 'ah:direction <ah-chippingDirection:$1>;',
-                '/<ah:orientation>([^<]+)<\/ah:orientation>/' => 'ah:orientation "$1";',
-                '/<ah:dileneation>([^<]+)<\/ah:dileneation>/' => 'ah:dileneation <ah-chippingDelineation:$1>;',
-                '/<ah:chippinglocation-Lateral>([^<]+)<\/ah:chippinglocation-Lateral>/' => 'ah:chippinglocation-Lateral <ah-chippingLocation:$1>;',
-                '/<ah:chippingLocation-Transversal>([^<]+)<\/ah:chippingLocation-Transversal>/' => 'ah:chippingLocation-Transversal <ah-chippingLocation:$1>;',
-                '/<ah:chippingShape>([^<]+)<\/ah:chippingShape>/' => 'ah:chippingShape <ah-chippingShape:$1>;',
-                '/<dcterms:identifier>([^<]+)<\/dcterms:identifier>/' => 'dcterms:identifier "$1";',
-                '/<edm:Webresource>([^<]+)<\/edm:Webresource>/' => 'edm:Webresource <$1>;',
-                '/<dbo:Annotation>([^<]+)<\/dbo:Annotation>/' => 'dbo:Annotation "$1";',
-                '/<crm:E3_Condition_State>([^<]+)<\/crm:E3_Condition_State>/' => 'crm:E3_Condition_State "$1";',
-                '/<crm:E55_Type>([^<]+)<\/crm:E55_Type>/' => 'crm:E55_Type "$1";',
-                '/<geo:lat>([^<]+)<\/geo:lat>/' => 'geo:lat "$1"^^xsd:decimal;',
-                '/<geo:long>([^<]+)<\/geo:long>/' => 'geo:long "$1"^^xsd:decimal;',
-            ];
-        } else {
-            // Excavation patterns (Adjusted for excavationXlst.xml output)
-            $patterns = [
-                '/<dcterms:identifier>([^<]+)<\/dcterms:identifier>/' => 'dcterms:identifier "$1";',
-                '/<dul:hasLocation rdf:resource="([^"]+)"\/>/' => 'dul:hasLocation <$1>;',
-                '/<excav:hasPersonInCharge rdf:resource="([^"]+)"\/>/' => 'excav:hasPersonInCharge <$1>;',
-                '/<excav:hasContext rdf:resource="([^"]+)"\/>/' => 'excav:hasContext <$1>;',
-                '/<foaf:account>([^<]+)<\/foaf:account>/' => 'foaf:account <$1>;',
-                '/<foaf:name>([^<]+)<\/foaf:name>/' => 'foaf:name "$1";',
-                '/<foaf:mbox>([^<]+)<\/foaf:mbox>/' => 'foaf:mbox <$1>;',
-                '/<excav:hasSVU rdf:resource="([^"]+)"\/>/' => 'excav:hasSVU <$1>;',
-                '/<dcterms:description>([^<]+)<\/dcterms:description>/' => 'dcterms:description "$1";',
-                '/<excav:hasTimeLine rdf:resource="([^"]+)"\/>/' => 'excav:hasTimeLine <$1>;',
-                '/<dbo:informationName>([^<]+)<\/dbo:informationName>/' => 'dbo:informationName "$1";',
-                '/<excav:hasGPSCoordinates rdf:resource="([^"]+)"\/>/' => 'excav:hasGPSCoordinates <$1>;',
-                '/<geo:lat rdf:datatype="xsd:decimal">([^<]+)<\/geo:lat>/' => 'geo:lat "$1"^^xsd:decimal;',
-                '/<geo:long rdf:datatype="xsd:decimal">([^<]+)<\/geo:long>/' => 'geo:long "$1"^^xsd:decimal;',
-                '/<time:hasBeginning rdf:resource="([^"]+)"\/>/' => 'time:hasBeginning <$1>;',
-                '/<time:hasEnd rdf:resource="([^"]+)"\/>/' => 'time:hasEnd <$1>;',
-                '/<time:inXSDYear rdf:datatype="xsd:integer">([^<]+)<\/time:inXSDYear>/' => 'time:inXSDYear "$1"^^xsd:integer;',
-                '/<excav:bc>([^<]+)<\/excav:bc>/' => 'excav:bc "$1";',
-                '/<dcterms:date>([^<]+)<\/dcterms:date>/' => 'dcterms:date "$1";',
-                '/<dbo:depth>([^<]+)<\/dbo:depth>/' => 'dbo:depth "$1";',
-                '/<crmsci:O19_encountered_object rdf:resource="([^"]+)"\/>/' => 'crmsci:O19_encountered_object <$1>;',
-                '/<rdf:type rdf:resource="([^"]+)"\/>/' => 'a <$1>;',
-                // Adjustments based on excavationXlst.xml output:
-                '/<dbo:district rdf:resource="([^"]+)"\/>/' => 'dbo:district <$1>;',
-                '/<dbo:parish rdf:resource="([^"]+)"\/>/' => 'dbo:parish <$1>;',
-            ];
-        }
+    // Fix boolean values
+    $ttlData = str_replace('"true"', 'true', $ttlData);
+    $ttlData = str_replace('"false"', 'false', $ttlData);
+    
+    $ttlData = preg_replace_callback(
+        '/time:inXSDYear "(-?\d+)"\^\^xsd:gYear/',
+        function($matches) {
+            $year = str_replace('-', '', $matches[1]);
+            return 'time:inXSDYear "' . $year . '"^^xsd:gYear';
+        },
+        $ttlData
+    );
 
-        foreach ($patterns as $pattern => $replacement) {
-            $ttlData = preg_replace($pattern, $replacement, $ttlData);
-        }
-        error_log("Cleaned TTL: " . $ttlData, 3, OMEKA_PATH . '/logs/cleaned-ttlgef.log');
+    // Fix the instant URIs to match what the SHACL shapes expect
+    //$ttlData = str_replace('excav:Instant_LowerBound_', 'excav:Instant_Lower_', $ttlData);
+    //$ttlData = str_replace('excav:Instant_UpperBound_',  'excav:Instant_Upper_', $ttlData);
 
-        return $ttlData;
+    
+    // Determine if this is excavation data
+    if (strpos($ttlData, 'crmarchaeo:A9_Archaeological_Excavation') !== false) {
+        $patterns = [
+            '/<http:\/\/www\.cidoc-crm\.org\/extensions\/crmarchaeo\/A9_Archaeological_Excavation>/' => 'crmarchaeo:A9_Archaeological_Excavation',
+            '/<http:\/\/www\.cidoc-crm\.org\/extensions\/crmarchaeo\/A1_Excavation_Processing_Unit>/' => 'crmarchaeo:A1_Excavation_Processing_Unit',
+            '/<http:\/\/www\.cidoc-crm\.org\/extensions\/crmarchaeo\/A2_Stratigraphic_Volume_Unit>/' => 'crmarchaeo:A2_Stratigraphic_Volume_Unit',
+            '/<dcterms:identifier>([^<]+)<\/dcterms:identifier>/' => 'dcterms:identifier "$1";',
+            '/<dul:hasLocation rdf:resource="([^"]+)"\/>/' => 'dul:hasLocation <$1>;',
+            '/<crmarchaeo:A9_Archaeological_Excavation rdf:about="([^"]+)"\/>/' => 'crmarchaeo:A9_Archaeological_Excavation <$1>;',
+            '/<excav:ArchaeologistShape rdf:resource="([^"]+)"\/>/' => 'excav:ArchaeologistShape <$1>;',
+            '/<excav:hasContext rdf:resource="([^"]+)"\/>/' => 'excav:hasContext <$1>;',
+            '/foaf:account "([^"]+)"/' => 'foaf:account "$1"^^xsd:anyURI;',
+            '/<foaf:name>([^<]+)<\/foaf:name>/' => 'foaf:name "$1";',
+            '/foaf:mbox "([^"]+)"/' => 'foaf:mbox "$1"^^xsd:anyURI',
+            '/<excav:hasSVU rdf:resource="([^"]+)"\/>/' => 'excav:hasSVU <$1>;',
+            '/<dcterms:description>([^<]+)<\/dcterms:description>/' => 'dcterms:description "$1";',
+            '/<excav:hasTimeLine rdf:resource="([^"]+)"\/>/' => 'excav:hasTimeLine <$1>;',
+            '/<dbo:informationName>([^<]+)<\/dbo:informationName>/' => 'dbo:informationName "$1";',
+            '/excav:Archaeologist /' => 'a excav:Archaeologist;',
+            '/excav:excavation_/' => 'a excav:Excavation;',
+            '/<excav:hasGPSCoordinates rdf:resource="([^"]+)"\/>/' => 'excav:hasGPSCoordinates <$1>;',
+            '/<geo:lat rdf:datatype="[^"]+">([^<]+)<\/geo:lat>/' => 'geo:lat "$1"^^xsd:decimal;',
+            '/<geo:long rdf:datatype="[^"]+">([^<]+)<\/geo:long>/' => 'geo:long "$1"^^xsd:decimal;',
+            '/<time:hasBeginning rdf:resource="([^"]+)"\/>/' => 'time:hasBeginning <$1>;',
+            '/<time:hasEnd rdf:resource="([^"]+)"\/>/' => 'time:hasEnd <$1>;',
+            '/<time:inXSDYear rdf:datatype="[^"]+">([^<]+)<\/time:inXSDYear>/' => 'time:inXSDYear "$1"^^xsd:gYear;',
+            '/<excav:bc rdf:datatype="[^"]+">([^<]+)<\/excav:bc>/' => 'excav:bc $1;',
+            '/<dcterms:date rdf:datatype="[^"]+">([^<]+)<\/dcterms:date>/' => 'dcterms:date "$1"^^xsd:date;',
+            '/<dbo:depth rdf:datatype="[^"]+">([^<]+)<\/dbo:depth>/' => 'dbo:depth "$1"^^xsd:decimal;',
+            '/<crmsci:O19_encountered_object rdf:resource="([^"]+)"\/>/' => 'crmsci:O19_encountered_object <$1>;',
+            '/<dbo:district rdf:resource="([^"]+)"\/>/' => 'dbo:district <$1>;',
+            '/<dbo:parish rdf:resource="([^"]+)"\/>/' => 'dbo:parish <$1>;',
+            '/\s*rdf:about="([^"]+)"/' => '',
+            '/\s*rdf:resource="([^"]+)"/' => '',
+            '/\s*rdf:datatype="[^"]+"/' => '',
+            '/<\?xml[^>]+\?>/' => '',
+            '/<rdf:RDF[^>]*>/' => '',
+            '/<\/rdf:RDF>/' => '',
+        ];
+    } else {
+        $patterns = [
+            '/<ah:shape>([^<]+)<\/ah:shape>/' => 'ah:shape <ah-shape:$1>;',
+            '/<ah:variant>([^<]+)<\/ah:variant>/' => 'ah:variant <ah-variant:$1>;',
+            '/<crm:E57_Material>([^<]+)<\/crm:E57_Material>/' => 'crm:E57_Material <$1>;',
+            '/<ah:foundInCoordinates rdf:resource="([^"]+)"\/>/' => 'ah:foundInCoordinates <$1>;',
+            '/<ah:hasMorphology rdf:resource="([^"]+)"\/>/' => 'ah:hasMorphology <$1>;',
+            '/<ah:hasTypometry rdf:resource="([^"]+)"\/>/' => 'ah:hasTypometry <$1>;',
+            '/<ah:point>([^<]+)<\/ah:point>/' => 'ah:point "$1";',
+            '/<ah:body>([^<]+)<\/ah:body>/' => 'ah:body "$1";',
+            '/<ah:base>([^<]+)<\/ah:base>/' => 'ah:base <ah-base:$1>;',
+            '/<crm:E54_Dimension>([^<]+)<\/crm:E54_Dimension>/' => 'crm:E54_Dimension "$1"^^xsd:decimal;',
+            '/<ah:hasChipping rdf:resource="([^"]+)"\/>/' => 'ah:hasChipping <$1>;',
+            '/<ah:mode>([^<]+)<\/ah:mode>/' => 'ah:mode <ah-chippingMode:$1>;',
+            '/<ah:amplitude>([^<]+)<\/ah:amplitude>/' => 'ah:amplitude "$1";',
+            '/<ah:direction>([^<]+)<\/ah:direction>/' => 'ah:direction <ah-chippingDirection:$1>;',
+            '/<ah:orientation>([^<]+)<\/ah:orientation>/' => 'ah:orientation "$1";',
+            '/<ah:dileneation>([^<]+)<\/ah:dileneation>/' => 'ah:dileneation <ah-chippingDelineation:$1>;',
+            '/<ah:chippinglocation-Lateral>([^<]+)<\/ah:chippinglocation-Lateral>/' => 'ah:chippinglocation-Lateral <ah-chippingLocation:$1>;',
+            '/<ah:chippingLocation-Transversal>([^<]+)<\/ah:chippingLocation-Transversal>/' => 'ah:chippingLocation-Transversal <ah-chippingLocation:$1>;',
+            '/<ah:chippingShape>([^<]+)<\/ah:chippingShape>/' => 'ah:chippingShape <ah-chippingShape:$1>;',
+            '/<dcterms:identifier>([^<]+)<\/dcterms:identifier>/' => 'dcterms:identifier "$1";',
+            '/<edm:Webresource>([^<]+)<\/edm:Webresource>/' => 'edm:Webresource <$1>;',
+            '/<dbo:Annotation>([^<]+)<\/dbo:Annotation>/' => 'dbo:Annotation "$1";',
+            '/<crm:E3_Condition_State>([^<]+)<\/crm:E3_Condition_State>/' => 'crm:E3_Condition_State "$1";',
+            '/<crm:E55_Type>([^<]+)<\/crm:E55_Type>/' => 'crm:E55_Type "$1";',
+            '/<geo:lat>([^<]+)<\/geo:lat>/' => 'geo:lat "$1"^^xsd:decimal;',
+            '/<geo:long>([^<]+)<\/geo:long>/' => 'geo:long "$1"^^xsd:decimal;',
+        ];
     }
+    foreach ($patterns as $pattern => $replacement) {
+        $ttlData = preg_replace($pattern, $replacement, $ttlData);
+    }
+
+
+    // Clean up any empty lines or extra spaces
+    $ttlData = preg_replace("/\n\s*\n/", "\n", $ttlData);
+    $ttlData = trim($ttlData);
+
+    error_log("Cleaned TTL: " . $ttlData, 3, OMEKA_PATH . '/logs/cleaned-ttl.log');
+    return $ttlData;
+}
 
     private function addPrefixesToTTL($ttlData, $prefixes)
     {

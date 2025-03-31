@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Excavation>
-  <Acronym>EXC2023-01</Acronym>
+  <Acronym>EXC4334-44</Acronym>
   
   <Location>
     <District>District5</District>
     <Parish>StMarys</Parish>
-    <Name>Blackwater Site</Name>
+    <Name>BlackwaterSite</Name>
     <GPS>
       <Lat>53.3498</Lat>
       <Long>-6.2603</Long>
@@ -28,8 +28,8 @@
       <StratigraphicUnit id="SVU-001">
         <Description>Charcoal-rich layer</Description>
         <Timeline>
-          <LowerBound year="-450" bc="true"/>
-          <UpperBound year="-350" bc="true"/>
+          <LowerBound year="350" bc="true"/>
+          <UpperBound year="450" bc="true"/>
         </Timeline>
       </StratigraphicUnit>
 

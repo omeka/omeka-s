@@ -17,10 +17,21 @@
   <xsl:output method="xml" indent="yes"/>
 
   <xsl:template match="/">
-    <rdf:RDF>
-      <xsl:apply-templates select="Excavation"/>
-    </rdf:RDF>
-  </xsl:template>
+  <rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:crmarchaeo="http://www.cidoc-crm.org/extensions/crmarchaeo/"
+    xmlns:excav="https://purl.org/ah/ms/excavationMS#"
+    xmlns:dbo="http://dbpedia.org/ontology/"
+    xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+    xmlns:foaf="http://xmlns.com/foaf/0.1/"
+    xmlns:dcterms="http://purl.org/dc/terms/"
+    xmlns:time="http://www.w3.org/2006/time#"
+    xmlns:crmsci="https://cidoc-crm.org/extensions/crmsci/"
+    xmlns:dul="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#"
+    xmlns:crm="http://www.cidoc-crm.org/cidoc-crm/">
+    <xsl:apply-templates select="Excavation"/>
+  </rdf:RDF>
+</xsl:template>
 
   <xsl:template match="Excavation">
     <xsl:message>--- Starting Excavation Template ---</xsl:message>
@@ -117,26 +128,30 @@
     <xsl:apply-templates select="StratigraphicUnit"/>
 
     <xsl:if test="EncounterEvent">
-      <crmsci:S19_Encounter_Event rdf:about="excav:Event_{@id}">
-        <rdf:type rdf:resource="https://cidoc-crm.org/extensions/crmsci/S19_Encounter_Event"/>
-        <xsl:if test="EncounterEvent/Date">
-          <dcterms:date rdf:datatype="http://www.w3.org/2001/XMLSchema#date"><xsl:value-of select="EncounterEvent/Date"/></dcterms:date>
-        </xsl:if>
-        <xsl:if test="EncounterEvent/Depth">
-          <dbo:depth rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal"><xsl:value-of select="EncounterEvent/Depth"/></dbo:depth>
-        </xsl:if>
-        <xsl:if test="EncounterEvent/FoundItem">
-          <crmsci:O19_encountered_object rdf:resource="excav:Item_{EncounterEvent/FoundItem}"/>
-        </xsl:if>
-        <xsl:if test="StratigraphicUnit">
-          <excav:foundInSVU rdf:resource="excav:SVU_{StratigraphicUnit[1]/@id}"/>
-        </xsl:if>
-        <xsl:if test="../../Acronym">
-          <excav:foundInAExcavation rdf:resource="excav:excavation_{../../Acronym}" rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI"/>
-        </xsl:if>
-        <excav:foundInAContext rdf:resource="excav:Context_{@id}"/>
-      </crmsci:S19_Encounter_Event>
+  <crmsci:S19_Encounter_Event rdf:about="excav:Event_{@id}">
+    <rdf:type rdf:resource="https://cidoc-crm.org/extensions/crmsci/S19_Encounter_Event"/>
+    <xsl:if test="EncounterEvent/Date">
+      <dcterms:date rdf:datatype="http://www.w3.org/2001/XMLSchema#date">
+        <xsl:value-of select="EncounterEvent/Date"/>
+      </dcterms:date>
     </xsl:if>
+    <xsl:if test="EncounterEvent/Depth">
+      <dbo:depth rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">
+        <xsl:value-of select="EncounterEvent/Depth"/>
+      </dbo:depth>
+    </xsl:if>
+    <xsl:if test="EncounterEvent/FoundItem">
+      <crmsci:O19_encountered_object rdf:resource="excav:Item_{EncounterEvent/FoundItem}"/>
+    </xsl:if>
+    <xsl:if test="StratigraphicUnit">
+      <excav:foundInSVU rdf:resource="excav:SVU_{StratigraphicUnit[1]/@id}"/>
+    </xsl:if>
+    <xsl:if test="../../Acronym">
+      <excav:foundInAExcavation rdf:resource="excav:excavation_{../../Acronym}"/>
+    </xsl:if>
+    <excav:foundInAContext rdf:resource="excav:Context_{@id}"/>
+  </crmsci:S19_Encounter_Event>
+</xsl:if>
   </xsl:template>
 
   <xsl:template match="StratigraphicUnit">
@@ -157,12 +172,12 @@
   </xsl:template>
 
   <xsl:template match="Timeline">
-    <time:TemporalEntity rdf:about="excav:Timeline_{current()/@id}">
-      <rdf:type rdf:resource="http://www.w3.org/2006/time#TemporalEntity"/>
-      <xsl:apply-templates select="LowerBound"/>
-      <xsl:apply-templates select="UpperBound"/>
-    </time:TemporalEntity>
-  </xsl:template>
+  <time:TemporalEntity rdf:about="excav:Timeline_{../@id}">
+    <rdf:type rdf:resource="http://www.w3.org/2006/time#TemporalEntity"/>
+    <xsl:apply-templates select="LowerBound"/>
+    <xsl:apply-templates select="UpperBound"/>
+  </time:TemporalEntity>
+</xsl:template>
 
   <xsl:template match="LowerBound|UpperBound">
     <time:Instant rdf:about="excav:Instant_{local-name()}_{@year}">

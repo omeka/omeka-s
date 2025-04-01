@@ -230,6 +230,7 @@ class IndexController extends AbstractActionController
             '/<dbo:informationName>([^<]+)<\/dbo:informationName>/' => 'dbo:informationName "$1";',
             '/excav:Archaeologist /' => 'a excav:Archaeologist;',
             '/excav:excavation_/' => 'a excav:Excavation;',
+            '/<excav:foundInAContext rdf:resource="([^"]+)"\/>/' => 'excav:foundInAContext <$1>;',
             '/<excav:hasGPSCoordinates rdf:resource="([^"]+)"\/>/' => 'excav:hasGPSCoordinates <$1>;',
             '/<geo:lat rdf:datatype="[^"]+">([^<]+)<\/geo:lat>/' => 'geo:lat "$1"^^xsd:decimal;',
             '/<geo:long rdf:datatype="[^"]+">([^<]+)<\/geo:long>/' => 'geo:long "$1"^^xsd:decimal;',
@@ -287,6 +288,12 @@ class IndexController extends AbstractActionController
     // Clean up any empty lines or extra spaces
     $ttlData = preg_replace("/\n\s*\n/", "\n", $ttlData);
     $ttlData = trim($ttlData);
+
+     // Fix any remaining issues
+     $ttlData = str_replace('ns0:', 'dul:', $ttlData);
+     $ttlData = str_replace('ns1:', 'excav:', $ttlData);
+     $ttlData = str_replace('ns2:', 'dbo:', $ttlData);
+     $ttlData = str_replace('ns3:', 'crmsci:', $ttlData);
 
     error_log("Cleaned TTL: " . $ttlData, 3, OMEKA_PATH . '/logs/cleaned-ttl.log');
     return $ttlData;

@@ -12,9 +12,9 @@ switch ($searchType) {
 $searchValue = $this->escapeHtml($this->params()->fromQuery('fulltext_search', ''));
 ?>
 
-<form action="<?php echo $this->escapeHtml($searchAction); ?>" id="search-form" aria-label="<?php echo $translate('Search'); ?>">
+<form action="<?php echo $this->escapeHtml($searchAction); ?>" id="search-form" aria-label="<?php echo $translate('Search'); ?>" role="search">
     <input type="text" id="fulltext-search" name="fulltext_search" value="<?php echo $searchValue; ?>"
         placeholder="<?php echo $translate('Enter a search term'); ?>"
         aria-label="<?php echo $translate('Query'); ?>" aria-labelledby="search-form fulltext-search">
-    <button id="search-submit" type="submit" aria-label="<?php echo $translate('Submit'); ?>" title="<?php echo $translate('Submit'); ?>" aria-labelledby="search-form search-submit"><span class="sr-only"><?php echo $translate('Submit'); ?></span><span class="o-icon-search" role="presentation"></span></button>
+    <button id="search-submit" type="submit" aria-label="<?php echo $translate('Submit'); ?>" title="<?php echo $translate('Submit'); ?>" aria-labelledby="search-form search-submit"><span class="o-icon-search" aria-hidden="true"></span></button>
 </form>

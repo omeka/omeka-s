@@ -74,7 +74,7 @@ $this->trigger('view.layout');
                                 data-action="<?php echo $escape($this->url('admin/default', ['controller' => 'media', 'action' => 'browse'])); ?>">
                             <label for="search-media"><?php echo $translate('Media'); ?></label>
                         </fieldset>
-                        <button type="submit" id="search-submit" aria-label="<?php echo $translate('Submit'); ?>" aria-labelledby="search-form search-submit"></button>
+                        <button type="submit" id="search-submit" aria-label="<?php echo $translate('Submit'); ?>" aria-labelledby="search-form search-submit" title="<?php echo $translate('Submit'); ?>"><span class="o-icon-search" aria-hidden="true"></span></button>
                     </form>
                 </div>
                 <nav id="menu" role="navigation">

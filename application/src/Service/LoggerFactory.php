@@ -24,7 +24,6 @@ class LoggerFactory implements FactoryInterface
         if (isset($config['logger']['log'])
             && $config['logger']['log']
             && isset($config['logger']['path'])
-            && is_file($config['logger']['path'])
             && is_writable($config['logger']['path'])
         ) {
             $writer = new Stream($config['logger']['path']);

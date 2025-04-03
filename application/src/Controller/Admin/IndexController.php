@@ -23,7 +23,6 @@ class IndexController extends AbstractActionController
         return $view;
     }
 
-
     public function linkedResourcesAction()
     {
         $resource = $this->api()->read('resources', $this->params('id'))->getContent();

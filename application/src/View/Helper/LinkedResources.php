@@ -19,13 +19,13 @@ class LinkedResources extends AbstractHelper
             $url = $view->url('admin/id', [
                 'controller' => 'index',
                 'action' => 'linked-resources',
-                'id' => $resource->id()
+                'id' => $resource->id(),
             ], [], true);
         } elseif ($view->status()->isSiteRequest()) {
             $url = $view->url('site/resource-id', [
                 'controller' => 'index',
                 'action' => 'linked-resources',
-                'id' => $resource->id()
+                'id' => $resource->id(),
             ], [], true);
         } else {
             return '';

@@ -3,11 +3,7 @@ $(document).ready(function () {
     // Render linked resources.
     const renderLinkedResources = function(page, resourceProperty) {
         const url = container.data('url');
-        const siteId = container.data('siteId');
         const query = {};
-        if (siteId) {
-            query.site_id = siteId;
-        }
         if (page) {
             query.page = page;
         }

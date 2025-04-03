@@ -377,19 +377,6 @@ return [
                     ],
                 ],
             ],
-            'linked-resources' => [
-                'type' => \Laminas\Router\Http\Segment::class,
-                'options' => [
-                    'route' => '/linked-resources/:resource-id',
-                    'defaults' => [
-                        'controller' => 'Omeka\Controller\LinkedResources',
-                        'action' => 'index',
-                    ],
-                    'constraints' => [
-                        'resource-id' => '\d+',
-                    ],
-                ],
-            ],
         ],
     ],
 ];

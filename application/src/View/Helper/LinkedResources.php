@@ -10,14 +10,26 @@ class LinkedResources extends AbstractHelper
     {
     }
 
-    public function __invoke(AbstractResourceEntityRepresentation $resource, int $siteId = null)
+    public function __invoke(AbstractResourceEntityRepresentation $resource)
     {
         $view = $this->getView();
         $view->headScript()->appendFile($view->assetUrl('js/linked-resources.js', 'Omeka'));
-        return sprintf(
-            '<div id="linked-resources-container" data-url="%s" data-site-id="%s"></div>',
-            $view->url('linked-resources', ['resource-id' => $resource->id()]),
-            $view->escapeHtml($siteId)
-        );
+
+        if ($view->status()->isAdminRequest()) {
+            $url = $view->url('admin/id', [
+                'controller' => 'index',
+                'action' => 'linked-resources',
+                'id' => $resource->id()
+            ], [], true);
+        } elseif ($view->status()->isSiteRequest()) {
+            $url = $view->url('site/resource-id', [
+                'controller' => 'index',
+                'action' => 'linked-resources',
+                'id' => $resource->id()
+            ], [], true);
+        } else {
+            return '';
+        }
+        return sprintf('<div id="linked-resources-container" data-url="%s"></div>', $url);
     }
 }

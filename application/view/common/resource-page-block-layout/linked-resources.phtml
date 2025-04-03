@@ -5,5 +5,5 @@ if ($this->siteSetting('exclude_resources_not_in_site')) {
 }
 ?>
 <?php if ($resource->subjectValueTotalCount(null, null, $siteId)): ?>
-<?php echo $this->linkedResources($resource, $siteId); ?>
+<?php echo $this->linkedResources($resource); ?>
 <?php endif; ?>

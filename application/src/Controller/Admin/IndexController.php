@@ -22,4 +22,15 @@ class IndexController extends AbstractActionController
         $view->setVariable('resourceTemplateCount', $resourceTemplatesResponse->getTotalResults());
         return $view;
     }
+
+
+    public function linkedResourcesAction()
+    {
+        $resource = $this->api()->read('resources', $this->params('id'))->getContent();
+
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setVariable('resource', $resource);
+        return $view;
+    }
 }

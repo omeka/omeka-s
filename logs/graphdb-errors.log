@@ -20634,3 +20634,58 @@ _:f59db755-ef0c-442b-a8a3-ca919bc860ec-30 <http://www.w3.org/ns/shacl#maxCount> 
 2025-04-01T21:00:44+00:00 INFO (6): Response Status: 204 | Response Body:
 2025-04-01T21:01:37+00:00 INFO (6): Response Status: 204 | Response Body:
 2025-04-01T21:05:36+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-04-02T15:02:31+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-04-02T15:02:39+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-04-02T15:02:46+00:00 INFO (6): Response Status: 500 | Response Body: _:7975660053a04e57a418b233e75681ac298575 <http://www.w3.org/ns/shacl#conforms> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+_:7975660053a04e57a418b233e75681ac298575 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationReport> .
+_:7975660053a04e57a418b233e75681ac298575 <http://rdf4j.org/schema/rdf4j#truncated> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+_:7975660053a04e57a418b233e75681ac298575 <http://www.w3.org/ns/shacl#result> _:7975660053a04e57a418b233e75681ac298576 .
+_:7975660053a04e57a418b233e75681ac298576 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:7975660053a04e57a418b233e75681ac298576 <http://www.w3.org/ns/shacl#focusNode> <http://www.purl.com/ah/ms/ahMS#arrowhead5> .
+_:7975660053a04e57a418b233e75681ac298576 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:7975660053a04e57a418b233e75681ac298576 <http://www.w3.org/ns/shacl#resultPath> <http://purl.org/dc/terms/identifier> .
+_:7975660053a04e57a418b233e75681ac298576 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#MinCountConstraintComponent> .
+_:7975660053a04e57a418b233e75681ac298576 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:c6503595-a082-4a41-8ce6-ff5e45f2596b-2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+_:7975660053a04e57a418b233e75681ac298576 <http://www.w3.org/ns/shacl#sourceShape> _:c6503595-a082-4a41-8ce6-ff5e45f2596b-2 .
+_:c6503595-a082-4a41-8ce6-ff5e45f2596b-2 <http://www.w3.org/ns/shacl#path> <http://purl.org/dc/terms/identifier> .
+_:c6503595-a082-4a41-8ce6-ff5e45f2596b-2 <http://www.w3.org/ns/shacl#minCount> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:7975660053a04e57a418b233e75681ac298575 <http://www.w3.org/ns/shacl#result> _:7975660053a04e57a418b233e75681ac298577 .
+_:7975660053a04e57a418b233e75681ac298577 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:7975660053a04e57a418b233e75681ac298577 <http://www.w3.org/ns/shacl#focusNode> <http://www.purl.com/ah/ms/ahMS#arrowhead5> .
+_:7975660053a04e57a418b233e75681ac298577 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:7975660053a04e57a418b233e75681ac298577 <http://www.w3.org/ns/shacl#resultPath> <http://www.cidoc-crm.org/cidoc-crm/P12i_was_present_at> .
+_:7975660053a04e57a418b233e75681ac298577 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#MinCountConstraintComponent> .
+_:7975660053a04e57a418b233e75681ac298577 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:c17f2d20-c69f-4d6a-9172-7f90bf1c4733-47 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+_:7975660053a04e57a418b233e75681ac298577 <http://www.w3.org/ns/shacl#sourceShape> _:c17f2d20-c69f-4d6a-9172-7f90bf1c4733-47 .
+_:c17f2d20-c69f-4d6a-9172-7f90bf1c4733-47 <http://www.w3.org/ns/shacl#path> <http://www.cidoc-crm.org/cidoc-crm/P12i_was_present_at> .
+_:c17f2d20-c69f-4d6a-9172-7f90bf1c4733-47 <http://www.w3.org/ns/shacl#minCount> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+
+2025-04-02T15:02:46+00:00 ERR (3): Failed to upload data: Response Status: 500 | Response Body: _:7975660053a04e57a418b233e75681ac298575 <http://www.w3.org/ns/shacl#conforms> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+_:7975660053a04e57a418b233e75681ac298575 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationReport> .
+_:7975660053a04e57a418b233e75681ac298575 <http://rdf4j.org/schema/rdf4j#truncated> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+_:7975660053a04e57a418b233e75681ac298575 <http://www.w3.org/ns/shacl#result> _:7975660053a04e57a418b233e75681ac298576 .
+_:7975660053a04e57a418b233e75681ac298576 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:7975660053a04e57a418b233e75681ac298576 <http://www.w3.org/ns/shacl#focusNode> <http://www.purl.com/ah/ms/ahMS#arrowhead5> .
+_:7975660053a04e57a418b233e75681ac298576 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:7975660053a04e57a418b233e75681ac298576 <http://www.w3.org/ns/shacl#resultPath> <http://purl.org/dc/terms/identifier> .
+_:7975660053a04e57a418b233e75681ac298576 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#MinCountConstraintComponent> .
+_:7975660053a04e57a418b233e75681ac298576 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:c6503595-a082-4a41-8ce6-ff5e45f2596b-2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+_:7975660053a04e57a418b233e75681ac298576 <http://www.w3.org/ns/shacl#sourceShape> _:c6503595-a082-4a41-8ce6-ff5e45f2596b-2 .
+_:c6503595-a082-4a41-8ce6-ff5e45f2596b-2 <http://www.w3.org/ns/shacl#path> <http://purl.org/dc/terms/identifier> .
+_:c6503595-a082-4a41-8ce6-ff5e45f2596b-2 <http://www.w3.org/ns/shacl#minCount> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:7975660053a04e57a418b233e75681ac298575 <http://www.w3.org/ns/shacl#result> _:7975660053a04e57a418b233e75681ac298577 .
+_:7975660053a04e57a418b233e75681ac298577 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:7975660053a04e57a418b233e75681ac298577 <http://www.w3.org/ns/shacl#focusNode> <http://www.purl.com/ah/ms/ahMS#arrowhead5> .
+_:7975660053a04e57a418b233e75681ac298577 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:7975660053a04e57a418b233e75681ac298577 <http://www.w3.org/ns/shacl#resultPath> <http://www.cidoc-crm.org/cidoc-crm/P12i_was_present_at> .
+_:7975660053a04e57a418b233e75681ac298577 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#MinCountConstraintComponent> .
+_:7975660053a04e57a418b233e75681ac298577 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:c17f2d20-c69f-4d6a-9172-7f90bf1c4733-47 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+_:7975660053a04e57a418b233e75681ac298577 <http://www.w3.org/ns/shacl#sourceShape> _:c17f2d20-c69f-4d6a-9172-7f90bf1c4733-47 .
+_:c17f2d20-c69f-4d6a-9172-7f90bf1c4733-47 <http://www.w3.org/ns/shacl#path> <http://www.cidoc-crm.org/cidoc-crm/P12i_was_present_at> .
+_:c17f2d20-c69f-4d6a-9172-7f90bf1c4733-47 <http://www.w3.org/ns/shacl#minCount> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+
+2025-04-02T15:03:36+00:00 INFO (6): Response Status: 204 | Response Body:

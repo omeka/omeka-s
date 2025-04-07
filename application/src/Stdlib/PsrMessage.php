@@ -9,7 +9,7 @@ use Laminas\I18n\Translator\TranslatorInterface;
  *
  * @see \Omeka\Stdlib\Message
  */
-class PsrMessage implements MessageInterface, PsrInterpolateInterface
+class PsrMessage implements \JsonSerializable, MessageInterface, PsrInterpolateInterface
 {
     use PsrInterpolateTrait;
 
@@ -100,7 +100,7 @@ class PsrMessage implements MessageInterface, PsrInterpolateInterface
         return $this->interpolate($translator->translate($this->getMessage(), $textDomain, $locale), $this->getContext());
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): string
     {
         return (string) $this;
     }

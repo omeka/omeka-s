@@ -1,6 +1,6 @@
 <?php
 
-namespace AddTriplestore\Controller\Site;
+namespace RDFExport\Controller\Site;
 
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;

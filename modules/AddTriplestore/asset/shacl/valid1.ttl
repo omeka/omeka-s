@@ -19,8 +19,8 @@
 @prefix aat: <http://vocab.getty.edu/aat/>.  # Getty Vocab AAT for material
 
 # Arrowhead Instance
-<http://www.arch-project.com/data/arrowhead1> a crm:E24_Physical_Man-Made_Thing ;
-  dcterms:identifier "AH-001"^^xsd:string ;
+<http://www.arch-project.com/data/arrowhead4> a crm:E24_Physical_Man-Made_Thing ;
+  dcterms:identifier "AH-004"^^xsd:string ;
   edm:Webresource <http://example.com/image1.jpg>, <http://example.com/3dmodel1.obj>;
   ah:shape ah-shape:triangle ;
   crm:E57_Material <http://vocab.getty.edu/aat/300010351> ; # Flint
@@ -54,7 +54,7 @@
   ah:delineation ah-chippingDelineation:continuous ;
   ah:chippinglocation-Lateral ah-chippingLocation:distal, ah-chippingLocation:median ;
   ah:chippingLocation-Transveral ah-chippingLocation:distal ;
-  ah:chippingShape ah-chippingShape:straight .
+  ah:chippingShape ah-chippingShape:convex .
 
 # Encounter Instance
 <http://www.arch-project.com/data/encounter1> a crmsci:S19_Encounter_Event .

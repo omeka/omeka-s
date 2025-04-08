@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<item id="AH0027">
+<item id="AH0087">
   <images>
     <image>http://example.com/image1.jpg</image>
     <image>http://example.com/image2.png</image>
@@ -7,7 +7,7 @@
   <models3d>
     <model3d>http://example.com/model1.obj</model3d>
   </models3d>
-  <shape>http://www.purl.com/ah/kos/ah-shape/triangle</shape>
+  <shape>http://www.purl.com/ah/kos/ah-shape/losangular</shape>
   <material>http://vocab.getty.edu/aat/300010351</material>
   <observationDetails>
     <detail>Slight damage on tip.</detail>
@@ -15,12 +15,12 @@
   </observationDetails>
   <conditionState>true</conditionState>
   <type>true</type>
-  <variant>http://www.purl.com/ah/kos/ah-variant/flat</variant>
+  <variant>http://www.purl.com/ah/kos/ah-variant/raised</variant>
   <gpsCoordinates>GPS001</gpsCoordinates>
   <morphology>
     <point>true</point>
     <body>true</body>
-    <base>http://www.purl.com/ah/kos/ah-base/straight</base>
+    <base>http://www.purl.com/ah/kos/ah-base/convex</base>
   </morphology>
   <typometry>
     <height>50</height>
@@ -38,7 +38,7 @@
     <chippinglocation-Lateral>http://www.purl.com/ah/kos/ah-chippingLocation/distal</chippinglocation-Lateral>
     <chippinglocation-Lateral>http://www.purl.com/ah/kos/ah-chippingLocation/median</chippinglocation-Lateral>
     <chippingLocation-Transversal>http://www.purl.com/ah/kos/ah-chippingLocation/distal</chippingLocation-Transversal>
-    <chippingShape>http://www.purl.com/ah/kos/ah-chippingShape/straight</chippingShape>
+    <chippingShape>http://www.purl.com/ah/kos/ah-chippingShape/convex</chippingShape>
   </chipping>
   <foundInExcavation>ExcavationSite1</foundInExcavation>
   <gps>

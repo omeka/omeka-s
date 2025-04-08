@@ -1,19 +1,497 @@
 <?php
 $results = $this->results;
-$currentFilter = $this->filter ?? 'all'; // Get the current filter
+$currentSubjectFilter = $_GET['subject'] ?? null;
+$currentSecondaryFilters = $_GET['filters'] ?? [];
 ?>
 
 <h1>Resultados da Consulta ao GraphDB</h1>
 
-<!-- Menu with filters -->
-<nav>
-    <ul>
-        <li><a href="<?php echo $this->url(null, [], ['query' => ['filter' => 'all']], true); ?>" <?php echo $currentFilter === 'all' ? 'style="font-weight: bold;"' : ''; ?>>Todos</a></li>
-        <li><a href="<?php echo $this->url(null, [], ['query' => ['filter' => 'arrowheads']], true); ?>" <?php echo $currentFilter === 'arrowheads' ? 'style="font-weight: bold;"' : ''; ?>>Arrowheads</a></li>
-        <li><a href="<?php echo $this->url(null, [], ['query' => ['filter' => 'excavations']], true); ?>" <?php echo $currentFilter === 'excavations' ? 'style="font-weight: bold;"' : ''; ?>>Excavations</a></li>
-        <li><a href="<?php echo $this->url(null, [], ['query' => ['filter' => 'archaeologists']], true); ?>" <?php echo $currentFilter === 'archaeologists' ? 'style="font-weight: bold;"' : ''; ?>>Archaeologists</a></li>
-    </ul>
+<nav class="filter-menu">
+    <form method="get" action="<?php echo $this->url(null, [], [], true); ?>" id="filter-form">
+        <div class="filter-group">
+            <div class="filter-header">
+                Subject
+            </div>
+            <ul class="filter-list open">
+                <li>
+                    <label>
+                        <input type="radio" name="subject" value="all" <?php if (!$currentSubjectFilter): ?>checked<?php endif; ?> onchange="loadSecondaryFilters(this.value)">
+                        Todos
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="subject" value="arrowheads" <?php if ($currentSubjectFilter === 'arrowheads'): ?>checked<?php endif; ?> onchange="loadSecondaryFilters(this.value)">
+                        Arrowheads
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="subject" value="axes" <?php if ($currentSubjectFilter === 'axes'): ?>checked<?php endif; ?> onchange="loadSecondaryFilters(this.value)">
+                        Axes
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="subject" value="excavations" <?php if ($currentSubjectFilter === 'excavations'): ?>checked<?php endif; ?> onchange="loadSecondaryFilters(this.value)">
+                        Excavations
+                    </label>
+                </li>
+            </ul>
+        </div>
+
+        <div id="secondary-filters-container">
+            <?php if ($currentSubjectFilter === 'arrowheads'): ?>
+                <div class="filter-group">
+                    <div class="filter-header" onclick="toggleFilters('shape-filters')">
+                        <i class="arrow"></i> Shape
+                    </div>
+                    <ul class="filter-list" id="shape-filters">
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[shape][]" value="triangle" <?php if (isset($currentSecondaryFilters['shape']) && in_array('triangle', $currentSecondaryFilters['shape'])): ?>checked<?php endif; ?>>
+                                Triangle
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[shape][]" value="losangular" <?php if (isset($currentSecondaryFilters['shape']) && in_array('losangular', $currentSecondaryFilters['shape'])): ?>checked<?php endif; ?>>
+                                Losangular
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[shape][]" value="pedunculated" <?php if (isset($currentSecondaryFilters['shape']) && in_array('pedunculated', $currentSecondaryFilters['shape'])): ?>checked<?php endif; ?>>
+                                Pedunculated
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-header" onclick="toggleFilters('variant-filters')">
+                        <i class="arrow"></i> Variant
+                    </div>
+                    <ul class="filter-list" id="variant-filters">
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[variant][]" value="flat" <?php if (isset($currentSecondaryFilters['variant']) && in_array('flat', $currentSecondaryFilters['variant'])): ?>checked<?php endif; ?>>
+                                Flat
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[variant][]" value="raised" <?php if (isset($currentSecondaryFilters['variant']) && in_array('raised', $currentSecondaryFilters['variant'])): ?>checked<?php endif; ?>>
+                                Raised
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[variant][]" value="thick" <?php if (isset($currentSecondaryFilters['variant']) && in_array('thick', $currentSecondaryFilters['variant'])): ?>checked<?php endif; ?>>
+                                Thick
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-header" onclick="toggleFilters('point-filters')">
+                        <i class="arrow"></i> Has Point
+                    </div>
+                    <ul class="filter-list" id="point-filters">
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[point][]" value="true" <?php if (isset($currentSecondaryFilters['point']) && in_array('true', $currentSecondaryFilters['point'])): ?>checked<?php endif; ?>>
+                                True
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[point][]" value="false" <?php if (isset($currentSecondaryFilters['point']) && in_array('false', $currentSecondaryFilters['point'])): ?>checked<?php endif; ?>>
+                                False
+                            </label>
+                        </li>
+                    </ul></label>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-header" onclick="toggleFilters('body-filters')">
+                        <i class="arrow"></i> Has Body
+                    </div>
+                    <ul class="filter-list" id="body-filters">
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[body][]" value="true" <?php if (isset($currentSecondaryFilters['body']) && in_array('true', $currentSecondaryFilters['body'])): ?>checked<?php endif; ?>>
+                                True
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[body][]" value="false" <?php if (isset($currentSecondaryFilters['body']) && in_array('false', $currentSecondaryFilters['body'])): ?>checked<?php endif; ?>>
+                                False
+                            </label>
+                        </li>
+                    </ul></label>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-header" onclick="toggleFilters('base-filters')">
+                        <i class="arrow"></i> Base
+                    </div>
+                    <ul class="filter-list" id="base-filters">
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[base][]" value="straight" <?php if (isset($currentSecondaryFilters['base']) && in_array('straight', $currentSecondaryFilters['base'])): ?>checked<?php endif; ?>>
+                                Straight
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[base][]" value="convex" <?php if (isset($currentSecondaryFilters['base']) && in_array('convex', $currentSecondaryFilters['base'])): ?>checked<?php endif; ?>>
+                                Convex
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[base][]" value="concave" <?php if (isset($currentSecondaryFilters['base']) && in_array('concave', $currentSecondaryFilters['base'])): ?>checked<?php endif; ?>>
+                                Concave
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[base][]" value="pedunculated" <?php if (isset($currentSecondaryFilters['base']) && in_array('pedunculated', $currentSecondaryFilters['base'])): ?>checked<?php endif; ?>>
+                                Pedunculated
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[base][]" value="triangular" <?php if (isset($currentSecondaryFilters['base']) && in_array('triangular', $currentSecondaryFilters['base'])): ?>checked<?php endif; ?>>
+                                Triangular
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-header" onclick="toggleFilters('mode-filters')">
+                        <i class="arrow"></i> Chipping Mode
+                    </div>
+                    <ul class="filter-list" id="mode-filters">
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[mode][]" value="plane" <?php if (isset($currentSecondaryFilters['mode']) && in_array('plane', $currentSecondaryFilters['mode'])): ?>checked<?php endif; ?>>
+                                Plane
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[mode][]" value="parallel" <?php if (isset($currentSecondaryFilters['mode']) && in_array('parallel', $currentSecondaryFilters['mode'])): ?>checked<?php endif; ?>>
+                                Parallel
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[mode][]" value="sub-parallel" <?php if (isset($currentSecondaryFilters['mode']) && in_array('sub-parallel', $currentSecondaryFilters['mode'])): ?>checked<?php endif; ?>>
+                                Sub-parallel
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-header" onclick="toggleFilters('amplitude-filters')">
+                        <i class="arrow"></i> Chipping Amplitude
+                    </div>
+                    <ul class="filter-list" id="amplitude-filters">
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[amplitude][]" value="true" <?php if (isset($currentSecondaryFilters['amplitude']) && in_array('true', $currentSecondaryFilters['amplitude'])): ?>checked<?php endif; ?>>
+                                True
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[amplitude][]" value="false" <?php if (isset($currentSecondaryFilters['amplitude']) && in_array('false', $currentSecondaryFilters['amplitude'])): ?>checked<?php endif; ?>>
+                                False
+                            </label>
+                        </li>
+                    </ul></label>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-header" onclick="toggleFilters('direction-filters')">
+                        <i class="arrow"></i> Chipping Direction
+                    </div>
+                    <ul class="filter-list" id="direction-filters">
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[direction][]" value="direct" <?php if (isset($currentSecondaryFilters['direction']) && in_array('direct', $currentSecondaryFilters['direction'])): ?>checked<?php endif; ?>>
+                                Direct
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[direction][]" value="reverse" <?php if (isset($currentSecondaryFilters['direction']) && in_array('reverse', $currentSecondaryFilters['direction'])): ?>checked<?php endif; ?>>
+                                Reverse
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[direction][]" value="bifacial" <?php if (isset($currentSecondaryFilters['direction']) && in_array('bifacial', $currentSecondaryFilters['direction'])): ?>checked<?php endif; ?>>
+                                Bifacial
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-header" onclick="toggleFilters('orientation-filters')">
+                        <i class="arrow"></i> Chipping Orientation
+                    </div>
+                    <ul class="filter-list" id="orientation-filters">
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[orientation][]" value="true" <?php if (isset($currentSecondaryFilters['orientation']) && in_array('true', $currentSecondaryFilters['orientation'])): ?>checked<?php endif; ?>>
+                                True
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[orientation][]" value="false" <?php if (isset($currentSecondaryFilters['orientation']) && in_array('false', $currentSecondaryFilters['orientation'])): ?>checked<?php endif; ?>>
+                                False
+                            </label>
+                        </li>
+                    </ul></label>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-header" onclick="toggleFilters('delineation-filters')">
+                        <i class="arrow"></i> Chipping Delineation
+                    </div>
+                    <ul class="filter-list" id="delineation-filters">
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[delineation][]" value="continuous" <?php if (isset($currentSecondaryFilters['delineation']) && in_array('continuous', $currentSecondaryFilters['delineation'])): ?>checked<?php endif; ?>>
+                                Continuous
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[delineation][]" value="composite" <?php if (isset($currentSecondaryFilters['delineation']) && in_array('composite', $currentSecondaryFilters['delineation'])): ?>checked<?php endif; ?>>
+                                Composite
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[delineation][]" value="denticulated" <?php if (isset($currentSecondaryFilters['delineation']) && in_array('denticulated', $currentSecondaryFilters['delineation'])): ?>checked<?php endif; ?>>
+                                Denticulated
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-header" onclick="toggleFilters('chippinglocation-side-filters')">
+                        <i class="arrow"></i> Chipping Location - Side
+                    </div>
+                    <ul class="filter-list" id="chippinglocation-side-filters">
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[chippinglocation-Side][]" value="distal" <?php if (isset($currentSecondaryFilters['chippinglocation-Side']) && in_array('distal', $currentSecondaryFilters['chippinglocation-Side'])): ?>checked<?php endif; ?>>
+                                Distal
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[chippinglocation-Side][]" value="median" <?php if (isset($currentSecondaryFilters['chippinglocation-Side']) && in_array('median', $currentSecondaryFilters['chippinglocation-Side'])): ?>checked<?php endif; ?>>
+                                Median
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[chippinglocation-Side][]" value="proximal" <?php if (isset($currentSecondaryFilters['chippinglocation-Side']) && in_array('proximal', $currentSecondaryFilters['chippinglocation-Side'])): ?>checked<?php endif; ?>>
+                                Proximal
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-header" onclick="toggleFilters('chippinglocation-transversal-filters')">
+                        <i class="arrow"></i> Chipping Location - Transversal
+                    </div>
+                    <ul class="filter-list" id="chippinglocation-transversal-filters">
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[chippinglocation-Transversal][]" value="distal" <?php if (isset($currentSecondaryFilters['chippinglocation-Transversal']) && in_array('distal', $currentSecondaryFilters['chippinglocation-Transversal'])): ?>checked<?php endif; ?>>
+                                Distal
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[chippinglocation-Transversal][]" value="median" <?php if (isset($currentSecondaryFilters['chippinglocation-Transversal']) && in_array('median', $currentSecondaryFilters['chippinglocation-Transversal'])): ?>checked<?php endif; ?>>
+                                Median
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[chippinglocation-Transversal][]" value="proximal" <?php if (isset($currentSecondaryFilters['chippinglocation-Transversal']) && in_array('proximal', $currentSecondaryFilters['chippinglocation-Transversal'])): ?>checked<?php endif; ?>>
+                                Proximal
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-header" onclick="toggleFilters('chippingshape-filters')">
+                        <i class="arrow"></i> Chipping Shape
+                    </div>
+                    <ul class="filter-list" id="chippingshape-filters">
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[chippingShape][]" value="straight" <?php if (isset($currentSecondaryFilters['chippingShape']) && in_array('straight', $currentSecondaryFilters['chippingShape'])): ?>checked<?php endif; ?>>
+                                Straight
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[chippingShape][]" value="convex" <?php if (isset($currentSecondaryFilters['chippingShape']) && in_array('convex', $currentSecondaryFilters['chippingShape'])): ?>checked<?php endif; ?>>
+                                Convex
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[chippingShape][]" value="concave" <?php if (isset($currentSecondaryFilters['chippingShape']) && in_array('concave', $currentSecondaryFilters['chippingShape'])): ?>checked<?php endif; ?>>
+                                Concave
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="filters[chippingShape][]" value="sinuous" <?php if (isset($currentSecondaryFilters['chippingShape']) && in_array('sinuous', $currentSecondaryFilters['chippingShape'])): ?>checked<?php endif; ?>>
+                                Sinuous
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+
+
+            <?php elseif ($currentSubjectFilter === 'axes'): ?>
+                <?php elseif ($currentSubjectFilter === 'excavations'): ?>
+                <?php endif; ?>
+        </div>
+
+        <button type="submit">Filtrar</button>
+        <button type="button" onclick="clearSecondaryFilters()">Limpar Filtros</button>
+    </form>
 </nav>
+
+
+<style>
+    .filter-menu {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+
+    .filter-group {
+        margin-bottom: 10px;
+    }
+
+    .filter-header {
+        cursor: pointer;
+        padding: 5px;
+        background-color: #f0f0f0;
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        align-items: center;
+    }
+
+    .filter-header .arrow {
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid #333;
+        margin-right: 5px;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .filter-header.active .arrow {
+        transform: rotate(-90deg);
+    }
+
+    .filter-list {
+        list-style: none;
+        padding-left: 15px;
+        display: none; /* Initially hidden */
+    }
+
+    .filter-list.open {
+        display: block;
+    }
+
+    .filter-list li {
+        margin-bottom: 5px;
+    }
+</style>
+
+<script>
+    function toggleFilters(id) {
+        const filterList = document.getElementById(id);
+        const filterHeader = filterList.previousElementSibling;
+        filterList.classList.toggle('open');
+        filterHeader.classList.toggle('active');
+    }
+
+    function clearSecondaryFilters() {
+        const secondaryFiltersContainer = document.getElementById('secondary-filters-container');
+        if (secondaryFiltersContainer) {
+            const checkboxes = secondaryFiltersContainer.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            const textInputs = secondaryFiltersContainer.querySelectorAll('input[type="text"]');
+            textInputs.forEach(input => {
+                input.value = '';
+            });
+            // Optionally, submit the form to apply the cleared secondary filters
+            document.getElementById('filter-form').submit();
+        }
+    }
+
+    function loadSecondaryFilters(subject) {
+        // This function will likely use AJAX to fetch and update the
+        // content of the 'secondary-filters-container' based on the
+        // selected 'subject'.
+
+        // For a basic example without AJAX (page reload):
+        window.location.href = window.location.pathname + '?subject=' + subject;
+    }
+
+    // Keep filter groups open if they have selected items on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterGroups = document.querySelectorAll('.filter-group');
+        filterGroups.forEach(group => {
+            const checkboxes = group.querySelectorAll('input[type="checkbox"]:checked');
+            const textInputs = group.querySelectorAll('input[type="text"][value!=""]');
+            if (checkboxes.length > 0 || textInputs.length > 0) {
+                const filterList = group.querySelector('.filter-list');
+                const filterHeader = group.querySelector('.filter-header');
+                if (filterList && filterHeader) {
+                    filterList.classList.add('open');
+                    filterHeader.classList.add('active');
+                }
+            }
+        });
+
+        // Ensure the correct secondary filters are visible on initial load
+        const initialSubject = document.querySelector('input[name="subject"]:checked');
+        if (initialSubject && initialSubject.value !== 'all') {
+            // The secondary filters for the initially selected subject are already rendered
+            // by the PHP in this non-AJAX example.
+        }
+    });
+</script>
 
 <?php if (isset($results['results']['bindings']) && !empty($results['results']['bindings'])): ?>
     <table>

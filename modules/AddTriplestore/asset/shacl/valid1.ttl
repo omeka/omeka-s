@@ -16,6 +16,7 @@
 @prefix edm: <http://www.europeana.eu/schemas/edm#>.
 @prefix dbo: <http://dbpedia.org/ontology/>.
 @prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
+@prefix aat: <http://vocab.getty.edu/aat/>.  # Getty Vocab AAT for material
 
 # Arrowhead Instance
 <http://www.arch-project.com/data/arrowhead1> a crm:E24_Physical_Man-Made_Thing ;
@@ -29,6 +30,7 @@
   ah:variant ah-variant:flat ;
   ah:foundInCoordinates <http://www.arch-project.com/data/gps1> ;
   ah:hasMorphology <http://www.arch-project.com/data/morph1> ;
+  crm:E57_Material <http://vocab.getty.edu/aat/300010351> ; # Flint
   ah:hasTypometry <http://www.arch-project.com/data/type1> ;
   crm:P12i_was_present_at <http://www.arch-project.com/data/encounter1> .
 

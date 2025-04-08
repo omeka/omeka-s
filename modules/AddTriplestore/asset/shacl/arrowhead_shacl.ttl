@@ -29,6 +29,7 @@
 @prefix wdrs: <http://www.w3.org/2007/05/powder-s#>.
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix sh: <http://www.w3.org/ns/shacl#>.
+@prefix aat: <http://vocab.getty.edu/aat/>.  # Getty Vocab AAT for material
 
 @prefix excav: <https://purl.org/ah/ms/excavationMS#>.
 
@@ -48,6 +49,14 @@ ah:ArrowheadShape a sh:NodeShape;
   sh:property [
     sh:path ah:hasAnnotation;
     sh:minCount 0;  # annotation is optional
+  ];
+  sh:property [
+    sh:path crm:P45_consists_of;
+    sh:nodeKind sh:IRI;
+    sh:class crm:E57_Material;
+    sh:minCount 0;
+    sh:maxCount 1;
+    sh:in (aat:300010357); # Getty Vocab AAT for material
   ];
   sh:property [
     sh:path ah:shape;

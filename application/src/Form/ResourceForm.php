@@ -37,7 +37,7 @@ class ResourceForm extends Form implements EventManagerAwareInterface
                 'id' => 'resource-template-select',
                 'class' => 'chosen-select',
                 'data-placeholder' => 'Select a template', // @translate
-                'data-api-base-url' => $urlHelper('api/default', ['resource' => 'resource_templates']),
+                'data-api-base-url' => $urlHelper('api-local/default', ['resource' => 'resource_templates']),
             ],
             'options' => [
                 'label' => 'Resource template', // @translate
@@ -86,7 +86,7 @@ class ResourceForm extends Form implements EventManagerAwareInterface
             'attributes' => [
                 'id' => 'resource-owner-select',
                 'class' => 'chosen-select',
-                'data-api-base-url' => $urlHelper('api/default', ['resource' => 'users']),
+                'data-api-base-url' => $urlHelper('api-local/default', ['resource' => 'users']),
             ],
             'options' => [
                 'label' => 'Owner', // @translate

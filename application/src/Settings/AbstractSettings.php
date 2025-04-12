@@ -2,10 +2,13 @@
 namespace Omeka\Settings;
 
 use Doctrine\DBAL\Connection;
+use Laminas\EventManager\EventManagerAwareTrait;
 use Omeka\Mvc\Status;
 
 abstract class AbstractSettings implements SettingsInterface
 {
+    use EventManagerAwareTrait;
+
     /**
      * @var Connection
      */
@@ -173,17 +176,26 @@ abstract class AbstractSettings implements SettingsInterface
                 ['id' => $id],
                 ['json_array']
             );
+            $this->getEventManager()->trigger('setting.update', $this, [
+                'id' => $id,
+                'value' => $value,
+            ]);
         } else {
             $this->connection->insert(
                 $this->getTableName(),
                 ['value' => $value, 'id' => $id],
                 ['json_array']
             );
+            $this->getEventManager()->trigger('setting.insert', $this, [
+                'id' => $id,
+                'value' => $value,
+            ]);
         }
     }
 
     protected function deleteSetting($id)
     {
         $this->connection->delete($this->getTableName(), ['id' => $id]);
+        $this->getEventManager()->trigger('setting.delete', $this, ['id' => $id]);
     }
 }

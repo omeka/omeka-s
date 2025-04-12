@@ -118,12 +118,22 @@ abstract class AbstractTargetSettings extends AbstractSettings
                 ['id' => $id, $this->getTargetIdColumnName() => $this->targetId],
                 ['json_array']
             );
+            $this->getEventManager()->trigger('setting.update', $this, [
+                'target_id' => $this->targetId,
+                'id' => $id,
+                'value' => $value,
+            ]);
         } else {
             $this->connection->insert(
                 $this->getTableName(),
                 ['value' => $value, $this->getTargetIdColumnName() => $this->targetId, 'id' => $id],
                 ['json_array', \PDO::PARAM_INT]
             );
+            $this->getEventManager()->trigger('setting.insert', $this, [
+                'target_id' => $this->targetId,
+                'id' => $id,
+                'value' => $value,
+            ]);
         }
     }
 

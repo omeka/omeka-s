@@ -1,0 +1,57 @@
+<?php
+$this->documentTitle = 'GraphDB Synchronization'; // Corrected title
+?>
+
+<div class="section-container">
+    <section class="section">
+        <h2>GraphDB Configuration</h2>
+        <p>Configure the connection to your GraphDB instance.</p>
+
+        <?= $this->form()->prepare($form) ?>
+        <?= $this->form()->openTag($form) ?>
+
+        <div class="field">
+            <?= $this->formLabel($form->get('graphdb_url')) ?>
+            <div class="inputs">
+                <?= $this->formElement($form->get('graphdb_url')) ?>
+                <p class="explanation"><?= $this->formElementErrors($form->get('graphdb_url')) ?></p>
+                <p class="explanation"><?= $this->form->get('graphdb_url')->getOption('info') ?></p>
+            </div>
+        </div>
+
+        <div class="field">
+            <?= $this->formLabel($form->get('graphdb_repository')) ?>
+            <div class="inputs">
+                <?= $this->formElement($form->get('graphdb_repository')) ?>
+                <p class="explanation"><?= $this->formElementErrors($form->get('graphdb_repository')) ?></p>
+                <p class="explanation"><?= $this->form->get('graphdb_repository')->getOption('info') ?></p>
+            </div>
+        </div>
+
+        <?= $this->formElement($form->get('submit')) ?>
+
+        <?= $this->form()->closeTag() ?>
+    </section>
+
+    <section class="section">
+        <h2>Synchronize Data</h2>
+        <p>Click the button below to trigger the synchronization job. This may take a while.</p>
+        <form action="<?= $this->url('admin/sync-data/sync') ?>" method="post"> // Corrected route
+            <input type="submit" value="Start Synchronization">
+        </form>
+    </section>
+
+    <?php if ($this->job): ?>
+        <section class="section">
+            <h2>Synchronization Status</h2>
+            <p>Last synchronization status: <?= $this->job->getStatus() ?></p>
+            <?php if ($this->job->getStatus() === 'processing'): ?>
+                <p>Synchronization is currently in progress. Please check back later.</p>
+            <?php elseif ($this->job->getStatus() === 'completed'): ?>
+                <p>Synchronization completed successfully.</p>
+            <?php elseif ($this->job->getStatus() === 'error'): ?>
+                <p>Synchronization failed: <?= $this->job->getMessage() ?></p>
+            <?php endif; ?>
+        </section>
+    <?php endif; ?>
+</div>

@@ -1,0 +1,29 @@
+<?php
+/**
+ * @var \Laminas\Form\Form $form
+ */
+?>
+
+<?= $this->form()->prepare($form) ?>
+<?= $this->form()->openTag($form) ?>
+
+<?php foreach ($form as $element): ?>
+    <?php if (!$element instanceof \Laminas\Form\Element\Hidden): ?>
+        <div class="field">
+            <?= $this->formLabel($element) ?>
+            <div class="inputs">
+                <?= $this->formElement($element) ?>
+                <p class="explanation"><?= $this->formElementErrors($element) ?></p>
+                <?php if ($element->getOption('info')): ?>
+                    <p class="explanation"><?= $element->getOption('info') ?></p>
+                <?php endif; ?>
+            </div>
+        </div>
+    <?php else: ?>
+        <?= $this->formElement($element) ?>
+    <?php endif; ?>
+<?php endforeach; ?>
+
+<?= $this->formElement($form->get('submit')) ?>
+
+<?= $this->form()->closeTag() ?>

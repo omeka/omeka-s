@@ -1,0 +1,60 @@
+.add-triplestore {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.add-triplestore h1 {
+  font-size: 1.5em;
+  color: white;
+  text-align: center;
+}
+
+input {
+  border-radius: 5px;  
+  background-color: #b57f4f;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: white;
+  margin-bottom: 5px;
+}
+
+input[type="submit"] {
+  background-color: #b57f4f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.form-group {
+  width: 50%;
+  height: 100px;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  background-color: #b57f4f;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-group input{
+  margin-top: 5px;
+  border-radius: 5px;
+  width: 50%;
+
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+
+

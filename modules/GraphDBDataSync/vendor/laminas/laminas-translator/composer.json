@@ -1,0 +1,46 @@
+{
+    "name": "laminas/laminas-translator",
+    "description": "Interfaces for the Translator component of laminas-i18n",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "laminas",
+        "i18n"
+    ],
+    "homepage": "https://laminas.dev",
+    "support": {
+        "docs": "https://docs.laminas.dev/laminas-i18n/",
+        "issues": "https://github.com/laminas/laminas-translator/issues",
+        "source": "https://github.com/laminas/laminas-translator",
+        "rss": "https://github.com/laminas/laminas-translator/releases.atom",
+        "chat": "https://laminas.dev/chat",
+        "forum": "https://discourse.laminas.dev"
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "8.1.99"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "require": {
+        "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0"
+    },
+    "require-dev": {
+        "laminas/laminas-coding-standard": "~3.0.0",
+        "vimeo/psalm": "^5.24.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laminas\\Translator\\": "src/"
+        }
+    },
+    "scripts": {
+        "check": [
+            "@cs-check"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf"
+    }
+}

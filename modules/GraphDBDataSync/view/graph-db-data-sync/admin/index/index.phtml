@@ -1,0 +1,38 @@
+<?php
+$this->documentTitle = $this->translate('GraphDB Data Synchronization');
+?>
+
+<h1><?= $this->translate('GraphDB Data Synchronization') ?></h1>
+
+<p><?= $this->translate('Configure the connection to your GraphDB instance.') ?></p>
+
+<?= $this->form()->openTag($form); ?>
+
+<div class="form-group">
+    <?= $this->formLabel($form->get('graphdb_endpoint')); ?>
+    <?= $this->formElement($form->get('graphdb_endpoint')); ?>
+    <?= $this->formElementErrors($form->get('graphdb_endpoint')); ?>
+    <p class="form-element-info"><?= $form->get('graphdb_endpoint')->getOption('info') ?></p>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($form->get('graphdb_username')); ?>
+    <?= $this->formElement($form->get('graphdb_username')); ?>
+    <?= $this->formElementErrors($form->get('graphdb_username')); ?>
+    <p class="form-element-info"><?= $form->get('graphdb_username')->getOption('info') ?></p>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($form->get('graphdb_password')); ?>
+    <?= $this->formElement($form->get('graphdb_password')); ?>
+    <?= $this->formElementErrors($form->get('graphdb_password')); ?>
+    <p class="form-element-info"><?= $form->get('graphdb_password')->getOption('info') ?></p>
+</div>
+
+<?= $this->formElement($form->get('submit')); ?>
+
+<?= $this->form()->closeTag(); ?>
+
+<a href="<?= $this->url('admin/graphdb_data_sync/extract') ?>" class="button">
+    <?= $this->translate('Extract Omeka S Data') ?>
+</a>

@@ -1,0 +1,10 @@
+{
+    "require": {
+        "laminas/laminas-http": "^2.15"  
+    },
+    "autoload": {
+        "psr-4": {
+            "GraphDBDataSync\\": "src/"
+        }
+    }
+}

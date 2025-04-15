@@ -1,0 +1,11 @@
+<?php
+$this->documentTitle = $this->translate('Extracted Omeka S Data');
+?>
+
+<h1><?= $this->translate('Extracted Omeka S Data') ?></h1>
+
+<p><?= $this->translate('This is the data extracted from Omeka S:') ?></p>
+
+<pre><?php print_r($omekaData); ?></pre>
+
+<a href="<?= $this->url('admin/graphdb_data_sync') ?>">Back to Config</a>

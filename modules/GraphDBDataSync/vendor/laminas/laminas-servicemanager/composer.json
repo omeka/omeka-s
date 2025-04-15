@@ -1,0 +1,89 @@
+{
+    "name": "laminas/laminas-servicemanager",
+    "description": "Factory-Driven Dependency Injection Container",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "laminas",
+        "di",
+        "dic",
+        "dependency-injection",
+        "psr-11",
+        "servicemanager",
+        "service-manager"
+    ],
+    "homepage": "https://laminas.dev",
+    "support": {
+        "issues": "https://github.com/laminas/laminas-servicemanager/issues",
+        "chat": "https://laminas.dev/chat",
+        "forum": "https://discourse.laminas.dev"
+    },
+    "config": {
+        "platform": {
+            "php": "8.1.99"
+        },
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "composer/package-versions-deprecated": true
+        }
+    },
+    "require": {
+        "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
+        "brick/varexporter": "^0.3.8 || ^0.4.0 || ^0.5.0",
+        "laminas/laminas-stdlib": "^3.19",
+        "psr/container": "^1.1 || ^2.0"
+    },
+    "extra": {
+        "laminas": {
+            "config-provider": "Laminas\\ServiceManager\\ConfigProvider",
+            "module": "Laminas\\ServiceManager"
+        }
+    },
+    "require-dev": {
+        "composer/package-versions-deprecated": "^1.11.99.5",
+        "friendsofphp/proxy-manager-lts": "^1.0.18",
+        "laminas/laminas-cli": "^1.11",
+        "laminas/laminas-coding-standard": "~3.0.1",
+        "laminas/laminas-container-config-test": "^1.0",
+        "mikey179/vfsstream": "^1.6.12",
+        "phpbench/phpbench": "^1.4.0",
+        "phpunit/phpunit": "^10.5.44",
+        "psalm/plugin-phpunit": "^0.19.2",
+        "symfony/console": "^6.4.17 || ^7.0",
+        "vimeo/psalm": "^6.2.0"
+    },
+    "provide": {
+        "psr/container-implementation": "^1.0 || ^2.0"
+    },
+    "conflict": {
+        "laminas/laminas-code": "<4.10.0",
+        "zendframework/zend-code": "<3.3.1"
+    },
+    "suggest": {
+        "laminas/laminas-cli": "To consume CLI commands provided by this component",
+        "friendsofphp/proxy-manager-lts": "To handle lazy initialization of services"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laminas\\ServiceManager\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaminasTest\\ServiceManager\\": "test/",
+            "LaminasBench\\ServiceManager\\": "benchmarks/"
+        }
+    },
+    "scripts": {
+        "benchmark": "phpbench run --revs=2 --iterations=2 --report=aggregate",
+        "check": [
+            "@cs-check",
+            "@test"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "static-analysis": "psalm --shepherd --stats",
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+    }
+}

@@ -44,6 +44,15 @@ return [
                                 ],
                             ],
                         ],
+                        'sync' => [
+                            'type' => 'Literal',
+                            'options' => [
+                                'route' => '/sync',
+                                'defaults' => [
+                                    'action' => 'syncToGraphDb', // Nome da nova ação no controller
+                                ],
+                            ],
+                        ],
                     ],
                 ],
             ],

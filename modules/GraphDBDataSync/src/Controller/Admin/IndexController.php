@@ -143,9 +143,7 @@ class IndexController extends AbstractActionController implements InjectApplicat
         
         try {
             // Use the controller's built-in url() helper
-            $apiUrl = $this->url()->fromRoute('api/default', [
-                'resource' => 'items'
-            ], ['force_canonical' => true]);
+            $apiUrl = 'http://localhost/api/collecting_items';
             
             $this->httpClient->setUri($apiUrl);
             $this->httpClient->setMethod('GET');

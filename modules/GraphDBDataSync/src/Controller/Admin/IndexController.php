@@ -25,7 +25,7 @@ class IndexController extends AbstractActionController implements InjectApplicat
     private $pluginManager;
     private $formElementManager;
 
-    private $config; // Add this property
+    private $config; 
 
     private $urlHelper;
 
@@ -35,7 +35,7 @@ class IndexController extends AbstractActionController implements InjectApplicat
         Client $httpClient,
         PluginManager $pluginManager,
         FormElementManager $formElementManager,
-        $urlHelper // Add this
+        $urlHelper 
     ) {
         $this->acl = $acl;
         $this->messenger = $messenger;

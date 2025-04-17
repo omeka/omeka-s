@@ -1,24 +1,26 @@
 <?php
 namespace Omeka\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @Entity
+ * @ORM\Entity
  */
 class Module extends AbstractEntity
 {
     /**
-     * @Id
-     * @Column(type="string", length=190)
+     * @ORM\Id
+     * @ORM\Column(type="string", length=190)
      */
     protected $id;
 
     /**
-     * @Column(type="boolean")
+     * @ORM\Column(type="boolean")
      */
     protected $isActive = false;
 
     /**
-     * @Column
+     * @ORM\Column(length=190)
      */
     protected $version;
 

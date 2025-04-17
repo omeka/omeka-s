@@ -25,7 +25,6 @@ return [
         'Laminas\Mvc\Plugin\Identity',
         'Laminas\Navigation',
         'Laminas\Router',
-        'Laminas\ZendFrameworkBridge',
         'Omeka',
     ],
     'module_listener_options' => [

@@ -1,46 +1,48 @@
 <?php
 namespace Omeka\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @Entity
- * @Table(
+ * @ORM\Entity
+ * @ORM\Table(
  *   indexes={
- *     @Index(columns={"title", "text"}, flags={"fulltext"})
+ *     @ORM\Index(columns={"title", "text"}, flags={"fulltext"})
  *   }
  * )
  */
 class FulltextSearch
 {
     /**
-     * @Id
-     * @Column(type="integer")
+     * @ORM\Id
+     * @ORM\Column(type="integer")
      */
     protected $id;
 
     /**
-     * @Id
-     * @Column(type="string", length=190)
+     * @ORM\Id
+     * @ORM\Column(type="string", length=190)
      */
     protected $resource;
 
     /**
-     * @ManyToOne(targetEntity="User")
-     * @JoinColumn(onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $owner;
 
     /**
-     * @Column(type="boolean")
+     * @ORM\Column(type="boolean")
      */
     protected $isPublic = true;
 
     /**
-     * @Column(type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $title;
 
     /**
-     * @Column(type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $text;
 

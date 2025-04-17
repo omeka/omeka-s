@@ -2,31 +2,32 @@
 namespace Omeka\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @Entity
+ * @ORM\Entity
  */
 class ItemSet extends Resource
 {
     /**
-     * @Id
-     * @Column(type="integer")
+     * @ORM\Id
+     * @ORM\Column(type="integer")
      */
     protected $id;
 
     /**
-     * @Column(type="boolean")
+     * @ORM\Column(type="boolean")
      */
     protected $isOpen = false;
 
     /**
-     * @ManyToMany(targetEntity="Item", mappedBy="itemSets", fetch="EXTRA_LAZY")
-     * @JoinTable(name="item_item_set")
+     * @ORM\ManyToMany(targetEntity="Item", mappedBy="itemSets", fetch="EXTRA_LAZY")
+     * @ORM\JoinTable(name="item_item_set")
      */
     protected $items;
 
     /**
-     * @OneToMany(targetEntity="SiteItemSet", mappedBy="itemSet")
+     * @ORM\OneToMany(targetEntity="SiteItemSet", mappedBy="itemSet")
      */
     protected $siteItemSets;
 

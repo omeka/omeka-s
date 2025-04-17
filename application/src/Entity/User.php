@@ -5,58 +5,59 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\ORM\Mapping as ORM;
 use Laminas\Permissions\Acl\Role\RoleInterface;
 
 /**
- * @Entity
- * @HasLifecycleCallbacks
+ * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class User extends AbstractEntity implements RoleInterface
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     protected $id;
 
     /**
-     * @Column(type="string", length=190, unique=true)
+     * @ORM\Column(type="string", length=190, unique=true)
      */
     protected $email;
 
     /**
-     * @Column(type="string", length=190)
+     * @ORM\Column(type="string", length=190)
      */
     protected $name;
 
     /**
-     * @Column(type="datetime")
+     * @ORM\Column(type="datetime")
      */
     protected $created;
 
     /**
-     * @Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     protected $modified;
 
     /**
-     * @Column(type="string", length=60, nullable=true)
+     * @ORM\Column(type="string", length=60, nullable=true)
      */
     protected $passwordHash;
 
     /**
-     * @Column(type="string", length=190)
+     * @ORM\Column(type="string", length=190)
      */
     protected $role;
 
     /**
-     * @Column(type="boolean")
+     * @ORM\Column(type="boolean")
      */
     protected $isActive = false;
 
     /**
-     * @OneToMany(
+     * @ORM\OneToMany(
      *     targetEntity="ApiKey",
      *     mappedBy="owner",
      *     orphanRemoval=true,
@@ -67,27 +68,27 @@ class User extends AbstractEntity implements RoleInterface
     protected $keys;
 
     /**
-     * @OneToMany(targetEntity="Site", mappedBy="owner")
+     * @ORM\OneToMany(targetEntity="Site", mappedBy="owner")
      */
     protected $sites;
 
     /**
-     * @OneToMany(targetEntity="Vocabulary", mappedBy="owner")
+     * @ORM\OneToMany(targetEntity="Vocabulary", mappedBy="owner")
      */
     protected $vocabularies;
 
     /**
-     * @OneToMany(targetEntity="ResourceClass", mappedBy="owner")
+     * @ORM\OneToMany(targetEntity="ResourceClass", mappedBy="owner")
      */
     protected $resourceClasses;
 
     /**
-     * @OneToMany(targetEntity="Property", mappedBy="owner")
+     * @ORM\OneToMany(targetEntity="Property", mappedBy="owner")
      */
     protected $properties;
 
     /**
-     * @OneToMany(targetEntity="ResourceTemplate", mappedBy="owner")
+     * @ORM\OneToMany(targetEntity="ResourceTemplate", mappedBy="owner")
      */
     protected $resourceTemplates;
 
@@ -223,7 +224,7 @@ class User extends AbstractEntity implements RoleInterface
     }
 
     /**
-     * @PrePersist
+     * @ORM\PrePersist
      */
     public function prePersist(LifecycleEventArgs $eventArgs)
     {
@@ -231,7 +232,7 @@ class User extends AbstractEntity implements RoleInterface
     }
 
     /**
-     * @PreUpdate
+     * @ORM\PreUpdate
      */
     public function preUpdate(PreUpdateEventArgs $eventArgs)
     {

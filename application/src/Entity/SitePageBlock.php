@@ -2,12 +2,13 @@
 namespace Omeka\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @Entity
- * @Table(
+ * @ORM\Entity
+ * @ORM\Table(
  *     indexes={
- *         @Index(
+ *         @ORM\Index(
  *             name="page_position",
  *             columns={"page_id", "position"}
  *         )
@@ -17,46 +18,46 @@ use Doctrine\Common\Collections\ArrayCollection;
 class SitePageBlock extends AbstractEntity
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     protected $id;
 
     /**
-     * @Column(length=80)
+     * @ORM\Column(length=80)
      */
     protected $layout;
 
     /**
-     * @Column(type="json_array")
+     * @ORM\Column(type="json_array")
      */
     protected $data;
 
     /**
-     * @Column(type="json", nullable=true)
+     * @ORM\Column(type="json", nullable=true)
      */
     protected $layoutData;
 
     /**
-     * @Column(type="integer")
+     * @ORM\Column(type="integer")
      */
     protected $position;
 
     /**
-     * @ManyToOne(targetEntity="SitePage", inversedBy="blocks")
-     * @JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="SitePage", inversedBy="blocks")
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $page;
 
     /**
-     * @OneToMany(
+     * @ORM\OneToMany(
      *     targetEntity="SiteBlockAttachment",
      *     mappedBy="block",
      *     orphanRemoval=true,
      *     cascade={"persist", "remove"}
      * )
-     * @OrderBy({"position" = "ASC"})
+     * @ORM\OrderBy({"position" = "ASC"})
      */
     protected $attachments;
 

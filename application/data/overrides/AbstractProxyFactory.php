@@ -15,6 +15,8 @@ use function in_array;
 
 /**
  * Abstract factory for proxy objects.
+ *
+ * @deprecated The AbstractProxyFactory class is deprecated since doctrine/common 3.5.
  */
 abstract class AbstractProxyFactory
 {
@@ -57,22 +59,12 @@ abstract class AbstractProxyFactory
      */
     public const AUTOGENERATE_FILE_NOT_EXISTS_OR_CHANGED = 4;
 
-    /**
-     * Rely on autoloading for proxies.
-     *
-     * Like AUTOGENERATE_NEVER but doesn't `require` the file either.
-     *
-     * @var integer
-     */
-    const AUTOGENERATE_AUTOLOAD = -1;
-
     private const AUTOGENERATE_MODES = [
         self::AUTOGENERATE_NEVER,
         self::AUTOGENERATE_ALWAYS,
         self::AUTOGENERATE_FILE_NOT_EXISTS,
         self::AUTOGENERATE_EVAL,
         self::AUTOGENERATE_FILE_NOT_EXISTS_OR_CHANGED,
-        self::AUTOGENERATE_AUTOLOAD,
     ];
 
     /** @var ClassMetadataFactory */
@@ -204,7 +196,9 @@ abstract class AbstractProxyFactory
 
             switch ($this->autoGenerate) {
                 case self::AUTOGENERATE_NEVER:
-                    require $fileName;
+                    // HACK: Really autogenerate never, so without "require" file.
+                    // See explanation in commit 0ee98b7f9f7fad3232d85ded7b1b9dd4a8e37ca0.
+                    // require $fileName;
                     break;
 
                 case self::AUTOGENERATE_FILE_NOT_EXISTS:

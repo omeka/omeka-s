@@ -1,16 +1,18 @@
 <?php
 namespace Omeka\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * A resource class.
  *
  * Classes are logical groupings of resources that have specified ranges of
  * descriptive properties.
  *
- * @Entity
- * @Table(
+ * @ORM\Entity
+ * @ORM\Table(
  *     uniqueConstraints={
- *         @UniqueConstraint(
+ *         @ORM\UniqueConstraint(
  *             columns={"vocabulary_id", "local_name"}
  *         )
  *     }
@@ -19,41 +21,41 @@ namespace Omeka\Entity;
 class ResourceClass extends AbstractEntity
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="User", inversedBy="resourceClasses")
-     * @JoinColumn(onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="resourceClasses")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $owner;
 
     /**
-     * @ManyToOne(targetEntity="Vocabulary", inversedBy="resourceClasses")
-     * @JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="Vocabulary", inversedBy="resourceClasses")
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $vocabulary;
 
     /**
-     * @Column(options={"collation"="utf8mb4_bin"}, length=190)
+     * @ORM\Column(options={"collation"="utf8mb4_bin"}, length=190)
      */
     protected $localName;
 
     /**
-     * @Column
+     * @ORM\Column
      */
     protected $label;
 
     /**
-     * @Column(type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $comment;
 
     /**
-     * @OneToMany(
+     * @ORM\OneToMany(
      *     targetEntity="Resource",
      *     mappedBy="resourceClass",
      *     fetch="EXTRA_LAZY"

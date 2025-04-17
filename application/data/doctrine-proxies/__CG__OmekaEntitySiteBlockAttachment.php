@@ -133,7 +133,7 @@ class SiteBlockAttachment extends \Omeka\Entity\SiteBlockAttachment implements \
      * {@inheritDoc}
      * @internal generated method: use only when explicitly handling proxy specific loading logic
      */
-    public function __setInitializer(\Closure $initializer = null): void
+    public function __setInitializer(?\Closure $initializer = null): void
     {
         $this->__initializer__ = $initializer;
     }
@@ -151,7 +151,7 @@ class SiteBlockAttachment extends \Omeka\Entity\SiteBlockAttachment implements \
      * {@inheritDoc}
      * @internal generated method: use only when explicitly handling proxy specific loading logic
      */
-    public function __setCloner(\Closure $cloner = null): void
+    public function __setCloner(?\Closure $cloner = null): void
     {
         $this->__cloner__ = $cloner;
     }
@@ -239,7 +239,7 @@ class SiteBlockAttachment extends \Omeka\Entity\SiteBlockAttachment implements \
     /**
      * {@inheritDoc}
      */
-    public function setItem(\Omeka\Entity\Item $item = NULL)
+    public function setItem(?\Omeka\Entity\Item $item = NULL)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setItem', [$item]);
@@ -261,7 +261,7 @@ class SiteBlockAttachment extends \Omeka\Entity\SiteBlockAttachment implements \
     /**
      * {@inheritDoc}
      */
-    public function setMedia(\Omeka\Entity\Media $media = NULL)
+    public function setMedia(?\Omeka\Entity\Media $media = NULL)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setMedia', [$media]);

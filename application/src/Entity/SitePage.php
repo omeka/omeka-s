@@ -3,17 +3,18 @@ namespace Omeka\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @Entity
- * @Table(
+ * @ORM\Entity
+ * @ORM\Table(
  *     uniqueConstraints={
- *         @UniqueConstraint(
+ *         @ORM\UniqueConstraint(
  *             columns={"site_id", "slug"}
  *         )
  *     },
  *     indexes={
- *         @Index(
+ *         @ORM\Index(
  *             name="is_public",
  *             columns={"is_public"}
  *         )
@@ -23,61 +24,61 @@ use Doctrine\Common\Collections\ArrayCollection;
 class SitePage extends AbstractEntity
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     protected $id;
 
     /**
-     * @Column(length=190)
+     * @ORM\Column(length=190)
      */
     protected $slug;
 
     /**
-     * @Column(length=190)
+     * @ORM\Column(length=190)
      */
     protected $title;
 
     /**
-     * @Column(type="boolean")
+     * @ORM\Column(type="boolean")
      */
     protected $isPublic = true;
 
     /**
-     * @Column(type="string", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $layout;
 
     /**
-     * @Column(type="json", nullable=true)
+     * @ORM\Column(type="json", nullable=true)
      */
     protected $layoutData;
 
     /**
-     * @ManyToOne(targetEntity="Site", inversedBy="pages")
-     * @JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="Site", inversedBy="pages")
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $site;
 
     /**
-     * @Column(type="datetime")
+     * @ORM\Column(type="datetime")
      */
     protected $created;
 
     /**
-     * @Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     protected $modified;
 
     /**
-     * @OneToMany(
+     * @ORM\OneToMany(
      *     targetEntity="SitePageBlock",
      *     mappedBy="page",
      *     orphanRemoval=true,
      *     cascade={"persist", "remove"}
      * )
-     * @OrderBy({"position" = "ASC"})
+     * @ORM\OrderBy({"position" = "ASC"})
      */
     protected $blocks;
 

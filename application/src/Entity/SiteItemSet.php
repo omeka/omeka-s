@@ -1,16 +1,18 @@
 <?php
 namespace Omeka\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @Entity
- * @Table(
+ * @ORM\Entity
+ * @ORM\Table(
  *     uniqueConstraints={
- *         @UniqueConstraint(
+ *         @ORM\UniqueConstraint(
  *             columns={"site_id", "item_set_id"}
  *         )
  *     },
  *     indexes={
- *         @Index(
+ *         @ORM\Index(
  *             name="position",
  *             columns={"position"}
  *         )
@@ -20,26 +22,26 @@ namespace Omeka\Entity;
 class SiteItemSet extends AbstractEntity
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="Site", inversedBy="siteItemSets")
-     * @JoinColumn(onDelete="CASCADE", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Site", inversedBy="siteItemSets")
+     * @ORM\JoinColumn(onDelete="CASCADE", nullable=false)
      */
     private $site;
 
     /**
-     * @ManyToOne(targetEntity="ItemSet", inversedBy="siteItemSets")
-     * @JoinColumn(onDelete="CASCADE", nullable=false)
+     * @ORM\ManyToOne(targetEntity="ItemSet", inversedBy="siteItemSets")
+     * @ORM\JoinColumn(onDelete="CASCADE", nullable=false)
      */
     private $itemSet;
 
     /**
-     * @Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $position;
 

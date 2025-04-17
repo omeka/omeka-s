@@ -1,71 +1,73 @@
 <?php
 namespace Omeka\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * A value, representing the object in a RDF triple.
  *
- * @Entity
- * @Table(name="`value`", indexes={
- *     @Index(name="`value`", columns={"`value`"}, options={"lengths":{190}}),
- *     @Index(name="`uri`", columns={"`uri`"}, options={"lengths":{190}}),
- *     @Index(name="is_public", columns={"is_public"})
+ * @ORM\Entity
+ * @ORM\Table(name="`value`", indexes={
+ *     @ORM\Index(name="`value`", columns={"`value`"}, options={"lengths":{190}}),
+ *     @ORM\Index(name="`uri`", columns={"`uri`"}, options={"lengths":{190}}),
+ *     @ORM\Index(name="is_public", columns={"is_public"})
  * })
  */
 class Value extends AbstractEntity
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="Resource", inversedBy="values")
-     * @JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="Resource", inversedBy="values")
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $resource;
 
     /**
-     * @ManyToOne(targetEntity="Property", inversedBy="values")
-     * @JoinColumn(nullable=false, onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="Property", inversedBy="values")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $property;
 
     /**
-     * @Column
+     * @ORM\Column
      */
     protected $type;
 
     /**
-     * @Column(nullable=true)
+     * @ORM\Column(nullable=true)
      */
     protected $lang;
 
     /**
-     * @Column(name="`value`", type="text", nullable=true)
+     * @ORM\Column(name="`value`", type="text", nullable=true)
      */
     protected $value;
 
     /**
-     * @Column(type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $uri;
 
     /**
-     * @ManyToOne(targetEntity="Resource")
-     * @JoinColumn(onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="Resource")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     protected $valueResource;
 
     /**
-     * @Column(type="boolean")
+     * @ORM\Column(type="boolean")
      */
     protected $isPublic = true;
 
     /**
-     * @OneToOne(targetEntity="ValueAnnotation", orphanRemoval=true, cascade={"persist"})
-     * @JoinColumn(onDelete="SET NULL")
+     * @ORM\OneToOne(targetEntity="ValueAnnotation", orphanRemoval=true, cascade={"persist"})
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $valueAnnotation;
 

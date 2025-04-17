@@ -2,50 +2,51 @@
 namespace Omeka\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @Entity
+ * @ORM\Entity
  */
 class Item extends Resource
 {
     /**
-     * @Id
-     * @Column(type="integer")
+     * @ORM\Id
+     * @ORM\Column(type="integer")
      */
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="Media")
-     * @JoinColumn(nullable=true, onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="Media")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     protected $primaryMedia;
 
     /**
-     * @OneToMany(
+     * @ORM\OneToMany(
      *     targetEntity="Media",
      *     mappedBy="item",
      *     orphanRemoval=true,
      *     cascade={"persist", "remove", "detach"},
      *     indexBy="id"
      * )
-     * @OrderBy({"position" = "ASC"})
+     * @ORM\OrderBy({"position" = "ASC"})
      */
     protected $media;
 
     /**
-     * @OneToMany(targetEntity="SiteBlockAttachment", mappedBy="item")
+     * @ORM\OneToMany(targetEntity="SiteBlockAttachment", mappedBy="item")
      */
     protected $siteBlockAttachments;
 
     /**
-     * @ManyToMany(targetEntity="ItemSet", inversedBy="items", indexBy="id")
-     * @JoinTable(name="item_item_set")
+     * @ORM\ManyToMany(targetEntity="ItemSet", inversedBy="items", indexBy="id")
+     * @ORM\JoinTable(name="item_item_set")
      */
     protected $itemSets;
 
     /**
-     * @ManyToMany(targetEntity="Site", inversedBy="items", indexBy="id")
-     * @JoinTable(name="item_site")
+     * @ORM\ManyToMany(targetEntity="Site", inversedBy="items", indexBy="id")
+     * @ORM\JoinTable(name="item_site")
      */
     protected $sites;
 

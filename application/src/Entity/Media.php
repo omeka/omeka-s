@@ -1,15 +1,17 @@
 <?php
 namespace Omeka\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @Entity
- * @Table(
+ * @ORM\Entity
+ * @ORM\Table(
  *     indexes={
- *         @Index(
+ *         @ORM\Index(
  *             name="item_position",
  *             columns={"item_id", "position"}
  *         ),
- *         @Index(
+ *         @ORM\Index(
  *             name="media_type",
  *             columns={"media_type"}
  *         )
@@ -19,84 +21,84 @@ namespace Omeka\Entity;
 class Media extends Resource
 {
     /**
-     * @Id
-     * @Column(type="integer")
+     * @ORM\Id
+     * @ORM\Column(type="integer")
      */
     protected $id;
 
     /**
-     * @Column
+     * @ORM\Column
      */
     protected $ingester;
 
     /**
-     * @Column
+     * @ORM\Column
      */
     protected $renderer;
 
     /**
-     * @Column(type="json_array", nullable=true)
+     * @ORM\Column(type="json_array", nullable=true)
      */
     protected $data;
 
     /**
-     * @Column(type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $source;
 
     /**
-     * @Column(nullable=true, length=190)
+     * @ORM\Column(nullable=true, length=190)
      */
     protected $mediaType;
 
     /**
-     * @Column(nullable=true, unique=true, length=190)
+     * @ORM\Column(nullable=true, unique=true, length=190)
      */
     protected $storageId;
 
     /**
-     * @Column(nullable=true)
+     * @ORM\Column(nullable=true)
      */
     protected $extension;
 
     /**
-     * @Column(nullable=true, type="string", length=64, options={"fixed" = true})
+     * @ORM\Column(nullable=true, type="string", length=64, options={"fixed" = true})
      */
     protected $sha256;
 
     /**
-     * @Column(type="bigint", nullable=true)
+     * @ORM\Column(type="bigint", nullable=true)
      */
     protected $size;
 
     /**
-     * @Column(type="boolean")
+     * @ORM\Column(type="boolean")
      */
     protected $hasOriginal = false;
 
     /**
-     * @Column(type="boolean")
+     * @ORM\Column(type="boolean")
      */
     protected $hasThumbnails = false;
 
     /**
-     * @Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $position;
 
     /**
-     * @ManyToOne(targetEntity="Item", inversedBy="media")
-     * @JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="Item", inversedBy="media")
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $item;
 
     /**
-     * @Column(nullable=true, length=190)
+     * @ORM\Column(nullable=true, length=190)
      */
     protected $lang;
 
     /**
-     * @Column(type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $altText;
 

@@ -135,10 +135,4 @@ ah:ArrowheadShape a sh:NodeShape;
     sh:in (ah-chippingShape:straight ah-chippingShape:convex ah-chippingShape:concave ah-chippingShape:sinuous);
     sh:minCount 0;  
     sh:maxCount 1;
-  ];
-  sh:property [
-    sh:path crm:P12i_was_present_at;
-    sh:nodeKind sh:IRI;
-    sh:minCount 1;
-    sh:maxCount 1;
-].
+  ].

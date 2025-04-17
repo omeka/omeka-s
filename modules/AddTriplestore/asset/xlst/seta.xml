@@ -40,7 +40,6 @@
     <chippingLocation-Transversal>http://www.purl.com/ah/kos/ah-chippingLocation/distal</chippingLocation-Transversal>
     <chippingShape>http://www.purl.com/ah/kos/ah-chippingShape/convex</chippingShape>
   </chipping>
-  <foundInExcavation>ExcavationSite1</foundInExcavation>
   <gps>
     <lat>34.0522</lat>
     <long>-118.2437</long>

@@ -201,7 +201,6 @@ class IndexController extends AbstractActionController implements InjectApplicat
             $this->messenger->addWarning($this->translate('Could not generate TTL data for an item.'));
             continue; // Pula para o próximo item
             }
-            error_log('TTL String: ' . $ttlString, 3, OMEKA_PATH . '/logs/graphdb-sync.log');
 
             // Enviar TTL para o GraphDB
             $success = $this->sendTtlToGraphDb($ttlString, $graphDbConfig);
@@ -224,6 +223,8 @@ class IndexController extends AbstractActionController implements InjectApplicat
             $this->messenger->addSuccess($this->translate('Data successfully synchronized with GraphDB.'));
         } else {
         }
+        // log string ttl
+        error_log('TTL String: ' . $ttlString, 3, OMEKA_PATH . '/logs/graphdb-sync.log');
         return $this->redirect()->toRoute('admin/graphdb_data_sync/extract');
     }
 

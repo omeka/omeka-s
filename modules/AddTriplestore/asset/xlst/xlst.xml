@@ -54,9 +54,7 @@
 
             <ah:hasMorphology rdf:resource="ah:Morphology_{substring-after(@id, 'AH')}"/>
             <ah:hasTypometry rdf:resource="ah:Typometry_{substring-after(@id, 'AH')}"/>
-
-            <crm:P12i_was_present_at rdf:resource="ah:EncounterEvent_{foundInExcavation}"/>
-            <rdf:type rdf:resource="crmsci:S19_Encounter_Event"/>
+            <!-- <rdf:type rdf:resource="crmsci:S19_Encounter_Event"/> -->
 
         </crm:E24_Physical_Man-Made_Thing>
 

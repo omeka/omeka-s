@@ -512,6 +512,7 @@ class IndexController extends AbstractActionController implements InjectApplicat
             return $errorMessage;
         }*/
 
+
     }
 
      // --- Função Auxiliar para obter URL base da API ---

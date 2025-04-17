@@ -1,46 +1,62 @@
-@prefix ah: <http://www.purl.com/ah/ms/ahMS#>.
-@prefix ah-shape: <http://www.purl.com/ah/kos/ah-shape/>.
-@prefix ah-variant: <http://www.purl.com/ah/kos/ah-variant/>.
-@prefix ah-base: <http://www.purl.com/ah/kos/ah-base/>.
+@prefix ah: <http://www.purl.com/ah/ms/ahMS#> .
+@prefix ah-shape: <http://www.purl.com/ah/kos/ah-shape/> .
+@prefix ah-variant: <http://www.purl.com/ah/kos/ah-variant/> .
+@prefix ah-base: <http://www.purl.com/ah/kos/ah-base/> .
+@prefix ah-chippingMode: <http://www.purl.com/ah/kos/ah-chippingMode/> .
+@prefix ah-chippingDirection: <http://www.purl.com/ah/kos/ah-chippingDirection/> .
+@prefix ah-chippingDelineation: <http://www.purl.com/ah/kos/ah-chippingDelineation/> .
+@prefix ah-chippingLocation: <http://www.purl.com/ah/kos/ah-chippingLocation/> .
+@prefix ah-chippingShape: <http://www.purl.com/ah/kos/ah-chippingShape/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix voaf: <http://purl.org/vocommons/voaf#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+@prefix time: <http://www.w3.org/2006/time# .
+@prefix edm: <http://www.europeana.eu/schemas/edm#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix crmsci: <http://cidoc-crm.org/extensions/crmsci/> .
+@prefix crmarchaeo: <http://www.cidoc-crm.org/extensions/crmarchaeo/> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix wdrs: <http://www.w3.org/2007/05/powder-s#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix aat: <http://vocab.getty.edu/aat/> .
+@prefix excav: <https://purl.org/ah/ms/excavationMS#> .
 
-@prefix ah-chippingMode: <http://www.purl.com/ah/kos/ah-chippingMode/>.
-@prefix ah-chippingDirection: <http://www.purl.com/ah/kos/ah-chippingDirection/>.
-@prefix ah-chippingDelineation: <http://www.purl.com/ah/kos/ah-chippingDelineation/>.
-@prefix ah-chippingLocation: <http://www.purl.com/ah/kos/ah-chippingLocation/>.
-@prefix ah-chippingShape: <http://www.purl.com/ah/kos/ah-chippingShape/>.
 
-@prefix owl: <http://www.w3.org/2002/07/owl#>.
-@prefix dct: <http://purl.org/dc/terms/>.
-@prefix foaf: <http://xmlns.com/foaf/0.1/>.
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
-@prefix schema: <http://schema.org/>.
-@prefix voaf: <http://purl.org/vocommons/voaf#>.
-@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
-@prefix vann: <http://purl.org/vocab/vann/>.
-@prefix dbo: <http://dbpedia.org/ontology/>.
-@prefix time: <http://www.w3.org/2006/time#>.
-@prefix edm: <http://www.europeana.eu/schemas/edm#>.
-@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/>.
-@prefix crmsci: <http://cidoc-crm.org/extensions/crmsci/>.
-@prefix crmarchaeo: <http://www.cidoc-crm.org/extensions/crmarchaeo/>.
-@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
-@prefix wdrs: <http://www.w3.org/2007/05/powder-s#>.
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix sh: <http://www.w3.org/ns/shacl#>.
-
-ah:arrowhead5 a crm:E24_Physical_Man-Made_Thing;
-  ah:hasId "AH0052";
-  ah:shape ah-shape:triangle;
-  ah:variant ah-variant:flat;
-  ah:point true;
-  ah:body false;
-  ah:base ah-base:straight;
-  ah:mode ah-chippingMode:plane;
-  ah:amplitude true;
-  ah:direction ah-chippingDirection:direct;
-  ah:orientation true;
-  ah:delineation ah-chippingDelineation:continuous;
-  ah:chippinglocation-Side ah-chippingLocation:distal;
-  ah:chippinglocation-Transversal ah-chippingLocation:median;
-  ah:chippingShape ah-chippingShape:straight.
+# TTL para Item: http://localhost/api/items/20
+<http://localhost/api/items/20> a crm:E24_Physical_Man-Made_Thing .
+<http://localhost/api/items/20> dcterms:identifier "33"^^xsd:string .
+<http://localhost/api/items/20> ah:hasAnnotation "is a test"^^xsd:string .
+<http://localhost/api/items/20> ah:conditionState "true"^^xsd:boolean .
+<http://localhost/api/items/20> ah:bodyType "false"^^xsd:boolean .
+<http://localhost/api/items/20> ah:variant ah-variant:flat .
+<http://localhost/api/items/20> ah:shape ah-shape:losangular .
+<http://localhost/api/items/20> geo:lat "41.40338"^^xsd:decimal .
+<http://localhost/api/items/20> geo:long "2.17403"^^xsd:decimal .
+<http://localhost/api/items/20> ah:point "true"^^xsd:boolean .
+<http://localhost/api/items/20> ah:bodySymmetry "true"^^xsd:boolean .
+<http://localhost/api/items/20> ah:base ah-base:convex .
+<http://localhost/api/items/20> crm:P43_has_dimension "23"^^xsd:decimal .
+<http://localhost/api/items/20> crm:P43_has_dimension "22"^^xsd:decimal .
+<http://localhost/api/items/20> crm:P43_has_dimension "12"^^xsd:decimal .
+<http://localhost/api/items/20> crm:P43_has_dimension "16"^^xsd:decimal .
+<http://localhost/api/items/20> crm:P43_has_dimension "19"^^xsd:decimal .
+<http://localhost/api/items/20> ah:mode ah-chippingMode:plane .
+<http://localhost/api/items/20> ah:amplitude "true"^^xsd:boolean .
+<http://localhost/api/items/20> ah:direction ah-chippingDirection:reverse .
+<http://localhost/api/items/20> ah:orientation "false"^^xsd:boolean .
+<http://localhost/api/items/20> ah:delineation ah-chippingDelineation:continuous .
+<http://localhost/api/items/20> ah:chippinglocation-Side ah-chippingLocation:distal .
+<http://localhost/api/items/20> ah:chippinglocation-Transversal ah-chippingLocation:distal .
+<http://localhost/api/items/20> ah:chippinglocation-Transversal ah-chippingLocation:median .
+<http://localhost/api/items/20> ah:chippingShape ah-chippingShape:convex .
+aat:300010909 a crm:E57_Material .
+<http://localhost/api/items/20> crm:P45_consists_of aat:300010909 .

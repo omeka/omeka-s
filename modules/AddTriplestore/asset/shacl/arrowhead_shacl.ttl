@@ -50,13 +50,13 @@ ah:ArrowheadShape a sh:NodeShape;
     sh:path ah:hasAnnotation;
     sh:minCount 0;  # annotation is optional
   ];
-  sh:property [
+ sh:property [
     sh:path crm:P45_consists_of;
-    sh:nodeKind sh:IRI;
-    sh:class crm:E57_Material;
+    sh:nodeKind sh:IRI;         
+    sh:class crm:E57_Material;  
+    # Linha sh:in removida
     sh:minCount 0;
     sh:maxCount 1;
-    sh:in (aat:300010357); # Getty Vocab AAT for material
   ];
   sh:property [
     sh:path ah:shape;

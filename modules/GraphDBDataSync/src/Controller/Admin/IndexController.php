@@ -185,6 +185,8 @@ class IndexController extends AbstractActionController implements InjectApplicat
             return $this->redirect()->toRoute('admin/graphdb_data_sync');
         }
 
+        error_log('GraphDB configuration retrieved: ' . print_r($graphDbConfig, true), 3, OMEKA_PATH . '/logs/graphdb-sync.log');
+
         //  Obter Dados do Collecting
         $collectingItems = $this->getCollectingItems();
         error_log('Collecting items retrieved: ' . print_r($collectingItems, true), 3, OMEKA_PATH . '/logs/graphdb-sync.log');
@@ -225,6 +227,9 @@ class IndexController extends AbstractActionController implements InjectApplicat
         }
         // log string ttl
         error_log('TTL String: ' . $ttlString, 3, OMEKA_PATH . '/logs/graphdb-sync.log');
+
+        //send to GraphDB
+
         return $this->redirect()->toRoute('admin/graphdb_data_sync/extract');
     }
 
@@ -473,44 +478,40 @@ class IndexController extends AbstractActionController implements InjectApplicat
     // --- Função Auxiliar para Enviar TTL ao GraphDB ---
     private function sendTtlToGraphDb(string $ttlData, array $config): bool
     {
-        $endpoint = rtrim($config['graphdb_endpoint'], '/') . '/statements'; // Endpoint comum para carregar dados
-        $username = $config['graphdb_username'] ?? null;
-        $password = $config['graphdb_password'] ?? null;
 
-        try {
-            $this->httpClient->resetParameters(true); // Limpa parâmetros de pedidos anteriores
-            $this->httpClient->setUri($endpoint);
-            $this->httpClient->setMethod(Request::METHOD_POST);
-            $this->httpClient->setRawBody($ttlData); // Define o corpo com os dados TTL
+        $graphUri = 'http://www.arch-project.com/data'; // URI do grafo no GraphDB
 
-            // Define cabeçalhos
-            $headers = $this->httpClient->getRequest()->getHeaders();
-            $headers->addHeaderLine('Content-Type', 'text/turtle');
-            $headers->addHeaderLine('Accept', 'application/json'); // Aceita JSON como resposta do GraphDB
 
-            // Adiciona Autenticação Básica se configurada
-            if ($username && $password !== null) { // Verifica se username está definido e password não é null
-                $this->httpClient->setAuth($username, $password, Client::AUTH_BASIC);
-            }
+        $client = new Client();
+            $fullUrl = 'http://localhost:7200/repositories/arch-project-shacl/rdf-graphs/service' . '?graph=' . urlencode($graphUri);
+            $client->setUri($fullUrl);
+            $client->setMethod('POST');
+            $client->setHeaders(['Content-Type' => 'text/turtle']);
+            $client->setRawBody($ttlData);
 
-            $response = $this->httpClient->send();
+            $client->setOptions(['timeout' => 60]); // Adjust the timeout as needed
+
+            $response = $client->send();
+
+            $status = $response->getStatusCode();
+            $body = $response->getBody();
+            $message = "Response Status: $status | Response Body: $body";
+            error_log($message);
 
             if ($response->isSuccess()) {
-                return true;
+                return True;
             } else {
-                $this->messenger->addError(
-                    $this->translate('Failed to send data to GraphDB. Status: %s - Response: %s'),
-                    $response->getStatusCode(),
-                    $response->getBody()
-                );
-                 error_log('GraphDB Sync Error: Status ' . $response->getStatusCode() . ' - Body: ' . $response->getBody()); // Log
-                return false;
+                $errorMessage = 'Failed to upload data: ' . $message;
+                error_log($errorMessage);
+                return False;
             }
-        } catch (\Exception $e) {
-            $this->messenger->addError($this->translate('Error connecting to GraphDB: %s'), $e->getMessage());
-             error_log('GraphDB Connection Exception: ' . $e->getMessage()); // Log
-            return false;
-        }
+/*
+            $errorMessage = 'Failed to upload data due to an exception: ' . $e->getMessage();
+            $logger->err($errorMessage);
+            error_log($errorMessage);
+            return $errorMessage;
+        }*/
+
     }
 
      // --- Função Auxiliar para obter URL base da API ---

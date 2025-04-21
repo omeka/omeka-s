@@ -79,18 +79,9 @@ class IndexController extends AbstractActionController
                         // Omeka S processing - Only if GraphDB upload was successful
                         if ($graphDbSuccess) {
                             $omekaData = $this->transformTtlToOmekaSData($ttlData);
-                            //  Simplify $omekaData for testing
-                            $omekaData = [
-                                [
-                                    'o:resource_class' => ['o:id' => 1],  //  Replace with the correct resource class ID
-                                    'dcterms:identifier' => [[
-                                        'type' => 'literal',
-                                        'property_id' => 10,  //  Replace with the correct property ID
-                                        '@value' => 'TEST-001'
-                                    ]]
-                                ]
-                            ];
-                            error_log('Simplified Omeka S data: ' . json_encode($omekaData), 3, OMEKA_PATH . '/logs/omeka-s-data.log');
+                            // log ttl data
+                            error_log('TTL data for Omeka S: ' . $ttlData, 3, OMEKA_PATH . '/logs/ttl-omeka-s.log');
+                            error_log('Omeka S data: ' . json_encode($omekaData), 3, OMEKA_PATH . '/logs/omeka-s-data-aux.log');
                             $omekaErrors = $this->sendToOmekaS($omekaData);
 
                             if (empty($omekaErrors)) {
@@ -524,6 +515,8 @@ class IndexController extends AbstractActionController
                 $itemUri = $subject;
                 $itemData['o:resource_class'] = ['o:id' => 1]; // Default Item Resource Class ID
                 $itemData['o:item_set'] = []; // If you have item sets
+                error_log('itemUri: ' . $itemUri, 3, OMEKA_PATH . '/logs/omeka-s-data--uri.log');
+
                 break;  //  Important: Stop after finding the main item!
             }
             
@@ -533,17 +526,20 @@ class IndexController extends AbstractActionController
 
     
         foreach ($graph->toRdfPhp() as $subject => $predicates) {
-            if ($subject === $itemUri) {  // Process only the main item's data
+            if ($subject === $itemUri) {
                 foreach ($predicates as $predicate => $objects) {
                     if (isset($propertyMap[$predicate])) {
                         $omekaProperty = $propertyMap[$predicate];
+                        $propertyId = $this->getOmekaPropertyId($predicate); // Obter o ID da propriedade aqui
+                        $itemData[$omekaProperty] = []; // Inicializar o array para a propriedade
+    
                         foreach ($objects as $object) {
                             $value = null;
     
                             if ($object['type'] === 'literal') {
                                 $value = [
                                     'type' => 'literal',
-                                    'property_id' => $this->getOmekaPropertyId($omekaProperty),  //  Hardcoded for testing
+                                    'property_id' => $propertyId, // Usar o ID da propriedade obtido
                                     '@value' => $object['value'],
                                 ];
                                 if (isset($object['datatype'])) {
@@ -555,7 +551,7 @@ class IndexController extends AbstractActionController
                             } elseif ($object['type'] === 'uri') {
                                 $value = [
                                     'type' => 'resource',
-                                    'property_id' => $this->getOmekaPropertyId($omekaProperty),  //  Hardcoded for testing
+                                    'property_id' => $propertyId, // Usar o ID da propriedade obtido
                                     '@id' => $object['value'],
                                 ];
                             }
@@ -564,6 +560,7 @@ class IndexController extends AbstractActionController
                                 $itemData[$omekaProperty][] = $value;
                             }
                         }
+                        error_log("Predicate: " . $predicate . ", Omeka Property: " . $omekaProperty . ", Property ID: " . $propertyId . ", Value: " . json_encode($itemData[$omekaProperty]), 3, OMEKA_PATH . '/logs/omeka-s-data-propery.log');
                     }
                 }
             }
@@ -578,63 +575,63 @@ class IndexController extends AbstractActionController
         return $omekaData;
     }
 
-private function getOmekaPropertyId($omekaProperty) {
-    $propertyIds = [
-        'http://purl.org/dc/terms/identifier' => 10,
-        'http://www.w3.org/1999/02/22-rdf-syntax-ns#type' => 1,  //  Double-check this!
-        'http://www.europeana.eu/schemas/edm#Webresource' => 257,
-        'http://www.purl.com/ah/ms/ahMS#shape' => 4760,
-        'http://www.cidoc-crm.org/cidoc-crm/E57_Material' => 478,
-        'http://dbpedia.org/ontology/Annotation' => 57,
-        'http://www.cidoc-crm.org/cidoc-crm/E3_Condition_State' => 476,
-        'http://www.cidoc-crm.org/cidoc-crm/E55_Type' => 478,
-        'http://www.purl.com/ah/ms/ahMS#variant' => 7461,
-        'http://www.purl.com/ah/ms/ahMS#foundInCoordinates' => 476,
-        'http://www.purl.com/ah/ms/ahMS#hasMorphology' => 476,
-        'http://www.purl.com/ah/ms/ahMS#hasTypometry' => 476,
-        'http://www.purl.com/ah/ms/ahMS#point' => 7462,
-        'http://www.purl.com/ah/ms/ahMS#body' => 7463,
-        'http://www.purl.com/ah/ms/ahMS#base' => 7464,
-        'http://www.cidoc-crm.org/cidoc-crm/E54_Dimension' => 474,
-        'http://www.purl.com/ah/ms/ahMS#hasChipping' => 476,
-        'http://www.purl.com/ah/ms/ahMS#mode' => 7465,
-        'http://www.purl.com/ah/ms/ahMS#amplitude' => 7466,
-        'http://www.purl.com/ah/ms/ahMS#direction' => 7467,
-        'http://www.purl.com/ah/ms/ahMS#orientation' => 7468,
-        'http://www.purl.com/ah/ms/ahMS#delineation' => 7469,
-        'http://www.purl.com/ah/ms/ahMS#chippinglocation-Side' => 7470,
-        'http://www.purl.com/ah/ms/ahMS#chippingLocation-Transversal' => 7471,
-        'http://www.purl.com/ah/ms/ahMS#chippingShape' => 7472,
-        'http://www.w3.org/2003/01/geo/wgs84_pos#lat' => 257,
-        'http://www.w3.org/2003/01/geo/wgs84_pos#long' => 260,
-        'http://purl.org/dc/elements/1.1/date' => 476,
-        'http://purl.org/dc/elements/1.1/description' => 476,
-        'https://purl.org/ah/ms/excavationMS#hasContext' => 476,
-        'https://purl.org/ah/ms/excavationMS#hasTimeLine' => 476,
-        'https://purl.org/ah/ms/excavationMS#foundInAContext' => 476,
-        'http://xmlns.com/foaf/0.1/name' => 476,
-        'http://xmlns.com/foaf/0.1/mbox' => 476,
-        'http://xmlns.com/foaf/0.1/account' => 476,
-        'https://purl.org/ah/ms/excavationMS#hasGPSCoordinates' => 476,
-        'http://www.cidoc-crm.org/extensions/crmarchaeo/A9_Archaeological_Excavation' => 476,
-        'https://purl.org/ah/ms/excavationMS#ArchaeologistShape' => 476,
-        'http://www.cidoc-crm.org/extensions/crmarchaeo/A1_Excavation_Processing_Unit' => 476,
-        'http://www.cidoc-crm.org/extensions/crmarchaeo/A2_Stratigraphic_Volume_Unit' => 476,
-        'http://purl.org/dc/terms/date' => 476,
-        'http://dbpedia.org/ontology/depth' => 476,
-        'http://dbpedia.org/ontology/district' => 476,
-        'http://dbpedia.org/ontology/parish' => 476,
-        'http://www.w3.org/2006/time#hasBeginning' => 476,
-        'http://www.w3.org/2006/time#hasEnd' => 476,
-        'http://www.w3.org/2006/time#inXSDYear' => 476,
-        'http://schema.org/startDate' => 476,
-        'http://schema.org/endDate' => 476,
-        'http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasLocation' => 476,
-        'http://www.cidoc-crm.org/extensions/crmsci/O19_encountered_object' => 476,
-    ];
-
-    return $propertyIds[$omekaProperty] ?? null;
-}
+    private function getOmekaPropertyId($omekaProperty) {
+        $propertyIds = [
+            'http://purl.org/dc/terms/identifier' => 10,
+            'http://www.w3.org/1999/02/22-rdf-syntax-ns#type' => 1,
+            'http://www.europeana.eu/schemas/edm#Webresource' => 257, // Is this correct?
+            'http://www.purl.com/ah/ms/ahMS#shape' => null,  //  Need to create in Omeka!
+            'http://www.cidoc-crm.org/cidoc-crm/E57_Material' => 478,
+            'http://dbpedia.org/ontology/Annotation' => 57,
+            'http://www.cidoc-crm.org/cidoc-crm/E3_Condition_State' => 476,
+            'http://www.cidoc-crm.org/cidoc-crm/E55_Type' => 478,
+            'http://www.purl.com/ah/ms/ahMS#variant' => null,  //  Need to create in Omeka!
+            'http://www.purl.com/ah/ms/ahMS#foundInCoordinates' => 476,
+            'http://www.purl.com/ah/ms/ahMS#hasMorphology' => 476,
+            'http://www.purl.com/ah/ms/ahMS#hasTypometry' => 476,
+            'http://www.purl.com/ah/ms/ahMS#point' => null,  //  Need to create in Omeka!
+            'http://www.purl.com/ah/ms/ahMS#body' => null,   //  Need to create in Omeka!
+            'http://www.purl.com/ah/ms/ahMS#base' => null,   //  Need to create in Omeka!
+            'http://www.cidoc-crm.org/cidoc-crm/E54_Dimension' => 474,
+            'http://www.purl.com/ah/ms/ahMS#hasChipping' => 476,
+            'http://www.purl.com/ah/ms/ahMS#mode' => null,   //  Need to create in Omeka!
+            'http://www.purl.com/ah/ms/ahMS#amplitude' => null, //  Need to create in Omeka!
+            'http://www.purl.com/ah/ms/ahMS#direction' => 237,  //  Double-check!
+            'http://www.purl.com/ah/ms/ahMS#orientation' => null, //  Need to create in Omeka!
+            'http://www.purl.com/ah/ms/ahMS#delineation' => null, //  Need to create in Omeka!
+            'http://www.purl.com/ah/ms/ahMS#chippinglocation-Side' => null,  //  Handle carefully!
+            'http://www.purl.com/ah/ms/ahMS#chippingLocation-Transversal' => null,  //  Handle carefully!
+            'http://www.purl.com/ah/ms/ahMS#chippingShape' => null,  //  Need to create in Omeka!
+            'http://www.w3.org/2003/01/geo/wgs84_pos#lat' => 257,  // Is this correct?
+            'http://www.w3.org/2003/01/geo/wgs84_pos#long' => 260, // Is this correct?
+            'http://purl.org/dc/elements/1.1/date' => 476,
+            'http://purl.org/dc/elements/1.1/description' => 476,
+            'https://purl.org/ah/ms/excavationMS#hasContext' => 476,
+            'https://purl.org/ah/ms/excavationMS#hasTimeLine' => 476,
+            'https://purl.org/ah/ms/excavationMS#foundInAContext' => 476,
+            'http://xmlns.com/foaf/0.1/name' => 476,
+            'http://xmlns.com/foaf/0.1/mbox' => 476,
+            'http://xmlns.com/foaf/0.1/account' => 476,
+            'https://purl.org/ah/ms/excavationMS#hasGPSCoordinates' => 476,
+            'http://www.cidoc-crm.org/extensions/crmarchaeo/A9_Archaeological_Excavation' => 476,
+            'https://purl.org/ah/ms/excavationMS#ArchaeologistShape' => 7460,
+            'http://www.cidoc-crm.org/extensions/crmarchaeo/A1_Excavation_Processing_Unit' => 476,
+            'http://www.cidoc-crm.org/extensions/crmarchaeo/A2_Stratigraphic_Volume_Unit' => 476,
+            'http://purl.org/dc/terms/date' => 476,
+            'http://dbpedia.org/ontology/depth' => 476,
+            'http://dbpedia.org/ontology/district' => 476,
+            'http://dbpedia.org/ontology/parish' => 476,
+            'http://www.w3.org/2006/time#hasBeginning' => 476,
+            'http://www.w3.org/2006/time#hasEnd' => 476,
+            'http://www.w3.org/2006/time#inXSDYear' => 476,
+            'http://schema.org/startDate' => 476,
+            'http://schema.org/endDate' => 476,
+            'http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasLocation' => 476,
+            'http://www.cidoc-crm.org/extensions/crmsci/O19_encountered_object' => 476,
+        ];
+    
+        return $propertyIds[$omekaProperty] ?? null;
+    }
     
 
     private function sendToOmekaS($omekaData) {

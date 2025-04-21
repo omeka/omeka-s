@@ -79,9 +79,18 @@ class IndexController extends AbstractActionController
                         // Omeka S processing - Only if GraphDB upload was successful
                         if ($graphDbSuccess) {
                             $omekaData = $this->transformTtlToOmekaSData($ttlData);
-                            // log ttl data
-                            error_log('TTL data for Omeka S: ' . $ttlData, 3, OMEKA_PATH . '/logs/ttl-omeka-s.log');
-                            error_log('Omeka S data: ' . json_encode($omekaData), 3, OMEKA_PATH . '/logs/omeka-s-data-aux.log');
+                            //  Simplify $omekaData for testing
+                            $omekaData = [
+                                [
+                                    'o:resource_class' => ['o:id' => 1],  //  Replace with the correct resource class ID
+                                    'dcterms:identifier' => [[
+                                        'type' => 'literal',
+                                        'property_id' => 10,  //  Replace with the correct property ID
+                                        '@value' => 'TEST-001'
+                                    ]]
+                                ]
+                            ];
+                            error_log('Simplified Omeka S data: ' . json_encode($omekaData), 3, OMEKA_PATH . '/logs/omeka-s-data.log');
                             $omekaErrors = $this->sendToOmekaS($omekaData);
 
                             if (empty($omekaErrors)) {
@@ -474,145 +483,86 @@ class IndexController extends AbstractActionController
         $graph->parse($ttlData, 'turtle');
 
         // log the graph data
-        error_log('Graph data: ' . json_encode($graph->toRdfPhp()), 3, OMEKA_PATH . '/logs/graph-data.log');
+        error_log('Graph data: ' . json_encode($graph->toRdfPhp()), 3, OMEKA_PATH . '/logs/ayx.log');
     
         $omekaData = [];
         $itemData = [];
         $itemUri = null;
     
         $propertyMap = [
-            'http://purl.org/dc/terms/identifier' => 'dcterms:identifier',  // Dublin Core
-                                                                         // Omeka Property ID: PROPERTY_ID_1
-            'http://www.w3.org/1999/02/22-rdf-syntax-ns#type' => 'o:resource_class', // Omeka S Resource Class
-                                                                                // Omeka Property ID: PROPERTY_ID_2  (This is likely internal, be careful)
-            'http://www.europeana.eu/schemas/edm#Webresource' => 'edm:Webresource', // Omeka Property ID: PROPERTY_ID_3
-            'http://www.purl.com/ah/ms/ahMS#shape' => 'ah:shape',          // Arrowhead Shape
-                                                                         // Omeka Property ID: PROPERTY_ID_4
-            'http://www.cidoc-crm.org/cidoc-crm/E57_Material' => 'crm:E57_Material', // Material (AAT?)
-                                                                         // Omeka Property ID: PROPERTY_ID_5
-            'http://dbpedia.org/ontology/Annotation' => 'dbo:Annotation', // Annotation/Observation
-                                                                         // Omeka Property ID: PROPERTY_ID_6
-            'http://www.cidoc-crm.org/cidoc-crm/E3_Condition_State' => 'crm:E3_Condition_State', // Condition
-                                                                         // Omeka Property ID: PROPERTY_ID_7
-            'http://www.cidoc-crm.org/cidoc-crm/E55_Type' => 'crm:E55_Type',    // Type
-                                                                         // Omeka Property ID: PROPERTY_ID_8
-            'http://www.purl.com/ah/ms/ahMS#variant' => 'ah:variant',        // Variant
-                                                                         // Omeka Property ID: PROPERTY_ID_9
-            'http://www.purl.com/ah/ms/ahMS#foundInCoordinates' => 'ah:foundInCoordinates', // Location (Related Resource?)
-                                                                         // Omeka Property ID: PROPERTY_ID_10
-            'http://www.purl.com/ah/ms/ahMS#hasMorphology' => 'ah:hasMorphology', // Morphology (Related Resource?)
-                                                                         // Omeka Property ID: PROPERTY_ID_11
-            'http://www.purl.com/ah/ms/ahMS#hasTypometry' => 'ah:hasTypometry',  // Typometry
-                                                                         // Omeka Property ID: PROPERTY_ID_12
-            'http://www.purl.com/ah/ms/ahMS#point' => 'ah:point',            // Point
-                                                                         // Omeka Property ID: PROPERTY_ID_13
-            'http://www.purl.com/ah/ms/ahMS#body' => 'ah:body',              // Body
-                                                                         // Omeka Property ID: PROPERTY_ID_14
-            'http://www.purl.com/ah/ms/ahMS#base' => 'ah:base',              // Base
-                                                                         // Omeka Property ID: PROPERTY_ID_15
-            'http://www.cidoc-crm.org/cidoc-crm/E54_Dimension' => 'crm:E54_Dimension', // Dimensions (Length, Width, Thickness...)
-                                                                         // Omeka Property ID: PROPERTY_ID_16
-            'http://www.purl.com/ah/ms/ahMS#hasChipping' => 'ah:hasChipping', // Chipping (Related Resource?)
-                                                                         // Omeka Property ID: PROPERTY_ID_17
-            'http://www.purl.com/ah/ms/ahMS#mode' => 'ah:mode',              // Chipping Mode
-                                                                         // Omeka Property ID: PROPERTY_ID_18
-            'http://www.purl.com/ah/ms/ahMS#amplitude' => 'ah:amplitude',        // Chipping Amplitude
-                                                                         // Omeka Property ID: PROPERTY_ID_19
-            'http://www.purl.com/ah/ms/ahMS#direction' => 'ah:direction',      // Chipping Direction
-                                                                         // Omeka Property ID: PROPERTY_ID_20
-            'http://www.purl.com/ah/ms/ahMS#orientation' => 'ah:orientation',  // Chipping Orientation
-                                                                         // Omeka Property ID: PROPERTY_ID_21
-            'http://www.purl.com/ah/ms/ahMS#delineation' => 'ah:delineation',    // Chipping Delineation
-                                                                         // Omeka Property ID: PROPERTY_ID_22
-            'http://www.purl.com/ah/ms/ahMS#chippinglocation-Lateral' => 'ah:chippinglocation-Lateral', // Chipping Location Lateral
-                                                                         // Omeka Property ID: PROPERTY_ID_23
-            'http://www.purl.com/ah/ms/ahMS#chippingLocation-Transveral' => 'ah:chippingLocation-Transveral', // Chipping Location Transversal
-                                                                         // Omeka Property ID: PROPERTY_ID_24
-            'http://www.purl.com/ah/ms/ahMS#chippingShape' => 'ah:chippingShape', // Chipping Shape
-                                                                         // Omeka Property ID: PROPERTY_ID_25
-            'http://www.w3.org/2003/01/geo/wgs84_pos#lat' => 'geo:lat',        // Latitude
-                                                                         // Omeka Property ID: PROPERTY_ID_26
-            'http://www.w3.org/2003/01/geo/wgs84_pos#long' => 'geo:long',       // Longitude
-                                                                         // Omeka Property ID: PROPERTY_ID_27
-        
-            //  Properties from Domain Model (If they exist in your TTL or you plan to add them)
-            //  NOTE:  These might require adjustments based on how they are represented in your data
-            'http://purl.org/dc/elements/1.1/date' => 'dc:date',            // Date (From Domain Model)
-                                                                         // Omeka Property ID: PROPERTY_ID_28
-            'http://purl.org/dc/elements/1.1/description' => 'dc:description',  // Description (From Domain Model)
-                                                                         // Omeka Property ID: PROPERTY_ID_29
-        
-            //  Excavation Context (If applicable from your other XML files)
-            'https://purl.org/ah/ms/excavationMS#hasContext' => 'excav:hasContext', // Context
-                                                                         // Omeka Property ID: PROPERTY_ID_30
-            'https://purl.org/ah/ms/excavationMS#hasTimeLine' => 'excav:hasTimeLine', // TimeLine
-                                                                         // Omeka Property ID: PROPERTY_ID_31
-            'https://purl.org/ah/ms/excavationMS#foundInAContext' => 'excav:foundInAContext', // Found In Context
-                                                                         // Omeka Property ID: PROPERTY_ID_32
-        
-            //  Archaeologist (If applicable)
-            'http://xmlns.com/foaf/0.1/name' => 'foaf:name',              // Archaeologist Name
-                                                                         // Omeka Property ID: PROPERTY_ID_33
-            'http://xmlns.com/foaf/0.1/mbox' => 'foaf:mbox',              // Archaeologist Email
-                                                                         // Omeka Property ID: PROPERTY_ID_34
-            'http://xmlns.com/foaf/0.1/account' => 'foaf:account',          // Archaeologist ORCID
-                                                                         // Omeka Property ID: PROPERTY_ID_35
-        
-            //  ...  Add any other properties you need
+            'http://purl.org/dc/terms/identifier' => 'dcterms:identifier',
+            'http://www.w3.org/1999/02/22-rdf-syntax-ns#type' => 'o:resource_class',
+            'http://www.europeana.eu/schemas/edm#Webresource' => 'edm:Webresource',
+            'http://www.purl.com/ah/ms/ahMS#shape' => 'ah:shape',
+            'http://www.cidoc-crm.org/cidoc-crm/E57_Material' => 'crm:E57_Material',
+            'http://dbpedia.org/ontology/Annotation' => 'dbo:Annotation',
+            'http://www.cidoc-crm.org/cidoc-crm/E3_Condition_State' => 'crm:E3_Condition_State',
+            'http://www.cidoc-crm.org/cidoc-crm/E55_Type' => 'crm:E55_Type',
+            'http://www.purl.com/ah/ms/ahMS#variant' => 'ah:variant',
+            'http://www.purl.com/ah/ms/ahMS#foundInCoordinates' => 'ah:foundInCoordinates',
+            'http://www.purl.com/ah/ms/ahMS#hasMorphology' => 'ah:hasMorphology',
+            'http://www.purl.com/ah/ms/ahMS#hasTypometry' => 'ah:hasTypometry',
+            'http://www.purl.com/ah/ms/ahMS#point' => 'ah:point',
+            'http://www.purl.com/ah/ms/ahMS#body' => 'ah:body',
+            'http://www.purl.com/ah/ms/ahMS#base' => 'ah:base',
+            'http://www.cidoc-crm.org/cidoc-crm/E54_Dimension' => 'crm:E54_Dimension',
+            'http://www.purl.com/ah/ms/ahMS#hasChipping' => 'ah:hasChipping',
+            'http://www.purl.com/ah/ms/ahMS#mode' => 'ah:mode',
+            'http://www.purl.com/ah/ms/ahMS#amplitude' => 'ah:amplitude',
+            'http://www.purl.com/ah/ms/ahMS#direction' => 'ah:direction',
+            'http://www.purl.com/ah/ms/ahMS#orientation' => 'ah:orientation',
+            'http://www.purl.com/ah/ms/ahMS#delineation' => 'ah:delineation',
+            'http://www.purl.com/ah/ms/ahMS#chippinglocation-Lateral' => 'ah:chippinglocation-Lateral',
+            'http://www.purl.com/ah/ms/ahMS#chippingLocation-Transveral' => 'ah:chippingLocation-Transveral',
+            'http://www.purl.com/ah/ms/ahMS#chippingShape' => 'ah:chippingShape',
+            'http://www.w3.org/2003/01/geo/wgs84_pos#lat' => 'geo:lat',
+            'http://www.w3.org/2003/01/geo/wgs84_pos#long' => 'geo:long',
         ];
+        foreach ($graph->toRdfPhp() as $subject => $predicates) {
+            // Handle the subject (the item URI)
+            if (is_string($subject) && strpos($subject, 'http://www.arch-project.com/data/arrowhead') === 0) {  //  Corrected check
+                $itemUri = $subject;
+                $itemData['o:resource_class'] = ['o:id' => 1]; // Default Item Resource Class ID
+                $itemData['o:item_set'] = []; // If you have item sets
+                break;  //  Important: Stop after finding the main item!
+            }
+            
+        }
+
+        error_log('itemUri: ' . $itemUri, 3, OMEKA_PATH . '/logs/item-uri.log');  //  Log the item URI
+
     
         foreach ($graph->toRdfPhp() as $subject => $predicates) {
-            foreach ($predicates as $predicate => $objects) {
-                foreach ($objects as $object) {
-                    $triple = (object) [
-                        'subject' => $subject,
-                        'predicate' => $predicate,
-                        'object' => $object,
-                    ];
-    
-                    // Handle the subject (the item URI)
-                    if (is_object($triple->subject) && $triple->subject instanceof \EasyRdf\Resource && strpos($triple->subject->getUri(), 'http://www.purl.com/ah/ms/ahMS#') !== false) {
-                        $itemUri = $triple->subject->getUri();
-                        $itemData['o:resource_class'] = ['o:id' => 1]; // Default Item Resource Class ID
-                        $itemData['o:item_set'] = []; // If you have item sets
-                    }
-    
-                    // Map predicate to Omeka S property
-                    $predicate = $triple->predicate; // No need to get URI here
-    
+            if ($subject === $itemUri) {  // Process only the main item's data
+                foreach ($predicates as $predicate => $objects) {
                     if (isset($propertyMap[$predicate])) {
                         $omekaProperty = $propertyMap[$predicate];
-                        $value = null;
+                        foreach ($objects as $object) {
+                            $value = null;
     
-                        // Handle different object types (literals, resources)
-                        if ($triple->object instanceof \EasyRdf\Literal) {
-                            $value = [
-                                'type' => 'literal',
-                                'property_id' => $this->getOmekaPropertyId($omekaProperty),
-                                '@value' => $triple->object->getValue(),
-                            ];
-                            if ($triple->object->getDatatypeUri()) {
-                                $value['@type'] = $triple->object->getDatatypeUri();
+                            if ($object['type'] === 'literal') {
+                                $value = [
+                                    'type' => 'literal',
+                                    'property_id' => $this->getOmekaPropertyId($omekaProperty),  //  Hardcoded for testing
+                                    '@value' => $object['value'],
+                                ];
+                                if (isset($object['datatype'])) {
+                                    $value['@type'] = $object['datatype'];
+                                }
+                                if (isset($object['lang'])) {
+                                    $value['@language'] = $object['lang'];
+                                }
+                            } elseif ($object['type'] === 'uri') {
+                                $value = [
+                                    'type' => 'resource',
+                                    'property_id' => $this->getOmekaPropertyId($omekaProperty),  //  Hardcoded for testing
+                                    '@id' => $object['value'],
+                                ];
                             }
-                            if ($triple->object->getLang()) {
-                                $value['@language'] = $triple->object->getLang();
-                            }
-                        } elseif (is_object($triple->object) && $triple->object instanceof \EasyRdf\Resource) {
-                            $value = [
-                                'type' => 'resource',
-                                'property_id' => $this->getOmekaPropertyId($omekaProperty),
-                                '@id' => $triple->object->getUri(),
-                            ];
-                        } elseif (is_string($triple->object)) {
-                          $value = [
-                              'type' => 'literal',
-                              'property_id' => $this->getOmekaPropertyId($omekaProperty),
-                              '@value' => $triple->object
-                          ];
-                        }
     
-                        if ($value !== null) {
-                            $itemData[$omekaProperty][] = $value;
+                            if ($value !== null) {
+                                $itemData[$omekaProperty][] = $value;
+                            }
                         }
                     }
                 }
@@ -623,40 +573,91 @@ class IndexController extends AbstractActionController
             $omekaData[] = $itemData;
         }
 
-        // log the final omeka data
-        error_log('Final Omeka S Data: ' . json_encode($omekaData), 3, OMEKA_PATH . '/logs/omeka-data.log');
-    
+        // log the itemdatada
+        error_log('Item Data: ' . json_encode($itemData), 3, OMEKA_PATH . '/logs/item-data.log');
         return $omekaData;
     }
 
-    // Helper function to get Omeka S property IDs (you'll need to implement this)
-    private function getOmekaPropertyId($omekaProperty) {
-        //  Implement logic to get the Omeka S property ID based on the string.
-        //  This might involve querying the Omeka S database or having a configuration array.
-        //  For now, return a placeholder:
-        if ($omekaProperty === 'dcterms:identifier') return 1;
-        if ($omekaProperty === 'ah:shape') return 2;
-        if ($omekaProperty === 'o:resource_class') return 3;
-        return null; // Or throw an exception if the property is not found
-    }
-    
+private function getOmekaPropertyId($omekaProperty) {
+    $propertyIds = [
+        'http://purl.org/dc/terms/identifier' => 10,
+        'http://www.w3.org/1999/02/22-rdf-syntax-ns#type' => 1,  //  Double-check this!
+        'http://www.europeana.eu/schemas/edm#Webresource' => 257,
+        'http://www.purl.com/ah/ms/ahMS#shape' => 4760,
+        'http://www.cidoc-crm.org/cidoc-crm/E57_Material' => 478,
+        'http://dbpedia.org/ontology/Annotation' => 57,
+        'http://www.cidoc-crm.org/cidoc-crm/E3_Condition_State' => 476,
+        'http://www.cidoc-crm.org/cidoc-crm/E55_Type' => 478,
+        'http://www.purl.com/ah/ms/ahMS#variant' => 7461,
+        'http://www.purl.com/ah/ms/ahMS#foundInCoordinates' => 476,
+        'http://www.purl.com/ah/ms/ahMS#hasMorphology' => 476,
+        'http://www.purl.com/ah/ms/ahMS#hasTypometry' => 476,
+        'http://www.purl.com/ah/ms/ahMS#point' => 7462,
+        'http://www.purl.com/ah/ms/ahMS#body' => 7463,
+        'http://www.purl.com/ah/ms/ahMS#base' => 7464,
+        'http://www.cidoc-crm.org/cidoc-crm/E54_Dimension' => 474,
+        'http://www.purl.com/ah/ms/ahMS#hasChipping' => 476,
+        'http://www.purl.com/ah/ms/ahMS#mode' => 7465,
+        'http://www.purl.com/ah/ms/ahMS#amplitude' => 7466,
+        'http://www.purl.com/ah/ms/ahMS#direction' => 7467,
+        'http://www.purl.com/ah/ms/ahMS#orientation' => 7468,
+        'http://www.purl.com/ah/ms/ahMS#delineation' => 7469,
+        'http://www.purl.com/ah/ms/ahMS#chippinglocation-Side' => 7470,
+        'http://www.purl.com/ah/ms/ahMS#chippingLocation-Transversal' => 7471,
+        'http://www.purl.com/ah/ms/ahMS#chippingShape' => 7472,
+        'http://www.w3.org/2003/01/geo/wgs84_pos#lat' => 257,
+        'http://www.w3.org/2003/01/geo/wgs84_pos#long' => 260,
+        'http://purl.org/dc/elements/1.1/date' => 476,
+        'http://purl.org/dc/elements/1.1/description' => 476,
+        'https://purl.org/ah/ms/excavationMS#hasContext' => 476,
+        'https://purl.org/ah/ms/excavationMS#hasTimeLine' => 476,
+        'https://purl.org/ah/ms/excavationMS#foundInAContext' => 476,
+        'http://xmlns.com/foaf/0.1/name' => 476,
+        'http://xmlns.com/foaf/0.1/mbox' => 476,
+        'http://xmlns.com/foaf/0.1/account' => 476,
+        'https://purl.org/ah/ms/excavationMS#hasGPSCoordinates' => 476,
+        'http://www.cidoc-crm.org/extensions/crmarchaeo/A9_Archaeological_Excavation' => 476,
+        'https://purl.org/ah/ms/excavationMS#ArchaeologistShape' => 476,
+        'http://www.cidoc-crm.org/extensions/crmarchaeo/A1_Excavation_Processing_Unit' => 476,
+        'http://www.cidoc-crm.org/extensions/crmarchaeo/A2_Stratigraphic_Volume_Unit' => 476,
+        'http://purl.org/dc/terms/date' => 476,
+        'http://dbpedia.org/ontology/depth' => 476,
+        'http://dbpedia.org/ontology/district' => 476,
+        'http://dbpedia.org/ontology/parish' => 476,
+        'http://www.w3.org/2006/time#hasBeginning' => 476,
+        'http://www.w3.org/2006/time#hasEnd' => 476,
+        'http://www.w3.org/2006/time#inXSDYear' => 476,
+        'http://schema.org/startDate' => 476,
+        'http://schema.org/endDate' => 476,
+        'http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasLocation' => 476,
+        'http://www.cidoc-crm.org/extensions/crmsci/O19_encountered_object' => 476,
+    ];
+
+    return $propertyIds[$omekaProperty] ?? null;
+}
     
 
     private function sendToOmekaS($omekaData) {
-        $omekaBaseUrl = 'your_omeka_s_url/api'; // Replace with your Omeka S base URL
-        $omekaApiKey = 'YOUR_OMEKA_S_API_KEY';  // Replace with your Omeka S API key
+        $omekaBaseUrl = 'http://localhost/api';  //  Base API URL (NO /items or query params)
+        $omekaApiKey = 2;
+        $omekaUser = 1;  //  <---  Hardcoded User ID (Get this dynamically!)
+        $omekaKeyIdentity = '2TGK0xT9tEMCUQs1178OyCnyRcIQpv5B';  //  Store key_identity separately
+        $omekaKeyCredential = '9IFd207Y8D5yG1bmtnCllmbgZweuMfQA';  //  Store key_credential separately
     
         $client = new Client();
-        $client->setUri($omekaBaseUrl . '/items');
         $client->setMethod('POST');
         $client->setHeaders([
             'Content-Type' => 'application/json',
-            'Omeka-S-User' => 1, // Replace with the user ID for the API key (usually 1 for the admin)
             'Omeka-S-Api-Key' => $omekaApiKey,
+            'Omeka-S-User' => $omekaUser,
         ]);
     
         $errors = [];
         foreach ($omekaData as $itemData) {
+            $fullUrl = rtrim($omekaBaseUrl, '/') . '/items' .  //  Construct the URL correctly
+                       '?key_identity=' . urlencode($omekaKeyIdentity) .
+                       '&key_credential=' . urlencode($omekaKeyCredential);
+            $client->setUri($fullUrl);
             $client->setRawBody(json_encode($itemData));
             $response = $client->send();
     

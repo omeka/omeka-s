@@ -64,6 +64,12 @@ class Module extends AbstractModule
         );
 
         $sharedEventManager->attach(
+            'Omeka\Entity\Asset',
+            'entity.remove.post',
+            [$this, 'deleteAssetFile']
+        );
+
+        $sharedEventManager->attach(
             'Omeka\Entity\ResourceTemplate',
             'entity.update.pre',
             [$this, 'refreshResourceTemplateResourceTitles']
@@ -335,6 +341,18 @@ class Module extends AbstractModule
                 $store->delete($storagePath);
             }
         }
+    }
+
+    /**
+     * Delete the file associated with a removed Asset entity.
+     *
+     * @param ZendEvent $event
+     */
+    public function deleteAssetFile(ZendEvent $event)
+    {
+        $asset = $event->getTarget();
+        $store = $this->getServiceLocator()->get('Omeka\File\Store');
+        $store->delete(sprintf('asset/%s', $asset->getFilename()));
     }
 
     /**

@@ -1,0 +1,23 @@
+<?php
+$this->collectingPrepareForm(); // Call the CollectingPrepareForm view helper
+?>
+
+<?php
+echo $this->form()->openTag($form);
+?>
+
+<input type="hidden" name="upload_type" value="<?php echo $this->escapeHtml($formType); ?>">
+
+<div class="form-elements">
+    <?php foreach ($form->getElements() as $element): ?>
+        <div class="form-group">
+            <?php if ($element->getLabel()): ?>
+                <label><?php echo $this->formLabel($element); ?></label>
+            <?php endif; ?>
+            <?php echo $this->formElement($element); ?>
+            <?php echo $this->formElementErrors($element); ?>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+<?php echo $this->form()->closeTag(); ?>

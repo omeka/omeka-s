@@ -159,6 +159,59 @@ return [
                             ],
                         ],
                     ],
+                    'upload-arrowhead-form' => [
+                            'type' => 'Segment',
+                            'options' => [
+                                'route' => '/collecting/:form-id/arrowhead',
+                                'defaults' => [
+                                    'controller' => 'Collecting\Controller\Site\Index',
+                                    'action' => 'uploadArrowheadForm',
+                                ],
+                                'constraints' => [
+                                    'form-id' => '\d+',
+                                ],
+                            ],
+                        ],
+                        'upload-excavation-form' => [
+                            'type' => 'Segment',
+                            'options' => [
+                                'route' => '/collecting/:form-id/excavation',
+                                'defaults' => [
+                                    'controller' => 'Collecting\Controller\Site\Index',
+                                    'action' => 'uploadExcavationForm',
+                                ],
+                                'constraints' => [
+                                    'form-id' => '\d+',
+                                ],
+                            ],
+                        ],
+                        'submit-arrowhead' => [
+                            'type' => 'Segment',
+                            'options' => [
+                                'route' => '/collecting/:form-id/submit-arrowhead',
+                                'defaults' => [
+                                    'controller' => 'Collecting\Controller\Site\Index',
+                                    'action' => 'submitArrowhead',
+                                ],
+                                'constraints' => [
+                                    'form-id' => '\d+',
+                                ],
+                            ],
+                        ],
+                        'submit-excavation' => [
+                            'type' => 'Segment',
+                            'options' => [
+                                'route' => '/collecting/:form-id/submit-excavation',
+                                'defaults' => [
+                                    'controller' => 'Collecting\Controller\Site\Index',
+                                    'action' => 'submitExcavation',
+                                ],
+                                'constraints' => [
+                                    'form-id' => '\d+',
+                                ],
+                            ],
+
+                        ],
                 ],
             ],
             'admin' => [

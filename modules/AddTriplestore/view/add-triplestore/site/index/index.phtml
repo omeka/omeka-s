@@ -1,28 +1,74 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
-$this->headLink()->appendStylesheet($this->assetUrl('css/addTriplestore.css', 'AddTriplestore'). '?v='. time());
+$this->headLink()->appendStylesheet($this->assetUrl('css/addTriplestore.css', 'AddTriplestore') . '?v=' . time());
 ?>
 
 <div class="add-triplestore">
     <h1>Upload Data to Triple Store</h1>
-    <?php if (!empty($result)): ?>
-        <div style="color: <?php echo strpos($result, 'successfully') !== false ? 'green' : 'red'; ?>">
-            <strong><?php echo $this->escapeHtml($result); ?></strong>
-        </div>
-    <?php endif; ?>
 
-    <form action="<?php echo $this->url('site/add-triplestore/upload', ['site-slug' => $site->slug()], true); ?>" method="post" enctype="multipart/form-data">
-        <div>
-            <label for="file">Select file to upload:</label>
-            <input type="file" name="file" id="file">
-        </div>
-        <div>
-            <input type="submit" value="Upload" name="submit">
-        </div>
-    </form>
+    <div class="button-options">
+        <button type="button" onclick="showUploadOptions('arrowhead')">Arrowhead</button>
+        <button type="button" onclick="showUploadOptions('excavation')">Excavation</button>
+    </div>
+
+    <div id="upload-options" style="display: none;">
+        <h2>Choose Upload Method</h2>
+        <button type="button" onclick="showUploadForm('upload')">Upload File</button>
+        <button type="button" onclick="showUploadForm('form')">Use Form</button>
+    </div>
+
+    <div id="upload-form" style="display: none;">
+        <h2>Upload Data</h2>
+        <?php if (!empty($result) && is_string($result)): ?>
+            <div style="color: <?php echo strpos($result, 'successfully') !== false ? 'green' : 'red'; ?>">
+                <strong><?php echo $this->escapeHtml($result); ?></strong>
+            </div>
+        <?php endif; ?>
+        <form action="<?php echo $this->url('site/add-triplestore/upload', ['site-slug' => $site->slug()], true); ?>" method="post" enctype="multipart/form-data">
+            <div>
+                <label for="file">Select file to upload:</label>
+                <input type="file" name="file" id="file">
+            </div>
+            <div>
+                <input type="hidden" name="upload_type" id="upload_type" value="">
+            </div>
+            <div>
+                <input type="submit" value="Upload" name="submit">
+            </div>
+        </form>
+    </div>
+
+    <div id="remote-form" style="display: none;">
+        <h2>Use Collection Form</h2>
+        <p>Choose the appropriate form:</p>
+        <button type="button" onclick="redirectToForm('arrowhead', <?php echo 1; ?>)">Arrowhead Form</button>
+        <button type="button" onclick="redirectToForm('excavation', <?php echo 2; ?>)">Excavation Form</button>
+    </div>
 </div>
 
+<script>
+    function showUploadOptions(option) {
+        document.getElementById('upload-options').style.display = 'block';
+        document.getElementById('upload_type').value = option;
+    }
 
+    function showUploadForm(method) {
+        document.getElementById('upload-options').style.display = 'none';
+        if (method === 'upload') {
+            document.getElementById('upload-form').style.display = 'block';
+            document.getElementById('remote-form').style.display = 'none';
+        } else if (method === 'form') {
+            document.getElementById('upload-form').style.display = 'none';
+            document.getElementById('remote-form').style.display = 'block';
+        }
+    }
 
-
+    function redirectToForm(formType, formId) {
+        if (formType === 'arrowhead') {
+            window.location.href = '<?php echo $this->url('site/collecting', ['form-id' => 1, 'action' => 'uploadArrowheadForm'], true); ?>';
+        } else if (formType === 'excavation') {
+            window.location.href = '<?php echo $this->url('site/collecting', ['form-id' => 3, 'action' => 'uploadExcavationForm'], true); ?>';
+        }
+    }
+</script>

@@ -10,46 +10,52 @@
 
 @prefix excav: <https://purl.org/ah/ms/excavationMS#>.
 @prefix crm: <http://www.cidoc-crm.org/cidoc-crm/>.
-@prefix crmsci: <http://www.cidoc-crm.org/extensions/crmsci/>.
+@prefix crmsci: <http://cidoc-crm.org/extensions/crmsci/>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 @prefix dcterms: <http://purl.org/dc/terms/>.
 @prefix edm: <http://www.europeana.eu/schemas/edm#>.
 @prefix dbo: <http://dbpedia.org/ontology/>.
 @prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
-@prefix aat: <http://vocab.getty.edu/aat/>.  # Getty Vocab AAT for material
+@prefix aat: <http://vocab.getty.edu/aat/>. # Getty Vocab AAT for material
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+
+# Material Instance (Intermediate Resource)
+<http://www.arch-project.com/data/material/flint-instance> a crm:E57_Material ;
+  rdfs:label "Flint" ; 
+  owl:sameAs <http://vocab.getty.edu/aat/300010351> .
 
 # Arrowhead Instance
-<http://www.arch-project.com/data/arrowhead9> a crm:E24_Physical_Man-Made_Thing ;
-  dcterms:identifier "AH-009"^^xsd:string ;
-  edm:Webresource <http://example.com/image1.jpg>, <http://example.com/3dmodel1.obj>;
+<http://www.arch-project.com/data/arrowhead11> a crm:E24_Physical_Man-Made_Thing ;
+  dcterms:identifier "AH-011"^^xsd:string ;
+  edm:Webresource <http://example.com/image1.jpg>, <http://example.com/3dmodel1.obj> ;
   ah:shape ah-shape:triangle ;
-  crm:E57_Material <http://vocab.getty.edu/aat/300010351> ; # Flint
+  crm:P45_consists_of <http://www.arch-project.com/data/material/flint-instance> ;
   dbo:Annotation "Slight damage on the tip."^^xsd:string, "Found in layer 3."^^xsd:string ;
-  crm:E3_Condition_State "true"^^xsd:boolean ; # Complete
-  crm:E55_Type "true"^^xsd:boolean ; # Elongate
+  crm:E3_Condition_State "true"^^xsd:boolean ;
+  crm:E55_Type "true"^^xsd:boolean ;
   ah:variant ah-variant:flat ;
   ah:foundInCoordinates <http://www.arch-project.com/data/gps1> ;
   ah:hasMorphology <http://www.arch-project.com/data/morph1> ;
-  crm:E57_Material <http://vocab.getty.edu/aat/300010351> ; # Flint
   ah:hasTypometry <http://www.arch-project.com/data/type1> .
 
 # Morphology Instance
 <http://www.arch-project.com/data/morph1> a ah:Morphology ;
-  ah:point "true"^^xsd:boolean ; # Sharp
-  ah:body "true"^^xsd:boolean ; # Symmetrical
+  ah:point "true"^^xsd:boolean ;
+  ah:body "true"^^xsd:boolean ;
   ah:base ah-base:straight .
 
 # Typometry Instance
 <http://www.arch-project.com/data/type1> a ah:Typometry ;
-  crm:E54_Dimension "50"^^xsd:decimal, "25"^^xsd:decimal, "5"^^xsd:decimal, "40"^^xsd:decimal, "15"^^xsd:decimal; # height, width, thickness, body length, base length
+  crm:E54_Dimension "50"^^xsd:decimal, "25"^^xsd:decimal, "5"^^xsd:decimal, "40"^^xsd:decimal, "15"^^xsd:decimal ;
   ah:hasChipping <http://www.arch-project.com/data/chip1> .
 
 # Chipping Instance
 <http://www.arch-project.com/data/chip1> a ah:Chipping ;
   ah:mode ah-chippingMode:plane ;
-  ah:amplitude "false"^^xsd:boolean ; # Deep
+  ah:amplitude "false"^^xsd:boolean ;
   ah:direction ah-chippingDirection:direct ;
-  ah:orientation "true"^^xsd:boolean ; # Lateral
+  ah:orientation "true"^^xsd:boolean ;
   ah:delineation ah-chippingDelineation:continuous ;
   ah:chippinglocation-Lateral ah-chippingLocation:distal, ah-chippingLocation:median ;
   ah:chippingLocation-Transveral ah-chippingLocation:distal ;

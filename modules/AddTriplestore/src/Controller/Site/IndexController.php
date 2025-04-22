@@ -1,4 +1,5 @@
 <?php
+
 namespace AddTriplestore\Controller\Site;
 
 require 'vendor/autoload.php';
@@ -9,12 +10,23 @@ use Laminas\Http\Client;
 use Laminas\Log\Logger;
 use Laminas\Log\Writer\Stream;
 use EasyRdf\Graph;
+use Laminas\Form\FormInterface;
+use Laminas\Router\RouteStackInterface;
 
 class IndexController extends AbstractActionController
 {
     private $graphdbEndpoint = "http://localhost:7200/repositories/arch-project-shacl/rdf-graphs/service";
-    private $graphdbQueryEndpoint = "http://localhost:7200/repositories/arch-project-shacl"; // SPARQL endpoint
-    private $dataGraphUri = "http://www.arch-project.com/data";
+    private $graphdbQueryEndpoint = "http://localhost:7200/repositories/arch-project-shacl";
+    private $dataGraphUri = "http://www.arch-project.com/";
+    private $router;
+    private $httpClient;
+    private $excavationIdentifier = "0/";
+
+    public function __construct(RouteStackInterface $router, Client $httpClient)
+    {
+        $this->router = $router;
+        $this->httpClient = $httpClient;
+    }
 
     public function indexAction()
     {
@@ -23,94 +35,217 @@ class IndexController extends AbstractActionController
     }
 
     public function uploadAction()
-    {
-        error_log("uploadAction() called");
+{
+    error_log("uploadAction() called");
 
-        $request = $this->getRequest();
-        if (!$request instanceof \Laminas\Http\Request) {
-            error_log('Invalid request type');
-            throw new \RuntimeException('Expected an instance of Laminas\Http\Request');
-        }
+    $request = $this->getRequest();
+    if (!$request instanceof \Laminas\Http\Request) {
+        error_log('Invalid request type');
+        throw new \RuntimeException('Expected an instance of Laminas\Http\Request');
+    }
 
-        $result = 'No file uploaded.';
-        $ttlData = ''; // Initialize $ttlData
-        $graphDbSuccess = false; // Flag for GraphDB upload success
+    $uploadType = $request->getPost('upload_type') ?: $request->getQuery('upload_type');
+    $itemSetId = $request->getQuery('item_set_id'); // Get the Item Set ID
 
-        if ($request->isPost()) {
-            error_log('Processing file upload');
-            $file = $request->getFiles()->file;
+    error_log('Upload Type: ' . $uploadType, 3, OMEKA_PATH . '/logs/upload-type.log');
+    $result = 'No data received.';
+    $ttlData = '';
+    $graphDbSuccess = false;
 
-            if ($file && $file['error'] === UPLOAD_ERR_OK) {
-                $fileExtension = pathinfo($file['name'], PATHINFO_EXTENSION);
-                $fileType = $file['type'];
+    if ($request->isPost() || $request->isGet()) { // Handle both POST (file) and GET (form data)
+        error_log('Processing upload');
 
-                // Determine file type based on extension
-                if (strtolower($fileExtension) === 'ttl' && $fileType !== 'application/x-turtle') {
-                    $fileType = 'application/x-turtle';
-                    error_log('File type set to application/x-turtle based on extension.');
-                }
-
-                if (in_array($fileType, ['application/x-turtle', 'application/xml', 'text/xml'])) {
-                    try {
-                        if ($fileType === 'application/xml' || $fileType === 'text/xml') {
-                            // XML to TTL conversion
-                            $rdfXmlData = $this->xmlParser($file);
-                            if ($rdfXmlData === 'Failed to load xsml file' ||
-                                $rdfXmlData === 'Failed to load xml file' ||
-                                $rdfXmlData === 'Failed to convert xml to rdf xml') {
-                                throw new \Exception('Failed to process XML file');
-                            }
-                            $ttlData = $this->xmlTtlConverter($rdfXmlData);
-                            error_log('TTL data: ' . $ttlData, 3, OMEKA_PATH . '/logs/ttl-dddfdata.log');
-                            $result = $this->sendToGraphDB($ttlData);
-                        } else {
-                            // TTL processing
-                            $ttlData = file_get_contents($file['tmp_name']); // Corrected: Assign to $ttlData
-                            $result = $this->sendToGraphDB($ttlData);
-                        }
-
-                        // Check for GraphDB upload success
-                        if (strpos($result, 'successfully') !== false) {  // Adjust this condition based on your success message
-                            $graphDbSuccess = true;
-                        } else {
-                            $result = 'Failed to upload data to GraphDB: ' . $result; // Use the GraphDB result (which is the error message)
-                        }
-
-                        // Omeka S processing - Only if GraphDB upload was successful
-                        if ($graphDbSuccess) {
-                            $omekaData = $this->transformTtlToOmekaSData($ttlData);
-                            // log ttl data
-                            error_log('TTL data for Omeka S: ' . $ttlData, 3, OMEKA_PATH . '/logs/ttl-omeka-s.log');
-                            error_log('Omeka S data: ' . json_encode($omekaData), 3, OMEKA_PATH . '/logs/omeka-s-data-aux.log');
-                            $omekaErrors = $this->sendToOmekaS($omekaData);
-
-                            if (empty($omekaErrors)) {
-                                $result = 'Data uploaded to GraphDB and Omeka S successfully.';
-                            } else {
-                                $result = 'Data uploaded to GraphDB successfully, but errors occurred during Omeka S upload: ' . implode('; ', $omekaErrors);
-                                // Consider: Rollback GraphDB upload here?
-                            }
-                        }
-
-                    } catch (\Exception $e) {
-                        $result = 'Error processing file: ' . $e->getMessage();
-                        error_log($result);
-                    }
-                } else {
-                    $result = 'Invalid file type. Please upload a valid .ttl or .xml file.';
-                    error_log('Invalid file type: ' . $fileType);
-                }
-            } else {
-                $result = 'File upload error: ' . $file['error'];
+        try {
+            // 1. Handle File Upload
+            if ($request->getFiles()->file && $request->getFiles()->file['error'] === UPLOAD_ERR_OK) {
+                $result = $this->processFileUpload($request, $uploadType, $itemSetId); // Pass itemSetId
+            }
+            // 2. Handle Form Submission
+            elseif ($uploadType) {
+                $result = $this->processFormSubmission($request, $uploadType, $itemSetId); // Pass itemSetId
+            }
+            // 3. No form handling here anymore
+            else {
+                $result = 'No file uploaded or form data received.';
                 error_log($result);
             }
+
+        } catch (\Exception $e) {
+            // General error handling
+            $result = 'Error during upload processing: ' . $e->getMessage();
+            error_log($result);
+        }
+    }
+
+    error_log('Final result: ' . $result);
+
+    return (new ViewModel(['result' => $result, 'site' => $this->currentSite()]))
+        ->setTemplate('add-triplestore/site/index/index');
+}
+
+
+    private function getCollectingForm(): FormInterface
+    {
+        try {
+            $collectingFormRepresentation = $this->getCollectingFormRepresentation(1); // Adjust form ID as needed
+            $collectingForm = $collectingFormRepresentation->getForm();
+            $this->modifyCollectingFormAction($collectingForm); // Ensure correct form action
+            return $collectingForm;
+        } catch (\Exception $e) {
+            // Log the error
+            error_log('Error getting Collecting form: ' . $e->getMessage());
+            // Return a simple form or null to avoid crashing the page
+            return new \Laminas\Form\Form('error-form'); // Or return null;
+        }
+    }
+
+    private function getCollectingFormRepresentation(int $formId)
+    {
+        return $this->getServiceLocator()->get('Omeka\ApiManager')
+            ->read('collecting_forms', $formId)
+            ->getContent();
+    }
+
+    private function modifyCollectingFormAction(FormInterface $collectingForm): void
+    {
+        $uploadUrl = $this->router->assemble(
+            ['site-slug' => $this->currentSite()->slug()],
+            ['name' => 'site/add-triplestore/upload', 'only_uri' => true]
+        );
+        $collectingForm->setAttribute('action', $uploadUrl);
+    }
+
+    private function processFileUpload($request, ?string $uploadType, ?int $itemSetId): string
+    {
+    $file = $request->getFiles()->file;
+    $fileExtension = pathinfo($file['name'], PATHINFO_EXTENSION);
+    $fileType = $file['type'];
+
+    if (strtolower($fileExtension) === 'ttl' && $fileType !== 'application/x-turtle') {
+        $fileType = 'application/x-turtle';
+    }
+
+    if (!in_array($fileType, ['application/x-turtle', 'application/xml', 'text/xml'])) {
+        return 'Invalid file type. Please upload a valid .ttl or .xml file.';
+    }
+
+    try {
+        if ($fileType === 'application/xml' || $fileType === 'text/xml') {
+            $rdfXmlData = $this->xmlParser($file);
+            if (!is_string($rdfXmlData) || strpos($rdfXmlData, 'Failed') === false) {
+                $ttlData = $this->xmlTtlConverter($rdfXmlData);
+            } else {
+                throw new \Exception('Failed to process XML file: ' . $rdfXmlData);
+            }
+        } else {
+            $ttlData = file_get_contents($file['tmp_name']);
         }
 
-        error_log('Final result: ' . $result);
+        $this->validateUploadType($ttlData, $uploadType);
+        return $this->uploadTtlData($ttlData, $itemSetId); // Pass itemSetId
 
-        return (new ViewModel(['result' => $result, 'site' => $this->currentSite()]))
-            ->setTemplate('add-triplestore/site/index/index');
+    } catch (\Exception $e) {
+        return 'Error processing file: ' . $e->getMessage();
     }
+}
+
+private function processFormSubmission($request, ?string $uploadType, ?int $itemSetId): string
+{
+    $formData = $request->getQuery('form_data'); // Get form data from query
+    $formData = is_array($formData) ? $formData : []; // Ensure it's an array
+    error_log('Collecting Form Data (GET): ' . print_r($formData, true), 3, OMEKA_PATH . '/logs/form-data.log');
+
+    try {
+        $ttlData = $this->transformCollectingFormDataToTTL($formData, $uploadType);
+        if ($ttlData) {
+            return $this->uploadTtlData($ttlData, $itemSetId); // Pass itemSetId
+        } else {
+            return 'Error: Could not transform form data to TTL.';
+        }
+    } catch (\Exception $e) {
+        return 'Error processing form data: ' . $e->getMessage();
+    }
+}
+
+
+private function transformCollectingFormDataToTTL(array $formData, ?string $uploadType): ?string
+{
+    $ttl = '';
+    $baseUri = $this->dataGraphUri . $this->excavationIdentifier;
+
+    if ($uploadType === 'arrowhead') {
+        $ttl .= "@prefix ah: <http://www.purl.com/ah/ms/ahMS#> .\n";
+        $ttl .= "@prefix dcterms: <http://purl.org/dc/terms/> .\n";
+
+        //  *** ADAPT THIS SECTION TO YOUR ARROWHEAD FORM  ***
+        //  Use error_log(print_r($formData, true), 3, OMEKA_PATH . '/logs/form-data.log');
+        //  to inspect the $formData and adjust the field names accordingly
+        if (isset($formData['prompt_1'])) { // Example: 'prompt_1' is a field name
+            $ttl .= "    ah:shape \"{$formData['prompt_1']}\" ;\n";
+        }
+        if (isset($formData['prompt_2'])) {
+            $ttl .= "    dcterms:identifier \"{$formData['prompt_2']}\" ;\n";
+        }
+        //  ...  Map other fields ...
+
+        $ttl .= "    .\n";
+
+    } elseif ($uploadType === 'excavation') {
+        $ttl .= "@prefix excav: <https://purl.org/ah/ms/excavationMS#> .\n";
+        $ttl .= "@prefix dcterms: <http://purl.org/dc/terms/> .\n";
+        $ttl .= "@prefix crmarchaeo: <http://www.cidoc-crm.org/extensions/crmarchaeo/> .\n";
+
+        //  *** ADAPT THIS SECTION TO YOUR EXCAVATION FORM  ***
+        //  Use error_log(print_r($formData, true), 3, OMEKA_PATH . '/logs/form-data.log');
+        //  to inspect the $formData and adjust the field names accordingly
+        if (isset($formData['prompt_3'])) {
+            $ttl .= "    dcterms:title \"{$formData['prompt_3']}\" ;\n";
+        }
+        if (isset($formData['prompt_4'])) {
+            $ttl .= "    dcterms:description \"{$formData['prompt_4']}\" ;\n";
+        }
+        //  ...  Map other fields ...
+
+        $ttl .= "    .\n";
+    }
+
+    return !empty(trim($ttl)) ? $ttl : null;
+}
+
+
+private function uploadTtlData(string $ttlData, ?int $itemSetId): string
+{
+    $result = $this->sendToGraphDB($ttlData);
+    if (strpos($result, 'successfully') !== false) {
+        $omekaResult = $this->processOmekaS($ttlData, $itemSetId); // Pass itemSetId
+        return empty($omekaResult) ? 'Data uploaded successfully.' : 'Data uploaded to GraphDB, but Omeka S errors: ' . $omekaResult;
+    } else {
+        return 'Failed to upload data to GraphDB: ' . $result;
+    }
+}
+
+private function processOmekaS(string $ttlData, ?int $itemSetId): string
+{
+    $omekaData = $this->transformTtlToOmekaSData($ttlData, $itemSetId); // Pass itemSetId
+    error_log('Omeka Data: ' . print_r($omekaData, true), 3, OMEKA_PATH . '/logs/omeka-data-2.log');
+    $omekaErrors = $this->sendToOmekaS($omekaData);
+    return implode('; ', $omekaErrors);
+}
+
+
+private function validateUploadType(string $ttlData, ?string $uploadType): void
+{
+    if (!$uploadType) {
+        return; // No upload type specified, skip validation
+    }
+
+    $isExcavation = strpos($ttlData, 'crmarchaeo:A9_Archaeological_Excavation') !== false;
+    if ($uploadType === 'excavation' && !$isExcavation) {
+        throw new \Exception('Invalid data type for excavation upload.');
+    } elseif ($uploadType === 'arrowhead' && $isExcavation) {
+        throw new \Exception('Invalid data type for Arrowhead upload.');
+    }
+}
 
     public function xmlParser($file)
     {
@@ -338,6 +473,18 @@ class IndexController extends AbstractActionController
         $writer = new Stream(OMEKA_PATH . '/logs/graphdb-errors.log');
         $logger->addWriter($writer);
 
+        //check if data is excavation data
+        if (strpos($data, 'crmarchaeo:A9_Archaeological_Excavation') !== false) {
+            //find and log the excavation identifier
+            preg_match('/dct:identifier\s+"([^"]+)"\^\^xsd:string\s*;/', $data, $matches);
+            if (isset($matches[1])) {
+                $this->excavationIdentifier = $matches[1] . '/';
+                error_log('Excavation Identifier: ' . $this->excavationIdentifier, 3, OMEKA_PATH . '/logs/excavation-identifier.log');
+            }
+        }
+        $this->dataGraphUri.= $this->excavationIdentifier;
+        error_log('Data Graph URI: ' . $this->dataGraphUri, 3, OMEKA_PATH . '/logs/data-graph-uri.log');
+
         try {
             $graphUri = $this->dataGraphUri;
 
@@ -469,10 +616,10 @@ class IndexController extends AbstractActionController
     }
 
 
-    private function transformTtlToOmekaSData($ttlData) {
+    private function transformTtlToOmekaSData($ttlData, $itemSetId): array{
         $graph = new \EasyRdf\Graph();
         $graph->parse($ttlData, 'turtle');
-
+    
         // log the graph data
         error_log('Graph data: ' . json_encode($graph->toRdfPhp()), 3, OMEKA_PATH . '/logs/ayx.log');
     
@@ -484,8 +631,9 @@ class IndexController extends AbstractActionController
             'http://purl.org/dc/terms/identifier' => 'dcterms:identifier',
             'http://www.w3.org/1999/02/22-rdf-syntax-ns#type' => 'o:resource_class',
             'http://www.europeana.eu/schemas/edm#Webresource' => 'edm:Webresource',
-            'http://www.purl.com/ah/ms/ahMS#shape' => 'ah:shape',
-            'http://www.cidoc-crm.org/cidoc-crm/E57_Material' => 'crm:E57_Material',
+            'http://www.purl.com/ah/kos/ah-shape/' => 'ah:shape',
+            'http://www.cidoc-crm.org/cidoc-crm/P45_consists_of' => 'crm:P45_consists_of',
+            'http://www.cidoc-crm.org/cidoc-crm/E57_Material' => 'crm:E57_Material', 
             'http://dbpedia.org/ontology/Annotation' => 'dbo:Annotation',
             'http://www.cidoc-crm.org/cidoc-crm/E3_Condition_State' => 'crm:E3_Condition_State',
             'http://www.cidoc-crm.org/cidoc-crm/E55_Type' => 'crm:E55_Type',
@@ -517,7 +665,7 @@ class IndexController extends AbstractActionController
                 $itemData['o:item_set'] = []; // If you have item sets
                 error_log('itemUri: ' . $itemUri, 3, OMEKA_PATH . '/logs/omeka-s-data--uri.log');
 
-                break;  //  Important: Stop after finding the main item!
+                break;  
             }
             
         }
@@ -551,7 +699,7 @@ class IndexController extends AbstractActionController
                             } elseif ($object['type'] === 'uri') {
                                 $value = [
                                     'type' => 'resource',
-                                    'property_id' => $propertyId, // Usar o ID da propriedade obtido
+                                    'property_id' => $propertyId, 
                                     '@id' => $object['value'],
                                 ];
                             }
@@ -573,37 +721,40 @@ class IndexController extends AbstractActionController
         // log the itemdatada
         error_log('Item Data: ' . json_encode($itemData), 3, OMEKA_PATH . '/logs/item-data.log');
         return $omekaData;
+        
     }
+
+
 
     private function getOmekaPropertyId($omekaProperty) {
         $propertyIds = [
             'http://purl.org/dc/terms/identifier' => 10,
             'http://www.w3.org/1999/02/22-rdf-syntax-ns#type' => 1,
-            'http://www.europeana.eu/schemas/edm#Webresource' => 257, // Is this correct?
-            'http://www.purl.com/ah/ms/ahMS#shape' => null,  //  Need to create in Omeka!
+            'http://www.europeana.eu/schemas/edm#Webresource' => NULL,
+            'http://www.purl.com/ah/kos/ah-shape/' =>   7460,  
             'http://www.cidoc-crm.org/cidoc-crm/E57_Material' => 478,
             'http://dbpedia.org/ontology/Annotation' => 57,
             'http://www.cidoc-crm.org/cidoc-crm/E3_Condition_State' => 476,
             'http://www.cidoc-crm.org/cidoc-crm/E55_Type' => 478,
-            'http://www.purl.com/ah/ms/ahMS#variant' => null,  //  Need to create in Omeka!
+            'http://www.purl.com/ah/ms/ahMS#variant' => null,  
             'http://www.purl.com/ah/ms/ahMS#foundInCoordinates' => 476,
             'http://www.purl.com/ah/ms/ahMS#hasMorphology' => 476,
             'http://www.purl.com/ah/ms/ahMS#hasTypometry' => 476,
-            'http://www.purl.com/ah/ms/ahMS#point' => null,  //  Need to create in Omeka!
-            'http://www.purl.com/ah/ms/ahMS#body' => null,   //  Need to create in Omeka!
-            'http://www.purl.com/ah/ms/ahMS#base' => null,   //  Need to create in Omeka!
+            'http://www.purl.com/ah/ms/ahMS#point' => null,  
+            'http://www.purl.com/ah/ms/ahMS#body' => null,   
+            'http://www.purl.com/ah/ms/ahMS#base' => null,   
             'http://www.cidoc-crm.org/cidoc-crm/E54_Dimension' => 474,
             'http://www.purl.com/ah/ms/ahMS#hasChipping' => 476,
-            'http://www.purl.com/ah/ms/ahMS#mode' => null,   //  Need to create in Omeka!
-            'http://www.purl.com/ah/ms/ahMS#amplitude' => null, //  Need to create in Omeka!
-            'http://www.purl.com/ah/ms/ahMS#direction' => 237,  //  Double-check!
-            'http://www.purl.com/ah/ms/ahMS#orientation' => null, //  Need to create in Omeka!
-            'http://www.purl.com/ah/ms/ahMS#delineation' => null, //  Need to create in Omeka!
-            'http://www.purl.com/ah/ms/ahMS#chippinglocation-Side' => null,  //  Handle carefully!
-            'http://www.purl.com/ah/ms/ahMS#chippingLocation-Transversal' => null,  //  Handle carefully!
-            'http://www.purl.com/ah/ms/ahMS#chippingShape' => null,  //  Need to create in Omeka!
-            'http://www.w3.org/2003/01/geo/wgs84_pos#lat' => 257,  // Is this correct?
-            'http://www.w3.org/2003/01/geo/wgs84_pos#long' => 260, // Is this correct?
+            'http://www.purl.com/ah/ms/ahMS#mode' => null,   
+            'http://www.purl.com/ah/ms/ahMS#amplitude' => null, 
+            'http://www.purl.com/ah/ms/ahMS#direction' => 237,  
+            'http://www.purl.com/ah/ms/ahMS#orientation' => null, 
+            'http://www.purl.com/ah/ms/ahMS#delineation' => null, 
+            'http://www.purl.com/ah/ms/ahMS#chippinglocation-Lateral' => null, 
+            'http://www.purl.com/ah/ms/ahMS#chippingLocation-Transversal' => null, 
+            'http://www.purl.com/ah/ms/ahMS#chippingShape' => null,  
+            'http://www.w3.org/2003/01/geo/wgs84_pos#lat' => 257, 
+            'http://www.w3.org/2003/01/geo/wgs84_pos#long' => 260,
             'http://purl.org/dc/elements/1.1/date' => 476,
             'http://purl.org/dc/elements/1.1/description' => 476,
             'https://purl.org/ah/ms/excavationMS#hasContext' => 476,

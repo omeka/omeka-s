@@ -18,100 +18,232 @@ class IndexController extends AbstractActionController
 
     protected $mediaTypeManager;
 
+    private $api;
+
+
     public function __construct(Acl $acl, Manager $mediaTypeManager)
     {
         $this->acl = $acl;
         $this->mediaTypeManager = $mediaTypeManager;
     }
 
-    public function submitAction()
+    public function uploadArrowheadFormAction()
     {
-        if (!$this->getRequest()->isPost()) {
-            return $this->redirect()->toRoute('site', [], true);
-        }
+        $formId = $this->params('form-id');
+        $cForm = $this->api()->read('collecting_forms', $formId)->getContent();
+        $form = $cForm->getForm(); // Get the Laminas Form object
 
-        $cForm = $this->api()
-            ->read('collecting_forms', $this->params('form-id'))
-            ->getContent();
-
-        $form = $cForm->getForm();
-        $form->setData($this->params()->fromPost());
-        if ($form->isValid()) {
-            [$itemData, $cItemData] = $this->getPromptData($cForm);
-
-            // Temporarily give the user permission to create the Omeka and
-            // Collecting items. This gives all roles all privileges to all
-            // resources, which _should_ be safe since we're only passing
-            // mediated data.
-            $this->acl->allow();
-            // Allow the can-assign-items privilege so the IndexController can
-            // assign the current o:site to the item. This is needed becuase,
-            // for some reason, the ACL does not ignore can-assign-items, even
-            // with the above allow().
-            $this->acl->allow(null, 'Omeka\Entity\Site', 'can-assign-items');
-
-            // Create the Omeka item.
-            $itemData['o:is_public'] = false;
-            $itemData['o:item_set'] = [
-                'o:id' => $cForm->itemSet() ? $cForm->itemSet()->id() : null,
-            ];
-            // Nothing needs to be done for the default site assignment. The
-            // item adapter will automatically assign the proper sites.
-            if (!$cForm->defaultSiteAssign()) {
-                // Otherwise, assign the current site only.
-                $itemData['o:site'] = [
-                    'o:id' => $this->currentSite()->id(),
-                ];
-            }
-            $response = $this->api($form)
-                ->create('items', $itemData, $this->params()->fromFiles());
-
-            if ($response) {
-                $item = $response->getContent();
-
-                // Create the Collecting item.
-                $cItemData['o:item'] = ['o:id' => $item->id()];
-                $cItemData['o-module-collecting:form'] = ['o:id' => $cForm->id()];
-
-                if ('user' === $cForm->anonType()) {
-                    // If the form has the "user" anonymity type, the item's
-                    // defualt anonymous flag is "false" becuase the related
-                    // prompt ("User Public") is naturally public.
-                    $cItemData['o-module-collecting:anon']
-                        = $this->params()->fromPost(sprintf('anon_%s', $cForm->id()), false);
-                }
-
-                $response = $this->api($form)->create('collecting_items', $cItemData);
-
-                if ($response) {
-                    $cItem = $response->getContent();
-
-                    // Send a submission email if the user opts-in and provides
-                    // an email address.
-                    $sendEmail = $this->params()->fromPost(sprintf('email_send_%s', $cForm->id()), false);
-                    if ($sendEmail && $cItem->userEmail()) {
-                        $this->sendSubmissionEmail($cForm, $cItem);
-                    }
-                    // Send a notification email if configured to do so.
-                    $sendEmailNotify = $this->siteSettings()->get('collecting_email_notify');
-                    if ($sendEmailNotify) {
-                        $this->sendNotificationEmail($cForm, $cItem);
-                    }
-
-                    return $this->redirect()->toRoute(null, ['action' => 'success'], true);
-                }
-            }
-
-            // Out of an abundance of caution, revert back to default permissions.
-            $this->acl->removeAllow();
-        } else {
-            $this->messenger()->addErrors($form->getMessages());
-        }
-
-        $view = new ViewModel;
-        $view->setVariable('cForm', $cForm);
+        $view = new ViewModel([
+            'form' => $form,
+            'formType' => 'arrowhead', // Pass form type to the view
+        ]);
         return $view;
     }
+
+    public function uploadExcavationFormAction()
+    {
+        $formId = $this->params('form-id');
+        $cForm = $this->api()->read('collecting_forms', $formId)->getContent();
+        $form = $cForm->getForm();
+
+        $view = new ViewModel([
+            'form' => $form,
+            'formType' => 'excavation', // Pass form type to the view
+        ]);
+        return $view;
+    }
+
+    public function submitArrowheadAction()
+    {
+        $formId = $this->params('form-id');
+        $cForm = $this->api()->read('collecting_forms', $formId)->getContent();
+        $form = $cForm->getForm();
+        $form->setData($this->params()->fromPost());
+
+        if ($form->isValid()) {
+            $arrowheadData = $this->getFormData($cForm); // Extract data (see helper method below)
+
+            //  *** PASS DATA TO YOUR MODULE (ADJUST AS NEEDED)  ***
+            $this->redirectToTriplestore($arrowheadData, 'arrowhead');
+
+        } else {
+            $this->messenger()->addErrors($form->getMessages());
+            return $this->redirect()->toRoute('site/collecting', ['form-id' => $formId, 'action' => 'uploadArrowheadForm']);
+        }
+    }
+
+    public function submitExcavationAction()
+{
+    error_log('submitExcavationAction foi chamada.');
+
+    $formId = $this->params('form-id');
+    $cForm = $this->api()->read('collecting_forms', $formId)->getContent();
+    $form = $cForm->getForm();
+    $form->setData($this->params()->fromPost());
+
+    if ($form->isValid()) {
+        $excavationData = $this->getFormData($cForm); // Extract data
+
+        // *** Get the excavation identifier (adjust based on your form) ***
+        $excavationIdentifier = $excavationData['algum_campo_de_identificacao'] ?? null;
+
+        if ($excavationIdentifier) {
+            // *** Create a new Item Set ***
+            $itemSetData = [
+                'o:title' => [['@value' => 'Escavação ' . $excavationIdentifier, 'property_id' => 1]], // Property ID 1 é geralmente 'dcterms:title'
+            ];
+            error_log('Dados para criar Item Set: ' . json_encode($itemSetData), 3, OMEKA_PATH . '/logs/upload-type.log');
+
+            $response = $this->api()->create('item_sets', $itemSetData);
+
+            error_log('Resposta da API de criação do Item Set: ' . json_encode($response), 3, OMEKA_PATH . '/logs/upload-type.log');
+
+
+            if ($response) {
+                $itemSet = $response->getContent();
+                $itemSetId = $itemSet->id();
+
+                error_log('Item Set criado com ID: ' . $itemSetId, 3, OMEKA_PATH . '/logs/upload-type.log');
+
+                // *** Pass the Item Set ID to the AddTriplestore module ***
+                $this->redirectToTriplestore($excavationData, 'excavation', $itemSetId);
+                return; // Important: stop the current execution
+            } else {
+                $this->messenger()->addErrors(['Erro ao criar o Item Set.']);
+
+                return $this->redirect()->toRoute('site/collecting', ['form-id' => $formId, 'action' => 'uploadExcavationForm']);
+            }
+        } else {
+            $this->messenger()->addErrors(['Identificador da escavação não encontrado.']);
+            return $this->redirect()->toRoute('site/collecting', ['form-id' => $formId, 'action' => 'uploadExcavationForm']);
+        }
+
+    } else {
+        $this->messenger()->addErrors($form->getMessages());
+        return $this->redirect()->toRoute('site/collecting', ['form-id' => $formId, 'action' => 'uploadExcavationForm']);
+    }
+}
+
+/**
+ * Helper method to redirect to the AddTriplestore module.
+ * Adapt this to your AddTriplestore module's route and data handling!
+ */
+private function redirectToTriplestore(array $data, string $uploadType, ?int $itemSetId = null): void
+{
+    $query = ['form_data' => $data, 'upload_type' => $uploadType];
+    if ($itemSetId) {
+        $query['item_set_id'] = $itemSetId;
+    }
+    $url = $this->url('site/add-triplestore/upload', ['site-slug' => $this->currentSite()->slug()], true);
+    $url .= '?' . http_build_query($query);
+    $this->redirect()->toUrl($url);
+}
+
+    /**
+     * Helper method to extract and format form data.
+     * Adapt this to your specific form structure!
+     */
+    private function getFormData(CollectingFormRepresentation $cForm): array
+    {
+        $formData = [];
+        foreach ($cForm->prompts() as $prompt) {
+            $fieldName = 'prompt_' . $prompt->id();  //  Example:  How names are generated
+            if (isset($this->params()->fromPost()[$fieldName])) {
+                $formData[$prompt->type()] = $this->params()->fromPost()[$fieldName];
+            }
+        }
+        return $formData;
+    }
+
+
+    public function submitAction()
+{
+    if (!$this->getRequest()->isPost()) {
+        return $this->redirect()->toRoute('site', [], true);
+    }
+
+    $cForm = $this->api()
+        ->read('collecting_forms', $this->params('form-id'))
+        ->getContent();
+
+    $form = $cForm->getForm();
+    $form->setData($this->params()->fromPost());
+    if ($form->isValid()) {
+        [$itemData, $cItemData] = $this->getPromptData($cForm);
+
+        // Temporarily give the user permission to create the Omeka and
+        // Collecting items. This gives all roles all privileges to all
+        // resources, which _should_ be safe since we're only passing
+        // mediated data.
+        $this->acl->allow();
+        // Allow the can-assign-items privilege so the IndexController can
+        // assign the current o:site to the item. This is needed becuase,
+        // for some reason, the ACL does not ignore can-assign-items, even
+        // with the above allow().
+        $this->acl->allow(null, 'Omeka\Entity\Site', 'can-assign-items');
+
+        // Create the Omeka item.
+        $itemData['o:is_public'] = false;
+        $itemData['o:item_set'] = [
+            'o:id' => $cForm->itemSet() ? $cForm->itemSet()->id() : null,
+        ];
+        // Nothing needs to be done for the default site assignment. The
+        // item adapter will automatically assign the proper sites.
+        if (!$cForm->defaultSiteAssign()) {
+            // Otherwise, assign the current site only.
+            $itemData['o:site'] = [
+                'o:id' => $this->currentSite()->id(),
+            ];
+        }
+        $response = $this->api($form)
+            ->create('items', $itemData, $this->params()->fromFiles());
+
+        if ($response) {
+            $item = $response->getContent();
+
+            // Create the Collecting item.
+            $cItemData['o:item'] = ['o:id' => $item->id()];
+            $cItemData['o-module-collecting:form'] = ['o:id' => $cForm->id()];
+
+            if ('user' === $cForm->anonType()) {
+                // If the form has the "user" anonymity type, the item's
+                // defualt anonymous flag is "false" becuase the related
+                // prompt ("User Public") is naturally public.
+                $cItemData['o-module-collecting:anon']
+                    = $this->params()->fromPost(sprintf('anon_%s', $cForm->id()), false);
+            }
+
+            $response = $this->api($form)->create('collecting_items', $cItemData);
+
+            if ($response) {
+                $cItem = $response->getContent();
+
+                // Send a submission email if the user opts-in and provides
+                // an email address.
+                $sendEmail = $this->params()->fromPost(sprintf('email_send_%s', $cForm->id()), false);
+                if ($sendEmail && $cItem->userEmail()) {
+                    $this->sendSubmissionEmail($cForm, $cItem);
+                }
+                // Send a notification email if configured to do so.
+                $sendEmailNotify = $this->siteSettings()->get('collecting_email_notify');
+                if ($sendEmailNotify) {
+                    $this->sendNotificationEmail($cForm, $cItem);
+                }
+
+                return $this->redirect()->toRoute(null, ['action' => 'success'], true);
+            }
+        }
+
+        // Out of an abundance of caution, revert back to default permissions.
+        $this->acl->removeAllow();
+    } else {
+        $this->messenger()->addErrors($form->getMessages());
+    }
+
+    $view = new ViewModel;
+    $view->setVariable('cForm', $cForm);
+    return $view;
+}
 
     public function successAction()
     {

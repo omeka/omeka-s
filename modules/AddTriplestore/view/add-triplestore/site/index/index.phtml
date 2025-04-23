@@ -7,6 +7,21 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/addTriplestore.css', 'A
 <div class="add-triplestore">
     <h1>Upload Data to Triple Store</h1>
 
+    <?php if (!empty($result) && strpos($result, 'successfully') !== false): ?>
+        <div style="color: green;">
+            <strong><?php echo $this->escapeHtml($result); ?></strong>
+        </div>
+        <?php if ($this->params()->fromPost('upload_type') === 'excavation' || $this->params()->fromQuery('upload_type') === 'excavation'): ?>
+            <p>Excavation Uploaded Sucessfully! Would you like to upload arrowheads?</p>
+            <button onclick="window.location.href='<?php echo $this->url('site/collecting', ['form-id' => 1, 'action' => 'uploadArrowheadForm'], true); ?>'">Upload Arrowheads</button>
+        <?php elseif ($this->params()->fromPost('upload_type') === 'arrowhead' || $this->params()->fromQuery('upload_type') === 'arrowhead'): ?>
+            <p>Arrowhead Uploaded Successfully!</p>
+            <?php // Adiciona aqui qualquer outra ação ou mensagem específica para o upload de pontas de seta ?>
+        <?php else: ?>
+            <p>Data Uploaded Successfully!</p>
+        <?php endif; ?>
+    <?php endif; ?>
+
     <div class="button-options">
         <button type="button" onclick="showUploadOptions('arrowhead')">Arrowhead</button>
         <button type="button" onclick="showUploadOptions('excavation')">Excavation</button>
@@ -20,11 +35,6 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/addTriplestore.css', 'A
 
     <div id="upload-form" style="display: none;">
         <h2>Upload Data</h2>
-        <?php if (!empty($result) && is_string($result)): ?>
-            <div style="color: <?php echo strpos($result, 'successfully') !== false ? 'green' : 'red'; ?>">
-                <strong><?php echo $this->escapeHtml($result); ?></strong>
-            </div>
-        <?php endif; ?>
         <form action="<?php echo $this->url('site/add-triplestore/upload', ['site-slug' => $site->slug()], true); ?>" method="post" enctype="multipart/form-data">
             <div>
                 <label for="file">Select file to upload:</label>
@@ -68,7 +78,7 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/addTriplestore.css', 'A
         if (formType === 'arrowhead') {
             window.location.href = '<?php echo $this->url('site/collecting', ['form-id' => 1, 'action' => 'uploadArrowheadForm'], true); ?>';
         } else if (formType === 'excavation') {
-            window.location.href = '<?php echo $this->url('site/collecting', ['form-id' => 3, 'action' => 'uploadExcavationForm'], true); ?>';
+            window.location.href = '<?php echo $this->url('site/collecting', ['form-id' => 2, 'action' => 'uploadExcavationForm'], true); ?>';
         }
     }
 </script>

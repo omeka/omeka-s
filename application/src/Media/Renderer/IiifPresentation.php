@@ -21,7 +21,7 @@ class IiifPresentation implements RendererInterface
                     break;
                 case 'light':
                 default:
-                $miradorConfig['selectedTheme'] = 'light';
+                    $miradorConfig['selectedTheme'] = 'light';
             }
         }
         $query = [

@@ -362,7 +362,7 @@ function taskDepsJs(cb) {
             }
             return './node_modules/' + module + '/' + value;
         });
-        gulp.src(moduleDeps, {nodir: true})
+        gulp.src(moduleDeps, {encoding: false})
             .pipe(gulp.dest('./application/asset/vendor/' + dest));
     });
     cb();
@@ -535,7 +535,7 @@ var taskZip = gulp.series('clean', 'init', function () {
             '!./**/.gitattributes',
             '!./**/.gitignore'
         ],
-        {base: '.', nodir: true, dot: true})
+        {base: '.', dot: true, encoding: false, resolveSymlinks: false})
         .pipe(rename(function (path) {
             path.dirname = 'omeka-s/' + path.dirname;
         }))

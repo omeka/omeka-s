@@ -21061,3 +21061,68 @@ _:b4400a4d-4379-4f94-8305-ba0142bd026b-4 <http://www.w3.org/ns/shacl#class> <htt
 2025-04-23T08:16:58+00:00 INFO (6): Response Status: 204 | Response Body:
 2025-04-23T08:17:58+00:00 INFO (6): Response Status: 204 | Response Body:
 2025-04-23T08:18:07+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-04-23T08:23:08+00:00 INFO (6): Response Status: 500 | Response Body: _:7975660053a04e57a418b233e75681ac520807 <http://www.w3.org/ns/shacl#conforms> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+_:7975660053a04e57a418b233e75681ac520807 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationReport> .
+_:7975660053a04e57a418b233e75681ac520807 <http://rdf4j.org/schema/rdf4j#truncated> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+_:7975660053a04e57a418b233e75681ac520807 <http://www.w3.org/ns/shacl#result> _:7975660053a04e57a418b233e75681ac520808 .
+_:7975660053a04e57a418b233e75681ac520808 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:7975660053a04e57a418b233e75681ac520808 <http://www.w3.org/ns/shacl#focusNode> <http://www.arch-project.com/data/encounter1> .
+_:7975660053a04e57a418b233e75681ac520808 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:7975660053a04e57a418b233e75681ac520808 <http://www.w3.org/ns/shacl#resultPath> <https://purl.org/ah/ms/excavationMS#foundInAExcavation> .
+_:7975660053a04e57a418b233e75681ac520808 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#MaxCountConstraintComponent> .
+_:7975660053a04e57a418b233e75681ac520808 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:c28227f0-70eb-432e-8df5-b42f57f0342d-30 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+_:7975660053a04e57a418b233e75681ac520808 <http://www.w3.org/ns/shacl#sourceShape> _:c28227f0-70eb-432e-8df5-b42f57f0342d-30 .
+_:c28227f0-70eb-432e-8df5-b42f57f0342d-30 <http://www.w3.org/ns/shacl#path> <https://purl.org/ah/ms/excavationMS#foundInAExcavation> .
+_:c28227f0-70eb-432e-8df5-b42f57f0342d-30 <http://www.w3.org/ns/shacl#maxCount> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+
+2025-04-23T08:23:08+00:00 ERR (3): Failed to upload data: Response Status: 500 | Response Body: _:7975660053a04e57a418b233e75681ac520807 <http://www.w3.org/ns/shacl#conforms> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+_:7975660053a04e57a418b233e75681ac520807 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationReport> .
+_:7975660053a04e57a418b233e75681ac520807 <http://rdf4j.org/schema/rdf4j#truncated> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+_:7975660053a04e57a418b233e75681ac520807 <http://www.w3.org/ns/shacl#result> _:7975660053a04e57a418b233e75681ac520808 .
+_:7975660053a04e57a418b233e75681ac520808 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:7975660053a04e57a418b233e75681ac520808 <http://www.w3.org/ns/shacl#focusNode> <http://www.arch-project.com/data/encounter1> .
+_:7975660053a04e57a418b233e75681ac520808 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:7975660053a04e57a418b233e75681ac520808 <http://www.w3.org/ns/shacl#resultPath> <https://purl.org/ah/ms/excavationMS#foundInAExcavation> .
+_:7975660053a04e57a418b233e75681ac520808 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#MaxCountConstraintComponent> .
+_:7975660053a04e57a418b233e75681ac520808 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:c28227f0-70eb-432e-8df5-b42f57f0342d-30 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+_:7975660053a04e57a418b233e75681ac520808 <http://www.w3.org/ns/shacl#sourceShape> _:c28227f0-70eb-432e-8df5-b42f57f0342d-30 .
+_:c28227f0-70eb-432e-8df5-b42f57f0342d-30 <http://www.w3.org/ns/shacl#path> <https://purl.org/ah/ms/excavationMS#foundInAExcavation> .
+_:c28227f0-70eb-432e-8df5-b42f57f0342d-30 <http://www.w3.org/ns/shacl#maxCount> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+
+2025-04-23T08:24:19+00:00 INFO (6): Response Status: 500 | Response Body: _:7975660053a04e57a418b233e75681ac521588 <http://www.w3.org/ns/shacl#conforms> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+_:7975660053a04e57a418b233e75681ac521588 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationReport> .
+_:7975660053a04e57a418b233e75681ac521588 <http://rdf4j.org/schema/rdf4j#truncated> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+_:7975660053a04e57a418b233e75681ac521588 <http://www.w3.org/ns/shacl#result> _:7975660053a04e57a418b233e75681ac521589 .
+_:7975660053a04e57a418b233e75681ac521589 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:7975660053a04e57a418b233e75681ac521589 <http://www.w3.org/ns/shacl#focusNode> <http://www.arch-project.com/data/encounter1> .
+_:7975660053a04e57a418b233e75681ac521589 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:7975660053a04e57a418b233e75681ac521589 <http://www.w3.org/ns/shacl#resultPath> <https://purl.org/ah/ms/excavationMS#foundInAExcavation> .
+_:7975660053a04e57a418b233e75681ac521589 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#MaxCountConstraintComponent> .
+_:7975660053a04e57a418b233e75681ac521589 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:c28227f0-70eb-432e-8df5-b42f57f0342d-30 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+_:7975660053a04e57a418b233e75681ac521589 <http://www.w3.org/ns/shacl#sourceShape> _:c28227f0-70eb-432e-8df5-b42f57f0342d-30 .
+_:c28227f0-70eb-432e-8df5-b42f57f0342d-30 <http://www.w3.org/ns/shacl#path> <https://purl.org/ah/ms/excavationMS#foundInAExcavation> .
+_:c28227f0-70eb-432e-8df5-b42f57f0342d-30 <http://www.w3.org/ns/shacl#maxCount> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+
+2025-04-23T08:24:19+00:00 ERR (3): Failed to upload data: Response Status: 500 | Response Body: _:7975660053a04e57a418b233e75681ac521588 <http://www.w3.org/ns/shacl#conforms> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+_:7975660053a04e57a418b233e75681ac521588 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationReport> .
+_:7975660053a04e57a418b233e75681ac521588 <http://rdf4j.org/schema/rdf4j#truncated> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+_:7975660053a04e57a418b233e75681ac521588 <http://www.w3.org/ns/shacl#result> _:7975660053a04e57a418b233e75681ac521589 .
+_:7975660053a04e57a418b233e75681ac521589 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:7975660053a04e57a418b233e75681ac521589 <http://www.w3.org/ns/shacl#focusNode> <http://www.arch-project.com/data/encounter1> .
+_:7975660053a04e57a418b233e75681ac521589 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:7975660053a04e57a418b233e75681ac521589 <http://www.w3.org/ns/shacl#resultPath> <https://purl.org/ah/ms/excavationMS#foundInAExcavation> .
+_:7975660053a04e57a418b233e75681ac521589 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#MaxCountConstraintComponent> .
+_:7975660053a04e57a418b233e75681ac521589 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:c28227f0-70eb-432e-8df5-b42f57f0342d-30 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+_:7975660053a04e57a418b233e75681ac521589 <http://www.w3.org/ns/shacl#sourceShape> _:c28227f0-70eb-432e-8df5-b42f57f0342d-30 .
+_:c28227f0-70eb-432e-8df5-b42f57f0342d-30 <http://www.w3.org/ns/shacl#path> <https://purl.org/ah/ms/excavationMS#foundInAExcavation> .
+_:c28227f0-70eb-432e-8df5-b42f57f0342d-30 <http://www.w3.org/ns/shacl#maxCount> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+
+2025-04-23T08:24:29+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-04-23T08:29:13+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-04-26T14:47:27+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-04-26T14:51:28+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-04-26T14:57:25+00:00 INFO (6): Response Status: 204 | Response Body:

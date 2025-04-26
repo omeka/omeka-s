@@ -213,14 +213,24 @@ private function transformCollectingFormDataToTTL(array $formData, ?string $uplo
 }
 
 
-private function uploadTtlData(string $ttlData, ?int $itemSetId): string
-{
-    $result = $this->sendToGraphDB($ttlData);
-    if (strpos($result, 'successfully') !== false) {
-        $omekaResult = $this->processOmekaS($ttlData, $itemSetId); // Pass itemSetId
-        return empty($omekaResult) ? 'Data uploaded successfully.' : 'Data uploaded to GraphDB, but Omeka S errors: ' . $omekaResult;
+private function uploadTtlData(string $ttlData, ?int $itemSetId): string {
+    // First, upload to GraphDB
+    $graphDbResult = $this->sendToGraphDB($ttlData);
+    
+    if (strpos($graphDbResult, 'successfully') !== false) {
+        // If GraphDB upload is successful, then process in Omeka S
+        $omekaResult = $this->transformTtlToOmekaSData($ttlData, $itemSetId);
+        $omekaResponse = $this->sendToOmekaS($omekaResult);
+        
+        if (empty($omekaResponse['errors'])) {
+            return 'Data uploaded successfully to both GraphDB and Omeka S. Created ' . 
+                   count($omekaResponse['created_items']) . ' items.';
+        } else {
+            return 'Data uploaded to GraphDB, but Omeka S errors: ' . 
+                  implode('; ', $omekaResponse['errors']);
+        }
     } else {
-        return 'Failed to upload data to GraphDB: ' . $result;
+        return 'Failed to upload data to GraphDB: ' . $graphDbResult;
     }
 }
 
@@ -616,207 +626,221 @@ private function validateUploadType(string $ttlData, ?string $uploadType): void
     }
 
 
-    private function transformTtlToOmekaSData($ttlData, $itemSetId): array{
+    private function transformTtlToOmekaSData($ttlData, $itemSetId): array {
         $graph = new \EasyRdf\Graph();
         $graph->parse($ttlData, 'turtle');
-    
-        // log the graph data
-        error_log('Graph data: ' . json_encode($graph->toRdfPhp()), 3, OMEKA_PATH . '/logs/ayx.log');
-    
+        
         $omekaData = [];
-        $itemData = [];
-        $itemUri = null;
-    
-        $propertyMap = [
-            'http://purl.org/dc/terms/identifier' => 'dcterms:identifier',
-            'http://www.w3.org/1999/02/22-rdf-syntax-ns#type' => 'o:resource_class',
-            'http://www.europeana.eu/schemas/edm#Webresource' => 'edm:Webresource',
-            'http://www.purl.com/ah/kos/ah-shape/' => 'ah:shape',
-            'http://www.cidoc-crm.org/cidoc-crm/P45_consists_of' => 'crm:P45_consists_of',
-            'http://www.cidoc-crm.org/cidoc-crm/E57_Material' => 'crm:E57_Material', 
-            'http://dbpedia.org/ontology/Annotation' => 'dbo:Annotation',
-            'http://www.cidoc-crm.org/cidoc-crm/E3_Condition_State' => 'crm:E3_Condition_State',
-            'http://www.cidoc-crm.org/cidoc-crm/E55_Type' => 'crm:E55_Type',
-            'http://www.purl.com/ah/ms/ahMS#variant' => 'ah:variant',
-            'http://www.purl.com/ah/ms/ahMS#foundInCoordinates' => 'ah:foundInCoordinates',
-            'http://www.purl.com/ah/ms/ahMS#hasMorphology' => 'ah:hasMorphology',
-            'http://www.purl.com/ah/ms/ahMS#hasTypometry' => 'ah:hasTypometry',
-            'http://www.purl.com/ah/ms/ahMS#point' => 'ah:point',
-            'http://www.purl.com/ah/ms/ahMS#body' => 'ah:body',
-            'http://www.purl.com/ah/ms/ahMS#base' => 'ah:base',
-            'http://www.cidoc-crm.org/cidoc-crm/E54_Dimension' => 'crm:E54_Dimension',
-            'http://www.purl.com/ah/ms/ahMS#hasChipping' => 'ah:hasChipping',
-            'http://www.purl.com/ah/ms/ahMS#mode' => 'ah:mode',
-            'http://www.purl.com/ah/ms/ahMS#amplitude' => 'ah:amplitude',
-            'http://www.purl.com/ah/ms/ahMS#direction' => 'ah:direction',
-            'http://www.purl.com/ah/ms/ahMS#orientation' => 'ah:orientation',
-            'http://www.purl.com/ah/ms/ahMS#delineation' => 'ah:delineation',
-            'http://www.purl.com/ah/ms/ahMS#chippinglocation-Lateral' => 'ah:chippinglocation-Lateral',
-            'http://www.purl.com/ah/ms/ahMS#chippingLocation-Transveral' => 'ah:chippingLocation-Transveral',
-            'http://www.purl.com/ah/ms/ahMS#chippingShape' => 'ah:chippingShape',
-            'http://www.w3.org/2003/01/geo/wgs84_pos#lat' => 'geo:lat',
-            'http://www.w3.org/2003/01/geo/wgs84_pos#long' => 'geo:long',
-        ];
-        foreach ($graph->toRdfPhp() as $subject => $predicates) {
-            // Handle the subject (the item URI)
-            if (is_string($subject) && strpos($subject, 'http://www.arch-project.com/data/arrowhead') === 0) {  //  Corrected check
-                $itemUri = $subject;
-                $itemData['o:resource_class'] = ['o:id' => 1]; // Default Item Resource Class ID
-                $itemData['o:item_set'] = []; // If you have item sets
-                error_log('itemUri: ' . $itemUri, 3, OMEKA_PATH . '/logs/omeka-s-data--uri.log');
-
-                break;  
-            }
-            
-        }
-
-        error_log('itemUri: ' . $itemUri, 3, OMEKA_PATH . '/logs/item-uri.log');  //  Log the item URI
-
-    
-        foreach ($graph->toRdfPhp() as $subject => $predicates) {
-            if ($subject === $itemUri) {
-                foreach ($predicates as $predicate => $objects) {
-                    if (isset($propertyMap[$predicate])) {
-                        $omekaProperty = $propertyMap[$predicate];
-                        $propertyId = $this->getOmekaPropertyId($predicate); // Obter o ID da propriedade aqui
-                        $itemData[$omekaProperty] = []; // Inicializar o array para a propriedade
-    
-                        foreach ($objects as $object) {
-                            $value = null;
-    
-                            if ($object['type'] === 'literal') {
-                                $value = [
-                                    'type' => 'literal',
-                                    'property_id' => $propertyId, // Usar o ID da propriedade obtido
-                                    '@value' => $object['value'],
-                                ];
-                                if (isset($object['datatype'])) {
-                                    $value['@type'] = $object['datatype'];
-                                }
-                                if (isset($object['lang'])) {
-                                    $value['@language'] = $object['lang'];
-                                }
-                            } elseif ($object['type'] === 'uri') {
-                                $value = [
-                                    'type' => 'resource',
-                                    'property_id' => $propertyId, 
-                                    '@id' => $object['value'],
-                                ];
-                            }
-    
-                            if ($value !== null) {
-                                $itemData[$omekaProperty][] = $value;
-                            }
-                        }
-                        error_log("Predicate: " . $predicate . ", Omeka Property: " . $omekaProperty . ", Property ID: " . $propertyId . ", Value: " . json_encode($itemData[$omekaProperty]), 3, OMEKA_PATH . '/logs/omeka-s-data-propery.log');
+        $rdfData = $graph->toRdfPhp();
+        
+        // Find arrowhead subjects - these will be our main items
+        $arrowheadSubjects = [];
+        foreach ($rdfData as $subject => $predicates) {
+            foreach ($predicates as $predicate => $objects) {
+                foreach ($objects as $object) {
+                    if ($predicate === 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type' && 
+                        $object['type'] === 'uri' && 
+                        $object['value'] === 'http://www.cidoc-crm.org/cidoc-crm/E24_Physical_Man-Made_Thing') {
+                        $arrowheadSubjects[] = $subject;
                     }
                 }
             }
         }
-    
-        if (!empty($itemData)) {
+        
+        // Process each arrowhead as a single item
+        foreach ($arrowheadSubjects as $arrowheadSubject) {
+            $itemData = [
+                'o:resource_class' => ['o:id' => 1], // Default Item Resource Class ID
+                'o:item_set' => [],                  // Will be populated if itemSetId exists
+            ];
+            
+            // Add item to item set if provided
+            if ($itemSetId) {
+                $itemData['o:item_set'][] = ['o:id' => $itemSetId];
+            }
+            
+            // Process the main arrowhead properties
+            $this->processSubjectProperties($rdfData, $arrowheadSubject, $itemData);
+            
+            // Now process related subjects (morphology, typometry, chipping, coordinates)
+            $this->processRelatedSubjects($rdfData, $arrowheadSubject, $itemData);
+            
             $omekaData[] = $itemData;
         }
-
-        // log the itemdatada
-        error_log('Item Data: ' . json_encode($itemData), 3, OMEKA_PATH . '/logs/item-data.log');
-        return $omekaData;
         
+        return $omekaData;
     }
-
+    
+    private function processSubjectProperties($rdfData, $subject, &$itemData) {
+        if (!isset($rdfData[$subject])) {
+            return;
+        }
+        
+        foreach ($rdfData[$subject] as $predicate => $objects) {
+            $propertyId = $this->getOmekaPropertyId($predicate);
+            
+            if ($propertyId) {
+                if (!isset($itemData[$predicate])) {
+                    $itemData[$predicate] = [];
+                }
+                
+                foreach ($objects as $object) {
+                    $value = null;
+                    
+                    if ($object['type'] === 'literal') {
+                        $value = [
+                            'type' => 'literal',
+                            'property_id' => $propertyId,
+                            '@value' => $object['value'],
+                        ];
+                        if (isset($object['datatype'])) {
+                            $value['@type'] = $object['datatype'];
+                        }
+                        if (isset($object['lang'])) {
+                            $value['@language'] = $object['lang'];
+                        }
+                    } elseif ($object['type'] === 'uri') {
+                        // Don't include references to other subjects we'll process separately
+                        if (isset($rdfData[$object['value']])) {
+                            continue;
+                        }
+                        
+                        // Handle special cases for vocabulary terms
+                        if (strpos($object['value'], 'http://www.purl.com/ah/kos/') === 0) {
+                            // Extract the term from the URI
+                            $parts = explode('/', $object['value']);
+                            $term = end($parts);
+                            
+                            $value = [
+                                'type' => 'literal',
+                                'property_id' => $propertyId,
+                                '@value' => $term,
+                            ];
+                        } else {
+                            $value = [
+                                'type' => 'resource',
+                                'property_id' => $propertyId,
+                                '@id' => $object['value'],
+                            ];
+                        }
+                    }
+                    
+                    if ($value !== null) {
+                        $itemData[$predicate][] = $value;
+                    }
+                }
+            }
+        }
+    }
+    
+    private function processRelatedSubjects($rdfData, $mainSubject, &$itemData) {
+        if (!isset($rdfData[$mainSubject])) {
+            return;
+        }
+        
+        // Find related subjects
+        $relatedSubjects = [];
+        
+        foreach ($rdfData[$mainSubject] as $predicate => $objects) {
+            foreach ($objects as $object) {
+                if ($object['type'] === 'uri' && isset($rdfData[$object['value']])) {
+                    $relatedSubjects[$predicate] = $object['value'];
+                }
+            }
+        }
+        
+        // Process each related subject
+        foreach ($relatedSubjects as $relation => $subject) {
+            // Record the property connecting this subject to the main arrowhead
+            $propertyId = $this->getOmekaPropertyId($relation);
+            if ($propertyId) {
+                if (!isset($itemData[$relation])) {
+                    $itemData[$relation] = [];
+                }
+                
+                // Now get all properties of the related subject
+                $this->processSubjectProperties($rdfData, $subject, $itemData);
+                
+                // Recursively process any subjects related to this one
+                $this->processRelatedSubjects($rdfData, $subject, $itemData);
+            }
+        }
+    }
 
 
     private function getOmekaPropertyId($omekaProperty) {
         $propertyIds = [
-            'http://purl.org/dc/terms/identifier' => 10,
-            'http://www.w3.org/1999/02/22-rdf-syntax-ns#type' => 1,
-            'http://www.europeana.eu/schemas/edm#Webresource' => NULL,
-            'http://www.purl.com/ah/kos/ah-shape/' =>   7460,  
-            'http://www.cidoc-crm.org/cidoc-crm/E57_Material' => 478,
-            'http://dbpedia.org/ontology/Annotation' => 57,
-            'http://www.cidoc-crm.org/cidoc-crm/E3_Condition_State' => 476,
-            'http://www.cidoc-crm.org/cidoc-crm/E55_Type' => 478,
-            'http://www.purl.com/ah/ms/ahMS#variant' => null,  
-            'http://www.purl.com/ah/ms/ahMS#foundInCoordinates' => 476,
-            'http://www.purl.com/ah/ms/ahMS#hasMorphology' => 476,
-            'http://www.purl.com/ah/ms/ahMS#hasTypometry' => 476,
-            'http://www.purl.com/ah/ms/ahMS#point' => null,  
-            'http://www.purl.com/ah/ms/ahMS#body' => null,   
-            'http://www.purl.com/ah/ms/ahMS#base' => null,   
-            'http://www.cidoc-crm.org/cidoc-crm/E54_Dimension' => 474,
-            'http://www.purl.com/ah/ms/ahMS#hasChipping' => 476,
-            'http://www.purl.com/ah/ms/ahMS#mode' => null,   
-            'http://www.purl.com/ah/ms/ahMS#amplitude' => null, 
-            'http://www.purl.com/ah/ms/ahMS#direction' => 237,  
-            'http://www.purl.com/ah/ms/ahMS#orientation' => null, 
-            'http://www.purl.com/ah/ms/ahMS#delineation' => null, 
-            'http://www.purl.com/ah/ms/ahMS#chippinglocation-Lateral' => null, 
-            'http://www.purl.com/ah/ms/ahMS#chippingLocation-Transversal' => null, 
-            'http://www.purl.com/ah/ms/ahMS#chippingShape' => null,  
-            'http://www.w3.org/2003/01/geo/wgs84_pos#lat' => 257, 
-            'http://www.w3.org/2003/01/geo/wgs84_pos#long' => 260,
-            'http://purl.org/dc/elements/1.1/date' => 476,
-            'http://purl.org/dc/elements/1.1/description' => 476,
-            'https://purl.org/ah/ms/excavationMS#hasContext' => 476,
-            'https://purl.org/ah/ms/excavationMS#hasTimeLine' => 476,
-            'https://purl.org/ah/ms/excavationMS#foundInAContext' => 476,
-            'http://xmlns.com/foaf/0.1/name' => 476,
-            'http://xmlns.com/foaf/0.1/mbox' => 476,
-            'http://xmlns.com/foaf/0.1/account' => 476,
-            'https://purl.org/ah/ms/excavationMS#hasGPSCoordinates' => 476,
-            'http://www.cidoc-crm.org/extensions/crmarchaeo/A9_Archaeological_Excavation' => 476,
-            'https://purl.org/ah/ms/excavationMS#ArchaeologistShape' => 7460,
-            'http://www.cidoc-crm.org/extensions/crmarchaeo/A1_Excavation_Processing_Unit' => 476,
-            'http://www.cidoc-crm.org/extensions/crmarchaeo/A2_Stratigraphic_Volume_Unit' => 476,
-            'http://purl.org/dc/terms/date' => 476,
-            'http://dbpedia.org/ontology/depth' => 476,
-            'http://dbpedia.org/ontology/district' => 476,
-            'http://dbpedia.org/ontology/parish' => 476,
-            'http://www.w3.org/2006/time#hasBeginning' => 476,
-            'http://www.w3.org/2006/time#hasEnd' => 476,
-            'http://www.w3.org/2006/time#inXSDYear' => 476,
-            'http://schema.org/startDate' => 476,
-            'http://schema.org/endDate' => 476,
-            'http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasLocation' => 476,
-            'http://www.cidoc-crm.org/extensions/crmsci/O19_encountered_object' => 476,
+            'http://purl.org/dc/terms/identifier' => 10,  // dcterms:identifier
+            'http://www.europeana.eu/schemas/edm#Webresource' => 100, // Replace with actual ID
+            'http://www.purl.com/ah/kos/ah-shape/' => 101, // Replace with actual ID
+            'http://www.cidoc-crm.org/cidoc-crm/P45_consists_of' => 102, // Replace with actual ID
+            'http://dbpedia.org/ontology/Annotation' => 103, // Replace with actual ID
+            'http://www.cidoc-crm.org/cidoc-crm/E3_Condition_State' => 104, // Replace with actual ID
+            'http://www.cidoc-crm.org/cidoc-crm/E55_Type' => 105, // Replace with actual ID 
+            'http://www.purl.com/ah/ms/ahMS#variant' => 106, // Replace with actual ID
+            'http://www.purl.com/ah/ms/ahMS#foundInCoordinates' => 107, // Replace with actual ID
+            'http://www.purl.com/ah/ms/ahMS#hasMorphology' => 108, // Replace with actual ID
+            'http://www.purl.com/ah/ms/ahMS#hasTypometry' => 109, // Replace with actual ID
+            'http://www.purl.com/ah/ms/ahMS#point' => 110, // Replace with actual ID
+            'http://www.purl.com/ah/ms/ahMS#body' => 111, // Replace with actual ID
+            'http://www.purl.com/ah/ms/ahMS#base' => 112, // Replace with actual ID
+            'http://www.cidoc-crm.org/cidoc-crm/E54_Dimension' => 113, // Replace with actual ID
+            'http://www.purl.com/ah/ms/ahMS#hasChipping' => 114, // Replace with actual ID
+            'http://www.purl.com/ah/ms/ahMS#mode' => 115, // Replace with actual ID
+            'http://www.purl.com/ah/ms/ahMS#amplitude' => 116, // Replace with actual ID
+            'http://www.purl.com/ah/ms/ahMS#direction' => 117, // Replace with actual ID
+            'http://www.purl.com/ah/ms/ahMS#orientation' => 118, // Replace with actual ID
+            'http://www.purl.com/ah/ms/ahMS#delineation' => 119, // Replace with actual ID
+            'http://www.purl.com/ah/ms/ahMS#chippinglocation-Lateral' => 120, // Replace with actual ID
+            'http://www.purl.com/ah/ms/ahMS#chippingLocation-Transveral' => 121, // Replace with actual ID
+            'http://www.purl.com/ah/ms/ahMS#chippingShape' => 122, // Replace with actual ID
+            'http://www.w3.org/2003/01/geo/wgs84_pos#lat' => 123, // Replace with actual ID
+            'http://www.w3.org/2003/01/geo/wgs84_pos#long' => 124, // Replace with actual ID
         ];
-    
+        
         return $propertyIds[$omekaProperty] ?? null;
     }
     
 
     private function sendToOmekaS($omekaData) {
-        $omekaBaseUrl = 'http://localhost/api';  //  Base API URL (NO /items or query params)
-        $omekaApiKey = 2;
-        $omekaUser = 1;  //  <---  Hardcoded User ID (Get this dynamically!)
-        $omekaKeyIdentity = '2TGK0xT9tEMCUQs1178OyCnyRcIQpv5B';  //  Store key_identity separately
-        $omekaKeyCredential = '9IFd207Y8D5yG1bmtnCllmbgZweuMfQA';  //  Store key_credential separately
+        $omekaBaseUrl = 'http://localhost/api';
+        $omekaKeyIdentity = '2TGK0xT9tEMCUQs1178OyCnyRcIQpv5B';
+        $omekaKeyCredential = '9IFd207Y8D5yG1bmtnCllmbgZweuMfQA';
+        $omekaUser = 1;
     
         $client = new Client();
         $client->setMethod('POST');
         $client->setHeaders([
             'Content-Type' => 'application/json',
-            'Omeka-S-Api-Key' => $omekaApiKey,
-            'Omeka-S-User' => $omekaUser,
+            'Omeka-S-Api-Key' => $omekaUser,
         ]);
     
         $errors = [];
-        foreach ($omekaData as $itemData) {
-            $fullUrl = rtrim($omekaBaseUrl, '/') . '/items' .  //  Construct the URL correctly
+        $createdItems = [];
+        
+        foreach ($omekaData as $itemIndex => $itemData) {
+            $fullUrl = rtrim($omekaBaseUrl, '/') . '/items' . 
                        '?key_identity=' . urlencode($omekaKeyIdentity) .
                        '&key_credential=' . urlencode($omekaKeyCredential);
+            
             $client->setUri($fullUrl);
             $client->setRawBody(json_encode($itemData));
             $response = $client->send();
     
             if (!$response->isSuccess()) {
-                $errors[] = 'Failed to create item: ' . $response->getStatusCode() . ' - ' . $response->getBody();
+                $errors[] = 'Failed to create item ' . ($itemIndex + 1) . ': ' . 
+                             $response->getStatusCode() . ' - ' . $response->getBody();
                 error_log('Omeka S API Error: ' . $response->getBody());
             } else {
-                error_log('Omeka S Item Created Successfully');
+                $createdItems[] = json_decode($response->getBody(), true);
+                error_log('Omeka S Item Created Successfully: ID=' . 
+                           json_decode($response->getBody(), true)['o:id']);
             }
         }
     
-        return $errors;
+        return [
+            'errors' => $errors,
+            'created_items' => $createdItems
+        ];
     }
 }

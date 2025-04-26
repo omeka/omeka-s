@@ -27,10 +27,10 @@
   foaf:mbox "mailto:johndoe@example.com"^^xsd:anyURI .
 
 # Excavation
-<http://www.arch-project.com/data/excavation1> 
+<http://www.arch-project.com/data/excavation2> 
   a crmarchaeo:A9_Archaeological_Excavation ;
   a excav:ExcavationShape ;
-  dct:identifier "EXC-001"^^xsd:string ; # utilizar uri em vez disso
+  dct:identifier "EXC-002"^^xsd:string ;
   dul:hasLocation <http://www.arch-project.com/data/place1> ;
   excav:hasPersonInCharge <http://www.arch-project.com/data/archaeologist1> ;
   excav:hasContext <http://www.arch-project.com/data/context1> .
@@ -106,4 +106,4 @@
   dbo:depth "2.5"^^xsd:decimal ;
   excav:foundInSVU <http://www.arch-project.com/data/svu1> ;
   excav:foundInAContext <http://www.arch-project.com/data/context1> ;
-  excav:foundInAExcavation <http://www.arch-project.com/data/excavation1> .
+  excav:foundInAExcavation <http://www.arch-project.com/data/excavation2> .

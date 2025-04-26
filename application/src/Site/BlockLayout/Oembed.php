@@ -68,17 +68,6 @@ class Oembed extends AbstractBlockLayout implements TemplateableBlockLayoutInter
             return $view->formCollection($form, false);
         }
         $form->add([
-            'type' => Form\Element\Url::class,
-            'name' => 'o:block[__blockIndex__][o:data][url]',
-            'options' => [
-                'label' => 'oEmbed URL', // @translate
-            ],
-            'attributes' => [
-                'value' => $data['url'],
-                'required' => true,
-            ],
-        ]);
-        $form->add([
             'type' => Form\Element\Textarea::class,
             'name' => 'oembed_oembed',
             'options' => [

@@ -58,7 +58,7 @@
   ah:orientation "true"^^xsd:boolean ;
   ah:delineation ah-chippingDelineation:continuous ;
   ah:chippinglocation-Lateral ah-chippingLocation:distal, ah-chippingLocation:median ;
-  ah:chippingLocation-Transveral ah-chippingLocation:distal ;
+  ah:chippingLocation-Transversal ah-chippingLocation:distal ;
   ah:chippingShape ah-chippingShape:convex .
 
 # Encounter Instance

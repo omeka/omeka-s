@@ -45,41 +45,76 @@ class IndexController extends AbstractActionController
     }
 
     $uploadType = $request->getPost('upload_type') ?: $request->getQuery('upload_type');
-    $itemSetId = $request->getQuery('item_set_id'); // Get the Item Set ID
+    $itemSetId = $request->getPost('item_set_id') ?: $request->getQuery('item_set_id');
+    $continuousUpload = $request->getPost('continuous_upload') ?: $request->getQuery('continuous_upload');
 
-    error_log('Upload Type: ' . $uploadType, 3, OMEKA_PATH . '/logs/upload-type.log');
+    error_log('Upload Type: ' . $uploadType . ', Item Set ID: ' . $itemSetId . ', Continuous: ' . $continuousUpload, 3, OMEKA_PATH . '/logs/upload-type.log');
+    
     $result = 'No data received.';
     $ttlData = '';
-    $graphDbSuccess = false;
+    $excavationItemSetId = null;
 
-    if ($request->isPost() || $request->isGet()) { // Handle both POST (file) and GET (form data)
+    if ($request->isPost() || $request->isGet()) {
         error_log('Processing upload');
 
         try {
-            // 1. Handle File Upload
+            // Handle File Upload
             if ($request->getFiles()->file && $request->getFiles()->file['error'] === UPLOAD_ERR_OK) {
-                $result = $this->processFileUpload($request, $uploadType, $itemSetId); // Pass itemSetId
+                $result = $this->processFileUpload($request, $uploadType, $itemSetId);
+                
+                // Check if this is an excavation upload and extract the item set ID
+                if ($uploadType === 'excavation' && strpos($result, 'Created Item Set #') !== false) {
+                    preg_match('/Created Item Set #(\d+)/', $result, $matches);
+                    if (isset($matches[1])) {
+                        $excavationItemSetId = $matches[1];
+                        error_log('Extracted Item Set ID: ' . $excavationItemSetId, 3, OMEKA_PATH . '/logs/upload-type.log');
+                    }
+                }
             }
-            // 2. Handle Form Submission
+            // Handle Form Submission
             elseif ($uploadType) {
-                $result = $this->processFormSubmission($request, $uploadType, $itemSetId); // Pass itemSetId
+                $result = $this->processFormSubmission($request, $uploadType, $itemSetId);
+                
+                // Similar check for form submissions
+                if ($uploadType === 'excavation' && strpos($result, 'Created Item Set #') !== false) {
+                    preg_match('/Created Item Set #(\d+)/', $result, $matches);
+                    if (isset($matches[1])) {
+                        $excavationItemSetId = $matches[1];
+                        error_log('Extracted Item Set ID from form: ' . $excavationItemSetId, 3, OMEKA_PATH . '/logs/upload-type.log');
+                    }
+                }
             }
-            // 3. No form handling here anymore
             else {
                 $result = 'No file uploaded or form data received.';
                 error_log($result);
             }
 
         } catch (\Exception $e) {
-            // General error handling
             $result = 'Error during upload processing: ' . $e->getMessage();
             error_log($result);
         }
     }
 
     error_log('Final result: ' . $result);
-
-    return (new ViewModel(['result' => $result, 'site' => $this->currentSite()]))
+    
+    // Prepare view variables
+    $viewVars = [
+        'result' => $result, 
+        'site' => $this->currentSite()
+    ];
+    
+    // Add excavation ID if available
+    if ($excavationItemSetId) {
+        $viewVars['excavationItemSetId'] = $excavationItemSetId;
+    }
+    
+    // For continuous upload (arrowhead uploaded after excavation)
+    if ($continuousUpload && $itemSetId) {
+        $viewVars['continuousUpload'] = true;
+        $viewVars['itemSetId'] = $itemSetId;
+    }
+    
+    return (new ViewModel($viewVars))
         ->setTemplate('add-triplestore/site/index/index');
 }
 
@@ -214,6 +249,52 @@ private function transformCollectingFormDataToTTL(array $formData, ?string $uplo
 
 
 private function uploadTtlData(string $ttlData, ?int $itemSetId): string {
+    // Check if this is excavation data
+    $isExcavation = strpos($ttlData, 'crmarchaeo:A9_Archaeological_Excavation') !== false;
+    $excavationIdentifier = null;
+    
+    // If it's excavation data and no itemSetId is provided, create an item set
+    if ($isExcavation && !$itemSetId) {
+        // Extract excavation identifier/acronym
+        $excavationIdentifier = $this->extractExcavationIdentifier($ttlData);
+        error_log('Extracted excavation identifier: ' . $excavationIdentifier, 3, OMEKA_PATH . '/logs/excavation-debug.log');
+        
+        if ($excavationIdentifier) {
+            try {
+                // Create a new item set directly using the API manager
+                $response = $this->api()->create('item_sets', [
+                    'dcterms:title' => [
+                        [
+                            'type' => 'literal',
+                            'property_id' => 1,
+                            '@value' => "Excavation $excavationIdentifier"
+                        ]
+                    ],
+                    'dcterms:description' => [
+                        [
+                            'type' => 'literal',
+                            'property_id' => 4,
+                            '@value' => "Item set for excavation $excavationIdentifier containing all related findings"
+                        ]
+                    ],
+                    'o:is_public' => true
+                ]);
+                
+                // If successful, get the new item set ID
+                if ($response) {
+                    $newItemSet = $response->getContent();
+                    $itemSetId = $newItemSet->id();
+                    error_log('Successfully created item set with ID: ' . $itemSetId, 3, OMEKA_PATH . '/logs/excavation-debug.log');
+                } else {
+                    error_log('Empty response when creating item set', 3, OMEKA_PATH . '/logs/excavation-debug.log');
+                }
+            } catch (\Exception $e) {
+                error_log('Error creating item set: ' . $e->getMessage(), 3, OMEKA_PATH . '/logs/excavation-debug.log');
+            }
+        }
+    }
+    
+    // Now proceed with the regular upload process
     // First, upload to GraphDB
     $graphDbResult = $this->sendToGraphDB($ttlData);
     
@@ -223,8 +304,46 @@ private function uploadTtlData(string $ttlData, ?int $itemSetId): string {
         $omekaResponse = $this->sendToOmekaS($omekaResult);
         
         if (empty($omekaResponse['errors'])) {
-            return 'Data uploaded successfully to both GraphDB and Omeka S. Created ' . 
-                   count($omekaResponse['created_items']) . ' items.';
+            $createdItems = $omekaResponse['created_items'];
+            $updatedCount = 0;
+            
+            foreach ($createdItems as $item) {
+                $itemId = $item['o:id']; // Get the Omeka assigned ID
+                
+                // Update titles based on content type
+                if ($isExcavation) {
+                    $title = "Excavation $excavationIdentifier Item $itemId";
+                } else {
+                    $title = "Arrowhead $itemId";
+                }
+                
+                // Update the title with the Omeka ID
+                try {
+                    $updateResult = $this->api()->update('items', $itemId, [
+                        'dcterms:title' => [
+                            [
+                                'type' => 'literal',
+                                'property_id' => 1,
+                                '@value' => $title
+                            ]
+                        ]
+                    ], [], ['isPartial' => true]);
+                    
+                    if ($updateResult) {
+                        $updatedCount++;
+                    }
+                } catch (\Exception $e) {
+                    error_log('Error updating item title: ' . $e->getMessage(), 3, OMEKA_PATH . '/logs/excavation-debug.log');
+                }
+            }
+            
+            if ($isExcavation && $itemSetId) {
+                return "Data uploaded successfully to both GraphDB and Omeka S. Created Item Set #{$itemSetId} for excavation '{$excavationIdentifier}' and " . 
+                      count($createdItems) . " items with updated titles.";
+            } else {
+                return 'Data uploaded successfully to both GraphDB and Omeka S. Created ' . 
+                      count($createdItems) . ' items with updated titles.';
+            }
         } else {
             return 'Data uploaded to GraphDB, but Omeka S errors: ' . 
                   implode('; ', $omekaResponse['errors']);
@@ -232,6 +351,39 @@ private function uploadTtlData(string $ttlData, ?int $itemSetId): string {
     } else {
         return 'Failed to upload data to GraphDB: ' . $graphDbResult;
     }
+}
+
+/**
+ * Extract the excavation identifier from TTL data
+ * 
+ * @param string $ttlData
+ * @return string|null
+ */
+private function extractExcavationIdentifier(string $ttlData): ?string
+{
+    // Look for a specific identifier pattern in the TTL data
+    // First try to find dcterms:identifier
+    if (preg_match('/dcterms:identifier\s+"([^"]+)"\s*;/', $ttlData, $matches)) {
+        return $matches[1];
+    }
+    
+    // If that doesn't work, try dct:identifier (alternative notation)
+    if (preg_match('/dct:identifier\s+"([^"]+)"\s*;/', $ttlData, $matches)) {
+        return $matches[1];
+    }
+    
+    // Look for an acronym property if it exists
+    if (preg_match('/excav:Acronym\s+"([^"]+)"\s*;/', $ttlData, $matches)) {
+        return $matches[1];
+    }
+    
+    // Look for excavation URI and extract ID
+    if (preg_match('/<http:\/\/.*\/Excavation_([^>]+)>/', $ttlData, $matches)) {
+        return $matches[1];
+    }
+    
+    // If we can't find a suitable identifier, generate one based on timestamp
+    return 'EXC' . time();
 }
 
 private function processOmekaS(string $ttlData, ?int $itemSetId): string
@@ -661,6 +813,37 @@ private function validateUploadType(string $ttlData, ?string $uploadType): void
             
             // Process the main arrowhead properties
             $this->processSubjectProperties($rdfData, $arrowheadSubject, $itemData);
+            
+            // Extract identifier for the title
+            $identifier = null;
+            if (isset($itemData['http://purl.org/dc/terms/identifier'])) {
+                foreach ($itemData['http://purl.org/dc/terms/identifier'] as $identifierValue) {
+                    if (isset($identifierValue['@value'])) {
+                        $identifier = $identifierValue['@value'];
+                        break;
+                    }
+                }
+            }
+            
+            // Set a proper title in Dublin Core terms
+            if ($identifier) {
+                $itemData['dcterms:title'] = [
+                    [
+                        'type' => 'literal',
+                        'property_id' => 1, // dcterms:title property ID in Omeka
+                        '@value' => "Arrowhead"
+                    ]
+                ];
+            } else {
+                // Extract subject ID as fallback
+                $itemData['dcterms:title'] = [
+                    [
+                        'type' => 'literal',
+                        'property_id' => 1, // dcterms:title property ID in Omeka
+                        '@value' => "Arrowhead"
+                    ]
+                ];
+            }
             
             // Now process related subjects (morphology, typometry, chipping, coordinates)
             $this->processRelatedSubjects($rdfData, $arrowheadSubject, $itemData);

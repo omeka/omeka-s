@@ -184,6 +184,8 @@ class IndexController extends AbstractActionController
     }
 }
 
+
+
 private function processFormSubmission($request, ?string $uploadType, ?int $itemSetId): string
 {
     $formData = $request->getQuery('form_data'); // Get form data from query

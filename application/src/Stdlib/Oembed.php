@@ -51,7 +51,7 @@ class Oembed
 
         if ($endpoint) {
             // Use the endpoint provided in config.
-            $oembedUrl = sprintf('%s?url=%s', $endpoint, $url);
+            $oembedUrl = sprintf('%s?format=json&url=%s', $endpoint, urlencode($url));
         } else {
             // Check for oEmbed support by searching the page for the discovery link.
             // @see https://oembed.com/#section4

@@ -1,9 +1,7 @@
 <?php
 namespace Omeka\Settings;
 
-use Laminas\EventManager\EventManagerAwareInterface;
-
-interface SettingsInterface extends EventManagerAwareInterface
+interface SettingsInterface
 {
     /**
      * Set a setting.

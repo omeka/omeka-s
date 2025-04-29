@@ -26,8 +26,8 @@
   owl:sameAs <http://vocab.getty.edu/aat/300010351> .
 
 # Arrowhead Instance
-<http://www.arch-project.com/data/arrowhead16> a crm:E24_Physical_Man-Made_Thing ;
-  dcterms:identifier "AH-016"^^xsd:string ;
+<http://www.arch-project.com/data/arrowhead699> a crm:E24_Physical_Man-Made_Thing ;
+  dcterms:identifier "AH-0699"^^xsd:string ;
   edm:Webresource <http://example.com/image1.jpg>, <http://example.com/3dmodel1.obj> ;
   ah:shape ah-shape:triangle ;
   crm:P45_consists_of <http://www.arch-project.com/data/material/flint-instance> ;

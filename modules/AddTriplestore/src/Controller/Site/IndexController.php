@@ -363,29 +363,19 @@ private function uploadTtlData(string $ttlData, ?int $itemSetId): string {
  */
 private function extractExcavationIdentifier(string $ttlData): ?string
 {
-    // Look for a specific identifier pattern in the TTL data
+    error_log('Attempting to extract excavation identifier');
+    error_log('Full TTL data: ' . $ttlData);
+
     // First try to find dcterms:identifier
-    if (preg_match('/dcterms:identifier\s+"([^"]+)"\s*;/', $ttlData, $matches)) {
+    if (preg_match('/dct:identifier\s+"([^"]+)"\^\^xsd:string\s*;/', $ttlData, $matches)) {
+        error_log('Found identifier through first regex: ' . $matches[1]);
         return $matches[1];
     }
-    
-    // If that doesn't work, try dct:identifier (alternative notation)
-    if (preg_match('/dct:identifier\s+"([^"]+)"\s*;/', $ttlData, $matches)) {
-        return $matches[1];
-    }
-    
-    // Look for an acronym property if it exists
-    if (preg_match('/excav:Acronym\s+"([^"]+)"\s*;/', $ttlData, $matches)) {
-        return $matches[1];
-    }
-    
-    // Look for excavation URI and extract ID
-    if (preg_match('/<http:\/\/.*\/Excavation_([^>]+)>/', $ttlData, $matches)) {
-        return $matches[1];
-    }
-    
-    // If we can't find a suitable identifier, generate one based on timestamp
-    return 'EXC' . time();
+
+    // If no identifier found, generate a timestamp-based one
+    $generatedId = 'EXC' . time();
+    error_log('No identifier found. Generated ID: ' . $generatedId);
+    return $generatedId;
 }
 
 private function processOmekaS(string $ttlData, ?int $itemSetId): string

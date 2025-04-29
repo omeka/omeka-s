@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Excavation>
-  <Acronym>EXC-1234</Acronym>
+  <Acronym>EXC-004</Acronym>
   
   <Location>
     <District>Guarda</District>
-    <Parish>Horta do Douro</Parish>
-    <Name>Castanheiro do Vento</Name>
+    <Parish>Horta-do-Douro</Parish>
+    <Name>Castanheiro-do-Vento</Name>
     <GPS>
       <Lat>41.0514</Lat>
       <Long>-7.3069</Long>
@@ -14,7 +14,7 @@
 
   <PersonInCharge>
     <ORCID>0000-0002-1825-0097</ORCID>
-    <Name>Joao Muralha</Name>
+    <Name>Joao-Muralha</Name>
     <Emails>
       <Email>joao.muralha@example.com</Email>
       <Email>excavation@castanheiro.org</Email>

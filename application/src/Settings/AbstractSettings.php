@@ -6,8 +6,6 @@ use Laminas\EventManager\EventManagerAwareInterface;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Omeka\Mvc\Status;
 
-
-
 abstract class AbstractSettings implements SettingsInterface, EventManagerAwareInterface
 {
     use EventManagerAwareTrait;

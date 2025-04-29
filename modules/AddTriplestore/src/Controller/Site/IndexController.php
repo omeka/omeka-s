@@ -35,88 +35,96 @@ class IndexController extends AbstractActionController
     }
 
     public function uploadAction()
-{
-    error_log("uploadAction() called");
-
-    $request = $this->getRequest();
-    if (!$request instanceof \Laminas\Http\Request) {
-        error_log('Invalid request type');
-        throw new \RuntimeException('Expected an instance of Laminas\Http\Request');
-    }
-
-    $uploadType = $request->getPost('upload_type') ?: $request->getQuery('upload_type');
-    $itemSetId = $request->getPost('item_set_id') ?: $request->getQuery('item_set_id');
-    $continuousUpload = $request->getPost('continuous_upload') ?: $request->getQuery('continuous_upload');
-
-    error_log('Upload Type: ' . $uploadType . ', Item Set ID: ' . $itemSetId . ', Continuous: ' . $continuousUpload, 3, OMEKA_PATH . '/logs/upload-type.log');
+    {
+        error_log("uploadAction() called", 3, OMEKA_PATH . '/logs/upload.log');
     
-    $result = 'No data received.';
-    $ttlData = '';
-    $excavationItemSetId = null;
-
-    if ($request->isPost() || $request->isGet()) {
-        error_log('Processing upload');
-
-        try {
-            // Handle File Upload
-            if ($request->getFiles()->file && $request->getFiles()->file['error'] === UPLOAD_ERR_OK) {
-                $result = $this->processFileUpload($request, $uploadType, $itemSetId);
-                
-                // Check if this is an excavation upload and extract the item set ID
-                if ($uploadType === 'excavation' && strpos($result, 'Created Item Set #') !== false) {
-                    preg_match('/Created Item Set #(\d+)/', $result, $matches);
-                    if (isset($matches[1])) {
-                        $excavationItemSetId = $matches[1];
-                        error_log('Extracted Item Set ID: ' . $excavationItemSetId, 3, OMEKA_PATH . '/logs/upload-type.log');
-                    }
-                }
-            }
-            // Handle Form Submission
-            elseif ($uploadType) {
-                $result = $this->processFormSubmission($request, $uploadType, $itemSetId);
-                
-                // Similar check for form submissions
-                if ($uploadType === 'excavation' && strpos($result, 'Created Item Set #') !== false) {
-                    preg_match('/Created Item Set #(\d+)/', $result, $matches);
-                    if (isset($matches[1])) {
-                        $excavationItemSetId = $matches[1];
-                        error_log('Extracted Item Set ID from form: ' . $excavationItemSetId, 3, OMEKA_PATH . '/logs/upload-type.log');
-                    }
-                }
-            }
-            else {
-                $result = 'No file uploaded or form data received.';
-                error_log($result);
-            }
-
-        } catch (\Exception $e) {
-            $result = 'Error during upload processing: ' . $e->getMessage();
-            error_log($result);
+        $request = $this->getRequest();
+        if (!$request instanceof \Laminas\Http\Request) {
+            error_log('Invalid request type', 3, OMEKA_PATH . '/logs/upload.log');
+            throw new \RuntimeException('Expected an instance of Laminas\Http\Request');
         }
+    
+        $uploadType = $request->getPost('upload_type') ?: $request->getQuery('upload_type');
+        $itemSetId = $request->getPost('item_set_id') ?: $request->getQuery('item_set_id');
+        $continuousUpload = $request->getPost('continuous_upload') ?: $request->getQuery('continuous_upload');
+    
+        error_log('Upload Type: ' . $uploadType . ', Item Set ID: ' . $itemSetId . ', Continuous: ' . $continuousUpload, 3, OMEKA_PATH . '/logs/upload.log');
+        
+        $result = 'No data received.';
+        $ttlData = '';
+        $excavationItemSetId = null;
+    
+        if ($request->isPost() || $request->isGet()) {
+            error_log('Processing upload request', 3, OMEKA_PATH . '/logs/upload.log');
+    
+            try {
+                // Handle File Upload
+                if ($request->getFiles()->count() > 0 && 
+                    isset($request->getFiles()->file) && 
+                    $request->getFiles()->file['error'] === UPLOAD_ERR_OK) {
+                    
+                    error_log('File upload detected', 3, OMEKA_PATH . '/logs/upload.log');
+                    $result = $this->processFileUpload($request, $uploadType, $itemSetId);
+                    error_log('File upload result: ' . $result, 3, OMEKA_PATH . '/logs/upload.log');
+                    
+                    // Check if this is an excavation upload and extract the item set ID
+                    if ($uploadType === 'excavation' && strpos($result, 'Created Item Set #') !== false) {
+                        preg_match('/Created Item Set #(\d+)/', $result, $matches);
+                        if (isset($matches[1])) {
+                            $excavationItemSetId = $matches[1];
+                            error_log('Extracted Item Set ID: ' . $excavationItemSetId, 3, OMEKA_PATH . '/logs/upload.log');
+                        }
+                    }
+                }
+                // Handle Form Submission
+                elseif ($uploadType) {
+                    error_log('Form submission detected', 3, OMEKA_PATH . '/logs/upload.log');
+                    $result = $this->processFormSubmission($request, $uploadType, $itemSetId);
+                    error_log('Form submission result: ' . $result, 3, OMEKA_PATH . '/logs/upload.log');
+                    
+                    // Similar check for form submissions
+                    if ($uploadType === 'excavation' && strpos($result, 'Created Item Set #') !== false) {
+                        preg_match('/Created Item Set #(\d+)/', $result, $matches);
+                        if (isset($matches[1])) {
+                            $excavationItemSetId = $matches[1];
+                            error_log('Extracted Item Set ID from form: ' . $excavationItemSetId, 3, OMEKA_PATH . '/logs/upload.log');
+                        }
+                    }
+                }
+                else {
+                    $result = 'No file uploaded or form data received.';
+                    error_log($result, 3, OMEKA_PATH . '/logs/upload.log');
+                }
+    
+            } catch (\Exception $e) {
+                $result = 'Error during upload processing: ' . $e->getMessage();
+                error_log($result, 3, OMEKA_PATH . '/logs/upload.log');
+                error_log('Exception stack trace: ' . $e->getTraceAsString(), 3, OMEKA_PATH . '/logs/upload.log');
+            }
+        }
+    
+        error_log('Final result: ' . $result, 3, OMEKA_PATH . '/logs/upload.log');
+        
+        // Prepare view variables
+        $viewVars = [
+            'result' => $result, 
+            'site' => $this->currentSite()
+        ];
+        
+        // Add excavation ID if available
+        if ($excavationItemSetId) {
+            $viewVars['excavationItemSetId'] = $excavationItemSetId;
+        }
+        
+        // For continuous upload (arrowhead uploaded after excavation)
+        if ($continuousUpload && $itemSetId) {
+            $viewVars['continuousUpload'] = true;
+            $viewVars['itemSetId'] = $itemSetId;
+        }
+        
+        return (new ViewModel($viewVars))
+            ->setTemplate('add-triplestore/site/index/index');
     }
-
-    error_log('Final result: ' . $result);
-    
-    // Prepare view variables
-    $viewVars = [
-        'result' => $result, 
-        'site' => $this->currentSite()
-    ];
-    
-    // Add excavation ID if available
-    if ($excavationItemSetId) {
-        $viewVars['excavationItemSetId'] = $excavationItemSetId;
-    }
-    
-    // For continuous upload (arrowhead uploaded after excavation)
-    if ($continuousUpload && $itemSetId) {
-        $viewVars['continuousUpload'] = true;
-        $viewVars['itemSetId'] = $itemSetId;
-    }
-    
-    return (new ViewModel($viewVars))
-        ->setTemplate('add-triplestore/site/index/index');
-}
 
 
     private function getCollectingForm(): FormInterface
@@ -151,35 +159,67 @@ class IndexController extends AbstractActionController
     }
 
     private function processFileUpload($request, ?string $uploadType, ?int $itemSetId): string
-    {
+{
     $file = $request->getFiles()->file;
     $fileExtension = pathinfo($file['name'], PATHINFO_EXTENSION);
     $fileType = $file['type'];
 
+    error_log("Processing file upload: {$file['name']} ({$fileType})", 3, OMEKA_PATH . '/logs/file-upload.log');
+
+    // Handle various MIME types for Turtle and XML files
     if (strtolower($fileExtension) === 'ttl' && $fileType !== 'application/x-turtle') {
         $fileType = 'application/x-turtle';
     }
+    
+    if ((strtolower($fileExtension) === 'xml' || strtolower($fileExtension) === 'rdf') && 
+        !in_array($fileType, ['application/xml', 'text/xml', 'application/rdf+xml'])) {
+        $fileType = 'application/xml';
+    }
 
-    if (!in_array($fileType, ['application/x-turtle', 'application/xml', 'text/xml'])) {
+    if (!in_array($fileType, ['application/x-turtle', 'application/xml', 'text/xml', 'application/rdf+xml'])) {
+        error_log("Invalid file type: {$fileType}", 3, OMEKA_PATH . '/logs/file-upload.log');
         return 'Invalid file type. Please upload a valid .ttl or .xml file.';
     }
 
     try {
-        if ($fileType === 'application/xml' || $fileType === 'text/xml') {
+        if (in_array($fileType, ['application/xml', 'text/xml', 'application/rdf+xml'])) {
+            // For XML files, first convert to RDF/XML using XSLT
+            error_log("Processing XML file: {$file['name']}", 3, OMEKA_PATH . '/logs/file-upload.log');
             $rdfXmlData = $this->xmlParser($file);
-            if (!is_string($rdfXmlData) || strpos($rdfXmlData, 'Failed') === false) {
+            
+            if (is_string($rdfXmlData) && strpos($rdfXmlData, 'Failed') === false) {
+                // Now convert the RDF/XML to Turtle
+                error_log("Converting RDF/XML to Turtle", 3, OMEKA_PATH . '/logs/file-upload.log');
                 $ttlData = $this->xmlTtlConverter($rdfXmlData);
+                
+                if (!$ttlData) {
+                    error_log("Failed to convert RDF/XML to TTL", 3, OMEKA_PATH . '/logs/file-upload.log');
+                    throw new \Exception('Failed to convert XML to Turtle format');
+                }
             } else {
+                error_log("XML Parser error: {$rdfXmlData}", 3, OMEKA_PATH . '/logs/file-upload.log');
                 throw new \Exception('Failed to process XML file: ' . $rdfXmlData);
             }
         } else {
+            // For Turtle files, just read the content
+            error_log("Reading TTL file directly", 3, OMEKA_PATH . '/logs/file-upload.log');
             $ttlData = file_get_contents($file['tmp_name']);
         }
 
+        // Validate the upload type against the data
+        error_log("Validating upload type: {$uploadType}", 3, OMEKA_PATH . '/logs/file-upload.log');
         $this->validateUploadType($ttlData, $uploadType);
-        return $this->uploadTtlData($ttlData, $itemSetId); // Pass itemSetId
+        
+        // Upload the TTL data
+        error_log("Uploading TTL data", 3, OMEKA_PATH . '/logs/file-upload.log');
+        $uploadResponse = $this->uploadTtlData($ttlData, $itemSetId);
+        
+        error_log("Upload response: {$uploadResponse}", 3, OMEKA_PATH . '/logs/file-upload.log');
+        return $uploadResponse;
 
     } catch (\Exception $e) {
+        error_log("Exception in processFileUpload: " . $e->getMessage(), 3, OMEKA_PATH . '/logs/file-upload.log');
+        error_log("Stack trace: " . $e->getTraceAsString(), 3, OMEKA_PATH . '/logs/file-upload.log');
         return 'Error processing file: ' . $e->getMessage();
     }
 }
@@ -361,31 +401,61 @@ private function uploadTtlData(string $ttlData, ?int $itemSetId): string {
  * @param string $ttlData
  * @return string|null
  */
+/**
+ * Extract the excavation identifier from TTL data
+ * 
+ * @param string $ttlData
+ * @return string|null
+ */
 private function extractExcavationIdentifier(string $ttlData): ?string
 {
-    // Look for a specific identifier pattern in the TTL data
-    // First try to find dcterms:identifier
-    if (preg_match('/dcterms:identifier\s+"([^"]+)"\s*;/', $ttlData, $matches)) {
-        return $matches[1];
+    error_log("Extracting excavation identifier from TTL data", 3, OMEKA_PATH . '/logs/excavation-identifier.log');
+    
+    // Save TTL data for debugging
+    file_put_contents(OMEKA_PATH . '/logs/ttl-data-for-id.log', $ttlData);
+    
+    // Patterns to try for finding identifiers
+    $patterns = [
+        // Look for dcterms:identifier with quotes and datatype
+        '/(?:dcterms|dct):identifier\s+"([^"]+)"(?:\^\^xsd:string)?/',
+        
+        // Look for dcterms:identifier with angle brackets (triple format)
+        '/<(?:http:\/\/purl\.org\/dc\/terms\/|http:\/\/purl\.org\/dc\/elements\/1\.1\/)identifier>[^<]*<\/(?:http:\/\/purl\.org\/dc\/terms\/|http:\/\/purl\.org\/dc\/elements\/1\.1\/)identifier>/',
+        
+        // Look for Excavation resource identifier in URI 
+        '/<https?:\/\/[^\/]+\/(?:ah\/ms\/excavationMS\/resource\/|)Excavation[_-]([^>]+)>/',
+        
+        // Look for Acronym property
+        '/(?:excav:|http:\/\/[^\/]+\/excavationMS#)Acronym[^"]*"([^"]+)"/',
+    ];
+    
+    // Try each pattern
+    foreach ($patterns as $pattern) {
+        if (preg_match($pattern, $ttlData, $matches)) {
+            $identifier = isset($matches[1]) ? $matches[1] : $matches[0];
+            
+            // Clean up the identifier if needed
+            $identifier = preg_replace('/[^a-zA-Z0-9_-]/', '', $identifier);
+            
+            error_log("Found excavation identifier: {$identifier} using pattern: {$pattern}", 3, OMEKA_PATH . '/logs/excavation-identifier.log');
+            return $identifier;
+        }
     }
     
-    // If that doesn't work, try dct:identifier (alternative notation)
-    if (preg_match('/dct:identifier\s+"([^"]+)"\s*;/', $ttlData, $matches)) {
-        return $matches[1];
-    }
-    
-    // Look for an acronym property if it exists
-    if (preg_match('/excav:Acronym\s+"([^"]+)"\s*;/', $ttlData, $matches)) {
-        return $matches[1];
-    }
-    
-    // Look for excavation URI and extract ID
-    if (preg_match('/<http:\/\/.*\/Excavation_([^>]+)>/', $ttlData, $matches)) {
-        return $matches[1];
+    // Extract the first part from the first triple as a fallback
+    if (preg_match('/<([^>]+)>/', $ttlData, $matches)) {
+        $uri = $matches[1];
+        $parts = explode('/', $uri);
+        $lastPart = end($parts);
+        
+        error_log("Fallback identifier from URI: {$lastPart}", 3, OMEKA_PATH . '/logs/excavation-identifier.log');
+        return $lastPart;
     }
     
     // If we can't find a suitable identifier, generate one based on timestamp
-    return 'EXC' . time();
+    $generatedId = 'EXC' . time();
+    error_log("Generated fallback excavation identifier: {$generatedId}", 3, OMEKA_PATH . '/logs/excavation-identifier.log');
+    return $generatedId;
 }
 
 private function processOmekaS(string $ttlData, ?int $itemSetId): string
@@ -424,6 +494,9 @@ public function xmlParser($file)
     
     error_log('XML content length: ' . strlen($xmlContent), 3, OMEKA_PATH . '/logs/xml-debug.log');
     
+    // Save raw XML for debugging
+    file_put_contents(OMEKA_PATH . '/logs/original-xml.log', $xmlContent);
+    
     // Determine XSLT type based on content
     $xsltPath = null;
     if (strpos($xmlContent, '<item id="AH') !== false) {
@@ -443,48 +516,66 @@ public function xmlParser($file)
         return 'Failed to find XSLT file: ' . $xsltPath;
     }
     
-    // Load XSLT file
-    $xslt = new \DOMDocument();
-    $loadResult = $xslt->load($xsltPath);
-    if (!$loadResult) {
-        error_log('Failed to load XSLT file: ' . $xsltPath . '. Last errors: ' . libxml_get_last_error(), 3, OMEKA_PATH . '/logs/xml-debug.log');
-        return 'Failed to load XSLT file';
-    }
-    
-    // Load XML file
-    $auxFile = new \DOMDocument();
-    libxml_use_internal_errors(true); // Enable custom error handling
-    $loadResult = $auxFile->load($file['tmp_name']);
-    if (!$loadResult) {
-        $errors = libxml_get_errors();
-        $errorMessages = [];
-        foreach ($errors as $error) {
-            $errorMessages[] = 'Line ' . $error->line . ': ' . $error->message;
+    try {
+        // Load XSLT file
+        $xslt = new \DOMDocument();
+        libxml_use_internal_errors(true);
+        $loadResult = $xslt->load($xsltPath);
+        if (!$loadResult) {
+            $errors = libxml_get_errors();
+            $errorMessages = [];
+            foreach ($errors as $error) {
+                $errorMessages[] = 'Line ' . $error->line . ': ' . $error->message;
+            }
+            libxml_clear_errors();
+            error_log('Failed to load XSLT file: ' . implode('; ', $errorMessages), 3, OMEKA_PATH . '/logs/xml-debug.log');
+            return 'Failed to load XSLT file';
         }
+        
+        // Load XML from string instead of file
+        $auxFile = new \DOMDocument();
+        $loadResult = $auxFile->loadXML($xmlContent);
+        if (!$loadResult) {
+            $errors = libxml_get_errors();
+            $errorMessages = [];
+            foreach ($errors as $error) {
+                $errorMessages[] = 'Line ' . $error->line . ': ' . $error->message;
+            }
+            libxml_clear_errors();
+            error_log('Failed to load XML. Errors: ' . implode('; ', $errorMessages), 3, OMEKA_PATH . '/logs/xml-debug.log');
+            return 'Failed to load XML file. XML parsing errors.';
+        }
+        
+        // Convert XML to RDF/XML
+        $convert = new \XSLTProcessor();
+        $importResult = $convert->importStylesheet($xslt);
+        if (!$importResult) {
+            $errors = libxml_get_errors();
+            libxml_clear_errors();
+            error_log('Failed to import stylesheet: ' . implode('; ', $errors), 3, OMEKA_PATH . '/logs/xml-debug.log');
+            return 'Failed to import XSLT stylesheet';
+        }
+        
+        $rdfXmlConverted = $convert->transformToXML($auxFile);
+        if (!$rdfXmlConverted) {
+            $errors = libxml_get_errors();
+            libxml_clear_errors();
+            error_log('Failed to transform XML to RDF/XML: ' . implode('; ', $errors), 3, OMEKA_PATH . '/logs/xml-debug.log');
+            return 'Failed to convert XML to RDF/XML';
+        }
+        
+        // Save the RDF/XML output for debugging
+        file_put_contents(OMEKA_PATH . '/logs/rdf-xml-output.log', $rdfXmlConverted);
+        
+        error_log('XML transformation successful. RDF/XML length: ' . strlen($rdfXmlConverted), 3, OMEKA_PATH . '/logs/xml-debug.log');
+        return $rdfXmlConverted;
+    } catch (\Exception $e) {
+        error_log('Exception in XML parsing: ' . $e->getMessage(), 3, OMEKA_PATH . '/logs/xml-debug.log');
+        return 'Failed to parse XML: ' . $e->getMessage();
+    } finally {
         libxml_clear_errors();
-        error_log('Failed to load XML file. Errors: ' . implode('; ', $errorMessages), 3, OMEKA_PATH . '/logs/xml-debug.log');
-        return 'Failed to load XML file. XML parsing errors.';
+        libxml_use_internal_errors(false);
     }
-    
-    // Convert XML to RDF/XML
-    $convert = new \XSLTProcessor();
-    $importResult = $convert->importStylesheet($xslt);
-    if (!$importResult) {
-        error_log('Failed to import stylesheet: ' . libxml_get_last_error(), 3, OMEKA_PATH . '/logs/xml-debug.log');
-        return 'Failed to import XSLT stylesheet';
-    }
-    
-    $rdfXmlConverted = $convert->transformToXML($auxFile);
-    if (!$rdfXmlConverted) {
-        error_log('Failed to transform XML to RDF/XML. Last error: ' . libxml_get_last_error(), 3, OMEKA_PATH . '/logs/xml-debug.log');
-        return 'Failed to convert XML to RDF/XML';
-    }
-    
-    error_log('XML transformation successful. RDF/XML length: ' . strlen($rdfXmlConverted), 3, OMEKA_PATH . '/logs/xml-debug.log');
-    error_log('RDF/XML sample: ' . substr($rdfXmlConverted, 0, 500) . '...', 3, OMEKA_PATH . '/logs/xml-debug.log');
-    error_log($rdfXmlConverted, 3, OMEKA_PATH . '/logs/rdf-xml-final.log');
-    
-    return $rdfXmlConverted;
 }
 
 public function xmlTtlConverter($rdfXmlData)
@@ -496,9 +587,18 @@ public function xmlTtlConverter($rdfXmlData)
         return null;
     }
     
+    // Save input for debugging
+    file_put_contents(OMEKA_PATH . '/logs/rdf-xml-input.log', $rdfXmlData);
+    
     try {
-        $rdfGraph = new Graph();
+        // Suppress deprecated warnings temporarily
+        error_reporting(E_ALL & ~E_DEPRECATED);
+        
+        $rdfGraph = new \EasyRdf\Graph();
         $rdfGraph->parse($rdfXmlData, 'rdfxml');
+        
+        // Restore error reporting
+        error_reporting(E_ALL);
         
         error_log('RDF/XML data loaded into graph successfully', 3, OMEKA_PATH . '/logs/ttl-debug.log');
         
@@ -509,10 +609,12 @@ public function xmlTtlConverter($rdfXmlData)
             return null;
         }
         
-        error_log('Graph serialized to Turtle successfully', 3, OMEKA_PATH . '/logs/ttl-debug.log');
-        error_log('TTL data before adding prefixes (sample): ' . substr($ttlData, 0, 500), 3, OMEKA_PATH . '/logs/ttl-debug.log');
+        // Save serialized TTL for debugging
+        file_put_contents(OMEKA_PATH . '/logs/ttl-before-prefixes.log', $ttlData);
         
-        // Add all necessary prefixes to ensure proper RDF resolution
+        error_log('Graph serialized to Turtle successfully', 3, OMEKA_PATH . '/logs/ttl-debug.log');
+        
+        // Add prefixes and perform cleanup
         $ttlData = $this->addPrefixesToTTL($ttlData, [
             'ah' => 'http://www.purl.com/ah/ms/ahMS#',
             'ah-shape' => 'http://www.purl.com/ah/kos/ah-shape/',
@@ -548,125 +650,15 @@ public function xmlTtlConverter($rdfXmlData)
             'sh' => 'http://www.w3.org/ns/shacl#',
         ]);
         
-        // Fix year formatting
-        $ttlData = preg_replace_callback(
-            '/time:inXSDYear "(-?\d+)"\^\^xsd:gYear/',
-            function($matches) {
-                $year = str_replace('-', '', $matches[1]);
-                return 'time:inXSDYear "' . $year . '"^^xsd:gYear';
-            },
-            $ttlData
-        );
+        // Save final TTL
+        file_put_contents(OMEKA_PATH . '/logs/final-ttl.log', $ttlData);
         
-        // Fix boolean values
-        $ttlData = str_replace('"true"', 'true', $ttlData);
-        $ttlData = str_replace('"false"', 'false', $ttlData);
-        
-        // Detect content type (excavation or arrowhead)
-        $isExcavation = strpos($ttlData, 'crmarchaeo:A9_Archaeological_Excavation') !== false;
-        error_log('Content type detected: ' . ($isExcavation ? 'Excavation' : 'Arrowhead'), 3, OMEKA_PATH . '/logs/ttl-debug.log');
-        
-        // Apply appropriate patterns based on content type
-        if ($isExcavation) {
-            error_log('Applying excavation cleanup patterns', 3, OMEKA_PATH . '/logs/ttl-debug.log');
-            $patterns = [
-                '/<http:\/\/www\.cidoc-crm\.org\/extensions\/crmarchaeo\/A9_Archaeological_Excavation>/' => 'crmarchaeo:A9_Archaeological_Excavation',
-                '/<http:\/\/www\.cidoc-crm\.org\/extensions\/crmarchaeo\/A1_Excavation_Processing_Unit>/' => 'crmarchaeo:A1_Excavation_Processing_Unit',
-                '/<http:\/\/www\.cidoc-crm\.org\/extensions\/crmarchaeo\/A2_Stratigraphic_Volume_Unit>/' => 'crmarchaeo:A2_Stratigraphic_Volume_Unit',
-                '/<dcterms:identifier>([^<]+)<\/dcterms:identifier>/' => 'dcterms:identifier "$1";',
-                '/<dul:hasLocation rdf:resource="([^"]+)"\/>/' => 'dul:hasLocation <$1>;',
-                '/<crmarchaeo:A9_Archaeological_Excavation rdf:about="([^"]+)"\/>/' => 'crmarchaeo:A9_Archaeological_Excavation <$1>;',
-                '/<excav:ArchaeologistShape rdf:resource="([^"]+)"\/>/' => 'excav:ArchaeologistShape <$1>;',
-                '/<excav:hasContext rdf:resource="([^"]+)"\/>/' => 'excav:hasContext <$1>;',
-                '/foaf:account "([^"]+)"/' => 'foaf:account "$1"^^xsd:anyURI;',
-                '/<foaf:name>([^<]+)<\/foaf:name>/' => 'foaf:name "$1";',
-                '/foaf:mbox "([^"]+)"/' => 'foaf:mbox "$1"^^xsd:anyURI',
-                '/<excav:hasSVU rdf:resource="([^"]+)"\/>/' => 'excav:hasSVU <$1>;',
-                '/<dcterms:description>([^<]+)<\/dcterms:description>/' => 'dcterms:description "$1";',
-                '/<excav:hasTimeLine rdf:resource="([^"]+)"\/>/' => 'excav:hasTimeLine <$1>;',
-                '/<dbo:informationName>([^<]+)<\/dbo:informationName>/' => 'dbo:informationName "$1";',
-                '/excav:Archaeologist /' => 'a excav:Archaeologist;',
-                '/excav:excavation_/' => 'a excav:Excavation;',
-                '/<excav:foundInAContext rdf:resource="([^"]+)"\/>/' => 'excav:foundInAContext <$1>;',
-                '/<excav:hasGPSCoordinates rdf:resource="([^"]+)"\/>/' => 'excav:hasGPSCoordinates <$1>;',
-                '/<geo:lat rdf:datatype="[^"]+">([^<]+)<\/geo:lat>/' => 'geo:lat "$1"^^xsd:decimal;',
-                '/<geo:long rdf:datatype="[^"]+">([^<]+)<\/geo:long>/' => 'geo:long "$1"^^xsd:decimal;',
-                '/<time:hasBeginning rdf:resource="([^"]+)"\/>/' => 'time:hasBeginning <$1>;',
-                '/<time:hasEnd rdf:resource="([^"]+)"\/>/' => 'time:hasEnd <$1>;',
-                '/<time:inXSDYear rdf:datatype="[^"]+">([^<]+)<\/time:inXSDYear>/' => 'time:inXSDYear "$1"^^xsd:gYear;',
-                '/<excav:bc rdf:datatype="[^"]+">([^<]+)<\/excav:bc>/' => 'excav:bc $1;',
-                '/<dcterms:date rdf:datatype="[^"]+">([^<]+)<\/dcterms:date>/' => 'dcterms:date "$1"^^xsd:date;',
-                '/<dbo:depth rdf:datatype="[^"]+">([^<]+)<\/dbo:depth>/' => 'dbo:depth "$1"^^xsd:decimal;',
-                '/<crmsci:O19_encountered_object rdf:resource="([^"]+)"\/>/' => 'crmsci:O19_encountered_object <$1>;',
-                '/<dbo:district rdf:resource="([^"]+)"\/>/' => 'dbo:district <$1>;',
-                '/<dbo:parish rdf:resource="([^"]+)"\/>/' => 'dbo:parish <$1>;',
-                '/\s*rdf:about="([^"]+)"/' => '',
-                '/\s*rdf:resource="([^"]+)"/' => '',
-                '/\s*rdf:datatype="[^"]+"/' => '',
-                '/<\?xml[^>]+\?>/' => '',
-                '/<rdf:RDF[^>]*>/' => '',
-                '/<\/rdf:RDF>/' => '',
-            ];
-        } else {
-            error_log('Applying arrowhead cleanup patterns', 3, OMEKA_PATH . '/logs/ttl-debug.log');
-            $patterns = [
-                '/<ah:shape>([^<]+)<\/ah:shape>/' => 'ah:shape <ah-shape:$1>;',
-                '/<ah:variant>([^<]+)<\/ah:variant>/' => 'ah:variant <ah-variant:$1>;',
-                '/<crm:E57_Material>([^<]+)<\/crm:E57_Material>/' => 'crm:E57_Material <$1>;',
-                '/<ah:foundInCoordinates rdf:resource="([^"]+)"\/>/' => 'ah:foundInCoordinates <$1>;',
-                '/<ah:hasMorphology rdf:resource="([^"]+)"\/>/' => 'ah:hasMorphology <$1>;',
-                '/<ah:hasTypometry rdf:resource="([^"]+)"\/>/' => 'ah:hasTypometry <$1>;',
-                '/<ah:point>([^<]+)<\/ah:point>/' => 'ah:point "$1";',
-                '/<ah:body>([^<]+)<\/ah:body>/' => 'ah:body "$1";',
-                '/<ah:base>([^<]+)<\/ah:base>/' => 'ah:base <ah-base:$1>;',
-                '/<crm:E54_Dimension>([^<]+)<\/crm:E54_Dimension>/' => 'crm:E54_Dimension "$1"^^xsd:decimal;',
-                '/<ah:hasChipping rdf:resource="([^"]+)"\/>/' => 'ah:hasChipping <$1>;',
-                '/<ah:mode>([^<]+)<\/ah:mode>/' => 'ah:mode <ah-chippingMode:$1>;',
-                '/<ah:amplitude>([^<]+)<\/ah:amplitude>/' => 'ah:amplitude "$1";',
-                '/<ah:direction>([^<]+)<\/ah:direction>/' => 'ah:direction <ah-chippingDirection:$1>;',
-                '/<ah:orientation>([^<]+)<\/ah:orientation>/' => 'ah:orientation "$1";',
-                '/<ah:dileneation>([^<]+)<\/ah:dileneation>/' => 'ah:dileneation <ah-chippingDelineation:$1>;',
-                '/<ah:chippinglocation-Lateral>([^<]+)<\/ah:chippinglocation-Lateral>/' => 'ah:chippinglocation-Lateral <ah-chippingLocation:$1>;',
-                '/<ah:chippingLocation-Transversal>([^<]+)<\/ah:chippingLocation-Transversal>/' => 'ah:chippingLocation-Transversal <ah-chippingLocation:$1>;',
-                '/<ah:chippingShape>([^<]+)<\/ah:chippingShape>/' => 'ah:chippingShape <ah-chippingShape:$1>;',
-                '/<dcterms:identifier>([^<]+)<\/dcterms:identifier>/' => 'dcterms:identifier "$1";',
-                '/<edm:Webresource>([^<]+)<\/edm:Webresource>/' => 'edm:Webresource <$1>;',
-                '/<dbo:Annotation>([^<]+)<\/dbo:Annotation>/' => 'dbo:Annotation "$1";',
-                '/<crm:E3_Condition_State>([^<]+)<\/crm:E3_Condition_State>/' => 'crm:E3_Condition_State "$1";',
-                '/<crm:E55_Type>([^<]+)<\/crm:E55_Type>/' => 'crm:E55_Type "$1";',
-                '/<geo:lat>([^<]+)<\/geo:lat>/' => 'geo:lat "$1"^^xsd:decimal;',
-                '/<geo:long>([^<]+)<\/geo:long>/' => 'geo:long "$1"^^xsd:decimal;',
-            ];
-        }
-        
-        // Apply cleanup patterns
-        $originalLength = strlen($ttlData);
-        foreach ($patterns as $pattern => $replacement) {
-            $ttlData = preg_replace($pattern, $replacement, $ttlData);
-        }
-        $newLength = strlen($ttlData);
-        error_log("Applied cleanup patterns: length changed from $originalLength to $newLength", 3, OMEKA_PATH . '/logs/ttl-debug.log');
-        
-        // Clean up any empty lines or extra spaces
-        $ttlData = preg_replace("/\n\s*\n/", "\n", $ttlData);
-        $ttlData = trim($ttlData);
-        
-        // Fix any remaining namespace issues
-        $ttlData = str_replace('ns0:', 'dul:', $ttlData);
-        $ttlData = str_replace('ns1:', 'excav:', $ttlData);
-        $ttlData = str_replace('ns2:', 'dbo:', $ttlData);
-        $ttlData = str_replace('ns3:', 'crmsci:', $ttlData);
-        
-        // Log the final TTL data
-        error_log("Final TTL length: " . strlen($ttlData) . " characters", 3, OMEKA_PATH . '/logs/ttl-debug.log');
-        error_log("TTL sample: " . substr($ttlData, 0, 500), 3, OMEKA_PATH . '/logs/ttl-debug.log');
-        error_log($ttlData, 3, OMEKA_PATH . '/logs/cleaned-ttl.log');
-        
+        error_log('Final TTL data generated successfully', 3, OMEKA_PATH . '/logs/ttl-debug.log');
         return $ttlData;
     } catch (\Exception $e) {
         error_log('Exception in xmlTtlConverter: ' . $e->getMessage(), 3, OMEKA_PATH . '/logs/ttl-debug.log');
         error_log('Stack trace: ' . $e->getTraceAsString(), 3, OMEKA_PATH . '/logs/ttl-debug.log');
-        throw $e;
+        return null;
     }
 }
 
@@ -682,70 +674,90 @@ public function xmlTtlConverter($rdfXmlData)
     }
 
     private function sendToGraphDB($data)
-    {
-        $logger = new Logger();
-        $writer = new Stream(OMEKA_PATH . '/logs/graphdb-errors.log');
-        $logger->addWriter($writer);
+{
+    $logger = new Logger();
+    $writer = new Stream(OMEKA_PATH . '/logs/graphdb-errors.log');
+    $logger->addWriter($writer);
 
-        //check if data is excavation data
-        if (strpos($data, 'crmarchaeo:A9_Archaeological_Excavation') !== false) {
-            //find and log the excavation identifier
-            preg_match('/dct:identifier\s+"([^"]+)"\^\^xsd:string\s*;/', $data, $matches);
-            if (isset($matches[1])) {
-                $this->excavationIdentifier = $matches[1] . '/';
-                error_log('Excavation Identifier: ' . $this->excavationIdentifier, 3, OMEKA_PATH . '/logs/excavation-identifier.log');
-            }
-        }
-        $this->dataGraphUri.= $this->excavationIdentifier;
-        error_log('Data Graph URI: ' . $this->dataGraphUri, 3, OMEKA_PATH . '/logs/data-graph-uri.log');
-
-        try {
-            $graphUri = $this->dataGraphUri;
-
-            $validationResult = $this->validateData($data, $graphUri);
-            // log the validation result
-            error_log('Validation Result: ' . implode('; ', $validationResult));
-
-            if (!empty($validationResult)) {
-                $errorMessage = 'Data upload failed: SHACL validation errors: ' . implode('; ', $validationResult);
-                error_log($errorMessage);
-                $logger->err($errorMessage);
-                return $errorMessage;
-            }
-
-            // 2. Upload ONLY if validation passes
-            $client = new Client();
-            $fullUrl = $this->graphdbEndpoint . '?graph=' . urlencode($graphUri);
-            $client->setUri($fullUrl);
-            $client->setMethod('POST');
-            $client->setHeaders(['Content-Type' => 'text/turtle']);
-            $client->setRawBody($data);
-
-            $client->setOptions(['timeout' => 60]); // Adjust the timeout as needed
-
-            $response = $client->send();
-
-            $status = $response->getStatusCode();
-            $body = $response->getBody();
-            $message = "Response Status: $status | Response Body: $body";
-            error_log($message);
-            $logger->info($message);
-
-            if ($response->isSuccess()) {
-                return 'Data uploaded and validated successfully.';
-            } else {
-                $errorMessage = 'Failed to upload data: ' . $message;
-                error_log($errorMessage);
-                $logger->err($errorMessage);
-                return $errorMessage;
-            }
-        } catch (\Exception $e) {
-            $errorMessage = 'Failed to upload data due to an exception: ' . $e->getMessage();
-            $logger->err($errorMessage);
-            error_log($errorMessage);
-            return $errorMessage;
+    error_log("Sending data to GraphDB", 3, OMEKA_PATH . '/logs/graphdb.log');
+    
+    // Check if data is not empty
+    if (empty($data)) {
+        $errorMessage = 'Cannot send empty data to GraphDB';
+        error_log($errorMessage, 3, OMEKA_PATH . '/logs/graphdb.log');
+        $logger->err($errorMessage);
+        return $errorMessage;
+    }
+    
+    // Save data for debugging
+    file_put_contents(OMEKA_PATH . '/logs/data-to-graphdb.log', $data);
+    
+    // Check if data is excavation data and extract identifier
+    if (strpos($data, 'crmarchaeo:A9_Archaeological_Excavation') !== false) {
+        // Find and log the excavation identifier
+        $identifier = $this->extractExcavationIdentifier($data);
+        if ($identifier) {
+            $this->excavationIdentifier = $identifier . '/';
+            error_log('Excavation Identifier: ' . $this->excavationIdentifier, 3, OMEKA_PATH . '/logs/graphdb.log');
         }
     }
+    
+    $this->dataGraphUri .= $this->excavationIdentifier;
+    error_log('Data Graph URI: ' . $this->dataGraphUri, 3, OMEKA_PATH . '/logs/graphdb.log');
+
+    try {
+        $graphUri = $this->dataGraphUri;
+
+        // 1. Validate the data before sending
+        error_log("Validating data before sending to GraphDB", 3, OMEKA_PATH . '/logs/graphdb.log');
+        $validationResult = $this->validateData($data, $graphUri);
+        
+        error_log('Validation Result: ' . json_encode($validationResult), 3, OMEKA_PATH . '/logs/graphdb.log');
+
+        if (!empty($validationResult)) {
+            $errorMessage = 'Data upload failed: SHACL validation errors: ' . implode('; ', $validationResult);
+            error_log($errorMessage, 3, OMEKA_PATH . '/logs/graphdb.log');
+            $logger->err($errorMessage);
+            return $errorMessage;
+        }
+
+        // 2. Upload ONLY if validation passes
+        error_log("Sending validated data to GraphDB endpoint: {$this->graphdbEndpoint}", 3, OMEKA_PATH . '/logs/graphdb.log');
+        
+        $client = new Client();
+        $fullUrl = $this->graphdbEndpoint . '?graph=' . urlencode($graphUri);
+        $client->setUri($fullUrl);
+        $client->setMethod('POST');
+        $client->setHeaders(['Content-Type' => 'text/turtle']);
+        $client->setRawBody($data);
+
+        $client->setOptions(['timeout' => 60]); // Set generous timeout
+
+        error_log("Request prepared, sending to: {$fullUrl}", 3, OMEKA_PATH . '/logs/graphdb.log');
+        $response = $client->send();
+
+        $status = $response->getStatusCode();
+        $body = $response->getBody();
+        $message = "GraphDB Response Status: $status | Response Body: $body";
+        error_log($message, 3, OMEKA_PATH . '/logs/graphdb.log');
+        $logger->info($message);
+
+        if ($response->isSuccess()) {
+            return 'Data uploaded and validated successfully.';
+        } else {
+            $errorMessage = 'Failed to upload data: ' . $message;
+            error_log($errorMessage, 3, OMEKA_PATH . '/logs/graphdb.log');
+            $logger->err($errorMessage);
+            return $errorMessage;
+        }
+    } catch (\Exception $e) {
+        $errorMessage = 'Failed to upload data due to an exception: ' . $e->getMessage();
+        $logger->err($errorMessage);
+        error_log($errorMessage, 3, OMEKA_PATH . '/logs/graphdb.log');
+        error_log('Exception stack trace: ' . $e->getTraceAsString(), 3, OMEKA_PATH . '/logs/graphdb.log');
+        return $errorMessage;
+    }
+}
 
     private function validateData($data, $graphUri)
     {

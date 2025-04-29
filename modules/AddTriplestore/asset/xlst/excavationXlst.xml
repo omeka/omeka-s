@@ -8,8 +8,9 @@
     xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
     xmlns:foaf="http://xmlns.com/foaf/0.1/"
     xmlns:dcterms="http://purl.org/dc/terms/"
+    xmlns:dct="http://purl.org/dc/terms/"
     xmlns:time="http://www.w3.org/2006/time#"
-    xmlns:crmsci="http://www.cidoc-crm.org/extensions/crmsci/"
+    xmlns:crmsci="https://cidoc-crm.org/extensions/crmsci/"
     xmlns:dul="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#"
     xmlns:crm="http://www.cidoc-crm.org/cidoc-crm/"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
@@ -17,176 +18,156 @@
   <xsl:output method="xml" indent="yes"/>
 
   <xsl:template match="/">
-  <rdf:RDF
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns:crmarchaeo="http://www.cidoc-crm.org/extensions/crmarchaeo/"
-    xmlns:excav="https://purl.org/ah/ms/excavationMS#"
-    xmlns:dbo="http://dbpedia.org/ontology/"
-    xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
-    xmlns:foaf="http://xmlns.com/foaf/0.1/"
-    xmlns:dcterms="http://purl.org/dc/terms/"
-    xmlns:time="http://www.w3.org/2006/time#"
-    xmlns:crmsci="https://cidoc-crm.org/extensions/crmsci/"
-    xmlns:dul="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#"
-    xmlns:crm="http://www.cidoc-crm.org/cidoc-crm/">
-    <xsl:apply-templates select="Excavation"/>
-  </rdf:RDF>
-</xsl:template>
+    <rdf:RDF>
+      <xsl:apply-templates select="Excavation"/>
+    </rdf:RDF>
+  </xsl:template>
 
   <xsl:template match="Excavation">
-    <xsl:message>--- Starting Excavation Template ---</xsl:message>
-
-    <crmarchaeo:A9_Archaeological_Excavation rdf:about="excav:excavation_{Acronym}">
-      <rdf:type rdf:resource="http://www.cidoc-crm.org/extensions/crmarchaeo/A9_Archaeological_Excavation"/>
-      <xsl:message>Acronym: <xsl:value-of select="Acronym"/></xsl:message>
+    <!-- Main Excavation Resource -->
+    <crmarchaeo:A9_Archaeological_Excavation rdf:about="https://purl.org/ah/ms/excavationMS/resource/Excavation_{Acronym}">
       <dcterms:identifier><xsl:value-of select="Acronym"/></dcterms:identifier>
-
-      <dul:hasLocation rdf:resource="excav:location_{Location/Name}"/>
-      <xsl:message>Location: excav:location_<xsl:value-of select="Location/Name"/></xsl:message>
-
-      <excav:ArchaeologistShape rdf:resource="excav:archaeologist_{PersonInCharge/ORCID}"/>
-      <xsl:message>PersonInCharge: excav:archaeologist_<xsl:value-of select="PersonInCharge/ORCID"/></xsl:message>
-
+      <dul:hasLocation rdf:resource="https://purl.org/ah/ms/excavationMS/resource/Location_{Location/Name}"/>
+      <excav:hasPersonInCharge rdf:resource="https://purl.org/ah/ms/excavationMS/resource/Archaeologist_{PersonInCharge/ORCID}"/>
+      
       <xsl:for-each select="Contexts/Context">
-        <excav:hasContext rdf:resource="excav:Context_{@id}"/>
-        <xsl:message>Context: excav:Context_<xsl:value-of select="@id"/></xsl:message>
+        <excav:hasContext rdf:resource="https://purl.org/ah/ms/excavationMS/resource/Context_{@id}"/>
       </xsl:for-each>
     </crmarchaeo:A9_Archaeological_Excavation>
 
-    <xsl:apply-templates select="Location"/>
-    <xsl:apply-templates select="PersonInCharge"/>
-    <xsl:apply-templates select="Contexts/Context"/>
-
-    <xsl:message>--- Finished Excavation Template ---</xsl:message>
-
-  </xsl:template>
-
-  <xsl:template match="Location">
-    <xsl:message>--- Location Template ---</xsl:message>
-    <dbo:Place rdf:about="excav:location_{Name}">
-      <rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-      <dbo:district rdf:resource="excav:District_{District}"/>
-      <dbo:parish rdf:resource="excav:Parish_{Parish}"/>
-      <dbo:informationName><xsl:value-of select="Name"/></dbo:informationName>
-      <excav:hasGPSCoordinates rdf:resource="excav:GPSCoords_{Name}"/>
+    <!-- Process Location -->
+    <dbo:Place rdf:about="https://purl.org/ah/ms/excavationMS/resource/Location_{Location/Name}">
+      <dbo:district rdf:resource="https://purl.org/ah/ms/excavationMS/resource/District_{Location/District}"/>
+      <dbo:parish rdf:resource="https://purl.org/ah/ms/excavationMS/resource/Parish_{Location/Parish}"/>
+      <dbo:informationName><xsl:value-of select="Location/Name"/></dbo:informationName>
+      <excav:hasGPSCoordinates rdf:resource="https://purl.org/ah/ms/excavationMS/resource/GPSCoords_{Location/Name}"/>
     </dbo:Place>
 
-    <geo:SpatialThing rdf:about="excav:GPSCoords_{Name}">
-      <rdf:type rdf:resource="http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing"/>
-      <geo:lat rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal"><xsl:value-of select="GPS/Lat"/></geo:lat>
-      <geo:long rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal"><xsl:value-of select="GPS/Long"/></geo:long>
+    <!-- GPS Coordinates -->
+    <geo:SpatialThing rdf:about="https://purl.org/ah/ms/excavationMS/resource/GPSCoords_{Location/Name}">
+      <geo:lat rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal"><xsl:value-of select="Location/GPS/Lat"/></geo:lat>
+      <geo:long rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal"><xsl:value-of select="Location/GPS/Long"/></geo:long>
     </geo:SpatialThing>
 
-    <dbo:District rdf:about="excav:District_{District}">
-      <rdf:type rdf:resource="http://dbpedia.org/ontology/District"/>
-      <dbo:informationName><xsl:value-of select="District"/></dbo:informationName>
+    <!-- District -->
+    <dbo:District rdf:about="https://purl.org/ah/ms/excavationMS/resource/District_{Location/District}">
+      <dbo:informationName><xsl:value-of select="Location/District"/></dbo:informationName>
     </dbo:District>
 
-    <dbo:Parish rdf:about="excav:Parish_{Parish}">
-      <rdf:type rdf:resource="http://dbpedia.org/ontology/Parish"/>
-      <dbo:informationName><xsl:value-of select="Parish"/></dbo:informationName>
+    <!-- Parish -->
+    <dbo:Parish rdf:about="https://purl.org/ah/ms/excavationMS/resource/Parish_{Location/Parish}">
+      <dbo:informationName><xsl:value-of select="Location/Parish"/></dbo:informationName>
     </dbo:Parish>
 
-    <xsl:message>--- Finished Location Template ---</xsl:message>
-  </xsl:template>
-
-  <xsl:template match="PersonInCharge">
-    <xsl:message>--- PersonInCharge Template ---</xsl:message>
-    <excav:Archaeologist rdf:about="excav:archaeologist_{ORCID}">
-      <rdf:type rdf:resource="https://purl.org/ah/ms/excavationMS#Archaeologist"/>
-      
-      <!-- ORCID account -->
+    <!-- Archaeologist in charge -->
+    <excav:Archaeologist rdf:about="https://purl.org/ah/ms/excavationMS/resource/Archaeologist_{PersonInCharge/ORCID}">
       <foaf:account rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">
-        <xsl:value-of select="concat('https://orcid.org/', ORCID)"/>
+        <xsl:value-of select="concat('https://orcid.org/', PersonInCharge/ORCID)"/>
       </foaf:account>
+      <foaf:name><xsl:value-of select="PersonInCharge/Name"/></foaf:name>
       
-      <foaf:name><xsl:value-of select="Name"/></foaf:name>
-
-      <!-- Emails -->
-      <xsl:for-each select="Emails/Email">
+      <xsl:for-each select="PersonInCharge/Emails/Email">
         <foaf:mbox rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">
           <xsl:value-of select="concat('mailto:', .)"/>
         </foaf:mbox>
       </xsl:for-each>
     </excav:Archaeologist>
-    <xsl:message>--- Finished PersonInCharge Template ---</xsl:message>
-</xsl:template>
+
+    <!-- Process each Context -->
+    <xsl:apply-templates select="Contexts/Context"/>
+  </xsl:template>
 
   <xsl:template match="Context">
-    <crmarchaeo:A1_Excavation_Processing_Unit rdf:about="excav:Context_{@id}">
-      <rdf:type rdf:resource="http://www.cidoc-crm.org/extensions/crmarchaeo/A1_Excavation_Processing_Unit"/>
+    <!-- Context Resource -->
+    <crmarchaeo:A1_Excavation_Processing_Unit rdf:about="https://purl.org/ah/ms/excavationMS/resource/Context_{@id}">
       <dcterms:identifier><xsl:value-of select="@id"/></dcterms:identifier>
       <xsl:if test="Description">
         <dcterms:description><xsl:value-of select="Description"/></dcterms:description>
       </xsl:if>
-
+      
       <xsl:for-each select="StratigraphicUnit">
-        <excav:hasSVU rdf:resource="excav:SVU_{@id}"/>
+        <excav:hasSVU rdf:resource="https://purl.org/ah/ms/excavationMS/resource/SVU_{@id}"/>
       </xsl:for-each>
     </crmarchaeo:A1_Excavation_Processing_Unit>
 
+    <!-- Process each Stratigraphic Unit -->
     <xsl:apply-templates select="StratigraphicUnit"/>
 
+    <!-- Process Encounter Events -->
     <xsl:if test="EncounterEvent">
-  <crmsci:S19_Encounter_Event rdf:about="excav:Event_{@id}">
-    <rdf:type rdf:resource="https://cidoc-crm.org/extensions/crmsci/S19_Encounter_Event"/>
-    <xsl:if test="EncounterEvent/Date">
-      <dcterms:date rdf:datatype="http://www.w3.org/2001/XMLSchema#date">
-        <xsl:value-of select="EncounterEvent/Date"/>
-      </dcterms:date>
+      <crmsci:S19_Encounter_Event rdf:about="https://purl.org/ah/ms/excavationMS/resource/Event_{@id}">
+        <xsl:if test="EncounterEvent/Date">
+          <dcterms:date rdf:datatype="http://www.w3.org/2001/XMLSchema#date">
+            <xsl:value-of select="EncounterEvent/Date"/>
+          </dcterms:date>
+        </xsl:if>
+        <xsl:if test="EncounterEvent/Depth">
+          <dbo:depth rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">
+            <xsl:value-of select="EncounterEvent/Depth"/>
+          </dbo:depth>
+        </xsl:if>
+        <xsl:if test="EncounterEvent/FoundItem">
+          <crmsci:O19_encountered_object rdf:resource="https://purl.org/ah/ms/ahMS/resource/Arrowhead_{EncounterEvent/FoundItem}"/>
+        </xsl:if>
+        <xsl:if test="StratigraphicUnit">
+          <excav:foundInSVU rdf:resource="https://purl.org/ah/ms/excavationMS/resource/SVU_{StratigraphicUnit[1]/@id}"/>
+        </xsl:if>
+        <excav:foundInAContext rdf:resource="https://purl.org/ah/ms/excavationMS/resource/Context_{@id}"/>
+        <excav:foundInAExcavation rdf:resource="https://purl.org/ah/ms/excavationMS/resource/Excavation_{/Excavation/Acronym}"/>
+      </crmsci:S19_Encounter_Event>
     </xsl:if>
-    <xsl:if test="EncounterEvent/Depth">
-      <dbo:depth rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">
-        <xsl:value-of select="EncounterEvent/Depth"/>
-      </dbo:depth>
-    </xsl:if>
-    <xsl:if test="EncounterEvent/FoundItem">
-      <crmsci:O19_encountered_object rdf:resource="excav:Item_{EncounterEvent/FoundItem}"/>
-    </xsl:if>
-    <xsl:if test="StratigraphicUnit">
-      <excav:foundInSVU rdf:resource="excav:SVU_{StratigraphicUnit[1]/@id}"/>
-    </xsl:if>
-    <xsl:if test="../../Acronym">
-      <excav:foundInAExcavation rdf:resource="excav:excavation_{../../Acronym}"/>
-    </xsl:if>
-    <excav:foundInAContext rdf:resource="excav:Context_{@id}"/>
-  </crmsci:S19_Encounter_Event>
-</xsl:if>
   </xsl:template>
 
   <xsl:template match="StratigraphicUnit">
-    <crmarchaeo:A2_Stratigraphic_Volume_Unit rdf:about="excav:SVU_{@id}">
-      <rdf:type rdf:resource="http://www.cidoc-crm.org/extensions/crmarchaeo/A2_Stratigraphic_Volume_Unit"/>
+    <!-- Stratigraphic Unit -->
+    <crmarchaeo:A2_Stratigraphic_Volume_Unit rdf:about="https://purl.org/ah/ms/excavationMS/resource/SVU_{@id}">
       <dcterms:identifier><xsl:value-of select="@id"/></dcterms:identifier>
       <xsl:if test="Description">
         <dcterms:description><xsl:value-of select="Description"/></dcterms:description>
       </xsl:if>
-
+      
       <xsl:if test="Timeline">
-        <excav:hasTimeLine rdf:resource="excav:Timeline_{@id}"/>
+        <excav:hasTimeLine rdf:resource="https://purl.org/ah/ms/excavationMS/resource/Timeline_{@id}"/>
       </xsl:if>
     </crmarchaeo:A2_Stratigraphic_Volume_Unit>
 
-    <xsl:apply-templates select="Timeline"/>
-
-  </xsl:template>
-
-  <xsl:template match="Timeline">
-  <time:TemporalEntity rdf:about="excav:Timeline_{../@id}">
-    <rdf:type rdf:resource="http://www.w3.org/2006/time#TemporalEntity"/>
-    <xsl:apply-templates select="LowerBound"/>
-    <xsl:apply-templates select="UpperBound"/>
-  </time:TemporalEntity>
-</xsl:template>
-
-  <xsl:template match="LowerBound|UpperBound">
-    <time:Instant rdf:about="excav:Instant_{local-name()}_{@year}">
-      <rdf:type rdf:resource="http://www.w3.org/2006/time#Instant"/>
-      <time:inXSDYear rdf:datatype="http://www.w3.org/2001/XMLSchema#gYear"><xsl:value-of select="@year"/></time:inXSDYear>
-      <xsl:if test="@bc">
-        <excav:bc rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"><xsl:value-of select="@bc"/></excav:bc>
+    <!-- Process Timeline -->
+    <xsl:if test="Timeline">
+      <time:TemporalEntity rdf:about="https://purl.org/ah/ms/excavationMS/resource/Timeline_{@id}">
+        <xsl:if test="Timeline/LowerBound">
+          <time:hasBeginning rdf:resource="https://purl.org/ah/ms/excavationMS/resource/Instant_LowerBound_{Timeline/LowerBound/@year}"/>
+        </xsl:if>
+        <xsl:if test="Timeline/UpperBound">
+          <time:hasEnd rdf:resource="https://purl.org/ah/ms/excavationMS/resource/Instant_UpperBound_{Timeline/UpperBound/@year}"/>
+        </xsl:if>
+      </time:TemporalEntity>
+      
+      <!-- Process Lower and Upper Bounds -->
+      <xsl:if test="Timeline/LowerBound">
+        <time:Instant rdf:about="https://purl.org/ah/ms/excavationMS/resource/Instant_LowerBound_{Timeline/LowerBound/@year}">
+          <time:inXSDYear rdf:datatype="http://www.w3.org/2001/XMLSchema#gYear">
+            <xsl:value-of select="Timeline/LowerBound/@year"/>
+          </time:inXSDYear>
+          <xsl:if test="Timeline/LowerBound/@bc">
+            <excav:bc rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">
+              <xsl:value-of select="Timeline/LowerBound/@bc"/>
+            </excav:bc>
+          </xsl:if>
+        </time:Instant>
       </xsl:if>
-    </time:Instant>
+      
+      <xsl:if test="Timeline/UpperBound">
+        <time:Instant rdf:about="https://purl.org/ah/ms/excavationMS/resource/Instant_UpperBound_{Timeline/UpperBound/@year}">
+          <time:inXSDYear rdf:datatype="http://www.w3.org/2001/XMLSchema#gYear">
+            <xsl:value-of select="Timeline/UpperBound/@year"/>
+          </time:inXSDYear>
+          <xsl:if test="Timeline/UpperBound/@bc">
+            <excav:bc rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">
+              <xsl:value-of select="Timeline/UpperBound/@bc"/>
+            </excav:bc>
+          </xsl:if>
+        </time:Instant>
+      </xsl:if>
+    </xsl:if>
   </xsl:template>
-
 </xsl:stylesheet>

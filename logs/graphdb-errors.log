@@ -21208,3 +21208,5 @@ _:c28227f0-70eb-432e-8df5-b42f57f0342d-30 <http://www.w3.org/ns/shacl#maxCount> 
 2025-04-27T10:25:54+00:00 INFO (6): Response Status: 204 | Response Body:
 2025-04-27T10:26:23+00:00 INFO (6): Response Status: 204 | Response Body:
 2025-04-29T13:38:40+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-04-29T13:54:03+00:00 INFO (6): GraphDB Response Status: 204 | Response Body:
+2025-04-29T13:54:09+00:00 INFO (6): GraphDB Response Status: 204 | Response Body:

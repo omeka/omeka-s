@@ -1,42 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Excavation>
-  <Acronym>EXC4334-44</Acronym>
+  <Acronym>EXC-1234</Acronym>
   
   <Location>
-    <District>District5</District>
-    <Parish>StMarys</Parish>
-    <Name>BlackwaterSite</Name>
+    <District>Guarda</District>
+    <Parish>Horta do Douro</Parish>
+    <Name>Castanheiro do Vento</Name>
     <GPS>
-      <Lat>53.3498</Lat>
-      <Long>-6.2603</Long>
+      <Lat>41.0514</Lat>
+      <Long>-7.3069</Long>
     </GPS>
   </Location>
 
   <PersonInCharge>
     <ORCID>0000-0002-1825-0097</ORCID>
-    <Name>Dr. Aoife Byrne</Name>
+    <Name>Joao Muralha</Name>
     <Emails>
-      <Email>aoife.byrne@iae.ie</Email>
-      <Email>director@blackwater.ie</Email>
+      <Email>joao.muralha@example.com</Email>
+      <Email>excavation@castanheiro.org</Email>
     </Emails>
   </PersonInCharge>
 
   <Contexts>
     <Context id="CTX-001">
-      <Description>Main occupation layer</Description>
+      <Description>Main habitation area</Description>
       
       <StratigraphicUnit id="SVU-001">
-        <Description>Charcoal-rich layer</Description>
+        <Description>Cultural layer with arrowheads</Description>
         <Timeline>
-          <LowerBound year="350" bc="true"/>
-          <UpperBound year="450" bc="true"/>
+          <LowerBound year="2900" bc="true"/>
+          <UpperBound year="2500" bc="true"/>
         </Timeline>
       </StratigraphicUnit>
 
       <EncounterEvent>
-        <Date>2023-05-15</Date>
-        <Depth>2.4</Depth>
-        <FoundItem>AH0093</FoundItem>
+        <Date>2023-06-15</Date>
+        <Depth>1.75</Depth>
+        <FoundItem>AH0087</FoundItem>
+      </EncounterEvent>
+    </Context>
+    
+    <Context id="CTX-002">
+      <Description>Storage area</Description>
+      
+      <StratigraphicUnit id="SVU-002">
+        <Description>Stratified layer with preservation of organic materials</Description>
+        <Timeline>
+          <LowerBound year="2800" bc="true"/>
+          <UpperBound year="2600" bc="true"/>
+        </Timeline>
+      </StratigraphicUnit>
+
+      <EncounterEvent>
+        <Date>2023-07-10</Date>
+        <Depth>2.1</Depth>
+        <FoundItem>AH0088</FoundItem>
       </EncounterEvent>
     </Context>
   </Contexts>

@@ -298,8 +298,8 @@ class SiteAdapter extends AbstractEntityAdapter
                 'WITH',
                 $qb->expr()->eq(
                     "$sitePermissionsAlias.user",
-                    $this->createNamedParameter($qb, $user->getId()
-                ))
+                    $this->createNamedParameter($qb, $user->getId())
+                )
             );
         }
 

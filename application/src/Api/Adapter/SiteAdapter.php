@@ -296,9 +296,9 @@ class SiteAdapter extends AbstractEntityAdapter
                 'omeka_root.sitePermissions',
                 $sitePermissionsAlias,
                 'WITH',
-                $qb->expr()->eq(
-                    "$sitePermissionsAlias.user",
-                    $this->createNamedParameter($qb, $user->getId())
+                $qb->expr()->orX(
+                    $qb->expr()->eq("$sitePermissionsAlias.user", $this->createNamedParameter($qb, $user->getId())),
+                    $qb->expr()->eq("omeka_root.owner", $this->createNamedParameter($qb, $user))
                 )
             );
         }

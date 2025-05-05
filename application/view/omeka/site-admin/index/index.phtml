@@ -14,17 +14,37 @@ $this->htmlElement('body')->appendAttribute('class', 'sites browse');
 </div>
 
 <div class="browse-controls">
+    <?php if (!$isAdmin): ?>
+    <div>
+        <?php
+        $userHasRole = $this->params()->fromQuery('user_has_role');
+        if ('0' === $userHasRole) {
+            $query = $this->params()->fromQuery();
+            unset($query['user_has_role']);
+            echo sprintf(
+                $translate('Currently viewing sites for %s. %s'),
+                sprintf('<strong>%s</strong>', $this->identity()->getName()),
+                sprintf('<a href="%s">%s</a>', $escape($this->url(null, [], ['query' => $query])), $translate('View all sites'))
+            );
+        } else {
+            $query = $this->params()->fromQuery() + ['user_has_role' => 0];
+            echo sprintf(
+                $translate('Currently viewing all sites. %s'),
+                sprintf(
+                    '<a href="%s">%s</a>',
+                    $escape($this->url(null, [], ['query' => $query])),
+                    sprintf($translate('View sites for %s'), sprintf('<strong>%s</strong>', $this->identity()->getName()))
+                )
+            );
+        }
+        ?>
+    </div>
+    <?php endif; ?>
     <?php echo $this->pagination(); ?>
     <?php echo $this->browse()->renderSortSelector('sites'); ?>
 </div>
 <?php $this->trigger('view.browse.before'); ?>
 
-<div>
-    <?php if (!$isAdmin): ?>
-    <input id="view-all" type="checkbox" data-url="<?php echo $escape($this->url()); ?>"<?php if (isset($query['user_has_role'])): ?>checked<?php endif; ?>>
-    <label for="view-all"><?php echo $translate('View all'); ?></label>
-    <?php endif; ?>
-</div>
 <?php if (count($sites) > 0): ?>
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
@@ -88,13 +108,3 @@ $this->htmlElement('body')->appendAttribute('class', 'sites browse');
 </div>
 
 <?php endif; ?>
-
-<script>
-$('#view-all').on('click', function(e) {
-    // Toggle the view all behavior.
-    const thisCheckbox = $(this);
-    const url = thisCheckbox.data('url');
-    const query = thisCheckbox.is(':checked') ? '?user_has_role=0' : '';
-    window.location.href = url + query;
-});
-</script>

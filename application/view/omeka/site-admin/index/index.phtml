@@ -15,7 +15,7 @@ $this->htmlElement('body')->appendAttribute('class', 'sites browse');
 
 <div class="browse-controls">
     <?php if (!$isAdmin): ?>
-    <div>
+    <div id="user-filter">
         <?php
         $userHasRole = $this->params()->fromQuery('user_has_role');
         if ('0' === $userHasRole) {
@@ -23,7 +23,7 @@ $this->htmlElement('body')->appendAttribute('class', 'sites browse');
             unset($query['user_has_role']);
             echo sprintf(
                 $translate('Currently viewing sites for %s. %s'),
-                sprintf('<strong>%s</strong>', $this->identity()->getName()),
+                sprintf('<span class="user-name">%s</span>', $this->identity()->getName()),
                 sprintf('<a href="%s">%s</a>', $escape($this->url(null, [], ['query' => $query])), $translate('View all sites'))
             );
         } else {

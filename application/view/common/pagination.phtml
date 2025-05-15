@@ -11,7 +11,7 @@ if (isset($query['sort_order_default'])) {
     $removeQueries[] = 'sort_order';
 }
 ?>
-<nav class="pagination" role="navigation">
+<nav class="pagination" aria-label="<?php echo $translate('Pagination'); ?>">
 <?php if ($totalCount): ?>
     <form method="GET" action="">
         <?php echo $this->queryToHiddenInputs($removeQueries); ?>

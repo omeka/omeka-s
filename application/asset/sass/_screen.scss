@@ -552,7 +552,7 @@ div[role="main"] > .messages {
     }
 
     .error {
-        background-color: lighten($red, 45%);
+        background-color: lighten($red, 55%);
     }
 
     .success {
@@ -5020,7 +5020,7 @@ body.sidebar-open #content {
         }
 
         .error {
-            background-color: lighten($red, 45%);
+            background-color: lighten($red, 55%);
             border-radius: 3px;
             padding: $spacing-small 10px;
             margin: $spacing-small 0;

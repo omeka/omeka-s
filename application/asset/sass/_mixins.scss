@@ -23,3 +23,19 @@
         clear: both;
     }
 }
+
+@mixin message {
+    border-radius: 3px;
+    padding: $spacing-small 10px;
+    display: block;
+}
+
+@mixin success {
+    background-color: lighten(green, 65%);
+    color: green;
+}
+
+@mixin error {
+    background-color: lighten($red, 55%);
+    color: $red;
+}

@@ -4127,12 +4127,19 @@ body.sidebar-open #content {
 #modules .module-meta {
     float: left;
     max-width: 50%;
+    padding-right: $spacing-medium;
 }
 
 #modules .module-actions {
     float: right;
     max-width: 50%;
     text-align: right;
+    padding-left: $spacing-medium;
+
+    .error {
+        @include error;
+        @include message;
+    }
 }
 
 #modules .module form {

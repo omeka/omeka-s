@@ -11,7 +11,7 @@ if (!$ids) {
     $ids = [null];
 }
 ?>
-<div id="resource-templates" class="field removable multi-value" role="group">
+<div id="resource-templates" class="field removable multi-value" role="group" aria-labelledby="by-resource-template-label">
     <div class="field-meta">
         <span id="by-resource-template-label" class="label"><?php echo $translate('Search by template'); ?></span>
         <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $translate('Expand')]); ?>

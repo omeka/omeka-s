@@ -38,13 +38,7 @@ var cliOptions = minimist(process.argv.slice(2), {
 });
 
 function ensureBuildDir() {
-    return fs.statAsync(buildDir).catch(function (e) {
-        return fs.mkdirAsync(buildDir);
-    }).then(function () {
-        return fs.statAsync(buildDir + '/cache');
-    }).catch(function (e) {
-        fs.mkdirAsync(buildDir + '/cache');
-    });
+    return fs.promises.mkdir(buildDir + '/cache', {recursive: true});
 }
 
 function download(url, path) {

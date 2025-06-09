@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Laminas\I18n\Translator\TranslatorAwareInterface;
 use Laminas\View\Helper\AbstractHelper;
 use Omeka\Mvc\Controller\Plugin\Messenger;
 use Omeka\Stdlib\MessageInterface;
@@ -48,7 +47,7 @@ class Messages extends AbstractHelper
             Messenger::NOTICE => 'notice',
         ];
         foreach ($allMessages as $type => $messages) {
-            $class = isset($typeToClass[$type]) ? $typeToClass[$type] : 'notice';
+            $class = $typeToClass[$type] ?? 'notice';
             foreach ($messages as $message) {
                 $translation = $view->translate($message);
 

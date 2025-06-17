@@ -16,6 +16,13 @@ class ItemSetController extends AbstractActionController
 
         $query = $this->params()->fromQuery();
         $query['site_id'] = $site->id();
+
+        //this is the same approach as admin, but it will change the sort order and other defaults
+//        $this->browse()->setDefaults('item_sets');
+
+        //this will only set the page
+        $query['page'] = $query['page'] ?? 1;
+
         $response = $this->api()->search('item_sets', $query);
         $this->paginator($response->getTotalResults());
         $itemSets = $response->getContent();

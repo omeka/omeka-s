@@ -24,11 +24,10 @@ class DateTime implements JsonSerializable
      */
     public function __construct(?\DateTime $dateTime = null)
     {
-        if (null === $dateTime && !func_num_args()) {
-            // Set current date and time
-            $dateTime = new \DateTime();
-        }
-        $this->dateTime = $dateTime;
+        // Set current date and time when no arg is passed.
+        $this->dateTime = func_num_args()
+            ? $dateTime
+            : new \DateTime();
     }
 
     /**

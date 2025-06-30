@@ -34,17 +34,6 @@ class SiteRepresentation extends AbstractEntityRepresentation
         $homepage = $this->homepage();
         $thumbnail = $this->thumbnail();
 
-        $created = [
-            '@value' => $this->getDateTime($this->created()),
-            '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
-        ];
-        $modified = null;
-        if ($this->modified()) {
-            $modified = [
-                '@value' => $this->getDateTime($this->modified()),
-                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
-            ];
-        }
         $url = $this->getViewHelper('Url');
         $itemsUrl = $url(
             'api/default',
@@ -65,8 +54,8 @@ class SiteRepresentation extends AbstractEntityRepresentation
             'o:homepage' => $homepage ? $homepage->getReference()->jsonSerialize() : null,
             'o:item_pool' => $this->itemPool(),
             'o:owner' => $owner ? $owner->getReference()->jsonSerialize() : null,
-            'o:created' => $created,
-            'o:modified' => $modified,
+            'o:created' => $this->getDateTime($this->created())->getJsonLd(),
+            'o:modified' => $this->getDateTime($this->modified())->getJsonLd(),
             'o:is_public' => $this->isPublic(),
             'o:assign_new_items' => $this->assignNewItems(),
             'o:page' => array_map(fn ($v) => $v->getReference()->jsonSerialize(), $this->pages()),

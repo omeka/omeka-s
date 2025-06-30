@@ -69,21 +69,6 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     {
         $settings = $this->getServiceLocator()->get('Omeka\Settings');
 
-        // Set the date time value objects.
-        $dateTime = [
-            'o:created' => [
-                '@value' => $this->getDateTime($this->created()),
-                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
-            ],
-            'o:modified' => null,
-        ];
-        if ($this->modified()) {
-            $dateTime['o:modified'] = [
-                '@value' => $this->getDateTime($this->modified()),
-                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
-            ];
-        }
-
         // Set the values as JSON-LD value objects.
         $values = [];
         foreach ($this->values() as $term => $property) {
@@ -117,8 +102,9 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
                 'o:thumbnail' => $thumbnail ? $thumbnail->getReference()->jsonSerialize() : null,
                 'o:title' => $this->title(),
                 'thumbnail_display_urls' => $this->thumbnailDisplayUrls(),
+                'o:created' => $this->getDateTime($this->created())->getJsonLd(),
+                'o:modified' => $this->getDateTime($this->modified())->getJsonLd(),
             ],
-            $dateTime,
             $this->getResourceJsonLd(),
             $values,
             $reverse

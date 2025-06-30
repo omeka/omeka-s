@@ -27,6 +27,7 @@ class ItemSetRepresentation extends AbstractResourceEntityRepresentation
         return [
             'o:is_open' => $this->isOpen(),
             'o:items' => ['@id' => $itemsUrl],
+            'o:site' => array_map(fn ($v) => $v->getReference()->jsonSerialize(), $this->sites()),
         ];
     }
 

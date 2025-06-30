@@ -30,25 +30,9 @@ class SiteRepresentation extends AbstractEntityRepresentation
     }
     public function getJsonLd()
     {
-        $pages = [];
-        foreach ($this->pages() as $pageRepresentation) {
-            $pages[] = $pageRepresentation->getReference();
-        }
-
-        $owner = null;
-        if ($this->owner()) {
-            $owner = $this->owner()->getReference();
-        }
-
-        $homepage = null;
-        if ($this->homepage()) {
-            $homepage = $this->homepage()->getReference();
-        }
-
-        $thumbnail = null;
-        if ($this->thumbnail()) {
-            $thumbnail = $this->thumbnail()->getReference();
-        }
+        $owner = $this->owner();
+        $homepage = $this->homepage();
+        $thumbnail = $this->thumbnail();
 
         $created = [
             '@value' => $this->getDateTime($this->created()),
@@ -76,16 +60,16 @@ class SiteRepresentation extends AbstractEntityRepresentation
             'o:theme' => $this->theme(),
             'o:title' => $this->title(),
             'o:summary' => $this->summary(),
-            'o:thumbnail' => $thumbnail,
+            'o:thumbnail' => $thumbnail ? $thumbnail->getReference()->jsonSerialize() : null,
             'o:navigation' => $this->navigation(),
-            'o:homepage' => $homepage,
+            'o:homepage' => $homepage ? $homepage->getReference()->jsonSerialize() : null,
             'o:item_pool' => $this->itemPool(),
-            'o:owner' => $owner,
+            'o:owner' => $owner ? $owner->getReference()->jsonSerialize() : null,
             'o:created' => $created,
             'o:modified' => $modified,
             'o:is_public' => $this->isPublic(),
             'o:assign_new_items' => $this->assignNewItems(),
-            'o:page' => $pages,
+            'o:page' => array_map(fn ($v) => $v->getReference()->jsonSerialize(), $this->pages()),
             'o:site_permission' => $this->sitePermissions(),
             'o:site_item_set' => $this->siteItemSets(),
             'o:site_item' => ['@id' => $itemsUrl],

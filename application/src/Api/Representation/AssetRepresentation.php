@@ -15,13 +15,11 @@ class AssetRepresentation extends AbstractEntityRepresentation
 
     public function getJsonLd()
     {
-        $owner = null;
-        if ($this->owner()) {
-            $owner = $this->owner()->getReference();
-        }
+        $owner = $this->owner();
+
         return [
             'o:id' => $this->id(),
-            'o:owner' => $owner,
+            'o:owner' => $owner ? $owner->getReference()->jsonSerialize() : null,
             'o:name' => $this->name(),
             'o:filename' => $this->filename(),
             'o:media_type' => $this->mediaType(),

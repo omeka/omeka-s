@@ -27,8 +27,8 @@ class SitePageRepresentation extends AbstractEntityRepresentation
             'o:is_public' => $this->isPublic(),
             'o:layout' => $this->layout(),
             'o:layout_data' => $this->layoutData() ?? [],
-            'o:block' => $this->blocks(),
-            'o:site' => $this->site()->getReference(),
+            'o:block' => array_map(fn ($v) => $v->jsonSerialize(), $this->blocks()),
+            'o:site' => $this->site()->getReference()->jsonSerialize(),
             'o:created' => $created,
             'o:modified' => $modified,
         ];

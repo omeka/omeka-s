@@ -18,7 +18,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
         return [
             'o:ingester' => $this->ingester(),
             'o:renderer' => $this->renderer(),
-            'o:item' => $this->item()->getReference(),
+            'o:item' => $this->item()->getReference()->jsonSerialize(),
             'o:source' => $this->source(),
             'o:media_type' => $this->mediaType(),
             'o:sha256' => $this->sha256(),

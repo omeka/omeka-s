@@ -43,17 +43,14 @@ class JobRepresentation extends AbstractEntityRepresentation
             ];
         }
 
-        $owner = null;
-        if ($this->owner()) {
-            $owner = $this->owner()->getReference();
-        }
+        $owner = $this->owner();
 
         return array_merge(
             [
                 'o:status' => $this->status(),
                 'o:job_class' => $this->jobClass(),
                 'o:args' => $this->args(),
-                'o:owner' => $owner,
+                'o:owner' => $owner ? $owner->getReference()->jsonSerialize() : null,
             ],
             $dateTime
         );

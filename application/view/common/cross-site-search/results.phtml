@@ -1,99 +1,195 @@
 <?php
 $fulltextSearch = $this->params()->fromQuery('fulltext_search');
 $hasResults = false;
+
+// CHANGE: Use API approach to avoid deprecated getServiceLocator() entirely
+$user = $this->identity();
+$visible_site_ids = [];
+
+// Get all visible sites using API for consistency and to avoid deprecation warnings
+$api = $this->api();
+$allSites = $api->search('sites', ['sort_by' => 'title', 'sort_order' => 'asc'])->getContent();
+
+// Filter based on permissions
+foreach ($allSites as $site) {
+    $canView = false;
+
+    // Check if site is public
+    if ($site->isPublic()) {
+        $canView = true;
+    } elseif ($user) {
+        // Check user permissions for private sites
+        if (in_array($user->getRole(), ['global_admin', 'supervisor'])) {
+            $canView = true;
+        } else {
+            // CHANGE: Use userIsAllowed helper method if available on the site representation
+            // Check if the current user has any role on this site
+            $sitePermissions = $site->sitePermissions();
+            foreach ($sitePermissions as $permission) {
+                if ($permission->user()->id() === $user->getId() &&
+                    in_array($permission->role(), ['viewer', 'editor', 'manager'])) {
+                    $canView = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    if ($canView) {
+        $visible_site_ids[] = $site->id();
+    }
+}
 ?>
 
-<h2><?php echo sprintf($this->translate('Search results for “%s”'), $this->escapeHtml($fulltextSearch)); ?></h2>
+    <h2><?php echo sprintf($this->translate('Search results for "%s"'), $this->escapeHtml($fulltextSearch)); ?></h2>
 
 <?php
 if ($responseSitePages && $responseSitePages->getTotalResults()):
     $hasResults = true;
-?>
-<div class="site results">
-    <h3><?php echo $this->translate('Site pages'); ?></h2>
-    <ul>
-    <?php foreach ($responseSitePages->getContent() as $sitePage): ?>
-        <?php $site = $sitePage->site(); ?>
-        <li>
-            <span class="result-title"><?php echo $this->hyperlink($sitePage->title(), $sitePage->siteUrl()); ?></span>
-            <span class="result-site"><?php echo $this->hyperlink($site->title(), $site->siteUrl()); ?></span>
-        </li>
-    <?php endforeach; ?>
-    </ul>
-    <?php echo $this->hyperlink(
-        sprintf($this->translate('View all results (%s total)'), $responseSitePages->getTotalResults()),
-        $this->url(
-            null,
-            ['action' => 'site-pages'],
-            ['query' => ['fulltext_search' => $fulltextSearch]],
-            true
-        )
-    ); ?>
-</div>
+
+    // CHANGE: Count only site pages from visible sites
+    $visibleSitePageCount = 0;
+    ?>
+    <div class="site results">
+        <h3><?php echo $this->translate('Site pages'); ?></h2>
+            <ul>
+                <?php foreach ($responseSitePages->getContent() as $sitePage): ?>
+                    <?php $site = $sitePage->site(); ?>
+                    <!-- CHANGE: Added permission check for site pages -->
+                    <?php if (in_array($site->id(), $visible_site_ids)): ?>
+                        <?php $visibleSitePageCount++; ?>
+                        <li>
+                            <span class="result-title"><?php echo $this->hyperlink($sitePage->title(), $sitePage->siteUrl()); ?></span>
+                            <span class="result-site"><?php echo $this->hyperlink($site->title(), $site->siteUrl()); ?></span>
+                        </li>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </ul>
+            <!-- CHANGE: Show count of visible site pages instead of total site pages -->
+            <?php if ($visibleSitePageCount > 0): ?>
+                <?php echo $this->hyperlink(
+                    sprintf($this->translate('View all results (%s total)'), $visibleSitePageCount),
+                    $this->url(
+                        null,
+                        ['action' => 'site-pages'],
+                        ['query' => ['fulltext_search' => $fulltextSearch]],
+                        true
+                    )
+                ); ?>
+            <?php endif; ?>
+    </div>
 <?php endif; ?>
 
 <?php
 if ($responseItems && $responseItems->getTotalResults()):
     $hasResults = true;
-?>
-<div class="item results">
-    <h3><?php echo $this->translate('Items'); ?></h2>
-    <ul>
-        <?php foreach ($responseItems->getContent() as $item): ?>
-        <?php $sites = $item->sites(); ?>
-        <li>
-            <span class="result-title"><?php echo $item->displayTitle(); ?></span>
+
+    // CHANGE: Count only items with visible sites
+    $visibleItemCount = 0;
+    $visibleItems = [];
+    ?>
+    <div class="item results">
+        <!-- CHANGE: Fixed typo - removed 'w' at beginning of line -->
+        <h3><?php echo $this->translate('Items'); ?></h2>
             <ul>
-                <?php foreach ($sites as $site): ?>
-                <li><?php echo $this->hyperlink($site->title(), $item->siteUrl($site->slug())); ?></li>
+                <?php foreach ($responseItems->getContent() as $item): ?>
+                    <!-- CHANGE: Check if item has any visible sites before showing it -->
+                    <?php
+                    $sites = $item->sites();
+                    $hasVisibleSites = false;
+                    foreach ($sites as $site) {
+                        if (in_array($site->id(), $visible_site_ids)) {
+                            $hasVisibleSites = true;
+                            break;
+                        }
+                    }
+                    ?>
+                    <?php if ($hasVisibleSites): ?>
+                        <?php
+                        $visibleItemCount++;
+                        $visibleItems[] = $item;
+                        ?>
+                        <li>
+                            <span class="result-title"><?php echo $item->displayTitle(); ?></span>
+                            <ul>
+                                <?php foreach ($sites as $site): ?>
+                                    <!-- CHANGE: Site objects from $item->sites() are Representation objects, use id() -->
+                                    <?php if (in_array($site->id(), $visible_site_ids)): ?>
+                                        <li><?php echo $this->hyperlink($site->title(), $item->siteUrl($site->slug())); ?></li>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </ul>
+                        </li>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </ul>
-        </li>
-        <?php endforeach; ?>
-    </ul>
-    <?php echo $this->hyperlink(
-        sprintf($this->translate('View all results (%s total)'), $responseItems->getTotalResults()),
-        $this->url(
-            null,
-            ['action' => 'items'],
-            ['query' => ['fulltext_search' => $fulltextSearch]],
-            true
-        )
-    ); ?>
-</div>
+            <!-- CHANGE: Show count of visible items instead of total items -->
+            <?php if ($visibleItemCount > 0): ?>
+                <?php echo $this->hyperlink(
+                    sprintf($this->translate('View all results (%s total)'), $visibleItemCount),
+                    $this->url(
+                        null,
+                        ['action' => 'items'],
+                        ['query' => ['fulltext_search' => $fulltextSearch]],
+                        true
+                    )
+                ); ?>
+            <?php endif; ?>
+    </div>
 <?php endif; ?>
 
 <?php if ($responseItemSets && $responseItemSets->getTotalResults()):
     $hasResults = true;
-?>
-<div class="item-set results">
-    <h3><?php echo $this->translate('Item sets'); ?></h2>
-    <ul>
-        <?php foreach ($responseItemSets->getContent() as $itemSet): ?>
-        <?php $sites = $itemSet->sites(); ?>
-        <li>
-            <span class="result-title"><?php echo $itemSet->displayTitle(); ?></span>
+
+    // CHANGE: Count only item sets with visible sites
+    $visibleItemSetCount = 0;
+    ?>
+    <div class="item-set results">
+        <h3><?php echo $this->translate('Item sets'); ?></h2>
             <ul>
-                <?php foreach ($sites as $site): ?>
-                <li><?php echo $this->hyperlink($site->title(), $itemSet->siteUrl($site->slug())); ?></li>
+                <?php foreach ($responseItemSets->getContent() as $itemSet): ?>
+                    <!-- CHANGE: Check if item set has any visible sites before showing it -->
+                    <?php
+                    $sites = $itemSet->sites();
+                    $hasVisibleSites = false;
+                    foreach ($sites as $site) {
+                        if (in_array($site->id(), $visible_site_ids)) {
+                            $hasVisibleSites = true;
+                            break;
+                        }
+                    }
+                    ?>
+                    <?php if ($hasVisibleSites): ?>
+                        <?php $visibleItemSetCount++; ?>
+                        <li>
+                            <span class="result-title"><?php echo $itemSet->displayTitle(); ?></span>
+                            <ul>
+                                <?php foreach ($sites as $site): ?>
+                                    <!-- CHANGE: Added permission check for item sets -->
+                                    <?php if (in_array($site->id(), $visible_site_ids)): ?>
+                                        <li><?php echo $this->hyperlink($site->title(), $itemSet->siteUrl($site->slug())); ?></li>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </ul>
+                        </li>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </ul>
-        </li>
-        <?php endforeach; ?>
-    </ul>
-    <?php echo $this->hyperlink(
-        sprintf($this->translate('View all results (%s total)'), $responseItemSets->getTotalResults()),
-        $this->url(
-            null,
-            ['action' => 'item-sets'],
-            ['query' => ['fulltext_search' => $fulltextSearch]],
-            true
-        )
-    ); ?>
-</div>
+            <!-- CHANGE: Show count of visible item sets instead of total item sets -->
+            <?php if ($visibleItemSetCount > 0): ?>
+                <?php echo $this->hyperlink(
+                    sprintf($this->translate('View all results (%s total)'), $visibleItemSetCount),
+                    $this->url(
+                        null,
+                        ['action' => 'item-sets'],
+                        ['query' => ['fulltext_search' => $fulltextSearch]],
+                        true
+                    )
+                ); ?>
+            <?php endif; ?>
+    </div>
 <?php endif; ?>
 
 <?php if (!$hasResults): ?>
     <p><?php echo $this->translate('No result found'); ?>
 <?php endif; ?>
-

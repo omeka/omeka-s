@@ -18,7 +18,7 @@ class QueryBuilder extends DoctrineQueryBuilder
      */
     public function createNamedParameter($value)
     {
-        $placeholder = sprintf('omeka_%s', $this->index++);
+        $placeholder = sprintf('omeka_qb_%s', $this->index++);
         $this->setParameter($placeholder, $value);
         return sprintf(':%s', $placeholder);
     }
@@ -30,6 +30,6 @@ class QueryBuilder extends DoctrineQueryBuilder
      */
     public function createAlias()
     {
-        return sprintf('omeka_%s', $this->index++);
+        return sprintf('omeka_qb_%s', $this->index++);
     }
 }

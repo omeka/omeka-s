@@ -65,28 +65,28 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         if (isset($query['item_id']) && is_numeric($query['item_id'])) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.item',
-                $this->createNamedParameter($qb, $query['item_id'])
+                $qb->createNamedParameter($query['item_id'])
             ));
         }
 
         if (!empty($query['media_type'])) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.mediaType',
-                $this->createNamedParameter($qb, $query['media_type'])
+                $qb->createNamedParameter($query['media_type'])
             ));
         }
 
         if (!empty($query['ingester'])) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.ingester',
-                $this->createNamedParameter($qb, $query['ingester'])
+                $qb->createNamedParameter($query['ingester'])
             ));
         }
 
         if (!empty($query['renderer'])) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.renderer',
-                $this->createNamedParameter($qb, $query['renderer'])
+                $qb->createNamedParameter($query['renderer'])
             ));
         }
 
@@ -99,7 +99,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
             $qb->innerJoin(
                 "$itemAlias.sites", $siteAlias, 'WITH', $qb->expr()->eq(
                     "$siteAlias.id",
-                    $this->createNamedParameter($qb, $query['site_id'])
+                    $qb->createNamedParameter($query['site_id'])
                 )
             );
         }

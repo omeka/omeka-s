@@ -60,7 +60,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
         if (isset($query['label'])) {
             $qb->andWhere($qb->expr()->eq(
                 "omeka_root.label",
-                $this->createNamedParameter($qb, $query['label']))
+                $qb->createNamedParameter($query['label']))
             );
         }
     }

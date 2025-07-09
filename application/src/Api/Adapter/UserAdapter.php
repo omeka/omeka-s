@@ -84,28 +84,28 @@ class UserAdapter extends AbstractEntityAdapter
         if (!empty($query['email'])) {
             $qb->andWhere($qb->expr()->eq(
                 "omeka_root.email",
-                $this->createNamedParameter($qb, $query['email']))
+                $qb->createNamedParameter($query['email']))
             );
         }
 
         if (!empty($query['name'])) {
             $qb->andWhere($qb->expr()->eq(
                 "omeka_root.name",
-                $this->createNamedParameter($qb, $query['name']))
+                $qb->createNamedParameter($query['name']))
             );
         }
 
         if (!empty($query['role'])) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.role',
-                $this->createNamedParameter($qb, $query['role']))
+                $qb->createNamedParameter($query['role']))
             );
         }
 
         if (isset($query['is_active']) && is_numeric($query['is_active'])) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.isActive',
-                $this->createNamedParameter($qb, (bool) $query['is_active']))
+                $qb->createNamedParameter((bool) $query['is_active']))
             );
         }
 
@@ -119,7 +119,7 @@ class UserAdapter extends AbstractEntityAdapter
             );
             $qb->andWhere($qb->expr()->eq(
                 "$sitePermissionAlias.site",
-                $this->createNamedParameter($qb, $query['site_permission_site_id']))
+                $qb->createNamedParameter($query['site_permission_site_id']))
             );
         }
     }

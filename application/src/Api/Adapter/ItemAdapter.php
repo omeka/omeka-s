@@ -61,7 +61,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 $qb->innerJoin(
                     'omeka_root.itemSets',
                     $itemSetAlias, 'WITH',
-                    $qb->expr()->in("$itemSetAlias.id", $this->createNamedParameter($qb, $itemSets))
+                    $qb->expr()->in("$itemSetAlias.id", $qb->createNamedParameter($itemSets))
                 );
             }
         }
@@ -76,13 +76,13 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             if ($itemSets) {
                 $subItemAlias = $this->createAlias();
                 $subItemSetAlias = $this->createAlias();
-                $subQb = $this->getEntityManager()->createQueryBuilder();
+                $subQb = $this->createQueryBuilder();
                 $subQb->select("$subItemAlias.id")
                     ->from('Omeka\Entity\Item', $subItemAlias)
                     ->innerJoin(
                         "$subItemAlias.itemSets",
                         $subItemSetAlias, 'WITH',
-                        $qb->expr()->in("$subItemSetAlias.id", $this->createNamedParameter($qb, $itemSets))
+                        $qb->expr()->in("$subItemSetAlias.id", $qb->createNamedParameter($itemSets))
                     );
                 $qb->andWhere($qb->expr()->notIn("omeka_root.id", $subQb->getDQL()));
             }
@@ -93,7 +93,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             $qb->innerJoin(
                 'omeka_root.sites', $siteAlias, 'WITH', $qb->expr()->eq(
                     "$siteAlias.id",
-                    $this->createNamedParameter($qb, $query['site_id'])
+                    $qb->createNamedParameter($query['site_id'])
                 )
             );
 
@@ -120,7 +120,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 );
                 $qb->andWhere($qb->expr()->eq(
                     "$siteAlias.id",
-                    $this->createNamedParameter($qb, $query['site_id']))
+                    $qb->createNamedParameter($query['site_id']))
                 );
             }
         } elseif (isset($query['in_sites']) && (is_numeric($query['in_sites']) || is_bool($query['in_sites']))) {

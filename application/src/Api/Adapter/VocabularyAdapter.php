@@ -166,19 +166,19 @@ class VocabularyAdapter extends AbstractEntityAdapter
             );
             $qb->andWhere($qb->expr()->eq(
                 "$userAlias.id",
-                $this->createNamedParameter($qb, $query['owner_id']))
+                $qb->createNamedParameter($query['owner_id']))
             );
         }
         if (isset($query['namespace_uri'])) {
             $qb->andWhere($qb->expr()->eq(
                 "omeka_root.namespaceUri",
-                $this->createNamedParameter($qb, $query['namespace_uri']))
+                $qb->createNamedParameter($query['namespace_uri']))
             );
         }
         if (isset($query['prefix'])) {
             $qb->andWhere($qb->expr()->eq(
                 "omeka_root.prefix",
-                $this->createNamedParameter($qb, $query['prefix']))
+                $qb->createNamedParameter($query['prefix']))
             );
         }
     }

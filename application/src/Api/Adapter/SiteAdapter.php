@@ -297,8 +297,8 @@ class SiteAdapter extends AbstractEntityAdapter
                 $sitePermissionsAlias,
                 'WITH',
                 $qb->expr()->orX(
-                    $qb->expr()->eq("$sitePermissionsAlias.user", $this->createNamedParameter($qb, $user->getId())),
-                    $qb->expr()->eq("omeka_root.owner", $this->createNamedParameter($qb, $user))
+                    $qb->expr()->eq("$sitePermissionsAlias.user", $qb->createNamedParameter($user->getId())),
+                    $qb->expr()->eq("omeka_root.owner", $qb->createNamedParameter($user))
                 )
             );
         }
@@ -307,7 +307,7 @@ class SiteAdapter extends AbstractEntityAdapter
             $itemAlias = $this->createAlias();
             $qb->leftJoin(
                 'omeka_root.items', $itemAlias, 'WITH',
-                $qb->expr()->eq("$itemAlias.id", $this->createNamedParameter($qb, $query['item_id']))
+                $qb->expr()->eq("$itemAlias.id", $qb->createNamedParameter($query['item_id']))
             );
         }
 
@@ -319,28 +319,28 @@ class SiteAdapter extends AbstractEntityAdapter
             );
             $qb->andWhere($qb->expr()->eq(
                 "$userAlias.id",
-                $this->createNamedParameter($qb, $query['owner_id']))
+                $qb->createNamedParameter($query['owner_id']))
             );
         }
 
         if (isset($query['slug'])) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.slug',
-                $this->createNamedParameter($qb, $query['slug'])
+                $qb->createNamedParameter($query['slug'])
             ));
         }
 
         if (isset($query['exclude_id'])) {
             $qb->andWhere($qb->expr()->neq(
                 'omeka_root.id',
-                $this->createNamedParameter($qb, $query['exclude_id'])
+                $qb->createNamedParameter($query['exclude_id'])
             ));
         }
 
         if (isset($query['assign_new_items']) && (is_numeric($query['assign_new_items']) || is_bool($query['assign_new_items']))) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.assignNewItems',
-                $this->createNamedParameter($qb, (bool) $query['assign_new_items'])
+                $qb->createNamedParameter((bool) $query['assign_new_items'])
             ));
         }
     }

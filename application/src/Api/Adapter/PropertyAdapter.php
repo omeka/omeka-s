@@ -88,7 +88,7 @@ class PropertyAdapter extends AbstractEntityAdapter
             );
             $qb->andWhere($qb->expr()->eq(
                 "$userAlias.id",
-                $this->createNamedParameter($qb, $query['owner_id']))
+                $qb->createNamedParameter($query['owner_id']))
             );
         }
         if (isset($query['vocabulary_id']) && is_numeric($query['vocabulary_id'])) {
@@ -99,7 +99,7 @@ class PropertyAdapter extends AbstractEntityAdapter
             );
             $qb->andWhere($qb->expr()->eq(
                 "$vocabularyAlias.id",
-                $this->createNamedParameter($qb, $query['vocabulary_id']))
+                $qb->createNamedParameter($query['vocabulary_id']))
             );
         }
         if (isset($query['vocabulary_namespace_uri'])) {
@@ -110,7 +110,7 @@ class PropertyAdapter extends AbstractEntityAdapter
             );
             $qb->andWhere($qb->expr()->eq(
                 "$vocabularyAlias.namespaceUri",
-                $this->createNamedParameter($qb, $query['vocabulary_namespace_uri']))
+                $qb->createNamedParameter($query['vocabulary_namespace_uri']))
             );
         }
         if (isset($query['vocabulary_prefix'])) {
@@ -121,13 +121,13 @@ class PropertyAdapter extends AbstractEntityAdapter
             );
             $qb->andWhere($qb->expr()->eq(
                 "$vocabularyAlias.prefix",
-                $this->createNamedParameter($qb, $query['vocabulary_prefix']))
+                $qb->createNamedParameter($query['vocabulary_prefix']))
             );
         }
         if (isset($query['local_name'])) {
             $qb->andWhere($qb->expr()->eq(
                 "omeka_root.localName",
-                $this->createNamedParameter($qb, $query['local_name']))
+                $qb->createNamedParameter($query['local_name']))
             );
         }
         if (isset($query['term']) && $this->isTerm($query['term'])) {
@@ -139,11 +139,11 @@ class PropertyAdapter extends AbstractEntityAdapter
             );
             $qb->andWhere($qb->expr()->eq(
                 "$vocabularyAlias.prefix",
-                $this->createNamedParameter($qb, $prefix))
+                $qb->createNamedParameter($prefix))
             );
             $qb->andWhere($qb->expr()->eq(
                 "omeka_root.localName",
-                $this->createNamedParameter($qb, $localName))
+                $qb->createNamedParameter($localName))
             );
         }
         //limit results to properties used by resources
@@ -159,8 +159,7 @@ class PropertyAdapter extends AbstractEntityAdapter
             $siteAlias = $this->createAlias();
             $itemAlias = $this->createAlias();
             $valuesAlias = $this->createAlias();
-            $subquery = $this->getEntityManager()
-                ->createQueryBuilder()
+            $subquery = $this->createQueryBuilder()
                 ->select("IDENTITY($valuesAlias.property)")
                 ->from('Omeka\Entity\Value', $valuesAlias)
                 ->join('Omeka\Entity\Site', $siteAlias)
@@ -170,7 +169,7 @@ class PropertyAdapter extends AbstractEntityAdapter
                     'WITH',
                     "$itemAlias.id = $valuesAlias.resource")
                 ->andWhere($qb->expr()->eq("$siteAlias.id",
-                    $this->createNamedParameter($qb, $query['site_id'])));
+                    $qb->createNamedParameter($query['site_id'])));
             $qb->andWhere($qb->expr()->in('omeka_root.id', $subquery->getDQL()));
         }
     }

@@ -64,13 +64,13 @@ class JobAdapter extends AbstractEntityAdapter
         if (isset($query['class'])) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.class',
-                $this->createNamedParameter($qb, $query['class']))
+                $qb->createNamedParameter($query['class']))
             );
         }
         if (isset($query['status'])) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.status',
-                $this->createNamedParameter($qb, $query['status']))
+                $qb->createNamedParameter($query['status']))
             );
         }
     }

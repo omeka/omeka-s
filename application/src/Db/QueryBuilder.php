@@ -1,0 +1,22 @@
+<?php
+namespace Omeka\Db;
+
+use Doctrine\ORM\QueryBuilder as DoctrineQueryBuilder;
+
+class QueryBuilder extends DoctrineQueryBuilder
+{
+    protected $index = 0;
+
+    /**
+     * Create a unique named parameter, exclusive to this query builder.
+     *
+     * @param mixed $value The value to bind
+     * @return string The placeholder
+     */
+    public function createNamedParameter($value)
+    {
+        $placeholder = sprintf('omeka_%s', $this->index++);
+        $this->setParameter($placeholder, $value);
+        return sprintf(':%s', $placeholder);
+    }
+}

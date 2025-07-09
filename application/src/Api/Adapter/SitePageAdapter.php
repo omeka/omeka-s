@@ -59,7 +59,7 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
             );
             $qb->andWhere($qb->expr()->eq(
                 "$siteAlias.id",
-                $this->createNamedParameter($qb, $query['site_id']))
+                $qb->createNamedParameter($query['site_id']))
             );
         }
 
@@ -70,21 +70,21 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
             $qb->innerJoin("$blocksAlias.attachments", $attachmentsAlias);
             $qb->andWhere($qb->expr()->eq(
                 "$attachmentsAlias.item",
-                $this->createNamedParameter($qb, $query['item_id']))
+                $qb->createNamedParameter($query['item_id']))
             );
         }
 
         if (isset($query['slug'])) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.slug',
-                $this->createNamedParameter($qb, $query['slug'])
+                $qb->createNamedParameter($query['slug'])
             ));
         }
 
         if (isset($query['is_public']) && (is_numeric($query['is_public']) || is_bool($query['is_public']))) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.isPublic',
-                $this->createNamedParameter($qb, (bool) $query['is_public'])
+                $qb->createNamedParameter((bool) $query['is_public'])
             ));
         }
 
@@ -96,7 +96,7 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
             );
             $qb->andWhere($qb->expr()->eq(
                 "$siteAlias.slug",
-                $this->createNamedParameter($qb, $query['site_slug'])
+                $qb->createNamedParameter($query['site_slug'])
             ));
         }
     }

@@ -468,7 +468,7 @@ class Module extends AbstractModule
                 $expression,
                 $qb->expr()->eq(
                     "$itemAlias.owner",
-                    $adapter->createNamedParameter($qb, $identity)
+                    $qb->createNamedParameter($identity)
                 )
             );
         }
@@ -504,12 +504,12 @@ class Module extends AbstractModule
                 // Users can view all sites they own.
                 $qb->expr()->eq(
                     'omeka_root.owner',
-                    $adapter->createNamedParameter($qb, $identity)
+                    $qb->createNamedParameter($identity)
                 ),
                 // Users can view sites where they have a role (any role).
                 $qb->expr()->eq(
                     "$sitePermissionAlias.user",
-                    $adapter->createNamedParameter($qb, $identity)
+                    $qb->createNamedParameter($identity)
                 )
             );
         }
@@ -743,7 +743,7 @@ class Module extends AbstractModule
 
             $joinConditions = sprintf(
                 'omeka_fulltext_search.id = omeka_root.id AND omeka_fulltext_search.resource = %s',
-                $adapter->createNamedParameter($qb, $adapter->getResourceName())
+                $qb->createNamedParameter($adapter->getResourceName())
             );
             $qb->innerJoin('Omeka\Entity\FulltextSearch', 'omeka_fulltext_search', 'WITH', $joinConditions);
 

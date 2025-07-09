@@ -27,7 +27,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         }
 
         if (isset($query['owner_id']) && is_numeric($query['owner_id'])) {
-            $userAlias = $this->createAlias();
+            $userAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.owner',
                 $userAlias
@@ -39,7 +39,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         }
 
         if (isset($query['resource_class_label'])) {
-            $resourceClassAlias = $this->createAlias();
+            $resourceClassAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.resourceClass',
                 $resourceClassAlias
@@ -65,7 +65,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         }
 
         if (isset($query['resource_template_label'])) {
-            $resourceTemplateAlias = $this->createAlias();
+            $resourceTemplateAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.resourceTemplate',
                 $resourceTemplateAlias
@@ -134,7 +134,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         if (is_string($query['sort_by'])) {
             $property = $this->getPropertyByTerm($query['sort_by']);
             if ($property) {
-                $valuesAlias = $this->createAlias();
+                $valuesAlias = $qb->createAlias();
                 $qb->leftJoin(
                     "omeka_root.values", $valuesAlias,
                     'WITH', $qb->expr()->eq("$valuesAlias.property", $property->getId())
@@ -144,15 +144,15 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     $query['sort_order']
                 );
             } elseif ('resource_class_label' == $query['sort_by']) {
-                $resourceClassAlias = $this->createAlias();
+                $resourceClassAlias = $qb->createAlias();
                 $qb->leftJoin("omeka_root.resourceClass", $resourceClassAlias)
                     ->addOrderBy("$resourceClassAlias.label", $query['sort_order']);
             } elseif ('resource_template_label' == $query['sort_by']) {
-                $resourceTemplateAlias = $this->createAlias();
+                $resourceTemplateAlias = $qb->createAlias();
                 $qb->leftJoin("omeka_root.resourceTemplate", $resourceTemplateAlias)
                     ->addOrderBy("$resourceTemplateAlias.label", $query['sort_order']);
             } elseif ('owner_name' == $query['sort_by']) {
-                $ownerAlias = $this->createAlias();
+                $ownerAlias = $qb->createAlias();
                 $qb->leftJoin("omeka_root.owner", $ownerAlias)
                     ->addOrderBy("$ownerAlias.name", $query['sort_order']);
             } else {
@@ -306,14 +306,14 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 $valuesAlias = $previousAlias;
                 $usePrevious = true;
             } else {
-                $valuesAlias = $this->createAlias();
+                $valuesAlias = $qb->createAlias();
                 $usePrevious = false;
             }
 
             switch ($queryType) {
                 case 'eq':
                     $param = $qb->createNamedParameter($value);
-                    $subqueryAlias = $this->createAlias();
+                    $subqueryAlias = $qb->createAlias();
                     $subquery = $this->createQueryBuilder()
                         ->select("$subqueryAlias.id")
                         ->from('Omeka\Entity\Resource', $subqueryAlias)
@@ -327,7 +327,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
 
                 case 'in':
                     $param = $qb->createNamedParameter('%' . $escapeSqlLike($value) . '%');
-                    $subqueryAlias = $this->createAlias();
+                    $subqueryAlias = $qb->createAlias();
                     $subquery = $this->createQueryBuilder()
                         ->select("$subqueryAlias.id")
                         ->from('Omeka\Entity\Resource', $subqueryAlias)
@@ -341,7 +341,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
 
                 case 'sw':
                     $param = $qb->createNamedParameter($escapeSqlLike($value) . '%');
-                    $subqueryAlias = $this->createAlias();
+                    $subqueryAlias = $qb->createAlias();
                     $subquery = $this->createQueryBuilder()
                         ->select("$subqueryAlias.id")
                         ->from('Omeka\Entity\Resource', $subqueryAlias)
@@ -355,7 +355,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
 
                 case 'ew':
                     $param = $qb->createNamedParameter('%' . $escapeSqlLike($value));
-                    $subqueryAlias = $this->createAlias();
+                    $subqueryAlias = $qb->createAlias();
                     $subquery = $this->createQueryBuilder()
                         ->select("$subqueryAlias.id")
                         ->from('Omeka\Entity\Resource', $subqueryAlias)

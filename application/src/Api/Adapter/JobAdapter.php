@@ -50,7 +50,7 @@ class JobAdapter extends AbstractEntityAdapter
     {
         if (is_string($query['sort_by'])) {
             if ('owner_email' == $query['sort_by']) {
-                $ownerAlias = $this->createAlias();
+                $ownerAlias = $qb->createAlias();
                 $qb->leftJoin('omeka_root.owner', $ownerAlias)
                     ->addOrderBy("$ownerAlias.email", $query['sort_order']);
             } else {

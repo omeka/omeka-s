@@ -91,11 +91,11 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         }
 
         if (isset($query['site_id']) && is_numeric($query['site_id'])) {
-            $itemAlias = $this->createAlias();
+            $itemAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.item', $itemAlias
             );
-            $siteAlias = $this->createAlias();
+            $siteAlias = $qb->createAlias();
             $qb->innerJoin(
                 "$itemAlias.sites", $siteAlias, 'WITH', $qb->expr()->eq(
                     "$siteAlias.id",

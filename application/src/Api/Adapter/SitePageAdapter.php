@@ -52,7 +52,7 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
     public function buildQuery(QueryBuilder $qb, array $query)
     {
         if (isset($query['site_id']) && is_numeric($query['site_id'])) {
-            $siteAlias = $this->createAlias();
+            $siteAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.site',
                 $siteAlias
@@ -64,9 +64,9 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
         }
 
         if (isset($query['item_id']) && is_numeric($query['item_id'])) {
-            $blocksAlias = $this->createAlias();
+            $blocksAlias = $qb->createAlias();
             $qb->innerJoin('omeka_root.blocks', $blocksAlias);
-            $attachmentsAlias = $this->createAlias();
+            $attachmentsAlias = $qb->createAlias();
             $qb->innerJoin("$blocksAlias.attachments", $attachmentsAlias);
             $qb->andWhere($qb->expr()->eq(
                 "$attachmentsAlias.item",
@@ -89,7 +89,7 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
         }
 
         if (!empty($query['site_slug'])) {
-            $siteAlias = $this->createAlias();
+            $siteAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.site',
                 $siteAlias

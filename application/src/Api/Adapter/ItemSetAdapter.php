@@ -87,7 +87,7 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
             } catch (Exception\NotFoundException $e) {
                 $site = null;
             }
-            $this->siteItemSetsAlias = $this->createAlias();
+            $this->siteItemSetsAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.siteItemSets',
                 $this->siteItemSetsAlias
@@ -97,7 +97,7 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
                 $qb->createNamedParameter($query['site_id']))
             );
         } elseif (isset($query['in_sites']) && (is_numeric($query['in_sites']) || is_bool($query['in_sites']))) {
-            $siteItemSetsAlias = $this->createAlias();
+            $siteItemSetsAlias = $qb->createAlias();
             if ($query['in_sites']) {
                 $qb->innerJoin('omeka_root.siteItemSets', $siteItemSetsAlias);
             } else {

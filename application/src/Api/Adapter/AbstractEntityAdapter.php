@@ -180,8 +180,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     public function sortByCount(QueryBuilder $qb, array $query,
         $inverseField, $instanceOf = null
     ) {
-        $inverseAlias = $this->createAlias();
-        $countAlias = $this->createAlias();
+        $inverseAlias = $qb->createAlias();
+        $countAlias = $qb->createAlias();
 
         $qb->addSelect("COUNT($inverseAlias.id) HIDDEN $countAlias");
         if ($instanceOf) {
@@ -749,7 +749,9 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
      * Create a unique named parameter for the query builder and bind a value to
      * it.
      *
-     * @deprecated No longer used by core code. Instead, use self::createQueryBuilder() and OmekaQueryBuilder::createNamedParameter().
+     * @deprecated No longer used by core code. Instead, use Omeka's query builder:
+     *      $qb = $this->createQueryBuilder();
+     *      $namedParam = $qb->createNamedParameter($value);
      * @param QueryBuilder $qb
      * @param mixed $value The value to bind
      * @param string $prefix The placeholder prefix
@@ -767,6 +769,9 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     /**
      * Create a unique alias for the query builder.
      *
+     * @deprecated No longer used by core code. Instead, use Omeka's query builder:
+     *      $qb = $this->createQueryBuilder();
+     *      $alias = $qb->createAlias();
      * @param string $prefix The alias prefix
      * @return string The alias
      */

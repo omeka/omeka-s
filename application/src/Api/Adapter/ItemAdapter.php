@@ -57,7 +57,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             $itemSets = array_filter($itemSets, 'is_numeric');
 
             if ($itemSets) {
-                $itemSetAlias = $this->createAlias();
+                $itemSetAlias = $qb->createAlias();
                 $qb->innerJoin(
                     'omeka_root.itemSets',
                     $itemSetAlias, 'WITH',
@@ -74,8 +74,8 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             $itemSets = array_filter($itemSets, 'is_numeric');
 
             if ($itemSets) {
-                $subItemAlias = $this->createAlias();
-                $subItemSetAlias = $this->createAlias();
+                $subItemAlias = $qb->createAlias();
+                $subItemSetAlias = $qb->createAlias();
                 $subQb = $this->createQueryBuilder();
                 $subQb->select("$subItemAlias.id")
                     ->from('Omeka\Entity\Item', $subItemAlias)
@@ -89,7 +89,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         }
 
         if (isset($query['site_id']) && is_numeric($query['site_id'])) {
-            $siteAlias = $this->createAlias();
+            $siteAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.sites', $siteAlias, 'WITH', $qb->expr()->eq(
                     "$siteAlias.id",
@@ -98,22 +98,22 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             );
 
             if (isset($query['site_attachments_only']) && $query['site_attachments_only']) {
-                $siteBlockAttachmentsAlias = $this->createAlias();
+                $siteBlockAttachmentsAlias = $qb->createAlias();
                 $qb->innerJoin(
                     'omeka_root.siteBlockAttachments',
                     $siteBlockAttachmentsAlias
                 );
-                $sitePageBlockAlias = $this->createAlias();
+                $sitePageBlockAlias = $qb->createAlias();
                 $qb->innerJoin(
                     "$siteBlockAttachmentsAlias.block",
                     $sitePageBlockAlias
                 );
-                $sitePageAlias = $this->createAlias();
+                $sitePageAlias = $qb->createAlias();
                 $qb->innerJoin(
                     "$sitePageBlockAlias.page",
                     $sitePageAlias
                 );
-                $siteAlias = $this->createAlias();
+                $siteAlias = $qb->createAlias();
                 $qb->innerJoin(
                     "$sitePageAlias.site",
                     $siteAlias
@@ -124,7 +124,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 );
             }
         } elseif (isset($query['in_sites']) && (is_numeric($query['in_sites']) || is_bool($query['in_sites']))) {
-            $siteAlias = $this->createAlias();
+            $siteAlias = $qb->createAlias();
             if ($query['in_sites']) {
                 $qb->innerJoin('omeka_root.sites', $siteAlias);
             } else {
@@ -134,7 +134,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         }
 
         if (isset($query['has_media']) && (is_numeric($query['has_media']) || is_bool($query['has_media']))) {
-            $mediaAlias = $this->createAlias();
+            $mediaAlias = $qb->createAlias();
             if ($query['has_media']) {
                 $qb->innerJoin('omeka_root.media', $mediaAlias);
             } else {

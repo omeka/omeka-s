@@ -72,7 +72,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
     public function buildQuery(QueryBuilder $qb, array $query)
     {
         if (isset($query['owner_id']) && is_numeric($query['owner_id'])) {
-            $userAlias = $this->createAlias();
+            $userAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.owner',
                 $userAlias
@@ -83,7 +83,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
             );
         }
         if (isset($query['vocabulary_id']) && is_numeric($query['vocabulary_id'])) {
-            $vocabularyAlias = $this->createAlias();
+            $vocabularyAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.vocabulary',
                 $vocabularyAlias
@@ -94,7 +94,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
             );
         }
         if (isset($query['vocabulary_namespace_uri'])) {
-            $vocabularyAlias = $this->createAlias();
+            $vocabularyAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.vocabulary',
                 $vocabularyAlias
@@ -105,7 +105,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
             );
         }
         if (isset($query['vocabulary_prefix'])) {
-            $vocabularyAlias = $this->createAlias();
+            $vocabularyAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.vocabulary',
                 $vocabularyAlias
@@ -123,7 +123,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         }
         if (isset($query['term']) && $this->isTerm($query['term'])) {
             [$prefix, $localName] = explode(':', $query['term']);
-            $vocabularyAlias = $this->createAlias();
+            $vocabularyAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.vocabulary',
                 $vocabularyAlias
@@ -139,7 +139,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         }
         //limit results to classes used by resources
         if (!empty($query['used'])) {
-            $valuesAlias = $this->createAlias();
+            $valuesAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.resources',
                 $valuesAlias
@@ -147,9 +147,9 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         }
         //limit results to classes used by items in the site
         if (isset($query['site_id']) && is_numeric($query['site_id'])) {
-            $siteAlias = $this->createAlias();
-            $itemAlias = $this->createAlias();
-            $resourcesAlias = $this->createAlias();
+            $siteAlias = $qb->createAlias();
+            $itemAlias = $qb->createAlias();
+            $resourcesAlias = $qb->createAlias();
             $subquery = $this->createQueryBuilder()
                 ->select("IDENTITY($resourcesAlias.resourceClass)")
                 ->from('Omeka\Entity\Resource', $resourcesAlias)

@@ -453,8 +453,9 @@ class Module extends AbstractModule
         }
 
         $adapter = $event->getTarget();
-        $itemAlias = $adapter->createAlias();
+
         $qb = $event->getParam('queryBuilder');
+        $itemAlias = $qb->createAlias();
         $qb->innerJoin('omeka_root.item', $itemAlias);
 
         // Users can view media they do not own that belong to public items.
@@ -496,7 +497,7 @@ class Module extends AbstractModule
         $identity = $this->getServiceLocator()
             ->get('Omeka\AuthenticationService')->getIdentity();
         if ($identity) {
-            $sitePermissionAlias = $adapter->createAlias();
+            $sitePermissionAlias = $qb->createAlias();
             $qb->leftJoin('omeka_root.sitePermissions', $sitePermissionAlias);
 
             $expression = $qb->expr()->orX(

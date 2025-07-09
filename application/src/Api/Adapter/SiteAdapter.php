@@ -291,7 +291,7 @@ class SiteAdapter extends AbstractEntityAdapter
         if (isset($query['user_has_role']) && $query['user_has_role']) {
             // Filter out sites where the logged in user has no role.
             $user = $this->getServiceLocator()->get('Omeka\AuthenticationService')->getIdentity();
-            $sitePermissionsAlias = $this->createAlias();
+            $sitePermissionsAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.sitePermissions',
                 $sitePermissionsAlias,
@@ -304,7 +304,7 @@ class SiteAdapter extends AbstractEntityAdapter
         }
 
         if (isset($query['item_id']) && is_numeric($query['item_id'])) {
-            $itemAlias = $this->createAlias();
+            $itemAlias = $qb->createAlias();
             $qb->leftJoin(
                 'omeka_root.items', $itemAlias, 'WITH',
                 $qb->expr()->eq("$itemAlias.id", $qb->createNamedParameter($query['item_id']))
@@ -312,7 +312,7 @@ class SiteAdapter extends AbstractEntityAdapter
         }
 
         if (isset($query['owner_id']) && is_numeric($query['owner_id'])) {
-            $userAlias = $this->createAlias();
+            $userAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.owner',
                 $userAlias
@@ -348,7 +348,7 @@ class SiteAdapter extends AbstractEntityAdapter
     public function sortQuery(QueryBuilder $qb, array $query)
     {
         if ('owner_name' == $query['sort_by']) {
-            $ownerAlias = $this->createAlias();
+            $ownerAlias = $qb->createAlias();
             $qb->leftJoin("omeka_root.owner", $ownerAlias)
                 ->addOrderBy("$ownerAlias.name", $query['sort_order']);
         } else {

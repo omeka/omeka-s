@@ -110,7 +110,7 @@ class UserAdapter extends AbstractEntityAdapter
         }
 
         if (!empty($query['site_permission_site_id'])) {
-            $sitePermissionAlias = $this->createAlias();
+            $sitePermissionAlias = $qb->createAlias();
             $qb->innerJoin(
                 'Omeka\Entity\SitePermission',
                 $sitePermissionAlias,

@@ -45,9 +45,9 @@ class PropertyAdapter extends AbstractEntityAdapter
     {
         if (is_string($query['sort_by'])) {
             if ('item_count' == $query['sort_by']) {
-                $valuesAlias = $this->createAlias();
-                $resourceAlias = $this->createAlias();
-                $countAlias = $this->createAlias();
+                $valuesAlias = $qb->createAlias();
+                $resourceAlias = $qb->createAlias();
+                $countAlias = $qb->createAlias();
                 $qb->addSelect("COUNT($valuesAlias.id) HIDDEN $countAlias")
                     ->leftJoin("omeka_root.values", $valuesAlias)
                     ->leftJoin(
@@ -81,7 +81,7 @@ class PropertyAdapter extends AbstractEntityAdapter
     public function buildQuery(QueryBuilder $qb, array $query)
     {
         if (isset($query['owner_id']) && is_numeric($query['owner_id'])) {
-            $userAlias = $this->createAlias();
+            $userAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.owner',
                 $userAlias
@@ -92,7 +92,7 @@ class PropertyAdapter extends AbstractEntityAdapter
             );
         }
         if (isset($query['vocabulary_id']) && is_numeric($query['vocabulary_id'])) {
-            $vocabularyAlias = $this->createAlias();
+            $vocabularyAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.vocabulary',
                 $vocabularyAlias
@@ -103,7 +103,7 @@ class PropertyAdapter extends AbstractEntityAdapter
             );
         }
         if (isset($query['vocabulary_namespace_uri'])) {
-            $vocabularyAlias = $this->createAlias();
+            $vocabularyAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.vocabulary',
                 $vocabularyAlias
@@ -114,7 +114,7 @@ class PropertyAdapter extends AbstractEntityAdapter
             );
         }
         if (isset($query['vocabulary_prefix'])) {
-            $vocabularyAlias = $this->createAlias();
+            $vocabularyAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.vocabulary',
                 $vocabularyAlias
@@ -132,7 +132,7 @@ class PropertyAdapter extends AbstractEntityAdapter
         }
         if (isset($query['term']) && $this->isTerm($query['term'])) {
             [$prefix, $localName] = explode(':', $query['term']);
-            $vocabularyAlias = $this->createAlias();
+            $vocabularyAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.vocabulary',
                 $vocabularyAlias
@@ -148,7 +148,7 @@ class PropertyAdapter extends AbstractEntityAdapter
         }
         //limit results to properties used by resources
         if (!empty($query['used'])) {
-            $valuesAlias = $this->createAlias();
+            $valuesAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.values',
                 $valuesAlias
@@ -156,9 +156,9 @@ class PropertyAdapter extends AbstractEntityAdapter
         }
         //limit results to properties used by items in the site
         if (isset($query['site_id']) && is_numeric($query['site_id'])) {
-            $siteAlias = $this->createAlias();
-            $itemAlias = $this->createAlias();
-            $valuesAlias = $this->createAlias();
+            $siteAlias = $qb->createAlias();
+            $itemAlias = $qb->createAlias();
+            $valuesAlias = $qb->createAlias();
             $subquery = $this->createQueryBuilder()
                 ->select("IDENTITY($valuesAlias.property)")
                 ->from('Omeka\Entity\Value', $valuesAlias)

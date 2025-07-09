@@ -19,4 +19,14 @@ class QueryBuilder extends DoctrineQueryBuilder
         $this->setParameter($placeholder, $value);
         return sprintf(':%s', $placeholder);
     }
+
+    /**
+     * Create a unique alias, exclusive to this query builder.
+     *
+     * @return string The alias
+     */
+    public function createAlias()
+    {
+        return sprintf('omeka_%s', $this->index++);
+    }
 }

@@ -5,6 +5,9 @@ use Doctrine\ORM\QueryBuilder as DoctrineQueryBuilder;
 
 class QueryBuilder extends DoctrineQueryBuilder
 {
+    /**
+     * @var int A unique index for query builder placeholders and aliases.
+     */
     protected $index = 0;
 
     /**

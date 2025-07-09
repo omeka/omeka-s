@@ -21,6 +21,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     /**
      * A unique token index for query builder aliases and placeholders.
      *
+     * @deprecated 4.2.0 No longer used by core code. Use \Omeka\Db\QueryBuilder instead.
      * @var int
      */
     protected $index = 0;
@@ -749,9 +750,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
      * Create a unique named parameter for the query builder and bind a value to
      * it.
      *
-     * @deprecated No longer used by core code. Instead, use Omeka's query builder:
-     *      $qb = $this->createQueryBuilder();
-     *      $namedParam = $qb->createNamedParameter($value);
+     * @deprecated 4.2.0 No longer used by core code. Use \Omeka\Db\QueryBuilder instead.
      * @param QueryBuilder $qb
      * @param mixed $value The value to bind
      * @param string $prefix The placeholder prefix
@@ -769,9 +768,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     /**
      * Create a unique alias for the query builder.
      *
-     * @deprecated No longer used by core code. Instead, use Omeka's query builder:
-     *      $qb = $this->createQueryBuilder();
-     *      $alias = $qb->createAlias();
+     * @deprecated 4.2.0 No longer used by core code. Use \Omeka\Db\QueryBuilder instead.
      * @param string $prefix The alias prefix
      * @return string The alias
      */

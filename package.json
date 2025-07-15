@@ -30,7 +30,7 @@
     "compare-versions": "^6.1.0",
     "jquery": "^3.5.1",
     "jstree": "^3.3.5",
-    "lightgallery": "^2.4.0",
+    "lightgallery": "^2.8.2",
     "mirador": "^3.3.0",
     "openseadragon": "^2.4.2",
     "sortablejs": "^1.5.1",

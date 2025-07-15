@@ -291,56 +291,56 @@ class SiteAdapter extends AbstractEntityAdapter
         if (isset($query['user_has_role']) && $query['user_has_role']) {
             // Filter out sites where the logged in user has no role.
             $user = $this->getServiceLocator()->get('Omeka\AuthenticationService')->getIdentity();
-            $sitePermissionsAlias = $this->createAlias();
+            $sitePermissionsAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.sitePermissions',
                 $sitePermissionsAlias,
                 'WITH',
                 $qb->expr()->orX(
-                    $qb->expr()->eq("$sitePermissionsAlias.user", $this->createNamedParameter($qb, $user->getId())),
-                    $qb->expr()->eq("omeka_root.owner", $this->createNamedParameter($qb, $user))
+                    $qb->expr()->eq("$sitePermissionsAlias.user", $qb->createNamedParameter($user->getId())),
+                    $qb->expr()->eq("omeka_root.owner", $qb->createNamedParameter($user))
                 )
             );
         }
 
         if (isset($query['item_id']) && is_numeric($query['item_id'])) {
-            $itemAlias = $this->createAlias();
+            $itemAlias = $qb->createAlias();
             $qb->leftJoin(
                 'omeka_root.items', $itemAlias, 'WITH',
-                $qb->expr()->eq("$itemAlias.id", $this->createNamedParameter($qb, $query['item_id']))
+                $qb->expr()->eq("$itemAlias.id", $qb->createNamedParameter($query['item_id']))
             );
         }
 
         if (isset($query['owner_id']) && is_numeric($query['owner_id'])) {
-            $userAlias = $this->createAlias();
+            $userAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.owner',
                 $userAlias
             );
             $qb->andWhere($qb->expr()->eq(
                 "$userAlias.id",
-                $this->createNamedParameter($qb, $query['owner_id']))
+                $qb->createNamedParameter($query['owner_id']))
             );
         }
 
         if (isset($query['slug'])) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.slug',
-                $this->createNamedParameter($qb, $query['slug'])
+                $qb->createNamedParameter($query['slug'])
             ));
         }
 
         if (isset($query['exclude_id'])) {
             $qb->andWhere($qb->expr()->neq(
                 'omeka_root.id',
-                $this->createNamedParameter($qb, $query['exclude_id'])
+                $qb->createNamedParameter($query['exclude_id'])
             ));
         }
 
         if (isset($query['assign_new_items']) && (is_numeric($query['assign_new_items']) || is_bool($query['assign_new_items']))) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.assignNewItems',
-                $this->createNamedParameter($qb, (bool) $query['assign_new_items'])
+                $qb->createNamedParameter((bool) $query['assign_new_items'])
             ));
         }
     }
@@ -348,7 +348,7 @@ class SiteAdapter extends AbstractEntityAdapter
     public function sortQuery(QueryBuilder $qb, array $query)
     {
         if ('owner_name' == $query['sort_by']) {
-            $ownerAlias = $this->createAlias();
+            $ownerAlias = $qb->createAlias();
             $qb->leftJoin("omeka_root.owner", $ownerAlias)
                 ->addOrderBy("$ownerAlias.name", $query['sort_order']);
         } else {

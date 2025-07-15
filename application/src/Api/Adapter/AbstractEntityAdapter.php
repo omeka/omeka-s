@@ -7,6 +7,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use Omeka\Api\Exception;
 use Omeka\Api\Request;
 use Omeka\Api\Response;
+use Omeka\Db\QueryBuilder as OmekaQueryBuilder;
 use Omeka\Entity\User;
 use Omeka\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
@@ -20,6 +21,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     /**
      * A unique token index for query builder aliases and placeholders.
      *
+     * @deprecated 4.2.0 No longer used by core code. Use \Omeka\Db\QueryBuilder instead.
      * @var int
      */
     protected $index = 0;
@@ -139,7 +141,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             if ($ids) {
                 $qb->andWhere($qb->expr()->in(
                     'omeka_root.id',
-                    $this->createNamedParameter($qb, $ids)
+                    $qb->createNamedParameter($ids)
                 ));
             }
         }
@@ -179,8 +181,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     public function sortByCount(QueryBuilder $qb, array $query,
         $inverseField, $instanceOf = null
     ) {
-        $inverseAlias = $this->createAlias();
-        $countAlias = $this->createAlias();
+        $inverseAlias = $qb->createAlias();
+        $countAlias = $qb->createAlias();
 
         $qb->addSelect("COUNT($inverseAlias.id) HIDDEN $countAlias");
         if ($instanceOf) {
@@ -256,8 +258,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $entityClass = $this->getEntityClass();
 
         $this->index = 0;
-        $qb = $this->getEntityManager()
-            ->createQueryBuilder()
+        $qb = $this->createQueryBuilder()
             ->select('omeka_root')
             ->from($entityClass, 'omeka_root');
         $this->buildBaseQuery($qb, $query);
@@ -709,12 +710,12 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
 
         $entityClass = $this->getEntityClass();
         $this->index = 0;
-        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb = $this->createQueryBuilder();
         $qb->select('omeka_root')->from($entityClass, 'omeka_root');
         foreach ($criteria as $field => $value) {
             $qb->andWhere($qb->expr()->eq(
                 "omeka_root.$field",
-                $this->createNamedParameter($qb, $value)
+                $qb->createNamedParameter($value)
             ));
         }
         $qb->setMaxResults(1);
@@ -736,9 +737,20 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     }
 
     /**
+     * Create a query builder.
+     *
+     * @return OmekaQueryBuilder
+     */
+    public function createQueryBuilder()
+    {
+        return new OmekaQueryBuilder($this->getEntityManager());
+    }
+
+    /**
      * Create a unique named parameter for the query builder and bind a value to
      * it.
      *
+     * @deprecated 4.2.0 No longer used by core code. Use \Omeka\Db\QueryBuilder instead.
      * @param QueryBuilder $qb
      * @param mixed $value The value to bind
      * @param string $prefix The placeholder prefix
@@ -756,6 +768,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     /**
      * Create a unique alias for the query builder.
      *
+     * @deprecated 4.2.0 No longer used by core code. Use \Omeka\Db\QueryBuilder instead.
      * @param string $prefix The alias prefix
      * @return string The alias
      */
@@ -788,7 +801,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     public function isUnique(EntityInterface $entity, array $criteria)
     {
         $this->index = 0;
-        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb = $this->createQueryBuilder();
         $qb->select('e.id')
             ->from($this->getEntityClass(), 'e');
 
@@ -797,14 +810,14 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         if ($entity->getId()) {
             $qb->andWhere($qb->expr()->neq(
                 'e.id',
-                $this->createNamedParameter($qb, $entity->getId())
+                $qb->createNamedParameter($entity->getId())
             ));
         }
 
         foreach ($criteria as $field => $value) {
             $qb->andWhere($qb->expr()->eq(
                 "e.$field",
-                $this->createNamedParameter($qb, $value)
+                $qb->createNamedParameter($value)
             ));
         }
         return null === $qb->getQuery()->getOneOrNullResult();

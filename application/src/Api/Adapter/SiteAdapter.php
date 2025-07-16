@@ -291,16 +291,18 @@ class SiteAdapter extends AbstractEntityAdapter
         if (isset($query['user_has_role']) && $query['user_has_role']) {
             // Filter out sites where the logged in user has no role.
             $user = $this->getServiceLocator()->get('Omeka\AuthenticationService')->getIdentity();
-            $sitePermissionsAlias = $qb->createAlias();
-            $qb->innerJoin(
-                'omeka_root.sitePermissions',
-                $sitePermissionsAlias,
-                'WITH',
-                $qb->expr()->orX(
-                    $qb->expr()->eq("$sitePermissionsAlias.user", $qb->createNamedParameter($user->getId())),
-                    $qb->expr()->eq("omeka_root.owner", $qb->createNamedParameter($user))
-                )
-            );
+            if ($user) {
+                $sitePermissionsAlias = $qb->createAlias();
+                $qb->innerJoin(
+                    'omeka_root.sitePermissions',
+                    $sitePermissionsAlias,
+                    'WITH',
+                    $qb->expr()->orX(
+                        $qb->expr()->eq("$sitePermissionsAlias.user", $qb->createNamedParameter($user->getId())),
+                        $qb->expr()->eq("omeka_root.owner", $qb->createNamedParameter($user))
+                    )
+                );
+            }
         }
 
         if (isset($query['item_id']) && is_numeric($query['item_id'])) {

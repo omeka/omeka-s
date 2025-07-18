@@ -3,6 +3,7 @@ namespace Omeka\Form;
 
 use Laminas\EventManager\Event;
 use Laminas\EventManager\EventManagerAwareTrait;
+use Laminas\Form\Element as LaminasElement;
 use Laminas\Form\Form;
 use Laminas\View\HelperPluginManager;
 use Omeka\Api\Manager as ApiManager;
@@ -79,6 +80,20 @@ class ItemStubForm extends Form
                 'data-placeholder' => 'Select a class', // @translate
             ],
         ]);
+        $fieldsetMain->add([
+            'type' => LaminasElement\Select::class,
+            'name' => 'is_public',
+            'options' => [
+                'label' => 'Visibility', // @translate
+                'value_options' => [
+                    '1' => 'Public', // @translate
+                    '0' => 'Private', // @translate
+                ],
+            ],
+            'attributes' => [
+                'id' => 'item-stub-is-public',
+            ],
+        ]);
         $this->add([
             'type' => 'fieldset',
             'name' => 'fieldset-property-values',
@@ -100,6 +115,11 @@ class ItemStubForm extends Form
         $this->getEventManager()->triggerEvent($addEvent);
 
         $inputFilter = $this->getInputFilter();
+        $inputFilter->get('fieldset-main')->add([
+            'name' => 'is_public',
+            'required' => false,
+            'allow_empty' => true,
+        ]);
         $inputFilter->get('fieldset-main')->add([
             'name' => 'resource_template',
             'required' => false,

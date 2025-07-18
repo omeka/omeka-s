@@ -487,6 +487,7 @@
             // Build the item data.
             const itemData = {};
             itemData['csrf'] = itemStubForm.find('input[name="csrf"]').val();
+            itemData['o:is_public'] = $('#item-stub-is-public').val();
             if (resourceTemplate.val()) {
                 itemData['o:resource_template'] = {'o:id': resourceTemplate.val()};
             }

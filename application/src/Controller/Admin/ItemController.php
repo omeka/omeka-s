@@ -251,6 +251,7 @@ class ItemController extends AbstractActionController
         $form->setData($itemData);
         if (!$form->isValid()) {
             $response->setStatusCode(500);
+            $response->setContent(json_encode($form->getMessages()));
             return $response;
         }
         $item = $this->api(null, true)->create('items', $itemData)->getContent();

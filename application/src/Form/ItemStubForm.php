@@ -101,14 +101,6 @@ class ItemStubForm extends Form
                 'id' => 'item-stub-property-values',
             ],
         ]);
-        $this->add([
-            'type' => 'submit',
-            'name' => 'submit',
-            'attributes' => [
-                'id' => 'item-stub-submit',
-                'value' => 'Add and select item', // @translate
-            ],
-        ]);
 
         // Allow modules to modify this form.
         $addEvent = new Event('form.add_elements', $this);

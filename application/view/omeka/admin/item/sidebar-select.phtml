@@ -115,5 +115,14 @@ $expanded = $resourceClassId || $itemSetId || $id;
 
 <div id="sidebar-section-item-stub" class="sidebar-section">
     <h3><?php echo $translate('Add item'); ?></h3>
-    <?php echo $this->form($itemStubForm); ?>
+    <?php echo $this->form()->openTag($itemStubForm); ?>
+    <div class="confirm-main">
+        <?php echo $this->formCollection($itemStubForm->get('fieldset-main')); ?>
+        <?php echo $this->formCollection($itemStubForm->get('fieldset-property-values')); ?>
+    </div>
+    <div class="confirm-panel">
+        <button type="submit" id="item-stub-submit"><?php echo $translate('Add and select item'); ?></button>
+    </div>
+    <?php echo $this->formElement($itemStubForm->get('csrf')); ?>
+    <?php echo $this->form()->closeTag(); ?>
 </div>

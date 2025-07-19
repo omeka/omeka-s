@@ -3223,7 +3223,7 @@ fieldset.section > legend {
     &:before {
         content: "";
         position: absolute;
-        top: -$spacing-large;
+        top: -$spacing-medium;
         bottom: 0;
         right: -$spacing-large;
         left: -$spacing-large;
@@ -3252,6 +3252,11 @@ fieldset.section > legend {
     min-height: 0;
     line-height: 1;
 }
+
+.sidebar-section-nav ~ .sidebar-section .confirm-main {
+    top: 4.125 * $spacing-large;
+}
+
 .sidebar-section-nav .active button[type="button"] {
     font-weight: bold;
 }

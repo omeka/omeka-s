@@ -6,6 +6,8 @@ $itemsFound = count($items) > 0;
 $expanded = $resourceClassId || $itemSetId || $id;
 ?>
 
+<h3><?php echo $translate('Omeka Resource'); ?></h3>
+
 <?php echo $this->sidebarSectionNav([
     'sidebar-section-item' => $translate('Existing item'),
     'sidebar-section-item-stub' => $translate('New item'),
@@ -14,7 +16,9 @@ $expanded = $resourceClassId || $itemSetId || $id;
 <div id="sidebar-section-item" class="sidebar-section active">
 
 <div id="item-results">
-    <h3><?php echo $translate('Select item'); ?></h3>
+    <div class="sidebar-header">
+        <h4><?php echo $translate('Select item'); ?></h4>
+    </div>
     <div class="search-nav">
         <div id="sidebar-resource-search" class="resource-search" data-search-url="<?php echo $escape($this->url(null, [], [], true)); ?>">
             <?php
@@ -114,9 +118,11 @@ $expanded = $resourceClassId || $itemSetId || $id;
 </div>
 
 <div id="sidebar-section-item-stub" class="sidebar-section">
-    <h3><?php echo $translate('Add item'); ?></h3>
     <?php echo $this->form()->openTag($itemStubForm); ?>
     <div class="confirm-main">
+        <div class="sidebar-header">
+            <h4><?php echo $translate('Add item'); ?></h4>
+        </div>
         <?php echo $this->formCollection($itemStubForm->get('fieldset-main')); ?>
         <?php echo $this->formCollection($itemStubForm->get('fieldset-property-values')); ?>
     </div>

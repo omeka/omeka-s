@@ -1,8 +1,8 @@
 <?php
 $dataTypeName = (strpos('resource', $dataType->getName()) !== false) ? 'resource' : $dataType->getName();
 ?>
-<div class="value-annotation">
-    <h4 class="value-annotation-heading"></h4>
+<fieldset class="value-annotation">
+    <legend class="value-annotation-heading"></legend>
     <span class="required-tag"><?php echo $this->translate('Required'); ?></span>
     <div class="value" data-data-type="<?php echo $dataTypeName; ?>" data-data-type-label="<?php echo $dataType->getLabel(); ?>" data-data-type-icon="" role="group">
         <?php echo $dataType->valueAnnotationForm($this); ?>
@@ -19,4 +19,4 @@ $dataTypeName = (strpos('resource', $dataType->getName()) !== false) ? 'resource
             <input type="hidden" class="property_term" data-value-key="property_term">
         </div>
     </div>
-</div>
+</fieldset>

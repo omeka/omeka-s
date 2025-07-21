@@ -28,7 +28,7 @@ $translate = $this->plugin('translate');
             <div class="property">
                 <dt><?php echo $translate('Media'); ?></dt>
                 <?php foreach ($item->media() as $media): ?>
-                <dd class="value"><?php echo $media->linkPretty('square', $media->displayTitle()); ?></dd>
+                <dd class="value"><?php echo $media->linkPretty('square', $media->displayTitle(), ['class' => 'media resource']); ?></dd>
                 <?php endforeach; ?>
             </div>
         </dl>

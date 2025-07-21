@@ -2868,8 +2868,6 @@ fieldset.section > legend {
     }
 
     .value-annotation:not(:last-child) {
-        border-bottom: 1px solid $border-gray;
-        padding-bottom: $spacing-medium;
         margin-bottom: $spacing-medium;
     }
 
@@ -3299,19 +3297,24 @@ fieldset.section > legend {
 
 /* @group ----- Query Editor ----- */
 
-.sidebar .field-meta {
+.sidebar .field-meta,
+.sidebar legend {
     width: 100%;
     position: relative;
-    padding-right: 1.5 * $spacing-large;
+    padding: $spacing-small (1.5 * $spacing-large) $spacing-small 0;
     margin-bottom: $spacing-medium;
     border-bottom: 3px solid $border-gray;
+    font-size: $base-font-size;
+}
+
+.sidebar .field-meta {
 
     .label,
     label {
         margin: 0;
         width: auto;
         display: inline-block;
-        padding: 0 0 $spacing-small;
+        padding: 0;
 
         &:after {
             content: none;
@@ -3336,7 +3339,6 @@ fieldset.section > legend {
             line-height: 1.5;
         }
     }
-
 }
 
 .sidebar .inputs {
@@ -3766,6 +3768,10 @@ input[type=text].query-form-query {
             width: 1em;
             text-align: center;
         }
+    }
+
+    fieldset {
+        margin-bottom: 0;
     }
 
     a.o-icon-close {

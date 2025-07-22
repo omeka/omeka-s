@@ -337,7 +337,7 @@ var Omeka = {
 
     // Clean the search query of empty or otherwise unneeded inputs.
     cleanSearchQuery: function(form) {
-        form.find(':input').each(function(index) {
+        form.find(':input:enabled').each(function(index) {
             const input = $(this);
             const inputName = input.attr('name');
             const inputValue = input.val();

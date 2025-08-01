@@ -37,7 +37,7 @@ class Youtube implements RendererInterface
         }
         $url->setQuery($query);
         $embed = sprintf(
-            '<iframe width="%s" height="%s" src="%s" title="%s" frameborder="0" %s></iframe>',
+            '<iframe width="%s" height="%s" src="%s" title="%s" frameborder="0"%s></iframe>',
             $view->escapeHtml($options['width']),
             $view->escapeHtml($options['height']),
             $view->escapeHtml($url),

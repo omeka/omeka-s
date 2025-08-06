@@ -1,28 +1,95 @@
-<?php $fulltextSearch = $this->params()->fromQuery('fulltext_search'); ?>
+<?php
+$fulltextSearch = $this->params()->fromQuery('fulltext_search');
+
+// : Add site permission logic for item set results page
+$user = $this->identity();
+$visible_site_ids = [];
+
+// Get all visible sites using API for consistency and to avoid deprecation warnings
+$api = $this->api();
+$allSites = $api->search('sites', ['sort_by' => 'title', 'sort_order' => 'asc'])->getContent();
+
+// Filter based on permissions
+foreach ($allSites as $site) {
+    $canView = false;
+
+    // Check if site is public
+    if ($site->isPublic()) {
+        $canView = true;
+    } elseif ($user) {
+        // Check user permissions for private sites
+        if (in_array($user->getRole(), ['global_admin', 'supervisor'])) {
+            $canView = true;
+        } else {
+            // Check if the current user has any role on this site
+            $sitePermissions = $site->sitePermissions();
+            foreach ($sitePermissions as $permission) {
+                if ($permission->user()->id() === $user->getId() &&
+                    in_array($permission->role(), ['viewer', 'editor', 'manager'])) {
+                    $canView = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    if ($canView) {
+        $visible_site_ids[] = $site->id();
+    }
+}
+
+// : Filter item sets to only show those with visible sites
+$visibleItemSets = [];
+foreach ($itemSets as $itemSet) {
+    $sites = $itemSet->sites();
+    $hasVisibleSites = false;
+    foreach ($sites as $site) {
+        if (in_array($site->id(), $visible_site_ids)) {
+            $hasVisibleSites = true;
+            break;
+        }
+    }
+    if ($hasVisibleSites) {
+        $visibleItemSets[] = $itemSet;
+    }
+}
+?>
+
 <?php echo $this->hyperlink(
     $this->translate('Advanced item set search'),
     $this->url(null, ['action' => 'item-sets-advanced', 'class' => 'advanced-search'], ['query' => $this->params()->fromQuery()], true),
     ['class' => 'advanced-search']
 ); ?>
 
-<h2><?php echo sprintf($this->translate('Item set results for "%s"'), $this->escapeHtml($fulltextSearch)); ?></h2>
+    <h2><?php echo sprintf($this->translate('Item set results for "%s"'), $this->escapeHtml($fulltextSearch)); ?></h2>
 
-<?php echo $this->pagination(); ?>
+    <!-- : Only show pagination if there are visible item sets -->
+<?php if (count($visibleItemSets) > 0): ?>
+    <?php echo $this->pagination(); ?>
 
-<div class="item-set results">
-    <ul>
-        <?php foreach ($itemSets as $itemSet): ?>
-        <?php $sites = $itemSet->sites(); ?>
-        <li>
-            <span class="result-title"><?php echo $itemSet->displayTitle(); ?></span>
-            <ul>
-                <?php foreach ($sites as $site): ?>
-                <li><?php echo $this->hyperlink($site->title(), $itemSet->siteUrl($site->slug())); ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </li>
-        <?php endforeach; ?>
-    </ul>
-</div>
+    <div class="item-set results">
+        <ul>
+            <!-- : Iterate through filtered visible item sets instead of all item sets -->
+            <?php foreach ($visibleItemSets as $itemSet): ?>
+                <?php $sites = $itemSet->sites(); ?>
+                <li>
+                    <span class="result-title"><?php echo $itemSet->displayTitle(); ?></span>
+                    <ul>
+                        <?php foreach ($sites as $site): ?>
+                            <!-- : Only show sites that are visible to the user -->
+                            <?php if (in_array($site->id(), $visible_site_ids)): ?>
+                                <li><?php echo $this->hyperlink($site->title(), $itemSet->siteUrl($site->slug())); ?></li>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </ul>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
 
-<?php echo $this->pagination(); ?>
+    <?php echo $this->pagination(); ?>
+
+<?php else: ?>
+    <!-- : Show message when no visible results -->
+    <p><?php echo $this->translate('No visible results found.'); ?></p>
+<?php endif; ?>

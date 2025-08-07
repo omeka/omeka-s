@@ -7,6 +7,7 @@ use Omeka\Form\SitePageForm;
 use Omeka\Form\SiteResourcesForm;
 use Omeka\Form\SiteSettingsForm;
 use Omeka\Mvc\Exception;
+use Omeka\Permissions\Acl;
 use Omeka\Site\Navigation\Link\Manager as LinkManager;
 use Omeka\Site\Navigation\Translator;
 use Omeka\Site\ResourcePageBlockLayout\Manager as ResourcePageBlockLayoutManager;
@@ -32,28 +33,43 @@ class IndexController extends AbstractActionController
      */
     protected $navTranslator;
 
+    protected $acl;
+
     /**
      * @var ResourcePageBlockLayoutManager
      */
     protected $resourcePageBlockLayoutManager;
 
     public function __construct(ThemeManager $themes, LinkManager $navLinks,
-        Translator $navTranslator, ResourcePageBlockLayoutManager $resourcePageBlockLayoutManager
+        Translator $navTranslator, ResourcePageBlockLayoutManager $resourcePageBlockLayoutManager,
+        Acl $acl
     ) {
         $this->themes = $themes;
         $this->navLinks = $navLinks;
         $this->navTranslator = $navTranslator;
         $this->resourcePageBlockLayoutManager = $resourcePageBlockLayoutManager;
+        $this->acl = $acl;
     }
 
     public function indexAction()
     {
         $this->browse()->setDefaults('sites');
-        $response = $this->api()->search('sites', $this->params()->fromQuery());
+        $query = $this->getRequest()->getQuery();
+
+        // By default, and when the current user is not an admin, filter out
+        // sites where the logged in user has no role.
+        $isAdmin = $this->acl->isAdminRole($this->identity()->getRole());
+        $userHasRole = $query->get('user_has_role');
+        if (!$isAdmin && null === $userHasRole) {
+            $query->set('user_has_role', '1');
+        }
+
+        $response = $this->api()->search('sites', $query->toArray());
         $this->paginator($response->getTotalResults());
 
         $view = new ViewModel;
         $view->setVariable('sites', $response->getContent());
+        $view->setVariable('isAdmin', $isAdmin);
         return $view;
     }
 

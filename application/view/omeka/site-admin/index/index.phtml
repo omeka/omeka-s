@@ -1,6 +1,7 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$query = $this->params()->fromQuery();
 $this->htmlElement('body')->appendAttribute('class', 'sites browse');
 ?>
 
@@ -13,6 +14,29 @@ $this->htmlElement('body')->appendAttribute('class', 'sites browse');
 </div>
 
 <div class="browse-controls">
+    <?php if (!$isAdmin): ?>
+    <div id="user-filter">
+        <?php
+        $userHasRole = $this->params()->fromQuery('user_has_role');
+        if ('0' === $userHasRole) {
+            echo sprintf(
+                $translate('Currently viewing all sites. %s'),
+                sprintf(
+                    '<a href="%s">%s</a>',
+                    $escape($this->url()),
+                    sprintf($translate('View sites for %s'), sprintf('<strong>%s</strong>', $this->identity()->getName()))
+                )
+            );
+        } else {
+            echo sprintf(
+                $translate('Currently viewing sites for %s. %s'),
+                sprintf('<span class="user-name">%s</span>', $this->identity()->getName()),
+                sprintf('<a href="%s">%s</a>', $escape($this->url(null, [], ['query' => ['user_has_role' => '0']])), $translate('View all sites'))
+            );
+        }
+        ?>
+    </div>
+    <?php endif; ?>
     <?php echo $this->pagination(); ?>
     <?php echo $this->browse()->renderSortSelector('sites'); ?>
 </div>

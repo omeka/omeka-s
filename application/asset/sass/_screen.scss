@@ -1392,6 +1392,18 @@ div[role="main"] {
     margin-left: $spacing-large;
 }
 
+.browse-controls #user-filter {
+    width: 100%;
+    margin-bottom: $spacing-medium;
+    background-color: $gray-on-white;
+    border-radius: 2px;
+    padding: $spacing-small $spacing-medium;
+}
+
+.browse-controls #user-filter .user-name {
+    font-weight: bold;
+}
+
 .browse .select-all {
     width: $spacing-medium;
     margin-right: $spacing-medium;

@@ -277,11 +277,11 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             }
 
             $positive = true;
-            if (in_array($queryType, ['neq', 'nin', 'nsw', 'new', 'nres', 'nex'])) {
+            if (in_array($queryType, ['neq', 'nin', 'nsw', 'new', 'nres', 'nex', 'ndt'])) {
                 $positive = false;
                 $queryType = substr($queryType, 1);
             }
-            if (!in_array($queryType, ['eq', 'in', 'sw', 'ew', 'res', 'ex'])) {
+            if (!in_array($queryType, ['eq', 'in', 'sw', 'ew', 'res', 'ex', 'dt'])) {
                 continue;
             }
 
@@ -380,6 +380,13 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
 
                 case 'ex':
                     $predicateExpr = $qb->expr()->isNotNull("$valuesAlias.id");
+                    break;
+
+                case 'dt':
+                    $predicateExpr = $qb->expr()->eq(
+                        "$valuesAlias.type",
+                        $this->createNamedParameter($qb, $value)
+                    );
                     break;
 
                 default:

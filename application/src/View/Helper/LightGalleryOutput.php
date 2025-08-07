@@ -84,6 +84,7 @@ class LightGalleryOutput extends AbstractHelper
             $attribs['data-thumb'] = $media->thumbnailDisplayUrl('medium');
             $attribs['data-download-url'] = $downloadUrl;
             $attribs['class'] = 'media resource';
+            $attribs['title'] = $media->altText();
 
             $html .= '<div';
             foreach ($attribs as $attribName => $attribValue) {

@@ -337,7 +337,7 @@ var Omeka = {
 
     // Clean the search query of empty or otherwise unneeded inputs.
     cleanSearchQuery: function(form) {
-        form.find(':input').each(function(index) {
+        form.find(':input:enabled').each(function(index) {
             const input = $(this);
             const inputName = input.attr('name');
             const inputValue = input.val();
@@ -362,7 +362,7 @@ var Omeka = {
                     const match = inputName.match(/property\[(\d+)\]\[text\]/);
                     if (match) {
                         const propertyType = form.find(`[name="property[${match[1]}][type]"]`);
-                        if (['eq', 'neq', 'in', 'nin', 'res', 'nres'].includes(propertyType.val())) {
+                        if (['eq', 'neq', 'in', 'nin', 'res', 'nres', 'dt', 'ndt'].includes(propertyType.val())) {
                             form.find(`[name="property[${match[1]}][joiner]"]`).prop('name', '');
                             form.find(`[name="property[${match[1]}][property]"]`).prop('name', '');
                             form.find(`[name="property[${match[1]}][text]"]`).prop('name', '');

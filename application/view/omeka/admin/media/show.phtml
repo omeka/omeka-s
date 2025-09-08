@@ -29,6 +29,14 @@ $sectionNavs = [
         </div>
     </dl>
     <?php endif; ?>
+    <?php if ($media->resourceTemplate()): ?>
+    <dl>
+        <div class="meta-group">
+            <dt><?php echo $translate('Resource template'); ?></dt>
+            <dd class="value"><?php echo $escape($media->resourceTemplate()->label()); ?></dd>
+        </div>
+    </dl>
+    <?php endif; ?>
     <?php echo $media->displayValues(); ?>
 </div>
 

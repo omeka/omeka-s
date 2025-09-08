@@ -44,6 +44,14 @@ $sectionNavs = [
         </div>
     </dl>
     <?php endif; ?>
+    <?php if ($itemSet->resourceTemplate()): ?>
+    <dl>
+        <div class="meta-group">
+            <dt><?php echo $translate('Resource template'); ?></dt>
+            <dd class="value"><?php echo $escape($itemSet->resourceTemplate()->label()); ?></dd>
+        </div>
+    </dl>
+    <?php endif; ?>
     <?php echo $itemSet->displayValues(); ?>
 </div>
 

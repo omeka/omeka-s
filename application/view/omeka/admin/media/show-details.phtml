@@ -64,5 +64,23 @@ $item = $resource->item();
         <div class="value"><?php echo ($resource->isPublic()) ? $translate('Public') : $translate('Private'); ?></div>
     </div>
 
+    <?php $sites = $item->sites(); ?>
+    <?php if ($sites): ?>
+    <div class="meta-group media-sites">
+        <h4><?php echo $translate('Sites'); ?></h4>
+        <?php foreach ($sites as $site): ?>
+        <div class="value">
+            <?php
+            $siteTitle = $site->title();
+            $externalLinkText = sprintf($translate('View this media in "%s"'), $siteTitle);
+            echo $site->link($siteTitle);
+            echo $this->hyperlink('', $this->url('site/resource-id', ['site-slug' => $site->slug(), 'controller' => 'media', 'id' => $resource->id()]),
+                ['class' => 'o-icon-external', 'target' => '_blank', 'aria-label' => $externalLinkText, 'title' => $externalLinkText]);
+            ?>
+        </div>
+        <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
+
     <?php $this->trigger('view.details', array('entity' => $resource)); ?>
 </div>

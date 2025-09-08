@@ -79,6 +79,23 @@ $sectionNavs = [
         <h4><?php echo $translate('Items'); ?></h4>
         <div class="value"><?php echo $this->hyperlink($itemSet->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['item_set_id' => $itemSet->id()]])); ?></div>
     </div>
+    <?php $sites = $itemSet->sites(); ?>
+    <?php if (count($sites) > 0): ?>
+    <div class="meta-group item-set-sites">
+        <h4><?php echo $translate('Sites'); ?></h4>
+        <?php foreach ($sites as $site): ?>
+        <div class="value">
+            <?php
+            $siteTitle = $site->title();
+            $externalLinkText = sprintf($translate('View this item set in "%s"'), $siteTitle);
+            echo $site->link($siteTitle);
+            echo $this->hyperlink('', $this->url('site/resource-id', ['site-slug' => $site->slug(), 'controller' => 'item-set', 'id' => $itemSet->id()]),
+                ['class' => 'o-icon-external', 'target' => '_blank', 'aria-label' => $externalLinkText, 'title' => $externalLinkText]);
+            ?>
+        </div>
+        <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
     <?php $this->trigger('view.show.sidebar'); ?>
 </div>
 

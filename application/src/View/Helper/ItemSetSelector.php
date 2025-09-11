@@ -17,6 +17,8 @@ class ItemSetSelector extends AbstractHelper
      */
     public function __invoke($includeClosedSets = false)
     {
+        $view = $this->getView();
+
         $query = ['sort_by' => 'owner_name'];
         if (!$includeClosedSets) {
             $query['is_open'] = true;
@@ -29,10 +31,23 @@ class ItemSetSelector extends AbstractHelper
             $owner = $itemSet->owner();
             $email = $owner ? $owner->email() : null;
             $itemSetOwners[$email]['owner'] = $owner;
-            $itemSetOwners[$email]['item_sets'][] = $itemSet;
+            $itemSetOwners[$email]['item_sets'][] = [
+                'title' => $view->translate($itemSet->displayTitle()),
+                'item_set' => $itemSet,
+            ];
+        }
+        // Sort user names alphabetically.
+        uasort($itemSetOwners, function ($a, $b) {
+            return strcasecmp($a['owner']->name(), $b['owner']->name());
+        });
+        // Sort item set titles alphabetically.
+        foreach ($itemSetOwners as &$itemSetOwner) {
+            uasort($itemSetOwner['item_sets'], function ($a, $b) {
+                return strcasecmp($a['title'], $b['title']);
+            });
         }
 
-        return $this->getView()->partial(
+        return $view->partial(
             'common/item-set-selector',
             [
                 'itemSetOwners' => $itemSetOwners,

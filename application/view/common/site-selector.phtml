@@ -13,14 +13,14 @@
                     <ul>
                         <?php foreach ($siteByOwner['sites'] as $site): ?>
                         <li class='selector-child'
-                            data-child-search="<?php echo $this->escapeHtml($site->title()); ?>"
-                            data-resource-id="<?php echo $this->escapeHtml($site->id()); ?>"
+                            data-child-search="<?php echo $this->escapeHtml($site['title']); ?>"
+                            data-resource-id="<?php echo $this->escapeHtml($site['site']->id()); ?>"
                             data-resource-email="<?php echo $this->escapeHtml($email); ?>">
                             <div class="description">
                                 <p class="o-icon-info"><span class="screen-reader-text"><?php echo $this->translate('More info'); ?></span></p>
-                                <p class="field-comment"><?php echo $this->escapeHtml($site->summary()); ?></p>
+                                <p class="field-comment"><?php echo $this->escapeHtml($site['site']->summary()); ?></p>
                             </div>
-                            <span><?php echo $this->escapeHtml($site->title()); ?></span>
+                            <span><?php echo $this->escapeHtml($site['title']); ?></span>
                         </li>
                         <?php endforeach; ?>
                     </ul>

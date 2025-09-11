@@ -58,7 +58,7 @@ class PropertySelector extends AbstractHelper
             });
         }
 
-        return $this->getView()->partial(
+        return $view->partial(
             'common/property-selector',
             [
                 'vocabProps' => $vocabProps,

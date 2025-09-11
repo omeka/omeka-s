@@ -10,6 +10,6 @@ class ResourceTemplateSelect extends AbstractGroupByOwnerSelect
 
     public function getValueLabel($resource)
     {
-        return $resource->label();
+        return $this->getTranslator()->translate($resource->label());
     }
 }

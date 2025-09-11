@@ -11,6 +11,7 @@ class SiteSelectFactory implements FactoryInterface
     {
         $element = new SiteSelect;
         $element->setApiManager($services->get('Omeka\ApiManager'));
+        $element->setTranslator($services->get('MvcTranslator'));
         return $element;
     }
 }

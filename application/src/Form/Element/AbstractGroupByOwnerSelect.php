@@ -4,9 +4,12 @@ namespace Omeka\Form\Element;
 use Omeka\Api\Manager as ApiManager;
 use Omeka\Api\Representation\UserRepresentation;
 use Laminas\Form\Element\Select;
+use Laminas\I18n\Translator\TranslatorAwareTrait;
 
 abstract class AbstractGroupByOwnerSelect extends Select
 {
+    use TranslatorAwareTrait;
+
     /**
      * @var ApiManager
      */
@@ -72,6 +75,7 @@ abstract class AbstractGroupByOwnerSelect extends Select
                     $valueOptions[$id] = $label;
                 }
             }
+
         } else {
             // Group alphabetically by owner email.
             $resourceOwners = [];
@@ -99,6 +103,14 @@ abstract class AbstractGroupByOwnerSelect extends Select
                     $label = '[No owner]';
                 }
                 $valueOptions[] = ['label' => $label, 'options' => $options];
+            }
+            uasort($valueOptions, function ($a, $b) {
+                return strcasecmp($a['label'], $b['label']);
+            });
+            foreach ($valueOptions as &$valueOption) {
+                usort($valueOption['options'], function ($a, $b) {
+                    return strcasecmp($a, $b);
+                });
             }
         }
 

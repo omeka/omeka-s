@@ -11,6 +11,7 @@ class ResourceTemplateSelectFactory implements FactoryInterface
     {
         $element = new ResourceTemplateSelect;
         $element->setApiManager($services->get('Omeka\ApiManager'));
+        $element->setTranslator($services->get('MvcTranslator'));
         return $element;
     }
 }

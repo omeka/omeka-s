@@ -72,18 +72,28 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
             }
             $attributes['title'] = $member->term();
             $option = [
-                'label' => $member->label(),
+                'label' => $this->getTranslator()->translate($member->label()),
                 'value' => $termAsValue ? $member->term() : $member->id(),
                 'attributes' => $attributes,
             ];
             $vocabulary = $member->vocabulary();
             if (!isset($valueOptions[$vocabulary->prefix()])) {
                 $valueOptions[$vocabulary->prefix()] = [
-                    'label' => $vocabulary->label(),
+                    'label' => $this->getTranslator()->translate($vocabulary->label()),
                     'options' => [],
                 ];
             }
             $valueOptions[$vocabulary->prefix()]['options'][] = $option;
+        }
+        // Sort vocabulary labels alphabetically.
+        uasort($valueOptions, function ($a, $b) {
+            return strcasecmp($a['label'], $b['label']);
+        });
+        // Sort member labels alphabetically.
+        foreach ($valueOptions as &$valueOption) {
+            usort($valueOption['options'], function ($a, $b) {
+                return strcasecmp($a['label'], $b['label']);
+            });
         }
         // Move Dublin Core vocabularies (dcterms & dctype) to the beginning.
         if (isset($valueOptions['dcterms'])) {

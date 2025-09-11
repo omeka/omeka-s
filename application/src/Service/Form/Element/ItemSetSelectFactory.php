@@ -11,6 +11,7 @@ class ItemSetSelectFactory implements FactoryInterface
     {
         $element = new ItemSetSelect;
         $element->setApiManager($services->get('Omeka\ApiManager'));
+        $element->setTranslator($services->get('MvcTranslator'));
         return $element;
     }
 }

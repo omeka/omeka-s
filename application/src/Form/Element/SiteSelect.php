@@ -10,6 +10,6 @@ class SiteSelect extends AbstractGroupByOwnerSelect
 
     public function getValueLabel($resource)
     {
-        return $resource->title();
+        return $this->getTranslator()->translate($resource->title());
     }
 }

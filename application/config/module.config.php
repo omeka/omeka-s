@@ -453,6 +453,7 @@ return [
             'lightGalleryOutput' => View\Helper\LightGalleryOutput::class,
             'iiifViewer' => View\Helper\IiifViewer::class,
             'currentSite' => View\Helper\CurrentSite::class,
+            'formSelect' => Form\View\Helper\FormSelect::class,
         ],
         'factories' => [
             'api' => Service\ViewHelper\ApiFactory::class,

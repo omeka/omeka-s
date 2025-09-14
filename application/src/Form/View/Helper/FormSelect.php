@@ -5,15 +5,10 @@ use Laminas\Form\Exception;
 use Laminas\Form\ElementInterface;
 use Laminas\Form\Element\Select as SelectElement;
 use Laminas\Form\View\Helper\FormSelect as LaminasFormSelect;
-use Omeka\Form\Element\SortTranslatedValueOptionsInterface;
+use Omeka\Form\Element\SelectSortTranslatedInterface;
 
 class FormSelect extends LaminasFormSelect
 {
-    /**
-     * Override parent::render(), copying over the original code, adding a few
-     * lines that disable/enable automatic translation and translate/sort the
-     * value options.
-     */
     public function render(ElementInterface $element): string
     {
         if (! $element instanceof SelectElement) {
@@ -31,15 +26,16 @@ class FormSelect extends LaminasFormSelect
             ));
         }
 
-        /* begin code injection */
-        if ($element instanceof SortTranslatedValueOptionsInterface) {
-            // Temporarily disable the translator.
+        if ($element instanceof SelectSortTranslatedInterface) {
+            // Implementations of SelectSortTranslatedInterface override default
+            // behavior by sorting value options *after* they are translated.
+            // Normally they are sorted before they are translated.
             $this->setTranslatorEnabled(false);
             $options = $this->getValueOptions($element);
         } else {
+            // Default behavior.
             $options = $element->getValueOptions();
         }
-        /* end code injection */
 
         if (($emptyOption = $element->getEmptyOption()) !== null) {
             $options = ['' => $emptyOption] + $options;
@@ -65,10 +61,8 @@ class FormSelect extends LaminasFormSelect
             $rendered = $this->renderHiddenElement($element) . $rendered;
         }
 
-        /* begin code injection */
         // Enable the translator (default is true)
         $this->setTranslatorEnabled(true);
-        /* end code injection */
 
         return $rendered;
     }
@@ -119,8 +113,8 @@ class FormSelect extends LaminasFormSelect
             }
         }
 
-        // Elements can finalize the value options.
-        $options = $element->getFinalizedValueOptions($options);
+        // Elements may finalize the value options.
+        $options = $element->finalizeValueOptions($options);
 
         return $options;
     }

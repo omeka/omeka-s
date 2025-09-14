@@ -7,7 +7,7 @@ use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\Form\Element\Select;
 use Laminas\I18n\Translator\TranslatorAwareTrait;
 
-abstract class AbstractVocabularyMemberSelect extends Select implements EventManagerAwareInterface, SortTranslatedValueOptionsInterface
+abstract class AbstractVocabularyMemberSelect extends Select implements EventManagerAwareInterface, SelectSortTranslatedInterface
 {
     use EventManagerAwareTrait;
     use TranslatorAwareTrait;
@@ -94,7 +94,7 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
         return $valueOptions;
     }
 
-    public function getFinalizedValueOptions(array $options): array
+    public function finalizeValueOptions(array $options): array
     {
         // Move Dublin Core vocabularies (dcterms & dctype) to the beginning.
         if (isset($options['dcterms'])) {
@@ -103,13 +103,11 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
         if (isset($options['dctype'])) {
             $options = ['dctype' => $options['dctype']] + $options;
         }
-
         // Prepend configured value options.
         $prependOptions = $this->getOption('prepend_value_options');
         if (is_array($prependOptions)) {
             $options = $prependOptions + $options;
         }
-
         return $options;
     }
 }

@@ -5,8 +5,10 @@ use Omeka\Api\Manager as ApiManager;
 use Omeka\Api\Representation\UserRepresentation;
 use Laminas\Form\Element\Select;
 
-abstract class AbstractGroupByOwnerSelect extends Select
+abstract class AbstractGroupByOwnerSelect extends Select implements SelectSortTranslatedInterface
 {
+    use SelectSortTranslatedTrait;
+
     /**
      * @var ApiManager
      */

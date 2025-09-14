@@ -2,19 +2,19 @@
 namespace Omeka\Form\Element;
 
 /**
- * The SortTranslatedValueOptionsInterface interface.
+ * The SelectSortTranslatedInterface interface.
  *
  * The FormSelect view helper translates labels immediately before rendering
  * them, which makes it impossible to sort on the translated labels. Implement
  * this interface to translate before sorting.
  */
-interface SortTranslatedValueOptionsInterface
+interface SelectSortTranslatedInterface
 {
     /**
      * Get the finalized value options.
      *
-     * Implementing classes should use this method to finalize the structure and
+     * Implementing classes may use this method to finalize the structure and
      * content of the value options (e.g. custom sorting).
      */
-    public function getFinalizedValueOptions(array $options): array;
+    public function finalizeValueOptions(array $options): array;
 }

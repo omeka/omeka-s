@@ -503,6 +503,9 @@ return [
             'Laminas\Form\View\Helper\FormSelect' => [
                 Service\Delegator\FormSelectDelegatorFactory::class,
             ],
+            'Omeka\Form\View\Helper\FormSelect' => [
+                Service\Delegator\FormSelectDelegatorFactory::class,
+            ],
             'Laminas\Form\View\Helper\FormRow' => [
                 Service\Delegator\FormRowDelegatorFactory::class,
             ],

@@ -97,11 +97,11 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
     public function finalizeValueOptions(array $options): array
     {
         // Move Dublin Core vocabularies (dcterms & dctype) to the beginning.
-        if (isset($options['dcterms'])) {
-            $options = ['dcterms' => $options['dcterms']] + $options;
-        }
         if (isset($options['dctype'])) {
             $options = ['dctype' => $options['dctype']] + $options;
+        }
+        if (isset($options['dcterms'])) {
+            $options = ['dcterms' => $options['dcterms']] + $options;
         }
         // Prepend configured value options.
         $prependOptions = $this->getOption('prepend_value_options');

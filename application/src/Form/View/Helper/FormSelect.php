@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Form\View\Helper;
 
+use Collator;
 use Laminas\Form\ElementInterface;
 use Laminas\Form\View\Helper\FormSelect as LaminasFormSelect;
 use Laminas\Stdlib\ArrayUtils;
@@ -9,29 +10,43 @@ use Omeka\Form\Element\SelectSortTranslatedInterface;
 class FormSelect extends LaminasFormSelect
 {
     /**
-     * @var ElementInterface
+     * @var array Variables related to SelectSortTranslatedInterface
      */
-    protected $element;
+    protected $sortTranslatedVars = [];
 
-    // Override of parent::render().
+    /**
+     * Override of parent::render().
+     */
     public function render(ElementInterface $element): string
     {
-        // Temporarily set the select element so downstream code can detect
-        // whether to sort value options after translating.
-        $this->element = $element;
+        if ($element instanceof SelectSortTranslatedInterface) {
+            // Temporarily set variables related to SelectSortTranslatedInterface
+            // so downstream code can detect whether to sort value options after
+            // translating.
+            $this->sortTranslatedVars['element'] = $element;
+            $this->sortTranslatedVars['collator'] = extension_loaded('intl') ? new Collator('root') : null;
+            $this->sortTranslatedVars['finalized'] = false;
+        }
+
         $rendered = parent::render($element);
-        $this->element = null;
+
+        if ($element instanceof SelectSortTranslatedInterface) {
+            // Reset variables related to SelectSortTranslatedInterface.
+            $this->sortTranslatedVars = [];
+        }
+
         return $rendered;
     }
 
-    // Override of parent::renderOptions().
+    /**
+     * Override and reimplementation of parent::renderOptions().
+     */
     public function renderOptions(array $options, array $selectedOptions = []): string
     {
-        // Implementations of SelectSortTranslatedInterface override default
-        // behavior by sorting value options *after* they are translated.
-        // Normally they are sorted before they are translated.
-        $implementsSortTranslated = $this->element instanceof SelectSortTranslatedInterface;
-        if ($implementsSortTranslated) {
+        if ($this->implementsSortTranslated()) {
+            // Implementations of SelectSortTranslatedInterface override default
+            // behavior by sorting value options *after* they are translated.
+            // Normally they are sorted before they are translated.
             $options = $this->sortTranslated($options);
         }
 
@@ -75,9 +90,9 @@ class FormSelect extends LaminasFormSelect
                 $selected = true;
             }
 
-            // Implementations of SelectSortTranslatedInterface skip translation
-            // here because translations have already been made.
-            if (!$implementsSortTranslated && null !== ($translator = $this->getTranslator())) {
+            if (!$this->implementsSortTranslated() && null !== ($translator = $this->getTranslator())) {
+                // Implementations of SelectSortTranslatedInterface skip translations
+                // here because translations have already been made.
                 $label = $translator->translate(
                     $label,
                     $this->getTranslatorTextDomain()
@@ -106,10 +121,25 @@ class FormSelect extends LaminasFormSelect
     }
 
     /**
+     * Does the select element implement SelectSortTranslatedInterface?
+     */
+    public function implementsSortTranslated(): bool
+    {
+        return (
+            isset($this->sortTranslatedVars['element'])
+            && ($this->sortTranslatedVars['element'] instanceof SelectSortTranslatedInterface)
+        );
+    }
+
+    /**
      * Sort options after translating them.
      */
     public function sortTranslated(array $options): array
     {
+        if (!$this->implementsSortTranslated()) {
+            return $options;
+        }
+
         $view = $this->getView();
 
         // Translate the labels.
@@ -135,13 +165,22 @@ class FormSelect extends LaminasFormSelect
                 return $option['label'];
             }
         };
+        $compare = function ($a, $b) {
+            return $this->sortTranslatedVars['collator']
+                ? $this->sortTranslatedVars['collator']->compare($a, $b)
+                : strcasecmp($a, $b);
+        };
         // Sort the options alphabetically.
-        uasort($options, function ($a, $b) use ($getLabel) {
-            return strcasecmp($getLabel($a), $getLabel($b));
+        uasort($options, function ($a, $b) use ($getLabel, $compare) {
+            return $compare($getLabel($a), $getLabel($b));
         });
 
-        // Select elements may finalize the value options.
-        $options = $this->element->finalizeValueOptions($options);
+        // Select elements may finalize the value options. Prevent calling
+        // finalizeValueOptions more than once.
+        if (!$this->sortTranslatedVars['finalized']) {
+            $this->sortTranslatedVars['finalized'] = true;
+            $options = $this->sortTranslatedVars['element']->finalizeValueOptions($options);
+        }
 
         // Reapply the empty option.
         if (null !== $emptyOption) {

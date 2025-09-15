@@ -38,6 +38,9 @@ class FormSelect extends LaminasFormSelect
         }
 
         if (($emptyOption = $element->getEmptyOption()) !== null) {
+            if ($element instanceof SelectSortTranslatedInterface) {
+                $emptyOption = $this->getView()->translate($emptyOption);
+            }
             $options = ['' => $emptyOption] + $options;
         }
 
@@ -61,8 +64,10 @@ class FormSelect extends LaminasFormSelect
             $rendered = $this->renderHiddenElement($element) . $rendered;
         }
 
-        // Enable the translator (default is true)
-        $this->setTranslatorEnabled(true);
+        if ($element instanceof SelectSortTranslatedInterface) {
+            // Re-enable the translator (default is true)
+            $this->setTranslatorEnabled(true);
+        }
 
         return $rendered;
     }

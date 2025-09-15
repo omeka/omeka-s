@@ -1,9 +1,7 @@
 <?php
 namespace Omeka\Form\View\Helper;
 
-use Laminas\Form\Exception;
 use Laminas\Form\ElementInterface;
-use Laminas\Form\Element\Select as SelectElement;
 use Laminas\Form\View\Helper\FormSelect as LaminasFormSelect;
 use Laminas\Stdlib\ArrayUtils;
 use Omeka\Form\Element\SelectSortTranslatedInterface;
@@ -37,13 +35,13 @@ class FormSelect extends LaminasFormSelect
             $options = $this->sortTranslated($options);
         }
 
-        $template      = '<option %s>%s</option>';
+        $template = '<option %s>%s</option>';
         $optionStrings = [];
-        $escapeHtml    = $this->getEscapeHtmlHelper();
+        $escapeHtml = $this->getEscapeHtmlHelper();
 
         foreach ($options as $key => $optionSpec) {
-            $value    = '';
-            $label    = '';
+            $value = '';
+            $label = '';
             $selected = false;
             $disabled = false;
 
@@ -87,7 +85,7 @@ class FormSelect extends LaminasFormSelect
             }
 
             $attributes = [
-                'value'    => $value,
+                'value' => $value,
                 'selected' => $selected,
                 'disabled' => $disabled,
             ];
@@ -97,7 +95,7 @@ class FormSelect extends LaminasFormSelect
             }
 
             $this->validTagAttributes = $this->validOptionAttributes;
-            $optionStrings[]          = sprintf(
+            $optionStrings[] = sprintf(
                 $template,
                 $this->createAttributesString($attributes),
                 $escapeHtml($label)

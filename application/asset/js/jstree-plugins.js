@@ -225,6 +225,11 @@ $.jstree.plugins.editlink = function(options, parent) {
                 $.post($('#nav-tree').data('link-form-url'), nodeObj.data)
                     .done(function(data) {
                         nodeObj.editlink_container.append(data);
+                        // Must update omekaFormOriginalData after every post to set
+                        // accurate original form data. Without this, Omeka.warnIfUnsaved()
+                        // will trigger a "Leave site?" prompt every time users navigate
+                        // away from an unchanged form.
+                        $('#site-form').data('omekaFormOriginalData', $('#site-form').serialize());
                     });
             }
             var nodeJq = $(node);

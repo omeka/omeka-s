@@ -164,6 +164,25 @@ class ResourceClassAdapter extends AbstractEntityAdapter
                     $qb->createNamedParameter($query['site_id'])));
             $qb->andWhere($qb->expr()->in('omeka_root.id', $subquery->getDQL()));
         }
+
+        if (isset($query['site_id_item_sets']) && is_numeric($query['site_id_item_sets'])) {
+            $siteAlias = $qb->createAlias();
+            $itemSetAlias = $qb->createAlias();
+            $resourcesAlias = $qb->createAlias();
+            $subquery = $this->createQueryBuilder()
+                ->select("IDENTITY($resourcesAlias.resourceClass)")
+                ->from('Omeka\Entity\Resource', $resourcesAlias)
+                ->join('Omeka\Entity\Site', $siteAlias)
+                ->join(
+                    "$siteAlias.siteItemSets",
+                    $itemSetAlias,
+                    'WITH',
+                    "$itemSetAlias.itemSet = $resourcesAlias.id"
+                )
+                ->andWhere($qb->expr()->eq("$siteAlias.id",
+                    $qb->createNamedParameter($query['site_id_item_sets'])));
+            $qb->andWhere($qb->expr()->in('omeka_root.id', $subquery->getDQL()));
+        }
     }
 
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)

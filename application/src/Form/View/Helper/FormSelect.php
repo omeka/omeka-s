@@ -5,8 +5,8 @@ use Collator;
 use Laminas\Form\ElementInterface;
 use Laminas\Form\View\Helper\FormSelect as LaminasFormSelect;
 use Laminas\Stdlib\ArrayUtils;
-use Omeka\Form\Element\SelectSortTranslatedInterface;
-use Omeka\Stdlib\SelectSortTrait;
+use Omeka\Form\Element\SelectSortInterface;
+use Omeka\Form\Element\SelectSortTrait;
 
 class FormSelect extends LaminasFormSelect
 {
@@ -21,9 +21,9 @@ class FormSelect extends LaminasFormSelect
      */
     public function render(ElementInterface $element): string
     {
-        if ($element instanceof SelectSortTranslatedInterface) {
-            // Temporarily set variables related to SelectSortTranslatedInterface
-            // so downstream code can detect whether to sort value options after
+        if ($element instanceof SelectSortInterface) {
+            // Temporarily set variables related to SelectSortInterface so
+            // downstream code can detect whether to sort value options after
             // translating.
             $this->element = $element;
             $this->valueOptionsFinalized = false;
@@ -31,8 +31,8 @@ class FormSelect extends LaminasFormSelect
 
         $rendered = parent::render($element);
 
-        if ($element instanceof SelectSortTranslatedInterface) {
-            // Reset variables related to SelectSortTranslatedInterface.
+        if ($element instanceof SelectSortInterface) {
+            // Reset variables related to SelectSortInterface.
             $this->element = null;
             $this->valueOptionsFinalized = null;
         }
@@ -46,9 +46,9 @@ class FormSelect extends LaminasFormSelect
     public function renderOptions(array $options, array $selectedOptions = []): string
     {
         if ($this->implementsSortTranslated()) {
-            // Implementations of SelectSortTranslatedInterface override default
-            // behavior by sorting value options *after* they are translated.
-            // Normally they are sorted before they are translated.
+            // Implementations of SelectSortInterface override default behavior
+            // by sorting value options *after* they are translated. Normally
+            // they are sorted before they are translated.
             $options = $this->sortTranslated($options);
         }
 
@@ -93,8 +93,8 @@ class FormSelect extends LaminasFormSelect
             }
 
             if (!$this->implementsSortTranslated() && null !== ($translator = $this->getTranslator())) {
-                // Implementations of SelectSortTranslatedInterface skip translations
-                // here because translations have already been made.
+                // Implementations of SelectSortInterface skip translations here
+                // because translations have already been made.
                 $label = $translator->translate(
                     $label,
                     $this->getTranslatorTextDomain()
@@ -123,13 +123,13 @@ class FormSelect extends LaminasFormSelect
     }
 
     /**
-     * Does the select element implement SelectSortTranslatedInterface?
+     * Does the select element implement SelectSortInterface?
      */
     public function implementsSortTranslated(): bool
     {
         return (
             isset($this->element)
-            && ($this->element instanceof SelectSortTranslatedInterface)
+            && ($this->element instanceof SelectSortInterface)
         );
     }
 
@@ -144,19 +144,21 @@ class FormSelect extends LaminasFormSelect
 
         $view = $this->getView();
 
-        // Translate the labels.
-        foreach ($options as &$option) {
-            if (is_string($option)) {
-                $option = $view->translate($option);
-            } elseif (is_array($option)) {
-                $option['label'] = $view->translate($option['label']);
-            }
-        }
-
         // Temporarily remove the empty option before sorting and finalizing.
         $emptyOption = null;
         if ('' === array_key_first($options)) {
-            $emptyOption = array_shift($options);
+            $emptyOption = $view->translate(array_shift($options));
+        }
+
+        // Translate the labels.
+        if ($this->element->translateValueOptions()) {
+            foreach ($options as &$option) {
+                if (is_string($option)) {
+                    $option = $view->translate($option);
+                } elseif (is_array($option)) {
+                    $option['label'] = $view->translate($option['label']);
+                }
+            }
         }
 
         // Get labels function.

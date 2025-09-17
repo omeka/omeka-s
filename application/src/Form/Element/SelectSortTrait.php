@@ -1,11 +1,21 @@
 <?php
-namespace Omeka\Stdlib;
+namespace Omeka\Form\Element;
 
 use Collator;
 
 trait SelectSortTrait
 {
     protected $compareFunction;
+
+    public function translateValueOptions(): bool
+    {
+        return true;
+    }
+
+    public function finalizeValueOptions(array $options): array
+    {
+        return $options;
+    }
 
     /**
      * Get the compare function to use when sorting options.
@@ -26,15 +36,23 @@ trait SelectSortTrait
      */
     public function sortSelectorOptions(array $options): array
     {
+        $getLabel = function ($option) {
+            if (is_string($option)) {
+                return $option;
+            } elseif (is_array($option)) {
+                return $option['label'];
+            }
+        };
         $compare = $this->getCompareFunction();
-        uasort($options, function ($a, $b) use ($compare) {
-            return $compare($a['label'], $b['label']);
+        uasort($options, function ($a, $b) use ($compare, $getLabel) {
+            return $compare($getLabel($a), $getLabel($b));
         });
         foreach ($options as &$option) {
-            uasort($option['options'], function ($a, $b) use ($compare) {
-                return $compare($a['label'], $b['label']);
+            uasort($option['options'], function ($a, $b) use ($compare, $getLabel) {
+                return $compare($getLabel($a), $getLabel($b));
             });
         }
         return $options;
     }
+
 }

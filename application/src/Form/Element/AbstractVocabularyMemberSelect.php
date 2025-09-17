@@ -7,10 +7,11 @@ use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\Form\Element\Select;
 use Laminas\I18n\Translator\TranslatorAwareTrait;
 
-abstract class AbstractVocabularyMemberSelect extends Select implements EventManagerAwareInterface, SelectSortTranslatedInterface
+abstract class AbstractVocabularyMemberSelect extends Select implements EventManagerAwareInterface, SelectSortInterface
 {
     use EventManagerAwareTrait;
     use TranslatorAwareTrait;
+    use SelectSortTrait;
 
     /**
      * @var ApiManager

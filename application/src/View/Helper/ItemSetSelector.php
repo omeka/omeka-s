@@ -2,7 +2,7 @@
 namespace Omeka\View\Helper;
 
 use Laminas\View\Helper\AbstractHelper;
-use Omeka\Stdlib\SelectSortTrait;
+use Omeka\Form\Element\SelectSortTrait;
 
 /**
  * View helper for rendering the item set selector form control.

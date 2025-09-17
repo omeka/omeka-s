@@ -2,7 +2,7 @@
 namespace Omeka\View\Helper;
 
 use Laminas\View\Helper\AbstractHelper;
-use Omeka\Stdlib\SelectSortTrait;
+use Omeka\Form\Element\SelectSortTrait;
 
 class SiteSelector extends AbstractHelper
 {

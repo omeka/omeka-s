@@ -16,11 +16,24 @@ class SiteSelector extends AbstractHelper
                 $owner = $site->owner();
                 $email = $owner ? $owner->email() : null;
                 $sitesByOwner[$email]['owner'] = $owner;
-                $sitesByOwner[$email]['sites'][] = $site;
+                $sitesByOwner[$email]['sites'][] = [
+                    'title' => $view->translate($site->title()),
+                    'site' => $site,
+                ];
                 $totalCount++;
             }
         }
-        ksort($sitesByOwner);
+        // Sort user names alphabetically.
+        uasort($sitesByOwner, function ($a, $b) {
+            return strcasecmp($a['owner']->name(), $b['owner']->name());
+        });
+        // Sort site titles alphabetically.
+        foreach ($sitesByOwner as &$siteByOwner) {
+            uasort($siteByOwner['sites'], function ($a, $b) {
+                return strcasecmp($a['title'], $b['title']);
+            });
+        }
+
         return $view->partial(
             'common/site-selector',
             [

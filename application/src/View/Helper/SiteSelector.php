@@ -27,7 +27,7 @@ class SiteSelector extends AbstractHelper
                 $totalCount++;
             }
         }
-        $options = $this->sortSelectorOptions($options);
+        $options = $this->sortSelectOptions($options);
 
         return $view->partial(
             'common/site-selector',

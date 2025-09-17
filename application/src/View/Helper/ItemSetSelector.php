@@ -40,7 +40,7 @@ class ItemSetSelector extends AbstractHelper
                 'item_set' => $itemSet,
             ];
         }
-        $options = $this->sortSelectorOptions($options);
+        $options = $this->sortSelectOptions($options);
         return $view->partial(
             'common/item-set-selector',
             [

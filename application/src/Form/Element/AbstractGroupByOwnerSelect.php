@@ -104,7 +104,7 @@ abstract class AbstractGroupByOwnerSelect extends Select implements SelectSortIn
             }
         }
 
-        $valueOptions = $this->sortSelectorOptions($valueOptions);
+        $valueOptions = $this->sortSelectOptions($valueOptions);
 
         $prependValueOptions = $this->getOption('prepend_value_options');
         if (is_array($prependValueOptions)) {

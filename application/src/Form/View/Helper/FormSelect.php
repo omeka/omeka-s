@@ -160,7 +160,7 @@ class FormSelect extends LaminasFormSelect
             }
         }
 
-        // Get labels function.
+        // Sort the labels.
         $getLabel = function ($option) {
             if (is_string($option)) {
                 return $option;
@@ -169,19 +169,18 @@ class FormSelect extends LaminasFormSelect
             }
         };
         $compare = $this->getCompareFunction();
-        // Sort the options alphabetically.
         uasort($options, function ($a, $b) use ($getLabel, $compare) {
             return $compare($getLabel($a), $getLabel($b));
         });
 
-        // Select elements may finalize the value options. Prevent calling
-        // finalizeValueOptions more than once.
+        // Select elements may finalize the value options. Must prevent calling
+        // finalizeValueOptions more than once because this method is recursive.
         if (false === $this->valueOptionsFinalized) {
             $this->valueOptionsFinalized = true;
             $options = $this->element->finalizeValueOptions($options);
         }
 
-        // Reapply the empty option.
+        // Re-apply the empty option.
         if (null !== $emptyOption) {
             $options = ['' => $emptyOption] + $options;
         }

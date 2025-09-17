@@ -3,6 +3,13 @@ namespace Omeka\Form\Element;
 
 use Collator;
 
+/**
+ * The SelectSortInterface trait.
+ *
+ * Provides features for sorting and translating Select elements.
+ *
+ * @see Omeka\Form\Element\SelectSortInterface
+ */
 trait SelectSortTrait
 {
     protected $compareFunction;
@@ -23,18 +30,24 @@ trait SelectSortTrait
     public function getCompareFunction(): callable
     {
         if (!isset($this->compareFunction)) {
-            $collator = extension_loaded('intl') ? new Collator('root') : false;
-            $this->compareFunction = function ($a, $b) use ($collator) {
-                return $collator ? $collator->compare($a, $b) : strcasecmp($a, $b);
-            };
+            if (extension_loaded('intl')) {
+                $collator = new Collator('root');
+                $this->compareFunction = function ($a, $b) use ($collator) {
+                    return $collator->compare($a, $b);
+                };
+            } else {
+                $this->compareFunction = function ($a, $b) {
+                    return strcasecmp($a, $b);
+                };
+            }
         }
         return $this->compareFunction;
     }
 
     /**
-     * Sort selector options.
+     * Sort select options.
      */
-    public function sortSelectorOptions(array $options): array
+    public function sortSelectOptions(array $options): array
     {
         $getLabel = function ($option) {
             if (is_string($option)) {

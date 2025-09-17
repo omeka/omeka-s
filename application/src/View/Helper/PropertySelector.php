@@ -50,7 +50,7 @@ class PropertySelector extends AbstractHelper
                 ];
             }
         }
-        $options = $this->sortSelectorOptions($options);
+        $options = $this->sortSelectOptions($options);
 
         return $view->partial(
             'common/property-selector',

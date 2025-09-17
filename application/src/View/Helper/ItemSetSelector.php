@@ -2,12 +2,15 @@
 namespace Omeka\View\Helper;
 
 use Laminas\View\Helper\AbstractHelper;
+use Omeka\Stdlib\SelectSortTrait;
 
 /**
  * View helper for rendering the item set selector form control.
  */
 class ItemSetSelector extends AbstractHelper
 {
+    use SelectSortTrait;
+
     /**
      * Return the item set selector form control.
      *
@@ -26,33 +29,25 @@ class ItemSetSelector extends AbstractHelper
         $response = $this->getView()->api()->search('item_sets', $query);
 
         // Organize items sets by owner.
-        $itemSetOwners = [];
+        $options = [];
         foreach ($response->getContent() as $itemSet) {
             $owner = $itemSet->owner();
             $email = $owner ? $owner->email() : null;
-            $itemSetOwners[$email]['owner'] = $owner;
-            $itemSetOwners[$email]['item_sets'][] = [
-                'title' => $view->translate($itemSet->displayTitle()),
+            $options[$email]['owner'] = $owner;
+            $options[$email]['label'] = $owner ? $owner->name() : $view->translate('[No owner]');
+            $options[$email]['options'][] = [
+                'label' => $itemSet->displayTitle(),
                 'item_set' => $itemSet,
             ];
         }
-        // Sort user names alphabetically.
-        uasort($itemSetOwners, function ($a, $b) {
-            return strcasecmp($a['owner']->name(), $b['owner']->name());
-        });
-        // Sort item set titles alphabetically.
-        foreach ($itemSetOwners as &$itemSetOwner) {
-            uasort($itemSetOwner['item_sets'], function ($a, $b) {
-                return strcasecmp($a['title'], $b['title']);
-            });
-        }
-
+        $options = $this->sortSelectorOptions($options);
         return $view->partial(
             'common/item-set-selector',
             [
-                'itemSetOwners' => $itemSetOwners,
-                'totalItemSetCount' => $response->getTotalResults(),
+                'options' => $options,
+                'totalCount' => $response->getTotalResults(),
             ]
         );
     }
+
 }

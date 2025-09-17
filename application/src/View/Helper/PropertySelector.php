@@ -2,12 +2,15 @@
 namespace Omeka\View\Helper;
 
 use Laminas\View\Helper\AbstractHelper;
+use Omeka\Stdlib\SelectSortTrait;
 
 /**
  * View helper for rendering the property selector.
  */
 class PropertySelector extends AbstractHelper
 {
+    use SelectSortTrait;
+
     /**
      * @var string Selector markup cache
      */
@@ -33,36 +36,27 @@ class PropertySelector extends AbstractHelper
         $propResponse = $this->getView()->api()->search('properties', ['limit' => 0]);
 
         // Build the vocabulary properties array.
-        $vocabProps = [];
+        $options = [];
         foreach ($vocabResponse->getContent() as $vocabulary) {
-            $vocabProps[$vocabulary->prefix()] = [
+            $options[$vocabulary->prefix()] = [
                 'label' => $view->translate($vocabulary->label()),
                 'vocabulary' => $vocabulary,
-                'properties' => [],
+                'options' => [],
             ];
             foreach ($vocabulary->properties() as $property) {
-                $vocabProps[$vocabulary->prefix()]['properties'][] = [
+                $options[$vocabulary->prefix()]['options'][] = [
                     'label' => $view->translate($property->label()),
                     'property' => $property,
                 ];
             }
         }
-        // Sort vocabulary labels alphabetically.
-        uasort($vocabProps, function ($a, $b) {
-            return strcasecmp($a['label'], $b['label']);
-        });
-        // Sort member labels alphabetically.
-        foreach ($vocabProps as &$vocabProp) {
-            uasort($vocabProp['properties'], function ($a, $b) {
-                return strcasecmp($a['label'], $b['label']);
-            });
-        }
+        $options = $this->sortSelectorOptions($options);
 
         return $view->partial(
             'common/property-selector',
             [
-                'vocabProps' => $vocabProps,
-                'totalPropertyCount' => $propResponse->getTotalResults(),
+                'options' => $options,
+                'totalCount' => $propResponse->getTotalResults(),
                 'propertySelectorText' => $propertySelectorText,
                 'state' => $active ? 'always-open' : '',
             ]

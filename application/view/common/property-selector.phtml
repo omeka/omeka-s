@@ -12,28 +12,28 @@ $escape = $this->plugin('escapeHtml');
     <input type="text" class="selector-filter" placeholder="<?php echo $translate('Filter properties'); ?>" aria-label="<?php echo $translate('Filter properties'); ?>">
     <ul class="selectable-list">
 
-        <?php foreach ($vocabProps as $vocab): ?>
+        <?php foreach ($options as $vocab): ?>
         <?php
         $vocabulary = $vocab['vocabulary'];
-        $propertyCount = count($vocab['properties']);
+        $propertyCount = count($vocab['options']);
         // Don't display vocabs without properties.
         if (0 === $propertyCount) { continue; }
         ?>
         <li class="selector-parent" data-vocabulary-id="<?php echo $escape($vocabulary->id()); ?>">
             <span><?php echo $escape($vocab['label']); ?></span> (<span class="selector-child-count"><?php echo $propertyCount; ?></span>)
             <ul>
-                <?php foreach ($vocab['properties'] as $prop): ?>
+                <?php foreach ($vocab['options'] as $prop): ?>
                 <?php
                 $property = $prop['property'];
-                $propertyComment = $property->comment();
+                $comment = $property->comment();
                 ?>
                 <li class="selector-child"
                     data-child-search="<?php echo $escape($prop['label']); ?>"
                     data-property-id="<?php echo $escape($property->id()); ?>"
                     data-property-term="<?php echo $escape($property->term()); ?>">
-                    <div class="description<?php echo ($propertyComment) ? '' : ' no-comment'; ?>">
+                    <div class="description<?php echo $comment ? '' : ' no-comment'; ?>">
                         <p class="o-icon-info"><span class="screen-reader-text"><?php echo $translate('More info'); ?></span></p>
-                        <p class="field-comment"><?php echo $escape($translate($propertyComment)); ?></p>
+                        <p class="field-comment"><?php echo $escape($translate($comment)); ?></p>
                     </div>
                     <span class="selectable"><?php echo $escape($prop['label']); ?></span>
                 </li>

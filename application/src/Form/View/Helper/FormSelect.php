@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Form\View\Helper;
 
-use Collator;
 use Laminas\Form\ElementInterface;
 use Laminas\Form\View\Helper\FormSelect as LaminasFormSelect;
 use Laminas\Stdlib\ArrayUtils;

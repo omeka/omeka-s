@@ -18,12 +18,7 @@ class UserSelector extends AbstractHelper
     public function __invoke($title = null, $alwaysOpen = true)
     {
         $users = $this->getView()->api()->search('users', ['sort_by' => 'name'])->getContent();
-
-        $usersByInitial = [];
-        foreach ($users as $user) {
-            $initial = strtoupper($user->name())[0];
-            $usersByInitial[$initial][] = $user;
-        }
+        $usersByInitial = $this->groupUsersByInitial($users);
 
         return $this->getView()->partial(
             'common/user-selector',
@@ -34,5 +29,24 @@ class UserSelector extends AbstractHelper
                 'alwaysOpen' => $alwaysOpen,
             ]
         );
+    }
+
+    /**
+     * Group users by the uppercase initial of their display name.
+     *
+     * Uses multibyte-safe string functions to support non-ASCII names.
+     *
+     * @param iterable $users.
+     * @return array
+     */
+    protected function groupUsersByInitial(iterable $users): array
+    {
+        $usersByInitial = [];
+        foreach ($users as $user) {
+            $initial = mb_substr($user->name(), 0, 1);
+            $upper_initial = mb_strtoupper($initial);
+            $usersByInitial[$upper_initial][] = $user;
+        }
+        return $usersByInitial;
     }
 }

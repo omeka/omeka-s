@@ -17,16 +17,28 @@ class UserSelectorTest extends TestCase
 
         // Create simple user stubs with name() and email()
         $u1 = new class {
-            public function name() { return 'alice'; }
+            public function name()
+            {
+                return 'alice';
+            }
         };
         $u2 = new class {
-            public function name() { return 'Álvaro'; }
+            public function name()
+            {
+                return 'Álvaro';
+            }
         };
         $u3 = new class {
-            public function name() { return '山田'; }
+            public function name()
+            {
+                return '山田';
+            }
         };
         $u4 = new class {
-            public function name() { return 'bob'; }
+            public function name()
+            {
+                return 'bob';
+            }
         };
 
         $result = $helper->callGroupUsersByInitial([$u1, $u2, $u3, $u4]);

@@ -43,8 +43,8 @@ class UserSelector extends AbstractHelper
     {
         $usersByInitial = [];
         foreach ($users as $user) {
-            $initial = mb_substr($user->name(), 0, 1);
-            $upper_initial = mb_strtoupper($initial);
+            $initial = mb_substr($user->name(), 0, 1, 'UTF-8');
+            $upper_initial = mb_strtoupper($initial, 'UTF-8');
             $usersByInitial[$upper_initial][] = $user;
         }
         return $usersByInitial;

@@ -1,6 +1,7 @@
 <?php
 $fulltextSearch = $this->params()->fromQuery('fulltext_search');
 $hasResults = false;
+$this->headMeta()->appendName('robots', 'noindex');
 ?>
 
 <h2><?php echo sprintf($this->translate('Search results for “%s”'), $this->escapeHtml($fulltextSearch)); ?></h2>

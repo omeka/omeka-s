@@ -562,6 +562,8 @@
         field.removeClass('template');
         field.find('.field-label').text(propertyLi.data('child-search')).attr('id', 'property-' + propertyId + '-label');
         field.find('.field-term').text(term);
+        field.find('.collapse, .expand').attr('aria-controls', 'property-' + propertyId + '-description');
+        field.find('.collapsible').attr('id', 'property-' + propertyId + '-description');
         field.find('.field-description').text(propertyLi.find('.field-comment').text());
         field.data('property-term', term);
         field.data('property-id', propertyId);

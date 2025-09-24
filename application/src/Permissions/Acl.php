@@ -3,9 +3,9 @@ namespace Omeka\Permissions;
 
 use Omeka\Api\ResourceInterface;
 use Laminas\Authentication\AuthenticationServiceInterface;
-use Laminas\Permissions\Acl\Acl as ZendAcl;
+use Laminas\Permissions\Acl\Acl as LaminasAcl;
 
-class Acl extends ZendAcl
+class Acl extends LaminasAcl
 {
     const ROLE_GLOBAL_ADMIN = 'global_admin';
     const ROLE_SITE_ADMIN = 'site_admin';
@@ -15,40 +15,28 @@ class Acl extends ZendAcl
     const ROLE_RESEARCHER = 'researcher';
 
     /**
-     * @var array
-     */
-    protected $roleLabels = [
-        self::ROLE_GLOBAL_ADMIN => 'Global Administrator', // @translate
-        self::ROLE_SITE_ADMIN => 'Supervisor', // @translate
-        self::ROLE_EDITOR => 'Editor', // @translate
-        self::ROLE_REVIEWER => 'Reviewer', // @translate
-        self::ROLE_AUTHOR => 'Author', // @translate
-        self::ROLE_RESEARCHER => 'Researcher', // @translate
-    ];
-
-    /**
-     * Roles that are "admins" and restricted for editing.
-     *
-     * @var array
-     */
-    protected $adminRoles = [
-        self::ROLE_GLOBAL_ADMIN,
-        self::ROLE_SITE_ADMIN,
-    ];
-
-    /**
      * @var AuthenticationServiceInterface
      */
     protected $auth;
+
+    /**
+     * @var array
+     */
+    protected $configRoles;
 
     public function setAuthenticationService(AuthenticationServiceInterface $auth)
     {
         $this->auth = $auth;
     }
 
-    public function getAuthenticationService()
+    public function getAuthenticationService(): AuthenticationServiceInterface
     {
         return $this->auth;
+    }
+
+    public function setConfigRoles(array $configRoles)
+    {
+        $this->configRoles = $configRoles;
     }
 
     /**
@@ -56,18 +44,13 @@ class Acl extends ZendAcl
      *
      * @param bool $excludeAdminRoles Whether to only return the non-admin
      *  roles. False by default, so all roles are returned.
-     * @return array
      */
-    public function getRoleLabels($excludeAdminRoles = false)
+    public function getRoleLabels($excludeAdminRoles = false): array
     {
-        $labels = $this->roleLabels;
-
-        if ($excludeAdminRoles) {
-            foreach ($this->adminRoles as $role) {
-                unset($labels[$role]);
-            }
-        }
-        return $labels;
+        $labels = array_column($this->configRoles, 'label', 'role');
+        return $excludeAdminRoles
+            ? array_diff_key($labels, array_filter(array_column($this->configRoles, 'admin', 'role')))
+            : $labels;
     }
 
     /**
@@ -75,47 +58,47 @@ class Acl extends ZendAcl
      *
      * @param ResourceInterface|string $resource
      * @param string $privilege
-     * @return bool
      */
-    public function userIsAllowed($resource = null, $privilege = null)
+    public function userIsAllowed($resource = null, $privilege = null): bool
     {
-        $auth = $this->auth;
-        $role = null;
-        if ($auth) {
-            $role = $auth->getIdentity();
-        }
+        $role = $this->auth
+            ? $this->auth->getIdentity()
+            : null;
         return $this->isAllowed($role, $resource, $privilege);
     }
 
     /**
      * Determine whether the admin role is an "admin" role that carries
      * restrictions beyond other roles.
-     *
-     * @return bool
      */
-    public function isAdminRole($role)
+    public function isAdminRole($role): bool
     {
-        return in_array($role, $this->adminRoles);
+        return !empty($this->configRoles[$role]['admin']);
     }
 
     /**
      * Add a role label to the ACL
      *
-     * @param $roleId
-     * @param $roleLabel
+     * @param string $roleId
+     * @param string $roleLabel
+     *
+     * @deprecated Use main config acl labels.
      */
     public function addRoleLabel($roleId, $roleLabel)
     {
-        $this->roleLabels[$roleId] = $roleLabel;
+        $this->configRoles[$roleId]['label'] = $roleLabel;
     }
 
     /**
      * Remove a role label from the ACL
      *
      * @param $roleId
+     *
+     * @deprecated Will be removed in a future version.
+     * @todo Check the purpose of this method that is never used.
      */
     public function removeRoleLabel($roleId)
     {
-        unset($this->roleLabels[$roleId]);
+        $this->configRoles[$roleId]['label'] = null;
     }
 }

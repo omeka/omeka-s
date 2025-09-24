@@ -496,18 +496,19 @@
             }
             // Validate the values according to the required flag.
             const propertyValues = $('#item-stub-property-values');
-            let hasError = false;
+            const errors = [];
             propertyValues.children('.value-annotation').each(function(key, value) {
                 const valueAnnotation = $(this);
                 const valueInput = valueAnnotation.find('[data-value-key="@value"]');
                 if (valueAnnotation.hasClass('required') && !valueInput.val()) {
-                    valueInput[0].setCustomValidity(Omeka.jsTranslate('Required field must be completed'));
-                    valueInput[0].reportValidity();
-                    hasError = true;
-                    return false;
+                    const propLabel = valueAnnotation.find('.value-annotation-heading').text();
+                    errors.push('The following field is required: ' + propLabel);
                 }
             });
-            if (hasError) return;
+            if (errors.length) {
+                alert(errors.join("\n"));
+                return
+            };
             // Collect values, create the item, and populate the field.
             const values = collectValueAnnotationValues(propertyValues);
             $.post(itemStubForm.data('submitUrl'), {...itemData, ...values})

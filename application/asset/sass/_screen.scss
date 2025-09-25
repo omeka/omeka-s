@@ -3214,6 +3214,12 @@ fieldset.section > legend {
     }
 }
 
+.sidebar > .sidebar-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
 .sidebar-section-nav {
     margin-bottom: $spacing-medium;
     position: relative;
@@ -3251,10 +3257,6 @@ fieldset.section > legend {
     line-height: 1;
 }
 
-.sidebar-section-nav ~ .sidebar-section .confirm-main {
-    top: 4.125 * $spacing-large;
-}
-
 .sidebar-section-nav .active button[type="button"] {
     font-weight: bold;
 }
@@ -3264,6 +3266,11 @@ fieldset.section > legend {
 
     &.active {
         display: block;
+        overflow-y: auto;
+        margin: (-1 * $spacing-medium);
+        padding: $spacing-medium;
+        position: relative;
+        flex-grow: 1;
     }
 }
 

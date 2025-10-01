@@ -99,6 +99,7 @@ class ItemStubForm extends Form
             'name' => 'fieldset-property-values',
             'attributes' => [
                 'id' => 'item-stub-property-values',
+                'class' => 'inputs',
             ],
         ]);
 

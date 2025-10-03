@@ -92,6 +92,7 @@ body {
         width: 100%;
         border-spacing: 0;
         table-layout: fixed;
+        word-break: break-word;
     }
 
     th,
@@ -193,8 +194,8 @@ body {
     :disabled {
         background-color: $gray-on-white;
         box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
-        color: $copy-gray;
-        -webkit-text-fill-color: $copy-gray;
+        color: lighten($copy-gray, 25);
+        -webkit-text-fill-color: lighten($copy-gray, 25);
         cursor: default;
 
         &:hover {
@@ -552,7 +553,7 @@ div[role="main"] > .messages {
     }
 
     .error {
-        background-color: lighten($red, 55%);
+        background-color: lighten($red, 45%);
     }
 
     .success {
@@ -721,18 +722,6 @@ header {
     text-align: left;
     padding: 0 gutter() $spacing-large;
     color: lighten(saturate($blue, 20%), 50%);
-
-    button:focus-visible, 
-    [type="button"]:focus-visible, 
-    [type="reset"]:focus-visible, 
-    [type="submit"]:focus-visible {
-        outline: revert;
-    }
-
-    *:focus-visible {
-        z-index: 10;
-        position: relative;
-    }
 }
 
 .skip {
@@ -840,7 +829,6 @@ header {
     display: inline-block;
     vertical-align: top;
     margin: $spacing-large 0;
-    position: relative;
 }
 
 #search input[type="text"] {
@@ -880,12 +868,6 @@ header {
         width: 1.5 * $spacing-large;
         line-height: 1.5 * $spacing-large;
         text-align: center;
-    }
-
-    &[type="submit"] {
-        position: absolute;
-        top: 0;
-        right: 0;
     }
 }
 
@@ -1394,18 +1376,6 @@ div[role="main"] {
 
 .browse-controls .filtering {
     margin-left: $spacing-large;
-}
-
-.browse-controls #user-filter {
-    width: 100%;
-    margin-bottom: $spacing-medium;
-    background-color: $gray-on-white;
-    border-radius: 2px;
-    padding: $spacing-small $spacing-medium;
-}
-
-.browse-controls #user-filter .user-name {
-    font-weight: bold;
 }
 
 .browse .select-all {
@@ -2074,7 +2044,34 @@ fieldset.section > legend {
     padding: 0 $spacing-small;
 }
 
+.sidebar .value-annotation-heading {
+    display: inline-block;
+    margin-right: $spacing-small;
+}
+
+.sidebar .value-annotation {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.sidebar .value-annotation .required-tag {
+    display: none;
+}
+
+.sidebar .value-annotation.required .required-tag {
+    display: inline-block;
+    padding: .5 * $spacing-small;
+    font-size: .75 * $base-font-size;
+    background-color: #FDEFEF;
+    color: $red;
+    border-radius: 2px;
+    margin: (.5 * $spacing-small) 0 (.5 * $spacing-small);
+    line-height: 1;
+    align-self: center;
+}
+
 .sidebar .value-annotation .value {
+    width: 100%;
     padding-bottom: 0;
 }
 
@@ -2876,8 +2873,6 @@ fieldset.section > legend {
     }
 
     .value-annotation:not(:last-child) {
-        border-bottom: 1px solid $border-gray;
-        padding-bottom: $spacing-medium;
         margin-bottom: $spacing-medium;
     }
 
@@ -3224,6 +3219,66 @@ fieldset.section > legend {
     }
 }
 
+.sidebar > .sidebar-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.sidebar-section-nav {
+    margin-bottom: $spacing-medium;
+    position: relative;
+
+    &:before {
+        content: "";
+        position: absolute;
+        top: -$spacing-medium;
+        bottom: 0;
+        right: -$spacing-large;
+        left: -$spacing-large;
+        background-color: #fff;
+        z-index: -1;
+    }
+}
+
+.sidebar-section-nav ul {
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar-section-nav li {
+    display: inline-block;
+    margin-right: $spacing-small;
+}
+
+.sidebar-section-nav button[type="button"] {
+    background-color: rgba(0,0,0,.08);
+    color: $copy-gray;
+    border-radius: $spacing-large;
+    box-shadow: none;
+    font-size: .875 * $base-font-size;
+    padding: $spacing-small $spacing-medium;
+    min-height: 0;
+    line-height: 1;
+}
+
+.sidebar-section-nav .active button[type="button"] {
+    font-weight: bold;
+}
+
+.sidebar-section {
+    display: none;
+
+    &.active {
+        display: block;
+        overflow-y: auto;
+        margin: (-1 * $spacing-medium);
+        padding: $spacing-medium;
+        position: relative;
+        flex-grow: 1;
+    }
+}
+
 .confirm-main {
     position: absolute;
     top: 0;
@@ -3233,7 +3288,6 @@ fieldset.section > legend {
     right: 0;
     padding: $spacing-medium $spacing-medium 0;
 }
-
 
 .confirm-panel {
     position: absolute;
@@ -3255,19 +3309,24 @@ fieldset.section > legend {
 
 /* @group ----- Query Editor ----- */
 
-.sidebar .field-meta {
+.sidebar .field-meta,
+.sidebar legend {
     width: 100%;
     position: relative;
-    padding-right: 1.5 * $spacing-large;
+    padding: $spacing-small (1.5 * $spacing-large) $spacing-small 0;
     margin-bottom: $spacing-medium;
     border-bottom: 3px solid $border-gray;
+    font-size: $base-font-size;
+}
+
+.sidebar .field-meta {
 
     .label,
     label {
         margin: 0;
         width: auto;
         display: inline-block;
-        padding: 0 0 $spacing-small;
+        padding: 0;
 
         &:after {
             content: none;
@@ -3292,23 +3351,10 @@ fieldset.section > legend {
             line-height: 1.5;
         }
     }
-
 }
 
 .sidebar .inputs {
     width: 100%;
-
-    label,
-    .label {
-        padding: 0;
-        margin: 0;
-        font-weight: normal;
-    }
-
-    label:after,
-    .label:after {
-        content: none;
-    }
 }
 
 .block-layout-fieldset {
@@ -3736,6 +3782,10 @@ input[type=text].query-form-query {
         }
     }
 
+    fieldset {
+        margin-bottom: 0;
+    }
+
     a.o-icon-close {
         position: absolute;
         right: $spacing-medium;
@@ -3816,9 +3866,12 @@ input[type=text].query-form-query {
     }
 
     input,
-    textarea,
-    select {
+    textarea {
         width: 100%;
+    }
+
+    select {
+        width: 100% !important;
     }
 
     input[type="checkbox"],
@@ -3926,18 +3979,6 @@ input[type=text].query-form-query {
         color: #fff;
         box-shadow: none;
     }
-
-    input[type="submit"]:disabled {
-        background-color: $gray-on-white;
-        box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
-        color: $copy-gray;
-        -webkit-text-fill-color: $copy-gray;
-        cursor: default;
-
-        &:hover {
-            box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset !important;
-        }        
-    }
 }
 
 body.sidebar-open #content {
@@ -3947,8 +3988,7 @@ body.sidebar-open #content {
 .sidebar .meta-group {
     margin-bottom: $spacing-medium;
 
-    .value, 
-    .comment {
+    .value {
         width: 100%;
         padding: $spacing-small 0;
         margin: 0;
@@ -4143,19 +4183,12 @@ body.sidebar-open #content {
 #modules .module-meta {
     float: left;
     max-width: 50%;
-    padding-right: $spacing-medium;
 }
 
 #modules .module-actions {
     float: right;
     max-width: 50%;
     text-align: right;
-    padding-left: $spacing-medium;
-
-    .error {
-        @include error;
-        @include message;
-    }
 }
 
 #modules .module form {
@@ -5043,7 +5076,7 @@ body.sidebar-open #content {
         }
 
         .error {
-            background-color: lighten($red, 55%);
+            background-color: lighten($red, 45%);
             border-radius: 3px;
             padding: $spacing-small 10px;
             margin: $spacing-small 0;

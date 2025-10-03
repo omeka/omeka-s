@@ -3861,9 +3861,12 @@ input[type=text].query-form-query {
     }
 
     input,
-    textarea,
-    select {
+    textarea {
         width: 100%;
+    }
+
+    select {
+        width: 100% !important;
     }
 
     input[type="checkbox"],

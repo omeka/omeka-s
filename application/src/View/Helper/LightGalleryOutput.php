@@ -63,7 +63,8 @@ class LightGalleryOutput extends AbstractHelper
                 $videoSrcJson = json_encode($videoSrcObject);
                 $attribs['data-video'] = $videoSrcJson;
             } elseif ($mediaType == 'application/pdf') {
-                $attribs['data-iframe'] = $source;
+                $attribs['data-iframe'] = 'true';
+                $attribs['data-iframe-title'] = $media->altText();
                 $attribs['data-src'] = $source;
             } else {
                 $attribs['data-src'] = $source;

@@ -6,12 +6,14 @@ $itemsFound = count($items) > 0;
 $expanded = $resourceClassId || $itemSetId || $id;
 ?>
 
+<?php if (isset($itemStubForm)): ?>
 <h3><?php echo $translate('Omeka Resource'); ?></h3>
 
 <?php echo $this->sidebarSectionNav([
     'sidebar-section-item' => $translate('Existing item'),
     'sidebar-section-item-stub' => $translate('New item'),
 ]); ?>
+<?php endif; ?>
 
 <div id="sidebar-section-item" class="sidebar-section active">
 
@@ -117,6 +119,7 @@ $expanded = $resourceClassId || $itemSetId || $id;
 
 </div>
 
+<?php if (isset($itemStubForm)): ?>
 <div id="sidebar-section-item-stub" class="sidebar-section">
     <?php echo $this->form()->openTag($itemStubForm); ?>
     <div class="confirm-main">
@@ -132,3 +135,4 @@ $expanded = $resourceClassId || $itemSetId || $id;
     <?php echo $this->formElement($itemStubForm->get('csrf')); ?>
     <?php echo $this->form()->closeTag(); ?>
 </div>
+<?php endif; ?>

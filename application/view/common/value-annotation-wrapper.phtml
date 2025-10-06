@@ -1,7 +1,7 @@
 <?php
 $dataTypeName = (strpos('resource', $dataType->getName()) !== false) ? 'resource' : $dataType->getName();
 ?>
-<fieldset class="value-annotation">
+<fieldset class="value-annotation inputs">
     <legend class="value-annotation-heading"></legend>
     <span class="required-tag"><?php echo $this->translate('Required'); ?></span>
     <div class="value" data-data-type="<?php echo $dataTypeName; ?>" data-data-type-label="<?php echo $dataType->getLabel(); ?>" data-data-type-icon="" role="group">

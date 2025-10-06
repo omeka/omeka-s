@@ -823,6 +823,10 @@ header {
     display: inline-block;
     min-width: 25%;
     text-align: center;
+    a {
+        display: block;
+        min-height: 24px;
+    }
 }
 
 .logo {

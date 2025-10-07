@@ -27,7 +27,7 @@ a:visited {
 
 a:active,
 a:hover {
-    color: lighten($red, 20%);
+    color: $light-red;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -1435,11 +1435,6 @@ div[role="main"] {
     box-shadow: none !important;
 }
 
-.actions a,
-.actions button {
-    opacity: .5;
-}
-
 .actions a:before,
 .actions button:before {
     text-align: right;
@@ -1448,12 +1443,6 @@ div[role="main"] {
 .center.actions a:before,
 .center.actions button:before {
     text-align: center;
-}
-
-.actions a:hover,
-.actions a:active,
-.actions button:hover {
-    opacity: 1;
 }
 
 .actions .inactive {

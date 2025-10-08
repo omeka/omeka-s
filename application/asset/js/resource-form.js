@@ -107,27 +107,7 @@
         // Handle "Set annotations" click.
         vaSetButton.on('click', function(e) {
             e.preventDefault();
-            const values = {};
-            vaContainer.find('.value-annotation').each(function() {
-                const thisValueAnnotation = $(this);
-                if (thisValueAnnotation.data('removed')) {
-                    // This annotation was flagged for removal.
-                    return;
-                }
-                const value = {};
-                // Map the the data-value-key attributes to the values object.
-                thisValueAnnotation.find(':input').each(function() {
-                    const thisInput = $(this);
-                    const valueKey = thisInput.data('valueKey');
-                    if (!valueKey) return;
-                    value[valueKey] = thisInput.val();
-                });
-                const propertyTerm = thisValueAnnotation.find('.property_term').val();
-                if (!values.hasOwnProperty(propertyTerm)) {
-                    values[propertyTerm] = [];
-                }
-                values[propertyTerm].push(value);
-            });
+            const values = collectValueAnnotationValues(vaContainer);
             annotatingValue.data('valueAnnotations', values);
             Omeka.closeSidebar(vaSidebar);
         });
@@ -167,7 +147,17 @@
             e.preventDefault();
             const thisVisibilityIcon = $(this);
             const isPublicInput = thisVisibilityIcon.closest('.value').find('input.is_public');
-            isPublicInput.val(thisVisibilityIcon.hasClass('o-icon-public') ? 1 : 0);
+            if (thisVisibilityIcon.hasClass('o-icon-public')) {
+                thisVisibilityIcon
+                    .attr('title', Omeka.jsTranslate('Make private'))
+                    .attr('aria-label', Omeka.jsTranslate('Make private'));
+                isPublicInput.val('1');
+            } else {
+                thisVisibilityIcon
+                    .attr('title', Omeka.jsTranslate('Make public'))
+                    .attr('aria-label', Omeka.jsTranslate('Make public'));
+                isPublicInput.val('0');
+            }
         });
 
         // Select property
@@ -397,6 +387,147 @@
             $('#values-json').val(JSON.stringify(collectValues()));
         });
 
+        // Handle tabbed navigation in sidebar.
+        $(document).on('click', '.sidebar-section-nav button', function(e) {
+            const thisButton = $(this);
+            const sidebarSectionNav = thisButton.closest('.sidebar-section-nav');
+            // Set "active" status on nav list items.
+            sidebarSectionNav.find('li').removeClass('active');
+            thisButton.closest('li').addClass('active');
+            // Set "active" status on sections.
+            sidebarSectionNav.find('button').each(function() {
+                $(`#${$(this).data('id')}`).removeClass('active');
+            });
+            $(`#${thisButton.data('id')}`).addClass('active');
+        });
+
+        /** ITEM STUB FORM */
+
+        // Handle building the initial item stub form.
+        $('#select-resource').on('o:sidebar-content-loaded', function(e) {
+            const itemStubForm = $('#item-stub-form');
+            if (!itemStubForm.length) {
+                return; // Build the form only when needed.
+            }
+            const propertyValues = $('#item-stub-property-values');
+            const properties = {
+                'dcterms:title': itemStubForm.data('titleProperty'),
+                'dcterms:description': itemStubForm.data('descriptionProperty')
+            };
+            $.each(properties, function(term, property) {
+                const valueAnnotation = $($.parseHTML(vaTemplates['literal']));
+                valueAnnotation.find('.value-annotation-heading').text(property['o:label']);
+                valueAnnotation.find('input.property_id').val(property['o:id']);
+                valueAnnotation.find('input.property_term').val(term);
+                valueAnnotation.find('input.is_public').val('1');
+                propertyValues.append(valueAnnotation);
+            });
+        });
+        // Handle applying chosen to item stub form select elements.
+        $(document).on('click', '[data-id="sidebar-section-item-stub"]', function(e) {
+            const itemStubForm = $('#item-stub-form');
+            itemStubForm.find('.chosen-select').chosen({allow_single_deselect: true});
+        });
+        // Handle resource template change.
+        $(document).on('change', '#item-stub-resource-template', function(e) {
+            const itemStubForm = $('#item-stub-form');
+            const resourceTemplate = $('#item-stub-resource-template');
+            const resourceClass = $('#item-stub-resource-class');
+            const propertyValues = $('#item-stub-property-values');
+            const resourceTemplateUrl = itemStubForm.data('resourceTemplateUrl') + '/' + resourceTemplate.val();
+            $.get(resourceTemplateUrl, function(rtData) {
+                const templateResourceClass = rtData['o:resource_class'];
+                // Set the template-defined class.
+                if (templateResourceClass) {
+                    resourceClass.val(templateResourceClass['o:id']);
+                    resourceClass.trigger('chosen:updated');
+                }
+                // Get, hydrate, and append the property value markup.
+                propertyValues.empty();
+                $.each(rtData['o:resource_template_property'], function(index, rtProperty) {
+                    let dataTypeName = rtProperty['o:data_type'][0];
+                    // Set non-supported and "resource" data types to "literal".
+                    if (dataTypeName === undefined
+                        || !(dataTypeName in vaTemplates)
+                        || ['resource', 'resource:item', 'resource:itemset', 'resource:media'].includes(dataTypeName)
+                    ) {
+                        dataTypeName = 'literal';
+                    }
+                    // Hydrate the property values. Get property data (term and
+                    // label) from an existing property select. We account for an
+                    // alternate label set by the resource template.
+                    const propertyId = rtProperty['o:property']['o:id'];
+                    const property = $('#value-annotation-property-select').find(`option[data-property-id="${propertyId}"]`);
+                    const propertyTerm = property.data('term');
+                    const propertyLabel = rtProperty['o:alternate_label'] ?? property.text();
+                    const valueAnnotation = $($.parseHTML(vaTemplates[dataTypeName]));
+                    valueAnnotation.find('.value-annotation-heading').text(propertyLabel);
+                    valueAnnotation.find('input.property_id').val(propertyId);
+                    valueAnnotation.find('input.property_term').val(propertyTerm);
+                    if (rtProperty['o:is_private']) {
+                        valueAnnotation.find('input.is_public').val('0');
+                        valueAnnotation.find('.value-annotation-visibility').removeClass('o-icon-public').addClass('o-icon-private');
+                    } else {
+                        valueAnnotation.find('input.is_public').val('1');
+                    }
+                    if (rtProperty['o:is_required']) {
+                        valueAnnotation.addClass('required');
+                    }
+                    $(document).trigger('o:prepare-value-annotation', [dataTypeName, valueAnnotation]);
+                    propertyValues.append(valueAnnotation);
+                });
+            });
+        });
+        // Handle item stub form submission.
+        $(document).on('click', '#item-stub-submit', function(e) {
+            e.preventDefault();
+            const itemStubForm = $('#item-stub-form');
+            const resourceTemplate = $('#item-stub-resource-template');
+            const resourceClass = $('#item-stub-resource-class');
+            // Build the item data.
+            const itemData = {};
+            itemData['csrf'] = itemStubForm.find('input[name="csrf"]').val();
+            itemData['o:is_public'] = $('#item-stub-is-public').val();
+            if (resourceTemplate.val()) {
+                itemData['o:resource_template'] = {'o:id': resourceTemplate.val()};
+            }
+            if (resourceClass.val()) {
+                itemData['o:resource_class'] = {'o:id': resourceClass.val()};
+            }
+            // Validate the values according to the required flag.
+            const propertyValues = $('#item-stub-property-values');
+            const errors = [];
+            propertyValues.children('.value-annotation').each(function(key, value) {
+                const valueAnnotation = $(this);
+                const valueInput = valueAnnotation.find('[data-value-key="@value"]');
+                if (valueAnnotation.hasClass('required') && !valueInput.val()) {
+                    const propLabel = valueAnnotation.find('.value-annotation-heading').text();
+                    errors.push('The following field is required: ' + propLabel);
+                }
+            });
+            if (errors.length) {
+                alert(errors.join("\n"));
+                return
+            };
+            // Collect values, create the item, and populate the field.
+            const values = collectValueAnnotationValues(propertyValues);
+            $.post(itemStubForm.data('submitUrl'), {...itemData, ...values})
+                .done(function(data) {
+                    const selectedResource = $('.selecting-resource').find('.selected-resource');
+                    selectedResource.prev('span.default').hide();
+                    const a = $('<a>', {href: data['admin_url']}).text(data['display_title']);
+                    selectedResource.find('.o-title').removeClass().addClass('o-title items').html(a);
+                    selectedResource.find('.value').val(data['o:id']);
+                    Omeka.closeSidebar($('#select-resource'));
+                })
+                .fail(function(data) {
+                    alert(Omeka.jsTranslate('Something went wrong'));
+                    Omeka.closeSidebar($('#select-resource'));
+                });
+        });
+
+        /** END ITEM STUB FORM */
+
         initPage();
     });
 
@@ -430,6 +561,31 @@
             if (propertyValues.length) {
                 values[propertyTerm] = propertyValues;
             }
+        });
+        return values;
+    };
+
+    var collectValueAnnotationValues = function (vaContainer) {
+        const values = {};
+        vaContainer.find('.value-annotation').each(function() {
+            const thisValueAnnotation = $(this);
+            if (thisValueAnnotation.data('removed')) {
+                // This annotation was flagged for removal.
+                return;
+            }
+            const value = {};
+            // Map the the data-value-key attributes to the values object.
+            thisValueAnnotation.find(':input').each(function() {
+                const thisInput = $(this);
+                const valueKey = thisInput.data('valueKey');
+                if (!valueKey) return;
+                value[valueKey] = thisInput.val();
+            });
+            const propertyTerm = thisValueAnnotation.find('.property_term').val();
+            if (!values.hasOwnProperty(propertyTerm)) {
+                values[propertyTerm] = [];
+            }
+            values[propertyTerm].push(value);
         });
         return values;
     };

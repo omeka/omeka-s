@@ -431,6 +431,7 @@ return [
             'ckEditor' => View\Helper\CkEditor::class,
             'sitePagePagination' => View\Helper\SitePagePagination::class,
             'sectionNav' => View\Helper\SectionNav::class,
+            'sidebarSectionNav' => View\Helper\SidebarSectionNav::class,
             'uploadLimit' => View\Helper\UploadLimit::class,
             'formRecaptcha' => Form\View\Helper\FormRecaptcha::class,
             'formCkeditor' => Form\View\Helper\FormCkeditor::class,
@@ -523,6 +524,7 @@ return [
         ],
         'factories' => [
             'Omeka\Form\ResourceForm' => Service\Form\ResourceFormFactory::class,
+            'Omeka\Form\ItemStubForm' => Service\Form\ItemStubFormFactory::class,
             'Omeka\Form\VocabularyForm' => Service\Form\VocabularyFormFactory::class,
             'Omeka\Form\ResourceBatchUpdateForm' => Service\Form\ResourceBatchUpdateFormFactory::class,
             'Omeka\Form\UserForm' => Service\Form\UserFormFactory::class,

@@ -12,7 +12,11 @@ if (!$ids) {
 $optionsQuery = [];
 if ($this->status()->isSiteRequest()) {
     if ($this->siteSetting('vocabulary_scope') === 'sitewide') {
-        $optionsQuery['site_id'] = $this->layout()->site->id();
+        if ('itemSet' === $resourceType) {
+            $optionsQuery['site_id_item_sets'] = $this->layout()->site->id();
+        } else {
+            $optionsQuery['site_id'] = $this->layout()->site->id();
+        }
     } elseif ($this->siteSetting('vocabulary_scope') === 'cross-site') {
         $optionsQuery['used'] = true;
     }

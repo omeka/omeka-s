@@ -661,6 +661,19 @@ table .icon-sortable {
     right: auto;
 }
 
+.sites .jstree-removenode-remove, 
+.sites .jstree-removenode-undo, 
+.sites .jstree-editlink-edit, 
+.sites .jstree-displaylink, 
+.sites .jstree-private {
+    opacity: 1;
+    color: $red;
+
+    &:hover {
+        color: $light-red;
+    }
+}
+
 .o-description {
     margin-bottom: 0;
 }
@@ -1325,6 +1338,10 @@ div[role="main"] {
     padding: 0;
     color: $red;
     background-color: transparent;
+
+    &:hover {
+        color: $light-red;
+    }
 }
 
 .panel h2 {
@@ -1494,6 +1511,10 @@ div[role="main"] {
         position: absolute;
         top: 0;
         left: 0;
+    }
+
+    &:hover {
+        color: $light-red;
     }
 }
 
@@ -1747,7 +1768,7 @@ td .o-icon-user-inactive {
 
         &:hover {
             box-shadow: none;
-            color: $red;
+            color: $light-red;
         }
     }
 
@@ -1997,7 +2018,7 @@ fieldset.section > legend {
     border-width: 0 0 1px 1px;
     overflow: hidden;
     text-align: center;
-    color: lighten($red, 40%);
+    color: $red;
     z-index: 1;
 
     & ~ textarea {
@@ -2007,7 +2028,6 @@ fieldset.section > legend {
 
 .value .input-body .language-wrapper.active a.value-language {
     border-color: transparent;
-    color: $red;
 }
 
 .value .language-wrapper:not(.active) ~ textarea {
@@ -4585,7 +4605,7 @@ body.sidebar-open #content {
         min-height: 0;
 
         &:hover {
-            color: $red;
+            color: $light-red;
         }
     }
 

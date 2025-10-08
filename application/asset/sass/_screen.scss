@@ -3935,6 +3935,7 @@ body.sidebar-open #content {
 
 .sidebar .meta-group {
     margin-bottom: $spacing-medium;
+    justify-content: flex-start;
 
     .value, 
     .comment {

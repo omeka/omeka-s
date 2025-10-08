@@ -675,7 +675,10 @@ table .icon-sortable {
     }
 }
 
-#content .jstree-editlink-editmode > .jstree-anchor .jstree-editlink-edit,
+#content .jstree-editlink-editmode > .jstree-anchor .jstree-editlink-edit {
+    color: $light-red;
+}
+
 #content .jstree-open > .jstree-ocl {
     color: $gray-on-gray;
 }

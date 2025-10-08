@@ -661,17 +661,23 @@ table .icon-sortable {
     right: auto;
 }
 
-.sites .jstree-removenode-remove, 
-.sites .jstree-removenode-undo, 
-.sites .jstree-editlink-edit, 
-.sites .jstree-displaylink, 
-.sites .jstree-private {
+#content .jstree-removenode-remove, 
+#content .jstree-removenode-undo, 
+#content .jstree-editlink-edit, 
+#content .jstree-displaylink, 
+#content .jstree-private,
+#content .jstree-editlink-editmode > .jstree-anchor .jstree-editlink-edit {
     opacity: 1;
     color: $red;
 
     &:hover {
         color: $light-red;
     }
+}
+
+#content .jstree-editlink-editmode > .jstree-anchor .jstree-editlink-edit,
+#content .jstree-open > .jstree-ocl {
+    color: $gray-on-gray;
 }
 
 .o-description {

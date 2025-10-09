@@ -1018,25 +1018,24 @@ nav ul {
 
 nav.pagination {
     margin-bottom: $spacing-medium;
-    overflow: hidden;
     display: flex;
     flex-wrap: wrap;
+    gap: $spacing-medium;
 }
 
 nav.pagination form,
-nav.pagination .button,
-nav.pagination .row-count {
-    float: left;
-}
-
-nav.pagination form {
-    margin-right: $spacing-medium;
+nav.pagination .pagination-input-form {
+    display: flex;
+    gap: $spacing-small;
 }
 
 nav.pagination form * {
-    display: inline-block;
     padding: 0;
     text-align: center;
+}
+
+nav.pagination .pagination-buttons {
+    display: flex;
 }
 
 nav.pagination .button {
@@ -1525,10 +1524,6 @@ div[role="main"] {
     &:hover {
         color: $light-red;
     }
-}
-
-.row-count {
-    margin: 0 $spacing-small;
 }
 
 .no-resources {

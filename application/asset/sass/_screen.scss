@@ -3271,6 +3271,7 @@ fieldset.section > legend {
 
 .sidebar-section-nav {
     margin-bottom: $spacing-medium;
+    padding-bottom: $spacing-medium;
     position: relative;
     display: flex;
     flex-wrap: wrap;
@@ -3296,6 +3297,7 @@ fieldset.section > legend {
     box-shadow: none;
     font-size: .875 * $base-font-size;
     padding: $spacing-small $spacing-medium;
+    margin: 0;
     min-height: 0;
     line-height: 1;
 }
@@ -3317,6 +3319,23 @@ fieldset.section > legend {
     }
 }
 
+.confirm-container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% + #{2 * $spacing-medium});
+    margin: (-1 * $spacing-medium);
+}
+
+.confirm-container .confirm-main,
+.confirm-container .confirm-panel {
+    position: static;
+}
+
+.confirm-container .confirm-main {
+    flex-grow: 1;
+    padding-bottom: $spacing-medium;
+}
+
 .confirm-main {
     position: absolute;
     top: 0;
@@ -3332,6 +3351,7 @@ fieldset.section > legend {
     bottom: 0;
     right: 0;
     left: 0;
+    z-index: 1;
     padding: $spacing-medium;
     background-color: #f7f7f7;
     border-top: 1px solid $border-gray;

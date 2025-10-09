@@ -7,8 +7,10 @@ $expanded = $resourceClassId || $itemSetId || $id;
 ?>
 
 <?php if (isset($itemStubForm)): ?>
-<h3><?php echo $translate('Item'); ?></h3>
-<a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
+<div class="sidebar-header">
+    <h3><?php echo $translate('Item'); ?></h3>
+    <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
+</div>
 
 <?php echo $this->sidebarSectionNav([
     'sidebar-section-item' => $translate('Select item'),

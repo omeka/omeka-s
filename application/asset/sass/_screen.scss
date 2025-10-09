@@ -3272,6 +3272,9 @@ fieldset.section > legend {
 .sidebar-section-nav {
     margin-bottom: $spacing-medium;
     position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-medium;
 
     &:before {
         content: "";
@@ -3281,18 +3284,9 @@ fieldset.section > legend {
         right: -$spacing-large;
         left: -$spacing-large;
         background-color: #fff;
+        border-bottom: 1px solid $border-gray;
         z-index: -1;
     }
-}
-
-.sidebar-section-nav ul {
-    margin: 0;
-    padding: 0;
-}
-
-.sidebar-section-nav li {
-    display: inline-block;
-    margin-right: $spacing-small;
 }
 
 .sidebar-section-nav button[type="button"] {
@@ -3306,7 +3300,7 @@ fieldset.section > legend {
     line-height: 1;
 }
 
-.sidebar-section-nav .active button[type="button"] {
+.sidebar-section-nav button.active {
     font-weight: bold;
 }
 

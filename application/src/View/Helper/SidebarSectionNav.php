@@ -10,19 +10,23 @@ class SidebarSectionNav extends AbstractHelper
      *
      * @param array $navSpec Tab labels keyed by corresponding section ID
      */
-    public function __invoke(array $navSpec)
+    public function __invoke(array $navSpec, $tablistId = '')
     {
         $view = $this->getView();
         $listItems = [];
         $i = 0;
         foreach ($navSpec as $id => $label) {
+            $isActive = (0 === $i++);
             $listItems[] = sprintf(
-                '<li class="%s"><button type="button" data-id="%s">%s</button></li>',
-                0 === $i++ ? 'active' : '',
+                '<button type="button" class="%s" data-id="%s" id="%s" role="tab" aria-selected="%s" aria-controls="%s">%s</button>',
+                ($isActive) ? 'active' : '',
+                $view->escapeHtml($id),
+                $view->escapeHtml($id) . '-label',
+                ($isActive) ? 'true' : 'false',
                 $view->escapeHtml($id),
                 $view->escapeHtml($label)
             );
         }
-        return sprintf('<div class="sidebar-section-nav"><ul>%s</ul></div>', implode('', $listItems));
+        return sprintf('<div class="sidebar-section-nav" role="tablist" aria-label="%s">%s</div>', $tablistId, implode('', $listItems));
     }
 }

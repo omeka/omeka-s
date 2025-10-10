@@ -2650,12 +2650,10 @@ fieldset.section > legend {
         }
     }
 
-    .add-values label {
+    .add-values span.o-icon-add {
         background-color: $gray-on-white;
-        line-height: 1.5 * $spacing-large;
         margin-right: 0;
-        overflow: hidden;
-        width: $spacing-medium;
+        width: auto;
         vertical-align: top;
     }
 

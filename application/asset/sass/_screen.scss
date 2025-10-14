@@ -3122,9 +3122,10 @@ fieldset.section > legend {
     margin-bottom: $spacing-small;
     width: 100%;
 
-    a.expand:after,
-    a.collapse:after {
-        float: right;
+    a.expand,
+    a.collapse {
+        display: flex;
+        justify-content: space-between;
     }
 
     .collapsible {

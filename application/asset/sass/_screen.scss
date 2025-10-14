@@ -831,6 +831,7 @@ header {
     display: inline-block;
     vertical-align: top;
     margin: $spacing-large 0;
+    position: relative;
 }
 
 #search input[type="text"] {
@@ -870,6 +871,12 @@ header {
         width: 1.5 * $spacing-large;
         line-height: 1.5 * $spacing-large;
         text-align: center;
+    }
+
+    &#search-submit {
+        position: absolute;
+        top: 0;
+        right: 0;
     }
 }
 

@@ -13,7 +13,7 @@ navTree.jstree({
 }).on('loaded.jstree', function() {
     // Open all nodes by default.
     navTree.jstree(true).open_all();
-    initialTreeData = JSON.stringify(navTree.jstree(true).get_json());
+    initialTreeData = getTreeData(navTree.jstree(true));
 }).on('move_node.jstree', function(e, data) {
     // Open node after moving it.
     var parent = navTree.jstree(true).get_node(data.parent);
@@ -21,10 +21,29 @@ navTree.jstree({
 });
 
 $('#site-form').on('o:before-form-unload', function () {
-    if (initialTreeData !== JSON.stringify(navTree.jstree(true).get_json())) {
+    var treeInstance = navTree.jstree(true);
+    // Pull in current data from nav inputs before comparing data
+    $('#nav-tree :input[data-name]').each(function(index, element) {
+        var nodeObj = treeInstance.get_node(element);
+        var element = $(element);
+        nodeObj.data['data'][element.data('name')] = element.val()
+    });
+    if (initialTreeData !== getTreeData(treeInstance)) {
         Omeka.markDirty(this);
     }
 });
+
+var getTreeData = function(tree) {
+    var treeJson = tree.get_json();
+    function deleteState (nodes) {
+        nodes.forEach(function (node) {
+            delete node.state;
+            deleteState(node.children);
+        });
+    }
+    deleteState(treeJson);
+    return JSON.stringify(treeJson);
+}
 
 var filterPages = function() {
     var thisInput = $(this);

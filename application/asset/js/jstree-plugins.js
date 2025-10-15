@@ -224,7 +224,7 @@ $.jstree.plugins.editlink = function(options, parent) {
                 nodeObj.editlink_container = container.clone();
                 $.post($('#nav-tree').data('link-form-url'), nodeObj.data)
                     .done(function(data) {
-                        nodeObj.editlink_container.append(data);
+                        nodeObj.editlink_container.append(data).find(':input').prop('name', '');
                     });
             }
             var nodeJq = $(node);

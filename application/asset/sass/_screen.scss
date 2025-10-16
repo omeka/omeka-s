@@ -833,9 +833,8 @@ header {
 }
 
 #user .user-settings:before {
-    content: "\f013";
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
+    content: fa-content($fa-var-cog);
+    @include font-awesome;
 }
 
 #user .logout {
@@ -966,7 +965,7 @@ div[role="main"] > h1:first-of-type .title {
 }
 
 .action:before {
-    content:"\00b7";
+    content: fa-content($fa-var-th-list);
     margin: 0 $spacing-medium;
 }
 
@@ -1985,7 +1984,7 @@ fieldset.section > legend {
 }
 
 .page-action-menu .expand:after {
-    content: "\f0d7";
+    content: fa-content($fa-var-caret-down);
 }
 
 .page-action-menu .expand:after,
@@ -3677,9 +3676,8 @@ input[type=text].query-form-query {
 }
 
 .o-icon-annotation:before {
-    content: "\f27a";
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
+    content: fa-content($fa-var-comment-alt);
+    @include font-awesome;
 }
 
 .show .value.resource,
@@ -4201,7 +4199,7 @@ body.sidebar-open #content {
     margin-right: $spacing-medium;
 
     &:after {
-        content: "\f00c";
+        content: fa-content($fa-var-check);
         @include font-awesome;
         display: inline-block;
         margin-left: $spacing-small;
@@ -4550,7 +4548,7 @@ body.sidebar-open #content {
     }
 
     .add-block-group:before {
-        content: "\f247";
+        content: fa-content($fa-var-object-group);
         @include font-awesome;
         margin-right: $spacing-small;
     }
@@ -5073,8 +5071,7 @@ body.sidebar-open #content {
 
         .selected-tooltip:before {
             content: fa-content($fa-var-asterisk);
-            font-family: "Font Awesome 5 Free";
-            font-weight: 900;
+            @include font-awesome;
         }
 
         /* @end */

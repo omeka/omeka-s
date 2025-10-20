@@ -453,7 +453,7 @@ return [
             'lightGalleryOutput' => View\Helper\LightGalleryOutput::class,
             'iiifViewer' => View\Helper\IiifViewer::class,
             'currentSite' => View\Helper\CurrentSite::class,
-            'formSelect' => Form\View\Helper\FormSelect::class,
+            'formSelectSort' => Form\View\Helper\FormSelectSort::class,
         ],
         'factories' => [
             'api' => Service\ViewHelper\ApiFactory::class,
@@ -503,7 +503,7 @@ return [
             'Laminas\Form\View\Helper\FormSelect' => [
                 Service\Delegator\FormSelectDelegatorFactory::class,
             ],
-            'Omeka\Form\View\Helper\FormSelect' => [
+            'Omeka\Form\View\Helper\FormSelectSort' => [
                 Service\Delegator\FormSelectDelegatorFactory::class,
             ],
             'Laminas\Form\View\Helper\FormRow' => [

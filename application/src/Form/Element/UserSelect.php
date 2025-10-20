@@ -4,8 +4,10 @@ namespace Omeka\Form\Element;
 use Omeka\Api\Manager as ApiManager;
 use Laminas\Form\Element\Select;
 
-class UserSelect extends Select
+class UserSelect extends Select implements SelectSortInterface
 {
+    use SelectSortTrait;
+
     /**
      * @var ApiManager
      */

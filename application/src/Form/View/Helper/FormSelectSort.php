@@ -1,13 +1,14 @@
 <?php
 namespace Omeka\Form\View\Helper;
 
+use Laminas\Form\Exception;
 use Laminas\Form\ElementInterface;
 use Laminas\Form\View\Helper\FormSelect as LaminasFormSelect;
 use Laminas\Stdlib\ArrayUtils;
 use Omeka\Form\Element\SelectSortInterface;
 use Omeka\Form\Element\SelectSortTrait;
 
-class FormSelect extends LaminasFormSelect
+class FormSelectSort extends LaminasFormSelect
 {
     use SelectSortTrait;
 
@@ -20,21 +21,23 @@ class FormSelect extends LaminasFormSelect
      */
     public function render(ElementInterface $element): string
     {
-        if ($element instanceof SelectSortInterface) {
-            // Temporarily set variables related to SelectSortInterface so
-            // downstream code can detect whether to sort value options after
-            // translating.
-            $this->element = $element;
-            $this->valueOptionsFinalized = false;
+        if (! $element instanceof SelectSortInterface) {
+            throw new Exception\InvalidArgumentException(sprintf(
+                '%s requires that the element implements Omeka\Form\Element\SelectSortInterface',
+                __METHOD__
+            ));
         }
+
+        // Temporarily set variables related to SelectSortInterface so downstream
+        // code can detect whether to sort value options after translating.
+        $this->element = $element;
+        $this->valueOptionsFinalized = false;
 
         $rendered = parent::render($element);
 
-        if ($element instanceof SelectSortInterface) {
-            // Reset variables related to SelectSortInterface.
-            $this->element = null;
-            $this->valueOptionsFinalized = null;
-        }
+        // Reset variables related to SelectSortInterface.
+        $this->element = null;
+        $this->valueOptionsFinalized = null;
 
         return $rendered;
     }
@@ -44,12 +47,10 @@ class FormSelect extends LaminasFormSelect
      */
     public function renderOptions(array $options, array $selectedOptions = []): string
     {
-        if ($this->implementsSortTranslated()) {
-            // Implementations of SelectSortInterface override default behavior
-            // by sorting value options *after* they are translated. Normally
-            // they are sorted before they are translated.
-            $options = $this->sortTranslated($options);
-        }
+        // Implementations of SelectSortInterface override default behavior by
+        // sorting value options *after* they are translated. Normally they are
+        // sorted before they are translated.
+        $options = $this->sortTranslated($options);
 
         $template = '<option %s>%s</option>';
         $optionStrings = [];
@@ -91,7 +92,7 @@ class FormSelect extends LaminasFormSelect
                 $selected = true;
             }
 
-            if (!$this->implementsSortTranslated() && null !== ($translator = $this->getTranslator())) {
+            if (null !== ($translator = $this->getTranslator())) {
                 // Implementations of SelectSortInterface skip translations here
                 // because translations have already been made.
                 $label = $translator->translate(
@@ -122,25 +123,10 @@ class FormSelect extends LaminasFormSelect
     }
 
     /**
-     * Does the select element implement SelectSortInterface?
-     */
-    public function implementsSortTranslated(): bool
-    {
-        return (
-            isset($this->element)
-            && ($this->element instanceof SelectSortInterface)
-        );
-    }
-
-    /**
      * Sort options after translating them.
      */
     public function sortTranslated(array $options): array
     {
-        if (!$this->implementsSortTranslated()) {
-            return $options;
-        }
-
         $view = $this->getView();
 
         // Temporarily remove the empty option before sorting and finalizing.

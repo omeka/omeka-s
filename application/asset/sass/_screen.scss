@@ -5184,11 +5184,18 @@ body.sidebar-open #content {
         background-color: #fff;
         display: flex;
         flex-wrap: wrap;
+        align-content: flex-start;
     }
 
     .selectable-themes .theme:hover {
         border: 3px solid darken($border-gray, 25%);
         padding: $spacing-medium - 3px;
+    }
+
+    .selectable-themes .theme h2 {
+        font-size: 1.25 * $base-font-size;
+        line-height: $base-line-height;
+        margin-bottom: 0;
     }
 
     .selectable-themes .invalid.theme:hover {

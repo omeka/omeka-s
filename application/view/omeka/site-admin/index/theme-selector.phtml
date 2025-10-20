@@ -30,7 +30,7 @@ $this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'));
 
         <div class="theme-thumbnail"><img src="<?php echo $this->escapeHtml($thumbnailUrl); ?>" alt=""></div>
 
-        <h4><?php echo $this->escapeHtml($theme->getName()); ?></h4>
+        <h2><?php echo $this->escapeHtml($theme->getName()); ?></h2>
         <div class="theme-meta">
             <?php if(!empty($version)): ?>
             <span class="theme-version">

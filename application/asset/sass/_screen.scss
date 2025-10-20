@@ -204,7 +204,8 @@ body {
     }
 
     ::placeholder {
-       font-style: italic;
+        font-style: italic;
+        color: $copy-gray;
     }
 
     [contenteditable="true"] > *:first-child {

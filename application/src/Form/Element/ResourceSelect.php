@@ -87,4 +87,9 @@ class ResourceSelect extends Select implements SelectSortInterface
     {
         return $this->apiManager;
     }
+
+    public function translateValueOptions(): bool
+    {
+        return false;
+    }
 }

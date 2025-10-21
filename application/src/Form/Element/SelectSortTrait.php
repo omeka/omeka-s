@@ -14,6 +14,11 @@ trait SelectSortTrait
 {
     protected $compareFunction;
 
+    public function translateValueOptions(): bool
+    {
+        return true;
+    }
+
     public function finalizeValueOptions(array $options): array
     {
         return $options;

@@ -131,11 +131,13 @@ class FormSelectSort extends LaminasFormSelect
         }
 
         // Translate the labels.
-        foreach ($options as &$option) {
-            if (is_string($option)) {
-                $option = $view->translate($option);
-            } elseif (is_array($option)) {
-                $option['label'] = $view->translate($option['label']);
+        if ($this->element->translateValueOptions()) {
+            foreach ($options as &$option) {
+                if (is_string($option)) {
+                    $option = $view->translate($option);
+                } elseif (is_array($option)) {
+                    $option['label'] = $view->translate($option['label']);
+                }
             }
         }
 

@@ -92,14 +92,9 @@ class FormSelectSort extends LaminasFormSelect
                 $selected = true;
             }
 
-            if (null !== ($translator = $this->getTranslator())) {
-                // Implementations of SelectSortInterface skip translations here
-                // because translations have already been made.
-                $label = $translator->translate(
-                    $label,
-                    $this->getTranslatorTextDomain()
-                );
-            }
+            // Note that formSelect translates labels here, but we skip them
+            // in formSelectSort because translations have already been made
+            // in self::sortTranslated().
 
             $attributes = [
                 'value' => $value,
@@ -136,13 +131,11 @@ class FormSelectSort extends LaminasFormSelect
         }
 
         // Translate the labels.
-        if ($this->element->translateValueOptions()) {
-            foreach ($options as &$option) {
-                if (is_string($option)) {
-                    $option = $view->translate($option);
-                } elseif (is_array($option)) {
-                    $option['label'] = $view->translate($option['label']);
-                }
+        foreach ($options as &$option) {
+            if (is_string($option)) {
+                $option = $view->translate($option);
+            } elseif (is_array($option)) {
+                $option['label'] = $view->translate($option['label']);
             }
         }
 

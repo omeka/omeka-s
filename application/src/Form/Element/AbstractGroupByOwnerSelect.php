@@ -112,9 +112,4 @@ abstract class AbstractGroupByOwnerSelect extends Select implements SelectSortIn
         }
         return $valueOptions;
     }
-
-    public function translateValueOptions(): bool
-    {
-        return false;
-    }
 }

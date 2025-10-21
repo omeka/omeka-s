@@ -64,8 +64,7 @@
         });
 
         // Make resource public or private
-        $('#content').on('click', 'a.o-icon-private, a.o-icon-public', function(e) {
-            e.preventDefault();
+        $('#content').on('click', '.o-icon-private, .o-icon-public', function(e) {
             var isPublicIcon = $(this);
             $(this).toggleClass('o-icon-private').toggleClass('o-icon-public');
             var isPublicHiddenValue = $(this).next('[type="hidden"]');

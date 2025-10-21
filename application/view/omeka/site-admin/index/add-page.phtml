@@ -7,10 +7,7 @@ $form->prepare();
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
     <?php if ($this->setting('default_to_private_site_pages')) : ?>
-    <?php echo $this->hyperlink('', '#', [
-        'class' => 'o-icon-private button',
-        'title' => $translate('Make public'),
-    ]); ?>
+<button type="button" class="o-icon-private button" title="<?php echo $translate('Make public'); ?>"></button>
     <input type="hidden" name="o:is_public" value="0">
     <?php else: ?>
     <?php echo $this->hyperlink('', '#', [

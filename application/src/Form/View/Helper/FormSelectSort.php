@@ -21,7 +21,7 @@ class FormSelectSort extends LaminasFormSelect
      */
     public function render(ElementInterface $element): string
     {
-        if (! $element instanceof SelectSortInterface) {
+        if (!$element instanceof SelectSortInterface) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s requires that the element implements Omeka\Form\Element\SelectSortInterface',
                 __METHOD__

@@ -12,9 +12,4 @@ class ResourceTemplateSelect extends AbstractGroupByOwnerSelect
     {
         return $resource->label();
     }
-
-    public function translateValueOptions(): bool
-    {
-        return false;
-    }
 }

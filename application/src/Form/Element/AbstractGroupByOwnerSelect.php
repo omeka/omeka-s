@@ -112,4 +112,16 @@ abstract class AbstractGroupByOwnerSelect extends Select implements SelectSortIn
         }
         return $valueOptions;
     }
+
+    public function sortValueOptions(): bool
+    {
+        // Do not sort because sorting happens in self::getValueOptions()
+        return false;
+    }
+
+    public function translateValueOptions(): bool
+    {
+        // Do not translate because value options are user input.
+        return false;
+    }
 }

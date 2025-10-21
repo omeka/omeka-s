@@ -14,6 +14,13 @@ namespace Omeka\Form\Element;
 interface SelectSortInterface
 {
     /**
+     * Sort value options?
+     *
+     * Implementing classes should return whether to sort labels.
+     */
+    public function sortValueOptions(): bool;
+
+    /**
      * Translate value options?
      *
      * Implementing classes should return whether to translate labels.

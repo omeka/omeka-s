@@ -13,9 +13,4 @@ class ItemSetSelect extends AbstractGroupByOwnerSelect
         $lang = ($this->options['lang'] ?? null);
         return $resource->displayTitle(null, $lang);
     }
-
-    public function translateValueOptions(): bool
-    {
-        return false;
-    }
 }

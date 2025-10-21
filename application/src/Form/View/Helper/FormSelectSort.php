@@ -29,7 +29,7 @@ class FormSelectSort extends LaminasFormSelect
         }
 
         // Temporarily set variables related to SelectSortInterface so downstream
-        // code can detect whether to sort value options after translating.
+        // code can detect whether to translate and sort value options.
         $this->element = $element;
         $this->valueOptionsFinalized = false;
 
@@ -92,9 +92,9 @@ class FormSelectSort extends LaminasFormSelect
                 $selected = true;
             }
 
-            // Note that formSelect translates labels here, but we skip them
-            // in formSelectSort because translations have already been made
-            // in self::sortTranslated().
+            // Note that the parent FormSelect would translate labels here, but
+            // we skip them in FormSelectSort because translations have already
+            // been made in self::sortTranslated().
 
             $attributes = [
                 'value' => $value,
@@ -130,8 +130,8 @@ class FormSelectSort extends LaminasFormSelect
             $emptyOption = $view->translate(array_shift($options));
         }
 
-        // Translate the labels.
         if ($this->element->translateValueOptions()) {
+            // Translate the labels.
             foreach ($options as &$option) {
                 if (is_string($option)) {
                     $option = $view->translate($option);
@@ -141,18 +141,20 @@ class FormSelectSort extends LaminasFormSelect
             }
         }
 
-        // Sort the labels.
-        $getLabel = function ($option) {
-            if (is_string($option)) {
-                return $option;
-            } elseif (is_array($option)) {
-                return $option['label'];
-            }
-        };
-        $compare = $this->getCompareFunction();
-        uasort($options, function ($a, $b) use ($getLabel, $compare) {
-            return $compare($getLabel($a), $getLabel($b));
-        });
+        if ($this->element->sortValueOptions()) {
+            // Sort the labels.
+            $getLabel = function ($option) {
+                if (is_string($option)) {
+                    return $option;
+                } elseif (is_array($option)) {
+                    return $option['label'];
+                }
+            };
+            $compare = $this->getCompareFunction();
+            uasort($options, function ($a, $b) use ($getLabel, $compare) {
+                return $compare($getLabel($a), $getLabel($b));
+            });
+        }
 
         // Select elements may finalize the value options. Must prevent calling
         // finalizeValueOptions more than once because this method is recursive.

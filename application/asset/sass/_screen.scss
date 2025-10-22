@@ -3310,7 +3310,7 @@ fieldset.section > legend {
     font-weight: bold;
 }
 
-.sidebar-section {
+.sidebar-section-nav ~ .sidebar-section {
     display: none;
 
     &.active {

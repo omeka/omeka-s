@@ -24,6 +24,7 @@ class ItemStubForm extends Form
         $api = $this->getViewHelperManager()->get('api');
 
         $this->setAttribute('id', 'item-stub-form');
+        $this->setAttribute('class', 'confirm-container');
         $this->setAttribute('data-submit-url', $url(
             'admin/default',
             ['controller' => 'item', 'action' => 'add-item-stub']

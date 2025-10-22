@@ -7,24 +7,26 @@ $expanded = $resourceClassId || $itemSetId || $id;
 ?>
 
 <?php if (isset($itemStubForm)): ?>
-<h3><?php echo $translate('Omeka Resource'); ?></h3>
-<a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
+<div class="sidebar-header">
+    <h3><?php echo $translate('Item'); ?></h3>
+    <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
+</div>
 
 <?php echo $this->sidebarSectionNav([
-    'sidebar-section-item' => $translate('Existing item'),
-    'sidebar-section-item-stub' => $translate('New item'),
-]); ?>
+    'sidebar-section-item' => $translate('Select item'),
+    'sidebar-section-item-stub' => $translate('Create item'),
+], $translate('Assign item value')); ?>
 <?php endif; ?>
 
-<div id="sidebar-section-item" class="sidebar-section active">
+<div id="sidebar-section-item" class="sidebar-section active" role="tabpanel" aria-labelledby="sidebar-section-item-label">
 
 <div id="item-results">
+    <?php if (!isset($itemStubForm)): ?>
     <div class="sidebar-header">
         <h4><?php echo $translate('Select item'); ?></h4>
-        <?php if (!isset($itemStubForm)): ?>
         <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
-        <?php endif; ?>
     </div>
+    <?php endif; ?>
     <div class="search-nav">
         <div id="sidebar-resource-search" class="resource-search" data-search-url="<?php echo $escape($this->url(null, [], [], true)); ?>">
             <?php
@@ -124,12 +126,9 @@ $expanded = $resourceClassId || $itemSetId || $id;
 </div>
 
 <?php if (isset($itemStubForm)): ?>
-<div id="sidebar-section-item-stub" class="sidebar-section">
+<div id="sidebar-section-item-stub" class="sidebar-section" role="tabpanel" aria-labelledby="sidebar-section-item-stub-label">
     <?php echo $this->form()->openTag($itemStubForm); ?>
     <div class="confirm-main">
-        <div class="sidebar-header">
-            <h4><?php echo $translate('Add item'); ?></h4>
-        </div>
         <?php echo $this->formCollection($itemStubForm->get('fieldset-main')); ?>
         <?php echo $this->formCollection($itemStubForm->get('fieldset-property-values')); ?>
     </div>

@@ -392,8 +392,9 @@
             const thisButton = $(this);
             const sidebarSectionNav = thisButton.closest('.sidebar-section-nav');
             // Set "active" status on nav list items.
-            sidebarSectionNav.find('li').removeClass('active');
-            thisButton.closest('li').addClass('active');
+            sidebarSectionNav.find('.active').removeClass('active');
+            sidebarSectionNav.find('[role="tab"]').attr('aria-selected', 'false');
+            thisButton.attr('aria-selected', 'true').addClass('active');
             // Set "active" status on sections.
             sidebarSectionNav.find('button').each(function() {
                 $(`#${$(this).data('id')}`).removeClass('active');
@@ -434,6 +435,7 @@
             const resourceTemplate = $('#item-stub-resource-template');
             const resourceClass = $('#item-stub-resource-class');
             const propertyValues = $('#item-stub-property-values');
+            console.log(itemStubForm.data('resourceTemplateUrl'));
             const resourceTemplateUrl = itemStubForm.data('resourceTemplateUrl') + '/' + resourceTemplate.val();
             $.get(resourceTemplateUrl, function(rtData) {
                 const templateResourceClass = rtData['o:resource_class'];

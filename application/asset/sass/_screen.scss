@@ -2593,7 +2593,7 @@ fieldset.section > legend {
         }
     }
 
-    #resource-values div.value {
+    #resource-values .inputs div.value {
         display: flex;
         align-items: stretch;
 
@@ -3271,7 +3271,11 @@ fieldset.section > legend {
 
 .sidebar-section-nav {
     margin-bottom: $spacing-medium;
+    padding-bottom: $spacing-medium;
     position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-medium;
 
     &:before {
         content: "";
@@ -3281,18 +3285,9 @@ fieldset.section > legend {
         right: -$spacing-large;
         left: -$spacing-large;
         background-color: #fff;
+        border-bottom: 1px solid $border-gray;
         z-index: -1;
     }
-}
-
-.sidebar-section-nav ul {
-    margin: 0;
-    padding: 0;
-}
-
-.sidebar-section-nav li {
-    display: inline-block;
-    margin-right: $spacing-small;
 }
 
 .sidebar-section-nav button[type="button"] {
@@ -3302,11 +3297,12 @@ fieldset.section > legend {
     box-shadow: none;
     font-size: .875 * $base-font-size;
     padding: $spacing-small $spacing-medium;
+    margin: 0;
     min-height: 0;
     line-height: 1;
 }
 
-.sidebar-section-nav .active button[type="button"] {
+.sidebar-section-nav button.active {
     font-weight: bold;
 }
 
@@ -3321,6 +3317,23 @@ fieldset.section > legend {
         position: relative;
         flex-grow: 1;
     }
+}
+
+.confirm-container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% + #{2 * $spacing-medium});
+    margin: (-1 * $spacing-medium);
+}
+
+.confirm-container .confirm-main,
+.confirm-container .confirm-panel {
+    position: static;
+}
+
+.confirm-container .confirm-main {
+    flex-grow: 1;
+    padding-bottom: $spacing-medium;
 }
 
 .confirm-main {
@@ -3338,6 +3351,7 @@ fieldset.section > legend {
     bottom: 0;
     right: 0;
     left: 0;
+    z-index: 1;
     padding: $spacing-medium;
     background-color: #f7f7f7;
     border-top: 1px solid $border-gray;
@@ -3747,7 +3761,7 @@ input[type=text].query-form-query {
         content: fa-content($fa-var-cubes);
     }
 
-    .sidebar .meta-group.item-sites .o-icon-external {
+    .sidebar .meta-group.resource-sites .o-icon-external {
         float: right;
     }
 
@@ -5567,7 +5581,6 @@ body.minimal .site.results thead {
 }
 
 .asset-upload {
-    overflow: hidden;
     margin-bottom: $spacing-large;
 
     button {

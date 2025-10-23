@@ -17,18 +17,25 @@ $this->dataType()->prepareForm();
         <div class="values">
             <p class="no-values"><?php echo $translate('Select the first value type.'); ?></p>
         </div>
-        <div class="add-values default-selector" role="group" aria-label="<?php echo $translate('Add value'); ?>">
-            <span class="o-icon-add"></span>
-            <a href="#" class="add-value button o-icon-literal" data-type="literal"><?php echo $translate('Text'); ?></a>
-            <a href="#" class="add-value button o-icon-resource" data-type="resource"><?php echo $translate('Omeka resource'); ?></a>
-            <a href="#" class="add-value button o-icon-uri" data-type="uri"><?php echo $translate('URI'); ?></a>
+        <div class="add-values default-selector">
+            <label class="data-type-label">
+                <span class="data-type-label-content"><?php echo $translate('Data type'); ?></span>
+                <select>
+                    <option value="literal"><?php echo $translate('Text'); ?></option>
+                    <option value="resource"><?php echo $translate('Omeka resource'); ?></option>
+                    <option value="uri"><?php echo $translate('URI'); ?></option>
+                </select>
+            </label>
+            <button type="button" class="o-icon-add add-value"><?php echo $translate('Add value'); ?></button>
         </div>
-        <div class="add-values multiple-selector" role="group" aria-label="<?php echo $translate('Add value'); ?>" style="display:none">
-            <span class="o-icon-add"></span>
+        <div class="add-values multiple-selector" style="display:none">
+            <label class="data-type-label">
+                <span class="data-type-label-content"><?php echo $translate('Data type'); ?></span>
+            </label>
+            <button type="button" class="o-icon-add add-value"><?php echo $translate('Add value'); ?></button>
         </div>
-        <div class="add-values single-selector" role="group" aria-label="<?php echo $translate('Add value'); ?>" style="display:none">
-            <span class="o-icon-add" aria-hidden="true"></span>
-            <a href="#" class="add-value button"><?php echo $translate('Add value'); ?></a>
+        <div class="add-values single-selector" style="display:none">
+            <button type="button" class="o-icon-add add-value"><?php echo $translate('Add value'); ?></button>
         </div>
     </div>
 </div>

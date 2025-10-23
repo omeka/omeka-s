@@ -204,10 +204,14 @@
 
         // Make new value inputs whenever "add value" button clicked.
         $('#properties').on('click', '.add-value', function(e) {
-            e.preventDefault();
             var typeButton = $(this);
             var field = typeButton.closest('.resource-property');
-            var value = makeNewValue(field.data('property-term'), typeButton.data('type'))
+            if (typeButton.parent().hasClass('single-selector')) {
+                var value = makeNewValue(field.data('property-term'), field.data('data-types'));
+            } else {
+                var typeSelect = typeButton.prev();
+                var value = makeNewValue(field.data('property-term'), typeSelect.val());
+            }
             field.find('.values').append(value);
         });
 
@@ -435,7 +439,6 @@
             const resourceTemplate = $('#item-stub-resource-template');
             const resourceClass = $('#item-stub-resource-class');
             const propertyValues = $('#item-stub-property-values');
-            console.log(itemStubForm.data('resourceTemplateUrl'));
             const resourceTemplateUrl = itemStubForm.data('resourceTemplateUrl') + '/' + resourceTemplate.val();
             $.get(resourceTemplateUrl, function(rtData) {
                 const templateResourceClass = rtData['o:resource_class'];
@@ -599,7 +602,7 @@
         var field = $('.resource-property[data-property-term="' + term + '"]');
         // Get the value node from the templates.
        if (!dataType || typeof dataType !== 'string') {
-            dataType = valueObj ? valueObj['type'] : field.find('.add-value:visible:first').data('type');
+            dataType = valueObj ? valueObj['type'] : field.find('.add-values select').val();
         }
         var fieldForDataType = field.filter(function() { return $.inArray(dataType, $(this).data('data-types').split(',')) > -1; });
         field = fieldForDataType.length ? fieldForDataType.first() : field.first();
@@ -795,14 +798,14 @@
         if (templateProperty['o:data_type'].length > 1) {
             defaultSelector.hide();
             singleSelector.hide();
-            if (!multipleSelector.find('.add-value').length) {
-                multipleSelector.append(prepareMultipleSelector(templateProperty['o:data_type']));
+            if (!multipleSelector.find('select').length) {
+                multipleSelector.find('.data-type-label').append(prepareMultipleSelector(templateProperty['o:data_type']));
             }
             multipleSelector.show();
         } else if (templateProperty['o:data_type'].length === 1) {
             defaultSelector.hide();
             multipleSelector.hide();
-            singleSelector.find('a.add-value.button').data('type', templateProperty['o:data_type'][0]);
+            singleSelector.find('button.add-value').data('type', templateProperty['o:data_type'][0]);
             singleSelector.show();
         } else {
             multipleSelector.hide();
@@ -825,15 +828,16 @@
      * @return string
      */
     var prepareMultipleSelector = function(dataTypes) {
-        var html = '';
+        var html = '<select>';
         dataTypes.forEach(function(dataType) {
             var dataTypeTemplate = $('.template.value[data-data-type="' + dataType + '"]');
             var label = dataTypeTemplate.data('data-type-label') ? dataTypeTemplate.data('data-type-label') : Omeka.jsTranslate('Add value');
             var icon = dataTypeTemplate.data('data-type-icon') ? dataTypeTemplate.data('data-type-icon') : dataType.substring(0, (dataType + ':').indexOf(':'));
             html += dataTypeTemplate.data('data-type-button')
                 ? dataTypeTemplate.data('data-type-button') + ' '
-                : '<a href="#" class="add-value button o-icon-' + icon + '" data-type="' + dataType + '">' + label + '</a> ';
+                : `<option value="${dataType}">${label}</option>`;
         });
+        html += '</select>';
         return html;
     };
 

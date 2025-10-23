@@ -4,8 +4,10 @@ namespace Omeka\Form\Element;
 use Omeka\Api\Manager as ApiManager;
 use Laminas\Form\Element\Select;
 
-class UserSelect extends Select
+class UserSelect extends Select implements SelectSortInterface
 {
+    use SelectSortTrait;
+
     /**
      * @var ApiManager
      */
@@ -40,5 +42,17 @@ class UserSelect extends Select
             $valueOptions = $prependValueOptions + $valueOptions;
         }
         return $valueOptions;
+    }
+
+    public function sortValueOptions(): bool
+    {
+        // Do not sort because sorting happens in self::getValueOptions()
+        return false;
+    }
+
+    public function translateValueOptions(): bool
+    {
+        // Do not translate because value options are user input.
+        return false;
     }
 }

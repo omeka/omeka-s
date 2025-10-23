@@ -7,10 +7,11 @@ use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\Form\Element\Select;
 use Laminas\I18n\Translator\TranslatorAwareTrait;
 
-abstract class AbstractVocabularyMemberSelect extends Select implements EventManagerAwareInterface
+abstract class AbstractVocabularyMemberSelect extends Select implements EventManagerAwareInterface, SelectSortInterface
 {
     use EventManagerAwareTrait;
     use TranslatorAwareTrait;
+    use SelectSortTrait;
 
     /**
      * @var ApiManager
@@ -85,19 +86,6 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
             }
             $valueOptions[$vocabulary->prefix()]['options'][] = $option;
         }
-        // Move Dublin Core vocabularies (dcterms & dctype) to the beginning.
-        if (isset($valueOptions['dcterms'])) {
-            $valueOptions = ['dcterms' => $valueOptions['dcterms']] + $valueOptions;
-        }
-        if (isset($valueOptions['dctype'])) {
-            $valueOptions = ['dctype' => $valueOptions['dctype']] + $valueOptions;
-        }
-
-        // Prepend configured value options.
-        $prependValueOptions = $this->getOption('prepend_value_options');
-        if (is_array($prependValueOptions)) {
-            $valueOptions = $prependValueOptions + $valueOptions;
-        }
 
         // Allow handlers to filter the value options.
         $args = $events->prepareArgs(['valueOptions' => $valueOptions]);
@@ -105,5 +93,22 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
         $valueOptions = $args['valueOptions'];
 
         return $valueOptions;
+    }
+
+    public function finalizeValueOptions(array $options): array
+    {
+        // Move Dublin Core vocabularies (dcterms & dctype) to the beginning.
+        if (isset($options['dctype'])) {
+            $options = ['dctype' => $options['dctype']] + $options;
+        }
+        if (isset($options['dcterms'])) {
+            $options = ['dcterms' => $options['dcterms']] + $options;
+        }
+        // Prepend configured value options.
+        $prependOptions = $this->getOption('prepend_value_options');
+        if (is_array($prependOptions)) {
+            $options = $prependOptions + $options;
+        }
+        return $options;
     }
 }

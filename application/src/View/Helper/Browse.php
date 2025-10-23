@@ -100,7 +100,7 @@ class Browse extends AbstractHelper
         if (isset($columnData['header']) && '' !== trim($columnData['header'])) {
             return $columnData['header'];
         }
-        return $view->translate($columnType->renderHeader($view, $columnData));
+        return $columnType->renderHeader($view, $columnData);
     }
 
     /**

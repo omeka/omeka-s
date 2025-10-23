@@ -974,13 +974,34 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     }
 
     /**
-     * Given an old copy of the Doctrine identity map, reset
-     * the entity manager to that state by detaching all entities that
-     * did not exist in the prior state.
+     * Get the current state of the entity manager's identity map.
+     *
+     * Use this in conjunction with self::detachAllNewEntities() to avoid memory
+     * allocation issues during batch processes. Save the original identity map
+     * before doing any work, then detach all new entities during every batch.
+     *
+     * @return array
+     */
+    public function getIdentityMap()
+    {
+        return $this->getEntityManager()->getUnitOfWork()->getIdentityMap();
+    }
+
+    /**
+     * Detach all new entities from the entity manager.
+     *
+     * Given an old copy of the Doctrine identity map, reset the entity manager
+     * to that state by detaching all entities that did not exist in the prior
+     * state. Do this instead of explicitly clearing the entity manager to avoid
+     * the uncommon but irksome "A new entity was found" Doctrine errors.
+     *
+     * Use this in conjunction with self::getIdentityMap() to avoid memory
+     * allocation issues during batch processes. Save the original identity map
+     * before doing any work, then detach all new entities during every batch.
      *
      * @param array $oldIdentityMap
      */
-    protected function detachAllNewEntities(array $oldIdentityMap)
+    public function detachAllNewEntities(array $oldIdentityMap)
     {
         $entityManager = $this->getEntityManager();
         $identityMap = $entityManager->getUnitOfWork()->getIdentityMap();

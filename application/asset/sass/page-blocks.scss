@@ -410,6 +410,17 @@
     margin-bottom: 0;
 }
 
+.block-iiifImage.block-layout-alignment-block-right,
+.block-iiifImage.block-layout-alignment-block-left {
+    width: 100%;
+    display: flow-root;
+}
+
+.block-iiifImage:not(.block-layout-alignment-block-left),
+.block-iiifImage:not(.block-layout-alignment-block-right) {
+    clear: both;
+}
+
 @media screen and (max-width:640px) {
     .page-layout-normal .block-layout-alignment-block-right,
     .page-layout-normal .block-layout-alignment-block-left {

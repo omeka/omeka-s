@@ -221,6 +221,7 @@ body {
     a.button,
     .button {
         min-height: (1.5 * $spacing-large);
+        min-width: 24px;
         background-color: rgba(0,0,0,.08);
         color: $copy-gray;
         border-radius: 3px;
@@ -693,18 +694,19 @@ a.collapse,
 a.expand-group,
 a.collapse-group {
     color: $copy-gray;
+    min-width: 24px;
+    display: inline-block;
+    text-align: center;
 }
 
 .expand:after {
     content: fa-content($fa-var-caret-right);
     @include font-awesome;
-    margin-left: 3px;
 }
 
 .collapse:after {
     content: fa-content($fa-var-caret-down);
     @include font-awesome;
-    margin-left: 3px;
 }
 
 .selector-table {
@@ -906,7 +908,7 @@ header {
         text-align: center;
     }
 
-    &[type="submit"] {
+    &#search-submit {
         position: absolute;
         top: 0;
         right: 0;
@@ -2507,7 +2509,6 @@ fieldset.section > legend {
     .field-meta .expand,
     .field-meta .collapse {
         display: inline-block !important;
-        margin-left: .5em !important;
         padding: 0 !important;
         border: 0 !important;
         width: auto !important;

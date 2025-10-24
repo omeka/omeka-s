@@ -2640,6 +2640,7 @@ fieldset.section > legend {
         height: (1.5 * $spacing-large);
         margin: 0;
         width: max-content;
+        margin-left: auto;
     }
 
     .inputs label.data-type-label {
@@ -2647,14 +2648,19 @@ fieldset.section > legend {
         align-items: center;
         line-height: (1.5 * $base-line-height);
         gap: $spacing-small;
-        flex-grow: 2;
+        flex: 2;
         padding: 0;
         width: auto;
+    }
+
+    .data-type-label-content {
+        font-weight: bold;
     }
 
     .inputs label.data-type-label select {
         margin: 0;
         flex: 2;
+        text-overflow: ellipsis;
     }
 
     .add-value.o-icon-add:before {

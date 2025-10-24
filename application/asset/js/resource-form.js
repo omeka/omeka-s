@@ -803,9 +803,12 @@
             }
             multipleSelector.show();
         } else if (templateProperty['o:data_type'].length === 1) {
+            var dataType = templateProperty['o:data_type'][0];
+            var dataTypeLabel = $('.template.value[data-data-type="' + dataType + '"]').data('data-type-label');
             defaultSelector.hide();
             multipleSelector.hide();
-            singleSelector.find('button.add-value').data('type', templateProperty['o:data_type'][0]);
+            singleSelector.find('button.add-value').data('type', dataType);
+            singleSelector.find('.data-type-label-content').after(dataTypeLabel);
             singleSelector.show();
         } else {
             multipleSelector.hide();
@@ -831,8 +834,7 @@
         var html = '<select>';
         dataTypes.forEach(function(dataType) {
             var dataTypeTemplate = $('.template.value[data-data-type="' + dataType + '"]');
-            var label = dataTypeTemplate.data('data-type-label') ? dataTypeTemplate.data('data-type-label') : Omeka.jsTranslate('Add value');
-            var icon = dataTypeTemplate.data('data-type-icon') ? dataTypeTemplate.data('data-type-icon') : dataType.substring(0, (dataType + ':').indexOf(':'));
+            var label = dataTypeTemplate.data('data-type-label') ? dataTypeTemplate.data('data-type-label') : Omeka.jsTranslate('Add value');   
             html += dataTypeTemplate.data('data-type-button')
                 ? dataTypeTemplate.data('data-type-button') + ' '
                 : `<option value="${dataType}">${label}</option>`;

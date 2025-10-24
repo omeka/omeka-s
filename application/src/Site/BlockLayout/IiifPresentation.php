@@ -60,7 +60,7 @@ class IiifPresentation extends AbstractBlockLayout
         $query = [
             'url' => $blockData['manifest_url'],
             'mirador_config' => json_encode([
-                'window.sideBarOpen' => true,
+                'window.sideBarOpen' => false,
             ]),
         ];
         return $view->iiifViewer($query, []);

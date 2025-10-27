@@ -221,7 +221,6 @@ body {
     a.button,
     .button {
         min-height: (1.5 * $spacing-large);
-        min-width: 24px;
         background-color: rgba(0,0,0,.08);
         color: $copy-gray;
         border-radius: 3px;
@@ -694,19 +693,18 @@ a.collapse,
 a.expand-group,
 a.collapse-group {
     color: $copy-gray;
-    min-width: 24px;
-    display: inline-block;
-    text-align: center;
 }
 
 .expand:after {
     content: fa-content($fa-var-caret-right);
     @include font-awesome;
+    margin-left: 3px;
 }
 
 .collapse:after {
     content: fa-content($fa-var-caret-down);
     @include font-awesome;
+    margin-left: 3px;
 }
 
 .selector-table {
@@ -793,13 +791,9 @@ header {
     flex-wrap: wrap;
 }
 
-#user p {
-    margin: 0 0 $spacing-small;
+#user .user-id {
     display: inline-flex;
     vertical-align: top;
-}
-
-#user .user-id {
     text-transform: uppercase;
     font-size: .75 * $base-font-size;
     margin-right: auto;
@@ -908,7 +902,7 @@ header {
         text-align: center;
     }
 
-    &#search-submit {
+    &[type="submit"] {
         position: absolute;
         top: 0;
         right: 0;
@@ -1219,11 +1213,14 @@ button .o-icon-private {
         position: relative;
     }
 
-    #menu h5 {
+    #menu .nav-heading {
         text-transform: uppercase;
         border-top: 1px solid darken($blue, 5%);
         padding-top: ($spacing-small - 1px);
         margin-bottom: 0;
+        font-size: .875 * $base-font-size;
+        font-weight: bold;
+        display: block;
     }
 
     #menu .expand,
@@ -1245,14 +1242,14 @@ button .o-icon-private {
         border-radius: 3px;
     }
 
-    #site-nav h5 {
+    #menu #site-nav-title {
         border-top: 0;
         border-bottom: 1px solid darken($blue, 10%);
         padding: 0 $spacing-large ($spacing-small - 1px) 0;
         margin-bottom: $spacing-small;
     }
 
-    header nav#site-nav h5 a:before {
+    #site-nav-title a:before {
         content: fa-content($fa-var-laptop);
         @include font-awesome;
         width: $spacing-large;
@@ -2509,6 +2506,7 @@ fieldset.section > legend {
     .field-meta .expand,
     .field-meta .collapse {
         display: inline-block !important;
+        margin-left: .5em !important;
         padding: 0 !important;
         border: 0 !important;
         width: auto !important;

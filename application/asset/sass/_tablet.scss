@@ -70,7 +70,7 @@ header {
 
 #user,
 #search,
-header nav {
+header > nav {
     position: fixed;
     top: -9999px;
     left: -9999px;
@@ -84,13 +84,13 @@ header nav#site-nav {
     margin-bottom: 0;
 }
 
-header nav#site-nav h5 {
+header nav#site-nav .nav-heading {
     border-top: 1px solid $border-gray;
     padding-top: ($spacing-small -1px);
     margin-bottom: 0;
 }
 
-header nav#site-nav h5 a {
+header nav#site-nav .nav-heading a {
     padding: 0;
     border-bottom: 0;
 }
@@ -171,12 +171,6 @@ div[role="main"] {
     overflow: scroll;
 }
 
-#menu ul {
-    margin-bottom: 0;
-    border-bottom: 0;
-    padding-bottom: 0;
-}
-
 #menu a {
     display: block;
     padding: $spacing-small $spacing-medium #{$spacing-small - 1px};
@@ -189,27 +183,18 @@ div[role="main"] {
     padding-bottom: $spacing-small;
 }
 
-#menu h5 a {
+#menu .nav-heading a {
     padding: 0;
     border-bottom: 0;
 }
 
-#menu h5 {
+#menu .nav-heading {
     height: 1.5 * $base-line-height;
     color: #676767;
     background-color: $gray-on-white;
     padding: $spacing-small $spacing-medium #{($spacing-small - 1px)};
     border: 1px solid $border-gray;
     border-width: 1px 0;
-}
-
-#menu h4 {
-    background-color: opacify($gray-on-white, .08);
-    margin-bottom: 0;
-
-    &:not(:first-of-type) {
-        margin-top: 0;
-    }
 }
 
 #menu a.public,

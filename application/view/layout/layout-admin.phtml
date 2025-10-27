@@ -8,7 +8,7 @@ $this->headLink()->prependStylesheet($this->assetUrl('css/style.css', 'Omeka'));
 $this->headLink()->prependStylesheet($this->assetUrl('css/iconfonts.css', 'Omeka'));
 $this->headLink()->prependStylesheet($this->assetUrl('vendor/chosen-js/chosen.css', 'Omeka'));
 $this->headLink()->prependStylesheet($this->assetUrl('vendor/tablesaw/tablesaw.stackonly.css', 'Omeka'));
-$this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro%7CLato:400,400italic,700,700italic');
+$this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,400italic,700,700italic');
 $this->headScript()->prependFile($this->assetUrl('js/admin.js', 'Omeka'));
 $this->headScript()->prependFile($this->assetUrl('js/global.js', 'Omeka'));
 $this->headScript()->prependFile($this->assetUrl('js/chosen-options.js', 'Omeka'));
@@ -43,22 +43,23 @@ $this->trigger('view.layout');
                     <a href="#" class="o-icon-search button"><span class="screen-reader-text"><?php echo $translate('Search site'); ?></span></a>
                     <a href="#" class="o-icon-user button"><span class="screen-reader-text"><?php echo $translate('User menu'); ?></span></a>
                 </div>
-                <div id="user">
+                <nav id="user" aria-label="<?php echo $translate('User'); ?>">
                     <?php if ($this->identity()): ?>
-                    <p class="user-id">
+                    <div class="user-id">
                         <?php echo $this->hyperlink($this->identity()->getName(), $this->url('admin/id', ['controller' => 'user', 'id' => $this->identity()->getId()]),['class' => 'user-show o-icon-user button']); ?>
                         <?php echo $this->plugin('hyperlink')->raw('<span class="sr-only">' . $translate('Edit user') . '</span>', $this->url('admin/id', ['controller' => 'user', 'action' => 'edit', 'id' => $this->identity()->getId()], ['fragment' => 'user-settings']), ['class' => 'user-settings button', 'title' => $translate('Edit user')]); ?>
-                    </p>
-                    <p class="logout"><a href="<?php echo $this->url('logout'); ?>"><?php echo $translate('Logout'); ?></a></p>
+                    </div>
+                    <div class="logout"><a href="<?php echo $this->url('logout'); ?>"><?php echo $translate('Logout'); ?></a></div>
                     <?php else: ?>
-                    <p><?php echo $translate('not logged in'); ?></p>
+                    <div class="logged-out"><?php echo $translate('not logged in'); ?></div>
                     <?php endif; ?>
-                </div>
-                <div id="search">
-                    <form action="" id="search-form" aria-label="<?php echo $translate('Search'); ?>" role="search">
+                </nav>
+                <div id="search" role="search">
+                    <form action="" id="search-form">
                         <?php $searchValue = isset($_GET['fulltext_search']) ? $_GET['fulltext_search'] : ''; ?>
-                        <input type="text" name="fulltext_search" id="fulltext-search" value="<?php echo $escape($searchValue); ?>" aria-label="<?php echo $translate('Query'); ?>">
-                        <button type="button" id="advanced" aria-label="<?php echo $translate('Advanced options'); ?>" title="<?php echo $translate('Advanced options'); ?>" aria-expanded="false" aria-controls="advanced-options"></button>
+                        <input type="text" name="fulltext_search" value="<?php echo $escape($searchValue); ?>">
+                        <button type="button" id="advanced"><?php echo $translate('Advanced options'); ?></button>
+                        <button type="submit"><?php echo $translate('Search'); ?></button>
                         <fieldset id="advanced-options">
                             <legend><?php echo $translate('Resource type'); ?></legend>
                             <input type="radio" name="resource-type" id="search-items" value="item" checked="checked"
@@ -74,40 +75,39 @@ $this->trigger('view.layout');
                                 data-action="<?php echo $escape($this->url('admin/default', ['controller' => 'media', 'action' => 'browse'])); ?>">
                             <label for="search-media"><?php echo $translate('Media'); ?></label>
                         </fieldset>
-                        <button type="submit" id="search-submit" aria-label="<?php echo $translate('Submit'); ?>" title="<?php echo $translate('Submit'); ?>"><span class="o-icon-search" aria-hidden="true"></span></button>
                     </form>
                 </div>
-                <nav id="menu" aria-label="<?php echo $translate('Navigation menu'); ?>">
+                <nav id="menu" aria-label="<?php echo $translate('Main'); ?>">
                     <?php echo $siteNav; ?>
                     <?php if (isset($site)): ?>
-                    <nav id="site-nav">
-                        <h5><?php echo $site->link($site->title(), 'show'); ?></h5>
+                    <nav id="site-nav" aria-labelledby="site-nav-title">
+                        <span id="site-nav-title" class="nav-heading"><?php echo $site->link($site->title(), 'show'); ?></span>
                         <?php echo $this->hyperlink('', $site->siteUrl(), ['class' => 'o-icon-external public', 'target' => '_blank', 'title' => $translate('View public site')]); ?>
                     <?php echo $site->adminNav()->menu(); ?>
                     </nav>
                     <?php endif; ?>
-                    <h5><?php echo $translate('Resources') ?></h5>
-                    <?php echo $resourceNav; ?>
+                    <nav id="resource-nav" aria-labelledby="resource-nav-title">
+                        <span id="resource-nav-title" class="nav-heading"><?php echo $translate('Resources') ?></span>
+                        <?php echo $resourceNav; ?>
+                    </nav>
                     <?php if ($adminNav): ?>
-                    <h5><?php echo $translate('Admin') ?></h5>
-                    <?php echo $adminNav ?>
+                    <nav id="admin-nav" aria-labelledby="admin-nav-title">
+                        <span id="admin-nav-title" class="nav-heading"><?php echo $translate('Admin') ?></span>
+                        <?php echo $adminNav ?>
+                    </nav>
                     <?php endif; ?>
                     <?php if ($moduleNav): ?>
-                    <h5><?php echo $translate('Modules') ?></h5>
-                    <?php echo $moduleNav ?>
+                    <nav id="module-nav" aria-labelledby="module-nav-title">
+                        <span id="module-nav-title" class="nav-heading"><?php echo $translate('Modules') ?></span>
+                        <?php echo $moduleNav ?>
+                    </nav>
                     <?php endif; ?>
                 </nav>
             </header>
             <script>
-                $('#search-form').on('click', '#advanced', function() {
-                    var toggleButton = $(this);
+                $('#advanced').click(function(event) {
+                    event.preventDefault();
                     $('#advanced-options').slideToggle('slow');
-                    toggleButton.toggleClass('open');
-                    if (toggleButton.hasClass('open')) {
-                        toggleButton.attr('aria-expanded', 'true');
-                    } else {
-                        toggleButton.attr('aria-expanded', 'false');
-                    }
                 });
             </script>
 

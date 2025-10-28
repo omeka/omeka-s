@@ -12,6 +12,8 @@ class IiifPresentation extends AbstractBlockLayout
 {
     protected $defaultBlockData = [
         'manifest_url' => null,
+        'title' => null,
+        'show_title' => null,
     ];
 
     public function getLabel()
@@ -30,11 +32,28 @@ class IiifPresentation extends AbstractBlockLayout
                 'label' => 'Manifest URL', // @translate
             ],
         ]);
+        $form->add([
+            'type' => 'text',
+            'name' => 'o:block[__blockIndex__][o:data][title]',
+            'options' => [
+                'label' => 'Title', // @translate
+            ],
+        ]);
+        $form->add([
+            'type' => 'checkbox',
+            'name' => 'o:block[__blockIndex__][o:data][show_title]',
+            'options' => [
+                'label' => 'Show title', // @translate
+                'info' => 'Check to show the title as a heading. For accessibility, the title will always be available to screen readers.', // @translate
+            ],
+        ]);
 
         // Set form data.
         $blockData = $this->getBlockData($block);
         $form->setData([
             'o:block[__blockIndex__][o:data][manifest_url]' => $blockData['manifest_url'],
+            'o:block[__blockIndex__][o:data][title]' => $blockData['title'],
+            'o:block[__blockIndex__][o:data][show_title]' => $blockData['show_title'],
         ]);
 
         // Render the form.
@@ -48,6 +67,10 @@ class IiifPresentation extends AbstractBlockLayout
         $blockData['manifest_url'] = is_string($blockData['manifest_url'])
             ? trim($blockData['manifest_url'])
             : $this->defaultBlockData['manifest_url'];
+        $blockData['title'] = is_string($blockData['title'])
+            ? trim($blockData['title'])
+            : $this->defaultBlockData['title'];
+        $blockData['show_title'] = $blockData['show_title'];
         $block->setData($blockData);
     }
 
@@ -63,7 +86,11 @@ class IiifPresentation extends AbstractBlockLayout
                 'window.sideBarOpen' => false,
             ]),
         ];
-        return $view->iiifViewer($query, []);
+        return sprintf(
+            '%s%s',
+            ($blockData['title'] && $blockData['show_title']) ? sprintf('<h3>%s</h3>', $blockData['title']) : null,
+            $view->iiifViewer($query, ['title' => $blockData['title']])
+        );
     }
 
     public function getBlockData(?SitePageBlockRepresentation $block)

@@ -398,6 +398,10 @@ body {
             border-color: $border-gray;
         }
 
+        .chosen-container-active {
+            outline: auto;
+        }
+
         .chosen-container-multi.chosen-container-active .chosen-choices {
             border-color: #aaa;
             border-radius: 3px 3px 0 0;

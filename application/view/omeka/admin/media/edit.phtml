@@ -49,16 +49,10 @@ var valuesJson = <?php echo json_encode($media->values()); ?>;
 
     <div id="page-actions">
         <?php if ($media->isPublic()): ?>
-        <?php echo $this->hyperlink('', '#', [
-            'class' => 'o-icon-public button',
-            'title' => $translate('Make private'),
-        ]); ?>
+        <button type="button" class="o-icon-public button" title="<?php echo $translate('Make private'); ?>"></button>
         <input type="hidden" name="o:is_public" value="1">
         <?php else: ?>
-        <?php echo $this->hyperlink('', '#', [
-            'class' => 'o-icon-private button',
-            'title' => $translate('Make public'),
-        ]); ?>
+        <button type="button" class="o-icon-private button" title="<?php echo $translate('Make public'); ?>"></button>
         <input type="hidden" name="o:is_public" value="0">
         <?php endif; ?>
         <?php if ($media->userIsAllowed('delete')): ?>

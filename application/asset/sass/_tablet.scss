@@ -188,7 +188,8 @@ div[role="main"] {
     border-bottom: 0;
 }
 
-#menu .nav-heading {
+#menu .nav-heading,
+#menu #site-nav-title {
     height: 1.5 * $base-line-height;
     color: #676767;
     background-color: $gray-on-white;
@@ -201,7 +202,7 @@ div[role="main"] {
 #menu a.expand,
 #menu a.collapse {
     height: 1.5 * $base-line-height;
-    margin: #{-(1.5 * $spacing-large)} 0 0;
+    margin: #{-(1.75 * $spacing-large)} 0 0;
     padding: 0 $spacing-medium 0 0;
 
     &:before,

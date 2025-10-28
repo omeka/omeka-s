@@ -410,6 +410,11 @@
     margin-bottom: 0;
 }
 
+.page-layout-normal .block-iiifImage.block-layout-alignment-block-center,
+.page-layout-normal .block-iiifPresentation.block-layout-alignment-block-center {
+    display: block;
+}
+
 .page-layout-normal .block-iiifImage.block-layout-alignment-block-right,
 .page-layout-normal .block-iiifImage.block-layout-alignment-block-left {
     width: 100%;

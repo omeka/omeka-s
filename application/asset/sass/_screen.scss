@@ -693,6 +693,12 @@ table .icon-sortable {
     margin-bottom: 0;
 }
 
+a[class*="o-icon-"] {
+    min-width: 24px;
+    min-height: 24px;
+    display: inline-block;
+}
+
 a.expand,
 a.collapse,
 a.expand-group,

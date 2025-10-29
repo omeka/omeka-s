@@ -48,7 +48,6 @@ class IiifImage extends AbstractBlockLayout
             ],
         ]);
 
-
         // Set form data.
         $blockData = $this->getBlockData($block);
         $form->setData([

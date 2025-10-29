@@ -422,7 +422,9 @@
 }
 
 .block-iiifImage:not(.block-layout-alignment-block-left),
-.block-iiifImage:not(.block-layout-alignment-block-right) {
+.block-iiifImage:not(.block-layout-alignment-block-right), 
+.block-iiifPresentation:not(.block-layout-alignment-block-left),
+.block-iiifPresentation:not(.block-layout-alignment-block-right) {
     clear: both;
 }
 

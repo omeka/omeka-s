@@ -65,7 +65,7 @@ $this->htmlElement('body')->appendAttribute('class', 'item-sets browse');
                 <?php endif; ?>
                 <?php echo $itemSet->linkPretty(); ?>
                 <?php if (!$itemSet->isPublic()): ?>
-                    <span class="o-icon-private" aria-label="<?php echo $translate('Private'); ?>"></span>
+                    <span class="o-icon-private" role="img" aria-label="<?php echo $translate('Private'); ?>"></span>
                 <?php endif; ?>
                 <ul class="actions">
                     <?php $this->trigger('view.browse.actions', ['resource' => $itemSet]); ?>

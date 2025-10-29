@@ -39,7 +39,7 @@ $this->htmlElement('body')->appendAttribute('class', 'sites pages browse');
             <?php echo $escape($page->title()); ?>
             <?php endif; ?>
             <?php if (!$page->isPublic()): ?>
-                <span class="o-icon-private" aria-label="<?php echo $translate('Private'); ?>"></span>
+                <span class="o-icon-private" role="img" aria-label="<?php echo $translate('Private'); ?>"></span>
             <?php endif; ?>
             <input type="hidden" name="o:page[][o:id]" value="<?php echo $escape($page->id()); ?>">
             <ul class="actions">

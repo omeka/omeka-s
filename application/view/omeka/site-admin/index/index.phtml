@@ -56,7 +56,7 @@ $this->htmlElement('body')->appendAttribute('class', 'sites browse');
             <td>
                 <?php echo $site->link($site->title(), 'show'); ?>
                 <?php if (!$site->isPublic()): ?>
-                    <span class="o-icon-private" aria-label="<?php echo $translate('Private'); ?>"></span>
+                    <span class="o-icon-private" role="img" aria-label="<?php echo $translate('Private'); ?>"></span>
                 <?php endif; ?>
                 <ul class="actions">
                     <?php $this->trigger('view.browse.actions', ['resource' => $site]); ?>

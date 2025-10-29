@@ -23,7 +23,7 @@ $escape = $this->plugin('escapeHtml');
                         <span class="page-label">
                         <?php echo sprintf('%s (%s)', $escape($page->title()), $escape($page->slug())); ?>
                         <?php if ($isPublic == 0): ?>
-                        <span class="o-icon-private" aria-label="<?php echo $translate('Private'); ?>" title="<?php echo $translate('Private'); ?>" role="presentation"></span>
+                        <span class="o-icon-private" role="img" aria-label="<?php echo $translate('Private'); ?>" title="<?php echo $translate('Private'); ?>" role="presentation"></span>
                         <?php endif; ?>
                         </span>
                     </button>

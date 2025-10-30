@@ -1,4 +1,5 @@
 @import "font-awesome/variables";
+@import "mixins";
 
 script {
     display: none !important;
@@ -36,18 +37,18 @@ header {
         top: 0;
         z-index: 1001;
         color: #fff;
-        background-color: darken($blue, 15%);
+        background-color: var(--dark-blue);
         box-shadow: none;
     }
 
     .o-icon-menu.button {
         left: 0;
         border-right: 1px solid rgba(0,0,0,.08);
-        width: (1.5 * $spacing-large);
+        width: calc(1.5 * var(--spacing-large));
     }
 
     .o-icon-search.button {
-        left: (1.5 * $spacing-large);
+        left: calc(1.5 * var(--spacing-large));
     }
 
     .o-icon-user.button {
@@ -60,12 +61,12 @@ header {
 }
 
 .logo {
-    line-height: 1.5 * $base-line-height;
+    line-height: calc(1.5 * var(--base-line-height));
     padding: 0 gutter(1);
     width: 100%;
     text-align: center;
     display: block;
-    background-color: $blue;
+    background-color: var(--blue);
 }
 
 #user,
@@ -85,8 +86,8 @@ header nav#site-nav {
 }
 
 header nav#site-nav h5 {
-    border-top: 1px solid $border-gray;
-    padding-top: ($spacing-small -1px);
+    border-top: 1px solid var(--border-gray);
+    padding-top: calc(var(--spacing-small) -1px);
     margin-bottom: 0;
 }
 
@@ -98,7 +99,7 @@ header nav#site-nav h5 a {
 #menu.active,
 #user.active,
 #search.active {
-    top: (1.5 * $spacing-large);
+    top: calc(1.5 * var(--spacing-large));
     left: 0;
     bottom: 0;
     right: 0;
@@ -143,20 +144,20 @@ td .o-icon-user-inactive {
 /* @group ----- Global content ----- */
 
 div[role="main"] {
-    margin: (1.5 * $spacing-large) 0 0 0;
+    margin: calc(1.5 * var(--spacing-large)) 0 0 0;
     width: 100%;
-    min-height: calc(100% - #{3 * $spacing-large});
+    min-height: calc(100% - (3 * var(--spacing-large)));
     position: relative;
-    padding-top: (2 * $spacing-large);
+    padding-top: calc(2 * var(--spacing-large));
 
     & > h1:first-of-type {
         width: auto;
         position: static;
-        padding: $spacing-medium gutter();
+        padding: var(--spacing-medium) gutter();
         height: auto;
-        margin: 0 -#{gutter()} $spacing-medium;
+        margin: 0 -#{gutter()} var(--spacing-medium);
         white-space: normal;
-        line-height: 1.5 * $base-line-height;
+        line-height: calc(1.5 * var(--base-line-height));
     }
 }
 
@@ -179,14 +180,14 @@ div[role="main"] {
 
 #menu a {
     display: block;
-    padding: $spacing-small $spacing-medium #{$spacing-small - 1px};
+    padding: var(--spacing-small) var(--spacing-medium) #{var(--spacing-small) - 1px};
     color: #676767;
-    border-bottom: 1px solid $border-gray;
+    border-bottom: 1px solid var(--border-gray);
 }
 
 #menu li:last-child a {
     border-bottom: 0;
-    padding-bottom: $spacing-small;
+    padding-bottom: var(--spacing-small);
 }
 
 #menu h5 a {
@@ -195,16 +196,16 @@ div[role="main"] {
 }
 
 #menu h5 {
-    height: 1.5 * $base-line-height;
+    height: calc(1.5 * var(--base-line-height));
     color: #676767;
-    background-color: $gray-on-white;
-    padding: $spacing-small $spacing-medium #{($spacing-small - 1px)};
-    border: 1px solid $border-gray;
+    background-color: var(--gray-on-white);
+    padding: var(--spacing-small) var(--spacing-medium) calc(var(--spacing-small) - 1px);
+    border: 1px solid var(--border-gray);
     border-width: 1px 0;
 }
 
 #menu h4 {
-    background-color: opacify($gray-on-white, .08);
+    background-color: color-mix(in srgb, var(--gray-on-white), #ffffff, 8%);
     margin-bottom: 0;
 
     &:not(:first-of-type) {
@@ -215,14 +216,14 @@ div[role="main"] {
 #menu a.public,
 #menu a.expand,
 #menu a.collapse {
-    height: 1.5 * $base-line-height;
-    margin: #{-(1.5 * $spacing-large)} 0 0;
-    padding: 0 $spacing-medium 0 0;
+    height: calc(1.5 * var(--base-line-height));
+    margin: calc(-1.5 * var(--spacing-large)) 0 0;
+    padding: 0 var(--spacing-medium) 0 0;
 
     &:before,
     &:after {
-        height: 1.5 * $base-line-height;
-        line-height: 1.5 * $base-line-height;
+        height: calc(1.5 * var(--base-line-height));
+        line-height: calc(1.5 * var(--base-line-height));
     }
 }
 
@@ -231,7 +232,7 @@ div[role="main"] {
 }
 
 #mobile-nav a.active {
-    background-color: darken($red, 20%);
+    background-color: color-mix(in srgb, var(--red), #000000, 20%);
 }
 
 #user {
@@ -239,49 +240,49 @@ div[role="main"] {
 }
 
 #user .user-id {
-    color: $copy-gray;
+    color: var(--copy-gray);
     width: 100%;
-    margin: 0 $spacing-small $spacing-large;
+    margin: 0 var(--spacing-small) var(--spacing-large);
 
     a {
-        color: $red;
+        color: var(--red);
     }
 }
 
 #user .logout {
     display: block;
-    margin: $spacing-medium $spacing-small;
-    font-size: $base-font-size;
-    color: $copy-gray;
+    margin: var(--spacing-medium) var(--spacing-small);
+    font-size: var(--base-font-size);
+    color: var(--copy-gray);
     border-radius: 3px;
-    width: calc(100% - #{$spacing-medium});
-    min-height: (1.5 * $spacing-large);
+    width: calc(100% - #{var(--spacing-medium)});
+    min-height: calc(1.5 * var(--spacing-large));
     background-color: rgba(0,0,0,.08);
     border-radius: 3px;
     border: 0;
     box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
-    padding: $spacing-small 10px;
+    padding: var(--spacing-small) 10px;
     display: inline-block;
     text-align: center;
     cursor: pointer;
-    margin: 0 $spacing-small;
+    margin: 0 var(--spacing-small);
 
     &:last-of-type:before {
         content: "";
     }
 
     a {
-        color: $copy-gray;
+        color: var(--copy-gray);
     }
 }
 
 #page-actions {
-    top: (1.5 * $spacing-large);
+    top: calc(1.5 * var(--spacing-large));
     background-color: #fff;
     width: 100%;
     border-bottom: 1px solid rgba(0,0,0,.08);
-    height: 2 * $spacing-large;
-    padding-bottom: ($spacing-small - 1px);
+    height: calc(2 * var(--spacing-large));
+    padding-bottom: calc(var(--spacing-small) - 1px);
 }
 
 /* @end */
@@ -290,7 +291,7 @@ div[role="main"] {
 
 #sidebar {
     position: fixed;
-    top: (1.5 * $spacing-large);
+    top: calc(1.5 * var(--spacing-large));
     z-index: 100;
     width: 100%;
 
@@ -305,7 +306,7 @@ body.sidebar-open #content {
 
 .sidebar {
     width: 100%;
-    top: 1.5 * $spacing-large;
+    top: calc(1.5 * var(--spacing-large));
     z-index: 1000;
 }
 
@@ -324,14 +325,14 @@ fieldset.section > .always.active {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 2 * $spacing-large;
+    height: calc(2 * var(--spacing-large));
     background-color: #fff;
     position: fixed;
-    border-top: 1px solid $gray-on-white;
+    border-top: 1px solid var(--gray-on-white);
 
     button {
         width: 100%;
-        margin: $spacing-small;
+        margin: var(--spacing-small);
     }
 }
 
@@ -346,7 +347,7 @@ fieldset.section > .always.active {
 }
 
 #modules .module-meta {
-    margin-bottom: $spacing-medium;
+    margin-bottom: var(--spacing-medium);
 }
 
 #modules .module-actions {
@@ -355,7 +356,7 @@ fieldset.section > .always.active {
 
 #modules button,
 #modules .button {
-    margin: 0 $spacing-small 0 0;
+    margin: 0 var(--spacing-small) 0 0;
 }
 
 /* @end */
@@ -371,7 +372,7 @@ fieldset.section > .always.active {
 /* @group ----- Search ----- */
 
 #search-form {
-    margin: (2 * $spacing-large) gutter(4);
+    margin: calc(2 * var(--spacing-large)) gutter(4);
     position: relative;
 }
 
@@ -395,7 +396,7 @@ fieldset.section > .always.active {
 }
 
 .browse .pagination {
-    margin-right: 2 * $spacing-large;
+    margin-right: calc(2 * var(--spacing-large));
 }
 
 .jobs.browse th:first-child, 
@@ -423,25 +424,25 @@ fieldset.section > legend:first-child {
     left: auto;
     display: block;
     width: 100%;
-    font-size: 1.25 * $base-font-size;
-    padding: $spacing-small (1.5 * $spacing-small) $spacing-small 0;
-    color: $red;
+    font-size: calc(1.25 * var(--base-font-size));
+    padding: var(--spacing-small) calc(1.5 * var(--spacing-small)) var(--spacing-small) 0;
+    color: var(--red);
     cursor: pointer;
     border-bottom: 3px solid rgba(0,0,0,.08);
     padding-bottom: -3px;
-    margin-bottom: $spacing-medium;
+    margin-bottom: var(--spacing-medium);
 }
 
 fieldset.section > legend:after {
-    content: "\f0da";
-    font-family: "Font Awesome 5 Free";
+    content: fa-content($fa-var-caret-right);
+    @include font-awesome;
     position: absolute;
-    right: (1.5 * $spacing-small);
-    top: $spacing-medium;
+    right: calc(1.5 * var(--spacing-small));
+    top: var(--spacing-medium);
 }
 
 fieldset.section.mobile-active > legend:after{
-    content: "\f0d7";
+    content: fa-content($fa-var-caret-down);
 }
 
 .add .active.section > .button,
@@ -456,7 +457,7 @@ fieldset.section.mobile-active > legend:after{
 
 .field-actions {
     position: absolute;
-    top: 1.5 * $spacing-small;
+    top: calc(1.5 * var(--spacing-small));
     right: gutter(10);
     z-index: 1;
     width: 50%;
@@ -474,8 +475,8 @@ fieldset.section.mobile-active > legend:after{
 
 .field-meta label,
 .field-description p {
-    line-height: $base-line-height;
-    margin-bottom: $spacing-small;
+    line-height: var(--base-line-height);
+    margin-bottom: var(--spacing-small);
 }
 
 .field-meta label {
@@ -492,23 +493,23 @@ fieldset.section.mobile-active > legend:after{
 
 .show .sidebar.active {
     position: static;
-    border: 1px solid $border-gray;
-    padding: ($spacing-medium - 1px);
-    margin-top: $spacing-large;
+    border: 1px solid var(--border-gray);
+    padding: (var(--spacing-medium) - 1px);
+    margin-top: var(--spacing-large);
 }
 
 .show .section .property,
 .show .section .meta-group {
-    margin-bottom: $spacing-small;
-    box-shadow: 0 0 0 1px $border-gray;
+    margin-bottom: var(--spacing-small);
+    box-shadow: 0 0 0 1px var(--border-gray);
     border-radius: 2px;
 }
 
 .show .section .meta-group h4,
 .show .section .property h4 {
-    padding-bottom: $spacing-small;
-    border-bottom: 1px solid $border-gray;
-    background-color: $gray-on-white;
+    padding-bottom: var(--spacing-small);
+    border-bottom: 1px solid var(--border-gray);
+    background-color: var(--gray-on-white);
 }
 
 .show .section .meta-group h4,
@@ -516,19 +517,19 @@ fieldset.section.mobile-active > legend:after{
 .show .section .property h4,
 .show .section .property .values {
     width: 100% !important;
-    padding: $spacing-small !important;
+    padding: var(--spacing-small) !important;
 }
 
 .show .section .meta-group .value:not(:first-of-type),
 .show .section .property .value:not(:first-of-type) {
-    border-top: 1px solid $border-gray;
-    padding-top: ($spacing-small -1px);
-    margin-top: $spacing-small;
+    border-top: 1px solid var(--border-gray);
+    padding-top: (var(--spacing-small) -1px);
+    margin-top: var(--spacing-small);
 }
 
 .show .sidebar .meta-group .value:not(:first-of-type),
 .show .sidebar .property .value:not(:first-of-type) {
-    padding-top: $spacing-small;
+    padding-top: var(--spacing-small);
 }
 
 /* @end */
@@ -544,11 +545,11 @@ body.minimal {
     }
 
     div[role="main"] {
-        padding: $spacing-large span(1 of 16);
+        padding: var(--spacing-large) span(1 of 16);
     }
 
     div[role="main"] > .messages {
-        margin-top: $spacing-large;
+        margin-top: var(--spacing-large);
     }
 
     .inputs {

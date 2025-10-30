@@ -1,14 +1,14 @@
 @mixin field-row {
     width: 100%;
-    background-color: $gray-on-white;
-    padding: $spacing-small;
+    background-color: var(--gray-on-white);
+    padding: var(--spacing-small);
     position: relative;
-    margin-bottom: $spacing-small;
+    margin-bottom: var(--spacing-small);
 }
 
 @mixin subhead-row {
-    border-bottom: 1px solid $border-gray;
-    padding-bottom: ($spacing-medium - 1px);
+    border-bottom: 1px solid var(--border-gray);
+    padding-bottom: calc(var(--spacing-medium) - 1px);
 }
 
 @mixin font-awesome {
@@ -26,16 +26,16 @@
 
 @mixin message {
     border-radius: 3px;
-    padding: $spacing-small 10px;
+    padding: var(--spacing-small) 10px;
     display: block;
 }
 
 @mixin success {
-    background-color: lighten(green, 65%);
+    background-color: var(--success-bg);
     color: green;
 }
 
 @mixin error {
-    background-color: lighten($red, 55%);
-    color: $red;
+    background-color: var(--delete-bg);
+    color: var(--red);
 }

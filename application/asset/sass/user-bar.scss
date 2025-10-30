@@ -2,34 +2,34 @@
 
 #user-bar {
     font-family: "Lato", sans-serif;
-    font-size: $base-font-size;
-    line-height: $base-line-height;
+    font-size: var(--base-font-size);
+    line-height: var(--base-line-height);
     color: #fff;
-    background-color: $blue;
-    padding: $spacing-small $spacing-large;
+    background-color: var(--blue);
+    padding: var(--spacing-small) var(--spacing-large);
     display: flex;
     justify-content: space-between;
 }
 
 #user-bar .admin:not(:last-child):after {
     content: "\2022";
-    margin: 0 $spacing-medium;
+    margin: 0 var(--spacing-medium);
 }
 
 #user-bar a {
-    color: lighten(saturate($blue, 20%), 50%);
+    color: var(--light-blue);
     background-color: transparent
 }
 
 #user-bar .logout,
 #user-bar .login {
-    font-size: .75 * $base-font-size;
-    padding: 0 $spacing-small;
-    background-color: darken($blue, 15%);
+    font-size: calc(.75 * var(--base-font-size));
+    padding: 0 var(--spacing-small);
+    background-color: var(--dark-blue);
     border-radius: 3px;
     display: inline-block;
     text-align: center;
-    margin-left: $spacing-medium;
+    margin-left: var(--spacing-medium);
 }
 
 #user-bar .login {
@@ -37,5 +37,5 @@
 }
 
 #user-bar .o-icon-edit {
-    margin-left: $spacing-medium;
+    margin-left: var(--spacing-medium);
 }

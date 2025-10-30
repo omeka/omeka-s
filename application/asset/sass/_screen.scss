@@ -22,12 +22,12 @@ a {
 
 a:link,
 a:visited {
-    color: $red;
+    color: var(--red);
 }
 
 a:active,
 a:hover {
-    color: $light-red;
+    color: var(--light-red);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -39,32 +39,32 @@ h3, h4, h5, h6 {
 }
 
 h1 {
-    font-size: 2 * $base-font-size;
-    line-height: 2 * $spacing-large;
-    margin-bottom: $spacing-large;
+    font-size: calc(2 * var(--base-font-size));
+    line-height: calc(2 * var(--spacing-large));
+    margin-bottom: var(--spacing-large);
 }
 
 h2 {
-    font-size: 1.875 * $base-font-size;
-    line-height: 1.5 * $spacing-large;
-    margin-bottom: $spacing-large;
+    font-size: calc(1.875 * var(--base-font-size));
+    line-height: calc(1.5 * var(--spacing-large));
+    margin-bottom: var(--spacing-large);
 }
 
 h3 {
-    font-size: 1.5 * $base-font-size;
-    margin-bottom: $spacing-large;
+    font-size: calc(1.5 * var(--base-font-size));
+    margin-bottom: var(--spacing-large);
 }
 
 h5 {
-    font-size: .875 * $base-font-size;
+    font-size: calc(.875 * var(--base-font-size));
 }
 
 p {
-    margin: $spacing-large 0;
+    margin: var(--spacing-large) 0;
 }
 
 ul {
-    padding-left: $base-line-height;
+    padding-left: var(--base-line-height);
     list-style: disc;
 }
 
@@ -80,9 +80,9 @@ body {
 
 body {
     font-family: "Lato", sans-serif;
-    font-size: $base-font-size;
-    line-height: $base-line-height;
-    color: $copy-gray;
+    font-size: var(--base-font-size);
+    line-height: var(--base-line-height);
+    color: var(--copy-gray);
     overflow-x: hidden;
 }
 
@@ -99,28 +99,28 @@ body {
     table.tablesaw th {
         font-weight: bold;
         text-align: left;
-        padding: $spacing-small .5em;
+        padding: var(--spacing-small) .5em;
     }
 
     table,
     table.tablesaw {
-        margin-bottom: $spacing-medium;
-        border: 1px solid $border-gray;
+        margin-bottom: var(--spacing-medium);
+        border: 1px solid var(--border-gray);
         border-radius: 3px;
         border-collapse: separate;
     }
 
     .tablesaw tr:not(:last-child) td {
-        border-bottom: 1px solid $border-gray;
+        border-bottom: 1px solid var(--border-gray);
     }
 
     tr.delete {
-        background-color: $delete-bg;
+        background-color: var(--delete-bg);
     }
 
     td,
     table.tablesaw td {
-        padding: $spacing-small .5em ($spacing-small - 1px);
+        padding: var(--spacing-small) .5em calc(var(--spacing-small) - 1px);
         position: relative;
         vertical-align: middle;
     }
@@ -130,9 +130,9 @@ body {
     }
 
     table.tablesaw thead tr:first-child th {
-        padding-top: $spacing-small;
-        padding-bottom: ($spacing-small - 1px);
-        border-bottom: 1px solid $border-gray;
+        padding-top: var(--spacing-small);
+        padding-bottom: calc(var(--spacing-small) - 1px);
+        border-bottom: 1px solid var(--border-gray);
     }
 
     /* @end */
@@ -140,24 +140,24 @@ body {
     /* @group ----- Form elements ----- */
 
     legend {
-        font-size: 1.25 * $base-font-size;
-        padding: $spacing-medium 0;
+        font-size: calc(1.25 * var(--base-font-size));
+        padding: var(--spacing-medium) 0;
         font-weight: bold;
     }
 
     [contenteditable="true"],
     textarea {
         clear: both;
-        padding: $spacing-small;
+        padding: var(--spacing-small);
         border: 1px solid rgba(0,0,0,.15);
         display: block;
         background-color: #fff;
-        min-height: 3 * $spacing-large;
+        min-height: calc(3 * var(--spacing-large));
         overflow-y: auto;
     }
 
     [contenteditable="true"] p {
-        margin: .5 * $base-line-height 0;
+        margin: calc(.5 * var(--spacing-large)) 0;
     }
 
     .cke_dialog_body textarea {
@@ -170,10 +170,10 @@ body {
     button,
     select {
         font-family: "Lato", sans-serif;
-        font-size: $base-font-size;
-        line-height: $base-line-height;
+        font-size: var(--base-font-size);
+        line-height: var(--base-line-height);
         margin: 0;
-        color: $copy-gray;
+        color: var(--copy-gray);
     }
 
     input[type="text"],
@@ -185,17 +185,17 @@ body {
     input[type="datetime-local"] {
         appearance: none;
         border-radius: 0;
-        height: (1.5 * $spacing-large);
+        height: calc(1.5 * var(--spacing-large));
         border: 1px solid rgba(0,0,0,.15);
-        padding: $spacing-small;
+        padding: var(--spacing-small);
         margin: 0;
     }
 
     :disabled {
-        background-color: $gray-on-white;
+        background-color: var(--gray-on-white);
         box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
-        color: $copy-gray;
-        -webkit-text-fill-color: $copy-gray;
+        color: var(--copy-gray);
+        -webkit-text-fill-color: var(--copy-gray);
         cursor: default;
 
         &:hover {
@@ -206,7 +206,7 @@ body {
     ::placeholder,
     ::-webkit-input-placeholder {
         font-style: italic;
-        color: $copy-gray;
+        color: var(--copy-gray);
         opacity: 1;
     }
 
@@ -222,18 +222,18 @@ body {
     button,
     a.button,
     .button {
-        min-height: (1.5 * $spacing-large);
+        min-height: calc(1.5 * var(--spacing-large));
         min-width: 24px;
         background-color: rgba(0,0,0,.08);
-        color: $copy-gray;
+        color: var(--copy-gray);
         border-radius: 3px;
         border: 0;
         box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
-        padding: $spacing-small 10px;
+        padding: var(--spacing-small) 10px;
         display: inline-block;
         text-align: center;
         cursor: pointer;
-        margin: 0 0 $spacing-medium 0;
+        margin: 0 0 var(--spacing-medium) 0;
 
         &:hover:not(.inactive) {
             box-shadow: 0 0 0 1px rgba(0,0,0,.3) inset;
@@ -250,7 +250,7 @@ body {
     .red.button {
         background-color: #FDEFEF;
         box-shadow: 0 0 0 1px #E0C3C3 inset;
-        color: $red;
+        color: var(--red);
 
         &:hover {
             box-shadow: 0 0 0 1px #DA8B8B inset;
@@ -269,16 +269,16 @@ body {
 
     .required .field-meta {
         position: relative;
-        padding-right: (1.5 * $spacing-large);
+        padding-right: calc(1.5 * var(--spacing-large));
 
         &:after {
             @include font-awesome;
             content: fa-content($fa-var-asterisk);
-            font-size: .75 * $base-font-size;
+            font-size: calc(.75 * var(--base-font-size));
             position: absolute;
-            right: $spacing-medium;
-            color: $red;
-            top: $spacing-small;
+            right: var(--spacing-medium);
+            color: var(--red);
+            top: var(--spacing-small);
         }
     }
 
@@ -290,14 +290,14 @@ body {
     label.required:after  {
         @include font-awesome;
         content: fa-content($fa-var-asterisk);
-        font-size: .75 * $base-font-size;
-        color: $red;
+        font-size: calc(.75 * var(--base-font-size));
+        color: var(--red);
         float: right;
-        padding-right: $spacing-medium;
+        padding-right: var(--spacing-medium);
     }
 
     .touched:invalid {
-        box-shadow: 0 0 2px 2px $red;
+        box-shadow: 0 0 2px 2px var(--red);
     }
 
     .field {
@@ -312,14 +312,14 @@ body {
 
     .media-field-wrapper {
         width:100%;
-        padding: $spacing-medium $spacing-small;
-        margin-bottom: $spacing-small;
-        background-color: $gray-on-white;
+        padding: var(--spacing-medium) var(--spacing-small);
+        margin-bottom: var(--spacing-small);
+        background-color: var(--gray-on-white);
         position: relative;
 
         .field {
             width: 100%;
-            margin:0 0 $spacing-small;
+            margin:0 0 var(--spacing-small);
             padding:0;
             background-color: transparent;
         }
@@ -331,25 +331,25 @@ body {
 
         .field:last-of-type .field-meta,
         .field:last-of-type .inputs {
-            margin-bottom: -($spacing-small);
+            margin-bottom: -(var(--spacing-small));
         }
 
         .actions {
-            font-size: $base-font-size;
-            padding: $spacing-small 0;
+            font-size: var(--base-font-size);
+            padding: var(--spacing-small) 0;
         }
     }
 
     select {
         background: #fff url('../img/select-arrow.svg') no-repeat;
-        background-position: right (.25 * $spacing-large) center;
-        background-size: .5 * $base-font-size;
-        border: 1px solid $border-gray;
-        height: 1.5 * $spacing-large;
-        line-height: 1.5 * $spacing-large;
-        font-size: $base-font-size;
+        background-position: right calc(.25 * var(--spacing-large)) center;
+        background-size: calc(.5 * var(--spacing-large));
+        border: 1px solid var(--border-gray);
+        height: calc(1.5 * var(--spacing-large));
+        line-height: calc(1.5 * var(--spacing-large));
+        font-size: var(--base-font-size);
         margin: 0;
-        padding: 0 $spacing-large 0 $spacing-small;
+        padding: 0 var(--spacing-large) 0 var(--spacing-small);
         border-radius: 3px;
         vertical-align: top;
         appearance: none;
@@ -364,7 +364,7 @@ body {
     }
 
     fieldset {
-        margin: 0 0 $spacing-large;
+        margin: 0 0 var(--spacing-large);
         border: 0;
         padding: 0;
         min-width: 100%;
@@ -390,14 +390,14 @@ body {
             background-image: none;
             background-color: #fff;
             box-shadow: none;
-            font-size: $base-font-size;
-            line-height: $base-line-height;
-            padding: $spacing-small;
+            font-size: var(--base-font-size);
+            line-height: var(--base-line-height);
+            padding: var(--spacing-small);
             height: auto;
             border-radius: 3px;
-            border-collapse: $border-gray;
-            color: $copy-gray;
-            border-color: $border-gray;
+            border-collapse: var(--border-gray);
+            color: var(--copy-gray);
+            border-color: var(--border-gray);
         }
 
         .chosen-container-active {
@@ -423,7 +423,7 @@ body {
         }
 
         .chosen-container-multi .chosen-choices {
-            padding: (.5 * $spacing-small);
+            padding: calc(.5 * var(--spacing-small));
         }
 
         .chosen-container-multi .chosen-choices li.search-field input[type="text"] {
@@ -433,10 +433,10 @@ body {
 
         .chosen-container-multi .chosen-choices li.search-choice {
             background: #f0f0f0;
-            font-size: .875 * $base-font-size;
-            line-height: $base-line-height;
+            font-size: calc(.875 * var(--base-font-size));
+            line-height: var(--base-line-height);
             border: 0;
-            padding: 0 (1.125 * $spacing-large) 0 0;
+            padding: 0 calc(1.125 * var(--spacing-large)) 0 0;
         }
 
         .chosen-container-multi .chosen-choices li.search-choice span {
@@ -447,18 +447,18 @@ body {
         }
 
         .chosen-container .search-choice .group-name {
-            color: $copy-gray;
+            color: var(--copy-gray);
             position: relative;
-            background-color: $gray-on-white;
-            margin-right: $spacing-small;
-            padding: 0 $spacing-small;
+            background-color: var(--gray-on-white);
+            margin-right: var(--spacing-small);
+            padding: 0 var(--spacing-small);
             display: inline-block;
             vertical-align: top;
         }
 
         .chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
             top: 50%;
-            right: $spacing-small;
+            right: var(--spacing-small);
             transform: translateY(-50%);
         }
 
@@ -470,7 +470,7 @@ body {
             min-height: 0;
             margin: 3px;
             height: auto;
-            line-height: $base-line-height;
+            line-height: var(--base-line-height);
         }
 
         .chosen-container-active.chosen-with-drop .chosen-single {
@@ -478,7 +478,7 @@ body {
         }
 
         .chosen-container-single .chosen-single abbr {
-            top: $spacing-medium;
+            top: var(--spacing-medium);
         }
 
         .chosen-container-single .chosen-single div b {
@@ -487,8 +487,8 @@ body {
             &:after {
                 @include font-awesome;
                 content: fa-content($fa-var-caret-down);
-                line-height: $base-line-height;
-                padding: $spacing-small 0;
+                line-height: var(--base-line-height);
+                padding: var(--spacing-small) 0;
                 display: inline-block;
             }
         }
@@ -507,17 +507,17 @@ body {
             &:after  {
                 @include font-awesome;
                     content: fa-content($fa-var-search);
-                line-height: $base-line-height;
-                padding: $spacing-small 0;
+                line-height: var(--base-line-height);
+                padding: var(--spacing-small) 0;
                 display: block;
                 position: absolute;
-                top: .5 * $spacing-small;
-                right: $spacing-medium;
+                top: calc(.5 * var(--spacing-small));
+                right: var(--spacing-medium);
             }
         }
 
         .chosen-container .chosen-results li.highlighted {
-            background-color: $copy-gray;
+            background-color: var(--copy-gray);
             background-image: none;
         }
 
@@ -554,22 +554,22 @@ body {
 }
 
 div[role="main"] > .messages {
-    margin-bottom: $spacing-medium;
+    margin-bottom: var(--spacing-medium);
 
     li {
-        margin: 0 0 $spacing-small;
+        margin: 0 0 var(--spacing-small);
     }
 
     .error {
-        background-color: lighten($red, 55%);
+        background-color: color-mix(in srgb, var(--red), #ffffff, 55%);
     }
 
     .success {
-        background-color: lighten(green, 65%);
+        background-color: color-mix(in srgb, green, #ffffff, 65%);
     }
 
     .warning {
-        background-color: lighten(orange, 45%);
+        background-color: color-mix(in srgb ,orange, #ffffff, 45%);
     }
 
     a {
@@ -585,8 +585,8 @@ div[role="main"] > .messages {
     li {
         background-color: rgba(255,255,255,.5);
         border-radius: 3px;
-        padding: $spacing-small 10px;
-        margin-top: $spacing-small;
+        padding: var(--spacing-small) 10px;
+        margin-top: var(--spacing-small);
         display: block;
         width: 100%;
     }
@@ -594,7 +594,7 @@ div[role="main"] > .messages {
 
 .field .messages {
     width: 70%;
-    color: $red;
+    color: var(--red);
     margin-left: auto;
 
     li {
@@ -604,7 +604,7 @@ div[role="main"] > .messages {
 
 .error,
 .error a {
-    color: $red;
+    color: var(--red);
 }
 
 .success,
@@ -621,8 +621,8 @@ div[role="main"] > .messages {
     background-color: lighten(green, 65%);
     color: green;
     border-radius: 3px;
-    padding: $spacing-small 10px;
-    margin-top: $spacing-small;
+    padding: var(--spacing-small) 10px;
+    margin-top: var(--spacing-small);
     display: block;
     width: 100%;
 }
@@ -634,7 +634,7 @@ div[role="main"] > .messages {
 
 table .icon-sortable {
     opacity: .4;
-    font-size: .75 * $base-font-size;
+    font-size: calc(.75 * var(--base-font-size));
     line-height: 100%;
 }
 
@@ -643,27 +643,27 @@ table .icon-sortable {
 }
 
 .row.delete {
-    background-color: $delete-bg;
+    background-color: var(--delete-bg);
     overflow: hidden;
 }
 
 .jstree-themeicon,
 .sortable-handle {
     cursor: move;
-    margin-right: $spacing-medium;
-    width: 1.5 * $spacing-medium;
+    margin-right: var(--spacing-medium);
+    width: calc(1.5 * var(--spacing-medium));
 
     &:before {
         content: fa-content($fa-var-bars);
         @include font-awesome;
         opacity: .35;
-        font-size: 1.25 * $base-font-size;
-        line-height: $base-line-height;
+        font-size: calc(1.25 * var(--base-font-size));
+        line-height: var(--base-line-height);
     }
 }
 
 .jstree i.jstree-themeicon {
-    color: $copy-gray;
+    color: var(--copy-gray);
     position: static;
     top: auto;
     right: auto;
@@ -676,19 +676,19 @@ table .icon-sortable {
 #content .jstree-private,
 #content .jstree-editlink-editmode > .jstree-anchor .jstree-editlink-edit {
     opacity: 1;
-    color: $red;
+    color: var(--red);
 
     &:hover {
-        color: $light-red;
+        color: var(--light-red);
     }
 }
 
 #content .jstree-editlink-editmode > .jstree-anchor .jstree-editlink-edit {
-    color: $light-red;
+    color: var(--light-red);
 }
 
 #content .jstree-open > .jstree-ocl {
-    color: $gray-on-gray;
+    color: var(--gray-on-gray);
 }
 
 .o-description {
@@ -705,7 +705,7 @@ a.expand,
 a.collapse,
 a.expand-group,
 a.collapse-group {
-    color: $copy-gray;
+    color: var(--copy-gray);
     min-width: 24px;
     display: inline-block;
     text-align: center;
@@ -753,12 +753,12 @@ a.collapse-group {
 /* @group ----- Header ----- */
 
 header {
-    background-color: $blue;
+    background-color: var(--blue);
     width: span(3 of 16);
     min-height: 100vh;
     text-align: left;
-    padding: 0 gutter() $spacing-large;
-    color: lighten(saturate($blue, 20%), 50%);
+    padding: 0 gutter() var(--spacing-large);
+    color: var(--light-blue);
 
     button:focus-visible, 
     [type="button"]:focus-visible, 
@@ -788,42 +788,42 @@ header {
     text-align: center;
     background-color: #fff;
     border-radius: 0 0 3px 3px;
-    border: 1px solid $border-gray;
-    padding: ($spacing-small - 1px);
+    border: 1px solid var(--border-gray);
+    padding: calc(var(--spacing-small) - 1px);
 }
 
 .logo a,
 #user a {
-    color: lighten(saturate($blue, 20%), 50%);
+    color: var(--light-blue);
 }
 
 #user {
     color: #fff;
-    padding-top: $spacing-medium;
-    margin-bottom: -($spacing-small);
+    padding-top: var(--spacing-medium);
+    margin-bottom: -(var(--spacing-small));
     display: flex;
     flex-wrap: wrap;
 }
 
 #user p {
-    margin: 0 0 $spacing-small;
+    margin: 0 0 var(--spacing-small);
     display: inline-flex;
     vertical-align: top;
 }
 
 #user .user-id {
     text-transform: uppercase;
-    font-size: .75 * $base-font-size;
+    font-size: calc(.75 * var(--base-font-size));
     margin-right: auto;
 }
 
 #user .user-id a.button {
     display: inline-block;
-    font-size: .75 * $base-font-size;
+    font-size: calc(.75 * var(--base-font-size));
     text-transform: none;
     margin-bottom: 0;
-    background-color: darken($blue, 15%);
-    padding: 0 $spacing-small;
+    background-color: var(--dark-blue);
+    padding: 0 var(--spacing-small);
     min-height: 0;
     border: 0;
 }
@@ -839,7 +839,7 @@ header {
 }
 
 #user .user-show:before {
-    margin-right: $spacing-small;
+    margin-right: var(--spacing-small);
 }
 
 #user .user-settings {
@@ -854,9 +854,9 @@ header {
 }
 
 #user .logout {
-    font-size: .75 * $base-font-size;
-    padding: 0 $spacing-small;
-    background-color: darken($blue, 15%);
+    font-size: calc(.75 * var(--base-font-size));
+    padding: 0 var(--spacing-small);
+    background-color: var(--dark-blue);
     border-radius: 3px;
     display: inline-block;
     min-width: 25%;
@@ -868,35 +868,35 @@ header {
 }
 
 .logo {
-    padding: $spacing-small (gutter() / (span(3 of 16) - 2 * gutter()) * 100%);
+    padding: var(--spacing-small) (gutter() / (span(3 of 16) - 2 * gutter()) * 100%);
     margin: 0 (gutter() / (span(3 of 16) - 2 * gutter()) * -100%);
-    background-color: darken($blue, 15%);
+    background-color: var(--dark-blue);
 }
 
 #search {
     width: 100%;
     display: inline-block;
     vertical-align: top;
-    margin: $spacing-large 0;
+    margin: var(--spacing-large) 0;
     position: relative;
 }
 
 #search input[type="text"] {
-    width: calc(100% - #{3 * $spacing-large});
+    width: calc(100% - (3 * var(--spacing-large)));
     float: left;
 }
 
 #search button {
-    width: 1.5 * $spacing-large;
+    width: calc(1.5 * var(--spacing-large));
     text-indent: -9999px;
-    background-color: darken($blue, 15%);
-    color: lighten(saturate($blue, 20%), 50%);
+    background-color: var(--dark-blue);
+    color: var(--light-blue);
     border: 0;
     float: left;
     margin: 0;
     border-radius: 0;
     position: relative;
-    height: 1.5 * $spacing-large;
+    height: calc(1.5 * var(--spacing-large));
     box-shadow: none;
 
     &:last-of-type {
@@ -915,8 +915,8 @@ header {
         position: absolute;
         top: 0;
         left: 0;
-        width: 1.5 * $spacing-large;
-        line-height: 1.5 * $spacing-large;
+        width: calc(1.5 * var(--spacing-large));
+        line-height: calc(1.5 * var(--spacing-large));
         text-align: center;
     }
 
@@ -933,17 +933,17 @@ header {
 
 div[role="main"] > h1:first-of-type {
     background-color: #fff;
-    font-size: 1.5 * $base-font-size;
+    font-size: calc(1.5 * var(--base-font-size));
     position: fixed;
-    padding: (.5 * $spacing-small) 30% (.5 * $spacing-small) gutter();
+    padding: calc(.5 * var(--spacing-small)) 30% calc(.5 * var(--spacing-small)) gutter();
     z-index: 3;
     top: 0;
     right: 0;
     width: span(13 of 16);
-    height: 2 * $spacing-large;
-    border-bottom: 1px solid $border-gray;
+    height: calc(2 * var(--spacing-large));
+    border-bottom: 1px solid var(--border-gray);
     overflow: hidden;
-    line-height: 1.5 * $base-line-height;
+    line-height: calc(1.5 * var(--base-line-height));
 }
 
 div[role="main"] > h1:first-of-type .title {
@@ -957,12 +957,12 @@ div[role="main"] > h1:first-of-type .title {
 
 .subhead {
     text-transform: uppercase;
-    font-size: .875 * $base-font-size;
-    padding: 0 $spacing-small;
+    font-size: calc(.875 * var(--base-font-size));
+    padding: 0 var(--spacing-small);
     background-color: #eee;
-    line-height: 1.5 * $base-line-height;
+    line-height: calc(1.5 * var(--base-line-height));
     vertical-align: middle;
-    margin: 0 $spacing-medium 0 0;
+    margin: 0 var(--spacing-medium) 0 0;
     font-weight: normal;
     display: inline-block;
 }
@@ -970,8 +970,8 @@ div[role="main"] > h1:first-of-type .title {
 .subhead:before {
     @include font-awesome;
     display: inline-block;
-    margin-right: $spacing-small;
-    font-size: $base-font-size;
+    margin-right: var(--spacing-small);
+    font-size: var(--base-font-size);
     vertical-align: top;
 }
 
@@ -982,7 +982,7 @@ div[role="main"] > h1:first-of-type .title {
 
 .action:before {
     content:"\00b7";
-    margin: 0 $spacing-medium;
+    margin: 0 var(--spacing-medium);
 }
 
 /* @end */
@@ -994,9 +994,9 @@ div[role="main"] > h1:first-of-type .title {
 }
 
 footer {
-    font-size: .75 * $base-font-size;
+    font-size: calc(.75 * var(--base-font-size));
     position: relative;
-    margin-top: -(1.125 * $spacing-large);
+    margin-top: calc(-1.125 * var(--spacing-large));
     margin-left: span(3 of 16);
     padding-right: gutter();
     text-align: right;
@@ -1008,7 +1008,7 @@ footer {
 
     .version-number {
         display: inline-block;
-        margin: 0 $spacing-medium;
+        margin: 0 var(--spacing-medium);
         line-height: 1;
     }
 
@@ -1017,7 +1017,7 @@ footer {
     }
 
     & > a:not(:last-child) {
-        margin-right: $spacing-medium;
+        margin-right: var(--spacing-medium);
     }
 }
 
@@ -1032,16 +1032,16 @@ nav ul {
 }
 
 nav.pagination {
-    margin-bottom: $spacing-medium;
+    margin-bottom: var(--spacing-medium);
     display: flex;
     flex-wrap: wrap;
-    gap: $spacing-medium;
+    gap: var(--spacing-medium);
 }
 
 nav.pagination form,
 nav.pagination .pagination-input-form {
     display: flex;
-    gap: $spacing-small;
+    gap: var(--spacing-small);
 }
 
 nav.pagination form * {
@@ -1063,12 +1063,12 @@ nav.pagination .button,
 nav.pagination input[type="text"],
 .sorting button,
 .sorting select {
-    font-size: .8175 * $base-font-size;
+    font-size: calc(.8175 * var(--base-font-size));
     min-height: 0;
-    height: $base-line-height;
-    line-height: $base-line-height;
+    height: var(--base-line-height);
+    line-height: var(--base-line-height);
     vertical-align: top;
-    background-size: .4088 * $base-font-size;
+    background-size: calc(.4088 * var(--base-font-size));
     width: auto;
 }
 
@@ -1083,7 +1083,7 @@ nav.pagination .button {
 
 nav.pagination .button:before {
     vertical-align: top;
-    line-height: $base-line-height;
+    line-height: var(--base-line-height);
 }
 
 nav.pagination .previous.button {
@@ -1097,9 +1097,9 @@ nav.pagination .next.button {
 
 nav.pagination form input[type="text"] {
     margin-right: .25em;
-    width: (2 * $spacing-large);
-    border: 1px solid $border-gray;
-    padding: ($spacing-small - 1px);
+    width: calc(2 * var(--spacing-large));
+    border: 1px solid var(--border-gray);
+    padding: calc(var(--spacing-small) - 1px);
 }
 
 nav.pagination + *:not(.sorting) {
@@ -1115,28 +1115,28 @@ nav.pagination + *:not(.sorting) {
 }
 
 button .o-icon-private {
-    margin: 0 $spacing-small;
-    color: $border-gray;
+    margin: 0 var(--spacing-small);
+    color: var(--border-gray);
 }
 
     /* @group ----- Top-level navigation ----- */
 
     header nav h4 {
-        padding-bottom: ($spacing-small - 1px);
-        border-bottom: 1px solid darken($blue, 5%);
-        margin-bottom: $spacing-small;
+        padding-bottom: calc(var(--spacing-small) - 1px);
+        border-bottom: 1px solid var(--border-blue);
+        margin-bottom: var(--spacing-small);
 
         &:not(:first-of-type) {
-            margin-top: $spacing-large;
+            margin-top: var(--spacing-large);
         }
     }
 
     header nav ul.navigation > li:not(:first-of-type) {
-        margin-top: $spacing-small;
+        margin-top: var(--spacing-small);
     }
 
     header nav ul.navigation > li:not(:last-of-type) {
-        border-color: $border-gray;
+        border-color: var(--border-gray);
     }
 
     header nav ul.navigation li li {
@@ -1145,7 +1145,7 @@ button .o-icon-private {
 
     header nav ul.navigation li.active li {
         display: block;
-        margin-left: $spacing-large;
+        margin-left: var(--spacing-large);
     }
 
     header nav ul.navigation li.active > a {
@@ -1154,14 +1154,14 @@ button .o-icon-private {
 
     header nav a:link,
     header nav a:visited{
-        color: lighten(saturate($blue, 20%), 50%);
+        color: var(--light-blue);
     }
 
     header nav li > a:before {
         content: fa-content($fa-var-plus-square);
         @include font-awesome;
         display: inline-block;
-        width: $spacing-large;
+        width: var(--spacing-large);
     }
 
     header nav .items:before,
@@ -1224,7 +1224,7 @@ button .o-icon-private {
     }
 
     header ul.navigation {
-        margin-bottom: $spacing-small;
+        margin-bottom: var(--spacing-small);
     }
 
     #menu {
@@ -1233,8 +1233,8 @@ button .o-icon-private {
 
     #menu h5 {
         text-transform: uppercase;
-        border-top: 1px solid darken($blue, 5%);
-        padding-top: ($spacing-small - 1px);
+        border-top: 1px solid var(--border-blue);
+        padding-top: calc(var(--spacing-small) - 1px);
         margin-bottom: 0;
     }
 
@@ -1242,8 +1242,8 @@ button .o-icon-private {
     #menu .collapse {
         width: 100%;
         z-index: 1;
-        padding-bottom: $spacing-small;
-        margin-bottom: $spacing-small;
+        padding-bottom: var(--spacing-small);
+        margin-bottom: var(--spacing-small);
     }
 
     /* @end */
@@ -1251,25 +1251,25 @@ button .o-icon-private {
     /* @group ----- Site-level navigation ----- */
 
     #site-nav {
-        background-color: darken($blue, 5%);
-        padding: $spacing-small;
-        margin-bottom: $spacing-medium;
+        background-color: var(--border-blue);
+        padding: var(--spacing-small);
+        margin-bottom: var(--spacing-medium);
         border-radius: 3px;
     }
 
     #site-nav h5 {
         border-top: 0;
-        border-bottom: 1px solid darken($blue, 10%);
-        padding: 0 $spacing-large ($spacing-small - 1px) 0;
-        margin-bottom: $spacing-small;
+        border-bottom: 1px solid color-mix(in srgb, var(--blue), #000000, 10%);
+        padding: 0 var(--spacing-large) calc(var(--spacing-small) - 1px) 0;
+        margin-bottom: var(--spacing-small);
     }
 
     header nav#site-nav h5 a:before {
         content: fa-content($fa-var-laptop);
         @include font-awesome;
-        width: $spacing-large;
+        width: var(--spacing-large);
         display: inline-block;
-        font-size: $base-font-size;
+        font-size: var(--base-font-size);
     }
 
     #menu .pages:before,
@@ -1284,9 +1284,9 @@ button .o-icon-private {
     #menu a.public {
         float: right;
         text-align: right;
-        font-size: $base-font-size;
-        line-height: 1.25 * $spacing-large;
-        margin-top: -(1.625 * $spacing-large);
+        font-size: var(--base-font-size);
+        line-height: calc(1.25 * var(--spacing-large));
+        margin-top: calc(-1.625 * var(--spacing-large));
     }
 
     #menu a.resources:before {
@@ -1310,7 +1310,7 @@ button .o-icon-private {
 
 div[role="main"] {
     width: span(13 of 16);
-    padding: (2.5 * $spacing-large) gutter() (1.5 * $spacing-large);
+    padding: calc(2.5 * var(--spacing-large)) gutter() calc(1.5 * var(--spacing-large));
     background-color: #fff;
     min-height: 100%;
     overflow: hidden;
@@ -1326,7 +1326,7 @@ div[role="main"] {
 
 #dashboard > p {
     width: 100%;
-    margin-top: $spacing-medium;
+    margin-top: var(--spacing-medium);
 }
 
 #manage-resources .add.button:before {
@@ -1336,8 +1336,8 @@ div[role="main"] {
 
 .panel {
     @include span(50% - gutter());
-    border: 1px solid $border-gray;
-    padding: ($spacing-small - 1px);
+    border: 1px solid var(--border-gray);
+    padding: calc(var(--spacing-small) - 1px);
     margin: 0 gutter() 0 0;
     float: left;
     overflow: hidden;
@@ -1359,18 +1359,18 @@ div[role="main"] {
 .panel .row a.button {
     box-shadow: none;
     padding: 0;
-    color: $red;
+    color: var(--red);
     background-color: transparent;
 
     &:hover {
-        color: $light-red;
+        color: var(--light-red);
     }
 }
 
 .panel h2 {
-    font-size: 1.125 * $base-font-size;
-    line-height: $base-line-height;
-    margin-bottom: $spacing-small;
+    font-size: calc(1.125 * var(--base-font-size));
+    line-height: var(--base-line-height);
+    margin-bottom: var(--spacing-small);
 }
 
 /* @end */
@@ -1390,7 +1390,7 @@ div[role="main"] {
 
 .browse td,
 .browse th {
-    padding: $spacing-medium $spacing-small;
+    padding: var(--spacing-medium) var(--spacing-small);
     overflow: hidden;
 }
 
@@ -1398,7 +1398,7 @@ div[role="main"] {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    font-size: .8175 * $base-font-size;
+    font-size: calc(.8175 * var(--base-font-size));
     min-width: max-content;
 }
 
@@ -1417,12 +1417,12 @@ div[role="main"] {
 .browse-controls input,
 .browse-controls button,
 .browse-controls .button {
-    font-size: .8175 * $base-font-size;
+    font-size: calc(.8175 * var(--base-font-size));
     min-height: 0;
-    height: $base-line-height;
-    line-height: $base-line-height;
+    height: var(--base-line-height);
+    line-height: var(--base-line-height);
     vertical-align: top;
-    background-size: .4088 * $base-font-size;
+    background-size: calc(.4088 * var(--base-font-size));
 }
 
 .browse-controls .sorting:not(:last-child) {
@@ -1435,15 +1435,15 @@ div[role="main"] {
 }
 
 .browse-controls .filtering {
-    margin-left: $spacing-large;
+    margin-left: var(--spacing-large);
 }
 
 .browse-controls #user-filter {
     width: 100%;
-    margin-bottom: $spacing-medium;
-    background-color: $gray-on-white;
+    margin-bottom: var(--spacing-medium);
+    background-color: var(--gray-on-white);
     border-radius: 2px;
-    padding: $spacing-small $spacing-medium;
+    padding: var(--spacing-small) var(--spacing-medium);
 }
 
 .browse-controls #user-filter .user-name {
@@ -1451,8 +1451,8 @@ div[role="main"] {
 }
 
 .browse .select-all {
-    width: $spacing-medium;
-    margin-right: $spacing-medium;
+    width: var(--spacing-medium);
+    margin-right: var(--spacing-medium);
 }
 
 .browse .tablesaw-cell-content,
@@ -1468,7 +1468,7 @@ div[role="main"] {
 }
 
 .browse .batch-edit .tablesaw-cell-content > input[type="checkbox"] {
-    margin-right: $spacing-medium;
+    margin-right: var(--spacing-medium);
     flex-shrink: 0;
 }
 
@@ -1493,9 +1493,9 @@ div[role="main"] {
 .actions a:before,
 .actions button,
 .actions button:before {
-    width: $base-line-height;
-    height: $base-line-height;
-    line-height: $base-line-height;
+    width: var(--base-line-height);
+    height: var(--base-line-height);
+    line-height: var(--base-line-height);
     vertical-align: top;
     border: 0;
     box-shadow: none;
@@ -1523,7 +1523,7 @@ div[role="main"] {
 
 .actions button {
     background-color: transparent;
-    color: $red;
+    color: var(--red);
     margin: 0;
     text-indent: -9999px;
     position: relative;
@@ -1538,18 +1538,18 @@ div[role="main"] {
     }
 
     &:hover {
-        color: $light-red;
+        color: var(--light-red);
     }
 }
 
 .no-resources {
     text-align: center;
     position: relative;
-    margin-top: (4 * $spacing-large);
+    margin-top: calc(4 * var(--spacing-large));
 
     &:before {
         @include font-awesome;
-        font-size: 6 * $base-font-size;
+        font-size: calc(6 * var(--base-font-size));
         position: absolute;
         top: 0;
         left: 0;
@@ -1559,9 +1559,9 @@ div[role="main"] {
     }
 
     p {
-        font-size: 1.5 * $base-font-size;
-        line-height: 2 * $spacing-large;
-        margin-top: (2 * $spacing-large);
+        font-size: calc(1.5 * var(--base-font-size));
+        line-height: calc(2 * var(--spacing-large));
+        margin-top: calc(2 * var(--spacing-large));
 
     }
 }
@@ -1628,10 +1628,10 @@ td .o-icon-user-inactive {
     /* @group ----- Batch Update ----- */
 
     #batch-form {
-        border: 1px solid $border-gray;
+        border: 1px solid var(--border-gray);
         border-bottom: 0;
         border-radius: 3px;
-        margin-bottom: $spacing-medium;
+        margin-bottom: var(--spacing-medium);
 
         table.tablesaw {
             border-width: 1px 0;
@@ -1646,19 +1646,19 @@ td .o-icon-user-inactive {
         .batch-inputs {
             display: flex;
             align-items: center;
-            padding: $spacing-small;
-            background-color: $gray-on-white;
+            padding: var(--spacing-small);
+            background-color: var(--gray-on-white);
         }
 
         .batch-actions > a.button,
         .batch-actions > button,
         .batch-actions > input[type="submit"] {
             display: none;
-            margin: 0 $spacing-medium 0 0;
-            font-size: .875 * $base-font-size;
-            line-height: $base-line-height;
+            margin: 0 var(--spacing-medium) 0 0;
+            font-size: calc(.875 * var(--base-font-size));
+            line-height: var(--base-line-height);
             min-height: 0;
-            padding: 0 $spacing-small;
+            padding: 0 var(--spacing-small);
 
             &.active {
                 display: inline-block;
@@ -1666,14 +1666,14 @@ td .o-icon-user-inactive {
         }
 
         select {
-            font-size: .875 * $base-font-size;
+            font-size: calc(.875 * var(--base-font-size));
             min-height: 0;
             height: auto;
-            line-height: $base-line-height;
-            padding: 0 $spacing-large 0 $spacing-small;
-            margin-right: $spacing-small;
+            line-height: var(--base-line-height);
+            padding: 0 var(--spacing-large) 0 var(--spacing-small);
+            margin-right: var(--spacing-small);
             border: 0;
-            box-shadow: 0 0 0 1px $border-gray inset;
+            box-shadow: 0 0 0 1px var(--border-gray) inset;
         }
     }
 
@@ -1683,8 +1683,8 @@ td .o-icon-user-inactive {
     }
 
     .batch-selected li {
-        padding: $spacing-medium 0 ($spacing-medium - 1px);
-        border-bottom: 1px solid $border-gray;
+        padding: var(--spacing-medium) 0 calc(var(--spacing-medium) - 1px);
+        border-bottom: 1px solid var(--border-gray);
 
         &:first-child {
             padding-top: 0;
@@ -1701,19 +1701,19 @@ td .o-icon-user-inactive {
 
     #advanced-options {
         background-color: #fff;
-        padding: $spacing-small $spacing-medium calc(#{$spacing-small} - 1px);
+        padding: var(--spacing-small) var(--spacing-medium) calc(#{var(--spacing-small)} - 1px);
         clear: both;
         border: 1px solid rgba(0,0,0,.15);
         border-top: 0;
-        color: $copy-gray;
+        color: var(--copy-gray);
 
         legend {
             float: left;
-            width: calc(100% + #{$spacing-large});
+            width: calc(100% + #{var(--spacing-large)});
             font-weight: bold;
-            padding: $spacing-small $spacing-medium;
-            margin: (-$spacing-small) (-$spacing-medium) $spacing-medium;
-            background-color: $gray-on-white;
+            padding: var(--spacing-small) var(--spacing-medium);
+            margin: (-var(--spacing-small)) (-var(--spacing-medium)) var(--spacing-medium);
+            background-color: var(--gray-on-white);
             max-width: none;
         }
 
@@ -1721,25 +1721,25 @@ td .o-icon-user-inactive {
             float: left;
             clear: left;
             margin-right: .5em;
-            height: $base-line-height;
-            margin-bottom: $spacing-small;
+            height: var(--base-line-height);
+            margin-bottom: var(--spacing-small);
         }
 
         label {
             float: left;
-            margin-bottom: $spacing-small;
+            margin-bottom: var(--spacing-small);
         }
     }
 
     .search-filters {
-        margin-bottom: $spacing-small;
+        margin-bottom: var(--spacing-small);
         display: inline-block;
     }
 
     .filter {
         display: inline-block;
-        font-size: .8175 * $base-font-size;
-        margin: 0 $spacing-small $spacing-small 0;
+        font-size: calc(.8175 * var(--base-font-size));
+        margin: 0 var(--spacing-small) var(--spacing-small) 0;
         border-radius: 3px;
         background-color: #f0f0f0;
         padding: 0;
@@ -1748,13 +1748,13 @@ td .o-icon-user-inactive {
 
     .filter-label {
         display: inline-block;
-        background-color: $gray-on-white;
+        background-color: var(--gray-on-white);
         border-radius: 3px 0 0 3px;
     }
 
     .filter-label,
     .filter-value {
-        padding: 0 $spacing-small;
+        padding: 0 var(--spacing-small);
     }
 
     .filter-value:not(:last-child):after {
@@ -1768,12 +1768,12 @@ td .o-icon-user-inactive {
     .multi-value .add-value,
     .multi-value.field .remove-value {
         background-color: transparent;
-        color: $red;
+        color: var(--red);
         display: inline-block;
         text-indent: -9999px;
         position: relative;
-        min-width: 1.5 * $base-line-height;
-        width: 1.5 * $base-line-height;
+        min-width: calc(1.5 * var(--base-line-height));
+        width: calc(1.5 * var(--base-line-height));
         text-align: center;
         box-shadow: none;
 
@@ -1781,14 +1781,14 @@ td .o-icon-user-inactive {
             position: absolute;
             top: 0;
             left: 0;
-            width: 1.5 * $base-line-height;
-            line-height: 1.5 * $base-line-height;
+            width: calc(1.5 * var(--base-line-height));
+            line-height: calc(1.5 * var(--base-line-height));
             text-indent: 0;
         }
 
         &:hover {
             box-shadow: none;
-            color: $light-red;
+            color: var(--light-red);
         }
     }
 
@@ -1799,7 +1799,7 @@ td .o-icon-user-inactive {
     }
 
     .multi-value .field-meta {
-        padding-right: 1.5 * $spacing-large;
+        padding-right: calc(1.5 * var(--spacing-large));
     }
 
     .item-set-select-type {
@@ -1818,9 +1818,9 @@ fieldset.section > legend {
 
 .section-nav {
     border-top: 1px solid #fff;
-    height: (1.75 * $spacing-large);
+    height: calc(1.75 * var(--spacing-large));
     position: relative;
-    margin-bottom: $spacing-medium;
+    margin-bottom: var(--spacing-medium);
     clear: both;
 
     &:before {
@@ -1832,23 +1832,23 @@ fieldset.section > legend {
         right: 0;
         z-index: 0;
         background: #fff;
-        border: 1px solid $border-gray;
+        border: 1px solid var(--border-gray);
         border-width: 1px 0;
     }
 
     a {
         display: block;
         float: left;
-        height: (1.5 * $spacing-large);
-        line-height: 1.25 * $spacing-large;
-        padding: (.5 * $spacing-small) 1em;
+        height: calc(1.5 * var(--spacing-large));
+        line-height: calc(1.25 * var(--spacing-large));
+        padding: calc(.5 * var(--spacing-small)) 1em;
         position: relative;
         z-index: 1;
         background-color: #fff;
-        border-color: $border-gray;
-        border: 1px solid $border-gray;
+        border-color: var(--border-gray);
+        border: 1px solid var(--border-gray);
         margin-left: .25em;
-        color: $copy-gray;
+        color: var(--copy-gray);
     }
 
     .active a {
@@ -1868,10 +1868,10 @@ fieldset.section > legend {
 
 #page-actions {
     position: fixed;
-    padding: $spacing-small gutter();
+    padding: var(--spacing-small) gutter();
     z-index: 4;
     top: 0;
-    height: (1.5 * $spacing-large);
+    height: calc(1.5 * var(--spacing-large));
     right: 0;
     text-align: right;
     margin-bottom: 0;
@@ -1880,8 +1880,8 @@ fieldset.section > legend {
     button,
     .button {
         display: inline-block;
-        height: (1.5 * $spacing-large);
-        padding: $spacing-small 1em;
+        height: calc(1.5 * var(--spacing-large));
+        padding: var(--spacing-small) 1em;
         min-height: 0;
         vertical-align: top;
     }
@@ -1889,7 +1889,7 @@ fieldset.section > legend {
     .delete.button {
         background-color: #FDEFEF;
         box-shadow: 0 0 0 1px #E0C3C3 inset;
-        color: $red;
+        color: var(--red);
 
         &:hover {
             box-shadow: 0 0 0 1px #DA8B8B inset;
@@ -2016,13 +2016,13 @@ fieldset.section > legend {
 
 
 .add-property.button {
-    margin-top: $spacing-large;
+    margin-top: var(--spacing-large);
 }
 
 .field-term {
     display: inline-block;
     font-family: "Source Code Pro", monospace;
-    font-size: .75 * $base-font-size;
+    font-size: calc(.75 * var(--base-font-size));
 }
 
 .value .input-body a.value-language {
@@ -2031,18 +2031,18 @@ fieldset.section > legend {
     position: absolute;
     top: 0;
     right: 0;
-    height: (1.5 * $spacing-large);
-    width: (1.5 * $spacing-large);
-    line-height: (1.5 * $spacing-large);
-    border: 1px solid $border-gray;
+    height: calc(1.5 * var(--spacing-large));
+    width: calc(1.5 * var(--spacing-large));
+    line-height: calc(1.5 * var(--spacing-large));
+    border: 1px solid var(--border-gray);
     border-width: 0 0 1px 1px;
     overflow: hidden;
     text-align: center;
-    color: $red;
+    color: var(--red);
     z-index: 1;
 
     & ~ textarea {
-        padding-right: 1.75 * $spacing-large;
+        padding-right: calc(1.75 * var(--spacing-large));
     }
 }
 
@@ -2051,12 +2051,12 @@ fieldset.section > legend {
 }
 
 .value .language-wrapper:not(.active) ~ textarea {
-    padding-right: 2 * $spacing-large;
+    padding-right: calc(2 * var(--spacing-large));
 }
 
 .value .actions a.o-icon-more {
     display: block;
-    height: 1.5 * $spacing-large;
+    height: calc(1.5 * var(--spacing-large));
 }
 
 .more-actions.active a.o-icon-more {
@@ -2064,17 +2064,17 @@ fieldset.section > legend {
 }
 
 .language-wrapper input[type="text"].value-language {
-    line-height: $base-line-height;
+    line-height: var(--base-line-height);
     background-color: transparent;
     border: 0;
     min-height: 0;
-    padding: $spacing-small (1.75 * $spacing-large) $spacing-small $spacing-small;
+    padding: var(--spacing-small) calc(1.75 * var(--spacing-large)) var(--spacing-small) var(--spacing-small);
     display: block;
     background-color: #fff;
 }
 
 .language-wrapper.active input[type="text"].value-language ~ textarea {
-    padding-left: $spacing-small;
+    padding-left: var(--spacing-small);
     border-top: 0;
 }
 
@@ -2092,21 +2092,21 @@ fieldset.section > legend {
     align-items: flex-start;
     background-color: #fff;
     margin: 0;
-    padding: 0 (1.75 * $spacing-large) 0 $spacing-small;
-    box-shadow: 0 0 0 1px $border-gray;
+    padding: 0 calc(1.75 * var(--spacing-large)) 0 var(--spacing-small);
+    box-shadow: 0 0 0 1px var(--border-gray);
 }
 
 .value-label-text {
-    background-color: $gray-on-white;
+    background-color: var(--gray-on-white);
     border-radius: 2px;
-    font-size: .875 * $base-font-size;
-    margin: $spacing-small;
-    padding: 0 $spacing-small;
+    font-size: calc(.875 * var(--base-font-size));
+    margin: var(--spacing-small);
+    padding: 0 var(--spacing-small);
 }
 
 .sidebar .value-annotation-heading {
     display: inline-block;
-    margin-right: $spacing-small;
+    margin-right: var(--spacing-small);
 }
 
 .sidebar .value-annotation {
@@ -2120,12 +2120,12 @@ fieldset.section > legend {
 
 .sidebar .value-annotation.required .required-tag {
     display: inline-block;
-    padding: .5 * $spacing-small;
-    font-size: .75 * $base-font-size;
+    padding: calc(.5 * var(--spacing-small));
+    font-size: calc(.75 * var(--base-font-size));
     background-color: #FDEFEF;
-    color: $red;
+    color: var(--red);
     border-radius: 2px;
-    margin: (.5 * $spacing-small) 0 (.5 * $spacing-small);
+    margin: calc(.5 * var(--spacing-small)) 0 calc(.5 * var(--spacing-small));
     line-height: 1;
     align-self: center;
 }
@@ -2140,11 +2140,11 @@ fieldset.section > legend {
 }
 
 .sidebar .value-annotation p.selected-resource {
-    border-bottom: 1px solid $border-gray;
+    border-bottom: 1px solid var(--border-gray);
 }
 
 .sidebar .value-annotation-resource-select {
-    margin: $spacing-small !important;
+    margin: var(--spacing-small) !important;
 }
 
 .sidebar [data-data-type^="resource"] .o-title:not(:empty) {
@@ -2156,24 +2156,24 @@ fieldset.section > legend {
     }
 
     img {
-        margin: $spacing-small;
+        margin: var(--spacing-small);
     }
 
 
     a {
-        padding: $spacing-small;
+        padding: var(--spacing-small);
         width: 100%;
     }
 }
 
 .non-properties {
-    margin-bottom: $spacing-medium;
+    margin-bottom: var(--spacing-medium);
 }
 
 .resource-form .values .sortable-handle {
-    width: $spacing-medium;
-    background-color: $gray-on-white;
-    border: 1px solid $border-gray;
+    width: var(--spacing-medium);
+    background-color: var(--gray-on-white);
+    border: 1px solid var(--border-gray);
     border-radius: 2px 0 0 2px;
     align-self: stretch;
     border-right: 0;
@@ -2189,8 +2189,8 @@ fieldset.section > legend {
 
 .visibility {
     display: inline-block;
-    padding: $spacing-small;
-    margin-right: $spacing-medium;
+    padding: var(--spacing-small);
+    margin-right: var(--spacing-medium);
 }
 
 .add .visibility:before,
@@ -2206,28 +2206,28 @@ fieldset.section > legend {
     /* @group ----- Metadata ----- */
 
     #add-item .remove.field {
-        background-color: lighten($red, 30%);
+        background-color: color-mix(in srgb, var(--red), #ffffff, 30%);
         opacity: .6;
     }
 
     .resource.input-option span {
         display: block;
         background-color: rgba(255,255,255,.5);
-        padding: $spacing-small 10px 0;
+        padding: var(--spacing-small) 10px 0;
         width: 100%;
         float: left;
     }
 
     .field-meta {
         width: 30%;
-        padding-right: $spacing-small;
+        padding-right: var(--spacing-small);
         position: relative;
 
         legend,
         label,
         .label {
             max-width: 80%;
-            padding: $spacing-small 0;
+            padding: var(--spacing-small) 0;
             display: inline-block;
         }
 
@@ -2259,7 +2259,7 @@ fieldset.section > legend {
     }
 
     .selector > ul {
-        margin-top: $spacing-small;
+        margin-top: var(--spacing-small);
     }
 
     .selector li {
@@ -2267,15 +2267,15 @@ fieldset.section > legend {
     }
 
     .selector li.total-count-heading {
-        background-color: $blue;
+        background-color: var(--blue);
         color: #fff;
         border-radius: 3px;
         text-transform: uppercase;
-        font-size: .75 * $base-font-size;
-        padding: $spacing-small 10px;
+        font-size: calc(.75 * var(--base-font-size));
+        padding: var(--spacing-small) 10px;
 
         & > ul {
-            margin: $spacing-small -10px (-$spacing-small);
+            margin: var(--spacing-small) -10px (-var(--spacing-small));
             border-radius: 0 0 3px 3px;
         }
     }
@@ -2293,24 +2293,24 @@ fieldset.section > legend {
 
     .selector .selectable-list {
         background-color: #fff;
-        color: $copy-gray;
+        color: var(--copy-gray);
         overflow: visible;
         border-radius: 3px;
         font-weight: bold;
         position: relative;
-        border: 1px solid $border-gray;
-        margin: $spacing-small 0 0;
+        border: 1px solid var(--border-gray);
+        margin: var(--spacing-small) 0 0;
         text-transform: uppercase;
-        font-size: .75 * $base-font-size;
+        font-size: calc(.75 * var(--base-font-size));
     }
 
     .selector .selectable-list li {
-        padding: $spacing-small $spacing-medium;
+        padding: var(--spacing-small) var(--spacing-medium);
     }
 
     .selector .selectable-list .selector-parent {
         cursor: pointer;
-        padding-right: $spacing-large;
+        padding-right: var(--spacing-large);
         margin-bottom: 0;
 
         &:after {
@@ -2318,8 +2318,8 @@ fieldset.section > legend {
             @include font-awesome;
             position: absolute;
             right: 0;
-            top: $spacing-small;
-            width: 1.5 * $spacing-medium;
+            top: var(--spacing-small);
+            width: calc(1.5 * var(--spacing-medium));
         }
 
         &.show:after {
@@ -2333,13 +2333,13 @@ fieldset.section > legend {
             bottom: 0;
             left: 0;
             width: 5px;
-            background-color: $border-gray;
+            background-color: var(--border-gray);
         }
 
         &:not(:last-of-type) {
-            border-bottom: 1px solid $border-gray;
-            padding-bottom: ($spacing-small - 1px);
-            border-color: $border-gray;
+            border-bottom: 1px solid var(--border-gray);
+            padding-bottom: calc(var(--spacing-small) - 1px);
+            border-color: var(--border-gray);
         }
     }
 
@@ -2352,18 +2352,18 @@ fieldset.section > legend {
     .selector-child {
         border-radius: 0;
         font-weight: normal;
-        padding: $spacing-small 10px;
-        margin: 0 (-$spacing-medium);
-        font-size: $base-font-size;
+        padding: var(--spacing-small) 10px;
+        margin: 0 (-var(--spacing-medium));
+        font-size: var(--base-font-size);
         text-transform: none;
-        width: calc(100% + #{1.5 * $spacing-large});
+        width: calc(100% + (1.5 * var(--spacing-large)));
 
         &:hover {
-            background-color: $gray-on-white;
+            background-color: var(--gray-on-white);
         }
 
         &:last-of-type {
-            margin-bottom: -($spacing-small);
+            margin-bottom: -(var(--spacing-small));
         }
     }
 
@@ -2377,30 +2377,30 @@ fieldset.section > legend {
 
         .o-icon-info {
             display: inline-block;
-            margin: 0 $spacing-small 0 0;
+            margin: 0 var(--spacing-small) 0 0;
             opacity: .75;
             width: 1em;
 
             &:hover + .field-comment {
                 left: 5px;
                 right: 0;
-                top: (1.5 * $spacing-large);
-                padding: (.5 * $spacing-small) 10px (.5 * $spacing-small) (1.5 * $spacing-large);
-                line-height: .75 * $spacing-large;
+                top: calc(1.5 * var(--spacing-large));
+                padding: calc(.5 * var(--spacing-small)) 10px calc(.5 * var(--spacing-small)) calc(1.5 * var(--spacing-large));
+                line-height: calc(.75 * var(--spacing-large));
                 background-color: #fff;
                 z-index: 1;
                 margin: 0;
-                border-bottom: 1px solid $border-gray;
-                font-size: .75 * $base-font-size;
+                border-bottom: 1px solid var(--border-gray);
+                font-size: calc(.75 * var(--base-font-size));
 
                 &:before {
                     content: "";
                     position: absolute;
                     left: 7px;
-                    top: -($spacing-small);
-                    border-left: $spacing-small solid transparent;
-                    border-right: $spacing-small solid transparent;
-                    border-bottom: $spacing-small solid #fff;
+                    top: -(var(--spacing-small));
+                    border-left: var(--spacing-small) solid transparent;
+                    border-right: var(--spacing-small) solid transparent;
+                    border-bottom: var(--spacing-small) solid #fff;
                 }
 
                 &.above {
@@ -2408,7 +2408,7 @@ fieldset.section > legend {
                     top: auto;
 
                     &:before {
-                        top: calc(100% - #{$spacing-small});
+                        top: calc(100% - var(--spacing-small));
                         transform: rotate(180deg);
                     }
 
@@ -2426,14 +2426,14 @@ fieldset.section > legend {
 
     .selector .selectable {
         display: inline-block;
-        width: calc(100% - #{(1.5 * $spacing-large)});
+        width: calc(100% - (1.5 * var(--spacing-large)));
         word-wrap: break-word;
     }
 
     .field-actions {
         width: span(6 of 10);
         display: inline-block;
-        margin: $spacing-large 0 0 span(3 of 10);
+        margin: var(--spacing-large) 0 0 span(3 of 10);
     }
 
     .field .field-label {
@@ -2443,21 +2443,21 @@ fieldset.section > legend {
     .field .field-description,
     .field .docs-link {
         font-size: 14px;
-        line-height: .75 * $spacing-large;
+        line-height: calc(.75 * var(--spacing-large));
         position: static;
         text-align: left;
         height: auto;
     }
 
     .field .field-description:not(:only-child) {
-        margin-bottom: $spacing-small;
+        margin-bottom: var(--spacing-small);
     }
 
     .field-description {
         display: block;
         margin-right: 10px;
-        line-height: 1.5 * $spacing-large;
-        height: 1.5 * $spacing-large;
+        line-height: calc(1.5 * var(--spacing-large));
+        height: calc(1.5 * var(--spacing-large));
         position: absolute;
         top: 0;
         right: 0;
@@ -2473,19 +2473,19 @@ fieldset.section > legend {
     .field-description .field-comment.open {
         left: inherit;
         right: 0px;
-        top: (1.5 * $spacing-large);
+        top: calc(1.5 * var(--spacing-large));
         background-color: #333;
         color: #fff;
         border-radius: 3px;
         z-index: 1;
         max-width: 100%;
         font-size: 14px;
-        padding: $spacing-small 5px;
-        margin: $spacing-medium 0;
+        padding: var(--spacing-small) 5px;
+        margin: var(--spacing-medium) 0;
 
         &.above {
             top: auto;
-            bottom: (1.25 * $spacing-large);
+            bottom: calc(1.25 * var(--spacing-large));
         }
     }
 
@@ -2495,18 +2495,18 @@ fieldset.section > legend {
         height: 0;
         width: 0;
         position: absolute;
-        top: -($spacing-small);
+        top: -(var(--spacing-small));
         bottom: 0;
         right: 3px;
-        font-size: $base-font-size;
-        border-left: $spacing-small solid transparent;
-        border-right: $spacing-small solid transparent;
-        border-bottom: $spacing-medium solid #333;
+        font-size: var(--base-font-size);
+        border-left: var(--spacing-small) solid transparent;
+        border-right: var(--spacing-small) solid transparent;
+        border-bottom: var(--spacing-medium) solid #333;
     }
 
     .field-description .field-comment.open.above:before {
         top: auto;
-        bottom: -($spacing-medium);
+        bottom: -(var(--spacing-medium));
         transform: rotate(180deg);
     }
 
@@ -2514,9 +2514,9 @@ fieldset.section > legend {
         content: fa-content($fa-var-info-circle);
         @include font-awesome;
         display: inline-block;
-        margin-right: $spacing-small;
+        margin-right: var(--spacing-small);
         font-size: 14px;
-        line-height: .75 * $spacing-large;
+        line-height: calc(.75 * var(--spacing-large));
     }
 
     .field-meta .expand,
@@ -2552,7 +2552,7 @@ fieldset.section > legend {
     }
 
     .inputs {
-        line-height: 1.5 * $spacing-large;
+        line-height: calc(1.5 * var(--spacing-large));
         width: 70%;
 
         &:only-child {
@@ -2573,8 +2573,8 @@ fieldset.section > legend {
         input[type="date"],
         input[type="datetime-local"] {
             width: 100%;
-            min-height: (1.5 * $spacing-large);
-            margin: $spacing-small 0;
+            min-height: calc(1.5 * var(--spacing-large));
+            margin: var(--spacing-small) 0;
 
             &:only-child {
                 margin: 0;
@@ -2589,15 +2589,15 @@ fieldset.section > legend {
         }
 
         label {
-            padding: $spacing-small 0;
-            margin: 0 $spacing-large 0 0;
+            padding: var(--spacing-small) 0;
+            margin: 0 var(--spacing-large) 0 0;
         }
 
         .button,
         button,
         input[type="submit"] {
-            margin: $spacing-small 0;
-            line-height: $base-line-height;
+            margin: var(--spacing-small) 0;
+            line-height: var(--base-line-height);
         }
 
         input:focus,
@@ -2617,7 +2617,7 @@ fieldset.section > legend {
     }
 
     .value {
-        margin-bottom: $spacing-small;
+        margin-bottom: var(--spacing-small);
 
         &:last-of-type {
             margin-bottom: 0;
@@ -2634,10 +2634,10 @@ fieldset.section > legend {
     }
 
     .inputs p.no-values {
-        padding: $spacing-medium;
+        padding: var(--spacing-medium);
         border-radius: 3px;
-        background-color: $gray-on-white;
-        line-height: $base-line-height;
+        background-color: var(--gray-on-white);
+        line-height: var(--base-line-height);
 
         &:not(:only-child) {
             display: none;
@@ -2645,20 +2645,20 @@ fieldset.section > legend {
     }
 
     .add-values {
-        margin: $spacing-small 0 #{-(.5 * $spacing-small)};
+        margin: var(--spacing-small) 0 calc(-.5 * var(--spacing-small));
     }
 
     .add-values * {
         display: inline-block;
-        min-width: (1.5 * $spacing-large);
-        height: (1.5 * $spacing-large);
+        min-width: calc(1.5 * var(--spacing-large));
+        height: calc(1.5 * var(--spacing-large));
         border-radius: 2px;
         text-align: center;
         margin: 0;
     }
 
     .inputs .add-values a.button {
-        margin: 0 0 (.5 * $spacing-small);
+        margin: 0 0 calc(.5 * var(--spacing-small));
 
         &:before {
             margin-right: .25em;
@@ -2666,7 +2666,7 @@ fieldset.section > legend {
     }
 
     .add-values span.o-icon-add {
-        background-color: $gray-on-white;
+        background-color: var(--gray-on-white);
         margin-right: 0;
         width: auto;
         vertical-align: top;
@@ -2674,17 +2674,17 @@ fieldset.section > legend {
 
     .input-footer {
         display: flex;
-        width: 1.25 * $spacing-large;
+        width: calc(1.25 * var(--spacing-large));
     }
 
     .input-footer .actions {
-        margin-left: $spacing-small;
+        margin-left: var(--spacing-small);
         flex-direction: column;
     }
 
     .input-footer .actions a:before {
-        line-height: 1.5 * $spacing-large;
-        height: 1.5 * $spacing-large;
+        line-height: calc(1.5 * var(--spacing-large));
+        height: calc(1.5 * var(--spacing-large));
         text-align: center;
     }
 
@@ -2694,7 +2694,7 @@ fieldset.section > legend {
     }
 
     .more-actions.active {
-        box-shadow: 0 0 0 1px $border-gray;
+        box-shadow: 0 0 0 1px var(--border-gray);
         background-color: #fff;
         border-radius: 2px;
 
@@ -2704,7 +2704,7 @@ fieldset.section > legend {
     }
 
     .value.delete {
-        background-color: $delete-bg;
+        background-color: var(--delete-bg);
         overflow: hidden;
     }
 
@@ -2728,11 +2728,11 @@ fieldset.section > legend {
         position: absolute;
         top: 0;
         left: 0;
-        height: (1.5 * $spacing-large);
-        width: (1.5 * $spacing-large);
-        background-color: $gray-on-white;
+        height: calc(1.5 * var(--spacing-large));
+        width: calc(1.5 * var(--spacing-large));
+        background-color: var(--gray-on-white);
         text-align: center;
-        line-height: 1.5 * $spacing-large;
+        line-height: calc(1.5 * var(--spacing-large));
         overflow: hidden;
     }
 
@@ -2740,16 +2740,16 @@ fieldset.section > legend {
     .add-values label {
         margin: 0;
         min-height: 0;
-        line-height: $base-line-height;
+        line-height: var(--base-line-height);
     }
 
     .block.value .inputs label {
-        margin-right: $spacing-large;
+        margin-right: var(--spacing-large);
     }
 
     .add-values button,
     .add-values .button {
-        line-height: $base-line-height;
+        line-height: var(--base-line-height);
     }
 
     .inputs .value textarea,
@@ -2759,21 +2759,21 @@ fieldset.section > legend {
     }
 
     .inputs .value textarea {
-        min-height: 3 * $spacing-large;
+        min-height: calc(3 * var(--spacing-large));
         border: 0;
-        box-shadow: 0 0 0 1px $border-gray;
+        box-shadow: 0 0 0 1px var(--border-gray);
     }
 
     .inputs .value .input-body > textarea {
-        padding: $spacing-small $spacing-medium;
+        padding: var(--spacing-small) var(--spacing-medium);
     }
 
     [data-data-type^="resource"] .default,
     [data-data-type^="resource"] .o-title:not(:empty) {
-        padding: $spacing-small;
-        border-bottom: 1px solid $border-gray;
+        padding: var(--spacing-small);
+        border-bottom: 1px solid var(--border-gray);
         word-wrap: break-word;
-        line-height: $base-line-height;
+        line-height: var(--base-line-height);
         display: flex;
     }
 
@@ -2786,7 +2786,7 @@ fieldset.section > legend {
         background-color: #fff;
         flex: 1;
         position: relative;
-        box-shadow: 0 0 0 1px inset $border-gray;
+        box-shadow: 0 0 0 1px inset var(--border-gray);
         max-width: calc(100% - 30px);
     }
 
@@ -2810,21 +2810,21 @@ fieldset.section > legend {
     }
 
     [data-data-type^="resource"] .button {
-        font-size: .875 * $base-font-size;
-        padding: 0 $spacing-small;
-        line-height: $base-line-height;
+        font-size: calc(.875 * var(--base-font-size));
+        padding: 0 var(--spacing-small);
+        line-height: var(--base-line-height);
         min-height: 0;
-        margin-right: .5 * $spacing-small;
+        margin-right: calc(.5 * var(--spacing-small));
 
         &:before {
-            margin-right: $spacing-small;
+            margin-right: var(--spacing-small);
         }
     }
 
     .value.delete span.restore-value {
         display: inline-block;
-        padding: 0 $spacing-small;
-        width: calc(100% - #{1.5 * $spacing-large});
+        padding: 0 var(--spacing-small);
+        width: calc(100% - calc(1.5 * var(--spacing-large)));
     }
 
     .value.delete > *:not(.input-footer) {
@@ -2837,7 +2837,7 @@ fieldset.section > legend {
 
     .resource-inputs {
         background-color: #fff;
-        box-shadow: 0 0 0 1px $border-gray;
+        box-shadow: 0 0 0 1px var(--border-gray);
     }
 
     p.selected-resource {
@@ -2847,22 +2847,22 @@ fieldset.section > legend {
     }
 
     .selected-resource a {
-        width: calc(100% - #{3 * $spacing-large});
+        width: calc(100% - calc(3 * var(--spacing-large)));
     }
 
     .selected-resource + a.button {
-        margin-left: $spacing-small;
+        margin-left: var(--spacing-small);
     }
 
     .selected-resource img {
-        height: $base-line-height;
-        margin-right: $spacing-small;
+        height: var(--base-line-height);
+        margin-right: var(--spacing-small);
     }
 
     .selected-resource .o-title a:after {
         @include font-awesome;
         display: inline-block;
-        margin: 0 $spacing-small;
+        margin: 0 var(--spacing-small);
     }
 
     .selected-resource .items a:after {
@@ -2883,17 +2883,17 @@ fieldset.section > legend {
 
     .inputs [data-data-type="literal"] textarea.input-value {
         background-color: transparent;
-        padding-right: 1.75 * $spacing-large;
+        padding-right: calc(1.75 * var(--spacing-large));
     }
 
     [data-data-type="uri"] .input {
         position: relative;
         clear: both;
         background-color: #fff;
-        box-shadow: 0 0 0 1px $border-gray;
+        box-shadow: 0 0 0 1px var(--border-gray);
 
         &:first-child {
-            border-bottom: 1px solid $border-gray;
+            border-bottom: 1px solid var(--border-gray);
         }
     }
 
@@ -2907,13 +2907,13 @@ fieldset.section > legend {
 
     [data-data-type="uri"] .input-body input.uri-value,
     [data-data-type="uri"] textarea.value-label {
-        height: (1.5 * $spacing-large);
+        height: calc(1.5 * var(--spacing-large));
         border: 0;
         box-shadow: none;
-        padding: $spacing-small (1.75 * $spacing-large) $spacing-small $spacing-small;
+        padding: var(--spacing-small) calc(1.75 * var(--spacing-large)) var(--spacing-small) var(--spacing-small);
         font-weight: normal;
         background: transparent;
-        min-height: 1.5 * $spacing-large;
+        min-height: calc(1.5 * var(--spacing-large));
     }
 
     [data-data-type="uri"] textarea.value-label {
@@ -2921,20 +2921,20 @@ fieldset.section > legend {
     }
 
     .annotation-form {
-        padding-bottom: $spacing-medium;
+        padding-bottom: var(--spacing-medium);
 
         & > div,
         & > select {
-            margin-bottom: $spacing-small;
+            margin-bottom: var(--spacing-small);
         }
     }
 
     .value-annotation:not(:last-child) {
-        margin-bottom: $spacing-medium;
+        margin-bottom: var(--spacing-medium);
     }
 
     .value-annotation .restore-value {
-        line-height: 1.5 * $base-line-height;
+        line-height: calc(1.5 * var(--base-line-height));
     }
 
     /* @end */
@@ -2942,7 +2942,7 @@ fieldset.section > legend {
     /* @group ----- Media ----- */
 
     #resource-files button {
-        margin: $spacing-large 0 0;
+        margin: var(--spacing-large) 0 0;
     }
 
     #add-media-field {
@@ -2950,37 +2950,37 @@ fieldset.section > legend {
     }
 
     .media.row {
-        padding: $spacing-small;
-        margin-bottom: $spacing-small;
+        padding: var(--spacing-small);
+        margin-bottom: var(--spacing-small);
         display: flex;
         align-items: center;
         word-wrap: break-word;
     }
 
     .media.row img {
-        width: 1.5 * $spacing-large;
+        width: calc(1.5 * var(--spacing-large));
         height: auto;
-        margin-right: $spacing-medium;
+        margin-right: var(--spacing-medium);
     }
 
     .media.row .resource-name {
-        margin-right: $spacing-medium;
+        margin-right: var(--spacing-medium);
         min-width: 0;
     }
 
     .media.row .primary-media {
         text-transform: uppercase;
-        font-size: (.75 * $base-font-size);
+        font-size: calc(.75 * var(--base-font-size));
         font-weight: bold;
         margin: 0 0 0 auto;
 
         input {
-            margin-left: $spacing-small;
+            margin-left: var(--spacing-small);
         }
     }
 
     .media.row .actions {
-        margin-left: $spacing-large;
+        margin-left: var(--spacing-large);
     }
 
     .media.value.delete span.restore-value {
@@ -2994,15 +2994,15 @@ fieldset.section > legend {
 
     .media.value.delete > .actions {
         display: block;
-        top: (1.5 * $spacing-medium);
+        top: calc(1.5 * var(--spacing-medium));
     }
 
     .media-header {
-        font-size: $base-font-size;
-        margin: $spacing-small (-$spacing-small);
-        margin-top: -2 * $spacing-small;
-        background-color: $gray-on-white;
-        padding: 0 $spacing-small;
+        font-size: var(--base-font-size);
+        margin: var(--spacing-small) (-var(--spacing-small));
+        margin-top: calc(-2 * var(--spacing-small));
+        background-color: var(--gray-on-white);
+        padding: 0 var(--spacing-small);
         display: flex;
         align-items: center;
     }
@@ -3012,7 +3012,7 @@ fieldset.section > legend {
     }
 
     .media-render {
-        margin-bottom: $spacing-large;
+        margin-bottom: var(--spacing-large);
     }
 
     .media-render > * {
@@ -3037,7 +3037,7 @@ fieldset.section > legend {
 
     .media-file-thumbnail img {
         vertical-align: bottom;
-        margin: $spacing-small $spacing-medium 0 0;
+        margin: var(--spacing-small) var(--spacing-medium) 0 0;
     }    
 
     /* @end */
@@ -3050,19 +3050,19 @@ fieldset.section > legend {
     }
 
     #item-item-sets tr.delete {
-        background-color: $delete-bg;
+        background-color: var(--delete-bg);
     }
 
     #page-actions [class*="o-icon-"].button {
         background-color: transparent;
         width: auto;
-        padding: $spacing-small $spacing-small;
+        padding: var(--spacing-small) var(--spacing-small);
         box-shadow: none;
     }
 
     .o-icon-private.button,
     .o-icon-public.button {
-        margin-right: $spacing-small;
+        margin-right: var(--spacing-small);
         box-shadow: none;
     }
 
@@ -3094,19 +3094,19 @@ fieldset.section > legend {
     .resource-search {
         width: 100%;
         position: relative;
-        margin-bottom: $spacing-small;
+        margin-bottom: var(--spacing-small);
         display: flex;
         flex-wrap: wrap;
     }
 
     .chosen-container {
-        margin-bottom: $spacing-small;
+        margin-bottom: var(--spacing-small);
     }
 
     button.o-icon-search {
-        height: (1.5 * $spacing-large);
-        width: (1.5 * $spacing-large);
-        line-height: $base-line-height;
+        height: calc(1.5 * var(--spacing-large));
+        width: calc(1.5 * var(--spacing-large));
+        line-height: var(--base-line-height);
         padding: 0 10px;
         border-radius: 0 3px 3px 0;
         min-height: 0;
@@ -3118,23 +3118,23 @@ fieldset.section > legend {
             text-indent: 0px;
             position: absolute;
             left: 0;
-            top: $spacing-small;
+            top: var(--spacing-small);
             line-height: 24px;
             width: 100%;
         }
     }
 
     .resource-search > input[type="text"] {
-        width: calc(100% - #{(1.5 * $spacing-large)});
+        width: calc(100% - calc(1.5 * var(--spacing-large)));
         border-right: 0;
-        margin-bottom: $spacing-small;
+        margin-bottom: var(--spacing-small);
     }
 }
 
 .resource-search-filters {
-    padding-bottom: $spacing-small - 1px;
-    border-bottom: 1px solid $border-gray;
-    margin-bottom: $spacing-small;
+    padding-bottom: calc(var(--spacing-small) - 1px);
+    border-bottom: 1px solid var(--border-gray);
+    margin-bottom: var(--spacing-small);
     width: 100%;
 
     a.expand,
@@ -3144,7 +3144,7 @@ fieldset.section > legend {
     }
 
     .collapsible {
-        margin-top: $spacing-small;
+        margin-top: var(--spacing-small);
         overflow: visible;
     }
 }
@@ -3155,7 +3155,7 @@ fieldset.section > legend {
 }
 
 #item-results.active {
-    padding-bottom: 3 * $spacing-large;
+    padding-bottom: calc(3 * var(--spacing-large));
 
     & + .confirm-panel {
         display: block;
@@ -3170,9 +3170,9 @@ fieldset.section > legend {
 .sidebar button.select-all,
 .sidebar button.quick-select-toggle {
     background-color: transparent;
-    color: $copy-gray;
+    color: var(--copy-gray);
     box-shadow: none;
-    margin: $spacing-medium;
+    margin: var(--spacing-medium);
     padding: 0;
     line-height: 1;
     min-height: 0;
@@ -3200,7 +3200,7 @@ fieldset.section > legend {
     @include font-awesome;
     content: fa-content($fa-var-toggle-off);
     display: inline-block;
-    margin-right: $spacing-small;
+    margin-right: var(--spacing-small);
 }
 
 .sidebar button.quick-select-toggle.active:before {
@@ -3217,7 +3217,7 @@ fieldset.section > legend {
 }
 
 .sidebar button.quick-select-toggle + .resource-list {
-    border-top: 1px solid $border-gray;
+    border-top: 1px solid var(--border-gray);
 }
 
 .resource-link {
@@ -3227,8 +3227,8 @@ fieldset.section > legend {
     min-width: 0;
 
     img {
-        height: (1.5 * $spacing-large);
-        margin-right: $spacing-small;
+        height: calc(1.5 * var(--spacing-large));
+        margin-right: var(--spacing-small);
     }
 
     .resource-name {
@@ -3241,7 +3241,7 @@ fieldset.section > legend {
     width: 100%;
 
     .resource {
-        padding: $spacing-small $spacing-medium #{$spacing-small - 1px};
+        padding: var(--spacing-small) var(--spacing-medium) calc(var(--spacing-small) - 1px);
         border-bottom: 1px solid rgba(0,0,0,.08);
         position: relative;
         width: 100%;
@@ -3259,8 +3259,8 @@ fieldset.section > legend {
         }
 
         .select-resource-checkbox-wrapper {
-            height: $base-line-height;
-            margin-right: $spacing-medium;
+            height: var(--base-line-height);
+            margin-right: var(--spacing-medium);
         }
     }
 
@@ -3284,33 +3284,33 @@ fieldset.section > legend {
 }
 
 .sidebar-section-nav {
-    margin-bottom: $spacing-medium;
-    padding-bottom: $spacing-medium;
+    margin-bottom: var(--spacing-medium);
+    padding-bottom: var(--spacing-medium);
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    gap: $spacing-medium;
+    gap: var(--spacing-medium);
 
     &:before {
         content: "";
         position: absolute;
-        top: -$spacing-medium;
+        top: -var(--spacing-medium);
         bottom: 0;
-        right: -$spacing-large;
-        left: -$spacing-large;
+        right: -var(--spacing-large);
+        left: -var(--spacing-large);
         background-color: #fff;
-        border-bottom: 1px solid $border-gray;
+        border-bottom: 1px solid var(--border-gray);
         z-index: -1;
     }
 }
 
 .sidebar-section-nav button[type="button"] {
     background-color: rgba(0,0,0,.08);
-    color: $copy-gray;
-    border-radius: $spacing-large;
+    color: var(--copy-gray);
+    border-radius: var(--spacing-large);
     box-shadow: none;
-    font-size: .875 * $base-font-size;
-    padding: $spacing-small $spacing-medium;
+    font-size: calc(.875 * var(--base-font-size));
+    padding: var(--spacing-small) var(--spacing-medium);
     margin: 0;
     min-height: 0;
     line-height: 1;
@@ -3326,8 +3326,8 @@ fieldset.section > legend {
     &.active {
         display: block;
         overflow-y: auto;
-        margin: (-1 * $spacing-medium);
-        padding: $spacing-medium;
+        margin: calc(-1 * var(--spacing-medium));
+        padding: var(--spacing-medium);
         position: relative;
         flex-grow: 1;
     }
@@ -3336,8 +3336,8 @@ fieldset.section > legend {
 .confirm-container {
     display: flex;
     flex-direction: column;
-    height: calc(100% + #{2 * $spacing-medium});
-    margin: (-1 * $spacing-medium);
+    height: calc(100% + calc(2 * var(--spacing-medium)));
+    margin: calc(-1 * var(--spacing-medium));
 }
 
 .confirm-container .confirm-main,
@@ -3347,17 +3347,17 @@ fieldset.section > legend {
 
 .confirm-container .confirm-main {
     flex-grow: 1;
-    padding-bottom: $spacing-medium;
+    padding-bottom: var(--spacing-medium);
 }
 
 .confirm-main {
     position: absolute;
     top: 0;
-    bottom: (2.5 * $spacing-large);
+    bottom: calc(2.5 * var(--spacing-large));
     overflow-y: auto;
     left: 0;
     right: 0;
-    padding: $spacing-medium $spacing-medium 0;
+    padding: var(--spacing-medium) var(--spacing-medium) 0;
 }
 
 .confirm-panel {
@@ -3366,9 +3366,9 @@ fieldset.section > legend {
     right: 0;
     left: 0;
     z-index: 1;
-    padding: $spacing-medium;
+    padding: var(--spacing-medium);
     background-color: #f7f7f7;
-    border-top: 1px solid $border-gray;
+    border-top: 1px solid var(--border-gray);
 
     button,
     .button {
@@ -3385,10 +3385,10 @@ fieldset.section > legend {
 .sidebar legend {
     width: 100%;
     position: relative;
-    padding: $spacing-small (1.5 * $spacing-large) $spacing-small 0;
-    margin-bottom: $spacing-medium;
-    border-bottom: 3px solid $border-gray;
-    font-size: $base-font-size;
+    padding: var(--spacing-small) calc(1.5 * var(--spacing-large)) var(--spacing-small) 0;
+    margin-bottom: var(--spacing-medium);
+    border-bottom: 3px solid var(--border-gray);
+    font-size: var(--base-font-size);
 }
 
 .sidebar .field-meta {
@@ -3406,13 +3406,13 @@ fieldset.section > legend {
     }
 
     .collapsible {
-        margin-bottom: $spacing-medium;
+        margin-bottom: var(--spacing-medium);
     }
 
     button.add-value {
         padding: 0;
         background: transparent;
-        color: $copy-gray;
+        color: var(--copy-gray);
         min-height: 0;
         position: absolute;
         top: 0;
@@ -3442,9 +3442,9 @@ fieldset.section > legend {
 }
 
 .block-layout-fieldset {
-    border-bottom: 1px solid $border-gray;
-    margin-bottom: $spacing-medium;
-    padding-bottom: $spacing-medium;
+    border-bottom: 1px solid var(--border-gray);
+    margin-bottom: var(--spacing-medium);
+    padding-bottom: var(--spacing-medium);
 }
 
 .block-layout-fieldset .expand, 
@@ -3459,7 +3459,7 @@ fieldset.section > legend {
 }
 
 .block-layout-fieldset .collapse + .collapsible {
-    padding: 0 0 0 $spacing-medium;
+    padding: 0 0 0 var(--spacing-medium);
 }
 
 .block-layout-fieldset .collapsible .field:last-child {
@@ -3485,12 +3485,12 @@ fieldset.section > legend {
     flex-wrap: wrap;
 
     &:not(:first-child) {
-        margin-top: $spacing-small;
+        margin-top: var(--spacing-small);
     }
 }
 
 .sidebar .multi-value .value:not(:only-child) {
-    width: calc(100% - #{1.5 * $spacing-large});
+    width: calc(100% - calc(1.5 * var(--spacing-large)));
     position: relative;
     padding-bottom: 0;
     margin-bottom: 5px;
@@ -3503,8 +3503,8 @@ fieldset.section > legend {
 
 .sidebar .multi-value .remove-value {
     position: absolute;
-    right: -1.5 * $spacing-large;
-    bottom: 0;;
+    right: calc(-1.5 * var(--spacing-large));
+    bottom: 0;
 }
 
 .sidebar #advanced-search .value select,
@@ -3517,12 +3517,12 @@ fieldset.section > legend {
     justify-content: space-between;
 
     button {
-        width: calc(33.33% - #{$spacing-small});
+        width: calc(33.33% - var(--spacing-small));
     }
 }
 
 .block .block-content input[type="hidden"] + button {
-    padding-top: $spacing-small;
+    padding-top: var(--spacing-small);
 }
 
 .query-form-element .active {
@@ -3539,11 +3539,11 @@ fieldset.section > legend {
 
 .query-display .filter {
     background-color: #fff;
-    box-shadow: 0 0 0 1px $border-gray inset;
+    box-shadow: 0 0 0 1px var(--border-gray) inset;
 }
 
 .query-display .filter-label {
-    background-color: $border-gray;
+    background-color: var(--border-gray);
 }
 
 .query-form-element button.active {
@@ -3551,7 +3551,7 @@ fieldset.section > legend {
 }
 
 .query-display {
-    min-height: 1.75 * $spacing-large;
+    min-height: calc(1.75 * var(--spacing-large));
 }
 
 input[type=text].query-form-query {
@@ -3568,12 +3568,12 @@ input[type=text].query-form-query {
 
 #save-search.active {
     display: flex;
-    margin-top: -1 * $spacing-small;
-    padding: 0 $spacing-small $spacing-medium calc(30% + #{.5 * $spacing-small});
-    background-color: $gray-on-white;
+    margin-top: calc(-1 * var(--spacing-small));
+    padding: 0 var(--spacing-small) var(--spacing-medium) calc(30% + ().5 * var(--spacing-small));
+    background-color: var(--gray-on-white);
 
     input {
-        margin-left: $spacing-small;
+        margin-left: var(--spacing-small);
     }
 }
 
@@ -3582,7 +3582,7 @@ input[type=text].query-form-query {
 /* @group ----- Vocabulary: Import ----- */
 
 .vocabs .field [type="file"] {
-    margin: $spacing-small 0 0;
+    margin: var(--spacing-small) 0 0;
 }
 
 /* @end */
@@ -3643,13 +3643,13 @@ input[type=text].query-form-query {
     dt {
         width: span(2 of 9);
         vertical-align: top;
-        padding: $spacing-small 0;
+        padding: var(--spacing-small) 0;
         font-weight: bold;
     }
 
     dd,
     .values {
-        padding: $spacing-small;
+        padding: var(--spacing-small);
         margin: 0;
         word-wrap: break-word;
         width: span(7 of 9);
@@ -3660,45 +3660,45 @@ input[type=text].query-form-query {
     }
 
     .language {
-        font-size: .75 * $base-font-size;
-        padding: 0 $spacing-small;
-        margin-right: $spacing-small;
-        background-color: $gray-on-white;
+        font-size: calc(.75 * var(--base-font-size));
+        padding: 0 var(--spacing-small);
+        margin-right: var(--spacing-small);
+        background-color: var(--gray-on-white);
     }
 }
 
 #linked-filter label {
     display: flex;
     align-items: center;
-    margin-bottom: $spacing-large;
+    margin-bottom: var(--spacing-large);
 
     select {
-        margin-left: $spacing-medium;
+        margin-left: var(--spacing-medium);
     }
 }
 
 #linked-resources table {
-    margin-bottom: $spacing-large;
+    margin-bottom: var(--spacing-large);
 }
 
 #linked-resources caption {
-    background-color: $gray-on-white;
+    background-color: var(--gray-on-white);
     font-family: bold;
-    padding: $spacing-small;
+    padding: var(--spacing-small);
     font-family: "Lato", sans-serif;
     font-weight: bold;
     text-align: left;
-    font-size: 1.25 * $base-font-size;
+    font-size: calc(1.25 * var(--base-font-size));
 }
 
 #linked-resources th {
-    border-bottom: 3px solid $border-gray;
+    border-bottom: 3px solid var(--border-gray);
 }
 
 .linked-resource {
-    margin-bottom: $spacing-medium;
-    padding-bottom: $spacing-medium - 1px;
-    border-bottom: 1px solid $border-gray;
+    margin-bottom: var(--spacing-medium);
+    padding-bottom: calc(var(--spacing-medium) - 1px);
+    border-bottom: 1px solid var(--border-gray);
 }
 
 .has-annotation:before {
@@ -3706,9 +3706,8 @@ input[type=text].query-form-query {
 }
 
 .o-icon-annotation:before {
-    content: "\f27a";
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
+    content: fa-content($fa-var-comment-alt);
+    @include font-awesome
 }
 
 .show .value.resource,
@@ -3720,15 +3719,15 @@ input[type=text].query-form-query {
 
 .show .value .o-icon-private,
 .show .value .value-content {
-    margin-right: $spacing-medium;
+    margin-right: var(--spacing-medium);
 }
 
 
 .collapsible.annotation {
-    border-left: 3px solid $border-gray;
+    border-left: 3px solid var(--border-gray);
     padding: 0;
     border-radius: 3px;
-    margin: $spacing-small 0 $spacing-medium $spacing-large;
+    margin: var(--spacing-small) 0 var(--spacing-medium) var(--spacing-large);
     width: 100%;
 }
 
@@ -3739,13 +3738,13 @@ input[type=text].query-form-query {
 }
 
 .collapsible.annotation .property {
-    padding: 0 $spacing-medium;
+    padding: 0 var(--spacing-medium);
 }
 
 .collapsible.annotation .property:not(:first-child) {
-    margin-top: $spacing-medium;
-    border-top: 1px solid $border-gray;
-    padding-top: $spacing-medium;
+    margin-top: var(--spacing-medium);
+    border-top: 1px solid var(--border-gray);
+    padding-top: var(--spacing-medium);
 }
 
 /* @end */
@@ -3801,22 +3800,22 @@ input[type=text].query-form-query {
 
 .sidebar {
     position: fixed;
-    top: (2 * $spacing-large);
+    top: calc(2 * var(--spacing-large));
     left: 100%;
     visibility: hidden;
     bottom: 0;
     background-color: #f7f7f7;
     z-index: 3;
-    border-left: 1px solid $border-gray;
+    border-left: 1px solid var(--border-gray);
     overflow-y: auto;
     overflow-x: hidden;
     width: span(4 of 16);
-    padding: $spacing-medium;
+    padding: var(--spacing-medium);
 
     .sidebar-header {
-        background-color: $border-gray;
-        margin: (-1 * $spacing-medium) (-1 * $spacing-medium) $spacing-medium;
-        padding: $spacing-medium;
+        background-color: var(--border-gray);
+        margin: calc(-1 * var(--spacing-medium)) calc(-1 * var(--spacing-medium)) var(--spacing-medium);
+        padding: var(--spacing-medium);
         display: flex;
         flex-wrap: wrap;
         align-items: center;
@@ -3825,10 +3824,10 @@ input[type=text].query-form-query {
 
     .sidebar-header button {
         background-color: #fff;
-        color: $copy-gray;
-        padding: $spacing-small;
+        color: var(--copy-gray);
+        padding: var(--spacing-small);
         line-height: 1;
-        font-size: .875 * $base-font-size;
+        font-size: calc(.875 * var(--base-font-size));
         min-height: 0;
         margin: 0;
     }
@@ -3871,8 +3870,8 @@ input[type=text].query-form-query {
 
     a.o-icon-close {
         position: absolute;
-        right: $spacing-medium;
-        top: $spacing-medium;
+        right: var(--spacing-medium);
+        top: var(--spacing-medium);
         z-index: 3;
         color: #666;
     }
@@ -3883,9 +3882,9 @@ input[type=text].query-form-query {
     }
 
     .value {
-        margin-bottom: $spacing-small;
-        border-bottom: 1px solid $border-gray;
-        padding-bottom: ($spacing-small - 1px);
+        margin-bottom: var(--spacing-small);
+        border-bottom: 1px solid var(--border-gray);
+        padding-bottom: calc(var(--spacing-small) - 1px);
         vertical-align: middle;
 
         *:last-child {
@@ -3898,9 +3897,9 @@ input[type=text].query-form-query {
         }
 
         .pagination {
-            font-size: .8175 * $base-font-size;
+            font-size: calc(.8175 * var(--base-font-size));
             border-bottom: 1px solid rgba(0,0,0,.08);
-            padding-bottom: ($spacing-medium - 1px);
+            padding-bottom: calc(var(--spacing-medium) - 1px);
             margin-bottom: 0;
             overflow: hidden;
             width: 100%;
@@ -3926,15 +3925,15 @@ input[type=text].query-form-query {
 
             input[type="text"] {
                 float: left;
-                line-height: .8175 * $spacing-large;
-                height: $spacing-large;
-                border: 1px solid $border-gray;
+                line-height: calc(.8175 * var(--spacing-large));
+                height: var(--spacing-large);
+                border: 1px solid var(--border-gray);
                 margin-left: 0;
             }
 
             .page-count {
                 float: left;
-                margin-right: $spacing-medium;
+                margin-right: var(--spacing-medium);
             }
 
             .inactive {
@@ -3963,18 +3962,18 @@ input[type=text].query-form-query {
     }
 
     h2 {
-        font-size: 1.5 * $base-font-size;
-        margin-bottom: $spacing-medium;
+        font-size: calc(1.5 * var(--base-font-size));
+        margin-bottom: var(--spacing-medium);
     }
 
     h3,
     label,
     .label {
         display: block;
-        font-size: $base-font-size;
+        font-size: var(--base-font-size);
         font-weight: bold;
-        margin: 0 0 $spacing-medium 0;
-        padding: 0 $spacing-large $spacing-medium 0;
+        margin: 0 0 var(--spacing-medium) 0;
+        padding: 0 var(--spacing-large) var(--spacing-medium) 0;
         position: relative;
         width: 100%;
         word-wrap: break-word;
@@ -3983,11 +3982,11 @@ input[type=text].query-form-query {
         &:after {
             content: "";
             position: absolute;
-            left: -($spacing-medium);
-            right: -($spacing-medium);
+            left: -(var(--spacing-medium));
+            right: -(var(--spacing-medium));
             bottom: 0;
-            top: -($spacing-medium);
-            background-color: $border-gray;
+            top: -(var(--spacing-medium));
+            background-color: var(--border-gray);
             z-index: -1;
         }
     }
@@ -4005,7 +4004,7 @@ input[type=text].query-form-query {
     .field {
         background-color: transparent;
         padding: 0;
-        margin-bottom: $spacing-large;
+        margin-bottom: var(--spacing-large);
         flex-wrap: wrap;
         justify-content: flex-start;
     }
@@ -4015,22 +4014,22 @@ input[type=text].query-form-query {
     }
 
     .field div.option + div.option {
-        padding-top: ($spacing-medium - 1px);
-        border-top: 1px solid $border-gray;
-        margin-top: $spacing-medium;
+        padding-top: calc(var(--spacing-medium) - 1px);
+        border-top: 1px solid var(--border-gray);
+        margin-top: var(--spacing-medium);
     }
 
     .button,
     button {
-        background-color: $copy-gray;
-        border-color: $copy-gray;
+        background-color: var(--copy-gray);
+        border-color: var(--copy-gray);
         color: #fff;
 
         &:disabled,
         &.disabled {
-            background-color: $gray-on-white;
-            border-color: $gray-on-white;
-            color: $copy-gray;
+            background-color: var(--gray-on-white);
+            border-color: var(--gray-on-white);
+            color: var(--copy-gray);
             box-shadow: none !important;
         }
     }
@@ -4038,36 +4037,36 @@ input[type=text].query-form-query {
     button.option {
         width: 100%;
         text-align: left;
-        border-color: $border-gray;
+        border-color: var(--border-gray);
         background-color: #fff;
-        color: $copy-gray;
+        color: var(--copy-gray);
         display: inline-flex;
         justify-content: space-between;
 
         &:after {
             content: fa-content($fa-var-plus);
             @include font-awesome;
-            color: $border-gray;
+            color: var(--border-gray);
         }
     }
 }
 
 #sidebar-confirm {
     display: block;
-    padding-bottom: $spacing-medium;
-    margin-bottom: $spacing-medium;
+    padding-bottom: var(--spacing-medium);
+    margin-bottom: var(--spacing-medium);
 
     input[type="submit"] {
-        background-color: $red;
+        background-color: var(--red);
         color: #fff;
         box-shadow: none;
     }
 
     input[type="submit"]:disabled {
-        background-color: $gray-on-white;
+        background-color: var(--gray-on-white);
         box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
-        color: $copy-gray;
-        -webkit-text-fill-color: $copy-gray;
+        color: var(--copy-gray);
+        -webkit-text-fill-color: var(--copy-gray);
         cursor: default;
 
         &:hover {
@@ -4081,20 +4080,20 @@ body.sidebar-open #content {
 }
 
 .sidebar .meta-group {
-    margin-bottom: $spacing-medium;
+    margin-bottom: var(--spacing-medium);
     justify-content: flex-start;
 
     .value, 
     .comment {
         width: 100%;
-        padding: $spacing-small 0;
+        padding: var(--spacing-small) 0;
         margin: 0;
         word-wrap: break-word;
         display: block;
 
         &:not(:last-child) {
-            border-bottom: 1px solid $border-gray;
-            padding-bottom: ($spacing-small - 1px);
+            border-bottom: 1px solid var(--border-gray);
+            padding-bottom: calc(var(--spacing-small) - 1px);
         }
     }
 }
@@ -4102,25 +4101,25 @@ body.sidebar-open #content {
 .sidebar .meta-group h4 {
     display: block;
     background-color: transparent;
-    border-color: $border-gray;
-    padding: $spacing-small 0;
-    border-bottom: 2px solid $border-gray;
-    padding-bottom: ($spacing-small - 2px);
+    border-color: var(--border-gray);
+    padding: var(--spacing-small) 0;
+    border-bottom: 2px solid var(--border-gray);
+    padding-bottom: (var(--spacing-small) - 2px);
     margin-bottom: 0;
     width: 100%;
 }
 
 .sidebar .media a:first-child img,
 .sidebar > img:first-child {
-    height: (7 * $spacing-large);
+    height: calc(7 * var(--spacing-large));
     width: auto;
     display: block;
-    margin-bottom: $spacing-medium;
+    margin-bottom: var(--spacing-medium);
 }
 
 .sidebar .meta-group img {
-    height: (2 * $spacing-large);
-    box-shadow: 0 0 0 1px $border-gray;
+    height: calc(2 * var(--spacing-large));
+    box-shadow: 0 0 0 1px var(--border-gray);
 }
 
 .source-type {
@@ -4143,7 +4142,7 @@ body.sidebar-open #content {
 
 .resource-templates th,
 .resource-templates td {
-    padding: $spacing-small;
+    padding: var(--spacing-small);
     vertical-align: top;
 }
 
@@ -4151,7 +4150,7 @@ body.sidebar-open #content {
     display: flex;
 
     &.delete {
-        background-color: $delete-bg;
+        background-color: var(--delete-bg);
     }
 
     &.delete .actions li:not(:last-child) {
@@ -4164,13 +4163,13 @@ body.sidebar-open #content {
 }
 
 .resource-templates #properties {
-    margin: $spacing-large 0 0;
+    margin: var(--spacing-large) 0 0;
     clear: both;
     padding: 0;
 }
 
 .resource-templates #edit-sidebar {
-    padding-bottom: 2 * $spacing-large;
+    padding-bottom: calc(2 * var(--spacing-large));
 }
 
 .resource-templates #edit-sidebar .field h4,
@@ -4179,13 +4178,13 @@ body.sidebar-open #content {
 }
 
 .resource-templates #edit-sidebar .field h4 + span {
-    margin-bottom: $spacing-medium;
+    margin-bottom: var(--spacing-medium);
 }
 
 .resource-templates #edit-sidebar .field label:not(:first-child),
 .resource-templates #edit-sidebar .field .option label {
     margin: 0;
-    padding-bottom: $spacing-small;
+    padding-bottom: var(--spacing-small);
     padding-right: 0;
     display: flex;
     justify-content: space-between;
@@ -4202,17 +4201,17 @@ body.sidebar-open #content {
 }
 
 .alternate-label-cell:not(:empty) {
-  background-color: $border-gray;
+  background-color: var(--border-gray);
   display: inline-block;
-  padding: 0 $spacing-small;
-  margin: 0 $spacing-small;
+  padding: 0 var(--spacing-small);
+  margin: 0 var(--spacing-small);
   position: relative;
 
   &:after {
       content: "";
-      border-top: $spacing-medium solid transparent;
-      border-bottom: $spacing-medium solid transparent;
-      border-left: $spacing-small solid $border-gray;
+      border-top: var(--spacing-medium) solid transparent;
+      border-bottom: var(--spacing-medium) solid transparent;
+      border-left: var(--spacing-small) solid var(--border-gray);
       width: 0;
       height: 0;
       position: absolute;
@@ -4224,16 +4223,16 @@ body.sidebar-open #content {
 .title-property-cell,
 .description-property-cell {
     text-transform: uppercase;
-    font-size: (.75 * $base-font-size);
+    font-size: calc(.75 * var(--base-font-size));
     font-weight: bold;
     margin-left: auto;
-    margin-right: $spacing-medium;
+    margin-right: var(--spacing-medium);
 
     &:after {
-        content: "\f00c";
+        content: fa-content($fa-var-check);
         @include font-awesome;
         display: inline-block;
-        margin-left: $spacing-small;
+        margin-left: var(--spacing-small);
     }
 
     ~ .actions {
@@ -4243,7 +4242,7 @@ body.sidebar-open #content {
 
 .title-property-cell ~ .description-property-cell,
 .description-property-cell ~ .title-property-cell {
-    margin-left: $spacing-medium;
+    margin-left: var(--spacing-medium);
 }
 
 /* @end */
@@ -4259,7 +4258,7 @@ body.sidebar-open #content {
 }
 
 .state-filter select {
-    margin-bottom: $spacing-medium;
+    margin-bottom: var(--spacing-medium);
 }
 
 .module-name {
@@ -4271,23 +4270,23 @@ body.sidebar-open #content {
 }
 
 #modules .module {
-    border-bottom: 1px solid $border-gray;
-    padding-bottom: ($spacing-medium - 1px);
-    margin-bottom: $spacing-medium;
+    border-bottom: 1px solid var(--border-gray);
+    padding-bottom: calc(var(--spacing-medium) - 1px);
+    margin-bottom: var(--spacing-medium);
     overflow: hidden;
 }
 
 #modules .module-meta {
     float: left;
     max-width: 50%;
-    padding-right: $spacing-medium;
+    padding-right: var(--spacing-medium);
 }
 
 #modules .module-actions {
     float: right;
     max-width: 50%;
     text-align: right;
-    padding-left: $spacing-medium;
+    padding-left: var(--spacing-medium);
 
     .error {
         @include error;
@@ -4302,7 +4301,7 @@ body.sidebar-open #content {
 #modules button,
 #modules .button {
     display: inline-block;
-    margin-left: $spacing-small;
+    margin-left: var(--spacing-small);
     box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
 
     &:hover {
@@ -4310,7 +4309,7 @@ body.sidebar-open #content {
     }
 
     &:before {
-        margin-right: $spacing-small;
+        margin-right: var(--spacing-small);
     }
 }
 
@@ -4323,7 +4322,7 @@ body.sidebar-open #content {
 }
 
 #modules .o-icon-uninstall {
-    margin-left: $spacing-large;
+    margin-left: var(--spacing-large);
     box-shadow: 0 0 0 1px #E0C3C3 inset;
 
     &:hover {
@@ -4366,12 +4365,12 @@ body.sidebar-open #content {
 
     th[scope="rowgroup"] {
         font-size: 1em;
-        border-bottom: 1px solid $border-gray;
-        padding-left: $spacing-small;
+        border-bottom: 1px solid var(--border-gray);
+        padding-left: var(--spacing-small);
     }
 
     tbody:not(:last-child) tr:last-child td {
-        padding-bottom: $spacing-large;
+        padding-bottom: var(--spacing-large);
     }
 
     th[scope="row"] {
@@ -4385,22 +4384,22 @@ body.sidebar-open #content {
 
 .breadcrumbs {
     @include subhead-row;
-    margin-bottom: $spacing-large;
+    margin-bottom: var(--spacing-large);
 }
 
 .breadcrumbs + .field {
-    margin-top: $spacing-large;
+    margin-top: var(--spacing-large);
 }
 
 .breadcrumbs a:before {
-    margin-right: $spacing-small;
+    margin-right: var(--spacing-small);
 }
 
 .breadcrumbs > *:not(:last-child):after {
     content: fa-content($fa-var-caret-right);
     @include font-awesome;
     display: inline-block;
-    margin: 0 calc(#{$spacing-medium} - 3px) 0 $spacing-medium;
+    margin: 0 calc(#{var(--spacing-medium)} - 3px) 0 var(--spacing-medium);
     color: #000;
     cursor: default;
 }
@@ -4409,26 +4408,26 @@ body.sidebar-open #content {
 
     #site-item-sets th:first-child,
     #site-item-sets th:last-child {
-        width: 1.5 * $spacing-large;
+        width: calc(1.5 * var(--spacing-large));
     }
 
     .manual-assignment .inputs label {
         display: block;
         padding: 0;
-        margin: $spacing-small 0 0;
+        margin: var(--spacing-small) 0 0;
         min-height: 0;
-        line-height: $base-line-height;
+        line-height: var(--base-line-height);
 
         &:last-child {
-          margin-bottom: $spacing-small;
+          margin-bottom: var(--spacing-small);
         }
     }
 
     .manual-assignment #advanced-search {
-        margin-top: -1 * $spacing-small;
-        padding: $spacing-medium 0 $spacing-small;
-        background-color: $gray-on-white;
-        border-top: 1px solid $border-gray;
+        margin-top: calc(-1 * var(--spacing-small));
+        padding: var(--spacing-medium) 0 var(--spacing-small);
+        background-color: var(--gray-on-white);
+        border-top: 1px solid var(--border-gray);
 
         &.inactive {
             display: none;
@@ -4436,11 +4435,11 @@ body.sidebar-open #content {
     }
 
     .manual-assignment .advanced-search-header {
-        padding: 0 $spacing-small;
+        padding: 0 var(--spacing-small);
     }
 
     .manual-assignment .advanced-search-header a.button {
-        margin-bottom: $spacing-small;
+        margin-bottom: var(--spacing-small);
     }
 
     .manual-assignment .advanced-search-content .field {
@@ -4449,7 +4448,7 @@ body.sidebar-open #content {
 
     .keep-search,
     .keep-search input {
-        margin: 0 0 0 $spacing-small;
+        margin: 0 0 0 var(--spacing-small);
     }
 
 
@@ -4479,7 +4478,7 @@ body.sidebar-open #content {
 
     #site-user-permissions .actions {
         justify-content: flex-end;
-        padding: $spacing-small 0;
+        padding: var(--spacing-small) 0;
     }
 
     /* @end */
@@ -4490,8 +4489,8 @@ body.sidebar-open #content {
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
-        margin-top: $spacing-medium;
-        font-size: .875 * $base-font-size;
+        margin-top: var(--spacing-medium);
+        font-size: calc(.875 * var(--base-font-size));
     }
 
 
@@ -4499,7 +4498,7 @@ body.sidebar-open #content {
     #block-controls-header button,
     .block-header select,
     .block-header button {
-        font-size: .875 * $base-font-size;
+        font-size: calc(.875 * var(--base-font-size));
         line-height: 1;
         margin-bottom: 0;
         height: auto;
@@ -4510,7 +4509,7 @@ body.sidebar-open #content {
 
     #block-controls-header select,
     .block-header select {
-        padding: $spacing-small $spacing-large $spacing-small $spacing-small;
+        padding: var(--spacing-small) var(--spacing-large) var(--spacing-small) var(--spacing-small);
         background-size: 6px;
     }
 
@@ -4518,7 +4517,7 @@ body.sidebar-open #content {
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        margin-bottom: $spacing-medium;
+        margin-bottom: var(--spacing-medium);
     }
 
     #preview-page-layout:before,
@@ -4535,11 +4534,11 @@ body.sidebar-open #content {
 
     #page-layout-controls select,
     .block-page-layout-grid-controls select {
-        margin-left: $spacing-small;
+        margin-left: var(--spacing-small);
     }
 
     #page-layout-controls > *:not(:last-child) {
-        margin-right: $spacing-small;
+        margin-right: var(--spacing-small);
     }
 
     #page-layout-controls button {
@@ -4553,7 +4552,7 @@ body.sidebar-open #content {
 
     .expand-collapse-all {
         text-align: right;
-        margin-bottom: $spacing-medium;
+        margin-bottom: var(--spacing-medium);
     }
 
     .expand-all:before,
@@ -4565,7 +4564,7 @@ body.sidebar-open #content {
 
     .expand-all:before,
     .collapse-all:before {
-        margin-right: $spacing-small;
+        margin-right: var(--spacing-small);
     }
 
     .expand-all:before,
@@ -4581,25 +4580,25 @@ body.sidebar-open #content {
     .add-block-group:before {
         content: "\f247";
         @include font-awesome;
-        margin-right: $spacing-small;
+        margin-right: var(--spacing-small);
     }
 
     .block {
-        margin-bottom: $spacing-small;
+        margin-bottom: var(--spacing-small);
     }
 
     .block .block-header {
         position: relative;
         display: flex;
         align-items: center;
-        background-color: opacify($gray-on-white, .08);
-        padding: $spacing-small;
+        background-color: color-mix(in srgb, var(--gray-on-white), #ffffff, 8%);
+        padding: var(--spacing-small);
         font-weight: bold;
-        font-size: .875 * $base-font-size;
+        font-size: calc(.875 * var(--base-font-size));
     }
 
     .block .block-header .sortable-handle {
-        margin-right: $spacing-small;
+        margin-right: var(--spacing-small);
     }
 
     .block .block-header .sortable-handle:before {
@@ -4615,7 +4614,7 @@ body.sidebar-open #content {
     }
 
     .block .block-header select {
-        margin-right: $spacing-small;
+        margin-right: var(--spacing-small);
         font-weight: normal;
     }
 
@@ -4639,14 +4638,14 @@ body.sidebar-open #content {
     }
 
     .block.html > div {
-        border: 1px solid $border-gray;
+        border: 1px solid var(--border-gray);
     }
 
     .block .field {
         padding: 0;
         border-color: transparent;
         background-color: transparent;
-        margin-top: $spacing-small;
+        margin-top: var(--spacing-small);
 
         &:last-child {
             margin-bottom: 0;
@@ -4664,7 +4663,7 @@ body.sidebar-open #content {
     }
 
     .block.delete span.restore-value {
-        padding: 0 (.5 * $spacing-small);
+        padding: 0 calc(.5 * var(--spacing-small));
         text-transform: lowercase;
         width: auto;
     }
@@ -4679,7 +4678,7 @@ body.sidebar-open #content {
 
     .delete .block-type,
     .block .delete div.item-title {
-        margin-left: $spacing-large;
+        margin-left: var(--spacing-large);
     }
 
     .delete .block-type {
@@ -4687,21 +4686,21 @@ body.sidebar-open #content {
     }
 
     .block div.item-title {
-        margin: $spacing-small 0;
+        margin: var(--spacing-small) 0;
         display: flex;
         align-items: center;
     }
 
     .block .item-title img {
-        height: (1.5 * $spacing-large);
+        height: calc(1.5 * var(--spacing-large));
         width: auto;
         display: inline-block;
-        margin-right: $spacing-small;
+        margin-right: var(--spacing-small);
         vertical-align: top;
     }
 
     .block .delete.attachment {
-        background-color: $delete-bg;
+        background-color: var(--delete-bg);
     }
 
     .block .delete.attachment .actions .undo {
@@ -4714,7 +4713,7 @@ body.sidebar-open #content {
     }
 
     .block .attachments-form {
-        margin-bottom: $spacing-medium;
+        margin-bottom: var(--spacing-medium);
     }
 
     .block .attachments-form a h4 {
@@ -4727,12 +4726,12 @@ body.sidebar-open #content {
 
     .block .attachment .actions .button {
         background-color: transparent;
-        color: $red;
+        color: var(--red);
         padding: 0;
         min-height: 0;
 
         &:hover {
-            color: $light-red;
+            color: var(--light-red);
         }
     }
 
@@ -4742,8 +4741,8 @@ body.sidebar-open #content {
 
     .block .block-content {
         clear: both;
-        background-color: $gray-on-white;
-        padding: $spacing-small;
+        background-color: var(--gray-on-white);
+        padding: var(--spacing-small);
     }
 
     .block.sortable-ghost .block-content {
@@ -4758,10 +4757,10 @@ body.sidebar-open #content {
         display: flex;
         align-items: center;
         position: relative;
-        padding: 0 $spacing-small;
+        padding: 0 var(--spacing-small);
 
         &:not(:last-child) {
-            border-bottom: 1px solid $border-gray;
+            border-bottom: 1px solid var(--border-gray);
             padding-bottom: -1px;
         }
     }
@@ -4771,7 +4770,7 @@ body.sidebar-open #content {
     }
 
     .block .attachment-add {
-        margin: $spacing-small 0 0;
+        margin: var(--spacing-small) 0 0;
     }
 
     .block-header.collapse:after {
@@ -4782,7 +4781,7 @@ body.sidebar-open #content {
     .block-content .collapse {
         width: 100%;
         display: flex;
-        padding: 0 $spacing-small 0 0;
+        padding: 0 var(--spacing-small) 0 0;
         justify-content: space-between;
     }
 
@@ -4798,32 +4797,32 @@ body.sidebar-open #content {
     }
 
     .block-content .collapse + .collapsible {
-        border-top: 1px solid $border-gray;
-        padding: -1px 0 0 $spacing-large;
-        margin-top: $spacing-small;
+        border-top: 1px solid var(--border-gray);
+        padding: -1px 0 0 var(--spacing-large);
+        margin-top: var(--spacing-small);
     }
 
     .block[data-block-layout="html"] [contenteditable="true"] {
         resize: vertical;
-        min-height: 3 * $spacing-large;
-        max-height: 12 * $spacing-large;
+        min-height: calc(3 * var(--spacing-large));
+        max-height: calc(12 * var(--spacing-large));
     }
 
     .block-group > .block-content {
         background-color: #fff;
-        border: 1px solid $border-gray;
-        padding: $spacing-small #{$spacing-small + 1px};
+        border: 1px solid var(--border-gray);
+        padding: var(--spacing-small) #{var(--spacing-small) + 1px};
     }
 
     .block-group-blocks {
-        border-left: $spacing-small solid $border-gray; 
-        padding: $spacing-medium 0 0 $spacing-small;
-        min-height: 1.5 * $spacing-large;
+        border-left: var(--spacing-small) solid var(--border-gray); 
+        padding: var(--spacing-medium) 0 0 var(--spacing-small);
+        min-height: calc(1.5 * var(--spacing-large));
 
         .empty-drop-zone {
             display: none;
-            padding: (1.5 * $spacing-large) $spacing-large;
-            background-color: $gray-on-white;
+            padding: calc(1.5 * var(--spacing-large)) var(--spacing-large);
+            background-color: var(--gray-on-white);
             text-align: center;
         }
 
@@ -4832,7 +4831,7 @@ body.sidebar-open #content {
         }
 
         .block-header.collapse {
-            padding: $spacing-small;
+            padding: var(--spacing-small);
         }
 
         .collapse + .collapsible {
@@ -4841,13 +4840,13 @@ body.sidebar-open #content {
 
         a.collapse,
         a.expand {
-            width: $base-font-size;
+            width: var(--base-font-size);
         }
     }
 
     #attachment-options .option {
         position: relative;
-        margin-bottom: $spacing-medium;
+        margin-bottom: var(--spacing-medium);
     }
 
     #attachment-options .expand,
@@ -4864,22 +4863,20 @@ body.sidebar-open #content {
 
     #attachment-item-select {
         display: block;
-        margin: $spacing-medium 0 0;
+        margin: var(--spacing-medium) 0 0;
     }
 
     #attachment-options .selected-attachment {
-        margin-bottom: $spacing-medium;
-        margin-top: -$spacing-medium;
-        @include bleed-x($spacing-medium);
-        padding-top: $spacing-medium;
-        padding-bottom: $spacing-medium;
+        margin: var(--spacing-medium) calc(-1 * var(--spacing-medium));
+        padding-top: var(--spacing-medium);
+        padding-bottom: var(--spacing-medium);
         overflow: hidden;
 
         img {
-            height: (4 * $spacing-large);
+            height: calc(4 * var(--spacing-large));
             width: auto;
             float: right;
-            margin: 0 0 0 $spacing-medium;
+            margin: 0 0 0 var(--spacing-medium);
         }
 
         p:first-child {
@@ -4896,9 +4893,9 @@ body.sidebar-open #content {
     }
 
     #attachment-options .media-title {
-        font-size: .75 * $base-font-size;
+        font-size: calc(.75 * var(--base-font-size));
         display: block;
-        width: calc(100% - #{4.5 * $spacing-large});
+        width: calc(100% - (4.5 * var(--spacing-large)));
         float: left;
         word-wrap: break-word;
         text-align: left;
@@ -4906,9 +4903,9 @@ body.sidebar-open #content {
     }
 
     #attachment-options .item-thumbnail ~ #attachment-item-select {
-        font-size: .75 * $base-font-size;
+        font-size: calc(.75 * var(--base-font-size));
         display: inline-block;
-        width: calc(100% - #{4.5 * $spacing-large});
+        width: calc(100% - (4.5 * var(--spacing-large)));
         word-wrap: break-word;
     }
 
@@ -4919,20 +4916,20 @@ body.sidebar-open #content {
     #attachment-options .media-list {
         list-style: none;
         padding: 0;
-        margin: 0 0 $spacing-medium;
+        margin: 0 0 var(--spacing-medium);
 
         li.media {
             position: relative;
-            height: (2 * $spacing-large);
-            width: (2 * $spacing-large);
+            height: calc(2 * var(--spacing-large));
+            width: calc(2 * var(--spacing-large));
             cursor: pointer;
             display: inline-block;
-            padding: (.5 * $spacing-small);
-            border: 1px solid $border-gray;
+            padding: calc(.5 * var(--spacing-small));
+            border: 1px solid var(--border-gray);
 
 
             &.attached, &:hover {
-                background-color: $gray-on-white;
+                background-color: var(--gray-on-white);
             }
         }
 
@@ -4948,7 +4945,7 @@ body.sidebar-open #content {
 
     #asset-options .selected-asset-image {
         float: left;
-        margin: 0 $spacing-medium 0 0;
+        margin: 0 var(--spacing-medium) 0 0;
         max-width: 50%;
     }
 
@@ -4961,11 +4958,11 @@ body.sidebar-open #content {
     }
 
     .asset-attachments-form {
-        margin-bottom: $spacing-medium;
+        margin-bottom: var(--spacing-medium);
     }
 
     .add-asset-attachment {
-        margin-top: $spacing-small;
+        margin-top: var(--spacing-small);
     }
 
     #asset-options .sidebar-content > div {
@@ -5004,17 +5001,17 @@ body.sidebar-open #content {
     }
 
     #asset-options .page-status {
-        margin-bottom: $spacing-medium;
+        margin-bottom: var(--spacing-medium);
     }
 
     #asset-options .selected-page + .o-icon-external {
-        margin-left: $spacing-small;
+        margin-left: var(--spacing-small);
     }
 
     [name="block-layout-fieldset-padding"].block-layout-fieldset .collapse + .collapsible {
         display: grid;
-        grid-column-gap: $spacing-large;
-        grid-row-gap: $spacing-medium;
+        grid-column-gap: var(--spacing-large);
+        grid-row-gap: var(--spacing-medium);
         grid-auto-columns: 1fr;
         grid-auto-rows: 1fr;
 
@@ -5042,7 +5039,7 @@ body.sidebar-open #content {
         }
 
         .field-meta {
-            padding: 0 0 $spacing-small;
+            padding: 0 0 var(--spacing-small);
             width: auto;
         }
     }
@@ -5059,7 +5056,7 @@ body.sidebar-open #content {
         }
 
         .label-text {
-            margin-right: $spacing-small;
+            margin-right: var(--spacing-small);
         }
 
         input {
@@ -5071,39 +5068,38 @@ body.sidebar-open #content {
 
         #layout-preview {
             display: grid;
-            grid-gap: $spacing-small;
+            grid-gap: var(--spacing-small);
         }
 
         .layout-previewing-block-group {
-            border: 3px solid $border-gray;
-            padding: .5 * $spacing-small;
-            grid-gap: (.5 * $spacing-small);
+            border: 3px solid var(--border-gray);
+            padding: calc(.5 * var(--spacing-small));
+            grid-gap: calc(.5 * var(--spacing-small));
         }
 
         .layout-previewing-block {
             min-height: 60px;
-            background-color: $border-gray;
+            background-color: var(--border-gray);
         }
 
         .hovered-block {
-            box-shadow: 0 0 0 1px $copy-gray inset;
+            box-shadow: 0 0 0 1px var(--copy-gray) inset;
         }
 
         #layout-preview .layout-previewing {            
-            box-shadow: 0 0 0 2px $copy-gray inset;
+            box-shadow: 0 0 0 2px var(--copy-gray) inset;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         .layout-previewing.block {
-            box-shadow: 0 0 0 2px $copy-gray inset;
+            box-shadow: 0 0 0 2px var(--copy-gray) inset;
         }
 
         .selected-tooltip:before {
             content: fa-content($fa-var-asterisk);
-            font-family: "Font Awesome 5 Free";
-            font-weight: 900;
+            @include font-awesome;
         }
 
         /* @end */
@@ -5127,7 +5123,7 @@ body.sidebar-open #content {
 
     input[type="text"].page-selector-filter {
         width: 100%;
-        margin-bottom: $spacing-medium;
+        margin-bottom: var(--spacing-medium);
     }
 
     #nav-page-links,
@@ -5159,7 +5155,7 @@ body.sidebar-open #content {
     }
 
     .block-pagelist-tree li:last-child {
-        margin-bottom: $spacing-small;
+        margin-bottom: var(--spacing-small);
     }
 
     /* @end */
@@ -5180,10 +5176,10 @@ body.sidebar-open #content {
         }
 
         .error {
-            background-color: lighten($red, 55%);
+            background-color: var(--delete-bg);
             border-radius: 3px;
-            padding: $spacing-small 10px;
-            margin: $spacing-small 0;
+            padding: var(--spacing-small) 10px;
+            margin: var(--spacing-small) 0;
             display: block;
             width: 100%;
             order: 2;
@@ -5196,8 +5192,8 @@ body.sidebar-open #content {
 
     .current-theme .error + ul {
         font-family: monospace;
-        padding: $spacing-medium - 1px;
-        border: 1px solid $border-gray;
+        padding: calc(var(--spacing-medium) - 1px);
+        border: 1px solid var(--border-gray);
         list-style-type: none;
     }
 
@@ -5206,10 +5202,10 @@ body.sidebar-open #content {
     }
 
     .selectable-themes .theme {
-        width: calc(33.33% - #{$spacing-large});
-        margin: 0 $spacing-large $spacing-large 0;
-        padding: $spacing-medium - 1px;
-        border: 1px solid $border-gray;
+        width: calc(33.33% - (var(--spacing-large)));
+        margin: 0 var(--spacing-large) var(--spacing-large) 0;
+        padding: calc(var(--spacing-medium) - 1px);
+        border: 1px solid var(--border-gray);
         background-color: #fff;
         display: flex;
         flex-wrap: wrap;
@@ -5217,25 +5213,25 @@ body.sidebar-open #content {
     }
 
     .selectable-themes .theme:hover {
-        border: 3px solid darken($border-gray, 25%);
-        padding: $spacing-medium - 3px;
+        border: 3px solid color-mix(in srgb, var(--border-gray), #000000, 25%);
+        padding: var(--spacing-medium) - 3px;
     }
 
     .selectable-themes .theme h2 {
-        font-size: 1.25 * $base-font-size;
-        line-height: $base-line-height;
+        font-size: calc(1.25 * var(--base-font-size));
+        line-height: var(--base-line-height);
         margin-bottom: 0;
     }
 
     .selectable-themes .invalid.theme:hover {
-        border: 1px solid $border-gray;
-        padding: $spacing-medium - 1px;
+        border: 1px solid var(--border-gray);
+        padding: calc(var(--spacing-medium) - 1px);
     }
 
     .selectable-themes .theme-thumbnail {
         width: 100%;
-        margin-bottom: $spacing-medium;
-        border: 1px solid $border-gray;
+        margin-bottom: var(--spacing-medium);
+        border: 1px solid var(--border-gray);
     }
 
     .selectable-themes .active.theme {
@@ -5243,7 +5239,7 @@ body.sidebar-open #content {
         position: relative;
         overflow: hidden;
         border-width: 3px;
-        padding: $spacing-medium - 3px;
+        padding: var(--spacing-medium) - 3px;
 
         &:after {
             content: fa-content($fa-var-check);
@@ -5252,33 +5248,33 @@ body.sidebar-open #content {
             bottom: 0;
             right: 0;
             opacity: .15;
-            font-size: 6 * $base-font-size;
-            line-height: 4 * $base-line-height;
+            font-size: calc(6 * var(--base-font-size));
+            line-height: calc(4 * var(--base-line-height));
         }
     }
 
     .current-theme {
-        padding-bottom: $spacing-large - 1px;
-        border-bottom: 1px solid $border-gray;
-        margin-bottom: $spacing-large;
+        padding-bottom: calc(var(--spacing-large) - 1px);
+        border-bottom: 1px solid var(--border-gray);
+        margin-bottom: var(--spacing-large);
         flex-wrap: nowrap;
     }
 
     .current-theme .theme-thumbnail {
         width: 50%;
-        margin: 0 $spacing-large 0 0;
-        border: 1px solid $border-gray;
+        margin: 0 var(--spacing-large) 0 0;
+        border: 1px solid var(--border-gray);
     }
 
     .current-theme .current-theme-info {
-        width: calc(50% - #{$spacing-large});
+        width: calc(50% - var(--spacing-large));
     }
 
     .current-theme-label {
-        font-size: $base-font-size;
+        font-size: var(--base-font-size);
         text-transform: uppercase;
         display: block;
-        margin-bottom: $spacing-small;
+        margin-bottom: var(--spacing-small);
     }
 
     .theme-meta {
@@ -5297,19 +5293,19 @@ body.sidebar-open #content {
 .theme-resource-pages .blocks {
     list-style: none;
     padding-left: 0;
-    border: 1px solid $border-gray;
-    padding: $spacing-medium;
+    border: 1px solid var(--border-gray);
+    padding: var(--spacing-medium);
     min-height: 30px;
 }
 
 .theme-resource-pages .block {
     @include field-row;
     display: flex;
-    height: 1.5 * $spacing-large;
+    height: calc(1.5 * var(--spacing-large));
 
     &.delete {
-        background-color: $delete-bg;
-        padding-left: 1.5 * $spacing-large;
+        background-color: var(--delete-bg);
+        padding-left: calc(1.5 * var(--spacing-large));
     }
 }
 
@@ -5340,11 +5336,11 @@ body.sidebar-open #content {
 
 body.minimal {
     padding: 0;
-    margin: (2 * $spacing-large) 0;
+    margin: calc(2 * var(--spacing-large)) 0;
     width: span(15);
     @include container;
     height: auto;
-    background-color: $blue;
+    background-color: var(--blue);
 
     div[role="main"] > h1:first-of-type {
         position: static;
@@ -5352,24 +5348,24 @@ body.minimal {
         width: 100%;
         height: auto;
         display: inline-block;
-        margin: 0 0 $spacing-large 0;
+        margin: 0 0 var(--spacing-large) 0;
     }
 
     h2 {
-        font-size: 1.25 * $base-font-size;
-        margin-bottom: $spacing-medium;
+        font-size: calc(1.25 * var(--base-font-size));
+        margin-bottom: var(--spacing-medium);
     }
 
 
     h3 {
-        font-size: 1.125 * $base-font-size;
-        margin-bottom: $spacing-medium;
+        font-size: calc(1.125 * var(--base-font-size));
+        margin-bottom: var(--spacing-medium);
     }
 
     fieldset legend {
         font-weight: bold;
-        font-size: 1.25 * $base-font-size;
-        margin-bottom: $spacing-medium;
+        font-size: calc(1.25 * var(--base-font-size));
+        margin-bottom: var(--spacing-medium);
     }
 
     .logo {
@@ -5378,15 +5374,15 @@ body.minimal {
         float: none;
         padding: 0;
         text-align: center;
-        font-size: 2 * $base-font-size;
-        line-height: 2 * $spacing-large;
+        font-size: calc(2 * var(--base-font-size));
+        line-height: calc(2 * var(--spacing-large));
     }
 
     div[role="main"] {
         width: 100%;
         min-height: 0;
         margin: 0;
-        padding: (2 * $spacing-large)  span(1);
+        padding: calc(2 * var(--spacing-large))  span(1);
         overflow: hidden;
     }
 
@@ -5415,12 +5411,12 @@ body.minimal {
     }
 
     .site-list {
-        margin-bottom: $spacing-large;
+        margin-bottom: var(--spacing-large);
         display: flex;
         flex-wrap: wrap;
 
         .site {
-            margin-bottom: $spacing-medium;
+            margin-bottom: var(--spacing-medium);
             overflow: auto;
             max-width: 60rem;
             width: 50%;
@@ -5429,7 +5425,7 @@ body.minimal {
 
         .site-link {
             display: inline-block;
-            font-size: 1.125 * $base-font-size;
+            font-size: calc(1.125 * var(--base-font-size));
         }
 
         .site-summary {
@@ -5450,7 +5446,7 @@ body.minimal {
     }
 
     .results {
-      margin-bottom: $spacing-large;
+      margin-bottom: var(--spacing-large);
     }
 
     .results > ul {
@@ -5462,12 +5458,12 @@ body.minimal {
     }
 
     .advanced-search {
-      margin: (-1 * $spacing-medium) 0 $spacing-large;
+      margin: calc(-1 * var(--spacing-medium)) 0 var(--spacing-large);
       display: block;
     }
 
     .advanced-search-actions {
-      margin: $spacing-medium 0;
+      margin: var(--spacing-medium) 0;
 
       input[type="submit"] {
         width: auto;
@@ -5477,16 +5473,16 @@ body.minimal {
 }
 
 .forgot-password {
-    margin: $spacing-small 0;
+    margin: var(--spacing-small) 0;
 }
 
 .sitewide-search-form {
     display: flex;
-    margin-bottom: $spacing-large;
+    margin-bottom: var(--spacing-large);
 
     input[type="text"] {
       min-width: 60%;
-      margin-right: $spacing-small;
+      margin-right: var(--spacing-small);
     }
 
     input[type="submit"] {
@@ -5496,7 +5492,7 @@ body.minimal {
 }
 
 body.minimal .site.results thead {
-  background-color: $gray-on-white;
+  background-color: var(--gray-on-white);
 }
 
 .results > ul {
@@ -5509,46 +5505,46 @@ body.minimal .site.results thead {
 .results > ul > li {
   border: 1px solid #dfdfdf;
   border-radius: 3px;
-  padding: $spacing-small $spacing-small 0;
-  margin-bottom: $spacing-medium;
-  width: calc(50% - #{$spacing-medium});
+  padding: var(--spacing-small) var(--spacing-small) 0;
+  margin-bottom: var(--spacing-medium);
+  width: calc(50% - #{var(--spacing-medium)});
 
   &:nth-child(2n) {
-    margin-left: $spacing-medium;
+    margin-left: var(--spacing-medium);
   }
 }
 
 .results ul ul {
   list-style: none;
   padding: 0;
-  margin-top: $spacing-small;
+  margin-top: var(--spacing-small);
 }
 
 .results li li {
-  padding: $spacing-small;
+  padding: var(--spacing-small);
   border-top: 1px solid #dfdfdf;
-  margin: 0px (-1 * $spacing-small);
+  margin: 0px calc(-1 * var(--spacing-small));
 }
 
 .results .result-title {
-  background-color: $gray-on-white;
+  background-color: var(--gray-on-white);
   display: block;
-  padding: $spacing-small;
-  margin: (-1 * $spacing-small);
+  padding: var(--spacing-small);
+  margin: calc(-1 * var(--spacing-small));
   font-weight: bold;
 }
 
 .results + .pagination {
-  margin-top: (-1 * $spacing-large);
+  margin-top: calc(-1 * var(--spacing-large));
 }
 
 .site.results .result-title {
   border-bottom: 1px solid #dfdfdf;
-  margin-bottom: $spacing-small;
+  margin-bottom: var(--spacing-small);
 }
 
 .site.results .result-site {
-  margin-bottom: $spacing-small;
+  margin-bottom: var(--spacing-small);
   display: block;
 }
 
@@ -5557,7 +5553,7 @@ body.minimal .site.results thead {
 /* @group ----- Assets ----- */
 
 .asset-form-element {
-    line-height: 1.5 * $spacing-large;
+    line-height: calc(1.5 * var(--spacing-large));
 
     &.empty {
         .asset-form-clear {
@@ -5587,7 +5583,7 @@ body.minimal .site.results thead {
 }
 
 .asset-form-select {
-    margin-top: $spacing-medium;
+    margin-top: var(--spacing-medium);
 }
 
 .new.attachment {
@@ -5595,10 +5591,10 @@ body.minimal .site.results thead {
 }
 
 .asset-upload {
-    margin-bottom: $spacing-large;
+    margin-bottom: var(--spacing-large);
 
     button {
-        margin: $spacing-small 0 0;
+        margin: var(--spacing-small) 0 0;
         display: none;
 
         &.active {
@@ -5607,7 +5603,7 @@ body.minimal .site.results thead {
     }
 
     ul.errors {
-        color: $red;
+        color: var(--red);
         margin-top: 0;
         word-wrap: break-word;
 
@@ -5616,12 +5612,12 @@ body.minimal .site.results thead {
         }
 
         a {
-            border-bottom: 1px solid $red;
+            border-bottom: 1px solid var(--red);
         }
     }
 
     label {
-        margin: $spacing-small 0;
+        margin: var(--spacing-small) 0;
         padding: 0;
         &:after {
             content: none;
@@ -5634,13 +5630,13 @@ body.minimal .site.results thead {
 }
 
 .asset-filters {
-    margin-bottom: $spacing-small;
+    margin-bottom: var(--spacing-small);
 }
 
 .asset-list .asset {
-    padding-bottom: $spacing-small - 1px;
-    border-bottom: 1px solid $border-gray;
-    margin-bottom: $spacing-small;
+    padding-bottom: calc(var(--spacing-small) - 1px);
+    border-bottom: 1px solid var(--border-gray);
+    margin-bottom: var(--spacing-small);
 
     &:last-child {
         border-bottom-color: transparent;
@@ -5654,8 +5650,8 @@ body.minimal .site.results thead {
 }
 
 .asset-entry img {
-    margin-right: $spacing-small;
-    max-height: 2 * $spacing-large;
+    margin-right: var(--spacing-small);
+    max-height: calc(2 * var(--spacing-large));
     max-width: 50%;
 }
 
@@ -5676,9 +5672,9 @@ body.minimal .site.results thead {
     }
 
     .color-picker-sample {
-        border: 1px solid $border-gray;
+        border: 1px solid var(--border-gray);
         width: 30%;
-        margin-left: $spacing-small;
+        margin-left: var(--spacing-small);
     }
 }
 

@@ -13,7 +13,7 @@
 }
 
 .jstree-children {
-    padding-left: 1.5 * $base-line-height;
+    padding-left: calc(1.5 * var(--spacing-large));
 }
 
 .jstree-container-ul,
@@ -28,15 +28,15 @@
 .jstree-anchor {
     @include field-row;
     display: block;
-    margin: $spacing-small 0 0;
+    margin: var(--spacing-small) 0 0;
 }
 
 .jstree-editlink-container {
     display: none;
-    padding: ($spacing-medium - 1px);
-    border: 1px solid $gray-on-white;
+    padding: calc(var(--spacing-medium) - 1px);
+    border: 1px solid var(--gray-on-white);
     overflow: hidden;
-    line-height: 1.5 * $base-line-height;
+    line-height: calc(1.5 * var(--base-line-height));
     font-weight: bold;
 
     & > label > input,
@@ -56,24 +56,24 @@
         display: block;
 
         &:not(:last-child) {
-            margin-bottom: $spacing-small;
+            margin-bottom: var(--spacing-small);
         }
     }
 }
 
 .value .jstree-editlink-container label {
-    line-height: 1.5 * $base-line-height;
+    line-height: calc(1.5 * var(--base-line-height));
 }
 
 .jstree-hovered,
 .jstree-clicked {
-    background-color: opacify($gray-on-white, .08);
+    background-color: var(--gray-on-white);
 }
 
 i.jstree-icon {
     font-style: normal;
     position: absolute;
-    right: $spacing-medium;
+    right: var(--spacing-medium);
     top: 0;
 }
 
@@ -94,10 +94,10 @@ i.jstree-icon {
 .jstree-editlink-edit,
 .jstree-displaylink,
 .jstree-private {
-    width: $base-line-height;
-    height: 1.5 * $base-line-height;
-    line-height: 1.5 * $base-line-height;
-    background-color: opacify($gray-on-white, .16);
+    width: var(--base-line-height);
+    height: calc(1.5 * var(--base-line-height));
+    line-height: calc(1.5 * var(--base-line-height));
+    background-color: var(--gray-on-white);
     text-align: right;
     cursor: pointer;
     z-index: 1;
@@ -105,7 +105,7 @@ i.jstree-icon {
 
 .jstree-open > .jstree-ocl,
 .jstree-closed > .jstree-ocl {
-    width: 1.5 * $base-line-height;
+    width: calc(1.5 * var(--base-line-height));
     right: 0;
     text-align: center;
 }
@@ -114,10 +114,10 @@ i.jstree-icon {
 i.jstree-icon.jstree-ok,
 i.jstree-icon.jstree-er {
     left: 100%;
-    width: 1.5 * $base-line-height;
-    height: 1.5 * $base-line-height;
-    line-height: 1.5 * $base-line-height;
-    background-color: opacify($gray-on-white, .08);
+    width: calc(1.5 * var(--base-line-height));
+    height: calc(1.5 * var(--base-line-height));
+    line-height: calc(1.5 * var(--base-line-height));
+    background-color: var(--gray-on-white);
     text-align: center;
 }
 
@@ -135,7 +135,7 @@ i.jstree-icon.jstree-er {
 }
 
 .jstree-private {
-    color: $copy-gray;
+    color: var(--copy-gray);
 
     &:hover {
         opacity: .5;
@@ -146,43 +146,43 @@ i.jstree-icon.jstree-er {
 .jstree-closed > .jstree-anchor .jstree-removenode-remove,
 .jstree-open > .jstree-anchor .jstree-removenode-undo,
 .jstree-closed > .jstree-anchor .jstree-removenode-undo {
-    right: 2 * $base-line-height;
+    right: calc(2 * var(--spacing-large));
 }
 
 .jstree-open > .jstree-anchor .jstree-editlink-edit,
 .jstree-closed > .jstree-anchor .jstree-editlink-edit {
-    right: 3 * $base-line-height;
+    right: calc(3 * var(--spacing-large));
 }
 
 i.jstree-editlink-edit {
-    right: 1.5 * $base-line-height;
+    right: calc(1.5 * var(--spacing-large));
 }
 
 i.jstree-private {
     background-color: transparent;
     position: static;
     display: inline-block;
-    margin-right: $spacing-small;
-    height: $base-font-size;
+    margin-right: var(--spacing-small);
+    height: var(--base-font-size);
     line-height: 1;
 }
 
 .jstree-open > .jstree-anchor .jstree-displaylink,
 .jstree-closed > .jstree-anchor .jstree-displaylink {
-    right: 4 * $base-line-height;
+    right: calc(4 * var(--spacing-large))
 }
 
 i.jstree-displaylink {
-    right: 2.5 * $base-line-height;
+    right: calc(2.5 * var(--base-line-height));
 }
 
 .block-pagelist-tree .jstree-open > .jstree-anchor .jstree-displaylink,
 .block-pagelist-tree .jstree-closed > .jstree-anchor .jstree-displaylink {
-    right: 3 * $base-line-height;
+    right: calc(3 * var(--base-line-height));
 }
 
 .block-pagelist-tree i.jstree-displaylink {
-    right: 1.5 * $base-line-height;
+    right: calc(1.5 * var(--base-line-height));
 }
 
 .jstree-anchor:hover > .jstree-removenode-remove {
@@ -234,12 +234,12 @@ i.jstree-displaylink {
     display: none;
 }
 
-.jstree-removenode-removed > .jstree-anchor .jstree-removenode-undo, {
-    right: $spacing-medium;
+.jstree-removenode-removed > .jstree-anchor .jstree-removenode-undo {
+    right: var(--spacing-medium);
 }
 
 .jstree-removenode-toberemoved {
-    margin-left: .5 * $spacing-small;
+    margin-left: calc(.5 * var(--spacing-small));
 }
 
 .jstree-removenode-removed.jstree-open > .jstree-ocl,
@@ -269,7 +269,7 @@ i.jstree-displaylink {
 
 #jstree-dnd {
     z-index: 1;
-    padding: $spacing-small $spacing-medium;
-    background-color: $gray-on-white;
-    line-height: $base-line-height;
+    padding: var(--spacing-small) var(--spacing-medium);
+    background-color: var(--gray-on-white);
+    line-height: var(--base-line-height);
 }

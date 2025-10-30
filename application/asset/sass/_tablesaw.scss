@@ -3,7 +3,7 @@
     margin-bottom: 0;
 
     &:first-of-type {
-        border-top: 1px solid $border-gray;
+        border-top: 1px solid var(--border-gray);
     }
 }
 
@@ -14,7 +14,7 @@
 
 
 .tablesaw td:first-of-type {
-    background-color: $gray-on-white;
+    background-color: var(--gray-on-white);
 
     .tablesaw-cell-label {
         width: 0;
@@ -32,7 +32,7 @@
 
 .batch-edit.tablesaw td:first-of-type {
     width: 100%;
-    background: $gray-on-white;
+    background: var(--gray-on-white);
 
     img {
         margin-bottom: 0;
@@ -55,21 +55,21 @@
 }
 
 .tablesaw-cell-content img {
-    margin: 0 $spacing-small 0 0;
+    margin: 0 var(--spacing-small) 0 0;
 }
 
 .tablesaw tr:last-of-type td,
 .tablesaw tr:last-of-type th,
 .tablesaw th,
 .tablesaw td {
-    padding-top: $spacing-small;
-    padding-bottom: $spacing-small;
+    padding-top: var(--spacing-small);
+    padding-bottom: var(--spacing-small);
     vertical-align: top;
 }
 
 .tablesaw th:not(:last-of-type),
 .tablesaw td:not(:last-of-type) {
-    border-bottom: 1px solid $border-gray;
+    border-bottom: 1px solid var(--border-gray);
 }
 
 .tablesaw tr.delete {
@@ -99,7 +99,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    padding: 0 $spacing-small 0 0;
+    padding: 0 var(--spacing-small) 0 0;
 
     .tablesaw-cell-label {
         display: none;

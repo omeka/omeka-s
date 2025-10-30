@@ -12,7 +12,7 @@ $escape = $this->plugin('escapeHtml');
             <input type="text" class="page-selector-filter" placeholder="<?php echo $translate('Filter pages'); ?>" aria-label="<?php echo $translate('Filter pages'); ?>">
             <div id="nav-page-links">
                 <?php foreach ($pages as $page): ?>
-                    <?php $isPublic = $page->isPublic(); ?>
+                    <?php $privateStatus = ($page->isPublic()) ? '' : ' <span class="o-icon-private" role="img" aria-label="' . $translate('Private') . '"></span>'; ?>
                     <button class="nav-page-link option"
                         type="button"
                         data-type="page"
@@ -21,10 +21,7 @@ $escape = $this->plugin('escapeHtml');
                         data-slug="<?php echo $escape($page->slug()); ?>"
                         data-is_public="<?php echo ($isPublic) ? '1' : '0'; ?>">
                         <span class="page-label">
-                        <?php echo sprintf('%s (%s)', $escape($page->title()), $escape($page->slug())); ?>
-                        <?php if ($isPublic == 0): ?>
-                        <span class="o-icon-private" role="img" aria-label="<?php echo $translate('Private'); ?>" title="<?php echo $translate('Private'); ?>" role="presentation"></span>
-                        <?php endif; ?>
+                        <?php echo sprintf('%s (%s) %s', $escape($page->title()), $escape($page->slug()), $privateStatus); ?>
                         </span>
                     </button>
                 <?php endforeach; ?>

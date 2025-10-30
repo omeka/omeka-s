@@ -33,13 +33,14 @@ $this->htmlElement('body')->appendAttribute('class', 'sites pages browse');
             <?php if (array_key_exists($page->id(), $indents)): ?>
             <?php echo str_repeat('<span class="indent"></span>', intval($indents[$page->id()])); ?>
             <?php endif; ?>
+            <?php 
+                $privateStatus = ($page->isPublic()) ? '' : ' <span class="o-icon-private" role="img" aria-label="' . $translate('Private') . '"></span>';
+                $pageTitle = $escape($page->title()) . $privateStatus; 
+            ?>
             <?php if ($page->userIsAllowed('update')): ?>
-            <?php echo $page->link($page->title(), 'edit'); ?>
+            <?php echo $page->linkRaw($pageTitle, 'edit'); ?>
             <?php else: ?>
-            <?php echo $escape($page->title()); ?>
-            <?php endif; ?>
-            <?php if (!$page->isPublic()): ?>
-                <span class="o-icon-private" role="img" aria-label="<?php echo $translate('Private'); ?>"></span>
+            <?php echo $pageTitle; ?>
             <?php endif; ?>
             <input type="hidden" name="o:page[][o:id]" value="<?php echo $escape($page->id()); ?>">
             <ul class="actions">

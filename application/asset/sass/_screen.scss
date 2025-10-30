@@ -1101,8 +1101,7 @@ nav.pagination + *:not(.sorting) {
 }
 
 button .o-icon-private {
-    margin: 0 $spacing-small;
-    color: $border-gray;
+    margin: 0 auto 0 $spacing-small;
 }
 
     /* @group ----- Top-level navigation ----- */
@@ -2686,6 +2685,10 @@ fieldset.section > legend {
         ul {
             display: block;
         }
+    }
+
+    .actions .more-actions button:before {
+        text-align: center;
     }
 
     .value.delete {

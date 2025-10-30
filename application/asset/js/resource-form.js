@@ -611,7 +611,7 @@
         if (field.hasClass('private') || (valueObj && false === valueObj['is_public'])) {
             isPublic = false;
         }
-        var valueVisibilityButton = value.find('a.value-visibility');
+        var valueVisibilityButton = value.find('.value-visibility');
         if (isPublic) {
             valueVisibilityButton.removeClass('o-icon-private').addClass('o-icon-public');
             valueVisibilityButton.attr('aria-label', Omeka.jsTranslate('Make private'));

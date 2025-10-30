@@ -1399,6 +1399,7 @@ div[role="main"] {
     justify-content: space-between;
     flex-wrap: wrap;
     font-size: .8175 * $base-font-size;
+    min-width: max-content;
 }
 
 .sites.pages.browse .browse-controls {

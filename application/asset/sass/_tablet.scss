@@ -403,6 +403,11 @@ fieldset.section > .always.active {
     width: 100%;
 }
 
+.browse .browse-controls {
+    min-width: 0;
+    width: 100%;
+}
+
 /* @end */
 
 /* @group ----- Add/Edit views ----- */

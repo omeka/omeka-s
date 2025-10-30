@@ -63,9 +63,6 @@ $this->htmlElement('body')->appendAttribute('class', 'items browse');
                 <input type="checkbox" name="resource_ids[]" value="<?php echo $item->id(); ?>" aria-label="<?php echo $translate('Select item'); ?>">
                 <?php endif; ?>
                 <?php echo $item->linkPretty(); ?>
-                <?php if (!$item->isPublic()): ?>
-                    <span class="o-icon-private" role="img" aria-label="<?php echo $translate('Private'); ?>"></span>
-                <?php endif; ?>
                 <ul class="actions">
                     <?php $this->trigger('view.browse.actions', ['resource' => $item]); ?>
                     <?php if ($item->userIsAllowed('update')): ?>

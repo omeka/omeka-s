@@ -59,9 +59,6 @@ $this->htmlElement('body')->appendAttribute('class', 'media browse');
                 <input type="checkbox" name="resource_ids[]" value="<?php echo $media->id(); ?>"  aria-label="<?php echo $translate('Select media'); ?>">
                 <?php endif; ?>
                 <?php echo $media->linkPretty(); ?>
-                <?php if (!$media->isPublic()): ?>
-                    <span class="o-icon-private" role="img" aria-label="<?php echo $translate('Private'); ?>"></span>
-                <?php endif; ?>
                 <ul class="actions">
                     <?php $this->trigger('view.browse.actions', ['resource' => $media]); ?>
                     <?php if ($media->userIsAllowed('update')): ?>

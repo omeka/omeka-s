@@ -728,11 +728,14 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $lang = null
     ) {
         $escape = $this->getViewHelper('escapeHtml');
+        $translate = $this->getViewHelper('translate');
         $thumbnail = $this->getViewHelper('thumbnail');
+        $privateStatus = ($this->isPublic()) ? '' : ' <span class="o-icon-private" role="img" aria-label="' . $translate('Private') . '"></span>';
         $linkContent = sprintf(
-            '%s<span class="resource-name">%s</span>',
+            '%s<span class="resource-name">%s</span>%s',
             $thumbnail($this, $thumbnailType),
-            $escape($this->displayTitle($titleDefault, $lang))
+            $escape($this->displayTitle($titleDefault, $lang)),
+            $privateStatus
         );
         if (empty($attributes['class'])) {
             $attributes['class'] = 'resource-link';

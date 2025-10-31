@@ -16,5 +16,6 @@ li.columns-column {
     display: flex;
     align-items: center;
     line-height: 1.5;
+    background-color: var(--gray-on-gray);
 }
 

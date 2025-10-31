@@ -205,7 +205,7 @@ div[role="main"] {
 }
 
 #menu h4 {
-    background-color: color-mix(in srgb, var(--gray-on-white), #ffffff, 8%);
+    background-color: color-mix(in srgb, var(--gray-on-white), #ffffff 8%);
     margin-bottom: 0;
 
     &:not(:first-of-type) {
@@ -232,7 +232,7 @@ div[role="main"] {
 }
 
 #mobile-nav a.active {
-    background-color: color-mix(in srgb, var(--red), #000000, 20%);
+    background-color: color-mix(in srgb, var(--red), #000000 20%);
 }
 
 #user {

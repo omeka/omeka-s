@@ -19,12 +19,12 @@ $susy: (
     --red: #A91919;
     --delete-bg: #FFCCCC;
     --success-bg: #cdffcd;
-    --gray-on-white: color-mix(in srgb, #FFFFFF, #000000, 4%);
-    --border-gray: #dfdfdf;
+    --gray-on-white: #f5f5f5;
+    --border-gray: #d2d2d2;
     --copy-gray: #676767;
-    --gray-on-gray: darken(--copy-gray, 10%);
+    --gray-on-gray: color-mix(in srgb, var(--gray-on-white), #000000 6%);
     --blue: #404E61;
     --light-blue: #bdcde3;
     --dark-blue: #222933;
-    --border-blue: color-mix(in srgb, var(--blue), #000000, 5%);
+    --border-blue: #364252;
 }

@@ -6,6 +6,10 @@
     margin-bottom: var(--spacing-small);
 }
 
+@mixin row-in-field-row {
+    background-color: color-mix(in srgb, var(--gray-on-white), #000000 15%);
+}
+
 @mixin subhead-row {
     border-bottom: 1px solid var(--border-gray);
     padding-bottom: calc(var(--spacing-medium) - 1px);

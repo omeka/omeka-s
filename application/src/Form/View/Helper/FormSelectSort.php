@@ -127,7 +127,8 @@ class FormSelectSort extends LaminasFormSelect
         // Temporarily remove the empty option before sorting and finalizing.
         $emptyOption = null;
         if ('' === array_key_first($options)) {
-            $emptyOption = $view->translate(array_shift($options));
+            $emptyOption = $view->translate($options['']);
+            unset($options['']);
         }
 
         if ($this->element->translateValueOptions()) {

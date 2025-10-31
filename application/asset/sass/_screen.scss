@@ -5117,7 +5117,17 @@ body.sidebar-open #content {
     }
 
     #nav-page-links .active.nav-page-link {
-        display: flex;
+        display: block;
+        position: relative;
+        padding-right: $spacing-large;
+
+        &:after {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            padding: 1.5 * $spacing-small;
+        }
     }
 
     .empty ~ #no-pages {

@@ -10,27 +10,16 @@ class SitePageRepresentation extends AbstractEntityRepresentation
 
     public function getJsonLd()
     {
-        $created = [
-            '@value' => $this->getDateTime($this->created()),
-            '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
-        ];
-        $modified = null;
-        if ($this->modified()) {
-            $modified = [
-                '@value' => $this->getDateTime($this->modified()),
-                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
-            ];
-        }
         return [
             'o:slug' => $this->slug(),
             'o:title' => $this->title(),
             'o:is_public' => $this->isPublic(),
             'o:layout' => $this->layout(),
             'o:layout_data' => $this->layoutData() ?? [],
-            'o:block' => $this->blocks(),
-            'o:site' => $this->site()->getReference(),
-            'o:created' => $created,
-            'o:modified' => $modified,
+            'o:block' => array_map(fn ($v) => $v->jsonSerialize(), $this->blocks()),
+            'o:site' => $this->site()->getReference()->jsonSerialize(),
+            'o:created' => $this->getDateTime($this->created())->getJsonLd(),
+            'o:modified' => $this->getDateTime($this->modified())->getJsonLd(),
         ];
     }
 

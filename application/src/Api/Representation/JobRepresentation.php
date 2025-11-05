@@ -29,34 +29,16 @@ class JobRepresentation extends AbstractEntityRepresentation
 
     public function getJsonLd()
     {
-        $dateTime = [
-            'o:started' => [
-                '@value' => $this->getDateTime($this->started()),
-                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
-            ],
-            'o:ended' => null,
+        $owner = $this->owner();
+
+        return [
+            'o:status' => $this->status(),
+            'o:job_class' => $this->jobClass(),
+            'o:args' => $this->args(),
+            'o:owner' => $owner ? $owner->getReference()->jsonSerialize() : null,
+            'o:started' => $this->getDateTime($this->started())->getJsonLd(),
+            'o:ended' => $this->getDateTime($this->ended())->getJsonLd(),
         ];
-        if ($this->ended()) {
-            $dateTime['o:ended'] = [
-                '@value' => $this->getDateTime($this->ended()),
-                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
-            ];
-        }
-
-        $owner = null;
-        if ($this->owner()) {
-            $owner = $this->owner()->getReference();
-        }
-
-        return array_merge(
-            [
-                'o:status' => $this->status(),
-                'o:job_class' => $this->jobClass(),
-                'o:args' => $this->args(),
-                'o:owner' => $owner,
-            ],
-            $dateTime
-        );
     }
 
     public function status()

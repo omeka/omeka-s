@@ -15,27 +15,13 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
 
     public function getResourceJsonLd()
     {
-        $primaryMedia = null;
-        if ($this->primaryMedia()) {
-            $primaryMedia = $this->primaryMedia()->getReference();
-        }
-        $media = [];
-        foreach ($this->media() as $mediaRepresentation) {
-            $media[] = $mediaRepresentation->getReference();
-        }
-        $itemSets = [];
-        foreach ($this->itemSets() as $itemSetRepresentation) {
-            $itemSets[] = $itemSetRepresentation->getReference();
-        }
-        $sites = [];
-        foreach ($this->sites() as $siteRepresentation) {
-            $sites[] = $siteRepresentation->getReference();
-        }
+        $primaryMedia = $this->primaryMedia();
+
         return [
-            'o:primary_media' => $primaryMedia,
-            'o:media' => $media,
-            'o:item_set' => $itemSets,
-            'o:site' => $sites,
+            'o:primary_media' => $primaryMedia ? $primaryMedia->getReference()->jsonSerialize() : null,
+            'o:media' => array_map(fn ($v) => $v->getReference()->jsonSerialize(), $this->media()),
+            'o:item_set' => array_map(fn ($v) => $v->getReference()->jsonSerialize(), $this->itemSets()),
+            'o:site' => array_map(fn ($v) => $v->getReference()->jsonSerialize(), $this->sites()),
         ];
     }
 

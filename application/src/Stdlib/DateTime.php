@@ -4,7 +4,11 @@ namespace Omeka\Stdlib;
 use JsonSerializable;
 
 /**
- * A wrapper of PHP's DateTime that can be serialized as JSON.
+ * A wrapper of PHP's DateTime that can be serialized as JSON and JSON-LD.
+ *
+ * When a null value is passed in constructor, the wrapper will wrap a null, so
+ * its json-representation will be a null.
+ * When no value is passed, the current date time is used.
  */
 class DateTime implements JsonSerializable
 {
@@ -14,32 +18,50 @@ class DateTime implements JsonSerializable
     protected $dateTime;
 
     /**
-     * @param \DateTime|null $dateTime Null will set the current DateTime
+     * @param \DateTime|null $dateTime Null will set the current DateTime when
+     * no arg is passed. When an arg is passed but its value is null, the json
+     * serialization will be null.
      */
-    public function __construct(\DateTime $dateTime = null)
+    public function __construct(?\DateTime $dateTime = null)
     {
-        if (null === $dateTime) {
-            // Set current date and time
-            $dateTime = new \DateTime;
-        }
-        $this->dateTime = $dateTime;
+        // Set current date and time when no arg is passed.
+        $this->dateTime = func_num_args()
+            ? $dateTime
+            : new \DateTime();
     }
 
     /**
-     * Get the underlying DateTime instance.
-     *
-     * @return \DateTime
+     * Get the underlying DateTime instance if any.
      */
-    public function getDateTime()
+    public function getDateTime(): ?\DateTime
     {
         return $this->dateTime;
     }
 
     /**
-     * Serialize DateTime as an ISO 8601 date.
+     * Serialize DateTime as a JsonLd date time with w3c xml schema dateTime.
+     *
+     * Output a null if a null was passed in constructor.
      */
-    public function jsonSerialize(): string
+    public function getJsonLd(): ?array
     {
-        return $this->dateTime->format('c');
+        return $this->dateTime
+            ? [
+                '@value' => $this->dateTime->format('c'),
+                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
+            ]
+            : null;
+    }
+
+    /**
+     * Serialize DateTime as an ISO 8601 date.
+     *
+     * Output a null if a null was passed in constructor.
+     */
+    public function jsonSerialize(): ?string
+    {
+        return $this->dateTime
+            ? $this->dateTime->format('c')
+            : null;
     }
 }

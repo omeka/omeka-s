@@ -92,6 +92,11 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
         $events->trigger('form.vocab_member_select.value_options', $this, $args);
         $valueOptions = $args['valueOptions'];
 
+        // Add prepended options.
+        $prependOptions = $this->getOption('prepend_value_options');
+        if (is_array($prependOptions)) {
+            $valueOptions = $prependOptions + $valueOptions;
+        }
         return $valueOptions;
     }
 
@@ -104,10 +109,13 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
         if (isset($options['dcterms'])) {
             $options = ['dcterms' => $options['dcterms']] + $options;
         }
-        // Prepend configured value options.
+        // Move prepended options to the top.
         $prependOptions = $this->getOption('prepend_value_options');
         if (is_array($prependOptions)) {
-            $options = $prependOptions + $options;
+            foreach ($prependOptions as $prependKey => $prependOption) {
+                unset($options[$prependKey]);
+                $options = [$prependKey => $prependOption] + $options;
+            }
         }
         return $options;
     }

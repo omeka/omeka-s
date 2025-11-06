@@ -114,8 +114,8 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
         if (is_array($prependOptions)) {
             foreach ($prependOptions as $prependKey => $prependOption) {
                 unset($options[$prependKey]);
-                $options = [$prependKey => $prependOption] + $options;
             }
+            $options = $prependOptions + $options;
         }
         return $options;
     }

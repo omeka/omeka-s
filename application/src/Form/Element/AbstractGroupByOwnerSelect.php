@@ -125,8 +125,8 @@ abstract class AbstractGroupByOwnerSelect extends Select implements SelectSortIn
         if (is_array($prependOptions)) {
             foreach ($prependOptions as $prependKey => $prependOption) {
                 unset($options[$prependKey]);
-                $options = [$prependKey => $prependOption] + $options;
             }
+            $options = $prependOptions + $options;
         }
         return $options;
     }

@@ -798,6 +798,8 @@ return [
             'itemWithMetadata' => Site\BlockLayout\ItemWithMetadata::class,
             'pageDateTime' => Site\BlockLayout\PageDateTime::class,
             'blockGroup' => Site\BlockLayout\BlockGroup::class,
+            'iiifPresentation' => Site\BlockLayout\IiifPresentation::class,
+            'iiifImage' => Site\BlockLayout\IiifImage::class,
         ],
         'factories' => [
             'asset' => Service\BlockLayout\AssetFactory::class,

@@ -104,24 +104,30 @@ abstract class AbstractGroupByOwnerSelect extends Select implements SelectSortIn
             }
         }
 
-        $valueOptions = $this->sortSelectOptions($valueOptions);
-
-        $prependValueOptions = $this->getOption('prepend_value_options');
-        if (is_array($prependValueOptions)) {
-            $valueOptions = $prependValueOptions + $valueOptions;
+        // Add prepended options.
+        $prependOptions = $this->getOption('prepend_value_options');
+        if (is_array($prependOptions)) {
+            $valueOptions = $prependOptions + $valueOptions;
         }
         return $valueOptions;
-    }
-
-    public function sortValueOptions(): bool
-    {
-        // Do not sort because sorting happens in self::getValueOptions()
-        return false;
     }
 
     public function translateValueOptions(): bool
     {
         // Do not translate because value options are user input.
         return false;
+    }
+
+    public function finalizeValueOptions(array $options): array
+    {
+        // Move prepended options to the top.
+        $prependOptions = $this->getOption('prepend_value_options');
+        if (is_array($prependOptions)) {
+            foreach ($prependOptions as $prependKey => $prependOption) {
+                unset($options[$prependKey]);
+            }
+            $options = $prependOptions + $options;
+        }
+        return $options;
     }
 }

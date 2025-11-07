@@ -66,6 +66,10 @@ trait SelectSortTrait
             return $compare($getLabel($a), $getLabel($b));
         });
         foreach ($options as &$option) {
+            if (!(isset($option['options']) && is_array($option['options']))) {
+                // There are no options to sort.
+                continue;
+            }
             uasort($option['options'], function ($a, $b) use ($compare, $getLabel) {
                 return $compare($getLabel($a), $getLabel($b));
             });

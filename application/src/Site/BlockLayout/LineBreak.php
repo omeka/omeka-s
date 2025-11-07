@@ -15,7 +15,7 @@ class LineBreak extends AbstractBlockLayout implements TemplateableBlockLayoutIn
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
-        SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
+        ?SitePageRepresentation $page = null, ?SitePageBlockRepresentation $block = null
     ) {
         return $this->breakTypeSelect($view, $site, $block);
     }
@@ -26,7 +26,7 @@ class LineBreak extends AbstractBlockLayout implements TemplateableBlockLayoutIn
     }
 
     public function breakTypeSelect(PhpRenderer $view, SiteRepresentation $site,
-        SitePageBlockRepresentation $block = null
+        ?SitePageBlockRepresentation $block = null
     ) {
         $options = [
             'transparent' => 'Transparent', // @translate

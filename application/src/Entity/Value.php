@@ -74,7 +74,7 @@ class Value extends AbstractEntity
         return $this->id;
     }
 
-    public function setResource(Resource $resource = null)
+    public function setResource(?Resource $resource = null)
     {
         $this->resource = $resource;
     }
@@ -134,7 +134,7 @@ class Value extends AbstractEntity
         return $this->uri;
     }
 
-    public function setValueResource(Resource $valueResource = null)
+    public function setValueResource(?Resource $valueResource = null)
     {
         $this->valueResource = $valueResource;
     }
@@ -159,7 +159,7 @@ class Value extends AbstractEntity
         return $this->getIsPublic();
     }
 
-    public function setValueAnnotation(ValueAnnotation $valueAnnotation = null)
+    public function setValueAnnotation(?ValueAnnotation $valueAnnotation = null)
     {
         $this->valueAnnotation = $valueAnnotation;
     }

@@ -20,7 +20,7 @@ class PageDateTime extends AbstractBlockLayout implements TemplateableBlockLayou
         return 'Page date/time'; // @translate
     }
 
-    public function form(PhpRenderer $view, SiteRepresentation $site, SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null)
+    public function form(PhpRenderer $view, SiteRepresentation $site, ?SitePageRepresentation $page = null, ?SitePageBlockRepresentation $block = null)
     {
         $form = new Form\Form;
         $form->add([

@@ -24,7 +24,7 @@ class AclFactory implements FactoryInterface
      * @param ContainerInterface $serviceLocator
      * @return Acl
      */
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, ?array $options = null)
     {
         $acl = new Acl;
 

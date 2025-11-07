@@ -85,7 +85,7 @@ class ResourceTemplate extends AbstractEntity
         return $this->label;
     }
 
-    public function setOwner(User $owner = null)
+    public function setOwner(?User $owner = null)
     {
         $this->owner = $owner;
     }
@@ -95,7 +95,7 @@ class ResourceTemplate extends AbstractEntity
         return $this->owner;
     }
 
-    public function setResourceClass(ResourceClass $resourceClass = null)
+    public function setResourceClass(?ResourceClass $resourceClass = null)
     {
         $this->resourceClass = $resourceClass;
     }
@@ -105,7 +105,7 @@ class ResourceTemplate extends AbstractEntity
         return $this->resourceClass;
     }
 
-    public function setTitleProperty(Property $titleProperty = null)
+    public function setTitleProperty(?Property $titleProperty = null)
     {
         $this->titleProperty = $titleProperty;
     }
@@ -115,7 +115,7 @@ class ResourceTemplate extends AbstractEntity
         return $this->titleProperty;
     }
 
-    public function setDescriptionProperty(Property $descriptionProperty = null)
+    public function setDescriptionProperty(?Property $descriptionProperty = null)
     {
         $this->descriptionProperty = $descriptionProperty;
     }

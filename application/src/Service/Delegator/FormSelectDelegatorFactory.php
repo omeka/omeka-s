@@ -7,7 +7,7 @@ use Laminas\ServiceManager\Factory\DelegatorFactoryInterface;
 class FormSelectDelegatorFactory implements DelegatorFactoryInterface
 {
     public function __invoke(ContainerInterface $container, $name,
-        callable $callback, array $options = null
+        callable $callback, ?array $options = null
     ) {
         $formSelect = $callback();
         $formSelect->addTranslatableAttribute('aria-label');

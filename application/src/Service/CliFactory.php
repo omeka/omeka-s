@@ -13,7 +13,7 @@ class CliFactory implements FactoryInterface
      *
      * @return Cli
      */
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, ?array $options = null)
     {
         $logger = $serviceLocator->get('Omeka\Logger');
         $config = $serviceLocator->get('Config');

@@ -29,7 +29,7 @@ class Validator
      * @param null|array $extensions Extension whitelist
      * @param bool $disable Whether to disable validation
      */
-    public function __construct(array $mediaTypes = null, array $extensions = null, $disable = false)
+    public function __construct(?array $mediaTypes = null, ?array $extensions = null, $disable = false)
     {
         $this->mediaTypes = $mediaTypes;
         $this->extensions = $extensions;
@@ -50,7 +50,7 @@ class Validator
      * @param null|ErrorStore $errorStore
      * @return bool
      */
-    public function validate(TempFile $tempFile, ErrorStore $errorStore = null)
+    public function validate(TempFile $tempFile, ?ErrorStore $errorStore = null)
     {
         $isValid = true;
         if ($this->disable) {

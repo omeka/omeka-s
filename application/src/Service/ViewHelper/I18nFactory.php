@@ -16,7 +16,7 @@ class I18nFactory implements FactoryInterface
      *
      * @return I18n
      */
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         $viewHelperManager = $services->get('ViewHelperManager');
         $timezone = $services->get('Omeka\Settings')->get('time_zone', 'UTC');

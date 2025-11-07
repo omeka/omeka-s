@@ -25,7 +25,7 @@ class BrowsePreview extends AbstractBlockLayout implements TemplateableBlockLayo
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
-        SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
+        ?SitePageRepresentation $page = null, ?SitePageBlockRepresentation $block = null
     ) {
         $defaults = [
             'resource_type' => 'items',

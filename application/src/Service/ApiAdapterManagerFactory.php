@@ -15,7 +15,7 @@ class ApiAdapterManagerFactory implements FactoryInterface
      *
      * @return AdapterManager
      */
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, ?array $options = null)
     {
         $config = $serviceLocator->get('Config');
         if (!isset($config['api_adapters'])) {

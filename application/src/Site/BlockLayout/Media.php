@@ -15,7 +15,7 @@ class Media extends AbstractBlockLayout implements TemplateableBlockLayoutInterf
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
-        SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
+        ?SitePageRepresentation $page = null, ?SitePageBlockRepresentation $block = null
     ) {
         $layoutSelect = new Element\Select('o:block[__blockIndex__][o:data][layout]');
         $layoutSelect->setOptions([

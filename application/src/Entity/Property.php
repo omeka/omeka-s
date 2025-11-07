@@ -72,7 +72,7 @@ class Property extends AbstractEntity
         return $this->id;
     }
 
-    public function setOwner(User $owner = null)
+    public function setOwner(?User $owner = null)
     {
         $this->owner = $owner;
     }
@@ -82,7 +82,7 @@ class Property extends AbstractEntity
         return $this->owner;
     }
 
-    public function setVocabulary(Vocabulary $vocabulary = null)
+    public function setVocabulary(?Vocabulary $vocabulary = null)
     {
         $this->vocabulary = $vocabulary;
     }

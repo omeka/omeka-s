@@ -12,7 +12,7 @@ class ImagickFactory implements FactoryInterface
      *
      * @return Imagick
      */
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         return new Imagick($services->get('Omeka\File\TempFileFactory'));
     }

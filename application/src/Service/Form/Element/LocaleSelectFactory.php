@@ -10,7 +10,7 @@ class LocaleSelectFactory implements FactoryInterface
     protected $services;
     protected $intlLoaded;
 
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         $this->services = $services;
         $this->intlLoaded = extension_loaded('intl');

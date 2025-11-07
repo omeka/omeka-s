@@ -19,7 +19,7 @@ class ViewApiJsonStrategyFactory implements FactoryInterface
      *
      * @return ApiJsonStrategy
      */
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, ?array $options = null)
     {
         $jsonRenderer = $serviceLocator->get('Omeka\ViewApiJsonRenderer');
         $eventManager = $serviceLocator->get('EventManager');

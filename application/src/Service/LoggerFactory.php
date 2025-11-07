@@ -19,7 +19,7 @@ class LoggerFactory implements FactoryInterface
      *
      * @return Logger
      */
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, ?array $options = null)
     {
         $config = $serviceLocator->get('Config');
         if (isset($config['logger']['log'])

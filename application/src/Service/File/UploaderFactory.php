@@ -7,7 +7,7 @@ use Interop\Container\ContainerInterface;
 
 class UploaderFactory implements FactoryInterface
 {
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         return new Uploader($services->get('Omeka\File\TempFileFactory'));
     }

@@ -239,7 +239,7 @@ class Media extends Resource
         return $this->position;
     }
 
-    public function setItem(Item $item = null)
+    public function setItem(?Item $item = null)
     {
         $this->item = $item;
     }

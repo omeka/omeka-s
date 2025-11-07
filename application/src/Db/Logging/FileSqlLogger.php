@@ -53,7 +53,7 @@ class FileSqlLogger implements SQLLogger
      * @param null|array $params
      * @param null|array $types
      */
-    public function startQuery($sql, array $params = null, array $types = null)
+    public function startQuery($sql, ?array $params = null, ?array $types = null)
     {
         $entry = $sql . PHP_EOL;
 

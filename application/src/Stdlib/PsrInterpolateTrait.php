@@ -18,7 +18,7 @@ trait PsrInterpolateTrait
      * @param array $context Associative array with placeholders and strings.
      * @return string
      */
-    public function interpolate($message, array $context = null): string
+    public function interpolate($message, ?array $context = null): string
     {
         $message = (string) $message;
 

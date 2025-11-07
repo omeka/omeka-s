@@ -22,7 +22,7 @@ class ConnectionFactory implements FactoryInterface
      * @param ContainerInterface $serviceLocator
      * @return Connection
      */
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, ?array $options = null)
     {
         $config = $serviceLocator->get('ApplicationConfig');
 

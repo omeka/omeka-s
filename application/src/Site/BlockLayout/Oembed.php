@@ -48,7 +48,7 @@ class Oembed extends AbstractBlockLayout implements TemplateableBlockLayoutInter
         $block->setData($data);
     }
 
-    public function form(PhpRenderer $view, SiteRepresentation $site, SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null)
+    public function form(PhpRenderer $view, SiteRepresentation $site, ?SitePageRepresentation $page = null, ?SitePageBlockRepresentation $block = null)
     {
         $data = $block ? $block->data() + $this->defaultData : $this->defaultData;
         $form = new Form\Form;

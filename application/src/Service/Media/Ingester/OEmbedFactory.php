@@ -12,7 +12,7 @@ class OEmbedFactory implements FactoryInterface
      *
      * @return OEmbed
      */
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         $config = $services->get('Config');
         return new OEmbed(

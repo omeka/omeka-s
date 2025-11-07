@@ -19,7 +19,7 @@ class SearchFilters extends AbstractHelper
      *
      * @return array
      */
-    public function __invoke($partialName = null, array $query = null)
+    public function __invoke($partialName = null, ?array $query = null)
     {
         $view = $this->getView();
         $partialName = $partialName ?: self::PARTIAL_NAME;

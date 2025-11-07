@@ -16,7 +16,7 @@ class ThemeSettingFactory implements FactoryInterface
      *
      * @return ThemeSetting
      */
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         $currentTheme = $services->get('Omeka\Site\ThemeManager')->getCurrentTheme();
         $siteSettings = $services->get('Omeka\Settings\Site');

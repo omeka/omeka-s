@@ -16,7 +16,7 @@ class TableOfContents extends AbstractBlockLayout implements TemplateableBlockLa
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
-        SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
+        ?SitePageRepresentation $page = null, ?SitePageBlockRepresentation $block = null
     ) {
         $depth = new Number("o:block[__blockIndex__][o:data][depth]");
 

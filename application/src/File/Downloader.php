@@ -48,7 +48,7 @@ class Downloader
      * @param null|ErrorStore $errorStore
      * @return TempFile|false False on error
      */
-    public function download($uri, ErrorStore $errorStore = null)
+    public function download($uri, ?ErrorStore $errorStore = null)
     {
         $client = $this->services->get('Omeka\HttpClient'); // non-shared service
         $tempFile = $this->tempFileFactory->build();

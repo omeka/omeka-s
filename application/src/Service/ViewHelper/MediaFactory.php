@@ -17,7 +17,7 @@ class MediaFactory implements FactoryInterface
      * @param ContainerInterface $viewServiceLocator
      * @return Media
      */
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         return new Media(
             $services->get('Omeka\Media\Ingester\Manager'),

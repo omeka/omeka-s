@@ -14,7 +14,7 @@ class ItemWithMetadata extends AbstractBlockLayout implements TemplateableBlockL
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
-        SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
+        ?SitePageRepresentation $page = null, ?SitePageBlockRepresentation $block = null
     ) {
         return $view->blockAttachmentsForm($block, true);
     }

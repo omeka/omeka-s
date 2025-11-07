@@ -31,7 +31,7 @@ class BlockThumbnailTypeSelect extends AbstractHelper
      * @param SitePageBlockRepresentation|null $block
      * @return string
      */
-    public function __invoke(SitePageBlockRepresentation $block = null)
+    public function __invoke(?SitePageBlockRepresentation $block = null)
     {
         $view = $this->getView();
         $type = null;

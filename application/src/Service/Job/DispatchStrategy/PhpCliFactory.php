@@ -12,7 +12,7 @@ class PhpCliFactory implements FactoryInterface
      *
      * @return PhpCli
      */
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         $viewHelpers = $services->get('ViewHelperManager');
         $basePathHelper = $viewHelpers->get('BasePath');

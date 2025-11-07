@@ -44,7 +44,7 @@ class Api extends AbstractPlugin
      * @param null|Form $form
      * @param bool $throwValidationException
      */
-    public function __invoke(Form $form = null, $throwValidationException = false)
+    public function __invoke(?Form $form = null, $throwValidationException = false)
     {
         $this->form = $form;
         $this->throwValidationException = $throwValidationException;

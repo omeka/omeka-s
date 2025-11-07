@@ -16,7 +16,7 @@ class UserIsAllowedFactory implements FactoryInterface
      *
      * @return UserIsAllowed
      */
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         return new UserIsAllowed($services->get('Omeka\Acl'));
     }

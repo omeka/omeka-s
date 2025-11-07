@@ -105,7 +105,7 @@ class ApiJsonStrategy extends JsonStrategy
      * @param \Exception|null $exception
      * @return int
      */
-    protected function getStatusCodeForException(\Exception $exception = null)
+    protected function getStatusCodeForException(?\Exception $exception = null)
     {
         if ($exception instanceof MvcException\InvalidJsonException) {
             return 400; // Bad Request

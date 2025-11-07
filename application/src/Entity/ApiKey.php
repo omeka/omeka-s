@@ -152,7 +152,7 @@ class ApiKey extends AbstractEntity
         return $this->created;
     }
 
-    public function setOwner(User $owner = null)
+    public function setOwner(?User $owner = null)
     {
         $this->owner = $owner;
     }

@@ -21,7 +21,7 @@ class IiifPresentation extends AbstractBlockLayout
         return 'IIIF presentation'; // @translate
     }
 
-    public function form(PhpRenderer $view, SiteRepresentation $site, SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null)
+    public function form(PhpRenderer $view, SiteRepresentation $site, ?SitePageRepresentation $page = null, ?SitePageBlockRepresentation $block = null)
     {
         // Build the form.
         $form = new \Laminas\Form\Form;

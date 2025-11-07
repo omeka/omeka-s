@@ -122,6 +122,7 @@ class FormSelectSort extends LaminasFormSelect
      */
     public function sortTranslated(array $options): array
     {
+
         $view = $this->getView();
 
         // Temporarily remove the empty option before sorting and finalizing.

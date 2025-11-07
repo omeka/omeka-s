@@ -7,7 +7,7 @@ use Interop\Container\ContainerInterface;
 
 class FallbackSettingsFactory implements FactoryInterface
 {
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, ?array $options = null)
     {
         return new FallbackSettings(
             $serviceLocator->get('Omeka\Settings'),

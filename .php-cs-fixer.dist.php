@@ -28,6 +28,7 @@ return $config
         'no_trailing_comma_in_singleline' => true,
         'no_unused_imports' => true,
         'no_whitespace_in_blank_line' => true,
+        'nullable_type_declaration_for_default_null_value' => true,
         'object_operator_without_whitespace' => true,
         'phpdoc_indent' => true,
         'phpdoc_no_empty_return' => true,

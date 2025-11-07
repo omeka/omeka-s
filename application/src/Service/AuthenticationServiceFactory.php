@@ -21,7 +21,7 @@ class AuthenticationServiceFactory implements FactoryInterface
      *
      * @return AuthenticationService
      */
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, ?array $options = null)
     {
         $entityManager = $serviceLocator->get('Omeka\EntityManager');
         $status = $serviceLocator->get('Omeka\Status');

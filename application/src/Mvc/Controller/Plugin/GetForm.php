@@ -28,7 +28,7 @@ class GetForm extends AbstractPlugin
      * @param array $options
      * @return \Laminas\Form\Form
      */
-    public function __invoke($class, array $options = null)
+    public function __invoke($class, ?array $options = null)
     {
         return $this->formElementManager->get($class, $options);
     }

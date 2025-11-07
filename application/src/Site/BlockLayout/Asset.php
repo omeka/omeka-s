@@ -61,7 +61,7 @@ class Asset extends AbstractBlockLayout implements TemplateableBlockLayoutInterf
         return $attachments;
     }
 
-    public function form(PhpRenderer $view, SiteRepresentation $site, SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
+    public function form(PhpRenderer $view, SiteRepresentation $site, ?SitePageRepresentation $page = null, ?SitePageBlockRepresentation $block = null
     ) {
         $siteId = $site->id();
         $apiUrl = $site->apiUrl();

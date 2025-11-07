@@ -12,7 +12,7 @@ class GdFactory implements FactoryInterface
      *
      * @return Gd
      */
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         return new Gd($services->get('Omeka\File\TempFileFactory'));
     }

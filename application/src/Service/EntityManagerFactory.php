@@ -30,6 +30,7 @@ class EntityManagerFactory implements FactoryInterface
     public function __invoke(ContainerInterface $serviceLocator, $requestedName, ?array $options = null)
     {
         require_once OMEKA_PATH . '/application/data/overrides/AbstractProxyFactory.php';
+        require_once OMEKA_PATH . '/application/data/overrides/ProxyFactory.php';
 
         $appConfig = $serviceLocator->get('ApplicationConfig');
         $config = $serviceLocator->get('Config');

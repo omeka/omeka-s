@@ -1,7 +1,12 @@
 <?php
 use Laminas\View\Model\ViewModel;
 
-error_reporting(E_ALL);
+if (getenv('OMEKA_REPORT_DEPRECATED') === '1') {
+    error_reporting(E_ALL);
+} else {
+    error_reporting(E_ALL & ~E_DEPRECATED);
+}
+
 if ((isset($_SERVER['APPLICATION_ENV'])
         && 'development' == $_SERVER['APPLICATION_ENV'])
     ||

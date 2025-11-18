@@ -329,19 +329,19 @@ gulp.task('deps:module:update', taskDepsModuleUpdate);
 function taskDepsJs(cb) {
     var deps = {
         'chosen-js': ['**', '!*.proto.*'],
-        'ckeditor4': ['**', '!samples/**'],
+        //'ckeditor4': ['**', '!samples/**'],
         'compare-versions': 'lib/umd/index.js',
         'jquery': 'dist/jquery.min.js',
         'jstree': 'dist/jstree.min.js',
         'lightgallery': ['lightgallery.min.js', '[c]ss/lightgallery-bundle.min.css', '[f]onts/**', '[i]mages/**',
             '[p]lugins/@(hash|rotate|thumbnail|video|zoom)/*.min.js'],
-        'mirador': ['dist/**', '!dist/cjs/**', '!dist/es/**'],
+        'mirador': ['dist/**', '!dist/*.es.*'],
         'openseadragon': 'build/openseadragon/**',
         'sortablejs': 'Sortable.min.js',
         'tablesaw': 'dist/stackonly/**'
     };
     var depRenames = {
-        'ckeditor4': 'ckeditor'
+        //'ckeditor4': 'ckeditor'
     };
 
     Object.keys(deps).forEach(function (module) {

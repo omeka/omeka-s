@@ -22,17 +22,16 @@
     "rimraf": "^2.6.0",
     "sass": "~1.32.13",
     "susy": "^2.2.12",
-    "tmp": "0.0.33"
+    "tmp": "0.2.5"
   },
   "dependencies": {
     "chosen-js": "^1.8.3",
-    "ckeditor4": "^4.18.0",
     "compare-versions": "^6.1.0",
     "jquery": "^3.5.1",
     "jstree": "^3.3.5",
     "lightgallery": "^2.8.3",
-    "mirador": "^3.3.0",
-    "openseadragon": "^2.4.2",
+    "mirador": "^4.0.0",
+    "openseadragon": "^5.0.1",
     "sortablejs": "^1.5.1",
     "tablesaw": "^3.0.9"
   },

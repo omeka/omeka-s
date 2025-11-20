@@ -41,7 +41,7 @@ trait PsrInterpolateTrait
             ) {
                 $replacements[$placeholder] = $val;
             } elseif (is_array($val)) {
-                $replacements[$placeholder] = 'array' . @json_encode($val, self::JSON_FLAGS);
+                $replacements[$placeholder] = 'array' . @json_encode($val, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE | JSON_PARTIAL_OUTPUT_ON_ERROR);
             } elseif (is_object($val)) {
                 $replacements[$placeholder] = '[object ' . get_class($val) . ']';
             } elseif (is_resource($val)) {

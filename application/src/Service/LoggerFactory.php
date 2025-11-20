@@ -2,12 +2,14 @@
 namespace Omeka\Service;
 
 use Laminas\Log\Exception;
+use Laminas\Log\Formatter\Simple;
 use Laminas\Log\Logger;
 use Laminas\Log\Writer\Noop;
 use Laminas\Log\Writer\Stream;
 use Laminas\Log\Filter\Priority;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
+use Omeka\Log\Processor\PsrPlaceholder;
 
 /**
  * Logger factory.
@@ -28,6 +30,7 @@ class LoggerFactory implements FactoryInterface
         ) {
             try {
                 $writer = new Stream($config['logger']['path']);
+                $writer->setFormatter(new Simple('%timestamp% %priorityName% (%priority%): %message%'));
             } catch (Exception\RuntimeException $e) {
                 $writer = new Noop;
                 error_log('Omeka S log initialization failed: ' . $e->getMessage());
@@ -39,6 +42,8 @@ class LoggerFactory implements FactoryInterface
         $logger->addWriter($writer);
         $filter = new Priority($config['logger']['priority']);
         $writer->addFilter($filter);
+        $psrProcessor = new PsrPlaceholder;
+        $logger->addProcessor($psrProcessor);
         return $logger;
     }
 }

@@ -7,6 +7,8 @@ namespace Omeka\Stdlib;
  */
 trait PsrInterpolateTrait
 {
+    const JSON_FLAGS = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE | JSON_PARTIAL_OUTPUT_ON_ERROR;
+
     /**
      * Interpolates context values into the PSR-3 message placeholders.
      *
@@ -32,19 +34,20 @@ trait PsrInterpolateTrait
 
         $replacements = [];
         foreach ($context as $key => $val) {
+            $placeholder = '{' . $key . '}';
             if (is_null($val)
                 || is_scalar($val)
                 || (is_object($val) && method_exists($val, '__toString'))
             ) {
-                $replacements['{' . $key . '}'] = $val;
+                $replacements[$placeholder] = $val;
             } elseif (is_array($val)) {
-                $replacements['{' . $key . '}'] = 'array' . @json_encode($val);
+                $replacements[$placeholder] = 'array' . @json_encode($val, self::JSON_FLAGS);
             } elseif (is_object($val)) {
-                $replacements['{' . $key . '}'] = '[object ' . get_class($val) . ']';
+                $replacements[$placeholder] = '[object ' . get_class($val) . ']';
             } elseif (is_resource($val)) {
-                $replacements['{' . $key . '}'] = '[resource ' . get_resource_type($val) . ']';
+                $replacements[$placeholder] = '[resource ' . get_resource_type($val) . ']';
             } else {
-                $replacements['{' . $key . '}'] = '[' . gettype($val) . ']';
+                $replacements[$placeholder] = '[' . gettype($val) . ']';
             }
         }
 

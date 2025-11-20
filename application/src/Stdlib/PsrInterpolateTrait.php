@@ -7,8 +7,6 @@ namespace Omeka\Stdlib;
  */
 trait PsrInterpolateTrait
 {
-    const JSON_FLAGS = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE | JSON_PARTIAL_OUTPUT_ON_ERROR;
-
     /**
      * Interpolates context values into the PSR-3 message placeholders.
      *

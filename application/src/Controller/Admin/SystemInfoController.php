@@ -52,7 +52,7 @@ class SystemInfoController extends AbstractActionController
         return $model;
     }
 
-    private function getSystemInfo()
+    protected function getSystemInfo()
     {
         $conn = $this->connection->getWrappedConnection();
         $mode = $this->connection->fetchColumn('SELECT @@sql_mode');
@@ -147,7 +147,13 @@ class SystemInfoController extends AbstractActionController
             $info['Free space']['Temp dir'] = $this->formatSpace($freeSpaceTemp);
         }
 
-        return $info;
+        $eventManager = $this->getEventManager();
+        $args = $eventManager->prepareArgs([
+            'info' => $info,
+        ]);
+        $eventManager->trigger('system_info', $this, $args);
+
+        return $args['info'];
     }
 
     public function getPhpVersionAction()

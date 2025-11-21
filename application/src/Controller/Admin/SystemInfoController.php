@@ -151,7 +151,7 @@ class SystemInfoController extends AbstractActionController
         $args = $eventManager->prepareArgs([
             'info' => $info,
         ]);
-        $eventManager->trigger('system.info', $this, $args);
+        $eventManager->trigger('system_info', $this, $args);
 
         return $args['info'];
     }

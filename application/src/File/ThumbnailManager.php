@@ -2,6 +2,7 @@
 namespace Omeka\File;
 
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use Omeka\Api\Representation\MediaRepresentation;
 
 class ThumbnailManager
 {
@@ -24,6 +25,55 @@ class ThumbnailManager
         $config = $services->get('Config');
         $this->validateConfig($config);
         $this->config = $config['thumbnails'];
+    }
+
+    /**
+     * Get the URL to a thumbnail image of a media.
+     *
+     * @param MediaRepresentation $media
+     * @param string $type The type of thumbnail
+     * @return string
+     */
+    public function thumbnailUrl(MediaRepresentation $media, $type)
+    {
+        if (!$media->hasThumbnails() || !$this->typeExists($type)) {
+            $fallbacks = $this->getFallbacks();
+            $mediaType = $media->mediaType();
+            $topLevelType = strtok((string) $mediaType, '/');
+
+            if (isset($fallbacks[$mediaType])) {
+                // Prioritize a match against the full media type, e.g. "image/jpeg"
+                $fallback = $fallbacks[$mediaType];
+            } elseif ($topLevelType && isset($fallbacks[$topLevelType])) {
+                // Then fall back on a match against the top-level type, e.g. "image"
+                $fallback = $fallbacks[$topLevelType];
+            } else {
+                $fallback = $this->getDefaultFallback();
+            }
+
+            $assetUrl = $this->services->get('ViewHelperManager')->get('assetUrl');
+            return $assetUrl($fallback[0], $fallback[1], true, false, true);
+        }
+
+        return $media->getFileUrl($type, $media->storageId(), 'jpg');
+    }
+
+    /**
+     * Get all thumbnail URLs of a media, keyed by type.
+     *
+     * @param MediaRepresentation $media
+     * @return array
+     */
+    public function thumbnailUrls(MediaRepresentation $media)
+    {
+        if (!$media->hasThumbnails()) {
+            return [];
+        }
+        $urls = [];
+        foreach ($this->getTypes() as $type) {
+            $urls[$type] = $this->thumbnailUrl($media, $type);
+        }
+        return $urls;
     }
 
     /**

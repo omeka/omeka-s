@@ -67,7 +67,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
 
         if (!$this->hasThumbnails() || !$thumbnailManager->typeExists($type)) {
             $fallbacks = $thumbnailManager->getFallbacks();
-            $mediaType = $this->mediaType();
+            $mediaType = (string) $this->mediaType();
             $topLevelType = strstr((string) $mediaType, '/', true);
 
             if (isset($fallbacks[$mediaType])) {

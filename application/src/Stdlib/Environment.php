@@ -10,7 +10,7 @@ class Environment
     /**
      * The PHP minimum version
      */
-    const PHP_MINIMUM_VERSION = '7.4.0';
+    const PHP_MINIMUM_VERSION = '8.1.0';
 
     /**
      * The MySQL minimum version

@@ -36,7 +36,7 @@ return [
         'use_externals' => true,
         'externals' => [
             'Omeka' => [
-                'vendor/jquery/jquery.min.js' => 'https://code.jquery.com/jquery-3.6.2.min.js',
+                'vendor/jquery/jquery.min.js' => 'https://code.jquery.com/jquery-3.7.1.min.js',
             ],
         ],
     ],
@@ -262,6 +262,7 @@ return [
             'Omeka\EntityManager' => Service\EntityManagerFactory::class,
             'Omeka\Installer' => Service\InstallerFactory::class,
             'Omeka\Logger' => Service\LoggerFactory::class,
+            'Omeka\PsrLogger' => Service\PsrLoggerFactory::class,
             'Omeka\MigrationManager' => Service\MigrationManagerFactory::class,
             'Omeka\ViewApiJsonStrategy' => Service\ViewApiJsonStrategyFactory::class,
             'Omeka\ViewApiJsonRenderer' => Service\ViewApiJsonRendererFactory::class,
@@ -340,7 +341,6 @@ return [
             'Omeka\Controller\Admin\Asset' => Controller\Admin\AssetController::class,
             'Omeka\Controller\Admin\Query' => Controller\Admin\QueryController::class,
             'Omeka\Controller\Admin\Columns' => Controller\Admin\ColumnsController::class,
-            'Omeka\Controller\Admin\Index' => Controller\Admin\IndexController::class,
             'Omeka\Controller\Admin\ItemSet' => Controller\Admin\ItemSetController::class,
             'Omeka\Controller\Admin\Job' => Controller\Admin\JobController::class,
             'Omeka\Controller\Admin\Media' => Controller\Admin\MediaController::class,
@@ -355,6 +355,7 @@ return [
             'Omeka\Controller\ApiLocal' => Service\Controller\ApiLocalControllerFactory::class,
             'Omeka\Controller\Install' => Service\Controller\InstallControllerFactory::class,
             'Omeka\Controller\Migrate' => Service\Controller\MigrateControllerFactory::class,
+            'Omeka\Controller\Admin\Index' => Service\Controller\Admin\IndexControllerFactory::class,
             'Omeka\Controller\Admin\Module' => Service\Controller\Admin\ModuleControllerFactory::class,
             'Omeka\Controller\Admin\User' => Service\Controller\Admin\UserControllerFactory::class,
             'Omeka\Controller\Admin\ResourceTemplate' => Service\Controller\Admin\ResourceTemplateControllerFactory::class,
@@ -363,6 +364,7 @@ return [
             'Omeka\Controller\Admin\Item' => Service\Controller\Admin\ItemControllerFactory::class,
             'Omeka\Controller\SiteAdmin\Index' => Service\Controller\SiteAdmin\IndexControllerFactory::class,
             'Omeka\Controller\Site\Page' => Service\Controller\Site\PageControllerFactory::class,
+            'Omeka\Controller\LinkedResources' => Service\Controller\LinkedResourcesControllerFactory::class,
         ],
     ],
     'controller_plugins' => [
@@ -376,6 +378,7 @@ return [
             'api' => Service\ControllerPlugin\ApiFactory::class,
             'jobDispatcher' => Service\ControllerPlugin\JobDispatcherFactory::class,
             'logger' => Service\ControllerPlugin\LoggerFactory::class,
+            'psrLogger' => Service\ControllerPlugin\PsrLoggerFactory::class,
             'paginator' => Service\ControllerPlugin\PaginatorFactory::class,
             'translate' => Service\ControllerPlugin\TranslateFactory::class,
             'getForm' => Service\ControllerPlugin\GetFormFactory::class,
@@ -430,6 +433,7 @@ return [
             'ckEditor' => View\Helper\CkEditor::class,
             'sitePagePagination' => View\Helper\SitePagePagination::class,
             'sectionNav' => View\Helper\SectionNav::class,
+            'sidebarSectionNav' => View\Helper\SidebarSectionNav::class,
             'uploadLimit' => View\Helper\UploadLimit::class,
             'formRecaptcha' => Form\View\Helper\FormRecaptcha::class,
             'formCkeditor' => Form\View\Helper\FormCkeditor::class,
@@ -452,6 +456,7 @@ return [
             'lightGalleryOutput' => View\Helper\LightGalleryOutput::class,
             'iiifViewer' => View\Helper\IiifViewer::class,
             'currentSite' => View\Helper\CurrentSite::class,
+            'formSelectSort' => Form\View\Helper\FormSelectSort::class,
         ],
         'factories' => [
             'api' => Service\ViewHelper\ApiFactory::class,
@@ -489,6 +494,7 @@ return [
             'passwordRequirements' => Service\ViewHelper\PasswordRequirementsFactory::class,
             'resourcePageBlocks' => Service\ViewHelper\ResourcePageBlocksFactory::class,
             'browse' => Service\ViewHelper\BrowseFactory::class,
+            'linkedResources' => Service\ViewHelper\LinkedResourcesFactory::class,
         ],
         'shared' => [
             'resourcePageBlocks' => false,
@@ -498,6 +504,9 @@ return [
                 Service\Delegator\FormElementDelegatorFactory::class,
             ],
             'Laminas\Form\View\Helper\FormSelect' => [
+                Service\Delegator\FormSelectDelegatorFactory::class,
+            ],
+            'Omeka\Form\View\Helper\FormSelectSort' => [
                 Service\Delegator\FormSelectDelegatorFactory::class,
             ],
             'Laminas\Form\View\Helper\FormRow' => [
@@ -517,17 +526,17 @@ return [
     'form_elements' => [
         'initializers' => [
             Form\Initializer\Csrf::class,
+            Form\Initializer\EventManager::class,
         ],
         'factories' => [
             'Omeka\Form\ResourceForm' => Service\Form\ResourceFormFactory::class,
+            'Omeka\Form\ItemStubForm' => Service\Form\ItemStubFormFactory::class,
             'Omeka\Form\VocabularyForm' => Service\Form\VocabularyFormFactory::class,
             'Omeka\Form\ResourceBatchUpdateForm' => Service\Form\ResourceBatchUpdateFormFactory::class,
             'Omeka\Form\UserForm' => Service\Form\UserFormFactory::class,
             'Omeka\Form\SettingForm' => Service\Form\SettingFormFactory::class,
             'Omeka\Form\ModuleStateChangeForm' => Service\Form\ModuleStateChangeFormFactory::class,
-            'Omeka\Form\SiteForm' => Service\Form\SiteFormFactory::class,
             'Omeka\Form\SiteSettingsForm' => Service\Form\SiteSettingsFormFactory::class,
-            'Omeka\Form\UserBatchUpdateForm' => Service\Form\UserBatchUpdateFormFactory::class,
             'Omeka\Form\PageLayoutDataForm' => Service\Form\PageLayoutDataFormFactory::class,
             'Omeka\Form\BlockLayoutDataForm' => Service\Form\BlockLayoutDataFormFactory::class,
             'Omeka\Form\SitePageForm' => Service\Form\SitePageFormFactory::class,
@@ -612,15 +621,15 @@ return [
     'browse_defaults' => [
         'admin' => [
             'items' => [
-                'sort_by' => 'created',
+                'sort_by' => 'id',
                 'sort_order' => 'desc',
             ],
             'item_sets' => [
-                'sort_by' => 'created',
+                'sort_by' => 'id',
                 'sort_order' => 'desc',
             ],
             'media' => [
-                'sort_by' => 'created',
+                'sort_by' => 'id',
                 'sort_order' => 'desc',
             ],
             'sites' => [
@@ -666,6 +675,16 @@ return [
                 'sort_order' => 'desc',
             ],
         ],
+        'none' => [
+            'items' => [
+                'sort_by' => 'created',
+                'sort_order' => 'desc',
+            ],
+            'item_sets' => [
+                'sort_by' => 'created',
+                'sort_order' => 'desc',
+            ],
+        ],
     ],
     'sort_defaults' => [
         'admin' => [
@@ -674,24 +693,28 @@ return [
                 'resource_class_label' => 'Resource class', // @translate
                 'owner_name' => 'Owner', // @translate
                 'created' => 'Created', // @translate
+                'id' => 'ID', // @translate
             ],
             'item_sets' => [
                 'title' => 'Title', // @translate
                 'resource_class_label' => 'Resource class', // @translate
                 'owner_name' => 'Owner', // @translate
                 'created' => 'Created', // @translate
+                'id' => 'ID', // @translate
             ],
             'media' => [
                 'title' => 'Title', // @translate
                 'resource_class_label' => 'Resource class', // @translate
                 'owner_name' => 'Owner', // @translate
                 'created' => 'Created', // @translate
+                'id' => 'ID', // @translate
             ],
             'sites' => [
                 'title' => 'Title', // @translate
                 'slug' => 'URL slug', // @translate
                 'owner_name' => 'Owner', // @translate
                 'created' => 'Created', // @translate
+                'id' => 'ID', // @translate
             ],
             'assets' => [
                 'name' => 'Name', // @translate
@@ -708,27 +731,32 @@ return [
                 'resource_class_label' => 'Resource class', // @translate
                 'owner_name' => 'Owner', // @translate
                 'item_count' => 'Item count', // @translate
+                'id' => 'ID', // @translate
             ],
             'users' => [
                 'email' => 'Email', // @translate
                 'role' => 'Role', // @translate
                 'created' => 'Created', // @translate
+                'id' => 'ID', // @translate
             ],
             'vocabularies' => [
                 'label' => 'Label', // @translate
                 'prefix' => 'Prefix', // @translate
                 'resource_class_count' => 'Resource class count', // @translate
                 'property_count' => 'Property count', // @translate
+                'id' => 'ID', // @translate
             ],
             'resource_classes' => [
                 'label' => 'Label', // @translate
                 'local_name' => 'Term', // @translate
                 'item_count' => 'Item count', // @translate
+                'id' => 'ID', // @translate
             ],
             'properties' => [
                 'label' => 'Label', // @translate
                 'local_name' => 'Term', // @translate
                 'item_count' => 'Item count', // @translate
+                'id' => 'ID', // @translate
             ],
             'site_pages' => [
                 'title' => 'Title', // @translate
@@ -736,6 +764,7 @@ return [
                 'created' => 'Created', // @translate
                 'modified' => 'Modified', // @translate
                 'nav' => 'Navigation', // @translate
+                'id' => 'ID', // @translate
             ],
         ],
         'public' => [
@@ -745,7 +774,21 @@ return [
                 'created' => 'Created', // @translate
             ],
         ],
+        'none' => [
+            'items' => [
+                'title' => 'Title', // @translate
+                'resource_class_label' => 'Resource class', // @translate
+                'created' => 'Created', // @translate
+            ],
+            'item_sets' => [
+                'title' => 'Title', // @translate
+                'resource_class_label' => 'Resource class', // @translate
+                'created' => 'Created', // @translate
+            ],
+        ],
     ],
+    'page_templates' => [],
+    'block_templates' => [],
     'block_layouts' => [
         'invokables' => [
             'pageTitle' => Site\BlockLayout\PageTitle::class,
@@ -757,6 +800,8 @@ return [
             'itemWithMetadata' => Site\BlockLayout\ItemWithMetadata::class,
             'pageDateTime' => Site\BlockLayout\PageDateTime::class,
             'blockGroup' => Site\BlockLayout\BlockGroup::class,
+            'iiifPresentation' => Site\BlockLayout\IiifPresentation::class,
+            'iiifImage' => Site\BlockLayout\IiifImage::class,
         ],
         'factories' => [
             'asset' => Service\BlockLayout\AssetFactory::class,
@@ -847,38 +892,45 @@ return [
     ],
     'oembed' => [
         'whitelist' => [
-            '#^https?://(www\.)?youtube\.com/watch.*$#i',
-            '#^https?://(www\.)?youtube\.com/playlist.*$#i',
-            '#^https?://youtu\.be/.*$#i',
-            '#^http://blip.tv/*$#',
-            '#^https?://(.+\.)?vimeo\.com/.*$#i',
-            '#^https?://(www\.)?dailymotion\.com/.*$#i',
-            '#^http://dai.ly/*$#',
-            '#^https?://(www\.)?flickr\.com/.*$#i',
-            '#^https?://flic\.kr/.*$#i',
-            '#^https?://(.+\.)?smugmug\.com/.*$#i',
-            '#^https?://(www\.)?hulu\.com/watch/.*$#i',
-            '#^http://revision3.com/*$#',
-            '#^http://i*.photobucket.com/albums/*$#',
-            '#^http://gi*.photobucket.com/groups/*$#',
-            '#^https?://(www\.)?scribd\.com/doc/.*$#i',
-            '#^https?://wordpress.tv/.*$#i',
-            '#^https?://(.+\.)?polldaddy\.com/.*$#i',
-            '#^https?://poll\.fm/.*$#i',
-            '#^https?://(www\.)?funnyordie\.com/videos/.*$#i',
-            '#^https?://(www\.)?twitter\.com/.+?/status(es)?/.*$#i',
-            '#^https?://(www\.)?soundcloud\.com/.*$#i',
-            '#^https?://(www\.)?slideshare\.net/.*$#i',
-            '#^https?://(www\.)?rdio\.com/.*$#i',
-            '#^https?://rd\.io/x/.*$#i',
-            '#^https?://(open|play)\.spotify\.com/.*$#i',
-            '#^https?://(.+\.)?imgur\.com/.*$#i',
-            '#^https?://(www\.)?meetu(\.ps|p\.com)/.*$#i',
-            '#^https?://(www\.)?issuu\.com/.+/docs/.+$#i',
-            '#^https?://(www\.)?collegehumor\.com/video/.*$#i',
-            '#^https?://(www\.)?mixcloud\.com/.*$#i',
-            '#^https?://(www\.|embed\.)?ted\.com/talks/.*$#i',
-            '#^https?://(www\.)?(animoto|video214)\.com/play/.*$#i',
+            ['#^https?://((m|www)\.)?youtube\.com/(watch|playlist|shorts/)#i', 'https://www.youtube.com/oembed'],
+            ['#^https?://youtu\.be/#i', 'https://www.youtube.com/oembed'],
+            ['#^https?://(.+\.)?vimeo\.com/#i', 'https://vimeo.com/api/oembed.json'],
+            ['#^https?://(www\.)?dailymotion\.com/#i', 'https://www.dailymotion.com/services/oembed'],
+            ['#^https?://dai\.ly/#i', 'https://www.dailymotion.com/services/oembed'],
+            ['#^https?://(www\.)?flickr\.com/#i', 'https://www.flickr.com/services/oembed/'],
+            ['#^https?://flic\.kr/#i', 'https://www.flickr.com/services/oembed/'],
+            ['#^https?://(.+\.)?smugmug\.com/#i', 'https://api.smugmug.com/services/oembed/'],
+            ['#^https?://(www\.)?scribd\.com/(doc|document)/#i', 'https://www.scribd.com/services/oembed'],
+            ['#^https?://wordpress\.tv/#i', 'https://wordpress.tv/oembed/'],
+            ['#^https?://(.+\.)?crowdsignal\.net/#i', 'https://api.crowdsignal.com/oembed'],
+            ['#^https?://(.+\.)?polldaddy\.com/#i', 'https://api.crowdsignal.com/oembed'],
+            ['#^https?://poll\.fm/#i', 'https://api.crowdsignal.com/oembed'],
+            ['#^https?://(.+\.)?survey\.fm/#i', 'https://api.crowdsignal.com/oembed'],
+            ['#^https?://(www\.)?twitter\.com/\w{1,15}/status(es)?/#i', 'https://publish.twitter.com/oembed'],
+            ['#^https?://(www\.)?twitter\.com/\w{1,15}$#i', 'https://publish.twitter.com/oembed'],
+            ['#^https?://(www\.)?twitter\.com/\w{1,15}/likes$#i', 'https://publish.twitter.com/oembed'],
+            ['#^https?://(www\.)?twitter\.com/\w{1,15}/lists/#i', 'https://publish.twitter.com/oembed'],
+            ['#^https?://(www\.)?twitter\.com/\w{1,15}/timelines/#i', 'https://publish.twitter.com/oembed'],
+            ['#^https?://(www\.)?twitter\.com/i/moments/#i', 'https://publish.twitter.com/oembed'],
+            ['#^https?://(www\.)?soundcloud\.com/#i', 'https://soundcloud.com/oembed'],
+            ['#^https?://(.+?\.)?slideshare\.net/#i', 'https://www.slideshare.net/api/oembed/2'],
+            ['#^https?://(open|play)\.spotify\.com/#i', 'https://embed.spotify.com/oembed/'],
+            ['#^https?://(.+\.)?imgur\.com/#i', 'https://api.imgur.com/oembed'],
+            ['#^https?://(www\.)?meetu(\.ps|p\.com)/#i', 'https://api.meetup.com/oembed'],
+            ['#^https?://(www\.)?issuu\.com/.+/docs/.+#i', 'https://issuu.com/oembed_wp'],
+            ['#^https?://(www\.)?mixcloud\.com/#i', 'https://www.mixcloud.com/oembed'],
+            ['#^https?://(www\.|embed\.)?ted\.com/talks/#i', 'https://www.ted.com/services/v1/oembed.json'],
+            ['#^https?://(www\.)?(animoto|video214)\.com/play/#i', 'https://animoto.com/oembeds/create'],
+            ['#^https?://(.+)\.tumblr\.com/post/#i', 'https://www.tumblr.com/oembed/1.0'],
+            ['#^https?://cloudup\.com/#i', 'https://cloudup.com/oembed'],
+            ['#^https?://(www\.)?reverbnation\.com/#i', 'https://www.reverbnation.com/oembed'],
+            ['#^https?://(www\.)?reddit\.com/r/[^/]+/comments/#i', 'https://www.reddit.com/oembed'],
+            ['#^https?://(www\.)?speakerdeck\.com/#i', 'https://speakerdeck.com/oembed.json'],
+            ['#^https?://(www\.)?screencast\.com/#i', 'https://api.screencast.com/external/oembed'],
+            ['#^https?://(www\.)?tiktok\.com/(@|.*/video/)#i', 'https://www.tiktok.com/oembed'],
+            ['#^https?://([a-z]{2}|www)\.pinterest\.com(\.(au|mx))?/#i', 'https://www.pinterest.com/oembed.json'],
+            ['#^https?://(www\.)?wolframcloud\.com/obj/#i', 'https://www.wolframcloud.com/oembed'],
+            ['#^https?://bsky.app/profile/.*/post/#i', 'https://embed.bsky.app/oembed'],
         ],
     ],
     'mail' => [

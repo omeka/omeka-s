@@ -9,16 +9,16 @@
 # Simone Falteri <s.falteri@ifnet.it>, 2018
 # Tommaso Vitale, 2019
 # John Flatness <john@omeka.org>, 2023
-# Giorgio Comai <g@giorgiocomai.eu>, 2023
+# Giorgio Comai <g@giorgiocomai.eu>, 2025
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-15 12:26-0400\n"
+"POT-Creation-Date: 2025-11-25 13:32-0500\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: Giorgio Comai <g@giorgiocomai.eu>, 2023\n"
+"Last-Translator: Giorgio Comai <g@giorgiocomai.eu>, 2025\n"
 "Language-Team: Italian (https://app.transifex.com/omeka/teams/14184/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -66,23 +66,23 @@ msgstr "L'adapter %1$s non supporta operazioni di eliminazione"
 msgid "The %1$s adapter does not implement the batch delete operation."
 msgstr "L'adapter %1$s non supporta operazioni batch di eliminazione"
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:293
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:302
 #, php-format
 msgid "The \"%1$s\" field is not available in the %2$s adapter class."
 msgstr "Il campo \"%1$s\" non è disponibile nella classe dell'adattatore %2$s."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:309
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:318
 #, php-format
 msgid "The \"%1$s\" field is not available in the %2$s entity class."
 msgstr "Il campo \"%1$s\" non è disponibile nella classe di entità %2$s."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:681
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:690
 #: application/src/Api/Manager.php:209
 #, php-format
 msgid "Permission denied for the current user to %1$s the %2$s resource."
 msgstr "Permesso negato all'utente attuale di %1$s la risorsa %2$s."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:723
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:732
 #, php-format
 msgid "%1$s entity with criteria %2$s not found"
 msgstr "Entità %1$s con i criteri %2$s non è stata trovata"
@@ -91,7 +91,7 @@ msgstr "Entità %1$s con i criteri %2$s non è stata trovata"
 msgid "Welcome"
 msgstr "Benvenuto"
 
-#: application/src/Api/Adapter/SiteAdapter.php:412
+#: application/src/Api/Adapter/SiteAdapter.php:429
 msgid "Browse"
 msgstr "Sfoglia"
 
@@ -100,7 +100,7 @@ msgstr "Sfoglia"
 msgid "The API does not support the \"%s\" resource."
 msgstr "Questa API non supporta la risorsa \"%s\"."
 
-#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:630
+#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:642
 #: application/view/common/block-layout/browse-preview.phtml:25
 #: application/view/omeka/site/item-set/browse.phtml:28
 #: application/view/omeka/site/item/browse.phtml:46
@@ -108,7 +108,7 @@ msgid "[Untitled]"
 msgstr "[Senza titolo]"
 
 #: application/src/Api/Representation/ResourceTemplatePropertyRepresentation.php:129
-#: application/src/Form/BlockLayoutDataForm.php:61
+#: application/src/Form/BlockLayoutDataForm.php:62
 #: application/view/omeka/admin/resource-template/review-import.phtml:88
 msgid "Default"
 msgstr "Default"
@@ -139,7 +139,7 @@ msgstr "No"
 msgid "Asset uploads must be POSTed."
 msgstr "Il caricamento delle risorse deve essere inviato via POST"
 
-#: application/src/Controller/Admin/ItemController.php:222
+#: application/src/Controller/Admin/ItemController.php:224
 msgid "Add another item?"
 msgstr "Vuoi aggiungere un altro contenuto?"
 
@@ -198,8 +198,8 @@ msgstr "Vuoi aggiungere un altro modello di risorsa?"
 msgid "[invalid]"
 msgstr "[non valido]"
 
-#: application/src/Controller/Admin/SystemInfoController.php:154
-#: application/src/Controller/Admin/SystemInfoController.php:165
+#: application/src/Controller/Admin/SystemInfoController.php:163
+#: application/src/Controller/Admin/SystemInfoController.php:174
 msgid "[Unable to execute command]"
 msgstr "[Impossibile eseguire il comando]"
 
@@ -219,9 +219,9 @@ msgstr "Risorsa con id %s non trovata."
 #: application/src/DataType/Resource/Item.php:27
 #: application/view/common/cross-site-search/results.phtml:40
 #: application/view/common/data-type/resource.phtml:23
-#: application/view/layout/layout-admin.phtml:68
+#: application/view/layout/layout-admin.phtml:67
 #: application/view/omeka/admin/item-set/show-details.phtml:22
-#: application/view/omeka/admin/item-set/show.phtml:84
+#: application/view/omeka/admin/item-set/show.phtml:87
 #: application/view/omeka/admin/item/add.phtml:6
 #: application/view/omeka/admin/item/browse.phtml:7
 #: application/view/omeka/admin/item/edit.phtml:14
@@ -245,10 +245,10 @@ msgstr "Collezioni"
 #: application/view/common/block-layout/item-with-metadata.phtml:29
 #: application/view/common/data-type/resource.phtml:37
 #: application/view/common/resource-page-block-layout/media-list.phtml:7
-#: application/view/layout/layout-admin.phtml:76
+#: application/view/layout/layout-admin.phtml:75
 #: application/view/omeka/admin/item/form.phtml:15
-#: application/view/omeka/admin/item/show-details.phtml:48
-#: application/view/omeka/admin/item/show.phtml:100
+#: application/view/omeka/admin/item/show-details.phtml:60
+#: application/view/omeka/admin/item/show.phtml:105
 #: application/view/omeka/admin/media/browse.phtml:7
 #: application/view/omeka/admin/media/edit.phtml:17
 #: application/view/omeka/admin/media/edit.phtml:25
@@ -297,13 +297,13 @@ msgstr "La password deve:"
 #: application/view/common/advanced-search/ids.phtml:13
 #: application/view/common/advanced-search/item-sets.phtml:44
 #: application/view/common/advanced-search/owner.phtml:4
-#: application/view/common/advanced-search/resource-class.phtml:25
+#: application/view/common/advanced-search/resource-class.phtml:29
 #: application/view/common/advanced-search/resource-template.phtml:17
 #: application/view/common/advanced-search/site.phtml:4
-#: application/view/common/form-row.phtml:16
-#: application/view/common/resource-values.phtml:66
+#: application/view/common/form-row.phtml:18
+#: application/view/common/resource-values.phtml:68
 #: application/view/omeka/admin/item-set/sidebar-select.phtml:19
-#: application/view/omeka/admin/item/sidebar-select.phtml:28
+#: application/view/omeka/admin/item/sidebar-select.phtml:46
 msgid "Expand"
 msgstr "Espandi"
 
@@ -384,7 +384,7 @@ msgstr "Il modulo \"%s\" non è stato trovato nel database durante l'aggiornamen
 msgid "Permission denied for the current user to %1$s the %2$s module."
 msgstr "Permesse negato all'utente attuale di %1$s il modulo %2$s"
 
-#: application/src/Mvc/MvcListeners.php:459
+#: application/src/Mvc/MvcListeners.php:498
 #, php-format
 msgid ""
 "Permission denied for the current user to access the %1$s action of the %2$s"
@@ -395,7 +395,7 @@ msgstr ""
 
 #: application/src/Site/BlockLayout/BlockGroup.php:27
 msgid "Drag blocks here to group."
-msgstr ""
+msgstr "Trascina i blocchi qui per raggrupparli"
 
 #: application/src/Site/BlockLayout/Fallback.php:41
 msgid "This layout is invalid."
@@ -413,7 +413,7 @@ msgstr "Aggiungi pagine"
 msgid "Options"
 msgstr "Opzioni"
 
-#: application/src/Site/BlockLayout/Oembed.php:113
+#: application/src/Site/BlockLayout/Oembed.php:106
 #: application/view/omeka/admin/item-set/form.phtml:14
 #: application/view/omeka/admin/item/form.phtml:18
 #: application/view/omeka/admin/media/edit.phtml:14
@@ -487,27 +487,27 @@ msgstr ""
 msgid "User activation for %s"
 msgstr "Attivazione utente per %s"
 
-#: application/src/Stdlib/Oembed.php:44
+#: application/src/Stdlib/Oembed.php:48
 #, php-format
 msgid "oEmbed: URL is not allowed %s"
 msgstr "oEmbed: URL non è permessa %s"
 
-#: application/src/Stdlib/Oembed.php:57
+#: application/src/Stdlib/Oembed.php:66
 #, php-format
 msgid "oEmbed: links cannot be found at %s"
 msgstr "oEmbed: non è possibile trovare link a %s"
 
-#: application/src/Stdlib/Oembed.php:69
+#: application/src/Stdlib/Oembed.php:81
 #, php-format
 msgid "oEmbed: response cannot be decoded to JSON %s"
 msgstr "oEmbed: la risposta non può essere decodificata in JSON %s"
 
-#: application/src/Stdlib/Oembed.php:114
+#: application/src/Stdlib/Oembed.php:126
 #, php-format
 msgid "oEmbed: URL is invalid: %s"
 msgstr "oEmbed: URL non valida: %s"
 
-#: application/src/Stdlib/Oembed.php:123
+#: application/src/Stdlib/Oembed.php:135
 #, php-format
 msgid "oEmbed: URL is unreadable at %s: %s (%s)"
 msgstr "oEmbed: URL illeggibile %s: %s (%s)"
@@ -521,6 +521,18 @@ msgstr "Mostra il titolo dell'allegato"
 #: application/view/omeka/admin/vocabulary/update.phtml:23
 msgid "Cancel"
 msgstr "Annulla"
+
+#: application/src/View/Helper/ItemSetSelector.php:37
+#: application/src/View/Helper/SiteSelector.php:22
+#: application/view/common/site-selector.phtml:10
+#: application/view/omeka/admin/asset/browse.phtml:44
+#: application/view/omeka/admin/item-set/show.phtml:17
+#: application/view/omeka/admin/item/show.phtml:8
+#: application/view/omeka/admin/job/browse.phtml:38
+#: application/view/omeka/admin/job/show.phtml:18
+#: application/view/omeka/admin/resource-template/browse.phtml:44
+msgid "[No owner]"
+msgstr "[senza proprietario]"
 
 #: application/src/View/Helper/PasswordRequirements.php:40
 #, php-format
@@ -547,85 +559,98 @@ msgstr "La password deve contenere almeno %s cifre."
 msgid "Password must contain at least %1$s symbols: <code>%2$s</code>"
 msgstr "La password deve contenere almeno %1$s simboli: <code>%2$s</code>"
 
-#: application/src/View/Helper/SearchFilters.php:32
-#: application/view/common/advanced-search/properties.phtml:76
+#: application/src/View/Helper/SearchFilters.php:33
+#: application/view/common/advanced-search/properties.phtml:80
 msgid "is exactly"
 msgstr "è esattamente"
 
-#: application/src/View/Helper/SearchFilters.php:33
-#: application/view/common/advanced-search/properties.phtml:77
+#: application/src/View/Helper/SearchFilters.php:34
+#: application/view/common/advanced-search/properties.phtml:81
 msgid "is not exactly"
 msgstr "non è esattamente"
 
-#: application/src/View/Helper/SearchFilters.php:34
-#: application/view/common/advanced-search/properties.phtml:78
+#: application/src/View/Helper/SearchFilters.php:35
+#: application/view/common/advanced-search/properties.phtml:82
 msgid "contains"
 msgstr "contiene"
 
-#: application/src/View/Helper/SearchFilters.php:35
-#: application/view/common/advanced-search/properties.phtml:79
+#: application/src/View/Helper/SearchFilters.php:36
+#: application/view/common/advanced-search/properties.phtml:83
 msgid "does not contain"
 msgstr "non contiene"
 
-#: application/src/View/Helper/SearchFilters.php:36
-#: application/view/common/advanced-search/properties.phtml:80
+#: application/src/View/Helper/SearchFilters.php:37
+#: application/view/common/advanced-search/properties.phtml:84
 msgid "starts with"
 msgstr "inizia con"
 
-#: application/src/View/Helper/SearchFilters.php:37
-#: application/view/common/advanced-search/properties.phtml:81
+#: application/src/View/Helper/SearchFilters.php:38
+#: application/view/common/advanced-search/properties.phtml:85
 msgid "does not start with"
 msgstr "non inizia con"
 
-#: application/src/View/Helper/SearchFilters.php:38
-#: application/view/common/advanced-search/properties.phtml:82
+#: application/src/View/Helper/SearchFilters.php:39
+#: application/view/common/advanced-search/properties.phtml:86
 msgid "ends with"
 msgstr "finisce con"
 
-#: application/src/View/Helper/SearchFilters.php:39
-#: application/view/common/advanced-search/properties.phtml:83
+#: application/src/View/Helper/SearchFilters.php:40
+#: application/view/common/advanced-search/properties.phtml:87
 msgid "does not end with"
 msgstr "non finisce con"
 
-#: application/src/View/Helper/SearchFilters.php:40
-#: application/view/common/advanced-search/properties.phtml:84
+#: application/src/View/Helper/SearchFilters.php:41
+#: application/view/common/advanced-search/properties.phtml:88
 msgid "is resource with ID"
 msgstr "è una risorsa con ID"
 
-#: application/src/View/Helper/SearchFilters.php:41
-#: application/view/common/advanced-search/properties.phtml:85
+#: application/src/View/Helper/SearchFilters.php:42
+#: application/view/common/advanced-search/properties.phtml:89
 msgid "is not resource with ID"
 msgstr "non è una risosra con ID"
 
-#: application/src/View/Helper/SearchFilters.php:42
-#: application/view/common/advanced-search/properties.phtml:86
+#: application/src/View/Helper/SearchFilters.php:43
+#: application/view/common/advanced-search/properties.phtml:90
 msgid "has any value"
 msgstr "ha un valore qualsiasi"
 
-#: application/src/View/Helper/SearchFilters.php:43
-#: application/view/common/advanced-search/properties.phtml:87
+#: application/src/View/Helper/SearchFilters.php:44
+#: application/view/common/advanced-search/properties.phtml:91
 msgid "has no values"
 msgstr "non ha un valore"
 
-#: application/src/View/Helper/SearchFilters.php:51
+#: application/src/View/Helper/SearchFilters.php:45
+#: application/view/common/advanced-search/properties.phtml:92
+msgid "has data type"
+msgstr "ha tipo di dati"
+
+#: application/src/View/Helper/SearchFilters.php:46
+#: application/view/common/advanced-search/properties.phtml:93
+msgid "does not have data type"
+msgstr "non ha tipo di dati"
+
+#: application/src/View/Helper/SearchFilters.php:53
 #: application/view/common/advanced-search/fulltext.phtml:6
 msgid "Search full-text"
 msgstr "Cerca in tutto il testo"
 
-#: application/src/View/Helper/SearchFilters.php:64
-#: application/view/common/linked-resources.phtml:75
+#: application/src/View/Helper/SearchFilters.php:65
+#: application/view/common/linked-resources.phtml:80
+#: application/view/omeka/admin/item-set/show-details.phtml:27
 #: application/view/omeka/admin/item-set/show.phtml:42
+#: application/view/omeka/admin/item/show-details.phtml:22
 #: application/view/omeka/admin/item/show.phtml:32
 #: application/view/omeka/admin/job/browse.phtml:20
 #: application/view/omeka/admin/job/show.phtml:42
-#: application/view/omeka/admin/media/show.phtml:25
+#: application/view/omeka/admin/media/show-details.phtml:29
+#: application/view/omeka/admin/media/show.phtml:27
 #: application/view/omeka/admin/resource-template/browse.phtml:27
 #: application/view/omeka/admin/resource-template/review-import.phtml:32
 #: application/view/omeka/admin/resource-template/show.phtml:19
 msgid "Class"
 msgstr "Classe"
 
-#: application/src/View/Helper/SearchFilters.php:68
+#: application/src/View/Helper/SearchFilters.php:69
 msgid "Unknown class"
 msgstr "Classe sconosciuta"
 
@@ -638,27 +663,25 @@ msgid "[Any property]"
 msgstr "[Qualsiasi proprietà]"
 
 #: application/src/View/Helper/SearchFilters.php:117
-#: application/view/common/advanced-search/properties.phtml:60
+#: application/view/common/advanced-search/properties.phtml:64
 msgid "OR"
 msgstr "OR"
 
 #: application/src/View/Helper/SearchFilters.php:119
-#: application/view/common/advanced-search/properties.phtml:59
+#: application/view/common/advanced-search/properties.phtml:63
 msgid "AND"
 msgstr "AND"
 
-#: application/src/View/Helper/SearchFilters.php:128
+#: application/src/View/Helper/SearchFilters.php:133
 #: application/view/common/cross-site-search/advanced-item-form.phtml:5
 #: application/view/common/cross-site-search/advanced-item-set-form.phtml:5
 #: application/view/common/cross-site-search/fulltext-form.phtml:7
-#: application/view/common/search-form.phtml:17
-#: application/view/common/search-form.phtml:18
-#: application/view/common/search-form.phtml:19
-#: application/view/layout/layout-admin.phtml:62
+#: application/view/common/search-form.phtml:15
+#: application/view/layout/layout-admin.phtml:58
 #: application/view/omeka/admin/item-set/search.phtml:13
 #: application/view/omeka/admin/item-set/sidebar-select.phtml:15
 #: application/view/omeka/admin/item/search.phtml:13
-#: application/view/omeka/admin/item/sidebar-select.phtml:24
+#: application/view/omeka/admin/item/sidebar-select.phtml:42
 #: application/view/omeka/admin/media/search.phtml:13
 #: application/view/omeka/admin/media/sidebar-select.phtml:12
 #: application/view/omeka/admin/user/search.phtml:12
@@ -668,97 +691,97 @@ msgstr "AND"
 msgid "Search"
 msgstr "Cerca"
 
-#: application/src/View/Helper/SearchFilters.php:141
+#: application/src/View/Helper/SearchFilters.php:145
 msgid "Template"
 msgstr "Modello"
 
-#: application/src/View/Helper/SearchFilters.php:145
+#: application/src/View/Helper/SearchFilters.php:149
 msgid "Unknown template"
 msgstr "Modello sconosciuto"
 
-#: application/src/View/Helper/SearchFilters.php:160
+#: application/src/View/Helper/SearchFilters.php:163
 msgid "In item set"
 msgstr "Incluso nella collezione"
 
-#: application/src/View/Helper/SearchFilters.php:164
-#: application/src/View/Helper/SearchFilters.php:182
+#: application/src/View/Helper/SearchFilters.php:167
+#: application/src/View/Helper/SearchFilters.php:184
 msgid "Unknown item set"
 msgstr "Collezione sconosciuta"
 
-#: application/src/View/Helper/SearchFilters.php:178
+#: application/src/View/Helper/SearchFilters.php:180
 msgid "Not in item set"
 msgstr "Non incluso nella collezione"
 
-#: application/src/View/Helper/SearchFilters.php:190
+#: application/src/View/Helper/SearchFilters.php:191
 #: application/view/omeka/site-admin/index/users.phtml:54
 msgid "User"
 msgstr "Utente"
 
-#: application/src/View/Helper/SearchFilters.php:194
+#: application/src/View/Helper/SearchFilters.php:195
 msgid "Unknown user"
 msgstr "Utente sconosciuto"
 
-#: application/src/View/Helper/SearchFilters.php:200
+#: application/src/View/Helper/SearchFilters.php:201
 msgid "Site"
 msgstr "Sito"
 
-#: application/src/View/Helper/SearchFilters.php:204
+#: application/src/View/Helper/SearchFilters.php:205
 #: application/src/View/Helper/SearchUserFilters.php:74
 msgid "Unknown site"
 msgstr "Sito sconosciuto"
 
-#: application/src/View/Helper/SearchFilters.php:210
+#: application/src/View/Helper/SearchFilters.php:211
 #: application/view/omeka/admin/item-set/show-details.phtml:17
-#: application/view/omeka/admin/item-set/show.phtml:79
+#: application/view/omeka/admin/item-set/show.phtml:82
 #: application/view/omeka/admin/item/show-details.phtml:17
-#: application/view/omeka/admin/item/show.phtml:61
-#: application/view/omeka/admin/media/show-details.phtml:49
-#: application/view/omeka/admin/media/show.phtml:39
+#: application/view/omeka/admin/item/show.phtml:66
+#: application/view/omeka/admin/media/show-details.phtml:63
+#: application/view/omeka/admin/media/show.phtml:49
 msgid "Visibility"
 msgstr "Visibilità"
 
-#: application/src/View/Helper/SearchFilters.php:211
-#: application/view/common/property-form-batch-edit.phtml:17
-#: application/view/common/property-form-batch-edit.phtml:31
-#: application/view/common/property-form-batch-edit.phtml:46
-#: application/view/common/property-form-batch-edit.phtml:68
+#: application/src/View/Helper/SearchFilters.php:212
+#: application/view/common/property-form-batch-edit.phtml:23
+#: application/view/common/property-form-batch-edit.phtml:37
+#: application/view/common/property-form-batch-edit.phtml:52
+#: application/view/common/property-form-batch-edit.phtml:105
 #: application/view/omeka/admin/item-set/show-details.phtml:18
-#: application/view/omeka/admin/item-set/show.phtml:80
+#: application/view/omeka/admin/item-set/show.phtml:83
 #: application/view/omeka/admin/item/show-details.phtml:18
-#: application/view/omeka/admin/item/show.phtml:62
-#: application/view/omeka/admin/media/show-details.phtml:50
-#: application/view/omeka/admin/media/show.phtml:40
+#: application/view/omeka/admin/item/show.phtml:67
+#: application/view/omeka/admin/media/show-details.phtml:64
+#: application/view/omeka/admin/media/show.phtml:50
 msgid "Public"
 msgstr "Pubblico"
 
-#: application/src/View/Helper/SearchFilters.php:211
-#: application/view/common/property-form-batch-edit.phtml:18
-#: application/view/common/property-form-batch-edit.phtml:32
-#: application/view/common/property-form-batch-edit.phtml:47
-#: application/view/common/property-form-batch-edit.phtml:69
+#: application/src/View/Helper/SearchFilters.php:212
+#: application/view/common/property-form-batch-edit.phtml:24
+#: application/view/common/property-form-batch-edit.phtml:38
+#: application/view/common/property-form-batch-edit.phtml:53
+#: application/view/common/property-form-batch-edit.phtml:106
 msgid "Not public"
 msgstr "Non pubblico"
 
-#: application/src/View/Helper/SearchFilters.php:215
+#: application/src/View/Helper/SearchFilters.php:216
 msgid "Media presence"
 msgstr "Presenza di media"
 
-#: application/src/View/Helper/SearchFilters.php:216
+#: application/src/View/Helper/SearchFilters.php:217
 msgid "Has media"
 msgstr "Ha un media"
 
-#: application/src/View/Helper/SearchFilters.php:216
+#: application/src/View/Helper/SearchFilters.php:217
 msgid "Has no media"
 msgstr "Non ha un media"
 
-#: application/src/View/Helper/SearchFilters.php:220
+#: application/src/View/Helper/SearchFilters.php:221
 #: application/view/omeka/admin/item-set/show-details.phtml:13
-#: application/view/omeka/admin/item-set/show.phtml:67
+#: application/view/omeka/admin/item-set/show.phtml:70
 #: application/view/omeka/admin/item/show-details.phtml:13
-#: application/view/omeka/admin/item/show.phtml:57
+#: application/view/omeka/admin/item/show.phtml:62
 #: application/view/omeka/admin/job/browse.phtml:19
 #: application/view/omeka/admin/media/show-details.phtml:18
-#: application/view/omeka/admin/media/show.phtml:35
+#: application/view/omeka/admin/media/show.phtml:45
 #: application/view/omeka/admin/user/edit.phtml:39
 msgid "ID"
 msgstr "ID"
@@ -828,7 +851,7 @@ msgstr "La dimensione massima di un upload è di %s MB."
 #: application/view/omeka/admin/user/edit.phtml:14
 #: application/view/omeka/admin/vocabulary/browse.phtml:43
 #: application/view/omeka/admin/vocabulary/edit.phtml:8
-#: application/view/omeka/site-admin/index/index.phtml:47
+#: application/view/omeka/site-admin/index/index.phtml:71
 #: application/view/omeka/site-admin/index/show.phtml:12
 #: application/view/omeka/site-admin/page/edit.phtml:11
 #: application/view/omeka/site-admin/page/index.phtml:57
@@ -881,12 +904,12 @@ msgid "Not in"
 msgstr "Non in"
 
 #: application/view/common/advanced-search/item-sets.phtml:66
-#: application/view/common/advanced-search/properties.phtml:90
-#: application/view/common/advanced-search/resource-class.phtml:44
+#: application/view/common/advanced-search/properties.phtml:97
+#: application/view/common/advanced-search/resource-class.phtml:48
 #: application/view/common/advanced-search/resource-template.phtml:33
 #: application/view/common/data-type-wrapper.phtml:18
 #: application/view/common/media-field-wrapper.phtml:14
-#: application/view/common/value-annotation-wrapper.phtml:11
+#: application/view/common/value-annotation-wrapper.phtml:12
 #: application/view/omeka/admin/item/manage-media.phtml:60
 msgid "Remove value"
 msgstr "Elimina valore"
@@ -907,31 +930,35 @@ msgstr "Cerca tra risorse di proprietà di questo utente"
 msgid "Query text"
 msgstr "Testo della query"
 
-#: application/view/common/advanced-search/properties.phtml:48
+#: application/view/common/advanced-search/properties.phtml:52
 msgid "Search by value"
 msgstr "Cerca per valore"
 
-#: application/view/common/advanced-search/properties.phtml:49
+#: application/view/common/advanced-search/properties.phtml:53
 msgid "Add new value"
 msgstr "Aggiungi un nuovo valore"
 
-#: application/view/common/advanced-search/properties.phtml:58
+#: application/view/common/advanced-search/properties.phtml:62
 msgid "Joiner"
 msgstr "Elemento che unisce"
 
-#: application/view/common/advanced-search/properties.phtml:75
+#: application/view/common/advanced-search/properties.phtml:79
 msgid "Query type"
 msgstr "Tipo di query"
 
-#: application/view/common/advanced-search/resource-class.phtml:24
+#: application/view/common/advanced-search/properties.phtml:96
+msgid "Select data type…"
+msgstr "Seleziona tipo di dati..."
+
+#: application/view/common/advanced-search/resource-class.phtml:28
 msgid "Search by class"
 msgstr "Cerca per classe"
 
-#: application/view/common/advanced-search/resource-class.phtml:27
+#: application/view/common/advanced-search/resource-class.phtml:31
 msgid "Searches for resources that are any of these classes."
 msgstr "Ricerche tra risorse che sono una tra le seguenti classi."
 
-#: application/view/common/advanced-search/resource-class.phtml:29
+#: application/view/common/advanced-search/resource-class.phtml:33
 msgid "Add new class"
 msgstr "Aggiungi nuova classe"
 
@@ -955,7 +982,7 @@ msgstr "Cerca per sito"
 msgid "Searches for items that are assigned to this site."
 msgstr "Cerca tra i contenuti assegnati a questo sito"
 
-#: application/view/common/advanced-search/sort.phtml:35
+#: application/view/common/advanced-search/sort.phtml:45
 #: application/view/common/sort-selector.phtml:16
 msgid "Sort"
 msgstr "Ordina"
@@ -1003,9 +1030,9 @@ msgstr "Ripristina l'allegato"
 #: application/view/common/asset-block-form.phtml:20
 #: application/view/common/block-layout.phtml:58
 #: application/view/common/resource-form-templates.phtml:10
-#: application/view/common/resource-values.phtml:66
+#: application/view/common/resource-values.phtml:68
 #: application/view/omeka/admin/item-set/sidebar-select.phtml:19
-#: application/view/omeka/admin/item/sidebar-select.phtml:28
+#: application/view/omeka/admin/item/sidebar-select.phtml:46
 #: application/view/omeka/site-admin/page/attachment-item-options.phtml:35
 #: application/view/omeka/site-admin/page/edit.phtml:131
 msgid "Collapse"
@@ -1056,8 +1083,7 @@ msgstr "[Nessuna pagina selezionata]"
 #: application/view/common/item-set-selector.phtml:6
 #: application/view/common/page-select-sidebar.phtml:6
 #: application/view/common/property-selector.phtml:6
-#: application/view/common/resource-select-sidebar.phtml:6
-#: application/view/common/resource-select-sidebar.phtml:12
+#: application/view/common/resource-select-sidebar.phtml:11
 #: application/view/common/sidebar-pagelist.phtml:8
 #: application/view/common/site-selector.phtml:2
 #: application/view/common/user-selector.phtml:6
@@ -1073,6 +1099,8 @@ msgstr "[Nessuna pagina selezionata]"
 #: application/view/omeka/admin/item/browse.phtml:116
 #: application/view/omeka/admin/item/browse.phtml:134
 #: application/view/omeka/admin/item/manage-media.phtml:82
+#: application/view/omeka/admin/item/sidebar-select.phtml:12
+#: application/view/omeka/admin/item/sidebar-select.phtml:27
 #: application/view/omeka/admin/media/browse.phtml:105
 #: application/view/omeka/admin/media/browse.phtml:113
 #: application/view/omeka/admin/media/browse.phtml:131
@@ -1089,7 +1117,7 @@ msgstr "[Nessuna pagina selezionata]"
 #: application/view/omeka/admin/vocabulary/browse.phtml:76
 #: application/view/omeka/admin/vocabulary/classes.phtml:53
 #: application/view/omeka/admin/vocabulary/properties.phtml:54
-#: application/view/omeka/site-admin/index/index.phtml:72
+#: application/view/omeka/site-admin/index/index.phtml:96
 #: application/view/omeka/site-admin/index/navigation.phtml:30
 #: application/view/omeka/site-admin/page/edit.phtml:85
 #: application/view/omeka/site-admin/page/edit.phtml:107
@@ -1138,7 +1166,7 @@ msgstr "Aggiungi un allegato"
 
 #: application/view/common/block-layout.phtml:5
 msgid "Auto"
-msgstr ""
+msgstr "Auto"
 
 #: application/view/common/block-layout.phtml:7
 #, php-format
@@ -1156,15 +1184,15 @@ msgstr "Blocco da eliminare"
 
 #: application/view/common/block-layout.phtml:20
 msgid "Block and contents to be removed"
-msgstr ""
+msgstr "Blocchi e contenuti da rimuovere"
 
 #: application/view/common/block-layout.phtml:31
 msgid "Position"
-msgstr ""
+msgstr "Posizione"
 
 #: application/view/common/block-layout.phtml:38
 msgid "Span"
-msgstr ""
+msgstr "Span"
 
 #: application/view/common/block-layout.phtml:49
 #: application/view/omeka/site-admin/page/edit.phtml:70
@@ -1188,26 +1216,26 @@ msgstr "Ripristina blocco"
 
 #: application/view/common/block-layout.phtml:55
 msgid "Expand group"
-msgstr ""
+msgstr "Espandi gruppo"
 
 #: application/view/common/block-layout.phtml:56
 msgid "Collapse group"
-msgstr ""
+msgstr "Riduci gruppo"
 
 #: application/view/common/block-layout/item-with-metadata.phtml:19
 #: application/view/common/cross-site-search/results.phtml:70
 #: application/view/common/data-type/resource.phtml:30
 #: application/view/common/item-set-selector.phtml:11
 #: application/view/common/resource-page-block-layout/item-sets.phtml:9
-#: application/view/layout/layout-admin.phtml:72
+#: application/view/layout/layout-admin.phtml:71
 #: application/view/omeka/admin/item-set/add.phtml:6
 #: application/view/omeka/admin/item-set/browse.phtml:7
 #: application/view/omeka/admin/item-set/edit.phtml:14
 #: application/view/omeka/admin/item-set/search.phtml:5
 #: application/view/omeka/admin/item-set/show.phtml:26
 #: application/view/omeka/admin/item/form.phtml:16
-#: application/view/omeka/admin/item/show-details.phtml:23
-#: application/view/omeka/admin/item/show.phtml:67
+#: application/view/omeka/admin/item/show-details.phtml:35
+#: application/view/omeka/admin/item/show.phtml:72
 #: application/view/omeka/admin/user/show-details.phtml:17
 #: application/view/omeka/site-admin/index/resources.phtml:23
 #: application/view/omeka/site/item-set/browse.phtml:13
@@ -1215,9 +1243,9 @@ msgid "Item sets"
 msgstr "Collezione"
 
 #: application/view/common/block-layout/page-date-time.phtml:13
-#: application/view/omeka/admin/item-set/show.phtml:71
-#: application/view/omeka/admin/item/show.phtml:91
-#: application/view/omeka/admin/media/show.phtml:48
+#: application/view/omeka/admin/item-set/show.phtml:74
+#: application/view/omeka/admin/item/show.phtml:96
+#: application/view/omeka/admin/media/show.phtml:58
 #: application/view/omeka/admin/user/browse.phtml:67
 #: application/view/omeka/site-admin/page/index.phtml:26
 msgid "Created"
@@ -1320,12 +1348,12 @@ msgid "Omeka resource"
 msgstr "Risorsa Omeka"
 
 #: application/view/common/data-type-wrapper.phtml:16
-#: application/view/common/value-annotation-wrapper.phtml:9
+#: application/view/common/value-annotation-wrapper.phtml:10
 msgid "Value to be removed"
 msgstr "Valore da eliminare"
 
 #: application/view/common/data-type-wrapper.phtml:19
-#: application/view/common/value-annotation-wrapper.phtml:12
+#: application/view/common/value-annotation-wrapper.phtml:13
 #: application/view/omeka/admin/item/manage-media.phtml:64
 #: application/view/omeka/admin/resource-template/show-property-row.phtml:42
 msgid "Restore value"
@@ -1337,6 +1365,7 @@ msgstr "Più azioni"
 
 #: application/view/common/data-type-wrapper.phtml:24
 #: application/view/common/media-field-wrapper.phtml:10
+#: application/view/common/value-annotation-wrapper.phtml:14
 #: application/view/omeka/admin/item-set/form.phtml:43
 #: application/view/omeka/admin/item/form.phtml:52
 #: application/view/omeka/admin/item/manage-media.phtml:42
@@ -1364,8 +1393,8 @@ msgstr "Imposta lingua"
 #: application/view/common/data-type/uri.phtml:7
 #: application/view/common/data-type/value-annotation-literal.phtml:5
 #: application/view/common/data-type/value-annotation-uri.phtml:5
-#: application/view/omeka/admin/media/show-details.phtml:29
-#: application/view/omeka/admin/media/show.phtml:53
+#: application/view/omeka/admin/media/show-details.phtml:43
+#: application/view/omeka/admin/media/show.phtml:63
 msgid "Language"
 msgstr "Lingua"
 
@@ -1376,7 +1405,7 @@ msgstr "Nessuna risorsa selezionata"
 
 #: application/view/common/data-type/uri.phtml:13
 #: application/view/common/data-type/value-annotation-uri.phtml:11
-#: application/view/common/property-form-batch-edit.phtml:44
+#: application/view/common/property-form-batch-edit.phtml:50
 #: application/view/common/resource-form-templates.phtml:24
 msgid "URI"
 msgstr "URI"
@@ -1386,7 +1415,7 @@ msgstr "URI"
 #: application/view/common/navigation-link-form/browse.phtml:16
 #: application/view/common/navigation-link-form/page.phtml:15
 #: application/view/common/navigation-link-form/url.phtml:9
-#: application/view/common/property-form-batch-edit.phtml:45
+#: application/view/common/property-form-batch-edit.phtml:51
 #: application/view/omeka/admin/resource-template/browse.phtml:26
 #: application/view/omeka/admin/resource-template/form.phtml:55
 #: application/view/omeka/admin/user/edit.phtml:38
@@ -1415,7 +1444,7 @@ msgstr "Nessun filtro"
 msgid "Filter"
 msgstr "Filtro"
 
-#: application/view/common/form-row.phtml:20
+#: application/view/common/form-row.phtml:22
 msgid "Learn more"
 msgstr "Saperne di più"
 
@@ -1428,39 +1457,28 @@ msgstr ""
 msgid "Filter item sets"
 msgstr "Filtra le collezioni"
 
-#: application/view/common/item-set-selector.phtml:18
-#: application/view/common/site-selector.phtml:10
-#: application/view/omeka/admin/asset/browse.phtml:44
-#: application/view/omeka/admin/item-set/show.phtml:17
-#: application/view/omeka/admin/item/show.phtml:8
-#: application/view/omeka/admin/job/browse.phtml:38
-#: application/view/omeka/admin/job/show.phtml:18
-#: application/view/omeka/admin/resource-template/browse.phtml:44
-msgid "[No owner]"
-msgstr "[senza proprietario]"
-
-#: application/view/common/item-set-selector.phtml:31
-#: application/view/common/property-selector.phtml:33
-#: application/view/common/site-selector.phtml:20
+#: application/view/common/item-set-selector.phtml:26
+#: application/view/common/property-selector.phtml:35
+#: application/view/common/site-selector.phtml:23
 msgid "More info"
 msgstr "Maggiori informazioni"
 
-#: application/view/common/linked-resources.phtml:54
+#: application/view/common/linked-resources.phtml:59
 msgid "Filter by resource type and property:"
 msgstr "Filtra per tipo di risorsa e proprietà"
 
-#: application/view/common/linked-resources.phtml:64
+#: application/view/common/linked-resources.phtml:69
 #, php-format
 msgid "%s with \"%s: %s\""
 msgstr "%s con \"%s: %s\""
 
-#: application/view/common/linked-resources.phtml:74
+#: application/view/common/linked-resources.phtml:79
 #: application/view/omeka/admin/item-set/browse.phtml:54
 #: application/view/omeka/admin/item/browse.phtml:54
 #: application/view/omeka/admin/item/manage-item-sets.phtml:39
 #: application/view/omeka/admin/item/manage-sites.phtml:58
 #: application/view/omeka/admin/media/browse.phtml:49
-#: application/view/omeka/site-admin/index/index.phtml:25
+#: application/view/omeka/site-admin/index/index.phtml:49
 #: application/view/omeka/site-admin/index/resources.phtml:66
 #: application/view/omeka/site-admin/index/show.phtml:26
 #: application/view/omeka/site-admin/page/index.phtml:24
@@ -1478,12 +1496,14 @@ msgid "Type"
 msgstr "Tipo"
 
 #: application/view/common/navigation-link-form/browse.phtml:17
+#: application/view/common/search-form.phtml:18
+#: application/view/layout/layout-admin.phtml:60
 msgid "Query"
 msgstr "Query"
 
 #: application/view/common/navigation-link-form/page.phtml:14
-#: application/view/common/pagination.phtml:15
-#: application/view/common/sidebar-pagination.phtml:6
+#: application/view/common/pagination.phtml:18
+#: application/view/common/sidebar-pagination.phtml:7
 msgid "Page"
 msgstr "Pagina"
 
@@ -1515,62 +1535,78 @@ msgstr "Sinistra"
 msgid "Select Pages"
 msgstr "Seleziona pagine"
 
-#: application/view/common/pagination.phtml:16
-#: application/view/common/sidebar-pagination.phtml:7
+#: application/view/common/pagination.phtml:14
+#: application/view/common/sidebar-pagination.phtml:4
+msgid "Pagination"
+msgstr "Paginazione"
+
+#: application/view/common/pagination.phtml:19
+#: application/view/common/sidebar-pagination.phtml:8
 #, php-format
 msgid "of %s"
 msgstr "di %s"
 
-#: application/view/common/pagination.phtml:21
-#: application/view/common/sidebar-pagination.phtml:11
+#: application/view/common/pagination.phtml:24
+#: application/view/common/sidebar-pagination.phtml:14
 msgid "Previous"
 msgstr "Precedente"
 
-#: application/view/common/pagination.phtml:27
-#: application/view/common/sidebar-pagination.phtml:17
+#: application/view/common/pagination.phtml:30
+#: application/view/common/sidebar-pagination.phtml:20
 #: application/view/common/site-page-pagination.phtml:4
 msgid "Next"
 msgstr "Seguente"
 
-#: application/view/common/pagination.phtml:37
+#: application/view/common/pagination.phtml:40
 #, php-format
 msgid "%1$s–%2$s of %3$s"
 msgstr "%1$s–%2$s di %3$s"
 
-#: application/view/common/pagination.phtml:39
+#: application/view/common/pagination.phtml:42
 msgid "0 results"
 msgstr "0 risultati"
 
-#: application/view/common/property-form-batch-edit.phtml:7
+#: application/view/common/property-form-batch-edit.phtml:12
+#: application/view/common/property-form-batch-edit.phtml:66
 msgid "Select property"
 msgstr "Seleziona proprietà"
 
-#: application/view/common/property-form-batch-edit.phtml:12
-#: application/view/common/property-form-batch-edit.phtml:78
+#: application/view/common/property-form-batch-edit.phtml:18
+#: application/view/common/property-form-batch-edit.phtml:121
 msgid "Add text value"
 msgstr "Aggiungi valore di testo"
 
-#: application/view/common/property-form-batch-edit.phtml:20
-#: application/view/common/property-form-batch-edit.phtml:34
-#: application/view/common/property-form-batch-edit.phtml:49
+#: application/view/common/property-form-batch-edit.phtml:26
+#: application/view/common/property-form-batch-edit.phtml:40
+#: application/view/common/property-form-batch-edit.phtml:55
+#: application/view/common/property-form-batch-edit.phtml:86
 msgid "Remove"
 msgstr "Elimina"
 
-#: application/view/common/property-form-batch-edit.phtml:26
-#: application/view/common/property-form-batch-edit.phtml:79
+#: application/view/common/property-form-batch-edit.phtml:32
+#: application/view/common/property-form-batch-edit.phtml:122
 msgid "Add resource value"
 msgstr "Aggiungi valore risorsa"
 
-#: application/view/common/property-form-batch-edit.phtml:30
+#: application/view/common/property-form-batch-edit.phtml:36
 msgid "Resource ID"
 msgstr "Risorsa"
 
-#: application/view/common/property-form-batch-edit.phtml:40
-#: application/view/common/property-form-batch-edit.phtml:80
+#: application/view/common/property-form-batch-edit.phtml:46
+#: application/view/common/property-form-batch-edit.phtml:123
 msgid "Add URI value"
 msgstr "Aggiungi valore URI"
 
-#: application/view/common/property-form-batch-edit.phtml:54
+#: application/view/common/property-form-batch-edit.phtml:74
+msgid "Select data type"
+msgstr "Seleziona tipo di dati"
+
+#: application/view/common/property-form-batch-edit.phtml:81
+#: application/view/common/property-form-batch-edit.phtml:113
+msgid "Convert data type"
+msgstr "Converti tipo di dati"
+
+#: application/view/common/property-form-batch-edit.phtml:91
 #: application/view/omeka/admin/item-set/form.phtml:13
 #: application/view/omeka/admin/item/form.phtml:14
 #: application/view/omeka/admin/media/edit.phtml:13
@@ -1618,9 +1654,9 @@ msgstr "Termine di proprietà per uso sviluppo"
 msgid "Select the first value type."
 msgstr "Seleziona il primo tipo di valore."
 
-#: application/view/common/resource-form-templates.phtml:21
-#: application/view/common/resource-form-templates.phtml:27
-#: application/view/common/resource-form-templates.phtml:30
+#: application/view/common/resource-form-templates.phtml:20
+#: application/view/common/resource-form-templates.phtml:26
+#: application/view/common/resource-form-templates.phtml:29
 #: application/view/common/resource-form-templates.phtml:31
 msgid "Add value"
 msgstr "Aggiungi valore"
@@ -1633,41 +1669,48 @@ msgstr "Testo"
 msgid "Other Media"
 msgstr "Altro media"
 
-#: application/view/common/resource-page-block-layout/linked-resources.phtml:14
-#: application/view/omeka/admin/item-set/show.phtml:22
-#: application/view/omeka/admin/item/show.phtml:13
-msgid "Linked resources"
-msgstr "Risorse correlate"
-
 #: application/view/common/resource-page-block-layout/resource-class.phtml:7
 msgid "Resource class"
 msgstr "Classe di risorsa"
 
-#: application/view/common/resource-select-sidebar.phtml:20
+#: application/view/common/resource-select-sidebar.phtml:19
 msgid "Select resource"
 msgstr "Seleziona risorsa"
 
-#: application/view/common/resource-values.phtml:63
+#: application/view/common/resource-values.phtml:65
 #: application/view/common/sidebar-pagelist.phtml:26
 #: application/view/omeka/admin/item-set/browse.phtml:68
 #: application/view/omeka/admin/item-set/show-details.phtml:18
-#: application/view/omeka/admin/item-set/show.phtml:80
+#: application/view/omeka/admin/item-set/show.phtml:83
 #: application/view/omeka/admin/item/browse.phtml:67
 #: application/view/omeka/admin/item/show-details.phtml:18
-#: application/view/omeka/admin/item/show.phtml:62
+#: application/view/omeka/admin/item/show.phtml:67
 #: application/view/omeka/admin/media/browse.phtml:63
-#: application/view/omeka/admin/media/show-details.phtml:50
-#: application/view/omeka/admin/media/show.phtml:40
+#: application/view/omeka/admin/media/show-details.phtml:64
+#: application/view/omeka/admin/media/show.phtml:50
 #: application/view/omeka/admin/resource-template/form.phtml:90
-#: application/view/omeka/site-admin/index/index.phtml:35
+#: application/view/omeka/site-admin/index/index.phtml:59
 #: application/view/omeka/site-admin/index/navigation.phtml:62
 #: application/view/omeka/site-admin/page/index.phtml:42
 msgid "Private"
 msgstr "Privato"
 
-#: application/view/common/resource-values.phtml:67
+#: application/view/common/resource-values.phtml:69
 msgid "Has annotation"
 msgstr "Ha per annotazione"
+
+#: application/view/common/search-form.phtml:17
+msgid "Enter a search term"
+msgstr "Inserisci un termine di ricerca"
+
+#: application/view/common/search-form.phtml:19
+#: application/view/layout/layout-admin.phtml:77
+#: application/view/omeka/admin/item-set/batch-edit.phtml:19
+#: application/view/omeka/admin/item/batch-edit.phtml:19
+#: application/view/omeka/admin/media/batch-edit.phtml:19
+#: application/view/omeka/admin/module/configure.phtml:10
+msgid "Submit"
+msgstr "Invia"
 
 #: application/view/common/sidebar-pagelist.phtml:10
 msgid "Add to List of pages"
@@ -1729,13 +1772,17 @@ msgid "Filter sites"
 msgstr "Filtra siti"
 
 #: application/view/common/site-selector.phtml:7
+#: application/view/omeka/admin/item-set/show-details.phtml:40
+#: application/view/omeka/admin/item-set/show.phtml:93
 #: application/view/omeka/admin/item/form.phtml:17
-#: application/view/omeka/admin/item/show-details.phtml:32
-#: application/view/omeka/admin/item/show.phtml:76
+#: application/view/omeka/admin/item/show-details.phtml:44
+#: application/view/omeka/admin/item/show.phtml:81
+#: application/view/omeka/admin/media/show-details.phtml:70
+#: application/view/omeka/admin/media/show.phtml:105
 #: application/view/omeka/index/index.phtml:6
 #: application/view/omeka/site-admin/index/add.phtml:12
 #: application/view/omeka/site-admin/index/edit.phtml:8
-#: application/view/omeka/site-admin/index/index.phtml:7
+#: application/view/omeka/site-admin/index/index.phtml:8
 #: application/view/omeka/site-admin/index/navigation.phtml:14
 #: application/view/omeka/site-admin/index/resources.phtml:20
 #: application/view/omeka/site-admin/index/show.phtml:7
@@ -1766,6 +1813,10 @@ msgstr "Ordina per"
 msgid "Sort order"
 msgstr "Ordina per"
 
+#: application/view/common/user-bar.phtml:8
+msgid "Omeka User"
+msgstr "Utente Omeka"
+
 #: application/view/common/user-bar.phtml:22
 #, php-format
 msgid "Signed in as %s"
@@ -1779,7 +1830,7 @@ msgstr "Disconnessione"
 #: application/view/common/user-bar.phtml:28
 #: application/view/omeka/login/login.phtml:5
 msgid "Log in"
-msgstr "Connessione"
+msgstr "Accedi"
 
 #: application/view/common/user-selector.phtml:12
 msgid "Click on a user to add it to the edit panel."
@@ -1806,17 +1857,10 @@ msgstr "Annotazioni"
 msgid "Set annotations"
 msgstr "Imposta annotazioni"
 
-#: application/view/common/value-annotation-wrapper.phtml:13
-#: application/view/omeka/admin/item-set/form.phtml:49
-#: application/view/omeka/admin/item/form.phtml:58
-#: application/view/omeka/admin/item/manage-media.phtml:48
-#: application/view/omeka/admin/media/edit.phtml:60
-#: application/view/omeka/site-admin/index/add-page.phtml:12
-#: application/view/omeka/site-admin/index/add.phtml:20
-#: application/view/omeka/site-admin/index/edit.phtml:21
-#: application/view/omeka/site-admin/page/edit.phtml:25
-msgid "Make public"
-msgstr "Rendi pubblico"
+#: application/view/common/value-annotation-wrapper.phtml:6
+#: application/view/omeka/admin/resource-template/form.phtml:84
+msgid "Required"
+msgstr "Richiesto"
 
 #: application/view/common/version-notification.phtml:8
 #, php-format
@@ -1876,6 +1920,7 @@ msgid "Skip to main content"
 msgstr "Salta al contenuto principale"
 
 #: application/view/layout/layout-admin.phtml:42
+#: application/view/layout/layout-admin.phtml:80
 msgid "Navigation menu"
 msgstr "Menu navigazione"
 
@@ -1894,31 +1939,31 @@ msgstr "Modifica utente"
 
 #: application/view/layout/layout-admin.phtml:54
 msgid "not logged in"
-msgstr "non registrato"
+msgstr "Login non effettuato"
 
 #: application/view/layout/layout-admin.phtml:61
 msgid "Advanced options"
 msgstr "Opzioni avanzate"
 
-#: application/view/layout/layout-admin.phtml:64
+#: application/view/layout/layout-admin.phtml:63
 msgid "Resource type"
 msgstr "Tipo di risorsa"
 
-#: application/view/layout/layout-admin.phtml:66
+#: application/view/layout/layout-admin.phtml:65
 msgid "Search items"
 msgstr "Cerca contenuti"
 
-#: application/view/layout/layout-admin.phtml:70
+#: application/view/layout/layout-admin.phtml:69
 msgid "Search item sets"
 msgstr "Cerca collezioni"
 
-#: application/view/layout/layout-admin.phtml:74
+#: application/view/layout/layout-admin.phtml:73
 msgid "Search media"
 msgstr "Cerca media"
 
 #: application/view/layout/layout-admin.phtml:85
 #: application/view/omeka/admin/index/browse.phtml:50
-#: application/view/omeka/site-admin/index/index.phtml:42
+#: application/view/omeka/site-admin/index/index.phtml:66
 msgid "View public site"
 msgstr "Vedi il sito pubblico"
 
@@ -1937,11 +1982,11 @@ msgstr "Amministratore"
 msgid "Modules"
 msgstr "Moduli"
 
-#: application/view/layout/layout-admin.phtml:114
+#: application/view/layout/layout-admin.phtml:120
 msgid "Omeka S"
 msgstr "Omeka S"
 
-#: application/view/layout/layout-admin.phtml:114
+#: application/view/layout/layout-admin.phtml:120
 #: application/view/omeka/admin/module/browse.phtml:39
 #: application/view/omeka/site-admin/index/theme-selector.phtml:37
 #: application/view/omeka/site-admin/index/theme.phtml:35
@@ -1949,16 +1994,16 @@ msgstr "Omeka S"
 msgid "version %s"
 msgstr "versione %s"
 
-#: application/view/layout/layout-admin.phtml:115
+#: application/view/layout/layout-admin.phtml:121
 #: application/view/omeka/admin/system-info/browse.phtml:4
 msgid "System information"
 msgstr "Informazioni di sistema"
 
-#: application/view/layout/layout-admin.phtml:116
+#: application/view/layout/layout-admin.phtml:122
 msgid "User manual"
 msgstr "Manuale utente"
 
-#: application/view/layout/layout-admin.phtml:117
+#: application/view/layout/layout-admin.phtml:123
 msgid "Support forums"
 msgstr "Forum di assistenza"
 
@@ -1984,10 +2029,10 @@ msgid "Add new asset"
 msgstr "Aggiungi nuovo asset"
 
 #: application/view/omeka/admin/asset/browse.phtml:28
-#: application/view/omeka/admin/item-set/show.phtml:75
+#: application/view/omeka/admin/item-set/show.phtml:78
 #: application/view/omeka/admin/item/manage-item-sets.phtml:40
 #: application/view/omeka/admin/item/manage-sites.phtml:59
-#: application/view/omeka/admin/item/show.phtml:95
+#: application/view/omeka/admin/item/show.phtml:100
 #: application/view/omeka/admin/job/browse.phtml:22
 #: application/view/omeka/admin/job/show.phtml:46
 #: application/view/omeka/admin/resource-template/browse.phtml:28
@@ -2010,7 +2055,7 @@ msgstr "Proprietario"
 #: application/view/omeka/admin/vocabulary/browse.phtml:50
 #: application/view/omeka/admin/vocabulary/edit.phtml:13
 #: application/view/omeka/site-admin/index/edit.phtml:26
-#: application/view/omeka/site-admin/index/index.phtml:54
+#: application/view/omeka/site-admin/index/index.phtml:78
 #: application/view/omeka/site-admin/index/users.phtml:7
 #: application/view/omeka/site-admin/page/edit.phtml:30
 msgid "Delete"
@@ -2136,13 +2181,6 @@ msgstr "Nuova collezione"
 #: application/view/omeka/admin/item-set/batch-edit.phtml:7
 msgid "Batch edit item sets"
 msgstr "Modifica le collezioni per lotti"
-
-#: application/view/omeka/admin/item-set/batch-edit.phtml:19
-#: application/view/omeka/admin/item/batch-edit.phtml:19
-#: application/view/omeka/admin/media/batch-edit.phtml:19
-#: application/view/omeka/admin/module/configure.phtml:10
-msgid "Submit"
-msgstr "Invia"
 
 #: application/view/omeka/admin/item-set/batch-edit.phtml:27
 msgid "Affected item sets"
@@ -2315,21 +2353,52 @@ msgstr "Chiudi collezione"
 msgid "Open item set"
 msgstr "Apri collezione"
 
+#: application/view/omeka/admin/item-set/form.phtml:49
+#: application/view/omeka/admin/item/form.phtml:58
+#: application/view/omeka/admin/item/manage-media.phtml:48
+#: application/view/omeka/admin/media/edit.phtml:60
+#: application/view/omeka/site-admin/index/add-page.phtml:12
+#: application/view/omeka/site-admin/index/add.phtml:20
+#: application/view/omeka/site-admin/index/edit.phtml:21
+#: application/view/omeka/site-admin/page/edit.phtml:25
+msgid "Make public"
+msgstr "Rendi pubblico"
+
 #: application/view/omeka/admin/item-set/show-details.phtml:19
-#: application/view/omeka/admin/item-set/show.phtml:81
+#: application/view/omeka/admin/item-set/show.phtml:84
 msgid "Open to additions"
 msgstr "Aperto ad aggiunte"
 
 #: application/view/omeka/admin/item-set/show-details.phtml:19
-#: application/view/omeka/admin/item-set/show.phtml:81
+#: application/view/omeka/admin/item-set/show.phtml:84
 msgid "Closed to additions"
 msgstr "Chiuso ad aggiunte"
+
+#: application/view/omeka/admin/item-set/show-details.phtml:33
+#: application/view/omeka/admin/item-set/show.phtml:50
+#: application/view/omeka/admin/item/show-details.phtml:28
+#: application/view/omeka/admin/item/show.phtml:40
+#: application/view/omeka/admin/media/show-details.phtml:36
+#: application/view/omeka/admin/media/show.phtml:35
+msgid "Resource template"
+msgstr "Modello di risorsa"
+
+#: application/view/omeka/admin/item-set/show-details.phtml:45
+#: application/view/omeka/admin/item-set/show.phtml:98
+#, php-format
+msgid "View this item set in \"%s\""
+msgstr "Visualizza questa collezione in \"%s\""
 
 #: application/view/omeka/admin/item-set/show.phtml:21
 #: application/view/omeka/admin/item/show.phtml:12
 #: application/view/omeka/admin/media/show.phtml:7
 msgid "Metadata"
 msgstr "Metadati"
+
+#: application/view/omeka/admin/item-set/show.phtml:22
+#: application/view/omeka/admin/item/show.phtml:13
+msgid "Linked resources"
+msgstr "Risorse correlate"
 
 #: application/view/omeka/admin/item-set/show.phtml:31
 msgid "Edit item set"
@@ -2339,16 +2408,12 @@ msgstr "Modifica collezione"
 msgid "View items"
 msgstr "Visualizza elementi"
 
-#: application/view/omeka/admin/item-set/show.phtml:52
-msgid "The following resources link to this item set:"
-msgstr "Le seguenti risorse si collegano a questa collezione:"
-
-#: application/view/omeka/admin/item-set/show.phtml:60
+#: application/view/omeka/admin/item-set/show.phtml:63
 msgid "No resources link to this item set."
 msgstr "Nessuna risorsa collegata a questa collezione."
 
 #: application/view/omeka/admin/item-set/sidebar-select.phtml:19
-#: application/view/omeka/admin/item/sidebar-select.phtml:28
+#: application/view/omeka/admin/item/sidebar-select.phtml:46
 msgid "Filter search"
 msgstr "Filtra ricerca"
 
@@ -2357,13 +2422,13 @@ msgid "Filter by item set ID"
 msgstr "Filtra per ID di collezione"
 
 #: application/view/omeka/admin/item-set/sidebar-select.phtml:70
-#: application/view/omeka/admin/item/browse.phtml:179
-#: application/view/omeka/admin/item/sidebar-select.phtml:100
+#: application/view/omeka/admin/item/browse.phtml:184
+#: application/view/omeka/admin/item/sidebar-select.phtml:118
 msgid "Omeka could not find any items."
 msgstr "Omeka non ha trovato nessun contenuto."
 
 #: application/view/omeka/admin/item-set/sidebar-select.phtml:76
-#: application/view/omeka/admin/item/sidebar-select.phtml:105
+#: application/view/omeka/admin/item/sidebar-select.phtml:123
 msgid "Add selected"
 msgstr "Aggiungi selezionati"
 
@@ -2390,7 +2455,8 @@ msgid "You are editing %s items."
 msgstr "Stai modificando %s contenuti."
 
 #: application/view/omeka/admin/item/browse.phtml:63
-#: application/view/omeka/admin/item/sidebar-select.phtml:10
+#: application/view/omeka/admin/item/sidebar-select.phtml:16
+#: application/view/omeka/admin/item/sidebar-select.phtml:26
 msgid "Select item"
 msgstr "Seleziona contenuto"
 
@@ -2418,6 +2484,10 @@ msgid ""
 msgstr ""
 "Sei sicuro di voler eliminare tutti i contenuti in tutte le pagine di questo"
 " risultato?"
+
+#: application/view/omeka/admin/item/browse.phtml:146
+msgid "Confirm Delete"
+msgstr "Conferma eliminazione"
 
 #: application/view/omeka/admin/item/manage-item-sets.phtml:27
 #: application/view/omeka/site-admin/index/resources.phtml:14
@@ -2473,8 +2543,8 @@ msgstr ""
 msgid "Assign to site"
 msgstr "Assegna a un sito"
 
-#: application/view/omeka/admin/item/show-details.phtml:37
-#: application/view/omeka/admin/item/show.phtml:81
+#: application/view/omeka/admin/item/show-details.phtml:49
+#: application/view/omeka/admin/item/show.phtml:86
 #, php-format
 msgid "View this item in \"%s\""
 msgstr "Vedi questo contenuto in \"%s\""
@@ -2483,13 +2553,30 @@ msgstr "Vedi questo contenuto in \"%s\""
 msgid "Edit item"
 msgstr "Modifica contenuto"
 
-#: application/view/omeka/admin/item/show.phtml:49
+#: application/view/omeka/admin/item/show.phtml:53
 msgid "No resources link to this item."
 msgstr "Nessuma risorsa collegata a questo contenuto."
 
-#: application/view/omeka/admin/item/sidebar-select.phtml:57
+#: application/view/omeka/admin/item/sidebar-select.phtml:11
+#: application/view/omeka/site/item/show.phtml:10
+msgid "Item"
+msgstr "Contenuto"
+
+#: application/view/omeka/admin/item/sidebar-select.phtml:17
+msgid "Create item"
+msgstr "Crea contenuto"
+
+#: application/view/omeka/admin/item/sidebar-select.phtml:18
+msgid "Assign item value"
+msgstr "Assegna un valore al contenuto"
+
+#: application/view/omeka/admin/item/sidebar-select.phtml:75
 msgid "Filter by item ID"
 msgstr "Filtra per ID di contenuto"
+
+#: application/view/omeka/admin/item/sidebar-select.phtml:136
+msgid "Add and select item"
+msgstr "Aggiungi e seleziona contenuto"
 
 #: application/view/omeka/admin/job/browse.phtml:7
 #: application/view/omeka/admin/job/show.phtml:21
@@ -2598,55 +2685,61 @@ msgstr "Omeka non ha trovato nessun media."
 msgid "Part of Item"
 msgstr "Parte del contenuto"
 
-#: application/view/omeka/admin/media/show-details.phtml:36
-#: application/view/omeka/admin/media/show.phtml:59
+#: application/view/omeka/admin/media/show-details.phtml:50
+#: application/view/omeka/admin/media/show.phtml:69
 msgid "MIME type"
 msgstr "MIME type"
 
-#: application/view/omeka/admin/media/show-details.phtml:43
-#: application/view/omeka/admin/media/show.phtml:65
+#: application/view/omeka/admin/media/show-details.phtml:57
+#: application/view/omeka/admin/media/show.phtml:75
 msgid "Size"
 msgstr "Dimensioni"
 
-#: application/view/omeka/admin/media/show-details.phtml:44
-#: application/view/omeka/admin/media/show.phtml:66
+#: application/view/omeka/admin/media/show-details.phtml:58
+#: application/view/omeka/admin/media/show.phtml:76
 #, php-format
 msgid "%s bytes"
 msgstr "%s bytes"
 
-#: application/view/omeka/admin/media/show.phtml:15
+#: application/view/omeka/admin/media/show-details.phtml:75
+#: application/view/omeka/admin/media/show.phtml:110
+#, php-format
+msgid "View this media in \"%s\""
+msgstr "Visualizza questo media in \"%s\""
+
+#: application/view/omeka/admin/media/show.phtml:16
 msgid "Edit media"
 msgstr "Modifica media"
 
-#: application/view/omeka/admin/media/show.phtml:43
+#: application/view/omeka/admin/media/show.phtml:53
 msgid "Part of item"
 msgstr "Parte del contenuto"
 
-#: application/view/omeka/admin/media/show.phtml:70
+#: application/view/omeka/admin/media/show.phtml:80
 msgid "Ingester"
 msgstr "Ingester"
 
-#: application/view/omeka/admin/media/show.phtml:75
+#: application/view/omeka/admin/media/show.phtml:85
 msgid "Source"
 msgstr "Sorgente"
 
-#: application/view/omeka/admin/media/show.phtml:81
+#: application/view/omeka/admin/media/show.phtml:91
 msgid "File Derivatives"
 msgstr "Derivati del file"
 
-#: application/view/omeka/admin/media/show.phtml:83
+#: application/view/omeka/admin/media/show.phtml:93
 msgid "original"
 msgstr "originale"
 
-#: application/view/omeka/admin/media/show.phtml:86
+#: application/view/omeka/admin/media/show.phtml:96
 msgid "large"
 msgstr "grande"
 
-#: application/view/omeka/admin/media/show.phtml:87
+#: application/view/omeka/admin/media/show.phtml:97
 msgid "medium"
 msgstr "medio"
 
-#: application/view/omeka/admin/media/show.phtml:88
+#: application/view/omeka/admin/media/show.phtml:98
 msgid "square"
 msgstr "quadrato"
 
@@ -2781,10 +2874,6 @@ msgstr "Usa come titolo della risorsa"
 #: application/view/omeka/admin/resource-template/form.phtml:78
 msgid "Use for resource description"
 msgstr "Usa come descrizione della risorsa"
-
-#: application/view/omeka/admin/resource-template/form.phtml:84
-msgid "Required"
-msgstr "Richiesto"
 
 #: application/view/omeka/admin/resource-template/form.phtml:96
 #: application/view/omeka/admin/resource-template/review-import.phtml:72
@@ -3170,11 +3259,30 @@ msgstr "Nuovo sito"
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: application/view/omeka/site-admin/index/index.phtml:11
+#: application/view/omeka/site-admin/index/index.phtml:12
 msgid "Add new site"
 msgstr "Aggiungi nuovo sito"
 
-#: application/view/omeka/site-admin/index/index.phtml:80
+#: application/view/omeka/site-admin/index/index.phtml:23
+#, php-format
+msgid "Currently viewing all sites. %s"
+msgstr "Attualmente tutti i siti sono visualizzati. %s"
+
+#: application/view/omeka/site-admin/index/index.phtml:27
+#, php-format
+msgid "View sites for %s"
+msgstr "Visualizza i siti per %s"
+
+#: application/view/omeka/site-admin/index/index.phtml:32
+#, php-format
+msgid "Currently viewing sites for %s. %s"
+msgstr "Attualmente visualizza i siti per %s. %s"
+
+#: application/view/omeka/site-admin/index/index.phtml:34
+msgid "View all sites"
+msgstr "Visualizza tutti i siti"
+
+#: application/view/omeka/site-admin/index/index.phtml:104
 msgid "Omeka could not find any sites."
 msgstr "Omeka non ha trovato nessun sito."
 
@@ -3381,7 +3489,7 @@ msgstr "Layout"
 
 #: application/view/omeka/site-admin/page/edit.phtml:62
 msgid "Columns"
-msgstr ""
+msgstr "Colonne"
 
 #: application/view/omeka/site-admin/page/edit.phtml:77
 msgid "Expand all"
@@ -3401,11 +3509,11 @@ msgstr "Aggiungi un nuovo blocco"
 
 #: application/view/omeka/site-admin/page/edit.phtml:95
 msgid "Add block group"
-msgstr ""
+msgstr "Aggiungi gruppo di blocchi"
 
 #: application/view/omeka/site-admin/page/edit.phtml:108
 msgid "Layout preview"
-msgstr ""
+msgstr "Anteprima del layout"
 
 #: application/view/omeka/site-admin/page/edit.phtml:115
 msgid "Block layout configuration"
@@ -3439,10 +3547,6 @@ msgstr "Ricerca avanzata di collezione"
 msgid "Item set"
 msgstr "Collezione"
 
-#: application/view/omeka/site/item/show.phtml:10
-msgid "Item"
-msgstr "Contenuto"
-
 #: application/view/omeka/site/media/show.phtml:15
 #, php-format
 msgid "Part of %s"
@@ -3452,15 +3556,132 @@ msgstr "Parte di %s"
 msgid "No pages found"
 msgstr "Nessuna pagina trovata"
 
-#: application/src/Stdlib/Browse.php:124
-#, php-format
-msgid "Custom (%s)"
-msgstr "Personalizzato (%s)"
+#: application/view/omeka/admin/item/sidebar-select.phtml:59
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:32
+msgid "Filter by class"
+msgstr "Filtra per classe"
+
+#: application/view/omeka/admin/item/sidebar-select.phtml:71
+msgid "Filter by item set"
+msgstr "Filtra per collezione"
+
+#: application/view/common/advanced-search/visibility.phtml:3
+msgid "Search by visibility"
+msgstr "Cerca per visibilità"
+
+#: application/view/common/advanced-search/visibility.phtml:8
+msgid "Select visibility…"
+msgstr "Seleziona visibilità..."
+
+#: application/view/common/advanced-search/properties.phtml:71
+#: application/src/ColumnType/Value.php:43
+msgid "Property"
+msgstr "Proprietà"
+
+#: application/view/common/advanced-search/properties.phtml:74
+msgid "[Any Property]"
+msgstr "[Qualsiasi Proprietà]"
+
+#: application/view/common/advanced-search/has-media.phtml:4
+msgid "Search by media presence"
+msgstr "Cerca per presenza di media"
+
+#: application/view/common/advanced-search/has-media.phtml:9
+msgid "Select media presence…"
+msgstr "Seleziona presenza di media..."
+
+#: application/view/common/advanced-search/sort.phtml:29
+msgid "Select sort by…"
+msgstr "Seleziona ordina per..."
+
+#: application/view/common/advanced-search/sort.phtml:36
+msgid "Select sort order…"
+msgstr "Seleziona ordine..."
+
+#: application/view/common/property-form-batch-edit.phtml:102
+#: application/src/Form/ResourceBatchUpdateForm.php:216
+msgid "Select properties"
+msgstr "Seleziona proprietà"
+
+#: application/view/common/delete-confirm.phtml:4
+msgid "Confirm delete"
+msgstr "Conferma eliminazione"
+
+#: application/config/navigation.config.php:201
+msgid "Site admin"
+msgstr "Amministrazione del sito"
+
+#: application/config/module.config.php:727
+msgid "Owner email"
+msgstr "Email del proprietario"
+
+#: application/config/module.config.php:733
+#: application/config/module.config.php:752
+#: application/config/module.config.php:758
+msgid "Item count"
+msgstr "Numero di contenuti"
+
+#: application/config/module.config.php:745
+msgid "Resource class count"
+msgstr "Numero di classi di risorsa"
+
+#: application/config/module.config.php:746
+msgid "Property count"
+msgstr "Numero delle proprietà"
+
+#: application/config/module.config.php:946
+msgid "Something went wrong"
+msgstr "Qualcosa è andato storto"
+
+#: application/config/module.config.php:951
+msgid "You have unsaved changes."
+msgstr "Ci sono modifiche non salvate."
+
+#: application/config/module.config.php:952
+msgid "Restore item set"
+msgstr "Ripristina la collezione"
+
+#: application/config/module.config.php:953
+msgid "Close icon set"
+msgstr "Chiudi set di icone"
+
+#: application/config/module.config.php:954
+msgid "Open icon set"
+msgstr "Apri set di icone"
+
+#: application/config/module.config.php:956
+msgid "Failed loading resource template from API"
+msgstr "Impossibile caricare da API il modello di risorsa"
+
+#: application/config/module.config.php:957
+msgid "Restore property"
+msgstr "Ripristina proprietà"
+
+#: application/config/module.config.php:959
+msgid "Please enter a valid language tag"
+msgstr "Inserisci un tag lingua valido"
+
+#: application/config/module.config.php:961
+msgid "Description"
+msgstr "Descrizione"
+
+#: application/config/module.config.php:962
+msgid "Unknown block layout"
+msgstr "Blocco di layout sconosciuto"
+
+#: application/config/module.config.php:963
+msgid "Required field must be completed"
+msgstr "Campo obbligatorio deve essere inserito"
 
 #: application/src/Stdlib/Cli.php:105 application/src/Stdlib/Cli.php:160
 #, php-format
 msgid "Command \"%s\" failed with status code %s."
 msgstr "Il comando \"%s\" ha fallito con codice %s."
+
+#: application/src/Stdlib/Browse.php:124
+#, php-format
+msgid "Custom (%s)"
+msgstr "Personalizzato (%s)"
 
 #: application/src/Stdlib/Environment.php:54
 msgid "Omeka requires the PHP extension json, but it is not loaded."
@@ -3507,759 +3728,171 @@ msgstr ""
 "La versione di MariaDB installata (%1$s) è troppo bassa. Omeka ha bisogno "
 "almeno della versione %2$s."
 
-#: application/src/DataType/Resource/ItemSet.php:17
-msgid "Item Set"
-msgstr "Collezione"
+#: application/src/Form/InstallationForm.php:19
+msgid "Create the first user"
+msgstr "Crea il primo utente"
 
-#: application/src/DataType/Resource/AbstractResource.php:23
-msgid "Resource"
-msgstr "Risorsa"
+#: application/src/Form/InstallationForm.php:52
+msgid "Confirm email"
+msgstr "Conferma email"
 
-#: application/src/DataType/Resource/AbstractResource.php:77
-#, php-format
-msgid "Invalid value resource %s for type %s"
-msgstr "Valore di risorsa %s non valido per il tipo %s"
-
-#: application/src/DataType/Resource/All.php:15
-msgid "All"
-msgstr "Tutto"
-
-#: application/src/Site/BlockLayout/ListOfPages.php:32
-msgid "List of pages"
-msgstr "Lista di pagine"
-
-#: application/src/Site/BlockLayout/PageTitle.php:13
-msgid "Page title"
-msgstr "Titolo pagina"
-
-#: application/src/Site/BlockLayout/TableOfContents.php:15
-msgid "Table of contents"
-msgstr "Indice dei contenuti"
-
-#: application/src/Site/BlockLayout/Asset.php:16
-msgid "Asset"
-msgstr "Asset"
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:16
-msgid "Browse preview"
-msgstr "Consulta l'anteprima"
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:36
-msgid "Browse all"
-msgstr "Sfoglia tutto"
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:62
-msgid "Display resources using this search query"
-msgstr "Visualizza le risorse utilizzando questa query di ricerca"
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:71
-msgid "Limit"
-msgstr "Limite"
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:72
-msgid "Maximum number of resources to display in the preview."
-msgstr "Numero massimo di risorse da visualizzare nell'anteprima."
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:79
-msgid "Components"
-msgstr "Componenti"
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:80
-msgid ""
-"Components to display for each resource. If not set in Site Settings, "
-"Heading defaults to resource Title and Body to resource Description"
-msgstr ""
-"Componenti da mostrare per ogni risorsa. Se non definito nelle impostazioni "
-"del sito, il valore predefinito del titolo sarà il titolo della risorsa, "
-"mentre il corpo sarà la descrizione della risorsa"
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:84
-msgid "Heading"
-msgstr "Titolo"
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:88
-msgid "Body"
-msgstr "Corpo"
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:101
-msgid "Preview title"
-msgstr "Titolo di anteprima"
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:102
-msgid "Heading above resource list, if any."
-msgstr "In cima alla lista delle risorse, se presente."
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:109
-msgid "Link text"
-msgstr "Testo del link"
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:110
-msgid "Text for link to full browse view, if any."
-msgstr ""
-"Testo per il link verso la vista di navigazione completa, se presente."
-
-#: application/src/Site/BlockLayout/ItemWithMetadata.php:13
-msgid "Item with metadata"
-msgstr "Contenuto con metadati"
-
-#: application/src/Site/BlockLayout/Media.php:14
-msgid "Media embed"
-msgstr "Media incorporato"
-
-#: application/src/Site/BlockLayout/Media.php:23
-msgid "Vertical"
-msgstr ""
-
-#: application/src/Site/BlockLayout/Media.php:25
-msgid "Horizontal"
-msgstr ""
-
-#: application/src/Site/BlockLayout/Media.php:33
-msgid "Embed media"
-msgstr ""
-
-#: application/src/Site/BlockLayout/Media.php:35
-msgid "Thumbnail only"
-msgstr ""
-
-#: application/src/Site/BlockLayout/LineBreak.php:14
-msgid "Line break"
-msgstr "Interruzione di riga"
-
-#: application/src/Site/BlockLayout/LineBreak.php:32
-msgid "Transparent"
-msgstr "Trasparente"
-
-#: application/src/Site/BlockLayout/LineBreak.php:33
-msgid "Opaque"
-msgstr "Opaco"
-
-#: application/src/Site/BlockLayout/Oembed.php:29
-#: application/src/Media/Ingester/OEmbed.php:30
-msgid "oEmbed"
-msgstr "oEmbed"
-
-#: application/src/Site/BlockLayout/Oembed.php:57
-#: application/src/Media/Ingester/OEmbed.php:66
-msgid "oEmbed URL"
-msgstr "URL oEmbed"
-
-#: application/src/Site/BlockLayout/BlockGroup.php:15
-msgid "Block group"
-msgstr ""
-
-#: application/src/Site/BlockLayout/PageDateTime.php:20
-msgid "Page date/time"
-msgstr "Data/ora della pagina"
-
-#: application/src/Site/BlockLayout/PageDateTime.php:30
-msgid "Display date/time"
-msgstr "Mostra data/ora"
-
-#: application/src/Site/BlockLayout/PageDateTime.php:32
-msgid "Created & modified"
-msgstr "Creato e modificato"
-
-#: application/src/Site/BlockLayout/PageDateTime.php:42
-msgid "Date format"
-msgstr "Formato della data"
-
-#: application/src/Site/BlockLayout/PageDateTime.php:44
-#: application/src/Site/BlockLayout/PageDateTime.php:58
-#: application/src/Form/SettingForm.php:242
-#: application/src/Form/SiteSettingsForm.php:287
-msgid "None"
-msgstr "Nessuno"
-
-#: application/src/Site/BlockLayout/PageDateTime.php:45
-#: application/src/Site/BlockLayout/PageDateTime.php:59
-msgid "Short"
-msgstr "Breve"
-
-#: application/src/Site/BlockLayout/PageDateTime.php:46
-#: application/src/Site/BlockLayout/PageDateTime.php:60
-msgid "Medium"
-msgstr "Medium"
-
-#: application/src/Site/BlockLayout/PageDateTime.php:47
-#: application/src/Site/BlockLayout/PageDateTime.php:61
-msgid "Long"
-msgstr "Lungo"
-
-#: application/src/Site/BlockLayout/PageDateTime.php:48
-#: application/src/Site/BlockLayout/PageDateTime.php:62
-msgid "Full"
-msgstr "Intero"
-
-#: application/src/Site/BlockLayout/PageDateTime.php:56
-msgid "Time format"
-msgstr "Formato dell'ora"
-
-#: application/src/Site/BlockLayout/ListOfSites.php:24
-msgid "List of sites"
-msgstr "Lista dei siti"
-
-#: application/src/Site/BlockLayout/ListOfSites.php:39
-msgid "Alphabetical"
-msgstr "Alfabetico"
-
-#: application/src/Site/BlockLayout/ListOfSites.php:40
-msgid "Oldest first"
-msgstr "Prima il più vecchio"
-
-#: application/src/Site/BlockLayout/ListOfSites.php:41
-msgid "Newest first"
-msgstr "Prima il più recente"
-
-#: application/src/Site/BlockLayout/ListOfSites.php:52
-msgid "Max number of sites"
-msgstr "Numero massimo di siti"
-
-#: application/src/Site/BlockLayout/ListOfSites.php:53
-msgid "An empty value means no limit."
-msgstr "Un'assenza di valore significa nessun limite."
-
-#: application/src/Site/BlockLayout/ListOfSites.php:57
-msgid "Unlimited"
-msgstr "Illimitato"
-
-#: application/src/Site/BlockLayout/ListOfSites.php:65
-msgid "Pagination"
-msgstr "Paginazione"
-
-#: application/src/Site/BlockLayout/ListOfSites.php:66
-msgid "Show pagination (only if a limit is set)"
-msgstr "Mostra paginazione (solo se è impostato un limite)"
-
-#: application/src/Site/BlockLayout/ListOfSites.php:76
-msgid "Show summaries"
-msgstr "Mostra sintesi"
-
-#: application/src/Site/BlockLayout/ListOfSites.php:86
-msgid "Show thumbnails"
-msgstr "Mostra miniature"
-
-#: application/src/Site/BlockLayout/ListOfSites.php:96
-msgid "Exclude current site"
-msgstr "Escludi il sito attuale"
-
-#: application/src/Site/BlockLayout/Html.php:28
-#: application/src/Media/Ingester/Html.php:36
-#: application/src/Media/Ingester/Html.php:79
-msgid "HTML"
-msgstr "HTML"
-
-#: application/src/Site/BlockLayout/Fallback.php:29
-#: application/src/Site/ResourcePageBlockLayout/Fallback.php:18
-#, php-format
-msgid "Unknown [%s]"
-msgstr "Sconosciuto [%s]"
-
-#: application/src/Site/ResourcePageBlockLayout/MediaRender.php:11
-msgid "Media render"
-msgstr "Render del media"
-
-#: application/src/Site/ResourcePageBlockLayout/MediaList.php:11
-msgid "Media list"
-msgstr "Lista del media"
-
-#: application/src/Site/ResourcePageBlockLayout/Manager.php:211
-msgid "Main"
-msgstr "Principale"
-
-#: application/src/Site/ResourcePageBlockLayout/LightboxGallery.php:13
-msgid "Lightbox gallery"
-msgstr "Galleria lightbox"
-
-#: application/src/Site/ResourcePageBlockLayout/MediaEmbeds.php:11
-msgid "Media embeds"
-msgstr "Media incorporati"
-
-#: application/src/Site/Navigation/Link/Url.php:11
-msgid "Custom URL"
-msgstr "URL personalizzata"
-
-#: application/src/Site/Navigation/Link/BrowseItemSets.php:20
-msgid "Browse item sets"
-msgstr "Percorri collezioni"
-
-#: application/src/File/ThumbnailManager.php:102
-msgid "Missing thumbnail configuration."
-msgstr "Configurazione delle miniature mancante."
-
-#: application/src/File/ThumbnailManager.php:106
-msgid "Missing thumbnail types configuration."
-msgstr "Configurazione dei tipi di miniature mancante."
-
-#: application/src/File/ThumbnailManager.php:109
-msgid "Missing the large, medium, or square thumbnail type configuration."
-msgstr ""
-"Configurazione dei tipi di miniatura grande, media o quadrata mancante."
-
-#: application/src/File/ThumbnailManager.php:113
-msgid "Missing constraint for a thumbnail type configuration."
-msgstr "Vincolo mancante per una configurazione di tipo di miniatura."
-
-#: application/src/File/ThumbnailManager.php:117
-msgid "Missing thumbnail fallbacks configuration."
-msgstr "Configurazione di fallback delle miniature mancante."
-
-#: application/src/File/ThumbnailManager.php:120
-msgid "Missing default thumbnail fallback configuration."
-msgstr "Configurazione della miniatura predefinita di fallback mancante."
-
-#: application/src/File/ThumbnailManager.php:123
-msgid "Missing thumbnail fallback configuration."
-msgstr "Configurazione del fallback delle miniature mancante."
-
-#: application/src/File/ThumbnailManager.php:127
-msgid "Invalid thumbnail fallback configuration."
-msgstr "Configurazione del fallback della miniatura non valida."
-
-#: application/src/File/Downloader.php:71
-#, php-format
-msgid "Error downloading %1$s: %2$s"
-msgstr "Errore nello scaricamento di %1$s: %2$s"
-
-#: application/src/File/Downloader.php:84
-#, php-format
-msgid "Error downloading %1$s: %2$s %3$s"
-msgstr "Errore nello scaricamento di %1$s: %2$s %3$s"
-
-#: application/src/File/Validator.php:65
-#, php-format
-msgid "Error validating \"%1$s\". Cannot store files with the media type \"%2$s\"."
-msgstr ""
-"Errore nella validazione di \"%1$s\". Non è possibile salvare file di tipo "
-"\"%2$s\"."
-
-#: application/src/File/Validator.php:78
-#, php-format
-msgid ""
-"Error validating \"%1$s\". Cannot store files with the resolved extension "
-"\"%2$s\"."
-msgstr ""
-"Errore nella validazione di \"%1$s\". Non è possibile salvare file con "
-"estensione \"%2$s\"."
-
-#: application/src/Mvc/MvcListeners.php:326
-#, php-format
-msgid "The current theme is not active. Its current state is \"%s\"."
-msgstr "Il tema attuale non è attivo. Il suo stato attuale è °%s°."
-
-#: application/src/Permissions/Acl.php:21
-msgid "Global Administrator"
-msgstr "Amministratore Globale"
-
-#: application/src/Permissions/Acl.php:22
-msgid "Supervisor"
-msgstr "Supervisore"
-
-#: application/src/Permissions/Acl.php:23
-msgid "Editor"
-msgstr "Redattore"
-
-#: application/src/Permissions/Acl.php:24
-msgid "Reviewer"
-msgstr "Revisore"
-
-#: application/src/Permissions/Acl.php:25
-msgid "Author"
-msgstr "Autore"
-
-#: application/src/Permissions/Acl.php:26
-msgid "Researcher"
-msgstr "Ricercatore"
-
-#: application/src/ColumnType/IsPublic.php:11
-msgid "Is public"
-msgstr "È pubblico"
-
-#: application/src/ColumnType/Value.php:25
-msgid "Value"
-msgstr "Valore"
-
-#: application/src/ColumnType/Value.php:43
-#: application/view/common/advanced-search/properties.phtml:67
-msgid "Property"
-msgstr "Proprietà"
-
-#: application/src/ColumnType/Value.php:56
-msgid "Max values"
-msgstr "Valori massimi"
-
-#: application/src/ColumnType/Value.php:57
-msgid ""
-"Enter the maximum number of values to display. Set to blank to display all "
-"values."
-msgstr ""
-"Inserisci il massimo numero di valori da mostrare. Lascia vuoto per mostrare"
-" tutti i valori"
-
-#: application/src/ColumnType/IsOpen.php:11
-msgid "Is open"
-msgstr "È aperto"
-
-#: application/src/ColumnType/ResourceTemplate.php:11
-#: application/src/Form/ResourceForm.php:42
-msgid "Resource template"
-msgstr "Modello di risorsa"
-
-#: application/src/ColumnType/Unknown.php:22
-msgid "[Unknown]"
-msgstr "[Sconosciuto]"
-
-#: application/src/ColumnType/Unknown.php:40
-msgid "Unknown column data"
-msgstr "Colonna di dati sconosciuta"
-
-#: application/src/Api/Adapter/ItemAdapter.php:153
-msgid "Item sets must be an array"
-msgstr "Le collezioni devono essere un array"
-
-#: application/src/Api/Adapter/ItemAdapter.php:159
-msgid "Media must be an array"
-msgstr "Il media deve essere un array."
-
-#: application/src/Api/Adapter/ResourceTemplateAdapter.php:84
-#, php-format
-msgid "Attempting to add duplicate property with ID %s"
-msgstr "Tentativo di aggiungere una proprietà duplicata con ID %s"
-
-#: application/src/Api/Adapter/ResourceTemplateAdapter.php:98
-#: application/src/Api/Adapter/PropertyAdapter.php:187
-#: application/src/Api/Adapter/ResourceClassAdapter.php:179
-#: application/src/Api/Adapter/VocabularyAdapter.php:223
-msgid "The label cannot be empty."
-msgstr "L'etichetta non può essere vuota."
-
-#: application/src/Api/Adapter/ResourceTemplateAdapter.php:101
-msgid "The label is already taken."
-msgstr "L'etichetta è già stata usata."
-
-#: application/src/Api/Adapter/MediaAdapter.php:114
-msgid "Media must set an ingester."
-msgstr "Il media deve impostare un ingester."
-
-#: application/src/Api/Adapter/MediaAdapter.php:136
-msgid "Media must set a valid ingester."
-msgstr "Il media deve impostare un ingester valido."
-
-#: application/src/Api/Adapter/MediaAdapter.php:180
-msgid "Media must belong to an item."
-msgstr "Il media deve appartenere a un contenuto."
-
-#: application/src/Api/Adapter/UserAdapter.php:130
-msgid "The name cannot be empty."
-msgstr "Il nome non può essere vuoto."
-
-#: application/src/Api/Adapter/UserAdapter.php:140
-#, php-format
-msgid "The email %s is already taken."
-msgstr "L'email %s è già stato usato."
-
-#: application/src/Api/Adapter/UserAdapter.php:146
-msgid "Users must have a role."
-msgstr "Gli utenti devono avere un ruolo."
-
-#: application/src/Api/Adapter/UserAdapter.php:179
-#, php-format
-msgid "The current user #%d was removed from the batch process."
-msgstr "L'utente corrente #%d è stato eliminato dal processo batch."
-
-#: application/src/Api/Adapter/PropertyAdapter.php:182
-#: application/src/Api/Adapter/ResourceClassAdapter.php:174
-msgid "The local name cannot be empty."
-msgstr "Il nome locale non può essere vuoto."
-
-#: application/src/Api/Adapter/PropertyAdapter.php:200
-#: application/src/Api/Adapter/ResourceClassAdapter.php:192
-#: application/src/Api/Adapter/VocabularyAdapter.php:231
-#: application/src/Api/Adapter/VocabularyAdapter.php:244
-#, php-format
-msgid "The local name \"%s\" is already taken."
-msgstr "Il nome locale \"%s\" è già stato usato."
-
-#: application/src/Api/Adapter/PropertyAdapter.php:206
-#: application/src/Api/Adapter/ResourceClassAdapter.php:198
-msgid "A vocabulary must be set."
-msgstr "Un vocabolario deve essere impostato"
-
-#: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:210
-#, php-format
-msgid "The \"%1$s\" resource template requires a \"%2$s\" value"
-msgstr "Il modello di risorsa \"%1$s\" richiede un valore \"%2$s\""
-
-#: application/src/Api/Adapter/SitePageAdapter.php:162
-msgid "A page must belong to a site."
-msgstr "Una pagina deve appartenere a un sito."
-
-#: application/src/Api/Adapter/SitePageAdapter.php:167
-msgid "A page must have a title."
-msgstr "Una pagina deve avere un titolo."
-
-#: application/src/Api/Adapter/SitePageAdapter.php:172
-#: application/src/Api/Adapter/SiteAdapter.php:262
-msgid "The slug cannot be empty."
-msgstr "Lo slug non può essere vuoto."
-
-#: application/src/Api/Adapter/SitePageAdapter.php:175
-#: application/src/Api/Adapter/SiteAdapter.php:265
-msgid "A slug can only contain letters, numbers, underscores, and hyphens."
-msgstr ""
-"Uno slug può contenere solo lettere, numeri, trattini e trattini bassi."
-
-#: application/src/Api/Adapter/SitePageAdapter.php:183
-#: application/src/Api/Adapter/SiteAdapter.php:269
-#, php-format
-msgid "The slug \"%s\" is already taken."
-msgstr "Lo slug \"%s\" è già stato usato."
-
-#: application/src/Api/Adapter/SitePageAdapter.php:227
-msgid "All blocks must have a layout."
-msgstr "Tutti i blocchi devono avere un layout."
-
-#: application/src/Api/Adapter/SitePageAdapter.php:238
-msgid "Block data must not be a scalar value."
-msgstr "I dati del blocco non devono essere un valore scalare."
-
-#: application/src/Api/Adapter/SiteAdapter.php:258
-msgid "A site must have a title."
-msgstr "Un sito deve avere un titolo."
-
-#: application/src/Api/Adapter/SiteAdapter.php:275
-msgid "A site must have a theme."
-msgstr "Un sito deve avere un tema."
-
-#: application/src/Api/Adapter/SiteAdapter.php:280
-msgid "A site must have item pool data."
-msgstr "Un sito deve avere i dati del pool di contenuti."
-
-#: application/src/Api/Adapter/SiteAdapter.php:285
-msgid "A homepage must belong to its parent site."
-msgstr "Una homepage deve essere parte del sito per il quale viene scelta. "
-
-#: application/src/Api/Adapter/SiteAdapter.php:358
-msgid "Invalid navigation: navigation must be an array"
-msgstr "Navigazione non valida: la navigazione deve essere un array"
-
-#: application/src/Api/Adapter/SiteAdapter.php:367
-msgid "Invalid navigation: link missing type"
-msgstr "Navigazione non valida: tipo di link mancante"
-
-#: application/src/Api/Adapter/SiteAdapter.php:371
-msgid "Invalid navigation: link missing data"
-msgstr "Navigazione non valida: dati del link mancanti"
-
-#: application/src/Api/Adapter/SiteAdapter.php:375
-msgid "Invalid navigation: invalid link data"
-msgstr "Navigazione non valida: dati del link non validi"
-
-#: application/src/Api/Adapter/SiteAdapter.php:380
-msgid "Invalid navigation: page links must be unique"
-msgstr "Navigazione non valida: i link alle pagine devono essere unici."
-
-#: application/src/Api/Adapter/SiteAdapter.php:387
-msgid "Invalid navigation: links must be an array"
-msgstr "Navigazione non valida: i links devono essere un array"
-
-#: application/src/Api/Adapter/VocabularyAdapter.php:68
-msgid "Classes must be an array"
-msgstr "Le classi devono essere un array"
-
-#: application/src/Api/Adapter/VocabularyAdapter.php:74
-msgid "Properties must be an array"
-msgstr "Le proprietà devono essere un array"
-
-#: application/src/Api/Adapter/VocabularyAdapter.php:191
-msgid "The namespace URI cannot be empty."
-msgstr "L'URI spazio nomi non può essere vuoto."
-
-#: application/src/Api/Adapter/VocabularyAdapter.php:195
-#, php-format
-msgid "The namespace URI \"%s\" is already taken."
-msgstr "L'URI spazio nomi \"%s\" è già stato usato."
-
-#: application/src/Api/Adapter/VocabularyAdapter.php:203
-msgid "The prefix cannot be empty."
-msgstr "Il prfisso non può essere vuoto"
-
-#: application/src/Api/Adapter/VocabularyAdapter.php:207
-#, php-format
-msgid "The prefix \"%s\" is already taken."
-msgstr "Il prefisso \"%s\" è già stato usato."
-
-#: application/src/Api/Adapter/VocabularyAdapter.php:214
-#, php-format
-msgid "The prefix \"%s\" is reserved."
-msgstr "Il prefisso \"%s\" è riservato."
-
-#: application/src/Api/Representation/JobRepresentation.php:12
-msgid "Starting"
-msgstr "Avvio"
-
-#: application/src/Api/Representation/JobRepresentation.php:13
-msgid "Stopping"
-msgstr "Arresto"
-
-#: application/src/Api/Representation/JobRepresentation.php:14
-msgid "In Progress"
-msgstr "In esecuzione"
-
-#: application/src/Api/Representation/JobRepresentation.php:15
-msgid "Completed"
-msgstr "Terminato"
-
-#: application/src/Api/Representation/JobRepresentation.php:16
-msgid "Stopped"
-msgstr "Fermato"
-
-#: application/src/Entity/Job.php:23
-msgid "starting"
-msgstr "avvio"
-
-#: application/src/Entity/Job.php:24
-msgid "stopping"
-msgstr "arresto"
-
-#: application/src/Entity/Job.php:25
-msgid "in_progress"
-msgstr "in_corso"
-
-#: application/src/Entity/Job.php:26
-msgid "completed"
-msgstr "terminato"
-
-#: application/src/Entity/Job.php:27
-msgid "stopped"
-msgstr "fermato"
-
-#: application/src/Entity/Job.php:28
-msgid "error"
-msgstr "errore"
-
-#: application/src/Media/Ingester/IiifPresentation.php:27
-msgid "IIIF presentation"
-msgstr "Presentazione IIIF"
-
-#: application/src/Media/Ingester/IiifPresentation.php:39
-msgid "IIIF presentation URL"
-msgstr "URL di presentazione IIIF"
-
-#: application/src/Media/Ingester/IiifPresentation.php:40
-msgid "Enter the URL to a IIIF collection or manifest."
-msgstr "Inserisci l'URL di una collezione o manifest IIIF"
-
-#: application/src/Media/Ingester/IIIF.php:33
-msgid "IIIF image"
-msgstr "immagine IIIF"
-
-#: application/src/Media/Ingester/IIIF.php:107
-msgid "IIIF image URL"
-msgstr "URL dell'immagine IIIF"
-
-#: application/src/Media/Ingester/IIIF.php:108
-msgid ""
-"Enter the URL to a IIIF image information file (ending with /info.json)."
-msgstr ""
-"Inserisci l'URL di un file di informazione IIIF (finisce con /info.json)."
-
-#: application/src/Media/Ingester/Youtube.php:27
-msgid "YouTube"
-msgstr "YouTube"
-
-#: application/src/Media/Ingester/Youtube.php:90
-msgid "Video URL"
-msgstr "URL video"
-
-#: application/src/Media/Ingester/Youtube.php:91
-msgid "URL for the video to embed."
-msgstr "URL video da incorporare."
-
-#: application/src/Media/Ingester/Youtube.php:99
-msgid "Start"
-msgstr "Avvio"
-
-#: application/src/Media/Ingester/Youtube.php:100
-msgid ""
-"Begin playing the video at the given number of seconds from the start of the"
-" video."
-msgstr ""
-"Iniziare la riproduzione del video al numero di secondi indicato dall'inizio"
-" del video."
-
-#: application/src/Media/Ingester/Youtube.php:104
-msgid "End"
-msgstr "Fine"
-
-#: application/src/Media/Ingester/Youtube.php:105
-msgid ""
-"End playing the video at the given number of seconds from the start of the "
-"video."
-msgstr ""
-"Terminare la riproduzione del video al numero di secondi indicato "
-"dall'inizio del video."
-
-#: application/src/Media/Ingester/Url.php:80
-msgid "A URL to the media."
-msgstr "Una URL del media."
-
-#: application/src/Media/Ingester/Html.php:80
-msgid "HTML or plain text."
-msgstr "HTML o testo semplice."
-
-#: application/src/Media/Ingester/OEmbed.php:67
-msgid "URL for the media to embed."
-msgstr "URL del media da incorporare."
-
-#: application/src/Form/SettingForm.php:107
-#: application/src/Form/SiteSettingsForm.php:31
-msgid "General"
-msgstr "Generale"
-
-#: application/src/Form/SettingForm.php:108
-msgid "Display"
-msgstr "Visibilità"
-
-#: application/src/Form/SettingForm.php:109
-msgid "Editing"
-msgstr "Modifica"
-
-#: application/src/Form/SettingForm.php:111
-msgid "Security"
-msgstr "Sicurezza"
-
-#: application/src/Form/SettingForm.php:121
-msgid "Administrator email"
-msgstr "Email dell'Amministratore"
-
-#: application/src/Form/SettingForm.php:135
 #: application/src/Form/InstallationForm.php:80
+#: application/src/Form/SettingForm.php:136
 msgid "Installation title"
 msgstr "Titolo dell'installazione"
 
-#: application/src/Form/SettingForm.php:151
 #: application/src/Form/InstallationForm.php:98
+#: application/src/Form/SettingForm.php:152
 msgid "Time zone"
 msgstr "Fuso Orario"
 
-#: application/src/Form/SettingForm.php:166
-#: application/src/Form/SiteSettingsForm.php:149
-#: application/src/Form/UserForm.php:141
 #: application/src/Form/InstallationForm.php:112
+#: application/src/Form/SettingForm.php:167
+#: application/src/Form/SiteSettingsForm.php:151
+#: application/src/Form/UserForm.php:142
 msgid "Locale"
 msgstr "Lingua"
 
-#: application/src/Form/SettingForm.php:167
-#: application/src/Form/UserForm.php:142
+#: application/src/Form/InstallationForm.php:128
+msgid "The emails did not match"
+msgstr "Le email non corrispondono"
+
+#: application/src/Form/ResourceForm.php:39
+#: application/src/Form/ResourceBatchUpdateForm.php:74
+#: application/src/Form/UserForm.php:157
+#: application/src/Form/ItemStubForm.php:68
+msgid "Select a template"
+msgstr "Seleziona un modello"
+
+#: application/src/Form/ResourceForm.php:44
+msgid "A pre-defined template for resource creation."
+msgstr "Un modello predefinito per la creazione di risorsa."
+
+#: application/src/Form/ResourceForm.php:64
+#: application/src/Form/ResourceBatchUpdateForm.php:97
+#: application/src/Form/ItemStubForm.php:81
+msgid "Select a class"
+msgstr "Seleziona una classe"
+
+#: application/src/Form/ResourceForm.php:68
+msgid ""
+"A type for the resource. Different types have different default properties "
+"attached to them."
+msgstr ""
+"Un tipo per la risorsa. Tipi diversi hanno proprietà predefinite diverse "
+"collegate ad essi."
+
+#: application/src/Form/ResourceForm.php:78
+msgid ""
+"Omeka S automatically selects a thumbnail from among attached media for a "
+"resource. You may use an image of your choice instead by choosing an asset "
+"here."
+msgstr ""
+"Omeka S seleziona automaticamente una miniatura tra i media collegati ad una"
+" risorsa. E' comunque possibile utilizzare un'immagine alternativa "
+"selezionando qui un contenuto."
+
+#: application/src/Form/Initializer/Csrf.php:35
+msgid "Invalid or missing CSRF token"
+msgstr "Token CSRF non valido o mancante"
+
+#: application/src/Form/ModuleStateChangeForm.php:37
+msgid "Install"
+msgstr "Installa"
+
+#: application/src/Form/ModuleStateChangeForm.php:55
+msgid "Deactivate"
+msgstr "Disattiva"
+
+#: application/src/Form/ModuleStateChangeForm.php:64
+msgid "Upgrade"
+msgstr "Aggiorna"
+
+#: application/src/Form/UserBatchUpdateForm.php:28
+#: application/src/Form/UserForm.php:104
+#: application/src/Service/Form/Element/RoleSelectFactory.php:16
+#: application/src/View/Helper/RoleSelect.php:39
+msgid "Select role…"
+msgstr "Seleziona ruolo..."
+
+#: application/src/Form/UserBatchUpdateForm.php:31
+msgid "Set role"
+msgstr "Imposta ruolo"
+
+#: application/src/Form/UserBatchUpdateForm.php:32
+#: application/src/Form/UserBatchUpdateForm.php:44
+#: application/src/Form/UserBatchUpdateForm.php:61
+#: application/src/Form/UserBatchUpdateForm.php:78
+#: application/src/Form/UserBatchUpdateForm.php:93
+#: application/src/Form/ResourceBatchUpdateForm.php:42
+#: application/src/Form/ResourceBatchUpdateForm.php:59
+#: application/src/Form/ResourceBatchUpdateForm.php:79
+#: application/src/Form/ResourceBatchUpdateForm.php:102
+#: application/src/Form/ResourceBatchUpdateForm.php:116
+msgid "[No change]"
+msgstr "[Nessuna modifica]"
+
+#: application/src/Form/UserBatchUpdateForm.php:40
+msgid "Set activity"
+msgstr "Imposta attività"
+
+#: application/src/Form/UserBatchUpdateForm.php:56
+#: application/src/Form/UserBatchUpdateForm.php:73
+msgid "Select sites…"
+msgstr "Seleziona siti..."
+
+#: application/src/Form/UserBatchUpdateForm.php:60
+msgid "Remove from site permission"
+msgstr "Elimina dai permessi del sito"
+
+#: application/src/Form/UserBatchUpdateForm.php:62
+#: application/src/Form/UserBatchUpdateForm.php:79
+msgid "[All sites]"
+msgstr "[Tutti i siti]"
+
+#: application/src/Form/UserBatchUpdateForm.php:77
+msgid "Add to site permission"
+msgstr "Aggiungi ai permessi del sito"
+
+#: application/src/Form/UserBatchUpdateForm.php:88
+msgid "Select permission…"
+msgstr "Seleziona permesso..."
+
+#: application/src/Form/UserBatchUpdateForm.php:92
+msgid "Add to site permission as"
+msgstr "Aggiungi all'autorizazione del sito come"
+
+#: application/src/Form/SettingForm.php:108
+#: application/src/Form/SiteSettingsForm.php:32
+msgid "General"
+msgstr "Generale"
+
+#: application/src/Form/SettingForm.php:109
+msgid "Display"
+msgstr "Visibilità"
+
+#: application/src/Form/SettingForm.php:110
+msgid "Editing"
+msgstr "Modifica"
+
+#: application/src/Form/SettingForm.php:112
+msgid "Security"
+msgstr "Sicurezza"
+
+#: application/src/Form/SettingForm.php:122
+msgid "Administrator email"
+msgstr "Email dell'Amministratore"
+
+#: application/src/Form/SettingForm.php:168
+#: application/src/Form/UserForm.php:143
 msgid "Global locale/language code for all interfaces."
 msgstr "Codice lingua globale per tutte le interfacce."
 
-#: application/src/Form/SettingForm.php:181
+#: application/src/Form/SettingForm.php:182
 msgid "Enable version notifications"
 msgstr "Attiva le notifiche di versione"
 
-#: application/src/Form/SettingForm.php:182
+#: application/src/Form/SettingForm.php:183
 msgid ""
 "Enable notifications when a new version of Omeka S, modules, or themes are "
 "available."
@@ -4267,58 +3900,65 @@ msgstr ""
 "Abilita le notifiche quando una nuova versione di Omeka S, di moduli o temi "
 "sono disponibili."
 
-#: application/src/Form/SettingForm.php:195
+#: application/src/Form/SettingForm.php:196
 msgid "Disable JSON-LD @reverse"
 msgstr "Disabilita JSON-LD @reverse"
 
-#: application/src/Form/SettingForm.php:196
+#: application/src/Form/SettingForm.php:197
 msgid "Disable JSON-LD reverse properties in the API output for resources."
 msgstr ""
 "Disabilita le proprietà inverse JSON-LD nelle API per l'output delle "
 "risorse."
 
-#: application/src/Form/SettingForm.php:209
-#: application/src/Form/SiteSettingsForm.php:117
+#: application/src/Form/SettingForm.php:210
+#: application/src/Form/SiteSettingsForm.php:119
 msgid "Favicon"
 msgstr "Favicon"
 
-#: application/src/Form/SettingForm.php:224
-#: application/src/Form/SiteSettingsForm.php:205
+#: application/src/Form/SettingForm.php:225
+#: application/src/Form/SiteSettingsForm.php:207
 msgid "Results per page"
 msgstr "Risultati per pagina"
 
-#: application/src/Form/SettingForm.php:225
+#: application/src/Form/SettingForm.php:226
 msgid "The maximum number of results per page on browse pages."
 msgstr ""
 "Il numero massimo di risultati per pagina sulle pagine di navigazione."
 
-#: application/src/Form/SettingForm.php:239
-#: application/src/Form/SiteSettingsForm.php:284
+#: application/src/Form/SettingForm.php:240
+#: application/src/Form/SiteSettingsForm.php:286
 msgid "Property label information"
 msgstr "Informazioni sull'etichetta della proprietà"
 
-#: application/src/Form/SettingForm.php:240
-#: application/src/Form/SiteSettingsForm.php:285
+#: application/src/Form/SettingForm.php:241
+#: application/src/Form/SiteSettingsForm.php:287
 msgid "The additional information that accompanies labels on resource pages."
 msgstr ""
 "Le informazioni aggiuntive che accompagnano le etichette sulle pagine delle "
 "risorse."
 
 #: application/src/Form/SettingForm.php:243
-#: application/src/Form/SiteSettingsForm.php:288
+#: application/src/Form/SiteSettingsForm.php:289
+#: application/src/Site/BlockLayout/PageDateTime.php:44
+#: application/src/Site/BlockLayout/PageDateTime.php:58
+msgid "None"
+msgstr "Nessuno"
+
+#: application/src/Form/SettingForm.php:244
+#: application/src/Form/SiteSettingsForm.php:290
 msgid "Show Vocabulary"
 msgstr "Mostra Vocabolario"
 
-#: application/src/Form/SettingForm.php:244
-#: application/src/Form/SiteSettingsForm.php:289
+#: application/src/Form/SettingForm.php:245
+#: application/src/Form/SiteSettingsForm.php:291
 msgid "Show Term"
 msgstr "Mostra Termine"
 
-#: application/src/Form/SettingForm.php:258
+#: application/src/Form/SettingForm.php:259
 msgid "Default site"
 msgstr "Sito predefinito"
 
-#: application/src/Form/SettingForm.php:259
+#: application/src/Form/SettingForm.php:260
 msgid ""
 "Select which site should appear when users go to the front page of the "
 "installation."
@@ -4326,17 +3966,17 @@ msgstr ""
 "Seleziona quale sito dovrebbe apparire quando gli utenti vanno alla prima "
 "pagina dell'installazione."
 
-#: application/src/Form/SettingForm.php:264
+#: application/src/Form/SettingForm.php:265
 msgid "No default (show index of sites)"
 msgstr "Nessun sito predefinito (mostra l'indice dei siti)"
 
-#: application/src/Form/SettingForm.php:276
-#: application/src/Form/SiteSettingsForm.php:104
+#: application/src/Form/SettingForm.php:277
+#: application/src/Form/SiteSettingsForm.php:106
 msgid "Disable JSON-LD embed"
 msgstr "Disabilita JSON-LD incorporato"
 
-#: application/src/Form/SettingForm.php:277
-#: application/src/Form/SiteSettingsForm.php:105
+#: application/src/Form/SettingForm.php:278
+#: application/src/Form/SiteSettingsForm.php:107
 msgid ""
 "By default, Omeka embeds JSON-LD in resource browse and show pages for the "
 "purpose of machine-readable metadata discovery. Check this to disable "
@@ -4346,23 +3986,31 @@ msgstr ""
 "risorse e mostra le pagine per la ricerca di metadati leggibili dalla "
 "macchina. Seleziona questa opzione per disabilitare l'integrazione."
 
-#: application/src/Form/SettingForm.php:292
-msgid "Default content visibility to Private"
-msgstr "Visibilità del contenuto predefinita come Privata"
-
-#: application/src/Form/SettingForm.php:293
-msgid ""
-"If checked, all items, item sets and sites newly created will have their "
-"visibility set to private by default."
+#: application/src/Form/SettingForm.php:291
+msgid "Set default item visibility to private"
 msgstr ""
-"Se attivato, tutti i nuovi contenuti, le nuove collezioni e i nuovi siti "
-"avranno la visibilità predefinita impostata come Privata. "
+"Imposta come privata la visibilità del contenuto come scelta predefinita"
 
-#: application/src/Form/SettingForm.php:306
+#: application/src/Form/SettingForm.php:295
+msgid "Set default item set visibility to private"
+msgstr ""
+"Imposta come privata la visibilità della collezione come scelta predefinita"
+
+#: application/src/Form/SettingForm.php:299
+msgid "Set default site visibility to private"
+msgstr "Imposta come privata la visibilità del sito come scelta predefinita"
+
+#: application/src/Form/SettingForm.php:303
+msgid "Set default site page visibility to private"
+msgstr ""
+"Imposta come privata la visibilità delle pagine del sito come scelta "
+"predefinita"
+
+#: application/src/Form/SettingForm.php:326
 msgid "Suggested languages for values"
 msgstr "Lingue suggerite per i valori"
 
-#: application/src/Form/SettingForm.php:307
+#: application/src/Form/SettingForm.php:327
 msgid ""
 "List of languages to facilitate filling of the values in the resource form. "
 "List them one by line. The label displayed for a language may be appended "
@@ -4372,102 +4020,601 @@ msgstr ""
 "inserimento delle risorse. Elencale una per riga. Si può aggiungere "
 "un'etichetta da mostrare per una lingua aggiungendo un \"=\"."
 
-#: application/src/Form/SettingForm.php:321
+#: application/src/Form/SettingForm.php:341
 msgid "Media alt text property"
 msgstr "Proprietà testo alternativo del media"
 
-#: application/src/Form/SettingForm.php:322
+#: application/src/Form/SettingForm.php:342
 msgid "Media property to use as alt text if no alt text is explicitly set."
 msgstr ""
 "Proprietà del media da utilizzare come testo alternativo se nessun testo "
 "alternativo è stato impostato in modo esplicito."
 
-#: application/src/Form/SettingForm.php:323
+#: application/src/Form/SettingForm.php:343
 msgid "[None]"
 msgstr "[Nessuno]"
 
-#: application/src/Form/SettingForm.php:340
+#: application/src/Form/SettingForm.php:358
+msgid "Batch chunk size"
+msgstr "Dimensione del blocco in operazioni batch"
+
+#: application/src/Form/SettingForm.php:359
+msgid ""
+"Enter the size of each chunk of resources when batch editing and deleting."
+msgstr ""
+"Inserisci la dimensione di ogni blocco di risorse per quando si effettuano "
+"modifiche o cancellazioni batch."
+
+#: application/src/Form/SettingForm.php:374
 msgid "Index full-text search"
 msgstr "Indicizza per la ricerca su tutto il testo"
 
-#: application/src/Form/SettingForm.php:355
+#: application/src/Form/SettingForm.php:389
 msgid "Use HTMLPurifier"
 msgstr "Utilizza HTMLPurifier"
 
-#: application/src/Form/SettingForm.php:356
+#: application/src/Form/SettingForm.php:390
 msgid "Clean up user-entered HTML."
 msgstr "Pulisci l'HTML inserito dall'utente."
 
-#: application/src/Form/SettingForm.php:369
+#: application/src/Form/SettingForm.php:403
 msgid "Disable file validation"
 msgstr "Disattiva la convalida dei file"
 
-#: application/src/Form/SettingForm.php:370
+#: application/src/Form/SettingForm.php:404
 msgid "Check this to disable file media type and extension validation."
 msgstr ""
 "Spunta questa opzione per disabilitare la convalida del tipo e "
 "dell'estensione dei media."
 
-#: application/src/Form/SettingForm.php:379
+#: application/src/Form/SettingForm.php:413
 msgid "Allowed media types"
 msgstr "Tipi di media consentiti"
 
-#: application/src/Form/SettingForm.php:380
+#: application/src/Form/SettingForm.php:414
 msgid "A comma-separated list of allowed media types for file uploads."
 msgstr ""
 "Un elenco separato da virgole dei tipi di media consentiti per il "
 "caricamento dei file."
 
-#: application/src/Form/SettingForm.php:393
+#: application/src/Form/SettingForm.php:427
 msgid "Allowed file extensions"
 msgstr "Estensioni di file consentite"
 
-#: application/src/Form/SettingForm.php:394
+#: application/src/Form/SettingForm.php:428
 msgid "A comma-separated list of allowed file extensions for file uploads."
 msgstr ""
 "Un elenco separato da virgole delle estensioni di file consentite per il "
 "caricamento dei file."
 
-#: application/src/Form/SettingForm.php:410
+#: application/src/Form/SettingForm.php:444
 msgid "reCAPTCHA site key"
 msgstr "key reCAPTCHA del sito"
 
-#: application/src/Form/SettingForm.php:422
+#: application/src/Form/SettingForm.php:456
 msgid "reCAPTCHA secret key"
 msgstr "key segreta reCAPTCHA"
 
-#: application/src/Form/ResourceForm.php:38
-#: application/src/Form/ResourceBatchUpdateForm.php:73
-#: application/src/Form/UserForm.php:156
-msgid "Select a template"
-msgstr "Seleziona un modello"
+#: application/src/Form/ResourceTemplateForm.php:27
+msgid "Suggested class"
+msgstr "Classi suggerite"
 
-#: application/src/Form/ResourceForm.php:43
-msgid "A pre-defined template for resource creation."
-msgstr "Un modello predefinito per la creazione di risorsa."
+#: application/src/Form/SiteSettingsForm.php:35
+msgid "Show"
+msgstr "Mostra"
 
-#: application/src/Form/ResourceForm.php:63
-#: application/src/Form/ResourceBatchUpdateForm.php:96
-msgid "Select a class"
-msgstr "Seleziona una classe"
+#: application/src/Form/SiteSettingsForm.php:37
+msgid "IIIF viewer"
+msgstr "Visualizzatore IIIF"
 
-#: application/src/Form/ResourceForm.php:67
+#: application/src/Form/SiteSettingsForm.php:47
+msgid "Auto-assign new items"
+msgstr "Assegna automaticamente nuovi contenuti"
+
+#: application/src/Form/SiteSettingsForm.php:48
 msgid ""
-"A type for the resource. Different types have different default properties "
-"attached to them."
+"Select this if you want new items to be automatically assigned to this site."
+" Note that item owners may unassign their items at any time."
 msgstr ""
-"Un tipo per la risorsa. Tipi diversi hanno proprietà predefinite diverse "
-"collegate ad essi."
+"Seleziona questa opzione se vuoi che nuovi contenuti siano assegnati "
+"automaticamente a questo sito. Tieni presente che i proprietari di contenuti"
+" possono rimuovere i propri contenuti in qualsiasi momento."
 
-#: application/src/Form/ResourceForm.php:77
+#: application/src/Form/SiteSettingsForm.php:60
+msgid "Attachment link type"
+msgstr "Tipo di link dell'allegato"
+
+#: application/src/Form/SiteSettingsForm.php:64
+msgid "Direct link to file"
+msgstr "Link diretto verso il file"
+
+#: application/src/Form/SiteSettingsForm.php:77
+msgid "Show page pagination"
+msgstr "Mostra la paginazione per la pagina"
+
+#: application/src/Form/SiteSettingsForm.php:78
 msgid ""
-"Omeka S automatically selects a thumbnail from among attached media for a "
-"resource. You may use an image of your choice instead by choosing an asset "
-"here."
+"Show pagination that helps users follow a linear narrative through a site."
 msgstr ""
-"Omeka S seleziona automaticamente una miniatura tra i media collegati ad una"
-" risorsa. E' comunque possibile utilizzare un'immagine alternativa "
-"selezionando qui un contenuto."
+"Mostra la paginazione che aiuta gli utenti a seguire una narrazione lineare "
+"attraverso un sito."
+
+#: application/src/Form/SiteSettingsForm.php:90
+msgid "Show user bar on public views"
+msgstr "Mostra la barra utente nelle viste pubbliche"
+
+#: application/src/Form/SiteSettingsForm.php:92
+msgid "Never"
+msgstr "Mai"
+
+#: application/src/Form/SiteSettingsForm.php:93
+msgid "When logged in"
+msgstr "Quando hai effettuato l'accesso"
+
+#: application/src/Form/SiteSettingsForm.php:94
+msgid "Always"
+msgstr "Sempre"
+
+#: application/src/Form/SiteSettingsForm.php:131
+msgid "Page subnavigation display"
+msgstr "Visibilità della sotto-navigazione di pagina"
+
+#: application/src/Form/SiteSettingsForm.php:132
+msgid "Hide on leaf pages (default)"
+msgstr "Nascondi sulle pagine foglia (predefinito)"
+
+#: application/src/Form/SiteSettingsForm.php:134
+msgid "Hide on all pages"
+msgstr "Nascondi su tutte le pagine"
+
+#: application/src/Form/SiteSettingsForm.php:135
+msgid "Show on all pages"
+msgstr "Mostra su tutte le pagine"
+
+#: application/src/Form/SiteSettingsForm.php:152
+msgid ""
+"Locale/language code for this site. Leave blank to use the global locale "
+"setting."
+msgstr ""
+"Codice lingua per questo sito. Lascia vuoto per utilizzare l'impostazione "
+"della lingua globale."
+
+#: application/src/Form/SiteSettingsForm.php:166
+msgid "Filter values based on site locale"
+msgstr "Filtra valori basati su sito locale"
+
+#: application/src/Form/SiteSettingsForm.php:167
+msgid ""
+"Show only values matching the site language setting and values without "
+"locale ID."
+msgstr ""
+"Mostra solo valoru corrispondenti alla lingua del sito e valori per cui non "
+"è definita la lingua."
+
+#: application/src/Form/SiteSettingsForm.php:180
+msgid "Show language labels for values"
+msgstr "Mostra le etichette della lingua per i valori"
+
+#: application/src/Form/SiteSettingsForm.php:181
+msgid "Show a label indicating the language of each value on show pages."
+msgstr "Mostra un'etichetta che mostra la lingua per ogni valore"
+
+#: application/src/Form/SiteSettingsForm.php:195
+msgid "Restrict browse to attached items"
+msgstr "Limita la navigazione ai contenuti allegati"
+
+#: application/src/Form/SiteSettingsForm.php:208
+msgid ""
+"The maximum number of results per page on browse pages. Leave blank to use "
+"the global setting."
+msgstr ""
+"Il numero massimo di risultati per pagina sulle pagine di navigazione. "
+"Lascia vuoto per utilizzare l'impostazione globale."
+
+#: application/src/Form/SiteSettingsForm.php:214
+msgid "Use global setting"
+msgstr "Usa impostazioni globali"
+
+#: application/src/Form/SiteSettingsForm.php:223
+msgid "Browse heading property"
+msgstr "Proprietà mostrata come intestazione mentre si sfoglia"
+
+#: application/src/Form/SiteSettingsForm.php:224
+msgid ""
+"Use this property for the heading of each resource on a browse page. Keep "
+"unselected to use the default title property of each resource."
+msgstr ""
+"Utilizza questa proprietà per il titolo di ogni risorsa nella pagina quando "
+"si sfoglia. Lascia non selezionato per utilizzare la proprietà titolo "
+"predefinita per ogni risorsa."
+
+#: application/src/Form/SiteSettingsForm.php:232
+#: application/src/Form/SiteSettingsForm.php:250
+msgid "Select a property"
+msgstr "Seleziona una proprietà"
+
+#: application/src/Form/SiteSettingsForm.php:241
+msgid "Browse body property"
+msgstr "Proprietà (oltre all'intestazione) mostrata mentre si sfoglia"
+
+#: application/src/Form/SiteSettingsForm.php:242
+msgid ""
+"Use this property for the body of each resource on a browse page. Keep "
+"unselected to use the default description property of each resource."
+msgstr ""
+"Utilizza questa proprietà per il corpo di ogni risorsa nella pagina quando "
+"si sfoglia. Lascia non selezionato per utilizzare la proprietà descrizione "
+"predefinita per ogni risorsa."
+
+#: application/src/Form/SiteSettingsForm.php:258
+#: application/src/Form/UserForm.php:263
+msgid "Item browse defaults"
+msgstr "Criteri predefiniti per ordinare i contenuti mentre si sfoglia"
+
+#: application/src/Form/SiteSettingsForm.php:273
+msgid "Show attached pages"
+msgstr "Mostra pagine allegate"
+
+#: application/src/Form/SiteSettingsForm.php:274
+msgid ""
+"Show site pages to which an item is attached on the public item show page."
+msgstr ""
+"Mostra pagine del sito alle quali è allegato un contenuto sulla pagina del "
+"contenuto pubblica."
+
+#: application/src/Form/SiteSettingsForm.php:304
+msgid "Value annotations"
+msgstr "Annotazioni dei valori"
+
+#: application/src/Form/SiteSettingsForm.php:305
+msgid "Hide value annotations"
+msgstr "Nascondi le annotazioni dei valori"
+
+#: application/src/Form/SiteSettingsForm.php:307
+msgid "Show value annotations (collapsed)"
+msgstr "Mostra annotazioni del valore (compatto)"
+
+#: application/src/Form/SiteSettingsForm.php:308
+msgid "Show value annotations (expanded)"
+msgstr "Mostra annotazioni del valore (esteso)"
+
+#: application/src/Form/SiteSettingsForm.php:321
+msgid "Exclude resources not in site"
+msgstr "Escludi risorse che non sono in questo sito"
+
+#: application/src/Form/SiteSettingsForm.php:322
+msgid "Exclude resources that are not assigned to this site."
+msgstr "Escludi risorse che non sono state assegnate a questo sito."
+
+#: application/src/Form/SiteSettingsForm.php:334
+msgid "Embed media on item pages (legacy)"
+msgstr "Incorpora media nelle pagine dei contenuti (legacy)"
+
+#: application/src/Form/SiteSettingsForm.php:348
+msgid "Search type"
+msgstr "Tipo di ricerca"
+
+#: application/src/Form/SiteSettingsForm.php:349
+msgid "Select the type of search the main search field will perform"
+msgstr ""
+"Seleziona il tipo di ricerca che verrà effettuato dal principale campo di "
+"ricerca"
+
+#: application/src/Form/SiteSettingsForm.php:351
+msgid "This site"
+msgstr "Questo sito"
+
+#: application/src/Form/SiteSettingsForm.php:352
+msgid "All sites"
+msgstr "Tutti i siti"
+
+#: application/src/Form/SiteSettingsForm.php:371
+msgid "Search resources"
+msgstr "Cerca risorse"
+
+#: application/src/Form/SiteSettingsForm.php:372
+msgid ""
+"Customize which types of resources will be searchable in the main search "
+"field."
+msgstr ""
+"Personalizza quali tipi di risorse saranno ricercabili dal campo di ricerca "
+"principale"
+
+#: application/src/Form/SiteSettingsForm.php:387
+msgid "Advanced search vocabulary members"
+msgstr "Membri del vocabolario di ricerca avanzato"
+
+#: application/src/Form/SiteSettingsForm.php:388
+msgid "Limit the search options for property and class"
+msgstr "Limita le opzioni di ricerca per proprietà e classe"
+
+#: application/src/Form/SiteSettingsForm.php:389
+msgid "All vocabulary members"
+msgstr "Tutti i membri del vocabolario"
+
+#: application/src/Form/SiteSettingsForm.php:391
+msgid "Used by resources in this site"
+msgstr "Utilizzato da risorse in questo sito"
+
+#: application/src/Form/SiteSettingsForm.php:392
+msgid "Used by any resource in the installation"
+msgstr "Utilizzato da qualsiasi risorsa in questa installazione"
+
+#: application/src/Form/SiteSettingsForm.php:406
+msgid "Templates"
+msgstr "Modelli"
+
+#: application/src/Form/SiteSettingsForm.php:407
+msgid "Select which templates to apply to the advanced search form."
+msgstr "Seleziona i modelli da applicare al modulo di ricerca avanzata."
+
+#: application/src/Form/SiteSettingsForm.php:412
+msgid "Select templates"
+msgstr "Seleziona modelli"
+
+#: application/src/Form/SiteSettingsForm.php:421
+msgid "Restrict to templates"
+msgstr "Limita ai modelli"
+
+#: application/src/Form/SiteSettingsForm.php:422
+msgid "Restrict search results to resources of the selected templates."
+msgstr ""
+"Limita i risultati della ricerca alle risorse dei modelli selezionati."
+
+#: application/src/Form/SiteSettingsForm.php:435
+msgid "Show sidebar"
+msgstr "Mostra barra laterale"
+
+#: application/src/Form/SiteSettingsForm.php:448
+msgid "Light"
+msgstr "Chiaro"
+
+#: application/src/Form/SiteSettingsForm.php:449
+msgid "Dark"
+msgstr "Scuro"
+
+#: application/src/Form/BlockLayoutDataForm.php:46
+msgid "Alignment"
+msgstr "Allineamento"
+
+#: application/src/Form/BlockLayoutDataForm.php:47
+msgid "Constraints"
+msgstr "Limiti"
+
+#: application/src/Form/BlockLayoutDataForm.php:48
+msgid "Padding"
+msgstr "Padding"
+
+#: application/src/Form/BlockLayoutDataForm.php:49
+msgid "Background"
+msgstr "Sfondo"
+
+#: application/src/Form/BlockLayoutDataForm.php:84
+msgid "Block alignment"
+msgstr "Allineamento del blocco"
+
+#: application/src/Form/BlockLayoutDataForm.php:89
+#: application/src/Form/BlockLayoutDataForm.php:106
+#: application/src/Form/BlockLayoutDataForm.php:227
+#: application/src/Form/BlockLayoutDataForm.php:246
+msgid "Center"
+msgstr "Centro"
+
+#: application/src/Form/BlockLayoutDataForm.php:102
+msgid "Text alignment"
+msgstr "Allineamento del testo"
+
+#: application/src/Form/BlockLayoutDataForm.php:108
+msgid "Justify"
+msgstr "Giustifica"
+
+#: application/src/Form/BlockLayoutDataForm.php:121
+msgid "Maximum width"
+msgstr "Massima larghezza"
+
+#: application/src/Form/BlockLayoutDataForm.php:133
+msgid "Minimum height"
+msgstr "Altezza minima"
+
+#: application/src/Form/BlockLayoutDataForm.php:197
+msgid "Color"
+msgstr "Colore"
+
+#: application/src/Form/BlockLayoutDataForm.php:210
+msgid "Image"
+msgstr "Immagine"
+
+#: application/src/Form/BlockLayoutDataForm.php:223
+msgid "Vertical anchor position"
+msgstr "Posizione di ancoraggio verticale"
+
+#: application/src/Form/BlockLayoutDataForm.php:242
+msgid "Horizontal anchor position"
+msgstr "Posizione di ancoraggio orizzontale"
+
+#: application/src/Form/BlockLayoutDataForm.php:264
+msgid "Cover"
+msgstr "Copertina"
+
+#: application/src/Form/BlockLayoutDataForm.php:265
+msgid "Contain"
+msgstr "Contiene"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:38
+msgid "Set visibility"
+msgstr "Imposta visibilità"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:55
+msgid "Set openness"
+msgstr "Imposta apertura"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:57
+msgid "Open"
+msgstr "Aperto"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:58
+msgid "Not open"
+msgstr "Non aperto"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:78
+msgid "Set template"
+msgstr "Imposta modello"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:80
+msgid "[Unset template]"
+msgstr "[Modello disattivato]"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:100
+msgid "Set class"
+msgstr "Imposta classe"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:101
+msgid "[Unset class]"
+msgstr "[Classe non impostata]"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:115
+msgid "Set owner"
+msgstr "Imposta il proprietario"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:137
+#: application/src/Form/ResourceBatchUpdateForm.php:151
+#: application/src/Form/UserForm.php:180
+msgid "Select item sets"
+msgstr "Seleziona collezione"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:140
+msgid "Add to item sets"
+msgstr "Aggiungi a collezione"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:154
+msgid "Remove from item sets"
+msgstr "Elimina da collezione"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:165
+#: application/src/Form/ResourceBatchUpdateForm.php:179
+#: application/src/Form/UserForm.php:196
+msgid "Select sites"
+msgstr "Seleziona siti"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:168
+msgid "Add to sites"
+msgstr "Aggiungi ai siti"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:182
+msgid "Remove from sites"
+msgstr "Togli dai siti"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:192
+msgid "Clear language"
+msgstr "Cancella lingua"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:219
+msgid "Clear property values"
+msgstr "Cancella i valori della proprietà"
+
+#: application/src/Form/SiteForm.php:55
+msgid "Choose or upload a thumbnail to display with site."
+msgstr "Seleziona o carica una miniatura da mostrare con il sito."
+
+#: application/src/Form/UserForm.php:135
+msgid "Admin browse columns"
+msgstr "Colonne per sfogliare i contenuti da parte dell'amministratore"
+
+#: application/src/Form/UserForm.php:136
+msgid "Admin browse defaults"
+msgstr "Sfoglia predefinito per amministratori"
+
+#: application/src/Form/UserForm.php:161
+msgid "Default resource template"
+msgstr "Modello di risorsa predefinito"
+
+#: application/src/Form/UserForm.php:185
+msgid "Default item sets for items"
+msgstr "Collezione predefinita per i contenuti"
+
+#: application/src/Form/UserForm.php:201
+msgid "Default sites for items"
+msgstr "Siti predefiniti per i contenuti"
+
+#: application/src/Form/UserForm.php:219
+msgid "Item browse columns"
+msgstr "Colonne per sfogliare i contenuti"
+
+#: application/src/Form/UserForm.php:230
+msgid "Item set browse columns"
+msgstr "Colonne per sfogliare le collezioni"
+
+#: application/src/Form/UserForm.php:241
+msgid "Media browse columns"
+msgstr "Colonne per sfogliare i media"
+
+#: application/src/Form/UserForm.php:252
+msgid "Site browse columns"
+msgstr "Colonne per sfogliare i siti"
+
+#: application/src/Form/UserForm.php:277
+msgid "Item set browse defaults"
+msgstr "Sfoglia predefinito per collezioni"
+
+#: application/src/Form/UserForm.php:291
+msgid "Media browse defaults"
+msgstr "Sfoglia predefinito per i media"
+
+#: application/src/Form/UserForm.php:305
+msgid "Site browse defaults"
+msgstr "Sfoglia predefinito per i siti"
+
+#: application/src/Form/UserForm.php:321
+msgid "Current password"
+msgstr "Password attuale"
+
+#: application/src/Form/UserForm.php:333
+msgid "New password"
+msgstr "Nuova password"
+
+#: application/src/Form/UserForm.php:334
+msgid "Confirm new password"
+msgstr "Conferma la nuova password"
+
+#: application/src/Form/UserForm.php:343
+msgid "New key label"
+msgstr "Etichetta della nuova key"
+
+#: application/src/Form/SiteResourcesForm.php:15
+msgid "Manage current items"
+msgstr "Gestisci i contenuti attuali"
+
+#: application/src/Form/SiteResourcesForm.php:17
+msgid "Do nothing"
+msgstr "Non fare niente"
+
+#: application/src/Form/SiteResourcesForm.php:18
+msgid "Add - keep existing items and assign items from a new search query"
+msgstr ""
+"Aggiungi - mantieni i contenuti attuali e assegna i contenuti da una nuova "
+"ricerca"
+
+#: application/src/Form/SiteResourcesForm.php:19
+msgid "Replace - unassign all items and assign items from a new search query"
+msgstr ""
+"Sostituisci - rimuovi tutti i contenuti attualmente assegnati e assegna al "
+"loro posto i contenuti da una nuova ricerca"
+
+#: application/src/Form/SiteResourcesForm.php:20
+msgid "Remove - unassign items from a new search query"
+msgstr "Rimuovi - rimuovi i contenuti risultanti da una nuova ricerca"
+
+#: application/src/Form/SiteResourcesForm.php:21
+msgid "Remove all - unassign all items"
+msgstr "Rimuovi tutti - rimuovi tutti i contenuti"
+
+#: application/src/Form/ResourceTemplateImportForm.php:14
+msgid "Resource template file"
+msgstr "File del modello di risorsa"
+
+#: application/src/Form/ConfirmForm.php:17
+msgid "Confirm"
+msgstr "Conferma"
 
 #: application/src/Form/VocabularyForm.php:27
 msgid "Basic info"
@@ -4602,119 +4749,17 @@ msgstr ""
 "convenzionale per i commenti. Si prega di usare l'URI della proprietà per "
 "intero, racchiudendola in parentesi angolari."
 
-#: application/src/Form/SiteForm.php:54
-msgid "Choose or upload a thumbnail to display with site."
-msgstr "Seleziona o carica una miniatura da mostrare con il sito."
+#: application/src/Form/SitePageForm.php:42
+msgid "Add to navigation"
+msgstr "Aggiungi alla navigazione"
 
-#: application/src/Form/ResourceTemplateForm.php:27
-msgid "Suggested class"
-msgstr "Classi suggerite"
+#: application/src/Form/Element/ColorPicker.php:10
+msgid "three- or six-digit hexadecimal color, or \"transparent\""
+msgstr "colore esadecimale a tre o sei cifre, o \"transparent\""
 
-#: application/src/Form/ResourceBatchUpdateForm.php:37
-msgid "Set visibility"
-msgstr "Imposta visibilità"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:41
-#: application/src/Form/ResourceBatchUpdateForm.php:58
-#: application/src/Form/ResourceBatchUpdateForm.php:78
-#: application/src/Form/ResourceBatchUpdateForm.php:101
-#: application/src/Form/ResourceBatchUpdateForm.php:115
-#: application/src/Form/UserBatchUpdateForm.php:31
-#: application/src/Form/UserBatchUpdateForm.php:43
-#: application/src/Form/UserBatchUpdateForm.php:60
-#: application/src/Form/UserBatchUpdateForm.php:77
-#: application/src/Form/UserBatchUpdateForm.php:92
-msgid "[No change]"
-msgstr "[Nessuna modifica]"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:54
-msgid "Set openness"
-msgstr "Imposta apertura"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:56
-msgid "Open"
-msgstr "Aperto"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:57
-msgid "Not open"
-msgstr "Non aperto"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:77
-msgid "Set template"
-msgstr "Imposta modello"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:79
-msgid "[Unset template]"
-msgstr "[Modello disattivato]"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:99
-msgid "Set class"
-msgstr "Imposta classe"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:100
-msgid "[Unset class]"
-msgstr "[Classe non impostata]"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:114
-msgid "Set owner"
-msgstr "Imposta il proprietario"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:136
-#: application/src/Form/ResourceBatchUpdateForm.php:150
-#: application/src/Form/UserForm.php:179
-msgid "Select item sets"
-msgstr "Seleziona collezione"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:139
-msgid "Add to item sets"
-msgstr "Aggiungi a collezione"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:153
-msgid "Remove from item sets"
-msgstr "Elimina da collezione"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:164
-#: application/src/Form/ResourceBatchUpdateForm.php:178
-#: application/src/Form/UserForm.php:195
-msgid "Select sites"
-msgstr "Seleziona siti"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:167
-msgid "Add to sites"
-msgstr "Aggiungi ai siti"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:181
-msgid "Remove from sites"
-msgstr "Togli dai siti"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:191
-msgid "Clear language"
-msgstr "Cancella lingua"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:215
-#: application/view/common/property-form-batch-edit.phtml:65
-msgid "Select properties"
-msgstr "Seleziona proprietà"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:218
-msgid "Clear property values"
-msgstr "Cancella i valori della proprietà"
-
-#: application/src/Form/ModuleStateChangeForm.php:37
-msgid "Install"
-msgstr "Installa"
-
-#: application/src/Form/ModuleStateChangeForm.php:55
-msgid "Deactivate"
-msgstr "Disattiva"
-
-#: application/src/Form/ModuleStateChangeForm.php:64
-msgid "Upgrade"
-msgstr "Aggiorna"
-
-#: application/src/Form/Initializer/Csrf.php:35
-msgid "Invalid or missing CSRF token"
-msgstr "Token CSRF non valido o mancante"
+#: application/src/Form/Element/ColorPicker.php:29
+msgid "Invalid color format"
+msgstr "Formato colore non valido"
 
 #: application/src/Form/Element/PasswordConfirm.php:73
 msgid "Confirm password"
@@ -4736,555 +4781,92 @@ msgstr "Devi verificare di essere un umano completando il CAPTCHA."
 msgid "Could not verify that you are a human."
 msgstr "Non ho potuto verificare che tu sia un umano."
 
-#: application/src/Form/Element/ColorPicker.php:10
-msgid "three- or six-digit hexadecimal color, or \"transparent\""
-msgstr "colore esadecimale a tre o sei cifre, o \"transparent\""
+#: application/src/Permissions/Acl.php:21
+msgid "Global Administrator"
+msgstr "Amministratore Globale"
 
-#: application/src/Form/Element/ColorPicker.php:29
-msgid "Invalid color format"
-msgstr "Formato colore non valido"
+#: application/src/Permissions/Acl.php:22
+msgid "Supervisor"
+msgstr "Supervisore"
 
-#: application/src/Form/SiteSettingsForm.php:34
-msgid "Show"
-msgstr "Mostra"
+#: application/src/Permissions/Acl.php:23
+msgid "Editor"
+msgstr "Redattore"
 
-#: application/src/Form/SiteSettingsForm.php:45
-msgid "Auto-assign new items"
-msgstr "Assegna automaticamente nuovi contenuti"
+#: application/src/Permissions/Acl.php:24
+msgid "Reviewer"
+msgstr "Revisore"
 
-#: application/src/Form/SiteSettingsForm.php:46
+#: application/src/Permissions/Acl.php:25
+msgid "Author"
+msgstr "Autore"
+
+#: application/src/Permissions/Acl.php:26
+msgid "Researcher"
+msgstr "Ricercatore"
+
+#: application/src/File/ThumbnailManager.php:102
+msgid "Missing thumbnail configuration."
+msgstr "Configurazione delle miniature mancante."
+
+#: application/src/File/ThumbnailManager.php:106
+msgid "Missing thumbnail types configuration."
+msgstr "Configurazione dei tipi di miniature mancante."
+
+#: application/src/File/ThumbnailManager.php:109
+msgid "Missing the large, medium, or square thumbnail type configuration."
+msgstr ""
+"Configurazione dei tipi di miniatura grande, media o quadrata mancante."
+
+#: application/src/File/ThumbnailManager.php:113
+msgid "Missing constraint for a thumbnail type configuration."
+msgstr "Vincolo mancante per una configurazione di tipo di miniatura."
+
+#: application/src/File/ThumbnailManager.php:117
+msgid "Missing thumbnail fallbacks configuration."
+msgstr "Configurazione di fallback delle miniature mancante."
+
+#: application/src/File/ThumbnailManager.php:120
+msgid "Missing default thumbnail fallback configuration."
+msgstr "Configurazione della miniatura predefinita di fallback mancante."
+
+#: application/src/File/ThumbnailManager.php:123
+msgid "Missing thumbnail fallback configuration."
+msgstr "Configurazione del fallback delle miniature mancante."
+
+#: application/src/File/ThumbnailManager.php:127
+msgid "Invalid thumbnail fallback configuration."
+msgstr "Configurazione del fallback della miniatura non valida."
+
+#: application/src/File/Downloader.php:71
+#, php-format
+msgid "Error downloading %1$s: %2$s"
+msgstr "Errore nello scaricamento di %1$s: %2$s"
+
+#: application/src/File/Downloader.php:84
+#, php-format
+msgid "Error downloading %1$s: %2$s %3$s"
+msgstr "Errore nello scaricamento di %1$s: %2$s %3$s"
+
+#: application/src/File/Validator.php:65
+#, php-format
+msgid "Error validating \"%1$s\". Cannot store files with the media type \"%2$s\"."
+msgstr ""
+"Errore nella validazione di \"%1$s\". Non è possibile salvare file di tipo "
+"\"%2$s\"."
+
+#: application/src/File/Validator.php:78
+#, php-format
 msgid ""
-"Select this if you want new items to be automatically assigned to this site."
-" Note that item owners may unassign their items at any time."
+"Error validating \"%1$s\". Cannot store files with the resolved extension "
+"\"%2$s\"."
 msgstr ""
-"Seleziona questa opzione se vuoi che nuovi contenuti siano assegnati "
-"automaticamente a questo sito. Tieni presente che i proprietari di contenuti"
-" possono rimuovere i propri contenuti in qualsiasi momento."
-
-#: application/src/Form/SiteSettingsForm.php:58
-msgid "Attachment link type"
-msgstr "Tipo di link dell'allegato"
-
-#: application/src/Form/SiteSettingsForm.php:62
-msgid "Direct link to file"
-msgstr "Link diretto verso il file"
-
-#: application/src/Form/SiteSettingsForm.php:75
-msgid "Show page pagination"
-msgstr "Mostra la paginazione per la pagina"
-
-#: application/src/Form/SiteSettingsForm.php:76
-msgid ""
-"Show pagination that helps users follow a linear narrative through a site."
-msgstr ""
-"Mostra la paginazione che aiuta gli utenti a seguire una narrazione lineare "
-"attraverso un sito."
-
-#: application/src/Form/SiteSettingsForm.php:88
-msgid "Show user bar on public views"
-msgstr "Mostra la barra utente nelle viste pubbliche"
-
-#: application/src/Form/SiteSettingsForm.php:90
-msgid "Never"
-msgstr "Mai"
-
-#: application/src/Form/SiteSettingsForm.php:91
-msgid "When logged in"
-msgstr "Quando registrato"
-
-#: application/src/Form/SiteSettingsForm.php:92
-msgid "Always"
-msgstr "Sempre"
-
-#: application/src/Form/SiteSettingsForm.php:129
-msgid "Page subnavigation display"
-msgstr "Visibilità della sotto-navigazione di pagina"
-
-#: application/src/Form/SiteSettingsForm.php:130
-msgid "Hide on leaf pages (default)"
-msgstr "Nascondi sulle pagine foglia (predefinito)"
-
-#: application/src/Form/SiteSettingsForm.php:132
-msgid "Hide on all pages"
-msgstr "Nascondi su tutte le pagine"
-
-#: application/src/Form/SiteSettingsForm.php:133
-msgid "Show on all pages"
-msgstr "Mostra su tutte le pagine"
-
-#: application/src/Form/SiteSettingsForm.php:150
-msgid ""
-"Locale/language code for this site. Leave blank to use the global locale "
-"setting."
-msgstr ""
-"Codice lingua per questo sito. Lascia vuoto per utilizzare l'impostazione "
-"della lingua globale."
-
-#: application/src/Form/SiteSettingsForm.php:164
-msgid "Filter values based on site locale"
-msgstr "Filtra valori basati su sito locale"
-
-#: application/src/Form/SiteSettingsForm.php:165
-msgid ""
-"Show only values matching the site language setting and values without "
-"locale ID."
-msgstr ""
-"Mostra solo valoru corrispondenti alla lingua del sito e valori per cui non "
-"è definita la lingua."
-
-#: application/src/Form/SiteSettingsForm.php:178
-msgid "Show language labels for values"
-msgstr "Mostra le etichette della lingua per i valori"
-
-#: application/src/Form/SiteSettingsForm.php:179
-msgid "Show a label indicating the language of each value on show pages."
-msgstr "Mostra un'etichetta che mostra la lingua per ogni valore"
-
-#: application/src/Form/SiteSettingsForm.php:193
-msgid "Restrict browse to attached items"
-msgstr "Limita la navigazione ai contenuti allegati"
-
-#: application/src/Form/SiteSettingsForm.php:206
-msgid ""
-"The maximum number of results per page on browse pages. Leave blank to use "
-"the global setting."
-msgstr ""
-"Il numero massimo di risultati per pagina sulle pagine di navigazione. "
-"Lascia vuoto per utilizzare l'impostazione globale."
-
-#: application/src/Form/SiteSettingsForm.php:212
-msgid "Use global setting"
-msgstr "Usa impostazioni globali"
-
-#: application/src/Form/SiteSettingsForm.php:221
-msgid "Browse heading property"
-msgstr "Percorri proprietà intestazione"
-
-#: application/src/Form/SiteSettingsForm.php:222
-msgid ""
-"Use this property for the heading of each resource on a browse page. Keep "
-"unselected to use the default title property of each resource."
-msgstr ""
-"Utilizza questa proprietà per il titolo di ogni risorsa nella pagina quando "
-"si sfoglia. Lascia non selezionato per utilizzare la proprietà titolo "
-"predefinita per ogni risorsa."
-
-#: application/src/Form/SiteSettingsForm.php:230
-#: application/src/Form/SiteSettingsForm.php:248
-msgid "Select a property"
-msgstr "Seleziona una proprietà"
-
-#: application/src/Form/SiteSettingsForm.php:239
-msgid "Browse body property"
-msgstr "Percorri proprietà del corpo"
-
-#: application/src/Form/SiteSettingsForm.php:240
-msgid ""
-"Use this property for the body of each resource on a browse page. Keep "
-"unselected to use the default description property of each resource."
-msgstr ""
-"Utilizza questa proprietà per il corpo di ogni risorsa nella pagina quando "
-"si sfoglia. Lascia non selezionato per utilizzare la proprietà descrizione "
-"predefinita per ogni risorsa."
-
-#: application/src/Form/SiteSettingsForm.php:256
-#: application/src/Form/UserForm.php:262
-msgid "Item browse defaults"
-msgstr "Valori predefiniti per sfogliare i contenuti"
-
-#: application/src/Form/SiteSettingsForm.php:271
-msgid "Show attached pages"
-msgstr "Mostra pagine allegate"
-
-#: application/src/Form/SiteSettingsForm.php:272
-msgid ""
-"Show site pages to which an item is attached on the public item show page."
-msgstr ""
-"Mostra pagine del sito alle quali è allegato un contenuto sulla pagina del "
-"contenuto pubblica."
-
-#: application/src/Form/SiteSettingsForm.php:302
-msgid "Value annotations"
-msgstr "Annotazioni dei valori"
-
-#: application/src/Form/SiteSettingsForm.php:303
-msgid "Hide value annotations"
-msgstr "Nascondi le annotazioni dei valori"
-
-#: application/src/Form/SiteSettingsForm.php:305
-msgid "Show value annotations (collapsed)"
-msgstr "Mostra annotazioni del valore (compatto)"
-
-#: application/src/Form/SiteSettingsForm.php:306
-msgid "Show value annotations (expanded)"
-msgstr "Mostra annotazioni del valore (esteso)"
-
-#: application/src/Form/SiteSettingsForm.php:319
-msgid "Exclude resources not in site"
-msgstr "Escludi risorse che non sono in questo sito"
-
-#: application/src/Form/SiteSettingsForm.php:320
-msgid "Exclude resources that are not assigned to this site."
-msgstr "Escludi risorse che non sono state assegnate a questo sito."
-
-#: application/src/Form/SiteSettingsForm.php:332
-msgid "Embed media on item pages (legacy)"
-msgstr "Incorpora media nelle pagine dei contenuti (legacy)"
-
-#: application/src/Form/SiteSettingsForm.php:346
-msgid "Search type"
-msgstr "Tipo di ricerca"
-
-#: application/src/Form/SiteSettingsForm.php:347
-msgid "Select the type of search the main search field will perform"
-msgstr ""
-"Seleziona il tipo di ricerca che verrà effettuato dal principale campo di "
-"ricerca"
-
-#: application/src/Form/SiteSettingsForm.php:349
-msgid "This site"
-msgstr "Questo sito"
-
-#: application/src/Form/SiteSettingsForm.php:350
-msgid "All sites"
-msgstr "Tutti i siti"
-
-#: application/src/Form/SiteSettingsForm.php:369
-msgid "Search resources"
-msgstr "Cerca risorse"
-
-#: application/src/Form/SiteSettingsForm.php:370
-msgid ""
-"Customize which types of resources will be searchable in the main search "
-"field."
-msgstr ""
-"Personalizza quali tipi di risorse saranno ricercabili dal campo di ricerca "
-"principale"
-
-#: application/src/Form/SiteSettingsForm.php:385
-msgid "Advanced search vocabulary members"
-msgstr "Membri del vocabolario di ricerca avanzato"
-
-#: application/src/Form/SiteSettingsForm.php:386
-msgid "Limit the search options for property and class"
-msgstr "Limita le opzioni di ricerca per proprietà e classe"
-
-#: application/src/Form/SiteSettingsForm.php:387
-msgid "All vocabulary members"
-msgstr "Tutti i membri del vocabolario"
-
-#: application/src/Form/SiteSettingsForm.php:389
-msgid "Used by resources in this site"
-msgstr "Utilizzato da risorse in questo sito"
-
-#: application/src/Form/SiteSettingsForm.php:390
-msgid "Used by any resource in the installation"
-msgstr "Utilizzato da qualsiasi risorsa in questa installazione"
-
-#: application/src/Form/SiteSettingsForm.php:404
-msgid "Templates"
-msgstr "Modelli"
-
-#: application/src/Form/SiteSettingsForm.php:405
-msgid "Select which templates to apply to the advanced search form."
-msgstr "Seleziona i modelli da applicare al modulo di ricerca avanzata."
-
-#: application/src/Form/SiteSettingsForm.php:410
-msgid "Select templates"
-msgstr "Seleziona modelli"
-
-#: application/src/Form/SiteSettingsForm.php:419
-msgid "Restrict to templates"
-msgstr "Limita ai modelli"
-
-#: application/src/Form/SiteSettingsForm.php:420
-msgid "Restrict search results to resources of the selected templates."
-msgstr ""
-"Limita i risultati della ricerca alle risorse dei modelli selezionati."
-
-#: application/src/Form/UserBatchUpdateForm.php:27
-#: application/src/Form/UserForm.php:103
-#: application/src/Service/Form/Element/RoleSelectFactory.php:16
-#: application/src/View/Helper/RoleSelect.php:39
-msgid "Select role…"
-msgstr "Seleziona ruolo..."
-
-#: application/src/Form/UserBatchUpdateForm.php:30
-msgid "Set role"
-msgstr "Imposta ruolo"
-
-#: application/src/Form/UserBatchUpdateForm.php:39
-msgid "Set activity"
-msgstr "Imposta attività"
-
-#: application/src/Form/UserBatchUpdateForm.php:55
-#: application/src/Form/UserBatchUpdateForm.php:72
-msgid "Select sites…"
-msgstr "Seleziona siti..."
-
-#: application/src/Form/UserBatchUpdateForm.php:59
-msgid "Remove from site permission"
-msgstr "Elimina dai permessi del sito"
-
-#: application/src/Form/UserBatchUpdateForm.php:61
-#: application/src/Form/UserBatchUpdateForm.php:78
-msgid "[All sites]"
-msgstr "[Tutti i siti]"
-
-#: application/src/Form/UserBatchUpdateForm.php:76
-msgid "Add to site permission"
-msgstr "Aggiungi ai permessi del sito"
-
-#: application/src/Form/UserBatchUpdateForm.php:87
-msgid "Select permission…"
-msgstr "Seleziona permesso..."
-
-#: application/src/Form/UserBatchUpdateForm.php:91
-msgid "Add to site permission as"
-msgstr "Aggiungi all'autorizazione del sito come"
-
-#: application/src/Form/SiteResourcesForm.php:15
-msgid "Manage current items"
-msgstr "Gestisci i contenuti attuali"
-
-#: application/src/Form/SiteResourcesForm.php:17
-msgid "Do nothing"
-msgstr "Non fare niente"
-
-#: application/src/Form/SiteResourcesForm.php:18
-msgid "Add - keep existing items and assign items from a new search query"
-msgstr ""
-"Aggiungi - mantieni i contenuti attuali e assegna i contenuti da una nuova "
-"ricerca"
-
-#: application/src/Form/SiteResourcesForm.php:19
-msgid "Replace - unassign all items and assign items from a new search query"
-msgstr ""
-"Sostituisci - rimuovi tutti i contenuti attualmente assegnati e assegna al "
-"loro posto i contenuti da una nuova ricerca"
-
-#: application/src/Form/SiteResourcesForm.php:20
-msgid "Remove - unassign items from a new search query"
-msgstr "Rimuovi - rimuovi i contenuti risultanti da una nuova ricerca"
-
-#: application/src/Form/SiteResourcesForm.php:21
-msgid "Remove all - unassign all items"
-msgstr "Rimuovi tutti - rimuovi tutti i contenuti"
-
-#: application/src/Form/ResourceTemplateImportForm.php:14
-msgid "Resource template file"
-msgstr "File del modello di risorsa"
-
-#: application/src/Form/UserForm.php:134
-msgid "Admin browse columns"
-msgstr "Colonne per sfogliare i contenuti da parte dell'amministratore"
-
-#: application/src/Form/UserForm.php:135
-msgid "Admin browse defaults"
-msgstr "Sfoglia predefinito per amministratori"
-
-#: application/src/Form/UserForm.php:160
-msgid "Default resource template"
-msgstr "Modello di risorsa predefinito"
-
-#: application/src/Form/UserForm.php:184
-msgid "Default item sets for items"
-msgstr "Collezione predefinita per i contenuti"
-
-#: application/src/Form/UserForm.php:200
-msgid "Default sites for items"
-msgstr "Siti predefiniti per i contenuti"
-
-#: application/src/Form/UserForm.php:218
-msgid "Item browse columns"
-msgstr "Colonne per sfogliare i contenuti"
-
-#: application/src/Form/UserForm.php:229
-msgid "Item set browse columns"
-msgstr "Colonne per sfogliare le collezioni"
-
-#: application/src/Form/UserForm.php:240
-msgid "Media browse columns"
-msgstr "Colonne per sfogliare i media"
-
-#: application/src/Form/UserForm.php:251
-msgid "Site browse columns"
-msgstr "Colonne per sfogliare i siti"
-
-#: application/src/Form/UserForm.php:276
-msgid "Item set browse defaults"
-msgstr "Sfoglia predefinito per collezioni"
-
-#: application/src/Form/UserForm.php:290
-msgid "Media browse defaults"
-msgstr "Sfoglia predefinito per i media"
-
-#: application/src/Form/UserForm.php:304
-msgid "Site browse defaults"
-msgstr "Sfoglia predefinito per i siti"
-
-#: application/src/Form/UserForm.php:320
-msgid "Current password"
-msgstr "Password attuale"
-
-#: application/src/Form/UserForm.php:332
-msgid "New password"
-msgstr "Nuova password"
-
-#: application/src/Form/UserForm.php:333
-msgid "Confirm new password"
-msgstr "Conferma la nuova password"
-
-#: application/src/Form/UserForm.php:342
-msgid "New key label"
-msgstr "Etichetta della nuova key"
-
-#: application/src/Form/InstallationForm.php:19
-msgid "Create the first user"
-msgstr "Crea il primo utente"
-
-#: application/src/Form/InstallationForm.php:52
-msgid "Confirm email"
-msgstr "Conferma email"
-
-#: application/src/Form/InstallationForm.php:128
-msgid "The emails did not match"
-msgstr "Le email non corrispondono"
-
-#: application/src/Form/BlockLayoutDataForm.php:45
-msgid "Alignment"
-msgstr "Allineamento"
-
-#: application/src/Form/BlockLayoutDataForm.php:46
-msgid "Constraints"
-msgstr ""
-
-#: application/src/Form/BlockLayoutDataForm.php:47
-msgid "Padding"
-msgstr ""
-
-#: application/src/Form/BlockLayoutDataForm.php:48
-msgid "Background"
-msgstr ""
-
-#: application/src/Form/BlockLayoutDataForm.php:83
-msgid "Block alignment"
-msgstr ""
-
-#: application/src/Form/BlockLayoutDataForm.php:88
-#: application/src/Form/BlockLayoutDataForm.php:105
-#: application/src/Form/BlockLayoutDataForm.php:226
-#: application/src/Form/BlockLayoutDataForm.php:245
-msgid "Center"
-msgstr "Centro"
-
-#: application/src/Form/BlockLayoutDataForm.php:101
-msgid "Text alignment"
-msgstr ""
-
-#: application/src/Form/BlockLayoutDataForm.php:107
-msgid "Justify"
-msgstr ""
-
-#: application/src/Form/BlockLayoutDataForm.php:120
-msgid "Maximum width"
-msgstr ""
-
-#: application/src/Form/BlockLayoutDataForm.php:132
-msgid "Minimum height"
-msgstr "Altezza minima"
-
-#: application/src/Form/BlockLayoutDataForm.php:196
-msgid "Color"
-msgstr ""
-
-#: application/src/Form/BlockLayoutDataForm.php:209
-msgid "Image"
-msgstr "Immagine"
-
-#: application/src/Form/BlockLayoutDataForm.php:222
-msgid "Vertical anchor position"
-msgstr "Posizione di ancoraggio verticale"
-
-#: application/src/Form/BlockLayoutDataForm.php:241
-msgid "Horizontal anchor position"
-msgstr "Posizione di ancoraggio orizzontale"
-
-#: application/src/Form/BlockLayoutDataForm.php:263
-msgid "Cover"
-msgstr "Copertina"
-
-#: application/src/Form/BlockLayoutDataForm.php:264
-msgid "Contain"
-msgstr "Contiene"
-
-#: application/src/Form/ConfirmForm.php:17
-msgid "Confirm"
-msgstr "Conferma"
-
-#: application/src/Form/SitePageForm.php:42
-msgid "Add to navigation"
-msgstr "Aggiungi alla navigazione"
-
-#: application/src/Service/CliFactory.php:31
-msgid "Neither \"proc_open()\" nor \"exec()\" are available."
-msgstr "Non sono disponibili né \"proc_open()\" né \"exec()\"."
-
-#: application/src/View/Helper/SiteSelect.php:39
-msgid "Select site…"
-msgstr "Seleziona sito..."
-
-#: application/src/View/Helper/ResourceClassSelect.php:39
-msgid "Select class…"
-msgstr "Seleziona classe..."
-
-#: application/src/View/Helper/BlockShowTitleSelect.php:24
-msgid "item title"
-msgstr "Titolo del contenuto"
-
-#: application/src/View/Helper/BlockShowTitleSelect.php:25
-msgid "media title"
-msgstr "titolo media"
-
-#: application/src/View/Helper/BlockShowTitleSelect.php:26
-msgid "no title"
-msgstr "nessun titolo"
-
-#: application/src/View/Helper/Browse.php:57
-msgid "Relevance"
-msgstr "Rilevanza"
-
-#: application/src/View/Helper/Browse.php:164
-msgid "Add a column…"
-msgstr "Aggiungi una colonna..."
-
-#: application/src/View/Helper/Browse.php:183
-msgid "Column type"
-msgstr "Tipo di colonna"
-
-#: application/src/View/Helper/Browse.php:194
-msgid "Header"
-msgstr "Testata"
-
-#: application/src/View/Helper/ResourceTemplateSelect.php:39
-msgid "Select template…"
-msgstr "Seleziona modello..."
-
-#: application/src/View/Helper/PropertySelect.php:39
-msgid "Select property…"
-msgstr "Seleziona proprietà..."
-
-#: application/src/View/Helper/UserSelect.php:39
-msgid "Select user…"
-msgstr "Seleziona utente..."
-
-#: application/src/View/Helper/BlockThumbnailTypeSelect.php:42
-msgid "Image type"
-msgstr ""
-
-#: application/src/View/Helper/ItemSetSelect.php:39
-msgid "Select item set…"
-msgstr "Seleziona collezione..."
+"Errore nella validazione di \"%1$s\". Non è possibile salvare file con "
+"estensione \"%2$s\"."
+
+#: application/src/Controller/MigrateController.php:40
+msgid "Migration successful"
+msgstr "Migrazione riuscita"
 
 #: application/src/Controller/InstallController.php:52
 msgid "Installation successful. Please log in."
@@ -5294,62 +4876,103 @@ msgstr "L'installazione è riuscita. Effettua il login."
 msgid "There were errors during installation."
 msgstr "Ci sono stati errori durante l'installazione."
 
-#: application/src/Controller/SiteAdmin/IndexController.php:76
+#: application/src/Controller/LoginController.php:57
+msgid "Successfully logged in"
+msgstr "Accesso effettuato con successo"
+
+#: application/src/Controller/LoginController.php:69
+msgid "Email or password is invalid"
+msgstr "L'email o la password non sono valide"
+
+#: application/src/Controller/LoginController.php:93
+msgid "Successfully logged out"
+msgstr "Logout effettuto con successo"
+
+#: application/src/Controller/LoginController.php:109
+msgid "Invalid password creation key."
+msgstr "Key di creazione password non valida."
+
+#: application/src/Controller/LoginController.php:118
+msgid "Password creation key expired."
+msgstr "Key per la creazione della password scaduta"
+
+#: application/src/Controller/LoginController.php:134
+msgid "Successfully created your password. Please log in."
+msgstr "Hai creato con successo la tua password. Effettua il login."
+
+#: application/src/Controller/LoginController.php:137
+msgid "Password creation unsuccessful"
+msgstr "Creazione della password non riuscita"
+
+#: application/src/Controller/LoginController.php:175
+msgid "Unable to send password reset email."
+msgstr "Invio dell'email di ripristino della password non funzionante."
+
+#: application/src/Controller/LoginController.php:178
+msgid "Check your email for instructions on how to reset your password"
+msgstr ""
+"Controlla la tua email per istruzioni su come ripristinare la tua password"
+
+#: application/src/Controller/LoginController.php:181
+msgid "Activation unsuccessful"
+msgstr "Attivazione non riuscita"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:92
 msgid "Site successfully created"
 msgstr "Sito creato con successo"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:118
+#: application/src/Controller/SiteAdmin/IndexController.php:134
 msgid "Site successfully updated"
 msgstr "Sito aggiornato con successo"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:168
+#: application/src/Controller/SiteAdmin/IndexController.php:184
 msgid "Page successfully created"
 msgstr "Pagina creata con successo"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:197
+#: application/src/Controller/SiteAdmin/IndexController.php:213
 msgid "Homepage"
 msgstr "Homepage"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:203
+#: application/src/Controller/SiteAdmin/IndexController.php:219
 msgid "First page in navigation"
 msgstr "Prima pagina nella navigazione"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:219
+#: application/src/Controller/SiteAdmin/IndexController.php:235
 msgid "Navigation successfully updated"
 msgstr "Navigazione aggiornata con successo"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:253
+#: application/src/Controller/SiteAdmin/IndexController.php:269
 msgid ""
 "Item assignment in progress. To see the new item count, refresh the page."
 msgstr ""
 "Assegnamento dei contenuti in corso. Per vedere il numero aggiornato dei "
 "contenuti assegnati, ricarica questa pagina."
 
-#: application/src/Controller/SiteAdmin/IndexController.php:257
+#: application/src/Controller/SiteAdmin/IndexController.php:273
 msgid "Site resources successfully updated"
 msgstr "Risorse del sito aggiornate con successo"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:305
+#: application/src/Controller/SiteAdmin/IndexController.php:321
 msgid "User permissions successfully updated"
 msgstr "Autorizzazioni utente aggiornate con successo"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:342
+#: application/src/Controller/SiteAdmin/IndexController.php:358
 msgid "Site theme successfully updated"
 msgstr "Tema del sito aggiornato con successo"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:417
+#: application/src/Controller/SiteAdmin/IndexController.php:433
 msgid "Theme settings successfully updated"
 msgstr "Impostazioni del tema aggiornate con successo"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:457
+#: application/src/Controller/SiteAdmin/IndexController.php:473
 msgid "Theme resource pages successfully updated"
 msgstr "Pagina delle risorse del tema aggiornata con successo"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:480
+#: application/src/Controller/SiteAdmin/IndexController.php:496
 msgid "Site successfully deleted"
 msgstr "Sito eliminato con successo"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:503
+#: application/src/Controller/SiteAdmin/IndexController.php:519
 msgid "site"
 msgstr "sito"
 
@@ -5365,103 +4988,232 @@ msgstr "pagina"
 msgid "Page successfully deleted"
 msgstr "Pagina eliminata con successo"
 
-#: application/src/Controller/LoginController.php:57
-msgid "Successfully logged in"
-msgstr "Accesso effettuato con successo"
-
-#: application/src/Controller/LoginController.php:69
-msgid "Email or password is invalid"
-msgstr "L'email o la password non sono valide"
-
-#: application/src/Controller/LoginController.php:92
-msgid "Successfully logged out"
-msgstr "Logout effettuto con successo"
-
-#: application/src/Controller/LoginController.php:108
-msgid "Invalid password creation key."
-msgstr "Key di creazione password non valida."
-
-#: application/src/Controller/LoginController.php:117
-msgid "Password creation key expired."
-msgstr "Key per la creazione della password scaduta"
-
-#: application/src/Controller/LoginController.php:133
-msgid "Successfully created your password. Please log in."
-msgstr "Hai creato con successo la tua password. Effettua il login."
-
-#: application/src/Controller/LoginController.php:136
-msgid "Password creation unsuccessful"
-msgstr "Creazione della password non riuscita"
-
-#: application/src/Controller/LoginController.php:174
-msgid "Unable to send password reset email."
-msgstr "Invio dell'email di ripristino della password non funzionante."
-
-#: application/src/Controller/LoginController.php:177
-msgid "Check your email for instructions on how to reset your password"
-msgstr ""
-"Controlla la tua email per istruzioni su come ripristinare la tua password"
-
-#: application/src/Controller/LoginController.php:180
-msgid "Activation unsuccessful"
-msgstr "Attivazione non riuscita"
-
-#: application/src/Controller/MigrateController.php:40
-msgid "Migration successful"
-msgstr "Migrazione riuscita"
-
-#: application/src/Controller/Admin/ItemController.php:48
-#: application/src/Controller/Admin/ItemController.php:53
-#: application/src/Controller/Admin/UserController.php:45
-#: application/src/Controller/Admin/UserController.php:50
-#: application/src/Controller/Admin/MediaController.php:33
-#: application/src/Controller/Admin/MediaController.php:38
-#: application/src/Controller/Admin/ItemSetController.php:93
-#: application/src/Controller/Admin/ItemSetController.php:98
-msgid "Confirm Delete"
-msgstr "Conferma eliminazione"
-
-#: application/src/Controller/Admin/ItemController.php:121
+#: application/src/Controller/Admin/ItemController.php:123
 msgid "item"
 msgstr "contenuto"
 
-#: application/src/Controller/Admin/ItemController.php:137
+#: application/src/Controller/Admin/ItemController.php:139
 msgid "Item successfully deleted"
 msgstr "Il contenuto è stato eliminato con successo"
 
-#: application/src/Controller/Admin/ItemController.php:159
+#: application/src/Controller/Admin/ItemController.php:161
 msgid "You must select at least one item to batch delete."
 msgstr "Per eliminare per lotti, devi selezionare almeno un contenuto."
 
-#: application/src/Controller/Admin/ItemController.php:168
+#: application/src/Controller/Admin/ItemController.php:170
 msgid "Items successfully deleted"
 msgstr "Contenuti eliminati con successo"
 
-#: application/src/Controller/Admin/ItemController.php:194
+#: application/src/Controller/Admin/ItemController.php:196
 msgid "Deleting items. This may take a while."
 msgstr "Eliminazione di contenuti. Potrebbe volerci un po' di tempo."
 
-#: application/src/Controller/Admin/ItemController.php:218
+#: application/src/Controller/Admin/ItemController.php:220
 #, php-format
 msgid "Item successfully created. %s"
 msgstr "Contenuto creato con successo. %s"
 
-#: application/src/Controller/Admin/ItemController.php:256
+#: application/src/Controller/Admin/ItemController.php:283
 msgid "Item successfully updated"
 msgstr "Contenuto aggiornato con successo"
 
-#: application/src/Controller/Admin/ItemController.php:284
+#: application/src/Controller/Admin/ItemController.php:311
 msgid "You must select at least one item to batch edit."
 msgstr ""
 "Per modificare per lotti è necessario selezionare almeno un contenuto."
 
-#: application/src/Controller/Admin/ItemController.php:308
+#: application/src/Controller/Admin/ItemController.php:335
 msgid "Items successfully edited"
 msgstr "Contenuto modificato con successo."
 
-#: application/src/Controller/Admin/ItemController.php:364
+#: application/src/Controller/Admin/ItemController.php:391
 msgid "Editing items. This may take a while."
 msgstr "Modifica dei contenuti. Potrebbe volerci un po' di tempo."
+
+#: application/src/Controller/Admin/ModuleController.php:122
+msgid "The module was successfully installed"
+msgstr "Il modulo è stato installato con successo"
+
+#: application/src/Controller/Admin/ModuleController.php:150
+msgid "Confirm uninstall"
+msgstr "Conferma disinstallazione"
+
+#: application/src/Controller/Admin/ModuleController.php:179
+msgid "The module was successfully uninstalled"
+msgstr "Il modulo è stato disinstallato con successo"
+
+#: application/src/Controller/Admin/ModuleController.php:205
+msgid "The module was successfully activated"
+msgstr "Il modulo è stato attivato con successo"
+
+#: application/src/Controller/Admin/ModuleController.php:231
+msgid "The module was successfully deactivated"
+msgstr "Il modulo è stato disattivato con successo"
+
+#: application/src/Controller/Admin/ModuleController.php:257
+msgid "The module was successfully upgraded"
+msgstr "Il modulo è stato aggiornato con successo"
+
+#: application/src/Controller/Admin/ModuleController.php:287
+msgid "The module was successfully configured"
+msgstr "Il modulo è stato configurato con successo"
+
+#: application/src/Controller/Admin/ModuleController.php:290
+msgid "There was a problem during configuration"
+msgstr "C'è stato un problema durante la configurazione"
+
+#: application/src/Controller/Admin/ResourceTemplateController.php:444
+msgid "resource template"
+msgstr "Modello di risorsa"
+
+#: application/src/Controller/Admin/ResourceTemplateController.php:457
+msgid "Resource template successfully deleted"
+msgstr "Modello di risorsa eliminato con successo"
+
+#: application/src/Controller/Admin/ResourceTemplateController.php:459
+#: application/src/Controller/Admin/ResourceTemplateController.php:462
+msgid "Resource template could not be deleted"
+msgstr "Il modello di risorsa non può essere eliminato"
+
+#: application/src/Controller/Admin/ResourceTemplateController.php:519
+msgid "Resource template successfully updated"
+msgstr "Modello di risorsa aggiornato con successo"
+
+#: application/src/Controller/Admin/ResourceTemplateController.php:522
+#, php-format
+msgid "Resource template successfully created. %s"
+msgstr "Modello di risorsa creato con successo. %s"
+
+#: application/src/Controller/Admin/ItemSetController.php:32
+#, php-format
+msgid "Item set successfully created. %s"
+msgstr "Collezione creata con successo. %s"
+
+#: application/src/Controller/Admin/ItemSetController.php:69
+msgid "Item set successfully updated"
+msgstr "Collezione aggiornata con successo"
+
+#: application/src/Controller/Admin/ItemSetController.php:164
+msgid "item set"
+msgstr "Collezione"
+
+#: application/src/Controller/Admin/ItemSetController.php:179
+msgid "Item set successfully deleted"
+msgstr "Collezione eliminata con successo"
+
+#: application/src/Controller/Admin/ItemSetController.php:201
+msgid "You must select at least one item set to batch delete."
+msgstr ""
+"Per eliminare per lotti è necessario selezionare almeno una collezione."
+
+#: application/src/Controller/Admin/ItemSetController.php:210
+msgid "Item sets successfully deleted"
+msgstr "Collezioni eliminate con successo"
+
+#: application/src/Controller/Admin/ItemSetController.php:236
+msgid "Deleting item sets. This may take a while."
+msgstr "Eliminazione delle collezioni. Potrebbe volerci un po' di tempo."
+
+#: application/src/Controller/Admin/ItemSetController.php:255
+msgid "You must select at least one item set to batch edit."
+msgstr ""
+"Per una modificazione per lotti è necessario selezionare almeno una "
+"collezione."
+
+#: application/src/Controller/Admin/ItemSetController.php:279
+msgid "Item sets successfully edited"
+msgstr "Collezioni modificate con successo"
+
+#: application/src/Controller/Admin/ItemSetController.php:335
+msgid "Editing item sets. This may take a while."
+msgstr "Modifica delle collezioni. Potrebbe volerci un po' di tempo."
+
+#: application/src/Controller/Admin/AssetController.php:93
+msgid "Asset successfully updated"
+msgstr "Asset aggiornato con successo"
+
+#: application/src/Controller/Admin/AssetController.php:124
+msgid "asset"
+msgstr "asset"
+
+#: application/src/Controller/Admin/AssetController.php:137
+msgid "Asset successfully deleted"
+msgstr "Asset eliminato con successo"
+
+#: application/src/Controller/Admin/VocabularyController.php:58
+msgid "vocabulary"
+msgstr "vocabolario"
+
+#: application/src/Controller/Admin/VocabularyController.php:92
+#, php-format
+msgid "Vocabulary successfully imported. %s"
+msgstr "Vocabolario importato con successo. %s"
+
+#: application/src/Controller/Admin/VocabularyController.php:162
+msgid "Vocabulary successfully updated"
+msgstr "Vocabolario aggiornato con successo"
+
+#: application/src/Controller/Admin/VocabularyController.php:167
+msgid "Please review these changes before you accept them."
+msgstr "Rivedi queste modifiche prima di accettarle."
+
+#: application/src/Controller/Admin/VocabularyController.php:192
+msgid "Changes to the vocabulary successfully made"
+msgstr "Modifiche al vocabolario apportate con successo"
+
+#: application/src/Controller/Admin/VocabularyController.php:208
+msgid "Vocabulary successfully deleted"
+msgstr "Vocabolario eliminato con successo"
+
+#: application/src/Controller/Admin/SettingController.php:27
+msgid "Settings successfully updated"
+msgstr "Impostazioni aggiornate con successo"
+
+#: application/src/Controller/Admin/MediaController.php:66
+msgid "Media successfully updated"
+msgstr "Media aggiornato con successo"
+
+#: application/src/Controller/Admin/MediaController.php:117
+msgid "media"
+msgstr "media"
+
+#: application/src/Controller/Admin/MediaController.php:132
+#: application/src/Controller/Admin/MediaController.php:176
+msgid "Media successfully deleted"
+msgstr "Media eliminato con successo"
+
+#: application/src/Controller/Admin/MediaController.php:167
+msgid "You must select at least one media to batch delete."
+msgstr "Devi selezionare almeno un media per l'eliminazione per lotti."
+
+#: application/src/Controller/Admin/MediaController.php:202
+msgid "Deleting media. This may take a while."
+msgstr "Eliminazione dei media in corso. Potrebbe volerci un po' di tempo"
+
+#: application/src/Controller/Admin/MediaController.php:221
+msgid "You must select at least one media to batch edit."
+msgstr ""
+"Per una modificazione per lotti è necessario selezionare almeno un media."
+
+#: application/src/Controller/Admin/MediaController.php:245
+msgid "Media successfully edited"
+msgstr "Media modificati con successo."
+
+#: application/src/Controller/Admin/MediaController.php:301
+msgid "Editing media. This may take a while."
+msgstr "Modifica dei media in corso. Potrebbe volerci un po' di tempo."
+
+#: application/src/Controller/Admin/JobController.php:27
+msgid "Attempt Stop"
+msgstr "Tentativo di arresto"
+
+#: application/src/Controller/Admin/JobController.php:56
+msgid "Attempting to stop the job."
+msgstr "Tenta di fermare la procedura in corso."
+
+#: application/src/Controller/Admin/JobController.php:58
+msgid "The job could not be stopped."
+msgstr "La procedura non può essere fermata."
 
 #: application/src/Controller/Admin/UserController.php:118
 msgid "Unable to send user activation email."
@@ -5542,297 +5294,699 @@ msgstr "Utenti modificati con successo"
 msgid "Editing users. This may take a while."
 msgstr "Modifica degli utenti. Potrebbe volerci un po' di tempo"
 
-#: application/src/Controller/Admin/ModuleController.php:122
-msgid "The module was successfully installed"
-msgstr "Il modulo è stato installato con successo"
+#: application/src/Api/Representation/JobRepresentation.php:12
+msgid "Starting"
+msgstr "Avvio"
 
-#: application/src/Controller/Admin/ModuleController.php:144
-msgid "Confirm uninstall"
-msgstr "Conferma disinstallazione"
+#: application/src/Api/Representation/JobRepresentation.php:13
+msgid "Stopping"
+msgstr "Arresto"
 
-#: application/src/Controller/Admin/ModuleController.php:173
-msgid "The module was successfully uninstalled"
-msgstr "Il modulo è stato disinstallato con successo"
+#: application/src/Api/Representation/JobRepresentation.php:14
+msgid "In Progress"
+msgstr "In esecuzione"
 
-#: application/src/Controller/Admin/ModuleController.php:199
-msgid "The module was successfully activated"
-msgstr "Il modulo è stato attivato con successo"
+#: application/src/Api/Representation/JobRepresentation.php:15
+msgid "Completed"
+msgstr "Terminato"
 
-#: application/src/Controller/Admin/ModuleController.php:225
-msgid "The module was successfully deactivated"
-msgstr "Il modulo è stato disattivato con successo"
+#: application/src/Api/Representation/JobRepresentation.php:16
+msgid "Stopped"
+msgstr "Fermato"
 
-#: application/src/Controller/Admin/ModuleController.php:251
-msgid "The module was successfully upgraded"
-msgstr "Il modulo è stato aggiornato con successo"
+#: application/src/Api/Adapter/VocabularyAdapter.php:68
+msgid "Classes must be an array"
+msgstr "Le classi devono essere un array"
 
-#: application/src/Controller/Admin/ModuleController.php:281
-msgid "The module was successfully configured"
-msgstr "Il modulo è stato configurato con successo"
+#: application/src/Api/Adapter/VocabularyAdapter.php:74
+msgid "Properties must be an array"
+msgstr "Le proprietà devono essere un array"
 
-#: application/src/Controller/Admin/ModuleController.php:284
-msgid "There was a problem during configuration"
-msgstr "C'è stato un problema durante la configurazione"
+#: application/src/Api/Adapter/VocabularyAdapter.php:191
+msgid "The namespace URI cannot be empty."
+msgstr "L'URI spazio nomi non può essere vuoto."
 
-#: application/src/Controller/Admin/JobController.php:27
-msgid "Attempt Stop"
-msgstr "Tentativo di arresto"
-
-#: application/src/Controller/Admin/JobController.php:56
-msgid "Attempting to stop the job."
-msgstr "Tenta di fermare la procedura in corso."
-
-#: application/src/Controller/Admin/JobController.php:58
-msgid "The job could not be stopped."
-msgstr "La procedura non può essere fermata."
-
-#: application/src/Controller/Admin/SettingController.php:27
-msgid "Settings successfully updated"
-msgstr "Impostazioni aggiornate con successo"
-
-#: application/src/Controller/Admin/MediaController.php:66
-msgid "Media successfully updated"
-msgstr "Media aggiornato con successo"
-
-#: application/src/Controller/Admin/MediaController.php:117
-msgid "media"
-msgstr "media"
-
-#: application/src/Controller/Admin/MediaController.php:132
-#: application/src/Controller/Admin/MediaController.php:176
-msgid "Media successfully deleted"
-msgstr "Media eliminato con successo"
-
-#: application/src/Controller/Admin/MediaController.php:167
-msgid "You must select at least one media to batch delete."
-msgstr "Devi selezionare almeno un media per l'eliminazione per lotti."
-
-#: application/src/Controller/Admin/MediaController.php:202
-msgid "Deleting media. This may take a while."
-msgstr "Eliminazione dei media in corso. Potrebbe volerci un po' di tempo"
-
-#: application/src/Controller/Admin/MediaController.php:221
-msgid "You must select at least one media to batch edit."
-msgstr ""
-"Per una modificazione per lotti è necessario selezionare almeno un media."
-
-#: application/src/Controller/Admin/MediaController.php:245
-msgid "Media successfully edited"
-msgstr "Media modificati con successo."
-
-#: application/src/Controller/Admin/MediaController.php:301
-msgid "Editing media. This may take a while."
-msgstr "Modifica dei media in corso. Potrebbe volerci un po' di tempo."
-
-#: application/src/Controller/Admin/AssetController.php:93
-msgid "Asset successfully updated"
-msgstr "Asset aggiornato con successo"
-
-#: application/src/Controller/Admin/AssetController.php:124
-msgid "asset"
-msgstr "asset"
-
-#: application/src/Controller/Admin/AssetController.php:137
-msgid "Asset successfully deleted"
-msgstr "Asset eliminato con successo"
-
-#: application/src/Controller/Admin/ItemSetController.php:32
+#: application/src/Api/Adapter/VocabularyAdapter.php:195
 #, php-format
-msgid "Item set successfully created. %s"
-msgstr "Collezione creata con successo. %s"
+msgid "The namespace URI \"%s\" is already taken."
+msgstr "L'URI spazio nomi \"%s\" è già stato usato."
 
-#: application/src/Controller/Admin/ItemSetController.php:69
-msgid "Item set successfully updated"
-msgstr "Collezione aggiornata con successo"
+#: application/src/Api/Adapter/VocabularyAdapter.php:203
+msgid "The prefix cannot be empty."
+msgstr "Il prfisso non può essere vuoto"
 
-#: application/src/Controller/Admin/ItemSetController.php:164
-msgid "item set"
+#: application/src/Api/Adapter/VocabularyAdapter.php:207
+#, php-format
+msgid "The prefix \"%s\" is already taken."
+msgstr "Il prefisso \"%s\" è già stato usato."
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:214
+#, php-format
+msgid "The prefix \"%s\" is reserved."
+msgstr "Il prefisso \"%s\" è riservato."
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:223
+#: application/src/Api/Adapter/PropertyAdapter.php:206
+#: application/src/Api/Adapter/ResourceTemplateAdapter.php:98
+#: application/src/Api/Adapter/ResourceClassAdapter.php:197
+msgid "The label cannot be empty."
+msgstr "L'etichetta non può essere vuota."
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:231
+#: application/src/Api/Adapter/VocabularyAdapter.php:244
+#: application/src/Api/Adapter/PropertyAdapter.php:219
+#: application/src/Api/Adapter/ResourceClassAdapter.php:210
+#, php-format
+msgid "The local name \"%s\" is already taken."
+msgstr "Il nome locale \"%s\" è già stato usato."
+
+#: application/src/Api/Adapter/PropertyAdapter.php:201
+#: application/src/Api/Adapter/ResourceClassAdapter.php:192
+msgid "The local name cannot be empty."
+msgstr "Il nome locale non può essere vuoto."
+
+#: application/src/Api/Adapter/PropertyAdapter.php:225
+#: application/src/Api/Adapter/ResourceClassAdapter.php:216
+msgid "A vocabulary must be set."
+msgstr "Un vocabolario deve essere impostato"
+
+#: application/src/Api/Adapter/ItemAdapter.php:153
+msgid "Item sets must be an array"
+msgstr "Le collezioni devono essere un array"
+
+#: application/src/Api/Adapter/ItemAdapter.php:159
+msgid "Media must be an array"
+msgstr "Il media deve essere un array."
+
+#: application/src/Api/Adapter/UserAdapter.php:130
+msgid "The name cannot be empty."
+msgstr "Il nome non può essere vuoto."
+
+#: application/src/Api/Adapter/UserAdapter.php:140
+#, php-format
+msgid "The email %s is already taken."
+msgstr "L'email %s è già stato usato."
+
+#: application/src/Api/Adapter/UserAdapter.php:146
+msgid "Users must have a role."
+msgstr "Gli utenti devono avere un ruolo."
+
+#: application/src/Api/Adapter/UserAdapter.php:179
+#, php-format
+msgid "The current user #%d was removed from the batch process."
+msgstr "L'utente corrente #%d è stato eliminato dal processo batch."
+
+#: application/src/Api/Adapter/MediaAdapter.php:114
+msgid "Media must set an ingester."
+msgstr "Il media deve impostare un ingester."
+
+#: application/src/Api/Adapter/MediaAdapter.php:136
+msgid "Media must set a valid ingester."
+msgstr "Il media deve impostare un ingester valido."
+
+#: application/src/Api/Adapter/MediaAdapter.php:180
+msgid "Media must belong to an item."
+msgstr "Il media deve appartenere a un contenuto."
+
+#: application/src/Api/Adapter/ValueHydrator.php:211
+#, php-format
+msgid ""
+"Convert data type - could not convert to \"%s\" from \"%s\" for property "
+"\"%s\" resource \"%s\""
+msgstr ""
+"Converti tipo di dati - non è riuscito a convertire in \"%s\" da \"%s\" per "
+"la proprietà \"%s\" risorsa \"%s\""
+
+#: application/src/Api/Adapter/ResourceTemplateAdapter.php:84
+#, php-format
+msgid "Attempting to add duplicate property with ID %s"
+msgstr "Tentativo di aggiungere una proprietà duplicata con ID %s"
+
+#: application/src/Api/Adapter/ResourceTemplateAdapter.php:101
+msgid "The label is already taken."
+msgstr "L'etichetta è già stata usata."
+
+#: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:210
+#, php-format
+msgid "The \"%1$s\" resource template requires a \"%2$s\" value"
+msgstr "Il modello di risorsa \"%1$s\" richiede un valore \"%2$s\""
+
+#: application/src/Api/Adapter/SiteAdapter.php:258
+msgid "A site must have a title."
+msgstr "Un sito deve avere un titolo."
+
+#: application/src/Api/Adapter/SiteAdapter.php:262
+#: application/src/Api/Adapter/SitePageAdapter.php:172
+msgid "The slug cannot be empty."
+msgstr "Lo slug non può essere vuoto."
+
+#: application/src/Api/Adapter/SiteAdapter.php:265
+#: application/src/Api/Adapter/SitePageAdapter.php:175
+msgid "A slug can only contain letters, numbers, underscores, and hyphens."
+msgstr ""
+"Uno slug può contenere solo lettere, numeri, trattini e trattini bassi."
+
+#: application/src/Api/Adapter/SiteAdapter.php:269
+#: application/src/Api/Adapter/SitePageAdapter.php:183
+#, php-format
+msgid "The slug \"%s\" is already taken."
+msgstr "Lo slug \"%s\" è già stato usato."
+
+#: application/src/Api/Adapter/SiteAdapter.php:275
+msgid "A site must have a theme."
+msgstr "Un sito deve avere un tema."
+
+#: application/src/Api/Adapter/SiteAdapter.php:280
+msgid "A site must have item pool data."
+msgstr "Un sito deve avere i dati del pool di contenuti."
+
+#: application/src/Api/Adapter/SiteAdapter.php:285
+msgid "A homepage must belong to its parent site."
+msgstr "Una homepage deve essere parte del sito per il quale viene scelta. "
+
+#: application/src/Api/Adapter/SiteAdapter.php:375
+msgid "Invalid navigation: navigation must be an array"
+msgstr "Navigazione non valida: la navigazione deve essere un array"
+
+#: application/src/Api/Adapter/SiteAdapter.php:384
+msgid "Invalid navigation: link missing type"
+msgstr "Navigazione non valida: tipo di link mancante"
+
+#: application/src/Api/Adapter/SiteAdapter.php:388
+msgid "Invalid navigation: link missing data"
+msgstr "Navigazione non valida: dati del link mancanti"
+
+#: application/src/Api/Adapter/SiteAdapter.php:392
+msgid "Invalid navigation: invalid link data"
+msgstr "Navigazione non valida: dati del link non validi"
+
+#: application/src/Api/Adapter/SiteAdapter.php:397
+msgid "Invalid navigation: page links must be unique"
+msgstr "Navigazione non valida: i link alle pagine devono essere unici."
+
+#: application/src/Api/Adapter/SiteAdapter.php:404
+msgid "Invalid navigation: links must be an array"
+msgstr "Navigazione non valida: i links devono essere un array"
+
+#: application/src/Api/Adapter/SitePageAdapter.php:162
+msgid "A page must belong to a site."
+msgstr "Una pagina deve appartenere a un sito."
+
+#: application/src/Api/Adapter/SitePageAdapter.php:167
+msgid "A page must have a title."
+msgstr "Una pagina deve avere un titolo."
+
+#: application/src/Api/Adapter/SitePageAdapter.php:227
+msgid "All blocks must have a layout."
+msgstr "Tutti i blocchi devono avere un layout."
+
+#: application/src/Api/Adapter/SitePageAdapter.php:238
+msgid "Block data must not be a scalar value."
+msgstr "I dati del blocco non devono essere un valore scalare."
+
+#: application/src/ColumnType/IsOpen.php:11
+msgid "Is open"
+msgstr "È aperto"
+
+#: application/src/ColumnType/Value.php:25
+msgid "Value"
+msgstr "Valore"
+
+#: application/src/ColumnType/Value.php:56
+msgid "Max values"
+msgstr "Valori massimi"
+
+#: application/src/ColumnType/Value.php:57
+msgid ""
+"Enter the maximum number of values to display. Set to blank to display all "
+"values."
+msgstr ""
+"Inserisci il massimo numero di valori da mostrare. Lascia vuoto per mostrare"
+" tutti i valori"
+
+#: application/src/ColumnType/IsPublic.php:11
+msgid "Is public"
+msgstr "È pubblico"
+
+#: application/src/ColumnType/Unknown.php:22
+msgid "[Unknown]"
+msgstr "[Sconosciuto]"
+
+#: application/src/ColumnType/Unknown.php:40
+msgid "Unknown column data"
+msgstr "Colonna di dati sconosciuta"
+
+#: application/src/Entity/Job.php:23
+msgid "starting"
+msgstr "avvio"
+
+#: application/src/Entity/Job.php:24
+msgid "stopping"
+msgstr "arresto"
+
+#: application/src/Entity/Job.php:25
+msgid "in_progress"
+msgstr "in_corso"
+
+#: application/src/Entity/Job.php:26
+msgid "completed"
+msgstr "terminato"
+
+#: application/src/Entity/Job.php:27
+msgid "stopped"
+msgstr "fermato"
+
+#: application/src/Entity/Job.php:28
+msgid "error"
+msgstr "errore"
+
+#: application/src/Media/Ingester/Url.php:80
+msgid "A URL to the media."
+msgstr "Una URL del media."
+
+#: application/src/Media/Ingester/IiifPresentation.php:27
+#: application/src/Site/BlockLayout/IiifPresentation.php:21
+msgid "IIIF presentation"
+msgstr "Presentazione IIIF"
+
+#: application/src/Media/Ingester/IiifPresentation.php:39
+msgid "IIIF presentation URL"
+msgstr "URL di presentazione IIIF"
+
+#: application/src/Media/Ingester/IiifPresentation.php:40
+msgid "Enter the URL to a IIIF collection or manifest."
+msgstr "Inserisci l'URL di una collezione o manifest IIIF"
+
+#: application/src/Media/Ingester/OEmbed.php:30
+#: application/src/Site/BlockLayout/Oembed.php:30
+msgid "oEmbed"
+msgstr "oEmbed"
+
+#: application/src/Media/Ingester/OEmbed.php:66
+#: application/src/Site/BlockLayout/Oembed.php:60
+msgid "oEmbed URL"
+msgstr "URL oEmbed"
+
+#: application/src/Media/Ingester/OEmbed.php:67
+msgid "URL for the media to embed."
+msgstr "URL del media da incorporare."
+
+#: application/src/Media/Ingester/IIIF.php:33
+#: application/src/Site/BlockLayout/IiifImage.php:21
+msgid "IIIF image"
+msgstr "immagine IIIF"
+
+#: application/src/Media/Ingester/IIIF.php:107
+msgid "IIIF image URL"
+msgstr "URL dell'immagine IIIF"
+
+#: application/src/Media/Ingester/IIIF.php:108
+msgid ""
+"Enter the URL to a IIIF image information file (ending with /info.json)."
+msgstr ""
+"Inserisci l'URL di un file di informazione IIIF (finisce con /info.json)."
+
+#: application/src/Media/Ingester/Html.php:36
+#: application/src/Media/Ingester/Html.php:79
+#: application/src/Site/BlockLayout/Html.php:28
+msgid "HTML"
+msgstr "HTML"
+
+#: application/src/Media/Ingester/Html.php:80
+msgid "HTML or plain text."
+msgstr "HTML o testo semplice."
+
+#: application/src/Media/Ingester/Youtube.php:27
+msgid "YouTube"
+msgstr "YouTube"
+
+#: application/src/Media/Ingester/Youtube.php:90
+msgid "Video URL"
+msgstr "URL video"
+
+#: application/src/Media/Ingester/Youtube.php:91
+msgid "URL for the video to embed."
+msgstr "URL video da incorporare."
+
+#: application/src/Media/Ingester/Youtube.php:99
+msgid "Start"
+msgstr "Avvio"
+
+#: application/src/Media/Ingester/Youtube.php:100
+msgid ""
+"Begin playing the video at the given number of seconds from the start of the"
+" video."
+msgstr ""
+"Iniziare la riproduzione del video al numero di secondi indicato dall'inizio"
+" del video."
+
+#: application/src/Media/Ingester/Youtube.php:104
+msgid "End"
+msgstr "Fine"
+
+#: application/src/Media/Ingester/Youtube.php:105
+msgid ""
+"End playing the video at the given number of seconds from the start of the "
+"video."
+msgstr ""
+"Terminare la riproduzione del video al numero di secondi indicato "
+"dall'inizio del video."
+
+#: application/src/Service/CliFactory.php:31
+msgid "Neither \"proc_open()\" nor \"exec()\" are available."
+msgstr "Non sono disponibili né \"proc_open()\" né \"exec()\"."
+
+#: application/src/View/Helper/ResourceTemplateSelect.php:39
+msgid "Select template…"
+msgstr "Seleziona modello..."
+
+#: application/src/View/Helper/ItemSetSelect.php:39
+msgid "Select item set…"
+msgstr "Seleziona collezione..."
+
+#: application/src/View/Helper/UserSelect.php:39
+msgid "Select user…"
+msgstr "Seleziona utente..."
+
+#: application/src/View/Helper/BlockThumbnailTypeSelect.php:42
+msgid "Image type"
+msgstr "Tipo di immagine"
+
+#: application/src/View/Helper/PropertySelect.php:39
+msgid "Select property…"
+msgstr "Seleziona proprietà..."
+
+#: application/src/View/Helper/ResourceClassSelect.php:39
+msgid "Select class…"
+msgstr "Seleziona classe..."
+
+#: application/src/View/Helper/SiteSelect.php:39
+msgid "Select site…"
+msgstr "Seleziona sito..."
+
+#: application/src/View/Helper/Browse.php:57
+msgid "Relevance"
+msgstr "Rilevanza"
+
+#: application/src/View/Helper/Browse.php:164
+msgid "Add a column…"
+msgstr "Aggiungi una colonna..."
+
+#: application/src/View/Helper/Browse.php:183
+msgid "Column type"
+msgstr "Tipo di colonna"
+
+#: application/src/View/Helper/Browse.php:194
+msgid "Header"
+msgstr "Testata"
+
+#: application/src/View/Helper/BlockShowTitleSelect.php:24
+msgid "item title"
+msgstr "Titolo del contenuto"
+
+#: application/src/View/Helper/BlockShowTitleSelect.php:25
+msgid "media title"
+msgstr "titolo media"
+
+#: application/src/View/Helper/BlockShowTitleSelect.php:26
+msgid "no title"
+msgstr "nessun titolo"
+
+#: application/src/Site/ResourcePageBlockLayout/LightboxGallery.php:13
+msgid "Lightbox gallery"
+msgstr "Galleria lightbox"
+
+#: application/src/Site/ResourcePageBlockLayout/MediaRender.php:11
+msgid "Media render"
+msgstr "Render del media"
+
+#: application/src/Site/ResourcePageBlockLayout/MediaList.php:11
+msgid "Media list"
+msgstr "Lista del media"
+
+#: application/src/Site/ResourcePageBlockLayout/Fallback.php:18
+#: application/src/Site/BlockLayout/Fallback.php:29
+#, php-format
+msgid "Unknown [%s]"
+msgstr "Sconosciuto [%s]"
+
+#: application/src/Site/ResourcePageBlockLayout/Manager.php:211
+msgid "Main"
+msgstr "Principale"
+
+#: application/src/Site/ResourcePageBlockLayout/MediaEmbeds.php:11
+msgid "Media embeds"
+msgstr "Media incorporati"
+
+#: application/src/Site/BlockLayout/ItemWithMetadata.php:13
+msgid "Item with metadata"
+msgstr "Contenuto con metadati"
+
+#: application/src/Site/BlockLayout/LineBreak.php:14
+msgid "Line break"
+msgstr "Interruzione di riga"
+
+#: application/src/Site/BlockLayout/LineBreak.php:32
+msgid "Transparent"
+msgstr "Trasparente"
+
+#: application/src/Site/BlockLayout/LineBreak.php:33
+msgid "Opaque"
+msgstr "Opaco"
+
+#: application/src/Site/BlockLayout/PageTitle.php:13
+msgid "Page title"
+msgstr "Titolo pagina"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:16
+msgid "Browse preview"
+msgstr "Consulta l'anteprima"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:36
+msgid "Browse all"
+msgstr "Sfoglia tutto"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:62
+msgid "Display resources using this search query"
+msgstr "Visualizza le risorse utilizzando questa query di ricerca"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:71
+msgid "Limit"
+msgstr "Limite"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:72
+msgid "Maximum number of resources to display in the preview."
+msgstr "Numero massimo di risorse da visualizzare nell'anteprima."
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:79
+msgid "Components"
+msgstr "Componenti"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:80
+msgid ""
+"Components to display for each resource. If not set in Site Settings, "
+"Heading defaults to resource Title and Body to resource Description"
+msgstr ""
+"Componenti da mostrare per ogni risorsa. Se non definito nelle impostazioni "
+"del sito, il valore predefinito del titolo sarà il titolo della risorsa, "
+"mentre il corpo sarà la descrizione della risorsa"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:84
+msgid "Heading"
+msgstr "Titolo"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:88
+msgid "Body"
+msgstr "Corpo"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:101
+msgid "Preview title"
+msgstr "Titolo di anteprima"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:102
+msgid "Heading above resource list, if any."
+msgstr "In cima alla lista delle risorse, se presente."
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:109
+msgid "Link text"
+msgstr "Testo del link"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:110
+msgid "Text for link to full browse view, if any."
+msgstr ""
+"Testo per il link verso la vista di navigazione completa, se presente."
+
+#: application/src/Site/BlockLayout/IiifPresentation.php:32
+msgid "Manifest URL"
+msgstr "Manifest URL"
+
+#: application/src/Site/BlockLayout/IiifPresentation.php:46
+#: application/src/Site/BlockLayout/IiifImage.php:46
+msgid "Show title"
+msgstr "Mostra il titolo"
+
+#: application/src/Site/BlockLayout/IiifPresentation.php:47
+#: application/src/Site/BlockLayout/IiifImage.php:47
+msgid ""
+"Check to show the title as a heading. For accessibility, the title will "
+"always be available to screen readers."
+msgstr ""
+"Seleziona per mostrare il titolo come heading. Per motivi di accessibilità, "
+"il titolo sarà sempre disponibile a lettori di schermo."
+
+#: application/src/Site/BlockLayout/ListOfPages.php:32
+msgid "List of pages"
+msgstr "Lista di pagine"
+
+#: application/src/Site/BlockLayout/BlockGroup.php:15
+msgid "Block group"
+msgstr "Gruppo di blocchi"
+
+#: application/src/Site/BlockLayout/TableOfContents.php:15
+msgid "Table of contents"
+msgstr "Indice dei contenuti"
+
+#: application/src/Site/BlockLayout/Asset.php:16
+msgid "Asset"
+msgstr "Asset"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:20
+msgid "Page date/time"
+msgstr "Data/ora della pagina"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:30
+msgid "Display date/time"
+msgstr "Mostra data/ora"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:32
+msgid "Created & modified"
+msgstr "Creato e modificato"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:42
+msgid "Date format"
+msgstr "Formato della data"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:45
+#: application/src/Site/BlockLayout/PageDateTime.php:59
+msgid "Short"
+msgstr "Breve"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:46
+#: application/src/Site/BlockLayout/PageDateTime.php:60
+msgid "Medium"
+msgstr "Medium"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:47
+#: application/src/Site/BlockLayout/PageDateTime.php:61
+msgid "Long"
+msgstr "Lungo"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:48
+#: application/src/Site/BlockLayout/PageDateTime.php:62
+msgid "Full"
+msgstr "Intero"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:56
+msgid "Time format"
+msgstr "Formato dell'ora"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:24
+msgid "List of sites"
+msgstr "Lista dei siti"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:39
+msgid "Alphabetical"
+msgstr "Alfabetico"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:40
+msgid "Oldest first"
+msgstr "Prima il più vecchio"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:41
+msgid "Newest first"
+msgstr "Prima il più recente"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:52
+msgid "Max number of sites"
+msgstr "Numero massimo di siti"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:53
+msgid "An empty value means no limit."
+msgstr "Un'assenza di valore significa nessun limite."
+
+#: application/src/Site/BlockLayout/ListOfSites.php:57
+msgid "Unlimited"
+msgstr "Illimitato"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:66
+msgid "Show pagination (only if a limit is set)"
+msgstr "Mostra paginazione (solo se è impostato un limite)"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:76
+msgid "Show summaries"
+msgstr "Mostra sintesi"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:86
+msgid "Show thumbnails"
+msgstr "Mostra miniature"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:96
+msgid "Exclude current site"
+msgstr "Escludi il sito attuale"
+
+#: application/src/Site/BlockLayout/IiifImage.php:32
+msgid "Image URL"
+msgstr "URL dell'immagine"
+
+#: application/src/Site/BlockLayout/Media.php:14
+msgid "Media embed"
+msgstr "Media incorporato"
+
+#: application/src/Site/BlockLayout/Media.php:23
+msgid "Vertical"
+msgstr "Verticale"
+
+#: application/src/Site/BlockLayout/Media.php:25
+msgid "Horizontal"
+msgstr "Orizzontale"
+
+#: application/src/Site/BlockLayout/Media.php:33
+msgid "Embed media"
+msgstr "Integra media"
+
+#: application/src/Site/BlockLayout/Media.php:35
+msgid "Thumbnail only"
+msgstr "Solo miniatura"
+
+#: application/src/Site/Navigation/Link/Url.php:11
+msgid "Custom URL"
+msgstr "URL personalizzata"
+
+#: application/src/Site/Navigation/Link/BrowseItemSets.php:20
+msgid "Browse item sets"
+msgstr "Percorri collezioni"
+
+#: application/src/Mvc/MvcListeners.php:350
+#, php-format
+msgid "The current theme is not active. Its current state is \"%s\"."
+msgstr "Il tema attuale non è attivo. Il suo stato attuale è °%s°."
+
+#: application/src/DataType/Resource/AbstractResource.php:24
+msgid "Resource"
+msgstr "Risorsa"
+
+#: application/src/DataType/Resource/AbstractResource.php:76
+#, php-format
+msgid "Invalid value resource %s for type %s"
+msgstr "Valore di risorsa %s non valido per il tipo %s"
+
+#: application/src/DataType/Resource/ItemSet.php:17
+msgid "Item Set"
 msgstr "Collezione"
 
-#: application/src/Controller/Admin/ItemSetController.php:179
-msgid "Item set successfully deleted"
-msgstr "Collezione eliminata con successo"
-
-#: application/src/Controller/Admin/ItemSetController.php:201
-msgid "You must select at least one item set to batch delete."
-msgstr ""
-"Per eliminare per lotti è necessario selezionare almeno una collezione."
-
-#: application/src/Controller/Admin/ItemSetController.php:210
-msgid "Item sets successfully deleted"
-msgstr "Collezioni eliminate con successo"
-
-#: application/src/Controller/Admin/ItemSetController.php:236
-msgid "Deleting item sets. This may take a while."
-msgstr "Eliminazione delle collezioni. Potrebbe volerci un po' di tempo."
-
-#: application/src/Controller/Admin/ItemSetController.php:255
-msgid "You must select at least one item set to batch edit."
-msgstr ""
-"Per una modificazione per lotti è necessario selezionare almeno una "
-"collezione."
-
-#: application/src/Controller/Admin/ItemSetController.php:279
-msgid "Item sets successfully edited"
-msgstr "Collezioni modificate con successo"
-
-#: application/src/Controller/Admin/ItemSetController.php:335
-msgid "Editing item sets. This may take a while."
-msgstr "Modifica delle collezioni. Potrebbe volerci un po' di tempo."
-
-#: application/src/Controller/Admin/VocabularyController.php:58
-msgid "vocabulary"
-msgstr "vocabolario"
-
-#: application/src/Controller/Admin/VocabularyController.php:92
-#, php-format
-msgid "Vocabulary successfully imported. %s"
-msgstr "Vocabolario importato con successo. %s"
-
-#: application/src/Controller/Admin/VocabularyController.php:162
-msgid "Vocabulary successfully updated"
-msgstr "Vocabolario aggiornato con successo"
-
-#: application/src/Controller/Admin/VocabularyController.php:167
-msgid "Please review these changes before you accept them."
-msgstr "Rivedi queste modifiche prima di accettarle."
-
-#: application/src/Controller/Admin/VocabularyController.php:192
-msgid "Changes to the vocabulary successfully made"
-msgstr "Modifiche al vocabolario apportate con successo"
-
-#: application/src/Controller/Admin/VocabularyController.php:208
-msgid "Vocabulary successfully deleted"
-msgstr "Vocabolario eliminato con successo"
-
-#: application/src/Controller/Admin/ResourceTemplateController.php:444
-msgid "resource template"
-msgstr "Modello di risorsa"
-
-#: application/src/Controller/Admin/ResourceTemplateController.php:457
-msgid "Resource template successfully deleted"
-msgstr "Modello di risorsa eliminato con successo"
-
-#: application/src/Controller/Admin/ResourceTemplateController.php:459
-#: application/src/Controller/Admin/ResourceTemplateController.php:462
-msgid "Resource template could not be deleted"
-msgstr "Il modello di risorsa non può essere eliminato"
-
-#: application/src/Controller/Admin/ResourceTemplateController.php:519
-msgid "Resource template successfully updated"
-msgstr "Modello di risorsa aggiornato con successo"
-
-#: application/src/Controller/Admin/ResourceTemplateController.php:522
-#, php-format
-msgid "Resource template successfully created. %s"
-msgstr "Modello di risorsa creato con successo. %s"
-
-#: application/config/module.config.php:704
-msgid "Owner email"
-msgstr "Email del proprietario"
-
-#: application/config/module.config.php:710
-#: application/config/module.config.php:726
-#: application/config/module.config.php:731
-msgid "Item count"
-msgstr "Numero di contenuti"
-
-#: application/config/module.config.php:720
-msgid "Resource class count"
-msgstr "Numero di classi di risorsa"
-
-#: application/config/module.config.php:721
-msgid "Property count"
-msgstr "Numero delle proprietà"
-
-#: application/config/module.config.php:894
-msgid "Something went wrong"
-msgstr "Qualcosa è andato storto"
-
-#: application/config/module.config.php:899
-msgid "You have unsaved changes."
-msgstr "Ci sono modifiche non salvate."
-
-#: application/config/module.config.php:900
-msgid "Restore item set"
-msgstr "Ripristina la collezione"
-
-#: application/config/module.config.php:901
-msgid "Close icon set"
-msgstr "Chiudi set di icone"
-
-#: application/config/module.config.php:902
-msgid "Open icon set"
-msgstr "Apri set di icone"
-
-#: application/config/module.config.php:904
-msgid "Failed loading resource template from API"
-msgstr "Impossibile caricare da API il modello di risorsa"
-
-#: application/config/module.config.php:905
-msgid "Restore property"
-msgstr "Ripristina proprietà"
-
-#: application/config/module.config.php:907
-msgid "Please enter a valid language tag"
-msgstr "Inserisci un tag lingua valido"
-
-#: application/config/module.config.php:909
-msgid "Description"
-msgstr "Descrizione"
-
-#: application/config/module.config.php:910
-msgid "Unknown block layout"
-msgstr "Blocco di layout sconosciuto"
-
-#: application/config/module.config.php:911
-msgid "Required field must be completed"
-msgstr "Campo obbligatorio deve essere inserito"
-
-#: application/config/navigation.config.php:201
-msgid "Site admin"
-msgstr "Amministrazione del sito"
-
-#: application/view/common/advanced-search/visibility.phtml:3
-msgid "Search by visibility"
-msgstr "Cerca per visibilità"
-
-#: application/view/common/advanced-search/visibility.phtml:8
-msgid "Select visibility…"
-msgstr "Seleziona visibilità..."
-
-#: application/view/common/advanced-search/sort.phtml:20
-msgid "Select sort by…"
-msgstr "Seleziona ordina per..."
-
-#: application/view/common/advanced-search/sort.phtml:26
-msgid "Select sort order…"
-msgstr "Seleziona ordine..."
-
-#: application/view/common/advanced-search/has-media.phtml:4
-msgid "Search by media presence"
-msgstr "Cerca per presenza di media"
-
-#: application/view/common/advanced-search/has-media.phtml:9
-msgid "Select media presence…"
-msgstr "Seleziona presenza di media..."
-
-#: application/view/common/advanced-search/properties.phtml:70
-msgid "[Any Property]"
-msgstr "[Qualsiasi Proprietà]"
-
-#: application/view/common/delete-confirm.phtml:4
-msgid "Confirm delete"
-msgstr "Conferma eliminazione"
-
-#: application/view/omeka/admin/item/sidebar-select.phtml:41
-#: application/view/omeka/admin/item-set/sidebar-select.phtml:32
-msgid "Filter by class"
-msgstr "Filtra per classe"
-
-#: application/view/omeka/admin/item/sidebar-select.phtml:53
-msgid "Filter by item set"
-msgstr "Filtra per collezione"
+#: application/src/DataType/Resource/All.php:15
+msgid "All"
+msgstr "Tutto"
 
 #. Vocabulary label for Dublin Core
 msgid "Dublin Core"

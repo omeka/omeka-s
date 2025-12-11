@@ -25,7 +25,7 @@ class ListOfSites extends AbstractBlockLayout implements TemplateableBlockLayout
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
-        SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
+        ?SitePageRepresentation $page = null, ?SitePageBlockRepresentation $block = null
     ) {
         $data = $block ? $block->data() + $this->defaults : $this->defaults;
 

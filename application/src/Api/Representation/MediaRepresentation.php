@@ -67,7 +67,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
 
         if (!$this->hasThumbnails() || !$thumbnailManager->typeExists($type)) {
             $fallbacks = $thumbnailManager->getFallbacks();
-            $mediaType = $this->mediaType();
+            $mediaType = (string) $this->mediaType();
             $topLevelType = strstr((string) $mediaType, '/', true);
 
             if (isset($fallbacks[$mediaType])) {
@@ -314,7 +314,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
 
     public function siteUrl($siteSlug = null, $canonical = false)
     {
-        if (!$siteSlug) {
+        if ($siteSlug === null) {
             $siteSlug = $this->getServiceLocator()->get('Application')
                 ->getMvcEvent()->getRouteMatch()->getParam('site-slug');
         }

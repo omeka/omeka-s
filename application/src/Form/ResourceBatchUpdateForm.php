@@ -8,12 +8,13 @@ use Omeka\Form\Element\SiteSelect;
 use Omeka\Form\Element\ResourceSelect;
 use Omeka\Permissions\Acl;
 use Laminas\EventManager\Event;
+use Laminas\EventManager\EventManagerAwareInterface;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\Form\Element;
 use Laminas\Form\Form;
 use Laminas\View\Helper\Url;
 
-class ResourceBatchUpdateForm extends Form
+class ResourceBatchUpdateForm extends Form implements EventManagerAwareInterface
 {
     use EventManagerAwareTrait;
 
@@ -71,7 +72,7 @@ class ResourceBatchUpdateForm extends Form
                 'id' => 'resource-template-select',
                 'class' => 'chosen-select',
                 'data-placeholder' => 'Select a template', // @translate
-                'data-api-base-url' => $urlHelper('api/default', ['resource' => 'resource_templates']),
+                'data-api-base-url' => $urlHelper('api-local/default', ['resource' => 'resource_templates']),
             ],
             'options' => [
                 'label' => 'Set template', // @translate
@@ -231,6 +232,15 @@ class ResourceBatchUpdateForm extends Form
         // This hidden element manages the elements "value" added in the view.
         $this->add([
             'name' => 'value',
+            'type' => Element\Hidden::class,
+            'attributes' => [
+                'value' => '',
+            ],
+        ]);
+
+        // This hidden element manages the elements "convert_data_types" added in the view.
+        $this->add([
+            'name' => 'convert_data_types',
             'type' => Element\Hidden::class,
             'attributes' => [
                 'value' => '',
@@ -400,6 +410,9 @@ class ResourceBatchUpdateForm extends Form
                 $preData['append'][$value['property_id']][] = $valueObj;
             }
         }
+        if (isset($data['convert_data_types'])) {
+            $preData['replace']['convert_data_types'] = $data['convert_data_types'];
+        }
         if (isset($data['add_to_item_set'])) {
             $preData['append']['o:item_set'] = array_unique($data['add_to_item_set']);
         }
@@ -414,7 +427,7 @@ class ResourceBatchUpdateForm extends Form
             'remove_from_sites', 'add_to_sites',
             'clear_property_values', 'set_value_visibility',
             'clear_language', 'language',
-            'csrf', 'id', 'o:id', 'value',
+            'csrf', 'id', 'o:id', 'value', 'convert_data_types',
         ];
 
         foreach ($data as $key => $value) {

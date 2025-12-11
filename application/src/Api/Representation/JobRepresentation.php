@@ -38,8 +38,8 @@ class JobRepresentation extends AbstractEntityRepresentation
         ];
         if ($this->ended()) {
             $dateTime['o:ended'] = [
-               '@value' => $this->getDateTime($this->ended()),
-               '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
+                '@value' => $this->getDateTime($this->ended()),
+                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
             ];
         }
 

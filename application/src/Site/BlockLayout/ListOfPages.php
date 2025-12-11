@@ -41,7 +41,7 @@ class ListOfPages extends AbstractBlockLayout implements TemplateableBlockLayout
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
-        SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
+        ?SitePageRepresentation $page = null, ?SitePageBlockRepresentation $block = null
     ) {
         $escape = $view->plugin('escapeHtml');
         $pageList = new Hidden("o:block[__blockIndex__][o:data][pagelist]");

@@ -27,7 +27,7 @@ a:visited {
 
 a:active,
 a:hover {
-    color: lighten($red, 20%);
+    color: $light-red;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -92,6 +92,7 @@ body {
         width: 100%;
         border-spacing: 0;
         table-layout: fixed;
+        word-break: break-word;
     }
 
     th,
@@ -193,8 +194,8 @@ body {
     :disabled {
         background-color: $gray-on-white;
         box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
-        color: lighten($copy-gray, 25);
-        -webkit-text-fill-color: lighten($copy-gray, 25);
+        color: $copy-gray;
+        -webkit-text-fill-color: $copy-gray;
         cursor: default;
 
         &:hover {
@@ -202,8 +203,11 @@ body {
         }
     }
 
-    ::placeholder {
-       font-style: italic;
+    ::placeholder,
+    ::-webkit-input-placeholder {
+        font-style: italic;
+        color: $copy-gray;
+        opacity: 1;
     }
 
     [contenteditable="true"] > *:first-child {
@@ -219,6 +223,7 @@ body {
     a.button,
     .button {
         min-height: (1.5 * $spacing-large);
+        min-width: 24px;
         background-color: rgba(0,0,0,.08);
         color: $copy-gray;
         border-radius: 3px;
@@ -395,6 +400,10 @@ body {
             border-color: $border-gray;
         }
 
+        .chosen-container-active {
+            outline: auto;
+        }
+
         .chosen-container-multi.chosen-container-active .chosen-choices {
             border-color: #aaa;
             border-radius: 3px 3px 0 0;
@@ -552,7 +561,7 @@ div[role="main"] > .messages {
     }
 
     .error {
-        background-color: lighten($red, 45%);
+        background-color: lighten($red, 55%);
     }
 
     .success {
@@ -660,8 +669,36 @@ table .icon-sortable {
     right: auto;
 }
 
+#content .jstree-removenode-remove, 
+#content .jstree-removenode-undo, 
+#content .jstree-editlink-edit, 
+#content .jstree-displaylink, 
+#content .jstree-private,
+#content .jstree-editlink-editmode > .jstree-anchor .jstree-editlink-edit {
+    opacity: 1;
+    color: $red;
+
+    &:hover {
+        color: $light-red;
+    }
+}
+
+#content .jstree-editlink-editmode > .jstree-anchor .jstree-editlink-edit {
+    color: $light-red;
+}
+
+#content .jstree-open > .jstree-ocl {
+    color: $gray-on-gray;
+}
+
 .o-description {
     margin-bottom: 0;
+}
+
+a[class*="o-icon-"] {
+    min-width: 24px;
+    min-height: 24px;
+    display: inline-block;
 }
 
 a.expand,
@@ -669,18 +706,19 @@ a.collapse,
 a.expand-group,
 a.collapse-group {
     color: $copy-gray;
+    min-width: 24px;
+    display: inline-block;
+    text-align: center;
 }
 
 .expand:after {
     content: fa-content($fa-var-caret-right);
     @include font-awesome;
-    margin-left: 3px;
 }
 
 .collapse:after {
     content: fa-content($fa-var-caret-down);
     @include font-awesome;
-    margin-left: 3px;
 }
 
 .selector-table {
@@ -721,6 +759,18 @@ header {
     text-align: left;
     padding: 0 gutter() $spacing-large;
     color: lighten(saturate($blue, 20%), 50%);
+
+    button:focus-visible, 
+    [type="button"]:focus-visible, 
+    [type="reset"]:focus-visible, 
+    [type="submit"]:focus-visible {
+        outline: revert;
+    }
+
+    *:focus-visible {
+        z-index: 10;
+        position: relative;
+    }
 }
 
 .skip {
@@ -798,9 +848,8 @@ header {
 }
 
 #user .user-settings:before {
-    content: "\f013";
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
+    content: fa-content($fa-var-cog);
+    @include font-awesome;
 }
 
 #user .logout {
@@ -811,6 +860,10 @@ header {
     display: inline-block;
     min-width: 25%;
     text-align: center;
+    a {
+        display: block;
+        min-height: 24px;
+    }
 }
 
 .logo {
@@ -824,6 +877,7 @@ header {
     display: inline-block;
     vertical-align: top;
     margin: $spacing-large 0;
+    position: relative;
 }
 
 #search input[type="text"] {
@@ -863,6 +917,12 @@ header {
         width: 1.5 * $spacing-large;
         line-height: 1.5 * $spacing-large;
         text-align: center;
+    }
+
+    &#search-submit {
+        position: absolute;
+        top: 0;
+        right: 0;
     }
 }
 
@@ -920,7 +980,7 @@ div[role="main"] > h1:first-of-type .title {
 }
 
 .action:before {
-    content:"\00b7";
+    content:"\00b7" / "";
     margin: 0 $spacing-medium;
 }
 
@@ -972,25 +1032,24 @@ nav ul {
 
 nav.pagination {
     margin-bottom: $spacing-medium;
-    overflow: hidden;
     display: flex;
     flex-wrap: wrap;
+    gap: $spacing-medium;
 }
 
 nav.pagination form,
-nav.pagination .button,
-nav.pagination .row-count {
-    float: left;
-}
-
-nav.pagination form {
-    margin-right: $spacing-medium;
+nav.pagination .pagination-input-form {
+    display: flex;
+    gap: $spacing-small;
 }
 
 nav.pagination form * {
-    display: inline-block;
     padding: 0;
     text-align: center;
+}
+
+nav.pagination .pagination-buttons {
+    display: flex;
 }
 
 nav.pagination .button {
@@ -1301,6 +1360,10 @@ div[role="main"] {
     padding: 0;
     color: $red;
     background-color: transparent;
+
+    &:hover {
+        color: $light-red;
+    }
 }
 
 .panel h2 {
@@ -1335,6 +1398,7 @@ div[role="main"] {
     justify-content: space-between;
     flex-wrap: wrap;
     font-size: .8175 * $base-font-size;
+    min-width: max-content;
 }
 
 .sites.pages.browse .browse-controls {
@@ -1371,6 +1435,18 @@ div[role="main"] {
 
 .browse-controls .filtering {
     margin-left: $spacing-large;
+}
+
+.browse-controls #user-filter {
+    width: 100%;
+    margin-bottom: $spacing-medium;
+    background-color: $gray-on-white;
+    border-radius: 2px;
+    padding: $spacing-small $spacing-medium;
+}
+
+.browse-controls #user-filter .user-name {
+    font-weight: bold;
 }
 
 .browse .select-all {
@@ -1430,11 +1506,6 @@ div[role="main"] {
     box-shadow: none !important;
 }
 
-.actions a,
-.actions button {
-    opacity: .5;
-}
-
 .actions a:before,
 .actions button:before {
     text-align: right;
@@ -1443,12 +1514,6 @@ div[role="main"] {
 .center.actions a:before,
 .center.actions button:before {
     text-align: center;
-}
-
-.actions a:hover,
-.actions a:active,
-.actions button:hover {
-    opacity: 1;
 }
 
 .actions .inactive {
@@ -1470,10 +1535,10 @@ div[role="main"] {
         top: 0;
         left: 0;
     }
-}
 
-.row-count {
-    margin: 0 $spacing-small;
+    &:hover {
+        color: $light-red;
+    }
 }
 
 .no-resources {
@@ -1722,7 +1787,7 @@ td .o-icon-user-inactive {
 
         &:hover {
             box-shadow: none;
-            color: $red;
+            color: $light-red;
         }
     }
 
@@ -1935,7 +2000,7 @@ fieldset.section > legend {
 }
 
 .page-action-menu .expand:after {
-    content: "\f0d7";
+    content: fa-content($fa-var-caret-down);
 }
 
 .page-action-menu .expand:after,
@@ -1972,7 +2037,7 @@ fieldset.section > legend {
     border-width: 0 0 1px 1px;
     overflow: hidden;
     text-align: center;
-    color: lighten($red, 40%);
+    color: $red;
     z-index: 1;
 
     & ~ textarea {
@@ -1982,7 +2047,6 @@ fieldset.section > legend {
 
 .value .input-body .language-wrapper.active a.value-language {
     border-color: transparent;
-    color: $red;
 }
 
 .value .language-wrapper:not(.active) ~ textarea {
@@ -2039,7 +2103,34 @@ fieldset.section > legend {
     padding: 0 $spacing-small;
 }
 
+.sidebar .value-annotation-heading {
+    display: inline-block;
+    margin-right: $spacing-small;
+}
+
+.sidebar .value-annotation {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.sidebar .value-annotation .required-tag {
+    display: none;
+}
+
+.sidebar .value-annotation.required .required-tag {
+    display: inline-block;
+    padding: .5 * $spacing-small;
+    font-size: .75 * $base-font-size;
+    background-color: #FDEFEF;
+    color: $red;
+    border-radius: 2px;
+    margin: (.5 * $spacing-small) 0 (.5 * $spacing-small);
+    line-height: 1;
+    align-self: center;
+}
+
 .sidebar .value-annotation .value {
+    width: 100%;
     padding-bottom: 0;
 }
 
@@ -2430,7 +2521,6 @@ fieldset.section > legend {
     .field-meta .expand,
     .field-meta .collapse {
         display: inline-block !important;
-        margin-left: .5em !important;
         padding: 0 !important;
         border: 0 !important;
         width: auto !important;
@@ -2512,11 +2602,11 @@ fieldset.section > legend {
         input:focus,
         textarea:focus {
             position: relative;
-            z-index: 100;
+            z-index: 2;
         }
     }
 
-    #resource-values div.value {
+    #resource-values .inputs div.value {
         display: flex;
         align-items: stretch;
 
@@ -2574,12 +2664,10 @@ fieldset.section > legend {
         }
     }
 
-    .add-values label {
+    .add-values span.o-icon-add {
         background-color: $gray-on-white;
-        line-height: 1.5 * $spacing-large;
         margin-right: 0;
-        overflow: hidden;
-        width: $spacing-medium;
+        width: auto;
         vertical-align: top;
     }
 
@@ -2712,7 +2800,7 @@ fieldset.section > legend {
 
     .inputs .input-body input[type="text"]:focus,
     .inputs .input-body textarea:focus {
-        z-index: 10;
+        z-index: 2;
     }
 
     .inputs .input-body .chosen-container {
@@ -2841,8 +2929,6 @@ fieldset.section > legend {
     }
 
     .value-annotation:not(:last-child) {
-        border-bottom: 1px solid $border-gray;
-        padding-bottom: $spacing-medium;
         margin-bottom: $spacing-medium;
     }
 
@@ -3050,9 +3136,10 @@ fieldset.section > legend {
     margin-bottom: $spacing-small;
     width: 100%;
 
-    a.expand:after,
-    a.collapse:after {
-        float: right;
+    a.expand,
+    a.collapse {
+        display: flex;
+        justify-content: space-between;
     }
 
     .collapsible {
@@ -3189,6 +3276,79 @@ fieldset.section > legend {
     }
 }
 
+.sidebar > .sidebar-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.sidebar-section-nav {
+    margin-bottom: $spacing-medium;
+    padding-bottom: $spacing-medium;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-medium;
+
+    &:before {
+        content: "";
+        position: absolute;
+        top: -$spacing-medium;
+        bottom: 0;
+        right: -$spacing-large;
+        left: -$spacing-large;
+        background-color: #fff;
+        border-bottom: 1px solid $border-gray;
+        z-index: -1;
+    }
+}
+
+.sidebar-section-nav button[type="button"] {
+    background-color: rgba(0,0,0,.08);
+    color: $copy-gray;
+    border-radius: $spacing-large;
+    box-shadow: none;
+    font-size: .875 * $base-font-size;
+    padding: $spacing-small $spacing-medium;
+    margin: 0;
+    min-height: 0;
+    line-height: 1;
+}
+
+.sidebar-section-nav button.active {
+    font-weight: bold;
+}
+
+.sidebar-section-nav ~ .sidebar-section {
+    display: none;
+
+    &.active {
+        display: block;
+        overflow-y: auto;
+        margin: (-1 * $spacing-medium);
+        padding: $spacing-medium;
+        position: relative;
+        flex-grow: 1;
+    }
+}
+
+.confirm-container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% + #{2 * $spacing-medium});
+    margin: (-1 * $spacing-medium);
+}
+
+.confirm-container .confirm-main,
+.confirm-container .confirm-panel {
+    position: static;
+}
+
+.confirm-container .confirm-main {
+    flex-grow: 1;
+    padding-bottom: $spacing-medium;
+}
+
 .confirm-main {
     position: absolute;
     top: 0;
@@ -3199,12 +3359,12 @@ fieldset.section > legend {
     padding: $spacing-medium $spacing-medium 0;
 }
 
-
 .confirm-panel {
     position: absolute;
     bottom: 0;
     right: 0;
     left: 0;
+    z-index: 1;
     padding: $spacing-medium;
     background-color: #f7f7f7;
     border-top: 1px solid $border-gray;
@@ -3220,19 +3380,24 @@ fieldset.section > legend {
 
 /* @group ----- Query Editor ----- */
 
-.sidebar .field-meta {
+.sidebar .field-meta,
+.sidebar legend {
     width: 100%;
     position: relative;
-    padding-right: 1.5 * $spacing-large;
+    padding: $spacing-small (1.5 * $spacing-large) $spacing-small 0;
     margin-bottom: $spacing-medium;
     border-bottom: 3px solid $border-gray;
+    font-size: $base-font-size;
+}
+
+.sidebar .field-meta {
 
     .label,
     label {
         margin: 0;
         width: auto;
         display: inline-block;
-        padding: 0 0 $spacing-small;
+        padding: 0;
 
         &:after {
             content: none;
@@ -3257,11 +3422,22 @@ fieldset.section > legend {
             line-height: 1.5;
         }
     }
-
 }
 
 .sidebar .inputs {
     width: 100%;
+
+    label,
+    .label {
+        padding: 0;
+        margin: 0;
+        font-weight: normal;
+    }
+
+    label:after,
+    .label:after {
+        content: none;
+    }
 }
 
 .block-layout-fieldset {
@@ -3459,7 +3635,6 @@ input[type=text].query-form-query {
 
 .show .property,
 .meta-group {
-    overflow: hidden;
     display: flex;
     justify-content: flex-end;
     flex-wrap: wrap;
@@ -3530,9 +3705,8 @@ input[type=text].query-form-query {
 }
 
 .o-icon-annotation:before {
-    content: "\f27a";
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
+    content: fa-content($fa-var-comment-alt);
+    @include font-awesome;
 }
 
 .show .value.resource,
@@ -3599,7 +3773,7 @@ input[type=text].query-form-query {
         content: fa-content($fa-var-cubes);
     }
 
-    .sidebar .meta-group.item-sites .o-icon-external {
+    .sidebar .meta-group.resource-sites .o-icon-external {
         float: right;
     }
 
@@ -3689,6 +3863,10 @@ input[type=text].query-form-query {
         }
     }
 
+    fieldset {
+        margin-bottom: 0;
+    }
+
     a.o-icon-close {
         position: absolute;
         right: $spacing-medium;
@@ -3769,9 +3947,12 @@ input[type=text].query-form-query {
     }
 
     input,
-    textarea,
-    select {
+    textarea {
         width: 100%;
+    }
+
+    select {
+        width: 100% !important;
     }
 
     input[type="checkbox"],
@@ -3879,6 +4060,18 @@ input[type=text].query-form-query {
         color: #fff;
         box-shadow: none;
     }
+
+    input[type="submit"]:disabled {
+        background-color: $gray-on-white;
+        box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
+        color: $copy-gray;
+        -webkit-text-fill-color: $copy-gray;
+        cursor: default;
+
+        &:hover {
+            box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset !important;
+        }        
+    }
 }
 
 body.sidebar-open #content {
@@ -3887,8 +4080,10 @@ body.sidebar-open #content {
 
 .sidebar .meta-group {
     margin-bottom: $spacing-medium;
+    justify-content: flex-start;
 
-    .value {
+    .value, 
+    .comment {
         width: 100%;
         padding: $spacing-small 0;
         margin: 0;
@@ -4033,7 +4228,7 @@ body.sidebar-open #content {
     margin-right: $spacing-medium;
 
     &:after {
-        content: "\f00c";
+        content: fa-content($fa-var-check);
         @include font-awesome;
         display: inline-block;
         margin-left: $spacing-small;
@@ -4083,12 +4278,19 @@ body.sidebar-open #content {
 #modules .module-meta {
     float: left;
     max-width: 50%;
+    padding-right: $spacing-medium;
 }
 
 #modules .module-actions {
     float: right;
     max-width: 50%;
     text-align: right;
+    padding-left: $spacing-medium;
+
+    .error {
+        @include error;
+        @include message;
+    }
 }
 
 #modules .module form {
@@ -4375,7 +4577,7 @@ body.sidebar-open #content {
     }
 
     .add-block-group:before {
-        content: "\f247";
+        content: fa-content($fa-var-object-group);
         @include font-awesome;
         margin-right: $spacing-small;
     }
@@ -4528,7 +4730,7 @@ body.sidebar-open #content {
         min-height: 0;
 
         &:hover {
-            color: $red;
+            color: $light-red;
         }
     }
 
@@ -4898,8 +5100,7 @@ body.sidebar-open #content {
 
         .selected-tooltip:before {
             content: fa-content($fa-var-asterisk);
-            font-family: "Font Awesome 5 Free";
-            font-weight: 900;
+            @include font-awesome;
         }
 
         /* @end */
@@ -4976,7 +5177,7 @@ body.sidebar-open #content {
         }
 
         .error {
-            background-color: lighten($red, 45%);
+            background-color: lighten($red, 55%);
             border-radius: 3px;
             padding: $spacing-small 10px;
             margin: $spacing-small 0;
@@ -5009,11 +5210,18 @@ body.sidebar-open #content {
         background-color: #fff;
         display: flex;
         flex-wrap: wrap;
+        align-content: flex-start;
     }
 
     .selectable-themes .theme:hover {
         border: 3px solid darken($border-gray, 25%);
         padding: $spacing-medium - 3px;
+    }
+
+    .selectable-themes .theme h2 {
+        font-size: 1.25 * $base-font-size;
+        line-height: $base-line-height;
+        margin-bottom: 0;
     }
 
     .selectable-themes .invalid.theme:hover {
@@ -5384,7 +5592,6 @@ body.minimal .site.results thead {
 }
 
 .asset-upload {
-    overflow: hidden;
     margin-bottom: $spacing-large;
 
     button {

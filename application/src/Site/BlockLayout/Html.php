@@ -37,7 +37,7 @@ class Html extends AbstractBlockLayout implements TemplateableBlockLayoutInterfa
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
-        SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
+        ?SitePageRepresentation $page = null, ?SitePageBlockRepresentation $block = null
     ) {
         $form = new Form();
         $html = new Element\Textarea("o:block[__blockIndex__][o:data][html]");

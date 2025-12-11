@@ -44,21 +44,24 @@ $sectionNavs = [
         </div>
     </dl>
     <?php endif; ?>
+    <?php if ($itemSet->resourceTemplate()): ?>
+    <dl>
+        <div class="meta-group">
+            <dt><?php echo $translate('Resource template'); ?></dt>
+            <dd class="value"><?php echo $escape($itemSet->resourceTemplate()->label()); ?></dd>
+        </div>
+    </dl>
+    <?php endif; ?>
     <?php echo $itemSet->displayValues(); ?>
 </div>
 
 <div id="resources-linked" class="section">
     <?php if ($itemSet->subjectValueTotalCount()): ?>
-        <p><?php echo $translate('The following resources link to this item set:'); ?></p>
-        <?php echo $itemSet->displaySubjectValues([
-            'page' => $this->params()->fromQuery('page', 1),
-            'perPage' => 25,
-            'resourceProperty' => $this->params()->fromQuery('resource_property'),
-        ]); ?>
+    <?php echo $this->linkedResources($itemSet); ?>
     <?php else: ?>
-        <div class="no-resources">
-            <p><?php echo $translate('No resources link to this item set.'); ?></p>
-        </div>
+    <div class="no-resources">
+        <p><?php echo $translate('No resources link to this item set.'); ?></p>
+    </div>
     <?php endif; ?>
 </div>
 
@@ -84,6 +87,23 @@ $sectionNavs = [
         <h4><?php echo $translate('Items'); ?></h4>
         <div class="value"><?php echo $this->hyperlink($itemSet->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['item_set_id' => $itemSet->id()]])); ?></div>
     </div>
+    <?php $sites = $itemSet->sites(); ?>
+    <?php if (count($sites) > 0): ?>
+    <div class="meta-group resource-sites">
+        <h4><?php echo $translate('Sites'); ?></h4>
+        <?php foreach ($sites as $site): ?>
+        <div class="value">
+            <?php
+            $siteTitle = $site->title();
+            $externalLinkText = sprintf($translate('View this item set in "%s"'), $siteTitle);
+            echo $site->link($siteTitle);
+            echo $this->hyperlink('', $this->url('site/resource-id', ['site-slug' => $site->slug(), 'controller' => 'item-set', 'id' => $itemSet->id()]),
+                ['class' => 'o-icon-external', 'target' => '_blank', 'aria-label' => $externalLinkText, 'title' => $externalLinkText]);
+            ?>
+        </div>
+        <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
     <?php $this->trigger('view.show.sidebar'); ?>
 </div>
 

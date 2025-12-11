@@ -7,7 +7,7 @@ use Laminas\ServiceManager\Factory\DelegatorFactoryInterface;
 class SitePaginatorDelegatorFactory implements DelegatorFactoryInterface
 {
     public function __invoke(ContainerInterface $container, $name,
-        callable $callback, array $options = null
+        callable $callback, ?array $options = null
     ) {
         $paginator = $callback();
         $settings = $container->get('Omeka\Settings\Site');

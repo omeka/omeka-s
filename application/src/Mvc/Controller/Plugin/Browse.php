@@ -13,12 +13,12 @@ class Browse extends AbstractPlugin
         $this->browseService = $browseService;
     }
 
-    public function getBrowseService() : BrowseService
+    public function getBrowseService(): BrowseService
     {
         return $this->browseService;
     }
 
-    public function setDefaults(string $resourceType) : void
+    public function setDefaults(string $resourceType): void
     {
         $controller = $this->getController();
         $context = $controller->status()->isAdminRequest() ? 'admin' : 'public';

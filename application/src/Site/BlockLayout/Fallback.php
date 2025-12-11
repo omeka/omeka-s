@@ -28,12 +28,12 @@ class Fallback extends AbstractBlockLayout
         $message = new Message(
             'Unknown [%s]', //@translate
             $this->name
-            );
+        );
         return $message;
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
-        SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
+        ?SitePageRepresentation $page = null, ?SitePageBlockRepresentation $block = null
     ) {
         // Preserve the original data.
         $element = new Element\Hidden("o:block[__blockIndex__][o:data]");

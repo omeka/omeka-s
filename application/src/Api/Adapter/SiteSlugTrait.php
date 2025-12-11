@@ -16,7 +16,7 @@ trait SiteSlugTrait
      * @param Site $site
      * @return string
      */
-    protected function getAutomaticSlug($title, Site $site = null)
+    protected function getAutomaticSlug($title, ?Site $site = null)
     {
         if ($site) {
             $siteId = $site->getId();

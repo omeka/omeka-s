@@ -34,21 +34,26 @@ $itemMedia = $item->media();
         </div>
     </dl>
     <?php endif; ?>
+    <?php if ($item->resourceTemplate()): ?>
+    <dl>
+        <div class="meta-group">
+            <dt><?php echo $translate('Resource template'); ?></dt>
+            <dd class="value"><?php echo $escape($item->resourceTemplate()->label()); ?></dd>
+        </div>
+    </dl>
+    <?php endif; ?>
     <?php echo $item->displayValues(); ?>
 </div>
 
 <div id="resources-linked" class="section">
     <?php if ($item->subjectValueTotalCount()): ?>
-        <?php echo $item->displaySubjectValues([
-            'page' => $this->params()->fromQuery('page', 1),
-            'perPage' => 25,
-            'resourceProperty' => $this->params()->fromQuery('resource_property'),
-        ]); ?>
+    <?php echo $this->linkedResources($item); ?>
     <?php else: ?>
-        <div class="no-resources">
-            <p><?php echo $translate('No resources link to this item.'); ?></p>
-        </div>
-    <?php endif; ?>
+    <div class="no-resources">
+        <p><?php echo $translate('No resources link to this item.'); ?></p>
+    </div>
+<?php endif; ?>
+
 </div>
 
 <div class="sidebar active">
@@ -72,7 +77,7 @@ $itemMedia = $item->media();
     <?php endif; ?>
     <?php $sites = $item->sites(); ?>
     <?php if (count($sites) > 0): ?>
-    <div class="meta-group item-sites">
+    <div class="meta-group resource-sites">
         <h4><?php echo $translate('Sites'); ?></h4>
         <?php foreach ($sites as $site): ?>
         <div class="value">

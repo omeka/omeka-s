@@ -13,7 +13,7 @@ class MailerFactory implements FactoryInterface
      *
      * @return Mailer
      */
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, ?array $options = null)
     {
         $config = $serviceLocator->get('Config');
         $viewHelpers = $serviceLocator->get('ViewHelperManager');

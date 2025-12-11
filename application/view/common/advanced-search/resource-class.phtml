@@ -12,14 +12,18 @@ if (!$ids) {
 $optionsQuery = [];
 if ($this->status()->isSiteRequest()) {
     if ($this->siteSetting('vocabulary_scope') === 'sitewide') {
-        $optionsQuery['site_id'] = $this->layout()->site->id();
+        if ('itemSet' === $resourceType) {
+            $optionsQuery['site_id_item_sets'] = $this->layout()->site->id();
+        } else {
+            $optionsQuery['site_id'] = $this->layout()->site->id();
+        }
     } elseif ($this->siteSetting('vocabulary_scope') === 'cross-site') {
         $optionsQuery['used'] = true;
     }
 }
 
 ?>
-<div id="resource-class" class="field removable multi-value" role="group">
+<div id="resource-class" class="field removable multi-value" role="group" aria-labelledby="by-resource-class-label">
     <div class="field-meta">
         <span id="by-resource-class-label" class="label"><?php echo $translate('Search by class'); ?></span>
         <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $translate('Expand')]); ?>

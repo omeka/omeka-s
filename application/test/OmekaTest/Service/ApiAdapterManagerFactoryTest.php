@@ -74,7 +74,7 @@ class TestAdapter implements AdapterInterface
     public function batchDelete(Request $request)
     {
     }
-    public function getRepresentation(ApiResourceInterface $data = null)
+    public function getRepresentation(?ApiResourceInterface $data = null)
     {
     }
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)

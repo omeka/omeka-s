@@ -6,10 +6,11 @@ use Omeka\Form\Element\ResourceSelect;
 use Omeka\Form\Element\ResourceClassSelect;
 use Laminas\Form\Form;
 use Laminas\View\Helper\Url;
+use Laminas\EventManager\EventManagerAwareInterface;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\EventManager\Event;
 
-class ResourceForm extends Form
+class ResourceForm extends Form implements EventManagerAwareInterface
 {
     use EventManagerAwareTrait;
 
@@ -36,7 +37,7 @@ class ResourceForm extends Form
                 'id' => 'resource-template-select',
                 'class' => 'chosen-select',
                 'data-placeholder' => 'Select a template', // @translate
-                'data-api-base-url' => $urlHelper('api/default', ['resource' => 'resource_templates']),
+                'data-api-base-url' => $urlHelper('api-local/default', ['resource' => 'resource_templates']),
             ],
             'options' => [
                 'label' => 'Resource template', // @translate
@@ -85,7 +86,7 @@ class ResourceForm extends Form
             'attributes' => [
                 'id' => 'resource-owner-select',
                 'class' => 'chosen-select',
-                'data-api-base-url' => $urlHelper('api/default', ['resource' => 'users']),
+                'data-api-base-url' => $urlHelper('api-local/default', ['resource' => 'users']),
             ],
             'options' => [
                 'label' => 'Owner', // @translate

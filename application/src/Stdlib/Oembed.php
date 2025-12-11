@@ -33,9 +33,13 @@ class Oembed
     public function getOembed(string $url, ErrorStore $errorStore, string $errorKey = 'oembed-url')
     {
         // Check that the URL is allowed.
+        $regex = null;
+        $endpoint = null;
         $allowed = false;
-        foreach ($this->allowList as $pattern) {
-            if (1 === preg_match($pattern, $url)) {
+        foreach ($this->allowList as $allow) {
+            // Each value of the allowlist could be a string or an array.
+            [$regex, $endpoint] = is_array($allow) ? $allow : [$allow, null];
+            if (preg_match($regex, $url)) {
                 $allowed = true;
                 break;
             }
@@ -45,22 +49,30 @@ class Oembed
             return false;
         }
 
-        // Check for oEmbed support.
-        // @see https://oembed.com/#section4
-        $response = $this->getResponse($url, $errorStore, $errorKey);
-        if (!$response) {
-            return false;
-        }
-        $dom = new Query($response->getBody());
-        $oembedLinks = $dom->queryXpath('//link[@rel="alternate" or @rel="alternative"][@type="application/json+oembed" or @type="text/json+oembed"]');
-        if (!$oembedLinks->count()) {
-            $errorStore->addError($errorKey, sprintf($this->translator->translate('oEmbed: links cannot be found at %s'), $url));
-            return false;
+        if ($endpoint) {
+            // Use the endpoint provided in config.
+            $oembedUrl = sprintf('%s?format=json&url=%s', $endpoint, urlencode($url));
+        } else {
+            // Check for oEmbed support by searching the page for the discovery link.
+            // @see https://oembed.com/#section4
+            $response = $this->getResponse($url, $errorStore, $errorKey);
+            if (!$response) {
+                return false;
+            }
+            $dom = new Query($response->getBody());
+            $xpath = '//link[@rel="alternate" or @rel="alternative"][@type="application/json+oembed" or @type="text/json+oembed"]';
+            $oembedLinks = $dom->queryXpath($xpath);
+            if (!$oembedLinks->count()) {
+                $errorStore->addError($errorKey, sprintf($this->translator->translate('oEmbed: links cannot be found at %s'), $url));
+                return false;
+            }
+            // Use the endpoint provided by the discovery link.
+            $oembedUrl = $oembedLinks->current()->getAttribute('href');
         }
 
         // Get the oEmbed response.
-        $oembedLinkUrl = $oembedLinks->current()->getAttribute('href');
-        $response = $this->getResponse($oembedLinkUrl, $errorStore, $errorKey);
+
+        $response = $this->getResponse($oembedUrl, $errorStore, $errorKey);
         if (!$response) {
             return false;
         }

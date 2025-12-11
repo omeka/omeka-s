@@ -24,7 +24,7 @@ class ModuleManagerFactory implements FactoryInterface
      * @param ContainerInterface $serviceLocator
      * @return ModuleManager
      */
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, ?array $options = null)
     {
         $manager = new ModuleManager($serviceLocator);
         $iniReader = new IniReader;

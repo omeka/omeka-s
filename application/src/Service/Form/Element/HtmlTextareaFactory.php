@@ -7,7 +7,7 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class HtmlTextareaFactory implements FactoryInterface
 {
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         $element = new HtmlTextarea;
         $element->setHtmlPurifier($services->get('Omeka\HtmlPurifier'));

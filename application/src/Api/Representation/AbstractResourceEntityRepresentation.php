@@ -79,8 +79,8 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         ];
         if ($this->modified()) {
             $dateTime['o:modified'] = [
-               '@value' => $this->getDateTime($this->modified()),
-               '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
+                '@value' => $this->getDateTime($this->modified()),
+                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
             ];
         }
 
@@ -112,7 +112,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         // a JSON object containing members representing reverse properties."
         // Here, we include the key only if the resource has reverse properties.
         $reverse = [];
-        if (!$settings->get('disable_jsonld_reverse')) {
+        if ($this->id() && !$settings->get('disable_jsonld_reverse')) {
             $reverse = $this->subjectValuesForReverse();
             $reverse = $reverse ? ['@reverse' => $reverse] : [];
         }
@@ -470,6 +470,8 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * - viewName: Name of view script, or a view model. Default "common/resource-values"
      * - siteId: A site ID
+     * - properties: an array of property terms to include in the markup (excludes all others)
+     * - excludeProperties: an array of property terms to exclude from the markup (includes all others)
      *
      * @param array $options
      * @return string
@@ -478,9 +480,19 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     {
         $options['viewName'] ??= 'common/resource-values';
         $options['siteId'] ??= null;
+        $options['properties'] ??= [];
+        $options['excludeProperties'] ??= [];
 
         $services = $this->getServiceLocator();
         $values = $this->values();
+
+        // Filter values by the "properties" and "excludeProperties" options.
+        if ($options['properties']) {
+            $values = array_intersect_key($values, array_flip($options['properties']));
+        }
+        if ($options['excludeProperties']) {
+            $values = array_diff_key($values, array_flip($options['excludeProperties']));
+        }
 
         if ($options['siteId']) {
             // Exclude resources that are not assigned to the site if the
@@ -504,7 +516,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         }
 
         $eventManager = $this->getEventManager();
-        $args = $eventManager->prepareArgs(['values' => $values]);
+        $args = $eventManager->prepareArgs(['values' => $values, 'options' => $options]);
         $eventManager->trigger('rep.resource.display_values', $this, $args);
 
         $template = $this->resourceTemplate();
@@ -712,7 +724,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $thumbnailType = 'square',
         $titleDefault = null,
         $action = null,
-        array $attributes = null,
+        ?array $attributes = null,
         $lang = null
     ) {
         $escape = $this->getViewHelper('escapeHtml');

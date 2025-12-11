@@ -61,17 +61,17 @@ class Asset extends AbstractBlockLayout implements TemplateableBlockLayoutInterf
         return $attachments;
     }
 
-    public function form(PhpRenderer $view, SiteRepresentation $site, SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
+    public function form(PhpRenderer $view, SiteRepresentation $site, ?SitePageRepresentation $page = null, ?SitePageBlockRepresentation $block = null
     ) {
         $siteId = $site->id();
         $apiUrl = $site->apiUrl();
         $blockData = ($block) ? $block->data() : '';
         $attachments = $this->prepareAssetAttachments($view, $blockData, $site);
         return $view->partial('common/asset-block-form', [
-          'block' => $blockData,
-          'siteId' => $siteId,
-          'apiUrl' => $apiUrl,
-          'attachments' => $attachments,
+            'block' => $blockData,
+            'siteId' => $siteId,
+            'apiUrl' => $apiUrl,
+            'attachments' => $attachments,
         ]);
     }
 

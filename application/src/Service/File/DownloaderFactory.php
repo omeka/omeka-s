@@ -7,7 +7,7 @@ use Interop\Container\ContainerInterface;
 
 class DownloaderFactory implements FactoryInterface
 {
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         // Must pass the service locator because the Omeka\HttpClient service is
         // non-shared and must be reinstantiated for every call to download().

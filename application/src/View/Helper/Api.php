@@ -49,7 +49,7 @@ class Api extends AbstractHelper
     public function searchOne($resource, $data = [])
     {
         $data['limit'] = 1;
-        $response = $this->apiManager->search($resource, $data);
+        $response = $this->apiManager->search($resource, $data, ['countQuery' => false]);
         $content = $response->getContent();
         $content = is_array($content) && count($content) ? reset($content) : null;
         $response->setContent($content);

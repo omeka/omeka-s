@@ -28,9 +28,9 @@ $this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'));
         <span class="error"><?php echo sprintf($translate('This theme requires Omeka S %s'), $theme->getIni('omeka_version_constraint')); ?></span>
         <?php endif; ?>
 
-        <div class="theme-thumbnail"><img src="<?php echo $this->escapeHtml($thumbnailUrl); ?>"></div>
+        <div class="theme-thumbnail"><img src="<?php echo $this->escapeHtml($thumbnailUrl); ?>" alt=""></div>
 
-        <h4><?php echo $this->escapeHtml($theme->getName()); ?></h4>
+        <h2><?php echo $this->escapeHtml($theme->getName()); ?></h2>
         <div class="theme-meta">
             <?php if(!empty($version)): ?>
             <span class="theme-version">

@@ -89,8 +89,8 @@ class BlockLayout extends AbstractLayout
      * @param null|SiteRepresentation $site This layout/block's site
      * @return string
      */
-    public function form($layout, SiteRepresentation $site = null,
-        SitePageRepresentation $page = null, $partialName = null
+    public function form($layout, ?SiteRepresentation $site = null,
+        ?SitePageRepresentation $page = null, $partialName = null
     ) {
         $view = $this->getView();
         $block = null;
@@ -131,7 +131,7 @@ class BlockLayout extends AbstractLayout
      * @param ?string $templateViewScript
      * @return string
      */
-    public function render(SitePageBlockRepresentation $block, string $templateViewScript = null)
+    public function render(SitePageBlockRepresentation $block, ?string $templateViewScript = null)
     {
         $view = $this->getView();
         $blockLayout = $this->manager->get($block->layout());

@@ -1,7 +1,12 @@
 <?php
 namespace Omeka\Stdlib;
 
-class Message implements \JsonSerializable
+use Laminas\I18n\Translator\TranslatorInterface;
+
+/**
+ * Message with a a list of placeholders formatted for sprintf().
+ */
+class Message implements MessageInterface
 {
     /**
      * @var string
@@ -30,11 +35,6 @@ class Message implements \JsonSerializable
         $this->args = $args;
     }
 
-    /**
-     * Get the message string.
-     *
-     * @return string
-     */
     public function getMessage()
     {
         return $this->message;
@@ -42,6 +42,9 @@ class Message implements \JsonSerializable
 
     /**
      * Get the message arguments.
+     *
+     * @deprecated 1.4.0 Use getContext() instead.
+     * @return array
      */
     public function getArgs()
     {
@@ -51,6 +54,7 @@ class Message implements \JsonSerializable
     /**
      * Does this message have arguments?
      *
+     * @deprecated 1.4.0 Use hasContext() instead.
      * @return bool
      */
     public function hasArgs()
@@ -68,9 +72,19 @@ class Message implements \JsonSerializable
         return $this->escapeHtml;
     }
 
+    public function interpolate($message, array $context = [])
+    {
+        return (string) sprintf($message, ...$context);
+    }
+
     public function __toString()
     {
-        return (string) sprintf($this->getMessage(), ...$this->getArgs());
+        return $this->interpolate($this->getMessage(), $this->getArgs());
+    }
+
+    public function translate(TranslatorInterface $translator, $textDomain = 'default', $locale = null)
+    {
+        return $this->interpolate($translator->translate($this->getMessage(), $textDomain, $locale), $this->getArgs());
     }
 
     public function jsonSerialize(): string

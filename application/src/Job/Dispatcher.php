@@ -67,7 +67,7 @@ class Dispatcher
      * @param StrategyInterface $strategy
      * @return null|Job $job
      */
-    public function dispatch($class, $args = null, StrategyInterface $strategy = null)
+    public function dispatch($class, $args = null, ?StrategyInterface $strategy = null)
     {
         if (!class_exists($class)) {
             throw new Exception\InvalidArgumentException(sprintf('The job class "%s" does not exist.', $class));
@@ -103,7 +103,7 @@ class Dispatcher
         $this->logger->addWriter(new JobWriter($job));
         try {
             $strategy->send($job);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logger->err((string) $e);
             $job->setStatus(Job::STATUS_ERROR);
             $job->setEnded(new DateTime('now'));

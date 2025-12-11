@@ -133,7 +133,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
      * {@inheritDoc}
      * @internal generated method: use only when explicitly handling proxy specific loading logic
      */
-    public function __setInitializer(\Closure $initializer = null): void
+    public function __setInitializer(?\Closure $initializer = null): void
     {
         $this->__initializer__ = $initializer;
     }
@@ -151,7 +151,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
      * {@inheritDoc}
      * @internal generated method: use only when explicitly handling proxy specific loading logic
      */
-    public function __setCloner(\Closure $cloner = null): void
+    public function __setCloner(?\Closure $cloner = null): void
     {
         $this->__cloner__ = $cloner;
     }
@@ -206,7 +206,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setPrimaryMedia(\Omeka\Entity\Media $primaryMedia = NULL)
+    public function setPrimaryMedia(?\Omeka\Entity\Media $primaryMedia = NULL)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPrimaryMedia', [$primaryMedia]);
@@ -272,7 +272,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setOwner(\Omeka\Entity\User $owner = NULL)
+    public function setOwner(?\Omeka\Entity\User $owner = NULL)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOwner', [$owner]);
@@ -294,7 +294,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setResourceClass(\Omeka\Entity\ResourceClass $resourceClass = NULL)
+    public function setResourceClass(?\Omeka\Entity\ResourceClass $resourceClass = NULL)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setResourceClass', [$resourceClass]);
@@ -316,7 +316,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setResourceTemplate(\Omeka\Entity\ResourceTemplate $resourceTemplate = NULL)
+    public function setResourceTemplate(?\Omeka\Entity\ResourceTemplate $resourceTemplate = NULL)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setResourceTemplate', [$resourceTemplate]);
@@ -338,7 +338,7 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setThumbnail(\Omeka\Entity\Asset $thumbnail = NULL)
+    public function setThumbnail(?\Omeka\Entity\Asset $thumbnail = NULL)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setThumbnail', [$thumbnail]);

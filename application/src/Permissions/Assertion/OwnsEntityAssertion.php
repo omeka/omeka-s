@@ -9,8 +9,8 @@ use Laminas\Permissions\Acl\Role\RoleInterface;
 
 class OwnsEntityAssertion implements AssertionInterface
 {
-    public function assert(Acl $acl, RoleInterface $role = null,
-        ResourceInterface $resource = null, $privilege = null
+    public function assert(Acl $acl, ?RoleInterface $role = null,
+        ?ResourceInterface $resource = null, $privilege = null
     ) {
         if (!$role || !$role instanceof \Omeka\Entity\User) {
             return false;

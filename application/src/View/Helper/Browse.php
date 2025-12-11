@@ -18,11 +18,11 @@ class Browse extends AbstractHelper
         $this->formElementManager = $formElementManager;
     }
 
-    public function getBrowseService() : BrowseService
+    public function getBrowseService(): BrowseService
     {
         return $this->browseService;
     }
-    public function getFormElementManager() : FormElementManager
+    public function getFormElementManager(): FormElementManager
     {
         return $this->formElementManager;
     }
@@ -35,7 +35,7 @@ class Browse extends AbstractHelper
      *
      * @param string|array $resourceTypeOrSortConfig
      */
-    public function renderSortSelector($resourceTypeOrSortConfig) : string
+    public function renderSortSelector($resourceTypeOrSortConfig): string
     {
         $view = $this->getView();
         $context = $view->status()->isAdminRequest() ? 'admin' : 'public';
@@ -68,7 +68,7 @@ class Browse extends AbstractHelper
     /**
      * Get the header row for a resource type.
      */
-    public function renderHeaderRow(string $resourceType) : string
+    public function renderHeaderRow(string $resourceType): string
     {
         $view = $this->getView();
         $escapeHelper = $view->plugin('escapeHtml');
@@ -93,20 +93,20 @@ class Browse extends AbstractHelper
      * If the user does not define a header, get the one defined by the column
      * service. Note that we don't translate user-defined headers.
      */
-    public function getHeader(array $columnData) : string
+    public function getHeader(array $columnData): string
     {
         $view = $this->getView();
         $columnType = $this->getBrowseService()->getColumnType($columnData['type']);
         if (isset($columnData['header']) && '' !== trim($columnData['header'])) {
             return $columnData['header'];
         }
-        return $view->translate($columnType->renderHeader($view, $columnData));
+        return $columnType->renderHeader($view, $columnData);
     }
 
     /**
      * Get the content row for a resource.
      */
-    public function renderContentRow(string $resourceType, AbstractEntityRepresentation $resource) : string
+    public function renderContentRow(string $resourceType, AbstractEntityRepresentation $resource): string
     {
         $view = $this->getView();
         $context = $view->status()->isAdminRequest() ? 'admin' : 'public';
@@ -130,7 +130,7 @@ class Browse extends AbstractHelper
      * If the column service returns null, use the user-defined default, if any.
      * Note that we don't translate user-defined defaults.
      */
-    public function getContent(AbstractEntityRepresentation $resource, array $columnData) : ?string
+    public function getContent(AbstractEntityRepresentation $resource, array $columnData): ?string
     {
         $view = $this->getView();
         $columnType = $this->getBrowseService()->getColumnType($columnData['type']);
@@ -140,7 +140,7 @@ class Browse extends AbstractHelper
     /**
      * Get the markup for the column type select element.
      */
-    public function getColumnTypeSelect(string $resourceType) : string
+    public function getColumnTypeSelect(string $resourceType): string
     {
         $formElements = $this->getFormElementManager();
         $columnTypes = $this->getBrowseService()->getColumnTypeManager();
@@ -169,7 +169,7 @@ class Browse extends AbstractHelper
     /**
      * Get the markup for the column edit form.
      */
-    public function getColumnForm(array $columnData) : string
+    public function getColumnForm(array $columnData): string
     {
         $view = $this->getView();
         $formElements = $this->getFormElementManager();

@@ -9,8 +9,8 @@ use Omeka\Entity\SitePage;
 
 class SitePageIsPublicAssertion implements AssertionInterface
 {
-    public function assert(Acl $acl, RoleInterface $role = null,
-        ResourceInterface $resource = null, $privilege = null
+    public function assert(Acl $acl, ?RoleInterface $role = null,
+        ?ResourceInterface $resource = null, $privilege = null
     ) {
         if (method_exists($resource, 'getSitePage')) {
             $resource = $resource->getSitePage();

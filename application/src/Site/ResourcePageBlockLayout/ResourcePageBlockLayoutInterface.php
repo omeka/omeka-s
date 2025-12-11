@@ -11,14 +11,14 @@ interface ResourcePageBlockLayoutInterface
      *
      * @return string
      */
-    public function getLabel() : string;
+    public function getLabel(): string;
 
     /**
      * Get the names of resources that are compatible with this block layout.
      *
      * @return array
      */
-    public function getCompatibleResourceNames() : array;
+    public function getCompatibleResourceNames(): array;
 
     /**
      * Return the markup for this block layout.
@@ -27,5 +27,5 @@ interface ResourcePageBlockLayoutInterface
      * @param AbstractResourceEntityRepresentation $resource
      * @return string
      */
-    public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource) : string;
+    public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource): string;
 }

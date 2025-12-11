@@ -51,7 +51,7 @@ $(document).ready(function () {
         $.get(`${url}?${query}`, function(data) {
             selectingElement.find('.query-form-search-filters').html(data);
         });
-        selectingElement.find('.query-form-query').prop('type', 'hidden');
+        selectingElement.find('.query-form-query').prop('type', 'hidden').val(query);
         show('.query-form-edit');
         show('.query-form-advanced-edit-show');
         hide('.query-form-advanced-edit-apply');

@@ -12,7 +12,7 @@ class UserSettingsFactory implements FactoryInterface
      *
      * @return UserSettings
      */
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         return new UserSettings(
             $services->get('Omeka\Connection'),

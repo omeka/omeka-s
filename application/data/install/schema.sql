@@ -89,7 +89,7 @@ CREATE TABLE `media` (
   `renderer` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `data` longtext COLLATE utf8mb4_unicode_ci COMMENT '(DC2Type:json_array)',
   `source` longtext COLLATE utf8mb4_unicode_ci,
-  `media_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `media_type` varchar(190) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `storage_id` varchar(190) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `extension` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `sha256` char(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -103,6 +103,7 @@ CREATE TABLE `media` (
   UNIQUE KEY `UNIQ_6A2CA10C5CC5DB90` (`storage_id`),
   KEY `IDX_6A2CA10C126F525E` (`item_id`),
   KEY `item_position` (`item_id`,`position`),
+  KEY `media_type` (`media_type`),
   CONSTRAINT `FK_6A2CA10C126F525E` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`),
   CONSTRAINT `FK_6A2CA10CBF396750` FOREIGN KEY (`id`) REFERENCES `resource` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

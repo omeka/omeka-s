@@ -10,7 +10,7 @@ use Laminas\ServiceManager\Factory\DelegatorFactoryInterface;
 class NavigationDelegatorFactory implements DelegatorFactoryInterface
 {
     public function __invoke(ContainerInterface $container, $name,
-        callable $callback, array $options = null
+        callable $callback, ?array $options = null
     ) {
         $navigation = $callback();
         $navigation->setAcl($container->get('Omeka\Acl'));

@@ -83,7 +83,7 @@ $caption = sprintf(
     <tbody>
         <?php foreach ($values as $value): ?>
         <tr class="linked-resource">
-            <td><?php echo $value['val']->resource()->linkPretty('square', null, null, null, $valueLang); ?></td>
+            <td><?php echo $value['val']->resource()->linkPretty('square', null, null, ['target' => '_blank'], $valueLang); ?></td>
             <td>
                 <?php if ($value['val']->resource()->resourceClass()): ?>
                 <span class="resource-class"><?php echo $this->escapeHtml($this->translate($value['val']->resource()->resourceClass()->label())); ?></span>
@@ -98,14 +98,3 @@ $caption = sprintf(
 <?php echo ($totalCount > $perPage) ? '<div class="linked-footer">' . $pagination . '</div>' : ''; ?>
 
 </div>
-
-<script>
-const propertySelect = $('#resource-property-select');
-const url = propertySelect.data('url');
-const fragment = propertySelect.data('fragment');
-propertySelect.on('change', function(e) {
-    const selectedOption = propertySelect.find(':selected');
-    const resourceProperty = selectedOption.val();
-    window.location = url + '?' + $.param({resource_property: resourceProperty}) + '#' + fragment;
-});
-</script>

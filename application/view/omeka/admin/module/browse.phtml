@@ -27,7 +27,7 @@ $this->plugin('formRow')->setPartial(null);
                 <?php if ($name = $module->getName()): ?>
                 <span class="module-name">
                     <?php if ($moduleLink = $module->getIni('module_link')): ?>
-                    <?php echo $this->hyperlink($name, $moduleLink); ?>
+                    <?php echo $this->hyperlink($name, $moduleLink, ['target' => '_blank']); ?>
                     <?php else: ?>
                     <?php echo $name; ?>
                     <?php endif; ?>
@@ -41,7 +41,7 @@ $this->plugin('formRow')->setPartial(null);
                 <?php if ($author = $module->getIni('author')): ?>
                 <span class="module-author">
                     <?php if ($moduleLink = $module->getIni('author_link')): ?>
-                    <?php echo sprintf($translate('by %s'), $this->hyperlink($author, $module->getIni('author_link'))); ?>
+                    <?php echo sprintf($translate('by %s'), $this->hyperlink($author, $module->getIni('author_link'), ['target' => "_blank"])); ?>
                     <?php else: ?>
                     <?php echo sprintf($translate('by %s'), $author); ?>
                     <?php endif; ?>

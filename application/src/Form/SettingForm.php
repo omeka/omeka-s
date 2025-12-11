@@ -8,10 +8,11 @@ use Omeka\Form\Element\RestoreTextarea;
 use Omeka\Form\Element\SiteSelect;
 use Omeka\Settings\Settings;
 use Laminas\Form\Form;
+use Laminas\EventManager\EventManagerAwareInterface;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\EventManager\Event;
 
-class SettingForm extends Form
+class SettingForm extends Form implements EventManagerAwareInterface
 {
     use EventManagerAwareTrait;
 
@@ -284,19 +285,38 @@ class SettingForm extends Form
 
         // Editing element group
 
-        $this->add([
-            'name' => 'default_to_private',
-            'type' => 'Checkbox',
-            'options' => [
-                'element_group' => 'editing',
-              'label' => 'Default content visibility to Private', // @translate
-              'info' => 'If checked, all items, item sets and sites newly created will have their visibility set to private by default.', // @translate
+        $defaultToPrivateElements = [
+            [
+                'name' => 'default_to_private_items',
+                'label' => 'Set default item visibility to private', // @translate
             ],
-            'attributes' => [
-                'value' => $this->settings->get('default_to_private'),
-                'id' => 'default_to_private',
+            [
+                'name' => 'default_to_private_item_sets',
+                'label' => 'Set default item set visibility to private', // @translate
             ],
-        ]);
+            [
+                'name' => 'default_to_private_sites',
+                'label' => 'Set default site visibility to private', // @translate
+            ],
+            [
+                'name' => 'default_to_private_site_pages',
+                'label' => 'Set default site page visibility to private', // @translate
+            ],
+        ];
+        foreach ($defaultToPrivateElements as $defaultToPrivateElement) {
+            $this->add([
+                'type' => 'checkbox',
+                'name' => $defaultToPrivateElement['name'],
+                'options' => [
+                    'element_group' => 'editing',
+                    'label' => $defaultToPrivateElement['label'],
+                ],
+                'attributes' => [
+                    'id' => $defaultToPrivateElement['name'],
+                    'value' => $this->settings->get($defaultToPrivateElement['name'], false),
+                ],
+            ]);
+        }
 
         $this->add([
             'name' => 'value_languages',
@@ -330,6 +350,20 @@ class SettingForm extends Form
             ],
         ]);
 
+        $this->add([
+            'name' => 'batch_chunk_size',
+            'type' => 'number',
+            'options' => [
+                'element_group' => 'editing',
+                'label' => 'Batch chunk size', // @translate
+                'info' => 'Enter the size of each chunk of resources when batch editing and deleting.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'batch_chunk_size',
+                'value' => $this->settings->get('batch_chunk_size', 100),
+            ],
+        ]);
+
         // Search element group
 
         $this->add([
@@ -337,7 +371,7 @@ class SettingForm extends Form
             'type' => 'Checkbox',
             'options' => [
                 'element_group' => 'search',
-              'label' => 'Index full-text search', // @translate
+                'label' => 'Index full-text search', // @translate
             ],
             'attributes' => [
                 'value' => '',

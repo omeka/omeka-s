@@ -52,7 +52,7 @@ class SystemInfoController extends AbstractActionController
         return $model;
     }
 
-    private function getSystemInfo()
+    protected function getSystemInfo()
     {
         $conn = $this->connection->getWrappedConnection();
         $mode = $this->connection->fetchColumn('SELECT @@sql_mode');
@@ -134,9 +134,12 @@ class SystemInfoController extends AbstractActionController
                 $info['Free space']['Local files'] = $this->formatSpace($freeSpaceFiles);
             }
             // Manage the case where directory "original" is mounted separately.
-            $freeSpaceOriginal = disk_free_space($freeSpaceFilesDir . '/original');
-            if ($freeSpaceFiles !== $freeSpaceOriginal) {
-                $info['Free space']['Local files (original)'] = $this->formatSpace($freeSpaceOriginal);
+            $freeSpaceOriginalDir = $freeSpaceFilesDir . '/original';
+            if (file_exists($freeSpaceOriginalDir)) {
+                $freeSpaceOriginal = disk_free_space($freeSpaceOriginalDir);
+                if ($freeSpaceFiles !== $freeSpaceOriginal) {
+                    $info['Free space']['Local files (original)'] = $this->formatSpace($freeSpaceOriginal);
+                }
             }
         }
         $freeSpaceTemp = disk_free_space($this->getDirTemp());
@@ -144,7 +147,13 @@ class SystemInfoController extends AbstractActionController
             $info['Free space']['Temp dir'] = $this->formatSpace($freeSpaceTemp);
         }
 
-        return $info;
+        $eventManager = $this->getEventManager();
+        $args = $eventManager->prepareArgs([
+            'info' => $info,
+        ]);
+        $eventManager->trigger('system_info', $this, $args);
+
+        return $args['info'];
     }
 
     public function getPhpVersionAction()

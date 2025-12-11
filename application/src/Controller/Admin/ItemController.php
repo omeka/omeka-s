@@ -2,6 +2,7 @@
 namespace Omeka\Controller\Admin;
 
 use Omeka\Form\ConfirmForm;
+use Omeka\Form\ItemStubForm;
 use Omeka\Form\ResourceForm;
 use Omeka\Form\ResourceBatchUpdateForm;
 use Omeka\Media\Ingester\Manager;
@@ -103,6 +104,7 @@ class ItemController extends AbstractActionController
         $view->setVariable('itemSetId', $this->params()->fromQuery('item_set_id'));
         $view->setVariable('id', $this->params()->fromQuery('id'));
         $view->setVariable('showDetails', true);
+        $view->setVariable('itemStubForm', $this->getForm(ItemStubForm::class));
         $view->setTerminal(true);
         return $view;
     }
@@ -234,6 +236,31 @@ class ItemController extends AbstractActionController
         $view->setVariable('form', $form);
         $view->setVariable('mediaForms', $this->getMediaForms());
         return $view;
+    }
+
+    public function addItemStubAction()
+    {
+        $request = $this->getRequest();
+        $response = $this->getResponse();
+        if (!$request->isPost()) {
+            $response->setStatusCode(500);
+            return $response;
+        }
+        $itemData = $this->params()->fromPost();
+        $form = $this->getForm(ItemStubForm::class);
+        $form->setData($itemData);
+        if (!$form->isValid()) {
+            $response->setStatusCode(500);
+            $response->setContent(json_encode($form->getMessages()));
+            return $response;
+        }
+        $item = $this->api(null, true)->create('items', $itemData)->getContent();
+        $itemJson = json_decode(json_encode($item), true);
+        $itemJson['admin_url'] = $this->url()->fromRoute('admin/id', ['action' => 'show', 'id' => $item->id()], true);
+        $itemJson['display_title'] = $item->displayTitle();
+        $response->getHeaders()->addHeaders(['Content-Type' => 'application/ld+json']);
+        $response->setContent(json_encode($itemJson));
+        return $response;
     }
 
     public function editAction()

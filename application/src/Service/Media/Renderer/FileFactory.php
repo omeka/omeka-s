@@ -12,7 +12,7 @@ class FileFactory implements FactoryInterface
      *
      * @return File
      */
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         return new File($services->get('Omeka\Media\FileRenderer\Manager'));
     }

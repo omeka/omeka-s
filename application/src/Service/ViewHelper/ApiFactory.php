@@ -16,7 +16,7 @@ class ApiFactory implements FactoryInterface
      *
      * @return Api
      */
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         return new Api($services->get('Omeka\ApiManager'));
     }

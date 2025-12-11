@@ -8,17 +8,17 @@ use Laminas\View\Renderer\PhpRenderer;
 
 class LightboxGallery implements ResourcePageBlockLayoutInterface
 {
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return 'Lightbox gallery'; // @translate
     }
 
-    public function getCompatibleResourceNames() : array
+    public function getCompatibleResourceNames(): array
     {
         return ['items', 'media'];
     }
 
-    public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource) : string
+    public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource): string
     {
         if ($resource instanceof ItemRepresentation) {
             return $view->partial('common/resource-page-block-layout/lightbox-gallery-item', ['resource' => $resource]);

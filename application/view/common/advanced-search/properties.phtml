@@ -36,7 +36,11 @@ $queryText = function(array $search, $index) use ($translate) {
 $optionsQuery = [];
 if ($this->status()->isSiteRequest()) {
     if ($this->siteSetting('vocabulary_scope') === 'sitewide') {
-        $optionsQuery['site_id'] = $this->layout()->site->id();
+        if ('itemSet' === $resourceType) {
+            $optionsQuery['site_id_item_sets'] = $this->layout()->site->id();
+        } else {
+            $optionsQuery['site_id'] = $this->layout()->site->id();
+        }
     } elseif ($this->siteSetting('vocabulary_scope') === 'cross-site') {
         $optionsQuery['used'] = true;
     }
@@ -85,8 +89,11 @@ if ($this->status()->isSiteRequest()) {
                 <?php echo $queryOption('nres', $property, 'type', $translate('is not resource with ID')); ?>
                 <?php echo $queryOption('ex', $property, 'type', $translate('has any value')); ?>
                 <?php echo $queryOption('nex', $property, 'type', $translate('has no values')); ?>
+                <?php echo $queryOption('dt', $property, 'type', $translate('has data type')); ?>
+                <?php echo $queryOption('ndt', $property, 'type', $translate('does not have data type')); ?>
             </select>
             <?php echo $queryText($property, $index); ?>
+            <?php echo $this->dataType()->getSelect($stem . '[text]', $property['text'] ?? null, ['class' => 'query-text-data-type'], ['empty_option' => $translate('Select data type…')]); ?>
             <button type="button" class="o-icon-delete remove-value button" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></button>
         </div>
         <?php

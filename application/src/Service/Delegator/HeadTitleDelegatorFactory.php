@@ -10,7 +10,7 @@ use Laminas\ServiceManager\Factory\DelegatorFactoryInterface;
 class HeadTitleDelegatorFactory implements DelegatorFactoryInterface
 {
     public function __invoke(ContainerInterface $container, $name,
-        callable $callback, array $options = null
+        callable $callback, ?array $options = null
     ) {
         $headTitle = $callback();
         $headTitle->setTranslatorEnabled(false);

@@ -197,6 +197,22 @@
         });
     }
 
+    /**
+     * Enable max attachments.
+     *
+     * Hides the "Add attachment" button when the number of attachments equals
+     * or exceeds the maxAttachments setting.
+     *
+     * @param object attachmentsContainer
+     */
+    function enableMaxAttachments(attachmentsContainer) {
+        var attachments = attachmentsContainer.children('.attachment');
+        var maxAttachments = parseInt(attachmentsContainer.data('maxAttachments'), 10);
+        if (maxAttachments && attachments.length >= maxAttachments) {
+            attachmentsContainer.children('button.attachment-add').hide();
+        }
+    }
+
     $(document).ready(function () {
         var blockIndex = 0;
 
@@ -235,6 +251,20 @@
                 draggable: ".attachment",
                 handle: ".sortable-handle"
             });
+        });
+
+        // Enable max attachmnets.
+        $('.attachments').each(function() {
+            enableMaxAttachments($(this));
+        });
+
+        // Hide the bulk select controls when there is a maxAttachment setting.
+        $('#select-resource').on('o:sidebar-content-loaded', function() {
+            var thisSidebar = $(this);
+            var attachmentsContainer = $('.selecting-attachment').closest('.attachments');
+            var maxAttachments = parseInt(attachmentsContainer.data('maxAttachments'), 10);
+            var bulkSelectControls = thisSidebar.find('.quick-select-toggle, .select-all');
+            maxAttachments ? bulkSelectControls.hide() : bulkSelectControls.show();
         });
 
         $('#new-block button').on('click', function() {
@@ -441,6 +471,9 @@
                 }
                 attachment.find('.item-title').empty().append(thumbnail).append(title);
             }
+
+            // Enable max attachmnets.
+            enableMaxAttachments($('.selecting-attachment').closest('.attachments'));
         });
 
         $('#blocks').on('click', '.asset-options-configure', function(e) {

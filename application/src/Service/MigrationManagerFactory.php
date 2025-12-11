@@ -15,7 +15,7 @@ class MigrationManagerFactory implements FactoryInterface
      *
      * @return MigrationManager
      */
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, ?array $options = null)
     {
         $config = [
             'path' => OMEKA_PATH . '/application/data/migrations',

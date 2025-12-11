@@ -150,25 +150,25 @@ class SiteAdapter extends AbstractEntityAdapter
                 $subErrorStore = new ErrorStore;
                 $subrequest = new Request(Request::CREATE, 'site_pages');
                 $subrequest->setContent(
-                        [
-                            'o:title' => $translator->translate('Welcome'),
-                            'o:slug' => 'welcome',
-                            'o:block' => [
-                                [
-                                    'o:layout' => 'html',
-                                    'o:data' => ['html' => $this->getFirstPageContent()],
-                                ],
-                                [
-                                    'o:layout' => 'lineBreak',
-                                    'o:data' => ['break_type' => 'opaque'],
-                                ],
-                                [
-                                    'o:layout' => 'html',
-                                    'o:data' => ['html' => $this->getSecondPageContent()],
-                                ],
+                    [
+                        'o:title' => $translator->translate('Welcome'),
+                        'o:slug' => 'welcome',
+                        'o:block' => [
+                            [
+                                'o:layout' => 'html',
+                                'o:data' => ['html' => $this->getFirstPageContent()],
                             ],
-                        ]
-                    );
+                            [
+                                'o:layout' => 'lineBreak',
+                                'o:data' => ['break_type' => 'opaque'],
+                            ],
+                            [
+                                'o:layout' => 'html',
+                                'o:data' => ['html' => $this->getSecondPageContent()],
+                            ],
+                        ],
+                    ]
+                );
                 try {
                     $adapter->hydrateEntity($subrequest, $page, $subErrorStore);
                 } catch (ValidationException $e) {
@@ -288,44 +288,61 @@ class SiteAdapter extends AbstractEntityAdapter
 
     public function buildQuery(QueryBuilder $qb, array $query)
     {
+        if (isset($query['user_has_role']) && $query['user_has_role']) {
+            // Filter out sites where the logged in user has no role.
+            $user = $this->getServiceLocator()->get('Omeka\AuthenticationService')->getIdentity();
+            if ($user) {
+                $sitePermissionsAlias = $qb->createAlias();
+                $qb->innerJoin(
+                    'omeka_root.sitePermissions',
+                    $sitePermissionsAlias,
+                    'WITH',
+                    $qb->expr()->orX(
+                        $qb->expr()->eq("$sitePermissionsAlias.user", $qb->createNamedParameter($user->getId())),
+                        $qb->expr()->eq("omeka_root.owner", $qb->createNamedParameter($user))
+                    )
+                );
+            }
+        }
+
         if (isset($query['item_id']) && is_numeric($query['item_id'])) {
-            $itemAlias = $this->createAlias();
+            $itemAlias = $qb->createAlias();
             $qb->leftJoin(
                 'omeka_root.items', $itemAlias, 'WITH',
-                $qb->expr()->eq("$itemAlias.id", $this->createNamedParameter($qb, $query['item_id']))
+                $qb->expr()->eq("$itemAlias.id", $qb->createNamedParameter($query['item_id']))
             );
         }
 
         if (isset($query['owner_id']) && is_numeric($query['owner_id'])) {
-            $userAlias = $this->createAlias();
+            $userAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.owner',
                 $userAlias
             );
             $qb->andWhere($qb->expr()->eq(
                 "$userAlias.id",
-                $this->createNamedParameter($qb, $query['owner_id']))
+                $qb->createNamedParameter($query['owner_id']))
             );
         }
 
         if (isset($query['slug'])) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.slug',
-                $this->createNamedParameter($qb, $query['slug'])
+                $qb->createNamedParameter($query['slug'])
             ));
         }
 
         if (isset($query['exclude_id'])) {
             $qb->andWhere($qb->expr()->neq(
                 'omeka_root.id',
-                $this->createNamedParameter($qb, $query['exclude_id'])
+                $qb->createNamedParameter($query['exclude_id'])
             ));
         }
 
         if (isset($query['assign_new_items']) && (is_numeric($query['assign_new_items']) || is_bool($query['assign_new_items']))) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.assignNewItems',
-                $this->createNamedParameter($qb, (bool) $query['assign_new_items'])
+                $qb->createNamedParameter((bool) $query['assign_new_items'])
             ));
         }
     }
@@ -333,7 +350,7 @@ class SiteAdapter extends AbstractEntityAdapter
     public function sortQuery(QueryBuilder $qb, array $query)
     {
         if ('owner_name' == $query['sort_by']) {
-            $ownerAlias = $this->createAlias();
+            $ownerAlias = $qb->createAlias();
             $qb->leftJoin("omeka_root.owner", $ownerAlias)
                 ->addOrderBy("$ownerAlias.name", $query['sort_order']);
         } else {
@@ -458,10 +475,9 @@ class SiteAdapter extends AbstractEntityAdapter
             <h3 style="color:#aaaaaa;font-style:italic;">This is the &quot;Subtitle&quot; block style.</h3>
             <div style="background:#eeeeee;border:1px solid #cccccc;padding:5px 10px;">This is the &quot;Special Container&quot; block style.</div>
             <p><span class="marker">This is the &quot;Marker&quot; inline style. </span></p>
-            <p><big>This is the &quot;Big&quot; inline style.</big> This is normal text.</p>
             <p><small>This text is inside a &quot;small&quot; inline style.</small> This is normal text.</p>
             <p><code>This is the &quot;Computer Code&quot; inline style.</code></p>
-            <p><span dir="rtl">لكن لا بد أن أوضح لك أن كل هذه الأفكار المغلوطة حول استنكار النشوة وتمجيد الألم يعرض هذا النص من اليمين إلى اليسار.</span></p>
+            <p><span dir="rtl" lang="ar">لكن لا بد أن أوضح لك أن كل هذه الأفكار المغلوطة حول استنكار النشوة وتمجيد الألم يعرض هذا النص من اليمين إلى اليسار.</span></p>
         EOT);
     }
 }

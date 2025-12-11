@@ -143,6 +143,7 @@ $this->htmlElement('body')->appendAttribute('class', 'items browse');
                 sprintf('<strong>%s</strong>', number_format($this->pagination()->getPaginator()->getTotalCount()))
             ); ?></p>
             <label><input type="checkbox" name="confirm-delete-all-check"> <?php echo $translate('Are you sure?'); ?></label>
+            <span id="delete-confirm-sr-alerts" class="sr-only" aria-live="polite" aria-atomic="true" data-active-message="<?php echo $translate(sprintf('%s button active.', $translate('Confirm Delete'))); ?>" data-inactive-message="<?php echo $translate(sprintf('%s button inactive.', $translate('Confirm Delete'))); ?>"></span>
             <?php echo $this->form($this->formDeleteAll); ?>
         </div>
     </div>
@@ -169,6 +170,10 @@ $('.delete-selected').on('click', function(e) {
     $('#delete-selected-count').text(inputs.filter(':checked').length);
 });
 $('#sidebar-delete-all').on('click', 'input[name="confirm-delete-all-check"]', function(e) {
+    var deleteConfirmSrAlerts = $('#delete-confirm-sr-alerts');
+    var activeMessage = deleteConfirmSrAlerts.data('active-message');
+    var inactiveMessage = deleteConfirmSrAlerts.data('inactive-message');
+    deleteConfirmSrAlerts.text(this.checked ? activeMessage : inactiveMessage);
     $('#confirm-delete-all input[type="submit"]').prop('disabled', this.checked ? false : true);
 });
 </script>

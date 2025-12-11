@@ -121,16 +121,16 @@ class IiifPresentation implements IngesterInterface
             return false;
         }
         switch ($iiif['@context']) {
-            // IIIF Presentation API v2
             case 'http://iiif.io/api/presentation/2/context.json':
             case 'https://iiif.io/api/presentation/2/context.json':
+                // IIIF Presentation API v2
                 if (isset($iiif['@type']) && in_array($iiif['@type'], ['sc:Manifest', 'sc:Collection'])) {
                     return 2;
                 }
                 return false;
-            // IIIF Presentation API v3
             case 'http://iiif.io/api/presentation/3/context.json':
             case 'https://iiif.io/api/presentation/3/context.json':
+                // IIIF Presentation API v3
                 if (isset($iiif['type']) && in_array($iiif['type'], ['Manifest', 'Collection'])) {
                     return 3;
                 }

@@ -23,8 +23,7 @@ class ApiJsonStrategyTest extends TestCase
             ->method('prepareArgs')
             ->will($this->returnCallback(function ($arg) {
                 return $arg;
-            })
-        );
+            }));
 
         $this->strategy = new ApiJsonStrategy($this->renderer, $this->eventManager);
 

@@ -6,10 +6,11 @@ use Omeka\Form\Element\PropertySelect;
 use Omeka\Settings\SiteSettings;
 use Omeka\Stdlib\Browse as BrowseService;
 use Laminas\Form\Form;
+use Laminas\EventManager\EventManagerAwareInterface;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\EventManager\Event;
 
-class SiteSettingsForm extends Form
+class SiteSettingsForm extends Form implements EventManagerAwareInterface
 {
     use EventManagerAwareTrait;
 
@@ -33,6 +34,7 @@ class SiteSettingsForm extends Form
             'browse' => 'Browse', // @translate
             'show' => 'Show', // @translate
             'search' => 'Search', // @translate
+            'iiif_viewer' => 'IIIF viewer', // @translate
         ]);
 
         // o:assign_new_items element is a pseudo-setting that's ultimately set
@@ -421,6 +423,34 @@ class SiteSettingsForm extends Form
             ],
             'attributes' => [
                 'value' => $settings->get('search_restrict_templates', false),
+            ],
+        ]);
+
+        // IIIF viewer section
+        $this->add([
+            'type' => 'checkbox',
+            'name' => 'iiif_viewer_sidebar',
+            'options' => [
+                'element_group' => 'iiif_viewer',
+                'label' => 'Show sidebar', // @translate
+            ],
+            'attributes' => [
+                'value' => $settings->get('iiif_viewer_sidebar', false),
+            ],
+        ]);
+        $this->add([
+            'type' => 'select',
+            'name' => 'iiif_viewer_theme',
+            'options' => [
+                'element_group' => 'iiif_viewer',
+                'label' => 'Theme', // @translate
+                'value_options' => [
+                    'light' => 'Light', // @translate
+                    'dark' => 'Dark', // @translate
+                ],
+            ],
+            'attributes' => [
+                'value' => $settings->get('iiif_viewer_theme'),
             ],
         ]);
 

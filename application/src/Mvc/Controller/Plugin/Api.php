@@ -44,7 +44,7 @@ class Api extends AbstractPlugin
      * @param null|Form $form
      * @param bool $throwValidationException
      */
-    public function __invoke(Form $form = null, $throwValidationException = false)
+    public function __invoke(?Form $form = null, $throwValidationException = false)
     {
         $this->form = $form;
         $this->throwValidationException = $throwValidationException;
@@ -77,6 +77,7 @@ class Api extends AbstractPlugin
     public function searchOne($resource, $data = [], array $options = [])
     {
         $data['limit'] = 1;
+        $options['countQuery'] = false;
         $response = $this->search($resource, $data, $options);
         $content = $response->getContent();
         $content = is_array($content) && count($content) ? reset($content) : null;

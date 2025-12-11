@@ -12,7 +12,7 @@ class SiteNavigationTranslatorFactory implements FactoryInterface
      *
      * @return Translator
      */
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, ?array $options = null)
     {
         return new Translator(
             $serviceLocator->get('Omeka\Site\NavigationLinkManager'),

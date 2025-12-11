@@ -1,12 +1,14 @@
 <?php
 namespace Omeka\Form\Element;
 
+use Laminas\Form\Element\Select;
 use Omeka\Api\Manager as ApiManager;
 use Omeka\Api\Representation\UserRepresentation;
-use Laminas\Form\Element\Select;
 
-abstract class AbstractGroupByOwnerSelect extends Select
+abstract class AbstractGroupByOwnerSelect extends Select implements SelectSortInterface
 {
+    use SelectSortTrait;
+
     /**
      * @var ApiManager
      */
@@ -102,10 +104,30 @@ abstract class AbstractGroupByOwnerSelect extends Select
             }
         }
 
-        $prependValueOptions = $this->getOption('prepend_value_options');
-        if (is_array($prependValueOptions)) {
-            $valueOptions = $prependValueOptions + $valueOptions;
+        // Add prepended options.
+        $prependOptions = $this->getOption('prepend_value_options');
+        if (is_array($prependOptions)) {
+            $valueOptions = $prependOptions + $valueOptions;
         }
         return $valueOptions;
+    }
+
+    public function translateValueOptions(): bool
+    {
+        // Do not translate because value options are user input.
+        return false;
+    }
+
+    public function finalizeValueOptions(array $options): array
+    {
+        // Move prepended options to the top.
+        $prependOptions = $this->getOption('prepend_value_options');
+        if (is_array($prependOptions)) {
+            foreach ($prependOptions as $prependKey => $prependOption) {
+                unset($options[$prependKey]);
+            }
+            $options = $prependOptions + $options;
+        }
+        return $options;
     }
 }

@@ -17,8 +17,8 @@ class SitePageRepresentation extends AbstractEntityRepresentation
         $modified = null;
         if ($this->modified()) {
             $modified = [
-               '@value' => $this->getDateTime($this->modified()),
-               '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
+                '@value' => $this->getDateTime($this->modified()),
+                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
             ];
         }
         return [
@@ -139,7 +139,7 @@ class SitePageRepresentation extends AbstractEntityRepresentation
 
     public function siteUrl($siteSlug = null, $canonical = false)
     {
-        if (!$siteSlug) {
+        if ($siteSlug === null) {
             $siteSlug = $this->site()->slug();
         }
         $url = $this->getViewHelper('Url');

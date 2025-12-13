@@ -481,6 +481,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $options['viewName'] ??= 'common/resource-values';
         $options['siteId'] ??= null;
         $options['properties'] ??= [];
+        $options['propertiesRespectOrder'] ??= false;
         $options['excludeProperties'] ??= [];
 
         $services = $this->getServiceLocator();
@@ -488,7 +489,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
 
         // Filter values by the "properties" and "excludeProperties" options.
         if ($options['properties']) {
-            $values = array_intersect_key($values, array_flip($options['properties']));
+            $termsAsKeys = array_flip($options['properties']);
+            $values = $options['propertiesRespectOrder']
+                ? array_replace($termsAsKeys, $values)
+                : $values;
+            $values = array_intersect_key($values, $termsAsKeys);
         }
         if ($options['excludeProperties']) {
             $values = array_diff_key($values, array_flip($options['excludeProperties']));

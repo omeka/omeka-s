@@ -3,6 +3,7 @@ $query = [
     'url' => $this->manifestUrl,
     'mirador_config' => json_encode([
         'window.sideBarOpen' => false,
+        'selectedTheme' => $this->siteSetting('iiif_viewer_theme', 'light') === 'dark' ? 'dark' : 'light',
     ]),
 ];
 ?>

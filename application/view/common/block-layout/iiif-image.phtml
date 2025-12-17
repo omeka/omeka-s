@@ -1,0 +1,17 @@
+<?php
+$this->headScript()->appendFile($this->assetUrl('vendor/openseadragon/openseadragon.min.js', 'Omeka'));
+$prefixUrl = $this->assetUrl('vendor/openseadragon/images/', 'Omeka', false, false);
+$id = 'iiif-image-' . $block->id();
+$openSeadragonOptions = [
+    'id' => $id,
+    'prefixUrl' => $prefixUrl,
+    'tileSources' => $this->imageUrl,
+];
+?>
+<?php if ($this->showTitle && $this->title): ?>
+<h3><?php echo $this->escapeHtml($this->title); ?></h3>
+<?php endif; ?>
+<div id="<?php echo $this->escapeHtml($id); ?>" style="height: 400px;" role="group" aria-label="<?php echo $this->escapeHtml($this->title); ?>"></div>
+<script type="text/javascript">
+OpenSeadragon(<?php echo json_encode($openSeadragonOptions); ?>);
+</script>

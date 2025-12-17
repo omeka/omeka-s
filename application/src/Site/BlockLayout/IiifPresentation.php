@@ -74,23 +74,19 @@ class IiifPresentation extends AbstractBlockLayout
         $block->setData($blockData);
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = 'common/faceted-browse/block-layout/faceted-browse-preview')
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = 'common/block-layout/iiif-presentation')
     {
-        $blockData = $this->getBlockData($block);
-        if (!$blockData['manifest_url']) {
+        $manifestUrl = $block->dataValue('manifest_url');
+        if (!$manifestUrl) {
             return;
         }
-        $query = [
-            'url' => $blockData['manifest_url'],
-            'mirador_config' => json_encode([
-                'window.sideBarOpen' => false,
-            ]),
-        ];
-        return sprintf(
-            '%s%s',
-            ($blockData['title'] && $blockData['show_title']) ? sprintf('<h3>%s</h3>', $blockData['title']) : null,
-            $view->iiifViewer($query, ['title' => $blockData['title']])
-        );
+
+        return $view->partial($templateViewScript, [
+            'block' => $block,
+            'manifestUrl' => $manifestUrl,
+            'title' => $block->dataValue('title'),
+            'showTitle' => (bool) $block->dataValue('show_title'),
+        ]);
     }
 
     public function getBlockData(?SitePageBlockRepresentation $block)

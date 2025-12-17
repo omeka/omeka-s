@@ -1,0 +1,12 @@
+<?php
+$query = [
+    'url' => $this->manifestUrl,
+    'mirador_config' => json_encode([
+        'window.sideBarOpen' => false,
+    ]),
+];
+?>
+<?php if ($this->showTitle && $this->title): ?>
+<h3><?php echo $this->escapeHtml($this->title); ?></h3>
+<?php endif; ?>
+<?php echo $this->iiifViewer($query, ['title' => $this->title]);

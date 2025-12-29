@@ -13,7 +13,12 @@ class CheckDirPermissionsTask implements TaskInterface
             $basePath = OMEKA_PATH . '/files';
         }
         if (!is_dir($basePath) || !is_writable($basePath)) {
-            $installer->addError(sprintf('"%s" is not a writable directory.', $basePath));
+            $parent = dirname($basePath);
+            if (is_dir($parent) && is_writable($parent)) {
+                $installer->addWarning(sprintf('"%s" is not a writable directory. It will be created during installation.', $basePath));
+            } else {
+                $installer->addError(sprintf('"%s" (nor its parent) is a writable directory.', $basePath));
+            }
             return;
         }
     }

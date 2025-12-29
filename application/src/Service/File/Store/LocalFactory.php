@@ -23,6 +23,9 @@ class LocalFactory implements FactoryInterface
         if (null === $basePath) {
             $basePath = OMEKA_PATH . '/files';
         }
+        if (!is_dir($basePath) || !is_writable($basePath)) {
+            mkdir($basePath);
+        }
 
         $baseUri = $config['file_store']['local']['base_uri'];
         if (null === $baseUri) {

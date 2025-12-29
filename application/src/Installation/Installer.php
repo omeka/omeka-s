@@ -27,6 +27,11 @@ class Installer
     protected $errors = [];
 
     /**
+     * @var array Warnings
+     */
+    protected $warnings = [];
+
+    /**
      * @var array Task variables
      */
     protected $vars = [];
@@ -177,6 +182,26 @@ class Installer
     public function getErrors()
     {
         return $this->errors;
+    }
+
+    /**
+     * Add a warning
+     *
+     * @param string $message
+     */
+    public function addWarning($message)
+    {
+        $this->warnings[] = $message;
+    }
+
+    /**
+     * Get all warnings.
+     *
+     * @return array
+     */
+    public function getWarnings()
+    {
+        return $this->warnings;
     }
 
     /**

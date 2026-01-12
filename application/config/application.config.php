@@ -31,6 +31,7 @@ return [
     'module_listener_options' => [
         'module_paths' => [
             'Omeka' => OMEKA_PATH . '/application',
+            OMEKA_PATH . '/modules/custom',
             OMEKA_PATH . '/modules',
         ],
         'config_glob_paths' => [

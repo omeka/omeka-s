@@ -7,8 +7,10 @@
 /logs/sql.log
 /logs/application.log
 /files/
-/modules/
-/themes/
+/modules/*
+!/modules/custom/
+/themes/*
+!/themes/custom/
 /application/test/config/database.ini
 /application/test/.phpunit.result.cache
 /application/asset/css/font-awesome/

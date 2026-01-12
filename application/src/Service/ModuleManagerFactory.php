@@ -31,50 +31,68 @@ class ModuleManagerFactory implements FactoryInterface
         $connection = $serviceLocator->get('Omeka\Connection');
 
         // Get all modules from the filesystem.
-        foreach (new DirectoryIterator(OMEKA_PATH . '/modules') as $dir) {
-
-            // Module must be a directory
-            if (!$dir->isDir() || $dir->isDot()) {
+        // Scan custom directory first so custom modules take precedence.
+        $modulePaths = [
+            OMEKA_PATH . '/modules/custom',
+            OMEKA_PATH . '/modules',
+        ];
+        $registered = [];
+        foreach ($modulePaths as $modulePath) {
+            if (!is_dir($modulePath)) {
                 continue;
             }
+            foreach (new DirectoryIterator($modulePath) as $dir) {
 
-            $module = $manager->registerModule($dir->getBasename());
+                // Module must be a directory
+                if (!$dir->isDir() || $dir->isDot()) {
+                    continue;
+                }
 
-            // Module directory must contain config/module.ini
-            $iniFile = new SplFileInfo($dir->getPathname() . '/config/module.ini');
-            if (!$iniFile->isReadable() || !$iniFile->isFile()) {
-                $module->setState(ModuleManager::STATE_INVALID_INI);
-                continue;
-            }
+                // Skip if module already registered (custom takes precedence).
+                $moduleId = $dir->getBasename();
+                if (isset($registered[$moduleId])) {
+                    continue;
+                }
+                $registered[$moduleId] = true;
 
-            $ini = $iniReader->fromFile($iniFile->getRealPath());
+                $module = $manager->registerModule($moduleId);
 
-            // The INI configuration must be under the [info] header.
-            if (!isset($ini['info'])) {
-                $module->setState(ModuleManager::STATE_INVALID_INI);
-                continue;
-            }
+                // Module directory must contain config/module.ini
+                $iniFile = new SplFileInfo($dir->getPathname() . '/config/module.ini');
+                if (!$iniFile->isReadable() || !$iniFile->isFile()) {
+                    $module->setState(ModuleManager::STATE_INVALID_INI);
+                    continue;
+                }
 
-            $module->setIni($ini['info']);
+                $ini = $iniReader->fromFile($iniFile->getRealPath());
 
-            // Module INI must be valid
-            if (!$manager->iniIsValid($module)) {
-                $module->setState(ModuleManager::STATE_INVALID_INI);
-                continue;
-            }
+                // The INI configuration must be under the [info] header.
+                if (!isset($ini['info'])) {
+                    $module->setState(ModuleManager::STATE_INVALID_INI);
+                    continue;
+                }
 
-            // Module directory must contain Module.php
-            $moduleFile = new SplFileInfo($dir->getPathname() . '/Module.php');
-            if (!$moduleFile->isReadable() || !$moduleFile->isFile()) {
-                $module->setState(ModuleManager::STATE_INVALID_MODULE);
-                continue;
-            }
-            $module->setModuleFilePath($moduleFile->getRealPath());
+                $module->setIni($ini['info']);
 
-            $omekaConstraint = $module->getIni('omeka_version_constraint');
-            if ($omekaConstraint !== null && !Semver::satisfies(CoreModule::VERSION, $omekaConstraint)) {
-                $module->setState(ModuleManager::STATE_INVALID_OMEKA_VERSION);
-                continue;
+                // Module INI must be valid
+                if (!$manager->iniIsValid($module)) {
+                    $module->setState(ModuleManager::STATE_INVALID_INI);
+                    continue;
+                }
+
+                // Module directory must contain Module.php
+                $moduleFile = new SplFileInfo($dir->getPathname() . '/Module.php');
+                if (!$moduleFile->isReadable() || !$moduleFile->isFile()) {
+                    $module->setState(ModuleManager::STATE_INVALID_MODULE);
+                    continue;
+                }
+                $module->setModuleFilePath($moduleFile->getRealPath());
+
+                $omekaConstraint = $module->getIni('omeka_version_constraint');
+                if ($omekaConstraint !== null && !Semver::satisfies(CoreModule::VERSION, $omekaConstraint)) {
+                    $module->setState(ModuleManager::STATE_INVALID_OMEKA_VERSION);
+                    continue;
+                }
             }
         }
 

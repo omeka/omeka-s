@@ -9,6 +9,11 @@ class Theme
     protected $id;
 
     /**
+     * @var string Relative path from OMEKA_PATH (e.g., 'themes/custom' or 'themes')
+     */
+    protected $basePath = 'themes';
+
+    /**
      * @var string
      */
     protected $state;
@@ -41,6 +46,26 @@ class Theme
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set the base path for this theme (relative to OMEKA_PATH).
+     *
+     * @param string $basePath e.g., 'themes/custom' or 'themes'
+     */
+    public function setBasePath($basePath)
+    {
+        $this->basePath = $basePath;
+    }
+
+    /**
+     * Get the base path for this theme (relative to OMEKA_PATH).
+     *
+     * @return string
+     */
+    public function getBasePath()
+    {
+        return $this->basePath;
     }
 
     /**
@@ -123,9 +148,10 @@ class Theme
     public function getThumbnail($key = null)
     {
         if ($key) {
+            // For other themes, assume default path (no basePath info available).
             return '/themes/' . $key . "/theme.jpg";
         }
-        return '/themes/' . $this->id . "/theme.jpg";
+        return '/' . $this->basePath . '/' . $this->id . "/theme.jpg";
     }
 
     /**
@@ -162,7 +188,7 @@ class Theme
      */
     public function getPath(string ...$subsegments): string
     {
-        $segments = array_merge([OMEKA_PATH, 'themes', $this->id], $subsegments);
+        $segments = array_merge([OMEKA_PATH, $this->basePath, $this->id], $subsegments);
         return implode('/', $segments);
     }
 }

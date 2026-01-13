@@ -384,7 +384,7 @@ var Omeka = {
 
 $(document).ready(function() {
         // Set classes for expandable/collapsible content.
-        $(document).on('click', 'a.expand, a.collapse', function(e) {
+        $(document).on('click', '.expand, .collapse', function(e) {
             e.preventDefault();
             var toggle = $(this);
             toggle.toggleClass('collapse').toggleClass('expand');

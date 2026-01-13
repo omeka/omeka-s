@@ -1,8 +1,8 @@
-<div id="site_id_field" class="field">
+<div id="site_id_field" class="field" role="group"  aria-labelledby="site-id-field-label">
     <div class="field-meta">
-        <label for="site_id"><?php echo $this->translate('Search by site'); ?></label>
-        <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $this->translate('Expand')]); ?>
-        <div class="collapsible">
+        <label id="site-id-field-label" for="site_id"><?php echo $this->translate('Search by site'); ?></label>
+        <button type="button" aria-expanded="false" aria-controls="site-id-description" class="expand" aria-label="<?php echo $this->translate('Expand'); ?>" title="<?php echo $this->translate('Expand'); ?>"></button>
+        <div id="site-id-description" class="collapsible">
             <div class="field-description"><?php echo $this->translate('Searches for items that are assigned to this site.'); ?></div>
         </div>
     </div>

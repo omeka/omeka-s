@@ -701,14 +701,27 @@ a[class*="o-icon-"] {
     display: inline-block;
 }
 
-a.expand,
-a.collapse,
+.expand,
+.collapse,
 a.expand-group,
 a.collapse-group {
-    color: $copy-gray;
     min-width: 24px;
+    min-height: $spacing-large;
     display: inline-block;
     text-align: center;
+    margin-bottom: 0;
+}
+
+.expand,
+.collapse {
+    color: $red;
+    background: transparent;
+    box-shadow: none !important;
+    padding: 0;
+
+    &:hover {
+        color: $light-red;
+    }
 }
 
 .expand:after {
@@ -3139,10 +3152,12 @@ fieldset.section > legend {
     margin-bottom: $spacing-small;
     width: 100%;
 
-    a.expand,
-    a.collapse {
+    .expand,
+    .collapse {
         display: flex;
         justify-content: space-between;
+        align-items: center;
+        gap: $spacing-medium;
     }
 
     .collapsible {
@@ -4036,6 +4051,12 @@ input[type=text].query-form-query {
         }
     }
 
+    .expand,
+    .collapse {
+        background-color: inherit;
+        color: inherit;
+    }
+
     button.option {
         width: 100%;
         text-align: left;
@@ -4840,8 +4861,8 @@ body.sidebar-open #content {
             margin-top: 0;
         }
 
-        a.collapse,
-        a.expand {
+        .collapse,
+        .expand {
             width: $base-font-size;
         }
     }

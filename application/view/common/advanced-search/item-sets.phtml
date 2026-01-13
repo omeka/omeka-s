@@ -41,8 +41,8 @@ if ($this->status()->isSiteRequest()) {
 <div id="item-sets" class="field removable multi-value" role="group" aria-labelledby="by-item-set-label">
     <div class="field-meta">
         <span id="by-item-set-label" class="label"><?php echo $translate('Search by item set'); ?></span>
-        <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $translate('Expand')]); ?>
-        <div class="collapsible">
+        <button type="button" aria-expanded="false" aria-controls="by-item-sets-description" class="expand" aria-label="<?php echo $translate('Expand'); ?>" title="<?php echo $translate('Expand'); ?>"></button>
+        <div id="by-item-sets-description" class="collapsible">
             <div class="field-description"><?php echo $translate('Searches for items that are assigned to any of these item sets.'); ?></div>
         </div>
         <button type="button" class="add-value o-icon-add button" aria-label="<?php echo $translate('Add new item set'); ?>" title="<?php echo $translate('Add new item set'); ?>"></button>

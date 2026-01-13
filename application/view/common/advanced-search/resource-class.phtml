@@ -26,8 +26,8 @@ if ($this->status()->isSiteRequest()) {
 <div id="resource-class" class="field removable multi-value" role="group" aria-labelledby="by-resource-class-label">
     <div class="field-meta">
         <span id="by-resource-class-label" class="label"><?php echo $translate('Search by class'); ?></span>
-        <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $translate('Expand')]); ?>
-        <div class="collapsible">
+        <button type="button" aria-expanded="false" aria-controls="by-resource-class-label-description" class="expand" aria-label="<?php echo $translate('Expand'); ?>" title="<?php echo $translate('Expand'); ?>"></button>
+        <div id="by-resource-class-label-description" class="collapsible">
             <div class="field-description"><?php echo $translate('Searches for resources that are any of these classes.'); ?></div>
         </div>
         <button type="button" class="add-value o-icon-add button" aria-label="<?php echo $translate('Add new class'); ?>" title="<?php echo $translate('Add new class'); ?>"></button>

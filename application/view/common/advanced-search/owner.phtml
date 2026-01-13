@@ -1,8 +1,8 @@
-<div id="owner_id_field" class="field">
+<div id="owner_id_field" class="field" role="group" aria-labelledby="owner-id-field-label">
     <div class="field-meta">
-        <label for="owner_id"><?php echo $this->translate('Search by owner'); ?></label>
-        <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $this->translate('Expand')]); ?>
-        <div class="collapsible">
+        <label id="owner-id-field-label" for="owner_id"><?php echo $this->translate('Search by owner'); ?></label>
+        <button type="button" aria-expanded="false" aria-controls="owner-id-field-description" class="expand" aria-label="<?php echo $this->translate('Expand'); ?>" title="<?php echo $this->translate('Expand'); ?>"></button>
+        <div id="owner-id-field-description" class="collapsible">
             <div class="field-description"><?php echo $this->translate('Searches for resources that are owned by this user.'); ?></div>
         </div>
     </div>

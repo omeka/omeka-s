@@ -7,11 +7,11 @@ if (isset($query['id'])) {
     }
 }
 ?>
-<div class="field" id="id_field">
+<div class="field" id="id_field" role="group" aria-labelledby="id-field-label">
     <div class="field-meta">
-        <label for="id"><?php echo $this->translate('Search by ID'); ?></label>
-        <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $this->translate('Expand')]); ?>
-        <div class="collapsible">
+        <label id="id-field-label" for="id"><?php echo $this->translate('Search by ID'); ?></label>
+        <button type="button" aria-expanded="false" aria-controls="id-field-description" class="expand" aria-label="<?php echo $this->translate('Expand'); ?>" title="<?php echo $this->translate('Expand'); ?>"></button>
+        <div id="id-field-description" class="collapsible">
             <div class="field-description"><?php echo $this->translate('Searches for resources by Omeka S ID. You can search for more than one ID by separating them by commas.'); ?></div>
         </div>
     </div>

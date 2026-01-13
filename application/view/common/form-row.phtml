@@ -15,7 +15,7 @@ $fieldId = ($element->getAttribute('id')) ? 'id="' . $escape($element->getAttrib
     <div class="field-meta">
         <?php echo $this->formLabel($element); ?>
         <?php if ($info = $element->getOption('info')): ?>
-        <a href="#" class="expand" aria-expanded="false" aria-controls="<?php echo $fieldId; ?>-description" aria-label=" <?php echo $escape($translate('Expand')); ?>"></a>
+        <button type="button" class="expand" aria-expanded="false" aria-controls="<?php echo $fieldId; ?>-description" aria-label=" <?php echo $escape($translate('Expand')); ?>"></button>
         <div class="collapsible" id="<?php echo $fieldId; ?>-description">
             <div class="field-description"><?php echo $escapeInfo ? $escape($translate($info)) : $translate($info); ?></div>
             <?php if ($documentation = $element->getOption('documentation')): ?>

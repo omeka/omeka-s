@@ -14,8 +14,8 @@ if (!$ids) {
 <div id="resource-templates" class="field removable multi-value" role="group" aria-labelledby="by-resource-template-label">
     <div class="field-meta">
         <span id="by-resource-template-label" class="label"><?php echo $translate('Search by template'); ?></span>
-        <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $translate('Expand')]); ?>
-        <div class="collapsible">
+        <button type="button" aria-expanded="false" aria-controls="by-resource-template-label-description" class="expand" aria-label="<?php echo $translate('Expand'); ?>" title="<?php echo $translate('Expand'); ?>"></button>
+        <div id="by-resource-template-label-description" class="collapsible">
             <div class="field-description"><?php echo $translate('Searches for resources that use any of these templates.'); ?></div>
         </div>
         <button type="button" class="add-value o-icon-add button" aria-label="<?php echo $translate('Add new template'); ?>" title="<?php echo $translate('Add new template'); ?>"></button>

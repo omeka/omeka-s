@@ -626,12 +626,17 @@
 
         // Prepare the value node.
         var valueLabelID = 'property-' + field.data('property-id') + '-label';
+        var valueDescriptionID = 'property-' + field.data('property-id') + '-description';
         value.find('input.is_public')
             .val(isPublic ? 1 : 0);
         value.find('span.label')
             .attr('id', valueLabelID);
         value.find('textarea.input-value')
             .attr('aria-labelledby', valueLabelID);
+        value.find('.collapse, .expand')
+            .attr('aria-labelledby', valueDescriptionID);
+        value.find('.collapsible')
+            .attr('id', valueDescriptionID);
         value.attr('aria-labelledby', valueLabelID);
         $(document).trigger('o:prepare-value', [dataType, value, valueObj]);
 

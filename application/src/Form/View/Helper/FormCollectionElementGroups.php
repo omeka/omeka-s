@@ -44,7 +44,7 @@ class FormCollectionElementGroups extends FormCollection
                 continue;
             }
             $markup .= '<fieldset>';
-            $markup .= sprintf('<h2 class="fieldsest-heading">%s</h2>', $view->escapeHtml($view->translate($elementGroupLabel)));
+            $markup .= sprintf('<legend><h2 class="fieldsest-heading">%s</h2></legend>', $view->escapeHtml($view->translate($elementGroupLabel)));
             foreach ($elementsInGroups[$elementGroupName] as $elementInGroups) {
                 $markup .= $view->formRow($elementInGroups);
             }

@@ -41,11 +41,8 @@ $expanded = $resourceClassId || $itemSetId || $id;
             <input type="text" name="search" id="resource-list-search" value="<?php echo $escape($search); ?>">
             <button type="button" class="o-icon-search"><?php echo $translate('Search'); ?></button>
             <div class="resource-search-filters">
-                <a href="#"
-                    class="<?php echo $expanded ? 'collapse' : 'expand'; ?>"
-                    aria-label="<?php echo $expanded ? $translate('Collapse') : $translate('Expand'); ?>"><?php echo $translate('Filter search'); ?>
-                </a>
-                <div class="collapsible">
+                <button type="button" aria-expanded="false" aria-controls="resource-search-filters-inputs" class="<?php echo $expanded ? 'collapse' : 'expand'; ?>""><?php echo $translate('Filter search'); ?></button>
+                <div id="resource-search-filters-inputs" class="collapsible">
                 <?php
                 echo $this->resourceClassSelect([
                     'name' => 'resource_class_id',

@@ -954,6 +954,10 @@ div[role="main"] > h1:first-of-type .title {
     vertical-align: middle;
 }
 
+div[role="main"] .fieldsest-heading {
+    font-size: 1.25 * $base-font-size;
+}
+
 .subhead {
     text-transform: uppercase;
     font-size: .875 * $base-font-size;

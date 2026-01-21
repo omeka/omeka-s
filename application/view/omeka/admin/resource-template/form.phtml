@@ -10,7 +10,7 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
 
 <div id="page-actions">
     <?php if (isset($resourceTemplate)): ?>
-    <a href="#" class="delete button sidebar-content" data-sidebar-selector="#delete"><?php echo $translate('Delete'); ?></a>
+    <button type="button" class="delete button sidebar-content" data-sidebar-selector="#delete"><?php echo $translate('Delete'); ?></button>
     <?php endif; ?>
     <?php echo $this->cancelButton(); ?>
     <button><?php echo $escape($submitLabel); ?></button>

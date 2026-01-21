@@ -3,7 +3,7 @@ $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'edit items');
 $deleteButton = $item->userIsAllowed('delete')
-    ? '<a href="#" class="delete button">' . $translate('Delete') . '</a>'
+    ? '<button type="button" class="delete button">' . $translate('Delete') . '</button>'
     : null;
 ?>
 

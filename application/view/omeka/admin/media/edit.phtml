@@ -62,7 +62,7 @@ var valuesJson = <?php echo json_encode($media->values()); ?>;
         <input type="hidden" name="o:is_public" value="0">
         <?php endif; ?>
         <?php if ($media->userIsAllowed('delete')): ?>
-        <a href="#" class="delete button"><?php echo $translate('Delete'); ?></a>
+        <button type="button" class="delete button"><?php echo $translate('Delete'); ?></button>
         <?php endif; ?>
         <?php echo $this->cancelButton(); ?>
         <input type="submit" name="add-item-submit" value=" <?php echo $escape($translate('Save')); ?>">

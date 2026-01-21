@@ -39,7 +39,7 @@ class Media extends AbstractBlockLayout implements TemplateableBlockLayoutInterf
 
         $html = '';
         $html .= $view->blockAttachmentsForm($block);
-        $html .= '<a href="#" class="collapse" aria-label="collapse"><h4>' . $view->translate('Options') . '</h4></a>';
+        $html .= '<button type="button" aria-expanded="true" class="collapse" aria-label="collapse">' . $view->translate('Options') . '</button>';
         $html .= '<div class="collapsible">';
         $html .= $view->formRow($layoutSelect);
         $html .= $view->formRow($displaySelect);

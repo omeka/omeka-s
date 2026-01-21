@@ -1542,7 +1542,6 @@ div[role="main"] {
     background-color: transparent;
     color: $red;
     margin: 0;
-    text-indent: -9999px;
     position: relative;
     padding: 0;
     min-height: 0;
@@ -3466,9 +3465,8 @@ fieldset.section > legend {
 
 .block-layout-fieldset .expand, 
 .block-layout-fieldset .collapse {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+    display: inline-flex;
+    justify-content: center;
 }
 
 .block-layout-fieldset .collapse {
@@ -4525,13 +4523,13 @@ body.sidebar-open #content {
         line-height: 1;
         margin-bottom: 0;
         height: auto;
-        min-height: 0;
+        min-height: $spacing-large;
         border: 0;
-        box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
     }
 
     #block-controls-header select,
     .block-header select {
+        box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
         padding: $spacing-small $spacing-large $spacing-small $spacing-small;
         background-size: 6px;
     }
@@ -4802,10 +4800,11 @@ body.sidebar-open #content {
 
     .block-content .expand,
     .block-content .collapse {
-        width: 100%;
-        display: flex;
-        padding: 0 $spacing-small 0 0;
-        justify-content: space-between;
+        display: inline-flex;
+        justify-content: center;
+        padding: $spacing-small 0;
+        font-weight: bold;
+        gap: $spacing-medium;
     }
 
     .block .field-meta .collapse + .collapsible {
@@ -4859,11 +4858,6 @@ body.sidebar-open #content {
 
         .collapse + .collapsible {
             margin-top: 0;
-        }
-
-        .collapse,
-        .expand {
-            width: $base-font-size;
         }
     }
 

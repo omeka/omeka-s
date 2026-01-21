@@ -7,9 +7,9 @@ $attachmentRowTemplate = '
     <span class="sortable-handle"></span>
     <div class="item-title">'. $escape($translate('No item selected')) . '</div>
     <ul class="actions">
-        <li>' . $this->hyperlink('', '#', ['class' => 'attachment-options-icon o-icon-configure button', 'title' => $translate('Open attachment options')]) . '</li>
-        <li class="delete">' . $this->hyperlink('', '#', ['class' => 'o-icon-delete button', 'title' => $translate('Delete attachment')]) . '</li>
-        <li class="undo">' . $this->hyperlink('', '#', ['class' => 'o-icon-undo button', 'title' => $translate('Restore attachment')]) . '</li>
+        <li><button type="button" class="attachment-options-icon o-icon-configure button" aria-label="' . $translate('Open attachment options') . '" title="' . $translate('Open attachment options') . '"></button></li>
+        <li class="delete"><button type="button" class="o-icon-delete button" aria-label="' . $translate('Delete attachment') . '" title="' . $translate('Delete attachment') . '</button></li>
+        <li class="undo"><button type="button" class="o-icon-undo button" title="' . $translate('Restore attachment') . '"></button></li>
     </ul>
     <input type="hidden" class="item" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:item][o:id]">
     <input type="hidden" class="media" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:media][o:id]">
@@ -17,7 +17,7 @@ $attachmentRowTemplate = '
 </div>';
 ?>
 <div class="attachments-form<?php echo $this->itemOnly ? ' attachments-item-only' : ''; ?>" data-item-query="<?php echo $escape(json_encode($this->itemQuery)); ?>">
-    <a href="#" class="collapse"><h4><?php echo $translate('Attachments'); ?></h4></a>
+    <button type="button" aria-expanded="true" class="collapse"><?php echo $translate('Attachments'); ?></button>
     <div class="attachments collapsible" data-template="<?php echo $escape($attachmentRowTemplate); ?>" data-max-attachments="<?php echo $this->escapeHtml($maxAttachments); ?>">
         <?php foreach ($attachments as $attachment): ?>
         <?php

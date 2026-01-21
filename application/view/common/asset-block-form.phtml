@@ -6,9 +6,9 @@ $attachmentRowTemplate = '
     <span class="sortable-handle"></span>
     <div class="asset-title"><div class="thumbnail"></div>' . $translate('No asset selected') . '</div>
     <ul class="actions">
-    <li>' . $this->hyperlink('', '#', ['class' => 'asset-options-configure o-icon-configure button', 'title' => $translate('Open asset options'), 'aria-label' => $translate('Open asset options')]) . '</li>
-    <li class="delete">' . $this->hyperlink('', '#', ['class' => 'o-icon-delete button', 'title' => $translate('Delete attachment'), 'aria-label' => $translate('Delete attachment')]) . '</li>
-    <li class="undo">' . $this->hyperlink('', '#', ['class' => 'o-icon-undo button', 'title' => $translate('Restore attachment'), 'aria-label' => $translate('Restore attachment')]) . '</li>
+    <li><button type="button" class="asset-options-configure o-icon-configure button" title="' . $translate('Open asset options') . '" aria-label="' . $translate('Open asset options') . '"></button></li>
+    <li class="delete"><button type="button" class="o-icon-delete button" title="' . $translate('Delete attachment') . '" aria-label="' . $translate('Delete attachment') . '"></button></li>
+    <li class="undo"><button type="button" class="o-icon-undo button" title="' . $translate('Restore attachment') . '" aria-label="' . $translate('Restore attachment') . '"></button></li>
     </ul>
     <input type="hidden" class="asset-page-id asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][page]" data-page-title="" data-page-url="" disabled>
     <input type="hidden" class="asset asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][id]" disabled>
@@ -17,7 +17,7 @@ $attachmentRowTemplate = '
     ';
     ?>
 <div class="asset-attachments-form" data-site-id="<?php echo $escape($siteId); ?>" data-page-api-url="<?php echo $escape($apiUrl); ?>">
-<a href="#" class="collapse" aria-label="<?php echo $translate('Collapse'); ?>" title="<?php echo $translate('Collapse'); ?>"><h4><?php echo $translate('Assets'); ?></h4></a>
+<button type="button" aria-expanded="true" class="collapse" aria-label="<?php echo $translate('Collapse'); ?>" title="<?php echo $translate('Collapse'); ?>"><?php echo $translate('Assets'); ?></button>
 <div class="attachments collapsible" data-template="<?php echo $escape($attachmentRowTemplate); ?>">
   <?php if ($block !== ''): ?>
     <?php foreach($attachments as $attachment): ?>
@@ -40,9 +40,9 @@ $attachmentRowTemplate = '
                 <div class="asset-title"><div class="thumbnail"></div><?php echo $translate('No asset selected'); ?></div>
               <?php endif; ?>
               <ul class="actions">
-                <li><?php echo $this->hyperlink('', '#', ['class' => 'asset-options-configure o-icon-configure button', 'title' => $translate('Open asset options'), 'aria-label' => $translate('Open asset options')]); ?></li>
-                <li class="delete"><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete button', 'title' => $translate('Delete attachment'), 'aria-label' => $translate('Delete attachment')]); ?></li>
-                <li class="undo"><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-undo button', 'title' => $translate('Restore attachment'), 'aria-label' => $translate('Restore attachment')]); ?></li>
+                <li><button type="button" class="asset-options-configure o-icon-configure button" title="<?php echo $translate('Open asset options'); ?>" aria-label="<?php echo $translate('Open asset options'); ?>"></button></li>
+                <li class="delete"><button type="button" class="o-icon-delete button" title="<?php echo $translate('Delete attachment'); ?>" aria-label="' . $translate('Delete attachment') . '"></button></li>
+                <li class="undo"><button type="button" class="o-icon-undo button" title="<?php echo $translate('Restore attachment'); ?>" aria-label="<?php echo $translate('Restore attachment'); ?>"></button></li>
               </ul>
               <input type="hidden" class="asset-page-id asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][page]" value="<?php echo $pageId; ?>" data-page-title="<?php echo $pageTitle; ?>" data-page-url="<?php echo $pageUrl; ?>">
               <input type="hidden" class="asset" name="o:block[__blockIndex__][o:data][__attachmentIndex__][id]" value="<?php echo $assetId; ?>">

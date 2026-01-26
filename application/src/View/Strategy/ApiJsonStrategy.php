@@ -139,9 +139,10 @@ class ApiJsonStrategy extends JsonStrategy
         $this->formats = $args['formats'];
 
         // Prioritize the "format" query parameter.
-        $format = $model->getOption('format');
-        if (array_key_exists($format, $this->formats)) {
-            return $format;
+        if ($format = $model->getOption('format')) {
+            if (array_key_exists($format, $this->formats)) {
+                return $format;
+            }
         }
         // Respect the Accept header for content negotiation.
         $acceptHeader = $model->getOption('accept_header');

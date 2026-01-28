@@ -472,7 +472,6 @@ class SiteAdapter extends AbstractEntityAdapter
         $translator = $this->getServiceLocator()->get('MvcTranslator');
         return $translator->translate(<<<EOT
             <h2 style="font-style:italic;">This is the &quot;Italic Title&quot; block style.</h2>
-            <h3 style="color:#aaaaaa;font-style:italic;">This is the &quot;Subtitle&quot; block style.</h3>
             <div style="background:#eeeeee;border:1px solid #cccccc;padding:5px 10px;">This is the &quot;Special Container&quot; block style.</div>
             <p><span class="marker">This is the &quot;Marker&quot; inline style. </span></p>
             <p><small>This text is inside a &quot;small&quot; inline style.</small> This is normal text.</p>

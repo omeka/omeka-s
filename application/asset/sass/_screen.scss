@@ -4148,6 +4148,10 @@ body.sidebar-open #content {
     vertical-align: top;
 }
 
+.resource-templates #properties td ul {
+    margin: 0;
+}
+
 .resource-templates .property.row {
     display: flex;
 

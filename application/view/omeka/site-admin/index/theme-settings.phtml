@@ -5,8 +5,17 @@ $this->htmlElement('body')->appendAttribute('class', 'sites theme-settings');
 ?>
 <?php echo $this->pageTitle($theme->getName(), 1, $translate('Theme'), $translate('Edit settings')); ?>
 <?php if(isset($this->form)): ?>
-    <?php $form->prepare(); ?>
-    <?php echo $this->form()->openTag($form); ?>
+    <?php
+    // Load CkEditor if the theme uses it in any elements
+    foreach ($form->getIterator() as $element) {
+        if ($element instanceof \Omeka\Form\Element\Ckeditor || $element instanceof \Omeka\Form\Element\CkeditorInline) {
+            $this->ckEditor();
+            break;
+        }
+    }
+    $form->prepare();
+    echo $this->form()->openTag($form);
+    ?>
     <div id="page-actions">
         <?php echo $this->cancelButton(); ?>
         <button><?php echo $translate('Save'); ?></button>

@@ -1,0 +1,34 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ *
+ * Test Override theme layout (local version in themes/).
+ */
+
+$plugins = $this->getHelperPluginManager();
+$testAddonDirectory = $plugins->has('testAddonDirectory') ? $plugins->get('testAddonDirectory') : null;
+
+$this->headLink()->prependStylesheet($this->assetUrl('css/style.css', 'Omeka'));
+?>
+<!DOCTYPE html>
+<html lang="<?= $this->lang() ?>">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?= $this->headMeta() ?>
+    <?= $this->headLink() ?>
+    <?= $this->headStyle() ?>
+    <?= $this->headScript() ?>
+    <title><?= $this->pageTitle() ?></title>
+</head>
+<body>
+    <div class="test-info" style="background: #cdffcd; padding: 10px; margin: 10px;">
+        <strong>Theme:</strong> Test Override (local version)<br/>
+        <strong>Theme path:</strong> <?= substr(dirname(__DIR__), strlen(OMEKA_PATH)) . '/' ?><br/>
+        <strong>Module path:</strong> <?= $testAddonDirectory ? $testAddonDirectory() : 'Module TestOverride is not installed' ?>
+    </div>
+    <main>
+        <?= $this->content ?>
+    </main>
+</body>
+</html>

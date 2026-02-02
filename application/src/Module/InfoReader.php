@@ -511,6 +511,15 @@ class InfoReader
 
         $info['configurable'] = !empty($info['configurable']);
 
+        // Clean up description: remove common prefixes like "Module for Omeka S:".
+        if (!empty($info['description'])) {
+            $info['description'] = preg_replace(
+                '/^(Module|Theme)\s+for\s+Omeka\s*S?\s*:\s*/i',
+                '',
+                $info['description']
+            );
+        }
+
         return $info;
     }
 

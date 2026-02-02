@@ -23,10 +23,10 @@ class ThemeManagerFactory implements FactoryInterface
         $iniReader = new IniReader;
 
         // Get all themes from the filesystem.
-        // Scan custom directory first so custom themes take precedence.
+        // Scan local themes first so they take precedence over addons.
         $themePaths = [
-            'themes/custom' => OMEKA_PATH . '/themes/custom',
             'themes' => OMEKA_PATH . '/themes',
+            'addons/themes' => OMEKA_PATH . '/addons/themes',
         ];
         $registered = [];
         foreach ($themePaths as $basePath => $themePath) {
@@ -40,7 +40,7 @@ class ThemeManagerFactory implements FactoryInterface
                     continue;
                 }
 
-                // Skip if theme already registered (custom takes precedence).
+                // Skip if theme already registered (local takes precedence).
                 $themeId = $dir->getBasename();
                 if (isset($registered[$themeId])) {
                     continue;

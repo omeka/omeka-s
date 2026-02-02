@@ -12,7 +12,7 @@ class AddonInstaller extends LibraryInstaller
      *
      * @return string
      */
-    public static function getInstallName(PackageInterface $package)
+    public static function getInstallName(PackageInterface $package): string
     {
         $extra = $package->getExtra();
         if (isset($extra['install-name'])) {
@@ -22,28 +22,29 @@ class AddonInstaller extends LibraryInstaller
         $packageName = $package->getPrettyName();
         $slashPos = strpos($packageName, '/');
         if ($slashPos === false) {
-            throw new \InvalidArgumentException('Addon package names must contain a slash');
+            throw new \InvalidArgumentException('Addon package names must contain a slash'); // @translate
         }
 
         $addonName = substr($packageName, $slashPos + 1);
         return $addonName;
     }
 
-    public function getInstallPath(PackageInterface $package)
+    public function getInstallPath(PackageInterface $package): string
     {
         $addonName = static::getInstallName($package);
         switch ($package->getType()) {
-            case 'omeka-s-theme':
-                return 'themes/' . $addonName;
             case 'omeka-s-module':
-                return 'modules/' . $addonName;
+                return 'addons/modules/' . $addonName;
+            case 'omeka-s-theme':
+                return 'addons/themes/' . $addonName;
             default:
-                throw new \InvalidArgumentException('Invalid Omeka S addon package type');
+                throw new \InvalidArgumentException('Invalid Omeka S addon package type'); // @translate
         }
     }
 
-    public function supports($packageType)
+    public function supports($packageType): bool
     {
-        return in_array($packageType, ['omeka-s-theme', 'omeka-s-module']);
+        return $packageType === 'omeka-s-module'
+            || $packageType === 'omeka-s-theme';
     }
 }

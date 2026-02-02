@@ -31,10 +31,10 @@ class ModuleManagerFactory implements FactoryInterface
         $connection = $serviceLocator->get('Omeka\Connection');
 
         // Get all modules from the filesystem.
-        // Scan custom directory first so custom modules take precedence.
+        // Scan local modules first so they take precedence over addons.
         $modulePaths = [
-            OMEKA_PATH . '/modules/custom',
             OMEKA_PATH . '/modules',
+            OMEKA_PATH . '/addons/modules',
         ];
         $registered = [];
         foreach ($modulePaths as $modulePath) {
@@ -48,7 +48,7 @@ class ModuleManagerFactory implements FactoryInterface
                     continue;
                 }
 
-                // Skip if module already registered (custom takes precedence).
+                // Skip if module already registered (local takes precedence).
                 $moduleId = $dir->getBasename();
                 if (isset($registered[$moduleId])) {
                     continue;

@@ -31,8 +31,8 @@ return [
     'module_listener_options' => [
         'module_paths' => [
             'Omeka' => OMEKA_PATH . '/application',
-            OMEKA_PATH . '/modules/custom',
             OMEKA_PATH . '/modules',
+            OMEKA_PATH . '/addons/modules',
         ],
         'config_glob_paths' => [
             OMEKA_PATH . '/config/local.config.php',

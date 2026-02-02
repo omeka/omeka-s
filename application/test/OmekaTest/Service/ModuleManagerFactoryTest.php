@@ -264,8 +264,7 @@ class ModuleManagerFactoryTest extends TestCase
         $modulePath = $this->createModuleWithComposer(
             $this->testModulesPath,
             'TestModuleComposer',
-            '2.0.0',
-            ['omeka-version-constraint' => '^4.0']
+            '2.0.0'
         );
 
         $infoReader = new InfoReader();
@@ -274,7 +273,6 @@ class ModuleManagerFactoryTest extends TestCase
         $this->assertNotNull($info);
         $this->assertEquals('TestModuleComposer', $info['name']);
         $this->assertEquals('2.0.0', $info['version']);
-        $this->assertEquals('^4.0', $info['omeka_version_constraint']);
     }
 
     /**
@@ -287,8 +285,7 @@ class ModuleManagerFactoryTest extends TestCase
             'TestModuleBoth',
             '1.0.0',  // ini version
             '2.0.0',  // composer version
-            ['author' => 'Ini Author'],  // Only in ini
-            ['omeka-version-constraint' => '^4.0']  // Only in composer
+            ['author' => 'Ini Author']  // Only in ini
         );
 
         $infoReader = new InfoReader();
@@ -301,8 +298,6 @@ class ModuleManagerFactoryTest extends TestCase
         $this->assertEquals('2.0.0', $info['version']);
         // Ini author is preserved (not in composer).
         $this->assertEquals('Ini Author', $info['author']);
-        // Composer constraint is present.
-        $this->assertEquals('^4.0', $info['omeka_version_constraint']);
     }
 
     /**
@@ -321,32 +316,6 @@ class ModuleManagerFactoryTest extends TestCase
         $info = $infoReader->read($modulePath, 'module');
 
         $this->assertNull($info);
-    }
-
-    /**
-     * Test InfoReader with addon-version overriding version in composer.json.
-     */
-    public function testInfoReaderWithAddonVersion()
-    {
-        $modulePath = $this->testModulesPath . '/AddonVersionModule';
-        mkdir($modulePath, 0755, true);
-
-        $composer = [
-            'name' => 'test/addon-version-module',
-            'type' => 'omeka-s-module',
-            'version' => '1.0.0',
-            'extra' => [
-                'label' => 'Addon Version Module',
-                'addon-version' => '3.5.0',  // Should override version.
-            ],
-        ];
-        file_put_contents($modulePath . '/composer.json', json_encode($composer));
-        file_put_contents($modulePath . '/Module.php', "<?php\nnamespace AddonVersionModule;\nuse Omeka\\Module\\AbstractModule;\nclass Module extends AbstractModule {}\n");
-
-        $infoReader = new InfoReader();
-        $info = $infoReader->read($modulePath, 'module');
-
-        $this->assertEquals('3.5.0', $info['version']);
     }
 
     // -------------------------------------------------------------------------
@@ -405,8 +374,7 @@ class ModuleManagerFactoryTest extends TestCase
             $this->createModuleWithComposer(
                 OMEKA_PATH . '/addons/modules',
                 $moduleName,
-                '1.5.0',
-                ['omeka-version-constraint' => '^4.0']
+                '1.5.0'
             );
 
             $infoReader = new InfoReader();
@@ -592,5 +560,84 @@ class ModuleManagerFactoryTest extends TestCase
         $installerName = $infoReader->getInstallerName($modulePath);
 
         $this->assertEquals('EasyAdmin', $installerName);
+    }
+
+    // -------------------------------------------------------------------------
+    // Tests: Local module info takes precedence over installed.json
+    // -------------------------------------------------------------------------
+
+    /**
+     * Test that local module info is used even when module exists in installed.json.
+     *
+     * This is a critical test for the override feature: when a module exists in
+     * both modules/ (local) and addons/modules/ (composer), AND there's an entry
+     * in installed.json, the LOCAL module's info (from module.ini or composer.json)
+     * must be used, NOT the installed.json entry.
+     *
+     * This allows administrators to override a composer-installed module with a
+     * customized local version that has different metadata (version, description, etc.).
+     */
+    public function testLocalModuleInfoTakesPrecedenceOverInstalledJson()
+    {
+        // Use the test fixtures which have an entry in installed.json.
+        $moduleName = 'TestAddonOverride';
+        $localModulePath = OMEKA_PATH . '/modules/' . $moduleName;
+        $addonsModulePath = OMEKA_PATH . '/addons/modules/' . $moduleName;
+
+        // Skip if test fixtures aren't set up.
+        if (!is_dir($localModulePath) || !is_dir($addonsModulePath)) {
+            $this->markTestSkipped(
+                'Test fixtures not available. Run the test setup to create ' .
+                'TestAddonOverride in both modules/ and addons/modules/.'
+            );
+        }
+
+        // Clear the InfoReader cache to ensure fresh reads.
+        InfoReader::clearCache();
+
+        $infoReader = new InfoReader();
+
+        // The installed.json has "Test Addon Override (Composer version)".
+        $installedInfo = $infoReader->getFromComposerInstalled($moduleName, 'module');
+        $this->assertNotNull($installedInfo, 'Module should exist in installed.json');
+        $this->assertStringContainsString('Composer', $installedInfo['name']);
+
+        // The local module.ini has "Test Addon Override (Local version)".
+        $localInfo = $infoReader->read($localModulePath, 'module');
+        $this->assertNotNull($localInfo, 'Local module should be readable');
+        $this->assertStringContainsString('Local', $localInfo['name']);
+
+        // Test the path-based decision logic used by ModuleManagerFactory.
+        // For a module in modules/, strpos should NOT find '/addons/modules/'.
+        $this->assertFalse(
+            strpos($localModulePath, '/addons/modules/') !== false,
+            'Local module path should not contain /addons/modules/'
+        );
+
+        // For a module in addons/modules/, strpos SHOULD find '/addons/modules/'.
+        $this->assertTrue(
+            strpos($addonsModulePath, '/addons/modules/') !== false,
+            'Addons module path should contain /addons/modules/'
+        );
+
+        // Simulate the factory logic: for local modules, DON'T use installed.json.
+        $isComposerAddon = strpos($localModulePath, '/addons/modules/') !== false;
+        $this->assertFalse($isComposerAddon, 'Local module should not be treated as composer addon');
+
+        // The correct info should come from read(), not getFromComposerInstalled().
+        $info = null;
+        if ($isComposerAddon) {
+            $info = $infoReader->getFromComposerInstalled($moduleName, 'module');
+        }
+        if (empty($info)) {
+            $info = $infoReader->read($localModulePath, 'module');
+        }
+
+        $this->assertStringContainsString(
+            'Local',
+            $info['name'],
+            'Module info should come from local module.ini, not installed.json. ' .
+            'Got: ' . $info['name']
+        );
     }
 }

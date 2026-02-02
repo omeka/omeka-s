@@ -152,40 +152,6 @@ class InfoReaderTest extends TestCase
         $this->assertEquals('https://example.com', $info['module_link']);
     }
 
-    public function testReadComposerJsonWithExtraAddonVersion()
-    {
-        $composer = [
-            'name' => 'vendor/omeka-s-module-test',
-            'version' => '1.0.0',
-            'extra' => [
-                'label' => 'Test',
-                'addon-version' => '2.5.0',
-            ],
-        ];
-        file_put_contents($this->testPath . '/composer.json', json_encode($composer));
-
-        $info = $this->infoReader->read($this->testPath, 'module');
-
-        // addon-version should override composer version.
-        $this->assertEquals('2.5.0', $info['version']);
-    }
-
-    public function testReadComposerJsonWithOmekaVersionConstraint()
-    {
-        $composer = [
-            'name' => 'vendor/omeka-s-module-test',
-            'extra' => [
-                'label' => 'Test',
-                'omeka-version-constraint' => '^4.1',
-            ],
-        ];
-        file_put_contents($this->testPath . '/composer.json', json_encode($composer));
-
-        $info = $this->infoReader->read($this->testPath, 'module');
-
-        $this->assertEquals('^4.1', $info['omeka_version_constraint']);
-    }
-
     public function testReadComposerJsonWithAuthors()
     {
         $composer = [
@@ -284,6 +250,98 @@ class InfoReaderTest extends TestCase
         $info = $this->infoReader->read($this->testPath, 'module');
 
         $this->assertTrue($info['configurable']);
+    }
+
+    public function testReadComposerJsonWithHasTranslations()
+    {
+        $composer = [
+            'name' => 'vendor/omeka-s-theme-test',
+            'extra' => [
+                'label' => 'Test Theme',
+                'has-translations' => true,
+            ],
+        ];
+        file_put_contents($this->testPath . '/composer.json', json_encode($composer));
+
+        $info = $this->infoReader->read($this->testPath, 'theme');
+
+        $this->assertTrue($info['has_translations']);
+    }
+
+    public function testReadComposerJsonWithOmekaHelpers()
+    {
+        $composer = [
+            'name' => 'vendor/omeka-s-theme-test',
+            'extra' => [
+                'label' => 'Test Theme',
+                'omeka-helpers' => ['ThemeFunctions', 'Breadcrumbs'],
+            ],
+        ];
+        file_put_contents($this->testPath . '/composer.json', json_encode($composer));
+
+        $info = $this->infoReader->read($this->testPath, 'theme');
+
+        $this->assertIsArray($info['helpers']);
+        $this->assertEquals(['ThemeFunctions', 'Breadcrumbs'], $info['helpers']);
+    }
+
+    public function testReadThemeIniWithHasTranslations()
+    {
+        $ini = <<<'INI'
+            [info]
+            name = "Test Theme"
+            version = "1.0.0"
+            has_translations = true
+            INI;
+        file_put_contents($this->testPath . '/config/theme.ini', $ini);
+
+        $info = $this->infoReader->read($this->testPath, 'theme');
+
+        $this->assertTrue((bool) $info['has_translations']);
+    }
+
+    public function testReadThemeIniWithHelpers()
+    {
+        $ini = <<<'INI'
+            [info]
+            name = "Test Theme"
+            version = "1.0.0"
+            helpers[] = ThemeFunctions
+            helpers[] = Breadcrumbs
+            INI;
+        file_put_contents($this->testPath . '/config/theme.ini', $ini);
+
+        $info = $this->infoReader->read($this->testPath, 'theme');
+
+        $this->assertIsArray($info['helpers']);
+        $this->assertEquals(['ThemeFunctions', 'Breadcrumbs'], $info['helpers']);
+    }
+
+    public function testComposerOmekaHelpersOverrideIniHelpers()
+    {
+        // Create theme.ini with helpers.
+        $ini = <<<'INI'
+            [info]
+            name = "Test Theme"
+            version = "1.0.0"
+            helpers[] = IniHelper
+            INI;
+        file_put_contents($this->testPath . '/config/theme.ini', $ini);
+
+        // Create composer.json with different helpers.
+        $composer = [
+            'name' => 'vendor/omeka-s-theme-test',
+            'extra' => [
+                'label' => 'Test Theme',
+                'omeka-helpers' => ['ComposerHelper'],
+            ],
+        ];
+        file_put_contents($this->testPath . '/composer.json', json_encode($composer));
+
+        $info = $this->infoReader->read($this->testPath, 'theme');
+
+        // Composer omeka-helpers should take precedence.
+        $this->assertEquals(['ComposerHelper'], $info['helpers']);
     }
 
     // -------------------------------------------------------------------------

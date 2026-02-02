@@ -1,0 +1,21 @@
+{
+    "name": "test/omeka-s-module-test-addon-standalone",
+    "type": "omeka-s-module",
+    "description": "Test module with standalone: true to use its own vendor/ directory",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Test Author",
+            "email": "test@example.org"
+        }
+    ],
+    "keywords": ["Omeka S", "module", "test"],
+    "extra": {
+        "installer-name": "TestAddonStandalone",
+        "label": "Test Addon Standalone",
+        "standalone": true
+    },
+    "require": {
+        "omeka/omeka-s-core": "^4.0"
+    }
+}

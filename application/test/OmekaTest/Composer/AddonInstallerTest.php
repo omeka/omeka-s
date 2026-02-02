@@ -252,7 +252,6 @@ class AddonInstallerTest extends TestCase
                 'installer-name' => 'MyCustomModule',
                 'standalone' => true,
                 'label' => 'My Custom Module',
-                'omeka-version-constraint' => '^4.0',
             ]
         );
 

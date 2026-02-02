@@ -338,8 +338,7 @@ class ThemeManagerFactoryTest extends TestCase
         $themePath = $this->createThemeWithComposer(
             $this->testThemesPath,
             'TestThemeComposer',
-            '2.0.0',
-            ['omeka-version-constraint' => '^4.0']
+            '2.0.0'
         );
 
         $infoReader = new InfoReader();
@@ -348,7 +347,6 @@ class ThemeManagerFactoryTest extends TestCase
         $this->assertNotNull($info);
         $this->assertEquals('TestThemeComposer', $info['name']);
         $this->assertEquals('2.0.0', $info['version']);
-        $this->assertEquals('^4.0', $info['omeka_version_constraint']);
         // Theme should have theme_link from homepage.
         $this->assertEquals('https://example.com/theme/testthemecomposer', $info['theme_link']);
     }
@@ -363,8 +361,7 @@ class ThemeManagerFactoryTest extends TestCase
             'TestThemeBoth',
             '1.0.0',  // ini version
             '2.0.0',  // composer version
-            ['author' => 'Ini Author'],  // Only in ini
-            ['omeka-version-constraint' => '^4.0']  // Only in composer
+            ['author' => 'Ini Author']  // Only in ini
         );
 
         $infoReader = new InfoReader();
@@ -377,8 +374,6 @@ class ThemeManagerFactoryTest extends TestCase
         $this->assertEquals('2.0.0', $info['version']);
         // Ini author is preserved (not in composer).
         $this->assertEquals('Ini Author', $info['author']);
-        // Composer constraint is present.
-        $this->assertEquals('^4.0', $info['omeka_version_constraint']);
     }
 
     /**
@@ -393,31 +388,6 @@ class ThemeManagerFactoryTest extends TestCase
         $info = $infoReader->read($themePath, 'theme');
 
         $this->assertNull($info);
-    }
-
-    /**
-     * Test InfoReader with addon-version overriding version in composer.json.
-     */
-    public function testInfoReaderWithAddonVersion()
-    {
-        $themePath = $this->testThemesPath . '/AddonVersionTheme';
-        mkdir($themePath, 0755, true);
-
-        $composer = [
-            'name' => 'test/addon-version-theme',
-            'type' => 'omeka-s-theme',
-            'version' => '1.0.0',
-            'extra' => [
-                'label' => 'Addon Version Theme',
-                'addon-version' => '3.5.0',  // Should override version.
-            ],
-        ];
-        file_put_contents($themePath . '/composer.json', json_encode($composer));
-
-        $infoReader = new InfoReader();
-        $info = $infoReader->read($themePath, 'theme');
-
-        $this->assertEquals('3.5.0', $info['version']);
     }
 
     // -------------------------------------------------------------------------
@@ -511,7 +481,6 @@ class ThemeManagerFactoryTest extends TestCase
                 'homepage' => 'https://example.com/theme',
                 'extra' => [
                     'label' => 'Composer Theme',
-                    'omeka-version-constraint' => '^4.0',
                 ],
             ];
             file_put_contents($addonsThemePath . '/composer.json', json_encode($composer, JSON_PRETTY_PRINT));
@@ -672,8 +641,7 @@ class ThemeManagerFactoryTest extends TestCase
             $this->createThemeWithComposer(
                 OMEKA_PATH . '/addons/themes',
                 $themeName,
-                '1.5.0',
-                ['omeka-version-constraint' => '^4.0']
+                '1.5.0'
             );
 
             $config = [

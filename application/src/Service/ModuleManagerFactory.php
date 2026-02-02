@@ -30,8 +30,11 @@ class ModuleManagerFactory implements FactoryInterface
         $infoReader = new InfoReader();
         $connection = $serviceLocator->get('Omeka\Connection');
 
+        // Load installed.json once for all Composer-installed modules.
+        $infoReader->loadComposerInstalled();
+
         // Get all modules from the filesystem.
-        // Scan local modules first so they take precedence over addons.
+        // Scan local modules first so they take precedence over add-ons.
         $modulePaths = [
             OMEKA_PATH . '/modules',
             OMEKA_PATH . '/addons/modules',
@@ -43,7 +46,7 @@ class ModuleManagerFactory implements FactoryInterface
             }
             foreach (new DirectoryIterator($modulePath) as $dir) {
 
-                // Module must be a directory
+                // Module must be a directory.
                 if (!$dir->isDir() || $dir->isDot()) {
                     continue;
                 }
@@ -57,10 +60,16 @@ class ModuleManagerFactory implements FactoryInterface
 
                 $module = $manager->registerModule($moduleId);
 
-                // Read info from composer.json and/or config/module.ini
-                $info = $infoReader->read($dir->getPathname(), 'module');
+                // Try installed.json first (no file read needed for Composer
+                // add-ons).
+                $info = $infoReader->getFromComposerInstalled($moduleId, 'module');
 
-                // Module must have valid info (from composer.json or module.ini)
+                // Fallback: read from individual files (manual modules).
+                if ($info === null) {
+                    $info = $infoReader->read($dir->getPathname(), 'module');
+                }
+
+                // Module must have valid info
                 if (!$infoReader->isValid($info)) {
                     $module->setState(ModuleManager::STATE_INVALID_INI);
                     continue;
@@ -129,7 +138,7 @@ class ModuleManagerFactory implements FactoryInterface
             }
 
             // Module class must extend Omeka\Module\AbstractModule
-            // (delay this check until here to avoid loading non-active module files)
+            // This check is delayed here to avoid loading non-active modules.
             require_once $module->getModuleFilePath();
             $moduleClass = $module->getId() . '\Module';
             if (!class_exists($moduleClass)
@@ -139,13 +148,13 @@ class ModuleManagerFactory implements FactoryInterface
                 continue;
             }
 
-            // Module valid, installed, and active
+            // Module valid, installed, and active.
             $module->setState(ModuleManager::STATE_ACTIVE);
         }
 
         foreach ($manager->getModules() as $id => $module) {
             if (!$module->getState()) {
-                // Module in filesystem but not installed
+                // Module in filesystem but not installed.
                 $module->setState(ModuleManager::STATE_NOT_INSTALLED);
             }
         }

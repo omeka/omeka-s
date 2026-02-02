@@ -23,8 +23,11 @@ class ThemeManagerFactory implements FactoryInterface
         $infoReader = new InfoReader();
         $iniReader = new IniReader;
 
+        // Load installed.json once for all Composer-installed themes.
+        $infoReader->loadComposerInstalled();
+
         // Get all themes from the filesystem.
-        // Scan local themes first so they take precedence over addons.
+        // Scan local themes first so they take precedence over add-ons.
         $themePaths = [
             'themes' => OMEKA_PATH . '/themes',
             'addons/themes' => OMEKA_PATH . '/addons/themes',
@@ -51,16 +54,23 @@ class ThemeManagerFactory implements FactoryInterface
                 $theme = $manager->registerTheme($themeId);
                 $theme->setBasePath($basePath);
 
-                // Read info from composer.json and/or config/theme.ini
-                $info = $infoReader->read($dir->getPathname(), 'theme');
+                // Try installed.json first, avoiding reading file for composer.
+                $info = $infoReader->getFromComposerInstalled($themeId, 'theme');
 
-                // Theme must have valid info (from composer.json or theme.ini)
+                // Fallback: read from individual files (manual themes).
+                if ($info === null) {
+                    $info = $infoReader->read($dir->getPathname(), 'theme');
+                }
+
+                // Theme must have valid info
                 if (!$infoReader->isValid($info)) {
                     $theme->setState(ThemeManager::STATE_INVALID_INI);
                     continue;
                 }
 
-                // Read config spec from theme.ini [config] section if present
+                // Read config spec from theme.ini [config] section if present.
+                // This is always needed, even for Composer themes, as [config]
+                // defines form elements and is not in composer.json.
                 $configSpec = [];
                 $iniFile = $dir->getPathname() . '/config/theme.ini';
                 if (is_file($iniFile) && is_readable($iniFile)) {
@@ -70,7 +80,7 @@ class ThemeManagerFactory implements FactoryInterface
                             $configSpec = $ini['config'];
                         }
                     } catch (\Exception $e) {
-                        // Ignore ini read errors for config section
+                        // Ignore ini read errors for config section.
                     }
                 }
 

@@ -19,6 +19,29 @@ it still can be managed via composer via the key `repositories` (see
 https://getcomposer.org/doc/04-schema.md#repositories).
 
 
+Version compatibility
+---------------------
+
+Add-ons can require `omeka/omeka-s-core` to declare compatibility with a
+specific Omeka version:
+
+```json
+{
+    "require": {
+        "omeka/omeka-s-core": "^4.0"
+    }
+}
+```
+
+Note: the requirement must not be `omeka/omeka-s`, because `omeka/omeka-s` is
+defined as a "project" in the main composer.json. Furthermore, Omeka S uses
+composer `provide` mechanism to satisfy this dependency. By this way, the
+version constraint is automatically checked at install time.
+
+For manual add-ons (without composer), use `omeka_version_constraint` in
+`config/module.ini` or `config/theme.ini`.
+
+
 Extra keys
 ----------
 
@@ -39,6 +62,10 @@ Specific keys for themes:
 If an extra key is not available, a check is done for an equivalent in file
 `config/module.ini` or `config/theme.ini`, if present, else a default value is
 set.
+
+
+Assets
+------
 
 For assets (libraries for css/img/js/fonts/etc.), no central directory is
 defined for now. Each module can manage them as they want, for example in `asset/vendor/`,

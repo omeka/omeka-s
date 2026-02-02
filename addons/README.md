@@ -31,6 +31,11 @@ The file composer.json supports optional specific keys under key `extra`:
 - `standalone`: boolean to specify to use own module directory `vendor/`.
 - `configurable`: boolean to specify if the module is configurable.
 
+Specific keys for themes:
+
+- `has-translations`: boolean to specify if the theme has its own translations.
+- `omeka-helpers`: array of custom view helper class names to load.
+
 If an extra key is not available, a check is done for an equivalent in file
 `config/module.ini` or `config/theme.ini`, if present, else a default value is
 set.

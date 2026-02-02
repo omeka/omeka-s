@@ -36,6 +36,8 @@ class InfoReader
         'addon-version' => 'version',
         'configurable' => 'configurable',
         'omeka-version-constraint' => 'omeka_version_constraint',
+        'has-translations' => 'has_translations',
+        'omeka-helpers' => 'helpers',
     ];
 
     /**

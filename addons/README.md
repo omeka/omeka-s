@@ -98,22 +98,51 @@ Omeka, that should be manageable on a server without nodejs.
 
 The assets feature is provided by the internal separate composer plugin `omeka/omeka-assets`.
 
-### Manual installation (git clone)
 
-For modules installed via git clone, assets are not downloaded automatically.
-Use the script to install them (adapt path according to current directory):
+Manual installation
+-------------------
 
-```bash
-# Install assets for a specific module.
+For add-ons installed manually via `git clone` in directory `modules/` or
+`themes/`, dependencies and assets are not downloaded automatically. Use the
+following scripts from the Omeka root:
+
+```sh
+# 1. Clone the add-on
+git clone https://gitlab.com/user/MyModule modules/MyModule
+
+# 2. Install composer dependencies (other modules, libraries)
+php application/data/scripts/install-addon-deps.php MyModule
+
+# 3. Install external assets (js, css, etc.)
+php application/data/scripts/install-omeka-assets.php MyModule
+```
+
+### Install dependencies
+
+```sh
+# Module
+php application/data/scripts/install-addon-deps.php ModuleName
+
+# Theme
+php application/data/scripts/install-addon-deps.php --theme theme-name
+
+# Preview without installing
+php application/data/scripts/install-addon-deps.php --dry-run ModuleName
+```
+
+### Install assets
+
+```sh
+# Module
 php application/data/scripts/install-omeka-assets.php ModuleName
 
-# Install assets for a theme.
+# Theme
 php application/data/scripts/install-omeka-assets.php --theme theme-name
 
-# Install assets for all modules and themes.
+# All modules and themes
 php application/data/scripts/install-omeka-assets.php --all
 
-# Force re-download (even if assets already exist).
+# Force re-download
 php application/data/scripts/install-omeka-assets.php --force ModuleName
 ```
 

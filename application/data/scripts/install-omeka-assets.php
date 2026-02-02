@@ -1,7 +1,14 @@
 #!/usr/bin/env php
 <?php
 /**
- * Install omeka-assets for modules/themes installed via git.
+ * Install omeka-assets for modules/themes installed via git clone.
+ *
+ * For add-ons installed via git clone in modules/ or themes/, external assets
+ * (js, css, etc.) defined in composer.json are not downloaded automatically.
+ * This script reads the add-on composer.json and downloads the assets.
+ *
+ * Note: Add-ons installed via `composer require` (in addons/modules/ or
+ * addons/themes/) have their assets downloaded automatically.
  *
  * Usage:
  *   php application/data/scripts/install-omeka-assets.php [module-or-theme-name]

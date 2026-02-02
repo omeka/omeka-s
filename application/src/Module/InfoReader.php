@@ -23,6 +23,7 @@ class InfoReader
         // theme_link is managed below.
         'homepage' => 'module_link',
         'version' => 'version',
+        // The mapping of key "standalone" is useless: it does not exist in ini.
     ];
 
     /**

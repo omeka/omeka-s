@@ -28,6 +28,11 @@ class ThemeManagerFactory implements FactoryInterface
 
         // Get all themes from the filesystem.
         // Scan local themes first so they take precedence over add-ons.
+        // Note: addons/themes/ is scanned even though installed.json contains
+        // the theme list. This ensures theme files exist, handles out-of-sync
+        // cases, and maintains consistency with how themes/ works. The
+        // installed.json is only used for metadata (name, version, etc.), not
+        // for discovering which themes are installed.
         $themePaths = [
             'themes' => OMEKA_PATH . '/themes',
             'addons/themes' => OMEKA_PATH . '/addons/themes',
@@ -54,15 +59,20 @@ class ThemeManagerFactory implements FactoryInterface
                 $theme = $manager->registerTheme($themeId);
                 $theme->setBasePath($basePath);
 
-                // Try installed.json first, avoiding reading file for composer.
-                $info = $infoReader->getFromComposerInstalled($themeId, 'theme');
-
-                // Fallback: read from individual files (manual themes).
-                if ($info === null) {
+                // Only use installed.json for themes in addons/themes/.
+                // Local themes in themes/ must read their own files.
+                $info = null;
+                $isComposerAddon = strpos($dir->getPathname(), '/addons/themes/') !== false;
+                if ($isComposerAddon) {
+                    // Try installed.json first to avoid checking compatibility.
+                    $info = $infoReader->getFromComposerInstalled($themeId, 'theme');
+                }
+                if (empty($info)) {
+                    // Fallback: read from individual files (manual themes).
                     $info = $infoReader->read($dir->getPathname(), 'theme');
                 }
 
-                // Theme must have valid info
+                // Theme must have valid info.
                 if (!$infoReader->isValid($info)) {
                     $theme->setState(ThemeManager::STATE_INVALID_INI);
                     continue;
@@ -87,10 +97,14 @@ class ThemeManagerFactory implements FactoryInterface
                 $theme->setIni($info);
                 $theme->setConfigSpec($configSpec);
 
-                $omekaConstraint = $theme->getIni('omeka_version_constraint');
-                if ($omekaConstraint !== null && !Semver::satisfies(CoreModule::VERSION, $omekaConstraint)) {
-                    $theme->setState(ThemeManager::STATE_INVALID_OMEKA_VERSION);
-                    continue;
+                // Check Omeka version constraint only for manual themes.
+                // Composer add-ons use require.omeka/omeka-s for version checking.
+                if (!$isComposerAddon) {
+                    $omekaConstraint = $theme->getIni('omeka_version_constraint');
+                    if ($omekaConstraint !== null && !Semver::satisfies(CoreModule::VERSION, $omekaConstraint)) {
+                        $theme->setState(ThemeManager::STATE_INVALID_OMEKA_VERSION);
+                        continue;
+                    }
                 }
 
                 $theme->setState(ThemeManager::STATE_ACTIVE);

@@ -49,8 +49,6 @@ The file composer.json supports optional specific keys under key `extra`:
 
 - `installer-name`: directory to use when different from project name.
 - `label`: display label when different from project name.
-- `addon-version`: version of add-on for Omeka, else extracted from composer.
-- `omeka-version-constraint`: limit compatibility with a specific Omeka version.
 - `standalone`: boolean to specify to use own module directory `vendor/`.
 - `configurable`: boolean to specify if the module is configurable.
 

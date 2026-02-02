@@ -35,6 +35,11 @@ class ModuleManagerFactory implements FactoryInterface
 
         // Get all modules from the filesystem.
         // Scan local modules first so they take precedence over add-ons.
+        // Note: addons/modules/ is scanned even though installed.json contains
+        // the module list. This ensures Module.php exists, handles out-of-sync
+        // cases, and maintains consistency with how modules/ works. The
+        // installed.json is only used for metadata (name, version, etc.), not
+        // for discovering which modules are installed.
         $modulePaths = [
             OMEKA_PATH . '/modules',
             OMEKA_PATH . '/addons/modules',
@@ -60,16 +65,20 @@ class ModuleManagerFactory implements FactoryInterface
 
                 $module = $manager->registerModule($moduleId);
 
-                // Try installed.json first (no file read needed for Composer
-                // add-ons).
-                $info = $infoReader->getFromComposerInstalled($moduleId, 'module');
-
-                // Fallback: read from individual files (manual modules).
-                if ($info === null) {
+                // Only use installed.json for modules in addons/modules/.
+                // Local modules in modules/ must read their own files.
+                $info = null;
+                $isComposerAddon = strpos($dir->getPathname(), '/addons/modules/') !== false;
+                if ($isComposerAddon) {
+                    // Try installed.json first to avoid checking compatibility.
+                    $info = $infoReader->getFromComposerInstalled($moduleId, 'module');
+                }
+                if (empty($info)) {
+                    // Fallback: read from individual files (manual modules).
                     $info = $infoReader->read($dir->getPathname(), 'module');
                 }
 
-                // Module must have valid info
+                // Module must have valid info.
                 if (!$infoReader->isValid($info)) {
                     $module->setState(ModuleManager::STATE_INVALID_INI);
                     continue;
@@ -77,7 +86,7 @@ class ModuleManagerFactory implements FactoryInterface
 
                 $module->setIni($info);
 
-                // Module directory must contain Module.php
+                // Module directory must contain Module.php.
                 $moduleFile = new SplFileInfo($dir->getPathname() . '/Module.php');
                 if (!$moduleFile->isReadable() || !$moduleFile->isFile()) {
                     $module->setState(ModuleManager::STATE_INVALID_MODULE);
@@ -85,10 +94,14 @@ class ModuleManagerFactory implements FactoryInterface
                 }
                 $module->setModuleFilePath($moduleFile->getRealPath());
 
-                $omekaConstraint = $module->getIni('omeka_version_constraint');
-                if ($omekaConstraint !== null && !Semver::satisfies(CoreModule::VERSION, $omekaConstraint)) {
-                    $module->setState(ModuleManager::STATE_INVALID_OMEKA_VERSION);
-                    continue;
+                // Check Omeka version constraint only for manual modules.
+                // Composer add-ons use require.omeka/omeka-s for version checking.
+                if (!$isComposerAddon) {
+                    $omekaConstraint = $module->getIni('omeka_version_constraint');
+                    if ($omekaConstraint !== null && !Semver::satisfies(CoreModule::VERSION, $omekaConstraint)) {
+                        $module->setState(ModuleManager::STATE_INVALID_OMEKA_VERSION);
+                        continue;
+                    }
                 }
             }
         }

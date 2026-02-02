@@ -14,7 +14,7 @@ use Laminas\Config\Reader\Ini as IniReader;
  *
  * Note: installed.json is used instead of installed.php because installed.php
  * only contains minimal data (version, type, install_path) without the `extra`
- * keys needed for add-on metadata (omeka-version-constraint, label, etc.).
+ * keys needed for add-on metadata (label, standalone, etc.).
  */
 class InfoReader
 {
@@ -47,9 +47,7 @@ class InfoReader
      */
     protected $extraToIniMap = [
         'label' => 'name',
-        'addon-version' => 'version',
         'configurable' => 'configurable',
-        'omeka-version-constraint' => 'omeka_version_constraint',
         'has-translations' => 'has_translations',
         'omeka-helpers' => 'helpers',
     ];
@@ -85,7 +83,7 @@ class InfoReader
         }
 
         // Required field: name only.
-        // Version (or extra/addon-version) can be derived from composer.
+        // Version can be derived from composer or defaults to 1.0.0.
         if (empty($info['name'])) {
             return false;
         }
@@ -505,7 +503,7 @@ class InfoReader
             $info['name'] = $this->projectNameToLabel($package['name'] ?? '');
         }
 
-        // Version: prefer addon-version, then package version.
+        // Version from package, with 'v' prefix removed.
         if (empty($info['version'])) {
             $version = $package['version'] ?? '1.0.0';
             $info['version'] = ltrim($version, 'vV');

@@ -3,7 +3,6 @@
 namespace OmekaTest\Service;
 
 use Omeka\Module\InfoReader;
-use Omeka\Site\Theme\Manager as ThemeManager;
 use Omeka\Service\ThemeManagerFactory;
 use Omeka\Test\TestCase;
 

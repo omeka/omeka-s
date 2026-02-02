@@ -49,6 +49,7 @@
         "laminas/laminas-validator": "^2.8",
         "laminas/laminas-view": "^2.8",
         "omeka/composer-addon-installer": "*",
+        "omeka/omeka-assets": "*",
         "omeka-s-themes/default": "dev-develop",
         "beberlei/doctrineextensions": "^1.0",
         "fileeye/pel": "^0.12.0"
@@ -65,7 +66,8 @@
     "config": {
         "platform": {"php": "8.1"},
         "allow-plugins": {
-            "omeka/composer-addon-installer": true
+            "omeka/composer-addon-installer": true,
+            "omeka/omeka-assets": true
         }
     },
     "repositories": [
@@ -80,6 +82,10 @@
         {
             "type": "path",
             "url": "application/data/composer-addon-installer"
+        },
+        {
+            "type": "path",
+            "url": "application/data/omeka-assets"
         },
         {
             "type": "vcs",

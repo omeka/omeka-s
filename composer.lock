@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "837a91aad99679c51b33ad90066fb965",
+    "content-hash": "c02e28af91d05db693f83bab5b1ccd2d",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -4250,6 +4250,38 @@
                 "GPL-3.0"
             ],
             "description": "Composer plugin to install Omeka S modules and themes into addons/modules/ and addons/themes/.",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "omeka/omeka-assets",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "application/data/omeka-assets",
+                "reference": "c288c28e6b6894aa641f63880531f0ecb7147392"
+            },
+            "require": {
+                "composer-plugin-api": "^2.0",
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "composer/composer": "^2.0"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Omeka\\OmekaAssets\\OmekaAssetsPlugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Omeka\\OmekaAssets\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "description": "Composer plugin to download external assets for Omeka S modules and themes",
             "transport-options": {
                 "relative": true
             }

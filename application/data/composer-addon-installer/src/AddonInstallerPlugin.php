@@ -24,9 +24,6 @@ class AddonInstallerPlugin implements PluginInterface, EventSubscriberInterface
     /** @var IOInterface */
     protected $io;
 
-    /** @var array Packages marked as standalone that need post-install processing */
-    protected $standalonePackages = [];
-
     public function activate(Composer $composer, IOInterface $io)
     {
         $this->composer = $composer;

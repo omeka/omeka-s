@@ -51,6 +51,7 @@ The file composer.json supports optional specific keys under key `extra`:
 - `label`: display label when different from project name.
 - `standalone`: boolean to specify to use own module directory `vendor/`.
 - `configurable`: boolean to specify if the module is configurable.
+- `omeka-assets`: list external assets to download (see section Assets below).
 
 Specific keys for themes:
 
@@ -65,10 +66,56 @@ set.
 Assets
 ------
 
-For assets (libraries for css/img/js/fonts/etc.), no central directory is
-defined for now. Each module can manage them as they want, for example in `asset/vendor/`,
-with or without composer. It is recommended not to use nodejs to install them to
-be consistent with Omeka, that should be manageable on a server without nodejs.
+For assets (libraries for css/img/js/fonts/etc.), modules and themes can define
+external files to download automatically during composer installation using the
+`omeka-assets` key under `extra`:
+
+```json
+{
+    "extra": {
+        "omeka-assets": {
+            "asset/vendor/lib/custom.min.js": "https://example.com/v3.4.0/file.min.js",
+            "asset/vendor/lib/": "https://example.com/v3.4.1/archive.zip",
+            "asset/vendor/scripts/": "https://example.com/script.js"
+        }
+    }
+}
+```
+
+The key is the destination path relative to the add-on directory, the value is
+the url to download.
+
+- If destination ends with a filename, download url and rename to that name.
+- If destination ends with `/` and url has `.zip`/`.tar.gz`/`.tgz`, extract it.
+  When the archive contains a single root directory, it is stripped.
+- If destination ends with `/` and url is a file, copy it into that directory.
+
+This mechanism avoids the need for custom `repositories` in composer.json,
+which are not inherited from composer dependencies.
+
+It is recommended not to use nodejs to install assets to be consistent with
+Omeka, that should be manageable on a server without nodejs.
+
+The assets feature is provided by the internal separate composer plugin `omeka/omeka-assets`.
+
+### Manual installation (git clone)
+
+For modules installed via git clone, assets are not downloaded automatically.
+Use the script to install them (adapt path according to current directory):
+
+```bash
+# Install assets for a specific module.
+php application/data/scripts/install-omeka-assets.php ModuleName
+
+# Install assets for a theme.
+php application/data/scripts/install-omeka-assets.php --theme theme-name
+
+# Install assets for all modules and themes.
+php application/data/scripts/install-omeka-assets.php --all
+
+# Force re-download (even if assets already exist).
+php application/data/scripts/install-omeka-assets.php --force ModuleName
+```
 
 
 Funding

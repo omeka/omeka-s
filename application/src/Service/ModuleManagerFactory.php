@@ -8,9 +8,9 @@ use Composer\Semver\Comparator;
 use Composer\Semver\Semver;
 use Interop\Container\ContainerInterface;
 use Omeka\Module as CoreModule;
+use Omeka\Module\InfoReader;
 use Omeka\Module\Manager as ModuleManager;
 use SplFileInfo;
-use Laminas\Config\Reader\Ini as IniReader;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
 /**
@@ -27,7 +27,7 @@ class ModuleManagerFactory implements FactoryInterface
     public function __invoke(ContainerInterface $serviceLocator, $requestedName, ?array $options = null)
     {
         $manager = new ModuleManager($serviceLocator);
-        $iniReader = new IniReader;
+        $infoReader = new InfoReader();
         $connection = $serviceLocator->get('Omeka\Connection');
 
         // Get all modules from the filesystem.
@@ -57,28 +57,16 @@ class ModuleManagerFactory implements FactoryInterface
 
                 $module = $manager->registerModule($moduleId);
 
-                // Module directory must contain config/module.ini
-                $iniFile = new SplFileInfo($dir->getPathname() . '/config/module.ini');
-                if (!$iniFile->isReadable() || !$iniFile->isFile()) {
+                // Read info from composer.json and/or config/module.ini
+                $info = $infoReader->read($dir->getPathname(), 'module');
+
+                // Module must have valid info (from composer.json or module.ini)
+                if (!$infoReader->isValid($info)) {
                     $module->setState(ModuleManager::STATE_INVALID_INI);
                     continue;
                 }
 
-                $ini = $iniReader->fromFile($iniFile->getRealPath());
-
-                // The INI configuration must be under the [info] header.
-                if (!isset($ini['info'])) {
-                    $module->setState(ModuleManager::STATE_INVALID_INI);
-                    continue;
-                }
-
-                $module->setIni($ini['info']);
-
-                // Module INI must be valid
-                if (!$manager->iniIsValid($module)) {
-                    $module->setState(ModuleManager::STATE_INVALID_INI);
-                    continue;
-                }
+                $module->setIni($info);
 
                 // Module directory must contain Module.php
                 $moduleFile = new SplFileInfo($dir->getPathname() . '/Module.php');

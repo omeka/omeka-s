@@ -2,9 +2,9 @@
 namespace Omeka\Service;
 
 use DirectoryIterator;
-use SplFileInfo;
 use Composer\Semver\Semver;
 use Omeka\Module as CoreModule;
+use Omeka\Module\InfoReader;
 use Omeka\Site\Theme\Manager as ThemeManager;
 use Laminas\Config\Reader\Ini as IniReader;
 use Laminas\ServiceManager\Factory\FactoryInterface;
@@ -20,6 +20,7 @@ class ThemeManagerFactory implements FactoryInterface
         $moduleBlockTemplates = $config['block_templates'];
 
         $manager = new ThemeManager;
+        $infoReader = new InfoReader();
         $iniReader = new IniReader;
 
         // Get all themes from the filesystem.
@@ -50,33 +51,31 @@ class ThemeManagerFactory implements FactoryInterface
                 $theme = $manager->registerTheme($themeId);
                 $theme->setBasePath($basePath);
 
-                // Theme directory must contain config/theme.ini
-                $iniFile = new SplFileInfo($dir->getPathname() . '/config/theme.ini');
-                if (!$iniFile->isReadable() || !$iniFile->isFile()) {
+                // Read info from composer.json and/or config/theme.ini
+                $info = $infoReader->read($dir->getPathname(), 'theme');
+
+                // Theme must have valid info (from composer.json or theme.ini)
+                if (!$infoReader->isValid($info)) {
                     $theme->setState(ThemeManager::STATE_INVALID_INI);
                     continue;
                 }
 
-                $ini = $iniReader->fromFile($iniFile->getRealPath());
-
-                // The INI configuration must be under the [info] header.
-                if (!isset($ini['info'])) {
-                    $theme->setState(ThemeManager::STATE_INVALID_INI);
-                    continue;
-                }
+                // Read config spec from theme.ini [config] section if present
                 $configSpec = [];
-                if (isset($ini['config'])) {
-                    $configSpec = $ini['config'];
+                $iniFile = $dir->getPathname() . '/config/theme.ini';
+                if (is_file($iniFile) && is_readable($iniFile)) {
+                    try {
+                        $ini = $iniReader->fromFile($iniFile);
+                        if (isset($ini['config'])) {
+                            $configSpec = $ini['config'];
+                        }
+                    } catch (\Exception $e) {
+                        // Ignore ini read errors for config section
+                    }
                 }
 
-                $theme->setIni($ini['info']);
+                $theme->setIni($info);
                 $theme->setConfigSpec($configSpec);
-
-                // Theme INI must be valid
-                if (!$manager->iniIsValid($theme)) {
-                    $theme->setState(ThemeManager::STATE_INVALID_INI);
-                    continue;
-                }
 
                 $omekaConstraint = $theme->getIni('omeka_version_constraint');
                 if ($omekaConstraint !== null && !Semver::satisfies(CoreModule::VERSION, $omekaConstraint)) {

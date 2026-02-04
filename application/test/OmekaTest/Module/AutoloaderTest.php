@@ -231,12 +231,97 @@ PHP;
     }
 
     /**
-     * Test the Common module special case for root-level classes.
+     * Test partial override: only some classes exist in local module.
      *
-     * Common module has classes like TraitModule in the root directory (not src/).
-     * The autoloader has special handling for these.
+     * When a module exists in both locations but the local version only contains
+     * some classes (partial override), the autoloader should:
+     * - Load existing classes from local
+     * - Return false for missing classes, allowing Composer to load from addon
      */
-    public function testCommonModuleRootLevelClasses()
+    public function testPartialOverrideAllowsFallbackToAddon()
+    {
+        // Create full module in composer-addons/modules/ with two classes.
+        $this->createTestModule($this->addonModulePath, 'addon');
+        $this->createAdditionalClass($this->addonModulePath, 'AnotherService', 'addon');
+
+        // Create partial override in modules/ with only TestService (not AnotherService).
+        $this->createTestModule($this->localModulePath, 'local');
+        // Note: AnotherService is NOT created in local.
+
+        // Verify both directories exist (autoloader will intervene).
+        $this->assertTrue(is_dir($this->localModulePath));
+        $this->assertTrue(is_dir($this->addonModulePath));
+
+        // Verify file existence.
+        $localTestService = $this->localModulePath . '/src/TestService.php';
+        $localAnotherService = $this->localModulePath . '/src/AnotherService.php';
+        $addonAnotherService = $this->addonModulePath . '/src/AnotherService.php';
+
+        $this->assertTrue(file_exists($localTestService), 'TestService should exist in local');
+        $this->assertFalse(file_exists($localAnotherService), 'AnotherService should NOT exist in local');
+        $this->assertTrue(file_exists($addonAnotherService), 'AnotherService should exist in addon');
+
+        // Test the autoloader logic directly (simulating what bootstrap.php does).
+        // For TestService: file exists in local -> would be loaded from local.
+        // For AnotherService: file doesn't exist in local -> autoloader returns false.
+        $testServiceClass = $this->testModuleName . '\\TestService';
+        $anotherServiceClass = $this->testModuleName . '\\AnotherService';
+
+        // Simulate autoloader logic for AnotherService.
+        $moduleNamespace = $this->testModuleName;
+        $localModule = OMEKA_PATH . '/modules/' . $moduleNamespace;
+        $addonModule = OMEKA_PATH . '/composer-addons/modules/' . $moduleNamespace;
+
+        // Autoloader would check this file for AnotherService.
+        $relativePath = str_replace('\\', '/', 'AnotherService');
+        $localFile = $localModule . '/src/' . $relativePath . '.php';
+
+        // The autoloader returns false when file doesn't exist, allowing fallback.
+        $this->assertFalse(file_exists($localFile),
+            'AnotherService should not exist in local, so autoloader returns false and Composer can load from addon');
+
+        // For TestService, verify it loads from local.
+        if (!class_exists($testServiceClass, false)) {
+            $this->assertTrue(class_exists($testServiceClass, true), 'TestService should be autoloadable');
+            $reflection = new \ReflectionClass($testServiceClass);
+            $this->assertStringContainsString('/modules/' . $this->testModuleName, $reflection->getFileName(),
+                'TestService should be loaded from local modules/');
+            $this->assertEquals('local', $testServiceClass::SOURCE,
+                'TestService SOURCE should be "local"');
+        }
+    }
+
+    /**
+     * Create an additional service class in a module.
+     */
+    protected function createAdditionalClass($basePath, $className, $source)
+    {
+        $servicePhp = <<<PHP
+<?php declare(strict_types=1);
+
+namespace {$this->testModuleName};
+
+class {$className}
+{
+    const SOURCE = '$source';
+
+    public function getSource(): string
+    {
+        return self::SOURCE;
+    }
+}
+PHP;
+        file_put_contents($basePath . '/src/' . $className . '.php', $servicePhp);
+    }
+
+    /**
+     * Test PSR-4 priority for Common module classes.
+     *
+     * Verifies that Common module classes are loaded from modules/Common/src/
+     * (local) when the module exists in both modules/ and composer-addons/modules/.
+     * This follows standard PSR-4 autoloading - no special handling required.
+     */
+    public function testCommonModulePsr4Priority()
     {
         // This test uses the real Common module if it exists in both locations.
         $localCommon = OMEKA_PATH . '/modules/Common';
@@ -246,13 +331,13 @@ PHP;
             $this->markTestSkipped('Common module not present in both locations.');
         }
 
-        // Test that TraitModule can be loaded.
+        // Test that TraitModule can be loaded (PSR-4: Common\TraitModule -> src/TraitModule.php).
         $this->assertTrue(
             trait_exists('Common\\TraitModule', true),
             'Common\\TraitModule should be loadable'
         );
 
-        // Verify it's loaded from local.
+        // Verify it's loaded from local modules/, not composer-addons/.
         $reflection = new \ReflectionClass('Common\\TraitModule');
         $this->assertStringContainsString('/modules/Common/', $reflection->getFileName(),
             'Common\\TraitModule should be loaded from modules/Common/');

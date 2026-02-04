@@ -30,22 +30,6 @@ spl_autoload_register(function ($class) {
         return false; // No conflict, let Composer handle it
     }
 
-    // Special case: Common module has root-level classes
-    if ($moduleNamespace === 'Common') {
-        static $commonRootClasses = [
-            'Common\\AbstractModule' => 'AbstractModule.php',
-            'Common\\ManageModuleAndResources' => 'ManageModuleAndResources.php',
-            'Common\\TraitModule' => 'TraitModule.php',
-        ];
-        if (isset($commonRootClasses[$class])) {
-            $file = $localModule . '/' . $commonRootClasses[$class];
-            if (file_exists($file)) {
-                require_once $file;
-                return true;
-            }
-        }
-    }
-
     // PSR-4: ModuleName\Foo\Bar -> modules/ModuleName/src/Foo/Bar.php
     $relativePath = str_replace('\\', '/', substr($class, $pos + 1));
     $file = $localModule . '/src/' . $relativePath . '.php';

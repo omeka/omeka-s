@@ -47,8 +47,6 @@ class InfoReader
     protected $extraToIniMap = [
         'label' => 'name',
         'configurable' => 'configurable',
-        'has-translations' => 'has_translations',
-        'omeka-helpers' => 'helpers',
     ];
 
     /**

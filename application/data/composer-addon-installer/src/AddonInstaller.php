@@ -12,7 +12,6 @@ use Composer\Installer\LibraryInstaller;
  *
  * Supports extra options:
  * - installer-name: Explicit install name (overrides auto-detection)
- * - standalone: If true, module keeps its own vendor/ directory
  */
 class AddonInstaller extends LibraryInstaller
 {
@@ -105,18 +104,6 @@ class AddonInstaller extends LibraryInstaller
         $name = preg_replace('/(-theme)?(-omeka-?s?)?$/', '', $name);
 
         return $name;
-    }
-
-    /**
-     * Check if package wants standalone installation (own vendor/).
-     *
-     * @param PackageInterface $package
-     * @return bool
-     */
-    public static function isStandalone(PackageInterface $package): bool
-    {
-        $extra = $package->getExtra();
-        return !empty($extra['standalone']);
     }
 
     public function getInstallPath(PackageInterface $package): string

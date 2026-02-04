@@ -12,7 +12,6 @@ use Omeka\Test\TestCase;
  * - composer.json only
  * - module.ini/theme.ini only
  * - Both sources (composer.json takes precedence)
- * - standalone flag
  * - Version extraction
  */
 class InfoReaderTest extends TestCase

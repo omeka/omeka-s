@@ -8,13 +8,11 @@ use Composer\Installer\PackageEvent;
 use Composer\Installer\PackageEvents;
 use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
-use Composer\Util\ProcessExecutor;
 
 /**
  * Composer plugin for Omeka S add-on installation.
  *
- * Registers the AddonInstaller and handles standalone modules that need their
- * own vendor/ directory.
+ * Registers the AddonInstaller and handles Common module symlink.
  */
 class AddonInstallerPlugin implements PluginInterface, EventSubscriberInterface
 {
@@ -86,7 +84,6 @@ class AddonInstallerPlugin implements PluginInterface, EventSubscriberInterface
     public function onPostPackageInstall(PackageEvent $event)
     {
         $package = $event->getOperation()->getPackage();
-        $this->handleStandalonePackage($package);
         $this->handleCommonModuleSymlink($package);
     }
 
@@ -96,7 +93,6 @@ class AddonInstallerPlugin implements PluginInterface, EventSubscriberInterface
     public function onPostPackageUpdate(PackageEvent $event)
     {
         $package = $event->getOperation()->getTargetPackage();
-        $this->handleStandalonePackage($package);
         $this->handleCommonModuleSymlink($package);
     }
 
@@ -149,62 +145,6 @@ class AddonInstallerPlugin implements PluginInterface, EventSubscriberInterface
                 '<warning>Could not create symlink %s -> %s</warning>',
                 $localPath,
                 $relativePath
-            ));
-        }
-    }
-
-    /**
-     * If package is standalone, run composer install in its directory.
-     *
-     * Standalone packages have extra.standalone = true in their composer.json.
-     * This allows them to maintain their own vendor/ directory with specific
-     * dependency versions, isolated from the root project.
-     */
-    protected function handleStandalonePackage($package)
-    {
-        if (!AddonInstaller::isStandalone($package)) {
-            return;
-        }
-
-        $type = $package->getType();
-        if (!in_array($type, ['omeka-s-module', 'omeka-s-theme'])) {
-            return;
-        }
-
-        $installPath = $this->composer->getInstallationManager()->getInstallPath($package);
-        $composerJson = $installPath . '/composer.json';
-
-        if (!file_exists($composerJson)) {
-            $this->io->writeError(sprintf(
-                '<warning>Standalone package %s has no composer.json, skipping vendor install</warning>',
-                $package->getPrettyName()
-            ));
-            return;
-        }
-
-        $this->io->write(sprintf(
-            '<info>Installing standalone dependencies for %s...</info>',
-            $package->getPrettyName()
-        ));
-
-        $process = new ProcessExecutor($this->io);
-        $command = sprintf(
-            'cd %s && composer install --no-dev --no-interaction --quiet 2>&1',
-            escapeshellarg($installPath)
-        );
-
-        $exitCode = $process->execute($command, $output);
-
-        if ($exitCode !== 0) {
-            $this->io->writeError(sprintf(
-                '<warning>Failed to install standalone dependencies for %s: %s</warning>',
-                $package->getPrettyName(),
-                $output
-            ));
-        } else {
-            $this->io->write(sprintf(
-                '<info>Standalone dependencies installed for %s</info>',
-                $package->getPrettyName()
             ));
         }
     }

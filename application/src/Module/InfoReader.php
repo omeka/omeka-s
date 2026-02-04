@@ -14,7 +14,7 @@ use Laminas\Config\Reader\Ini as IniReader;
  *
  * Note: installed.json is used instead of installed.php because installed.php
  * only contains minimal data (version, type, install_path) without the `extra`
- * keys needed for add-on metadata (label, standalone, etc.).
+ * keys needed for add-on metadata (label, configurable, etc.).
  */
 class InfoReader
 {
@@ -37,7 +37,6 @@ class InfoReader
         // theme_link is managed below.
         'homepage' => 'module_link',
         'version' => 'version',
-        // The mapping of key "standalone" is useless: it does not exist in ini.
     ];
 
     /**

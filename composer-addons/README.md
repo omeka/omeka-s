@@ -49,7 +49,6 @@ The file composer.json supports optional specific keys under key `extra`:
 
 - `installer-name`: directory to use when different from project name.
 - `label`: display label when different from project name.
-- `standalone`: boolean to specify to use own module directory `vendor/`.
 - `configurable`: boolean to specify if the module is configurable.
 - `omeka-assets`: list external assets to download (see section Assets below).
 

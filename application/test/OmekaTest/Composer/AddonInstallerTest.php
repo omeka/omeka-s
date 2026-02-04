@@ -50,17 +50,6 @@ class AddonInstallerTest extends TestCase
         $this->assertEquals('CustomName', $result);
     }
 
-    public function testStandaloneFlag(): void
-    {
-        $package = $this->createMockPackage('vendor/module', 'omeka-s-module', [
-            'standalone' => true,
-        ]);
-        $this->assertTrue(AddonInstaller::isStandalone($package));
-
-        $package2 = $this->createMockPackage('vendor/module', 'omeka-s-module', []);
-        $this->assertFalse(AddonInstaller::isStandalone($package2));
-    }
-
     public function moduleNameProvider(): array
     {
         return [

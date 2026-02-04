@@ -1,7 +1,7 @@
 {
     "name": "test/omeka-s-theme-test-override",
     "type": "omeka-s-theme",
-    "description": "Theme for Omeka S: Test theme to verify themes/ takes precedence over addons/themes/",
+    "description": "Theme for Omeka S: Test theme to verify themes/ takes precedence over composer-addons/themes/",
     "license": "GPL-3.0-or-later",
     "authors": [
         {

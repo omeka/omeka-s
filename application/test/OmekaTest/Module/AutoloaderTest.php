@@ -5,10 +5,10 @@ namespace OmekaTest\Module;
 use Omeka\Test\TestCase;
 
 /**
- * Test the bootstrap autoloader that prioritizes modules/ over addons/modules/.
+ * Test the bootstrap autoloader that prioritizes modules/ over composer-addons/modules/.
  *
  * The autoloader in bootstrap.php ensures that when a module exists in both
- * modules/ (local) and addons/modules/ (composer), classes are loaded from
+ * modules/ (local) and composer-addons/modules/ (composer), classes are loaded from
  * modules/ to allow local overrides of composer-installed modules.
  *
  * IMPORTANT: The autoloader ONLY intervenes when a module exists in BOTH
@@ -28,7 +28,7 @@ class AutoloaderTest extends TestCase
         // Generate unique module name to avoid conflicts.
         $this->testModuleName = 'TestAutoloader_' . uniqid();
         $this->localModulePath = OMEKA_PATH . '/modules/' . $this->testModuleName;
-        $this->addonModulePath = OMEKA_PATH . '/addons/modules/' . $this->testModuleName;
+        $this->addonModulePath = OMEKA_PATH . '/composer-addons/modules/' . $this->testModuleName;
     }
 
     protected function tearDown(): void
@@ -119,7 +119,7 @@ PHP;
     }
 
     /**
-     * Test that local module (modules/) takes precedence over addons/modules/.
+     * Test that local module (modules/) takes precedence over composer-addons/modules/.
      *
      * This is the key test for the bootstrap autoloader. When a module exists
      * in both locations with different content, the autoloader MUST load
@@ -139,12 +139,12 @@ PHP;
 
         $this->assertTrue(class_exists($className, true), 'Class should be autoloadable');
 
-        // The class MUST be loaded from modules/ (local), not addons/modules/.
+        // The class MUST be loaded from modules/ (local), not composer-addons/modules/.
         $reflection = new \ReflectionClass($className);
         $this->assertStringContainsString('/modules/' . $this->testModuleName, $reflection->getFileName(),
-            'Class should be loaded from modules/, not addons/modules/');
-        $this->assertStringNotContainsString('/addons/', $reflection->getFileName(),
-            'Class should NOT be loaded from addons/modules/');
+            'Class should be loaded from modules/, not composer-addons/modules/');
+        $this->assertStringNotContainsString('/composer-addons/', $reflection->getFileName(),
+            'Class should NOT be loaded from composer-addons/modules/');
         $this->assertEquals('local', $className::SOURCE,
             'Class SOURCE should be "local" to confirm modules/ takes precedence');
     }
@@ -152,16 +152,16 @@ PHP;
     /**
      * Test that symlink from modules/ to addons/ does NOT trigger override.
      *
-     * When modules/Foo is a symlink to addons/modules/Foo, the autoloader
+     * When modules/Foo is a symlink to composer-addons/modules/Foo, the autoloader
      * should NOT intervene (is_link check returns true), allowing Composer
      * to handle the loading normally.
      */
     public function testSymlinkModuleDoesNotTriggerOverride()
     {
-        // Create module in addons/modules/.
+        // Create module in composer-addons/modules/.
         $this->createTestModule($this->addonModulePath, 'addon');
 
-        // Create symlink from modules/ to addons/modules/.
+        // Create symlink from modules/ to composer-addons/modules/.
         symlink($this->addonModulePath, $this->localModulePath);
 
         $className = $this->testModuleName . '\\TestService';
@@ -177,7 +177,7 @@ PHP;
 
         // We can verify the autoloader's logic by checking the conditions directly.
         $localModule = OMEKA_PATH . '/modules/' . $this->testModuleName;
-        $addonModule = OMEKA_PATH . '/addons/modules/' . $this->testModuleName;
+        $addonModule = OMEKA_PATH . '/composer-addons/modules/' . $this->testModuleName;
 
         $this->assertTrue(is_dir($localModule), 'Local module path should exist (symlink)');
         $this->assertTrue(is_link($localModule), 'Local module should be a symlink');
@@ -199,7 +199,7 @@ PHP;
         $this->createTestModule($this->localModulePath, 'local');
 
         $localModule = OMEKA_PATH . '/modules/' . $this->testModuleName;
-        $addonModule = OMEKA_PATH . '/addons/modules/' . $this->testModuleName;
+        $addonModule = OMEKA_PATH . '/composer-addons/modules/' . $this->testModuleName;
 
         $this->assertTrue(is_dir($localModule), 'Local module should exist');
         $this->assertFalse(is_dir($addonModule), 'Addon module should NOT exist');
@@ -211,15 +211,15 @@ PHP;
     }
 
     /**
-     * Test autoloader does not intervene when module only exists in addons/modules/.
+     * Test autoloader does not intervene when module only exists in composer-addons/modules/.
      */
     public function testAutoloaderDoesNotInterveneForAddonOnlyModule()
     {
-        // Create module only in addons/modules/.
+        // Create module only in composer-addons/modules/.
         $this->createTestModule($this->addonModulePath, 'addon');
 
         $localModule = OMEKA_PATH . '/modules/' . $this->testModuleName;
-        $addonModule = OMEKA_PATH . '/addons/modules/' . $this->testModuleName;
+        $addonModule = OMEKA_PATH . '/composer-addons/modules/' . $this->testModuleName;
 
         $this->assertFalse(is_dir($localModule), 'Local module should NOT exist');
         $this->assertTrue(is_dir($addonModule), 'Addon module should exist');
@@ -227,7 +227,7 @@ PHP;
         // Autoloader condition check.
         $autoloaderWouldIntervene = is_dir($localModule) && !is_link($localModule) && is_dir($addonModule);
         $this->assertFalse($autoloaderWouldIntervene,
-            'Autoloader should NOT intervene when module only exists in addons/modules/');
+            'Autoloader should NOT intervene when module only exists in composer-addons/modules/');
     }
 
     /**
@@ -240,7 +240,7 @@ PHP;
     {
         // This test uses the real Common module if it exists in both locations.
         $localCommon = OMEKA_PATH . '/modules/Common';
-        $addonCommon = OMEKA_PATH . '/addons/modules/Common';
+        $addonCommon = OMEKA_PATH . '/composer-addons/modules/Common';
 
         if (!is_dir($localCommon) || is_link($localCommon) || !is_dir($addonCommon)) {
             $this->markTestSkipped('Common module not present in both locations.');
@@ -256,7 +256,7 @@ PHP;
         $reflection = new \ReflectionClass('Common\\TraitModule');
         $this->assertStringContainsString('/modules/Common/', $reflection->getFileName(),
             'Common\\TraitModule should be loaded from modules/Common/');
-        $this->assertStringNotContainsString('/addons/', $reflection->getFileName(),
+        $this->assertStringNotContainsString('/composer-addons/', $reflection->getFileName(),
             'Common\\TraitModule should NOT be loaded from addons/');
     }
 }

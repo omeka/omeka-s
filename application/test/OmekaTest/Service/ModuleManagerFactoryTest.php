@@ -7,10 +7,10 @@ use Omeka\Service\ModuleManagerFactory;
 use Omeka\Test\TestCase;
 
 /**
- * Test ModuleManagerFactory with addons directory support.
+ * Test ModuleManagerFactory with composer-addons directory support.
  *
  * These tests verify that:
- * - modules/ (local/manual) takes precedence over addons/modules/ (composer)
+ * - modules/ (local/manual) takes precedence over composer-addons/modules/ (composer)
  * - Both directories are properly scanned for modules
  * - Various combinations of module.ini and composer.json are handled
  * - The directory structure exists
@@ -176,14 +176,14 @@ class ModuleManagerFactoryTest extends TestCase
         $modulePaths = $config['module_listener_options']['module_paths'];
 
         $this->assertContains(OMEKA_PATH . '/modules', $modulePaths);
-        $this->assertContains(OMEKA_PATH . '/addons/modules', $modulePaths);
+        $this->assertContains(OMEKA_PATH . '/composer-addons/modules', $modulePaths);
     }
 
     /**
-     * Test that modules/ comes before addons/modules/ (for priority).
+     * Test that modules/ comes before composer-addons/modules/ (for priority).
      *
      * Local modules in modules/ should take precedence over
-     * composer-installed modules in addons/modules/.
+     * composer-installed modules in composer-addons/modules/.
      */
     public function testModulesDirectoryHasPriorityOverAddons()
     {
@@ -191,27 +191,27 @@ class ModuleManagerFactoryTest extends TestCase
         $modulePaths = $config['module_listener_options']['module_paths'];
 
         $modulesIndex = array_search(OMEKA_PATH . '/modules', $modulePaths);
-        $addonsIndex = array_search(OMEKA_PATH . '/addons/modules', $modulePaths);
+        $addonsIndex = array_search(OMEKA_PATH . '/composer-addons/modules', $modulePaths);
 
         $this->assertNotFalse($modulesIndex, 'modules/ should be in module_paths');
-        $this->assertNotFalse($addonsIndex, 'addons/modules/ should be in module_paths');
-        $this->assertLessThan($addonsIndex, $modulesIndex, 'modules/ should come before addons/modules/');
+        $this->assertNotFalse($addonsIndex, 'composer-addons/modules/ should be in module_paths');
+        $this->assertLessThan($addonsIndex, $modulesIndex, 'modules/ should come before composer-addons/modules/');
     }
 
     /**
-     * Test that addons/modules directory exists.
+     * Test that composer-addons/modules directory exists.
      */
     public function testAddonsModulesDirectoryExists()
     {
-        $this->assertDirectoryExists(OMEKA_PATH . '/addons/modules');
+        $this->assertDirectoryExists(OMEKA_PATH . '/composer-addons/modules');
     }
 
     /**
-     * Test that addons/themes directory exists.
+     * Test that composer-addons/themes directory exists.
      */
     public function testAddonsThemesDirectoryExists()
     {
-        $this->assertDirectoryExists(OMEKA_PATH . '/addons/themes');
+        $this->assertDirectoryExists(OMEKA_PATH . '/composer-addons/themes');
     }
 
     /**
@@ -318,11 +318,11 @@ class ModuleManagerFactoryTest extends TestCase
     }
 
     // -------------------------------------------------------------------------
-    // Tests: Priority between modules/ and addons/modules/
+    // Tests: Priority between modules/ and composer-addons/modules/
     // -------------------------------------------------------------------------
 
     /**
-     * Test that a module in modules/ takes precedence over same module in addons/modules/.
+     * Test that a module in modules/ takes precedence over same module in composer-addons/modules/.
      *
      * This test creates real modules in OMEKA_PATH to verify factory behavior.
      */
@@ -330,13 +330,13 @@ class ModuleManagerFactoryTest extends TestCase
     {
         $moduleName = 'TestPriority_' . uniqid();
         $localModulePath = OMEKA_PATH . '/modules/' . $moduleName;
-        $addonsModulePath = OMEKA_PATH . '/addons/modules/' . $moduleName;
+        $addonsModulePath = OMEKA_PATH . '/composer-addons/modules/' . $moduleName;
 
         $this->createdModules[] = $localModulePath;
         $this->createdModules[] = $addonsModulePath;
 
         try {
-            // Create module in addons/modules first.
+            // Create module in composer-addons/modules first.
             $this->createModuleWithIni($addonsModulePath . '/..', $moduleName, '1.0.0', ['description' => 'Addons version']);
 
             // Create module in modules/ (should take precedence).
@@ -360,18 +360,18 @@ class ModuleManagerFactoryTest extends TestCase
     }
 
     /**
-     * Test module in addons/modules/ only (no local override).
+     * Test module in composer-addons/modules/ only (no local override).
      */
     public function testModuleInAddonsOnlyIsRecognized()
     {
         $moduleName = 'TestAddonsOnly_' . uniqid();
-        $addonsModulePath = OMEKA_PATH . '/addons/modules/' . $moduleName;
+        $addonsModulePath = OMEKA_PATH . '/composer-addons/modules/' . $moduleName;
 
         $this->createdModules[] = $addonsModulePath;
 
         try {
             $this->createModuleWithComposer(
-                OMEKA_PATH . '/addons/modules',
+                OMEKA_PATH . '/composer-addons/modules',
                 $moduleName,
                 '1.5.0'
             );
@@ -569,7 +569,7 @@ class ModuleManagerFactoryTest extends TestCase
      * Test that local module info is used even when module exists in installed.json.
      *
      * This is a critical test for the override feature: when a module exists in
-     * both modules/ (local) and addons/modules/ (composer), AND there's an entry
+     * both modules/ (local) and composer-addons/modules/ (composer), AND there's an entry
      * in installed.json, the LOCAL module's info (from module.ini or composer.json)
      * must be used, NOT the installed.json entry.
      *
@@ -582,7 +582,7 @@ class ModuleManagerFactoryTest extends TestCase
         $fixturesPath = __DIR__ . '/../Module/fixtures';
         $moduleName = 'TestAddonOverride';
         $localModulePath = $fixturesPath . '/modules/' . $moduleName;
-        $addonsModulePath = $fixturesPath . '/addons/modules/' . $moduleName;
+        $addonsModulePath = $fixturesPath . '/composer-addons/modules/' . $moduleName;
 
         // Verify fixtures exist.
         $this->assertDirectoryExists($localModulePath, 'Local module fixture should exist');
@@ -601,20 +601,20 @@ class ModuleManagerFactoryTest extends TestCase
         $this->assertStringContainsString('Composer', $addonsInfo['name']);
 
         // Test the path-based decision logic used by ModuleManagerFactory.
-        // For a module in modules/, strpos should NOT find '/addons/modules/'.
+        // For a module in modules/, strpos should NOT find '/composer-addons/modules/'.
         $this->assertFalse(
-            strpos($localModulePath, '/addons/modules/') !== false,
-            'Local module path should not contain /addons/modules/'
+            strpos($localModulePath, '/composer-addons/modules/') !== false,
+            'Local module path should not contain /composer-addons/modules/'
         );
 
-        // For a module in addons/modules/, strpos SHOULD find '/addons/modules/'.
+        // For a module in composer-addons/modules/, strpos SHOULD find '/composer-addons/modules/'.
         $this->assertTrue(
-            strpos($addonsModulePath, '/addons/modules/') !== false,
-            'Addons module path should contain /addons/modules/'
+            strpos($addonsModulePath, '/composer-addons/modules/') !== false,
+            'Addons module path should contain /composer-addons/modules/'
         );
 
         // Simulate the factory logic: for local modules, DON'T use installed.json.
-        $isComposerAddon = strpos($localModulePath, '/addons/modules/') !== false;
+        $isComposerAddon = strpos($localModulePath, '/composer-addons/modules/') !== false;
         $this->assertFalse($isComposerAddon, 'Local module should not be treated as composer addon');
 
         // The correct info should come from read() of the local path.

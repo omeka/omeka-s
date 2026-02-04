@@ -9,10 +9,10 @@
 /files/
 /modules/
 /themes/
-/addons/modules/*
-!/addons/modules/.gitkeep
-/addons/themes/*
-!/addons/themes/.gitkeep
+/composer-addons/modules/*
+!/composer-addons/modules/.gitkeep
+/composer-addons/themes/*
+!/composer-addons/themes/.gitkeep
 /application/test/config/database.ini
 /application/test/.phpunit.result.cache
 /application/asset/css/font-awesome/

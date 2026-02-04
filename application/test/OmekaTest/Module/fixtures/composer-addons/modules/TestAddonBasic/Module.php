@@ -5,7 +5,7 @@ namespace TestAddonBasic;
 use Omeka\Module\AbstractModule;
 
 /**
- * Test basic addon module in addons/modules/.
+ * Test basic addon module in composer-addons/modules/.
  */
 class Module extends AbstractModule
 {

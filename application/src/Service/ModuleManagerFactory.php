@@ -35,14 +35,14 @@ class ModuleManagerFactory implements FactoryInterface
 
         // Get all modules from the filesystem.
         // Scan local modules first so they take precedence over add-ons.
-        // Note: addons/modules/ is scanned even though installed.json contains
+        // Note: composer-addons/modules/ is scanned even though installed.json contains
         // the module list. This ensures Module.php exists, handles out-of-sync
         // cases, and maintains consistency with how modules/ works. The
         // installed.json is only used for metadata (name, version, etc.), not
         // for discovering which modules are installed.
         $modulePaths = [
             OMEKA_PATH . '/modules',
-            OMEKA_PATH . '/addons/modules',
+            OMEKA_PATH . '/composer-addons/modules',
         ];
         $registered = [];
         foreach ($modulePaths as $modulePath) {
@@ -65,10 +65,10 @@ class ModuleManagerFactory implements FactoryInterface
 
                 $module = $manager->registerModule($moduleId);
 
-                // Only use installed.json for modules in addons/modules/.
+                // Only use installed.json for modules in composer-addons/modules/.
                 // Local modules in modules/ must read their own files.
                 $info = null;
-                $isComposerAddon = strpos($dir->getPathname(), '/addons/modules/') !== false;
+                $isComposerAddon = strpos($dir->getPathname(), '/composer-addons/modules/') !== false;
                 if ($isComposerAddon) {
                     // Try installed.json first to avoid checking compatibility.
                     $info = $infoReader->getFromComposerInstalled($moduleId, 'module');

@@ -28,14 +28,14 @@ class ThemeManagerFactory implements FactoryInterface
 
         // Get all themes from the filesystem.
         // Scan local themes first so they take precedence over add-ons.
-        // Note: addons/themes/ is scanned even though installed.json contains
+        // Note: composer-addons/themes/ is scanned even though installed.json contains
         // the theme list. This ensures theme files exist, handles out-of-sync
         // cases, and maintains consistency with how themes/ works. The
         // installed.json is only used for metadata (name, version, etc.), not
         // for discovering which themes are installed.
         $themePaths = [
             'themes' => OMEKA_PATH . '/themes',
-            'addons/themes' => OMEKA_PATH . '/addons/themes',
+            'composer-addons/themes' => OMEKA_PATH . '/composer-addons/themes',
         ];
         $registered = [];
         foreach ($themePaths as $basePath => $themePath) {
@@ -59,10 +59,10 @@ class ThemeManagerFactory implements FactoryInterface
                 $theme = $manager->registerTheme($themeId);
                 $theme->setBasePath($basePath);
 
-                // Only use installed.json for themes in addons/themes/.
+                // Only use installed.json for themes in composer-addons/themes/.
                 // Local themes in themes/ must read their own files.
                 $info = null;
-                $isComposerAddon = strpos($dir->getPathname(), '/addons/themes/') !== false;
+                $isComposerAddon = strpos($dir->getPathname(), '/composer-addons/themes/') !== false;
                 if ($isComposerAddon) {
                     // Try installed.json first to avoid checking compatibility.
                     $info = $infoReader->getFromComposerInstalled($themeId, 'theme');

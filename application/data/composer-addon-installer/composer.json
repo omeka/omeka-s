@@ -1,7 +1,7 @@
 {
     "name": "omeka/composer-addon-installer",
     "version": "3.0",
-    "description": "Composer plugin to install Omeka S modules and themes into addons/modules/ and addons/themes/.",
+    "description": "Composer plugin to install Omeka S modules and themes into composer-addons/modules/ and composer-addons/themes/.",
     "type": "composer-plugin",
     "license": "GPL-3.0",
     "require": {

@@ -7,10 +7,10 @@ use Omeka\Service\ThemeManagerFactory;
 use Omeka\Test\TestCase;
 
 /**
- * Test ThemeManagerFactory with addons directory support.
+ * Test ThemeManagerFactory with composer-addons directory support.
  *
  * These tests verify that:
- * - themes/ (local/manual) takes precedence over addons/themes/ (composer)
+ * - themes/ (local/manual) takes precedence over composer-addons/themes/ (composer)
  * - Both directories are properly scanned for themes
  * - Various combinations of theme.ini and composer.json are handled
  * - The directory structure exists
@@ -151,11 +151,11 @@ class ThemeManagerFactoryTest extends TestCase
     }
 
     /**
-     * Test that addons/themes directory exists.
+     * Test that composer-addons/themes directory exists.
      */
     public function testAddonsThemesDirectoryExists()
     {
-        $this->assertDirectoryExists(OMEKA_PATH . '/addons/themes');
+        $this->assertDirectoryExists(OMEKA_PATH . '/composer-addons/themes');
     }
 
     /**
@@ -167,12 +167,12 @@ class ThemeManagerFactoryTest extends TestCase
     }
 
     /**
-     * Test that a theme from addons/themes has correct basePath.
+     * Test that a theme from composer-addons/themes has correct basePath.
      */
     public function testThemeFromAddonsDirectoryHasCorrectBasePath()
     {
         // Create a theme in the real addons directory for testing.
-        $addonsThemePath = OMEKA_PATH . '/addons/themes/TestThemeAddons_' . uniqid();
+        $addonsThemePath = OMEKA_PATH . '/composer-addons/themes/TestThemeAddons_' . uniqid();
         $themeName = basename($addonsThemePath);
 
         try {
@@ -199,9 +199,9 @@ class ThemeManagerFactoryTest extends TestCase
             // Verify theme was registered with correct basePath.
             $theme = $manager->getTheme($themeName);
             $this->assertNotNull($theme);
-            $this->assertEquals('addons/themes', $theme->getBasePath());
-            $this->assertStringContainsString('/addons/themes/' . $themeName, $theme->getPath());
-            $this->assertEquals('/addons/themes/' . $themeName . '/theme.jpg', $theme->getThumbnail());
+            $this->assertEquals('composer-addons/themes', $theme->getBasePath());
+            $this->assertStringContainsString('/composer-addons/themes/' . $themeName, $theme->getPath());
+            $this->assertEquals('/composer-addons/themes/' . $themeName . '/theme.jpg', $theme->getThumbnail());
         } finally {
             // Clean up.
             $this->removeDirectory($addonsThemePath);
@@ -246,20 +246,20 @@ class ThemeManagerFactoryTest extends TestCase
         $this->assertNotNull($theme);
         $this->assertEquals('themes', $theme->getBasePath());
         $this->assertStringContainsString('/themes/' . $foundTheme, $theme->getPath());
-        $this->assertStringNotContainsString('/addons/themes/', $theme->getPath());
+        $this->assertStringNotContainsString('/composer-addons/themes/', $theme->getPath());
     }
 
     /**
-     * Test that local theme (themes/) takes precedence over addons/themes/.
+     * Test that local theme (themes/) takes precedence over composer-addons/themes/.
      *
      * When the same theme exists in both directories, the one in themes/
      * should be loaded (local override of composer-installed theme).
      */
     public function testLocalThemeTakesPrecedenceOverAddons()
     {
-        // Create a theme in addons/themes.
+        // Create a theme in composer-addons/themes.
         $themeName = 'TestPrecedence_' . uniqid();
-        $addonsThemePath = OMEKA_PATH . '/addons/themes/' . $themeName;
+        $addonsThemePath = OMEKA_PATH . '/composer-addons/themes/' . $themeName;
         $localThemePath = OMEKA_PATH . '/themes/' . $themeName;
 
         try {
@@ -296,7 +296,7 @@ class ThemeManagerFactoryTest extends TestCase
             $this->assertEquals('themes', $theme->getBasePath());
             $this->assertStringContainsString('Local Override', $theme->getName());
             $this->assertStringContainsString('/themes/' . $themeName, $theme->getPath());
-            $this->assertStringNotContainsString('/addons/', $theme->getPath());
+            $this->assertStringNotContainsString('/composer-addons/', $theme->getPath());
         } finally {
             // Clean up.
             $this->removeDirectory($addonsThemePath);
@@ -456,16 +456,16 @@ class ThemeManagerFactoryTest extends TestCase
     }
 
     // -------------------------------------------------------------------------
-    // Tests: Theme with composer.json in addons/themes/
+    // Tests: Theme with composer.json in composer-addons/themes/
     // -------------------------------------------------------------------------
 
     /**
-     * Test theme in addons/themes/ with composer.json only (no theme.ini).
+     * Test theme in composer-addons/themes/ with composer.json only (no theme.ini).
      */
     public function testThemeInAddonsWithComposerJsonOnly()
     {
         $themeName = 'TestAddonsComposer_' . uniqid();
-        $addonsThemePath = OMEKA_PATH . '/addons/themes/' . $themeName;
+        $addonsThemePath = OMEKA_PATH . '/composer-addons/themes/' . $themeName;
 
         $this->createdThemes[] = $addonsThemePath;
 
@@ -497,7 +497,7 @@ class ThemeManagerFactoryTest extends TestCase
 
             $theme = $manager->getTheme($themeName);
             $this->assertNotNull($theme, 'Theme with composer.json only should be recognized');
-            $this->assertEquals('addons/themes', $theme->getBasePath());
+            $this->assertEquals('composer-addons/themes', $theme->getBasePath());
             $this->assertEquals('Composer Theme', $theme->getName());
             $this->assertEquals('1.5.0', $theme->getIni('version'));
             $this->assertEquals('A composer-only theme', $theme->getIni('description'));
@@ -507,12 +507,12 @@ class ThemeManagerFactoryTest extends TestCase
     }
 
     /**
-     * Test theme in addons/themes/ with both theme.ini and composer.json.
+     * Test theme in composer-addons/themes/ with both theme.ini and composer.json.
      */
     public function testThemeInAddonsWithBothSources()
     {
         $themeName = 'TestAddonsBoth_' . uniqid();
-        $addonsThemePath = OMEKA_PATH . '/addons/themes/' . $themeName;
+        $addonsThemePath = OMEKA_PATH . '/composer-addons/themes/' . $themeName;
 
         $this->createdThemes[] = $addonsThemePath;
 
@@ -564,11 +564,11 @@ class ThemeManagerFactoryTest extends TestCase
     }
 
     // -------------------------------------------------------------------------
-    // Tests: Priority between themes/ and addons/themes/
+    // Tests: Priority between themes/ and composer-addons/themes/
     // -------------------------------------------------------------------------
 
     /**
-     * Test that a theme in themes/ takes precedence over same theme in addons/themes/.
+     * Test that a theme in themes/ takes precedence over same theme in composer-addons/themes/.
      *
      * This test creates real themes in OMEKA_PATH to verify factory behavior.
      */
@@ -576,13 +576,13 @@ class ThemeManagerFactoryTest extends TestCase
     {
         $themeName = 'TestPriorityComposer_' . uniqid();
         $localThemePath = OMEKA_PATH . '/themes/' . $themeName;
-        $addonsThemePath = OMEKA_PATH . '/addons/themes/' . $themeName;
+        $addonsThemePath = OMEKA_PATH . '/composer-addons/themes/' . $themeName;
 
         $this->createdThemes[] = $localThemePath;
         $this->createdThemes[] = $addonsThemePath;
 
         try {
-            // Create theme in addons/themes with composer.json.
+            // Create theme in composer-addons/themes with composer.json.
             mkdir($addonsThemePath, 0755, true);
             $addonsComposer = [
                 'name' => 'test/' . strtolower($themeName),
@@ -627,18 +627,18 @@ class ThemeManagerFactoryTest extends TestCase
     }
 
     /**
-     * Test theme in addons/themes/ only (no local override).
+     * Test theme in composer-addons/themes/ only (no local override).
      */
     public function testThemeInAddonsOnlyIsRecognized()
     {
         $themeName = 'TestAddonsOnly_' . uniqid();
-        $addonsThemePath = OMEKA_PATH . '/addons/themes/' . $themeName;
+        $addonsThemePath = OMEKA_PATH . '/composer-addons/themes/' . $themeName;
 
         $this->createdThemes[] = $addonsThemePath;
 
         try {
             $this->createThemeWithComposer(
-                OMEKA_PATH . '/addons/themes',
+                OMEKA_PATH . '/composer-addons/themes',
                 $themeName,
                 '1.5.0'
             );
@@ -656,7 +656,7 @@ class ThemeManagerFactoryTest extends TestCase
 
             $theme = $manager->getTheme($themeName);
             $this->assertNotNull($theme);
-            $this->assertEquals('addons/themes', $theme->getBasePath());
+            $this->assertEquals('composer-addons/themes', $theme->getBasePath());
             $this->assertEquals($themeName, $theme->getName());
             $this->assertEquals('1.5.0', $theme->getIni('version'));
         } finally {

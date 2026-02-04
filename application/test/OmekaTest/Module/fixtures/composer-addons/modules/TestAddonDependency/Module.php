@@ -9,7 +9,7 @@ use Omeka\Module\AbstractModule;
  * Test addon module with a dependency on laminas/laminas-json.
  *
  * This module verifies that composer dependencies are properly handled
- * when a module is installed via composer in addons/modules/.
+ * when a module is installed via composer in composer-addons/modules/.
  */
 class Module extends AbstractModule
 {

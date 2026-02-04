@@ -7,8 +7,8 @@
  * are not installed automatically. This script reads the add-on composer.json
  * and installs its dependencies via the root Omeka composer.
  *
- * Note: Add-ons installed via `composer require` (in addons/modules/ or
- * addons/themes/) have their dependencies installed automatically.
+ * Note: Add-ons installed via `composer require` (in composer-addons/modules/ or
+ * composer-addons/themes/) have their dependencies installed automatically.
  *
  * Usage:
  *   php application/data/scripts/install-addon-deps.php ModuleName
@@ -46,13 +46,13 @@ if (!$addonName) {
 if ($isTheme) {
     $possiblePaths = [
         dirname(__DIR__, 3) . '/themes/' . $addonName,
-        dirname(__DIR__, 3) . '/addons/themes/' . $addonName,
+        dirname(__DIR__, 3) . '/composer-addons/themes/' . $addonName,
     ];
     $addonType = 'Theme';
 } else {
     $possiblePaths = [
         dirname(__DIR__, 3) . '/modules/' . $addonName,
-        dirname(__DIR__, 3) . '/addons/modules/' . $addonName,
+        dirname(__DIR__, 3) . '/composer-addons/modules/' . $addonName,
     ];
     $addonType = 'Module';
 }

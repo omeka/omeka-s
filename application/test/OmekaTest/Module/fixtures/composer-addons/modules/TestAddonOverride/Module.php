@@ -5,10 +5,10 @@ namespace TestAddonOverride;
 use Omeka\Module\AbstractModule;
 
 /**
- * Test addon module in addons/modules/ to verify override priority.
+ * Test addon module in composer-addons/modules/ to verify override priority.
  *
  * When a module with the same name exists in modules/, it should take
- * precedence over this version in addons/modules/.
+ * precedence over this version in composer-addons/modules/.
  */
 class Module extends AbstractModule
 {

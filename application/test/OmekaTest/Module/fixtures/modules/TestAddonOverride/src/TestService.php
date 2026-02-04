@@ -5,7 +5,7 @@ namespace TestAddonOverride;
 /**
  * Test service class in modules/ (local version).
  *
- * This class should be loaded instead of the one in addons/modules/
+ * This class should be loaded instead of the one in composer-addons/modules/
  * when both exist, because modules/ takes precedence.
  */
 class TestService

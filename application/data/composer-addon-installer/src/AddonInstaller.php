@@ -7,7 +7,7 @@ use Composer\Installer\LibraryInstaller;
 /**
  * Composer installer for Omeka S modules and themes.
  *
- * Installs packages to addons/modules/ or addons/themes/ based on type.
+ * Installs packages to composer-addons/modules/ or composer-addons/themes/ based on type.
  * Name transformations align with composer/installers OmekaSInstaller.
  *
  * Supports extra options:
@@ -124,9 +124,9 @@ class AddonInstaller extends LibraryInstaller
         $addonName = static::getInstallName($package);
         switch ($package->getType()) {
             case 'omeka-s-module':
-                return 'addons/modules/' . $addonName;
+                return 'composer-addons/modules/' . $addonName;
             case 'omeka-s-theme':
-                return 'addons/themes/' . $addonName;
+                return 'composer-addons/themes/' . $addonName;
             default:
                 throw new \InvalidArgumentException('Invalid Omeka S add-on package type'); // @translate
         }

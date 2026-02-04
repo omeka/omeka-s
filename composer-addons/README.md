@@ -7,7 +7,7 @@ Add-ons are modules and themes managed by composer when they have the type
 The use of add-ons allows to use a single command `composer require xxx/yyy`
 to manage an Omeka instance, to avoid duplication of dependencies, and to
 improve speed of Omeka init. With composer, add-ons are installed automatically
-under `addons/modules/` and `addons/themes/` and their own dependencies are
+under `composer-addons/modules/` and `composer-addons/themes/` and their own dependencies are
 shared with the Omeka ones in `vendor/`.
 
 Omeka S still supports classic locations `modules/` and `themes/`. When a module

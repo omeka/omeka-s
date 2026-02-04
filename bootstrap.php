@@ -6,10 +6,10 @@ date_default_timezone_set('UTC');
 require 'vendor/autoload.php';
 
 /*
- * Autoloader to prioritize local modules/ over Composer's addons/modules/.
+ * Autoloader to prioritize local modules/ over Composer's composer-addons/modules/.
  *
  * When a module exists in both locations, this ensures classes are loaded
- * from modules/ (local) instead of addons/modules/ (Composer).
+ * from modules/ (local) instead of composer-addons/modules/ (Composer).
  *
  * Registered AFTER Composer with prepend=true to run BEFORE Composer.
  */
@@ -23,7 +23,7 @@ spl_autoload_register(function ($class) {
 
     // Check for conflict: module exists in both locations
     $localModule = OMEKA_PATH . '/modules/' . $moduleNamespace;
-    $addonModule = OMEKA_PATH . '/addons/modules/' . $moduleNamespace;
+    $addonModule = OMEKA_PATH . '/composer-addons/modules/' . $moduleNamespace;
 
     // Only intervene if local exists as real dir (not symlink) AND addon exists
     if (!is_dir($localModule) || is_link($localModule) || !is_dir($addonModule)) {

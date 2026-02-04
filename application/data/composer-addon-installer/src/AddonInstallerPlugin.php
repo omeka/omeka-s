@@ -107,8 +107,8 @@ class AddonInstallerPlugin implements PluginInterface, EventSubscriberInterface
      * files (TraitModule.php, etc.) via require_once with file paths like:
      *   require_once dirname(__DIR__) . '/Common/TraitModule.php';
      *
-     * When Common is installed via Composer to addons/modules/Common/, this
-     * path doesn't work. A symlink modules/Common -> addons/modules/Common
+     * When Common is installed via Composer to composer-addons/modules/Common/, this
+     * path doesn't work. A symlink modules/Common -> composer-addons/modules/Common
      * ensures backward compatibility.
      */
     protected function handleCommonModuleSymlink($package)

@@ -7,8 +7,8 @@
  * (js, css, etc.) defined in composer.json are not downloaded automatically.
  * This script reads the add-on composer.json and downloads the assets.
  *
- * Note: Add-ons installed via `composer require` (in addons/modules/ or
- * addons/themes/) have their assets downloaded automatically.
+ * Note: Add-ons installed via `composer require` (in composer-addons/modules/ or
+ * composer-addons/themes/) have their assets downloaded automatically.
  *
  * Usage:
  *   php application/data/scripts/install-omeka-assets.php [module-or-theme-name]
@@ -105,11 +105,11 @@ if ($all) {
     // Scan all module and theme directories
     $moduleDirs = [
         OMEKA_PATH . '/modules',
-        OMEKA_PATH . '/addons/modules',
+        OMEKA_PATH . '/composer-addons/modules',
     ];
     $themeDirs = [
         OMEKA_PATH . '/themes',
-        OMEKA_PATH . '/addons/themes',
+        OMEKA_PATH . '/composer-addons/themes',
     ];
 
     foreach ($moduleDirs as $dir) {
@@ -138,12 +138,12 @@ if ($all) {
         if ($isTheme) {
             $possiblePaths = [
                 OMEKA_PATH . '/themes/' . $name,
-                OMEKA_PATH . '/addons/themes/' . $name,
+                OMEKA_PATH . '/composer-addons/themes/' . $name,
             ];
         } else {
             $possiblePaths = [
                 OMEKA_PATH . '/modules/' . $name,
-                OMEKA_PATH . '/addons/modules/' . $name,
+                OMEKA_PATH . '/composer-addons/modules/' . $name,
             ];
         }
 

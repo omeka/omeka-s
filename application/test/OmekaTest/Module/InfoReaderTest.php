@@ -120,7 +120,8 @@ class InfoReaderTest extends TestCase
         $this->assertEquals('https://example.com/author', $info['author_link']);
         $this->assertEquals('https://example.com/support', $info['support_link']);
         $this->assertEquals('^4.0', $info['omeka_version_constraint']);
-        $this->assertTrue($info['configurable']);
+        // configurable from ini is a string, ModuleManagerFactory converts to bool.
+        $this->assertNotEmpty($info['configurable']);
     }
 
     // -------------------------------------------------------------------------
@@ -235,22 +236,6 @@ class InfoReaderTest extends TestCase
         $this->assertEquals('https://example.com/theme', $info['theme_link']);
     }
 
-    public function testReadComposerJsonWithConfigurable()
-    {
-        $composer = [
-            'name' => 'vendor/omeka-s-module-test',
-            'extra' => [
-                'label' => 'Test',
-                'configurable' => true,
-            ],
-        ];
-        file_put_contents($this->testPath . '/composer.json', json_encode($composer));
-
-        $info = $this->infoReader->read($this->testPath, 'module');
-
-        $this->assertTrue($info['configurable']);
-    }
-
     // -------------------------------------------------------------------------
     // Tests: Both sources (composer.json takes precedence)
     // -------------------------------------------------------------------------
@@ -346,8 +331,10 @@ class InfoReaderTest extends TestCase
         $this->assertEquals('1.0.0', $info['version']);
     }
 
-    public function testDefaultConfigurableIsFalse()
+    public function testConfigurableNotSetByDefault()
     {
+        // configurable is now set by ModuleManagerFactory, not InfoReader.
+        // InfoReader only reads it from module.ini if present.
         $ini = <<<'INI'
             [info]
             name = "Test Module"
@@ -357,7 +344,7 @@ class InfoReaderTest extends TestCase
 
         $info = $this->infoReader->read($this->testPath, 'module');
 
-        $this->assertFalse($info['configurable']);
+        $this->assertArrayNotHasKey('configurable', $info);
     }
 
     // -------------------------------------------------------------------------

@@ -49,11 +49,27 @@ The file composer.json supports optional specific keys under key `extra`:
 
 - `installer-name`: directory to use when different from project name.
 - `label`: display label when different from project name.
-- `configurable`: boolean to specify if the module is configurable.
 
 If an extra key is not available, a check is done for an equivalent in file
 `config/module.ini` or `config/theme.ini`, if present, else a default value is
 set.
+
+
+Configurable modules
+--------------------
+
+To declare a module as configurable, add the key in `config/module.config.php`:
+
+```php
+return [
+    'module_config' => [
+        'configurable' => true,
+    ],
+    // ... other config
+];
+```
+
+This takes precedence over `config/module.ini` (fallback for legacy modules).
 
 
 External assets

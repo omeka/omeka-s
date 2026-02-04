@@ -482,25 +482,50 @@ class ModuleManagerFactoryTest extends TestCase
     // -------------------------------------------------------------------------
 
     /**
-     * Test configurable flag from composer.json extra.
+     * Test configurable flag from module.config.php.
      */
-    public function testConfigurableFlagFromComposer()
+    public function testConfigurableFlagFromModuleConfig()
     {
         $modulePath = $this->createModuleWithComposer(
             $this->testModulesPath,
             'ConfigurableModule',
+            '1.0.0'
+        );
+
+        // Create module.config.php with configurable = true.
+        $config = "<?php\nreturn [\n    'module_config' => [\n        'configurable' => true,\n    ],\n];\n";
+        mkdir($modulePath . '/config', 0755, true);
+        file_put_contents($modulePath . '/config/module.config.php', $config);
+
+        $factory = new ModuleManagerFactory();
+        $isConfigurable = $this->invokeMethod($factory, 'isModuleConfigurable', [$modulePath, []]);
+
+        $this->assertTrue($isConfigurable);
+    }
+
+    /**
+     * Test configurable flag fallback to module.ini.
+     */
+    public function testConfigurableFallbackToModuleIni()
+    {
+        $modulePath = $this->createModuleWithIni(
+            $this->testModulesPath,
+            'ConfigurableIniModule',
             '1.0.0',
-            ['configurable' => true]
+            ['configurable' => 'true']
         );
 
         $infoReader = new InfoReader();
         $info = $infoReader->read($modulePath, 'module');
 
-        $this->assertTrue($info['configurable']);
+        $factory = new ModuleManagerFactory();
+        $isConfigurable = $this->invokeMethod($factory, 'isModuleConfigurable', [$modulePath, $info]);
+
+        $this->assertTrue($isConfigurable);
     }
 
     /**
-     * Test configurable defaults to false.
+     * Test configurable defaults to false when not set.
      */
     public function testConfigurableDefaultsFalse()
     {
@@ -510,10 +535,47 @@ class ModuleManagerFactoryTest extends TestCase
             '1.0.0'
         );
 
+        $factory = new ModuleManagerFactory();
+        $isConfigurable = $this->invokeMethod($factory, 'isModuleConfigurable', [$modulePath, []]);
+
+        $this->assertFalse($isConfigurable);
+    }
+
+    /**
+     * Test module.config.php takes precedence over module.ini for configurable.
+     */
+    public function testConfigurableModuleConfigTakesPrecedence()
+    {
+        $modulePath = $this->createModuleWithIni(
+            $this->testModulesPath,
+            'PrecedenceModule',
+            '1.0.0',
+            ['configurable' => 'true']
+        );
+
+        // Create module.config.php with configurable = false.
+        $config = "<?php\nreturn [\n    'module_config' => [\n        'configurable' => false,\n    ],\n];\n";
+        file_put_contents($modulePath . '/config/module.config.php', $config);
+
         $infoReader = new InfoReader();
         $info = $infoReader->read($modulePath, 'module');
 
-        $this->assertFalse($info['configurable']);
+        $factory = new ModuleManagerFactory();
+        $isConfigurable = $this->invokeMethod($factory, 'isModuleConfigurable', [$modulePath, $info]);
+
+        // module.config.php should take precedence over module.ini.
+        $this->assertFalse($isConfigurable);
+    }
+
+    /**
+     * Helper method to invoke protected/private methods.
+     */
+    protected function invokeMethod($object, string $methodName, array $parameters = [])
+    {
+        $reflection = new \ReflectionClass(get_class($object));
+        $method = $reflection->getMethod($methodName);
+        $method->setAccessible(true);
+        return $method->invokeArgs($object, $parameters);
     }
 
     /**

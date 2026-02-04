@@ -14,7 +14,7 @@ use Laminas\Config\Reader\Ini as IniReader;
  *
  * Note: installed.json is used instead of installed.php because installed.php
  * only contains minimal data (version, type, install_path) without the `extra`
- * keys needed for add-on metadata (label, configurable, etc.).
+ * keys needed for add-on metadata (label, etc.).
  */
 class InfoReader
 {
@@ -46,7 +46,6 @@ class InfoReader
      */
     protected $extraToIniMap = [
         'label' => 'name',
-        'configurable' => 'configurable',
     ];
 
     /**
@@ -234,9 +233,6 @@ class InfoReader
                 $info['version'] = '1.0.0';
             }
         }
-
-        // Default configurable is false.
-        $info['configurable'] = !empty($info['configurable']);
 
         return $info;
     }
@@ -505,8 +501,6 @@ class InfoReader
             $version = $package['version'] ?? '1.0.0';
             $info['version'] = ltrim($version, 'vV');
         }
-
-        $info['configurable'] = !empty($info['configurable']);
 
         // Clean up description: remove common prefixes like "Module for Omeka S:".
         if (!empty($info['description'])) {

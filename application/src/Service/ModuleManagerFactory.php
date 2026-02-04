@@ -84,6 +84,9 @@ class ModuleManagerFactory implements FactoryInterface
                     continue;
                 }
 
+                // Check configurable from module.config.php (priority) or module.ini (fallback).
+                $info['configurable'] = $this->isModuleConfigurable($dir->getPathname(), $info);
+
                 $module->setIni($info);
 
                 // Module directory must contain Module.php.
@@ -176,5 +179,44 @@ class ModuleManagerFactory implements FactoryInterface
         $manager->sortModules();
 
         return $manager;
+    }
+
+    /**
+     * Determine if a module is configurable.
+     *
+     * Priority:
+     * 1. module.config.php ['module_config']['configurable']
+     * 2. module.ini 'configurable' (fallback, already in $info)
+     *
+     * Note: Some module.config.php files use self::CONSTANT which requires the
+     * module class context. We use error handling to gracefully skip those.
+     *
+     * @param string $modulePath Path to the module directory
+     * @param array $info Module info from InfoReader
+     * @return bool
+     */
+    protected function isModuleConfigurable(string $modulePath, array $info): bool
+    {
+        // Priority 1: Check module.config.php.
+        $configFile = $modulePath . '/config/module.config.php';
+        if (is_file($configFile) && is_readable($configFile)) {
+            // Convert errors to exceptions to catch undefined constants, etc.
+            set_error_handler(function ($severity, $message) {
+                throw new \ErrorException($message, 0, $severity);
+            });
+            try {
+                $config = include $configFile;
+                if (is_array($config) && isset($config['module_config']['configurable'])) {
+                    restore_error_handler();
+                    return (bool) $config['module_config']['configurable'];
+                }
+            } catch (\Throwable $e) {
+                // Config file uses module-specific constants or has errors, skip.
+            }
+            restore_error_handler();
+        }
+
+        // Priority 2: Fallback to module.ini (already read into $info).
+        return !empty($info['configurable']);
     }
 }

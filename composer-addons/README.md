@@ -7,16 +7,16 @@ Add-ons are modules and themes managed by composer when they have the type
 The use of add-ons allows to use a single command `composer require xxx/yyy`
 to manage an Omeka instance, to avoid duplication of dependencies, and to
 improve speed of Omeka init. With composer, add-ons are installed automatically
-under `composer-addons/modules/` and `composer-addons/themes/` and their own dependencies are
-shared with the Omeka ones in `vendor/`.
+under `composer-addons/modules/` and `composer-addons/themes/` and their own
+dependencies are shared with the Omeka ones in `vendor/`.
 
 Omeka S still supports classic locations `modules/` and `themes/`. When a module
 or a theme with the same name is located in `modules/` or `themes/`, it is
 prioritary and the composer add-on is skipped.
 
-If a module has no composer.json file or is not available on https://packagist.org,
-it still can be managed via composer via the key `repositories` (see
-https://getcomposer.org/doc/04-schema.md#repositories).
+If a module has no composer.json file or is not available on
+https://packagist.org, it still can be managed via composer via the key
+`repositories` (see https://getcomposer.org/doc/04-schema.md#repositories).
 
 
 Version compatibility
@@ -50,7 +50,6 @@ The file composer.json supports optional specific keys under key `extra`:
 - `installer-name`: directory to use when different from project name.
 - `label`: display label when different from project name.
 - `configurable`: boolean to specify if the module is configurable.
-- `omeka-assets`: list external assets to download (see section Assets below).
 
 Specific keys for themes:
 
@@ -62,48 +61,38 @@ If an extra key is not available, a check is done for an equivalent in file
 set.
 
 
-Assets
-------
+External assets
+---------------
 
-For assets (libraries for css/img/js/fonts/etc.), modules and themes can define
-external files to download automatically during composer installation using the
-`omeka-assets` key under `extra`:
+Modules and themes that need external js/css/fonts/img libraries can use another
+composer plugins like [sempia/external-assets](https://gitlab.com/sempia/composer-plugin-external-assets),
+a lightweight solution, or [civicrm/composer-downloads-plugin](https://github.com/civicrm/composer-downloads-plugin),
+a full featured tool (variables, ignore patterns, executable flag), or any other
+one.
+
+Example using `sempia/external-assets`:
 
 ```json
 {
+    "require": {
+        "sempia/external-assets": "^1.0"
+    },
     "extra": {
-        "omeka-assets": {
-            "asset/vendor/lib/custom.min.js": "https://example.com/v3.4.0/file.min.js",
-            "asset/vendor/lib/": "https://example.com/v3.4.1/archive.zip",
-            "asset/vendor/scripts/": "https://example.com/script.js"
+        "external-assets": {
+            "asset/vendor/mirador/": "https://github.com/ProjectMirador/mirador/releases/download/v3.3.0/mirador.zip",
+            "asset/vendor/lib/jquery.min.js": "https://cdn.example.com/jquery-3.7.0.min.js"
         }
     }
 }
 ```
-
-The key is the destination path relative to the add-on directory, the value is
-the url to download.
-
-- If destination ends with a filename, download url and rename to that name.
-- If destination ends with `/` and url has `.zip`/`.tar.gz`/`.tgz`, extract it.
-  When the archive contains a single root directory, it is stripped.
-- If destination ends with `/` and url is a file, copy it into that directory.
-
-This mechanism avoids the need for custom `repositories` in composer.json,
-which are not inherited from composer dependencies.
-
-It is recommended not to use nodejs to install assets to be consistent with
-Omeka, that should be manageable on a server without nodejs.
-
-The assets feature is provided by the internal separate composer plugin `omeka/omeka-assets`.
 
 
 Manual installation
 -------------------
 
 For add-ons installed manually via `git clone` in directory `modules/` or
-`themes/`, dependencies and assets are not downloaded automatically. Use the
-following scripts from the Omeka root:
+`themes/`, dependencies are not downloaded automatically. Use the following
+script from the Omeka root:
 
 ```sh
 # 1. Clone the add-on
@@ -111,9 +100,6 @@ git clone https://gitlab.com/user/MyModule modules/MyModule
 
 # 2. Install composer dependencies (other modules, libraries)
 php application/data/scripts/install-addon-deps.php MyModule
-
-# 3. Install external assets (js, css, etc.)
-php application/data/scripts/install-omeka-assets.php MyModule
 ```
 
 ### Install dependencies
@@ -129,26 +115,10 @@ php application/data/scripts/install-addon-deps.php --theme theme-name
 php application/data/scripts/install-addon-deps.php --dry-run ModuleName
 ```
 
-### Install assets
-
-```sh
-# Module
-php application/data/scripts/install-omeka-assets.php ModuleName
-
-# Theme
-php application/data/scripts/install-omeka-assets.php --theme theme-name
-
-# All modules and themes
-php application/data/scripts/install-omeka-assets.php --all
-
-# Force re-download
-php application/data/scripts/install-omeka-assets.php --force ModuleName
-```
-
 
 Funding
 -------
 
 This feature was funded for the [digital library Manioc](https://manioc.org) of
 the [Université des Antilles](https://www.univ-antilles.fr) (subvention
-Agence bibliographique de l’enseignement supérieur [Abes](https://abes.fr)).
+Agence bibliographique de l'enseignement supérieur [Abes](https://abes.fr)).

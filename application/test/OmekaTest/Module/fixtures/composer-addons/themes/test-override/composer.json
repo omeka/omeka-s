@@ -15,7 +15,7 @@
         "test"
     ],
     "require": {
-        "omeka/omeka-s-core": "^4.2"
+        "omeka/omeka-s": "^4.2"
     },
     "extra": {
         "installer-name": "test-override",

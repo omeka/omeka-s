@@ -15,7 +15,7 @@
         "label": "Test Addon Dependency"
     },
     "require": {
-        "omeka/omeka-s-core": "^4.0",
+        "omeka/omeka-s": "^4.0",
         "laminas/laminas-json": "^3.0"
     }
 }

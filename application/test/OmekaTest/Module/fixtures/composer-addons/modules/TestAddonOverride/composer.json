@@ -15,6 +15,6 @@
         "label": "Test Addon Override (Composer version)"
     },
     "require": {
-        "omeka/omeka-s-core": "^4.0"
+        "omeka/omeka-s": "^4.0"
     }
 }

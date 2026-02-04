@@ -22,21 +22,20 @@ https://packagist.org, it still can be managed via composer via the key
 Version compatibility
 ---------------------
 
-Add-ons can require `omeka/omeka-s-core` to declare compatibility with a
-specific Omeka version:
+Add-ons can require `omeka/omeka-s` to declare compatibility with a specific
+Omeka version:
 
 ```json
 {
     "require": {
-        "omeka/omeka-s-core": "^4.0"
+        "omeka/omeka-s": "^4.0"
     }
 }
 ```
 
-Note: the requirement must not be `omeka/omeka-s`, because `omeka/omeka-s` is
-defined as a "project" in the main composer.json. Furthermore, Omeka S uses
-composer `provide` mechanism to satisfy this dependency. By this way, the
-version constraint is automatically checked at install time.
+Omeka S uses Composer's `branch-alias` mechanism to ensure version constraints
+work on both tagged releases and development branches. The version constraint
+is automatically checked at install time.
 
 For manual add-ons (without composer), use `omeka_version_constraint` in
 `config/module.ini` or `config/theme.ini`.

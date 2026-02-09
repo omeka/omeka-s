@@ -19,6 +19,31 @@ use Laminas\Config\Reader\Ini as IniReader;
 class InfoReader
 {
     /**
+     * Generic keywords to filter out from tags.
+     */
+    protected const GENERIC_KEYWORDS = [
+        'omeka',
+        'omeka s',
+        'omeka-s',
+        'omeka s module',
+        'omeka module',
+        'module',
+        'omeka s theme',
+        'omeka theme',
+        'theme',
+    ];
+
+    /**
+     * Regex patterns to remove common prefixes from project names.
+     */
+    protected const PREFIX_PATTERN = '/^(omeka-?s?-?)?(module-|theme-)?/i';
+
+    /**
+     * Regex patterns to remove common suffixes from project names.
+     */
+    protected const SUFFIX_PATTERN = '/(-module|-theme)?(-omeka-?s?)?$/i';
+
+    /**
      * Cache of installed.json data, indexed by add-on directory name.
      *
      * @var array|null
@@ -131,57 +156,58 @@ class InfoReader
      */
     protected function merge(?array $composerJson, ?array $iniInfo, string $path): array
     {
-        $info = [];
-
         // Start with ini info as base.
-        if ($iniInfo) {
-            $info = $iniInfo;
-        }
+        $info = $iniInfo ?: [];
 
-        // If no composer.json, return ini info with defaults
+        // If no composer.json, return ini info with defaults.
         if (!$composerJson) {
             return $this->applyDefaults($info, $path);
         }
 
+        // Map package data to info, preserving existing ini values for optional
+        // fields.
+        $info = $this->mapPackageToInfo($composerJson, $info);
+
+        return $this->applyDefaults($info, $path, $composerJson);
+    }
+
+    /**
+     * Map composer package data to info array format.
+     *
+     * @param array $package The composer.json or installed.json package data
+     * @param array $existingInfo Optional existing info to preserve for fields
+     * not in package.
+     */
+    protected function mapPackageToInfo(array $package, array $existingInfo = []): array
+    {
+        $info = $existingInfo;
+        $extra = $package['extra'] ?? [];
+
         // Map standard composer.json fields.
         foreach ($this->composerToIniMap as $composerKey => $iniKey) {
-            if (isset($composerJson[$composerKey]) && $composerJson[$composerKey] !== '') {
-                $info[$iniKey] = $composerJson[$composerKey];
+            if (isset($package[$composerKey]) && $package[$composerKey] !== '') {
+                $info[$iniKey] = $package[$composerKey];
             }
         }
 
         // Map extra fields.
-        $extra = $composerJson['extra'] ?? [];
         foreach ($this->extraToIniMap as $extraKey => $iniKey) {
             if (isset($extra[$extraKey])) {
                 $info[$iniKey] = $extra[$extraKey];
             }
         }
 
-        // Map keywords to tags.
-        if (isset($composerJson['keywords']) && is_array($composerJson['keywords'])) {
-            // Filter out generic keywords.
-            $keywords = array_filter($composerJson['keywords'], function ($keyword) {
-                return !in_array(strtolower($keyword), [
-                    'omeka',
-                    'omeka s',
-                    'omeka-s',
-                    'omeka s module',
-                    'omeka module',
-                    'module',
-                    'omeka s theme',
-                    'omeka theme',
-                    'theme',
-                ]);
-            });
+        // Map keywords to tags, filtering out generic keywords.
+        if (isset($package['keywords']) && is_array($package['keywords'])) {
+            $keywords = $this->filterGenericKeywords($package['keywords']);
             if (count($keywords)) {
                 $info['tags'] = implode(', ', $keywords);
             }
         }
 
-        // Map authors.
-        if (isset($composerJson['authors']) && is_array($composerJson['authors']) && count($composerJson['authors'])) {
-            $firstAuthor = $composerJson['authors'][0];
+        // Map first author.
+        if (isset($package['authors'][0])) {
+            $firstAuthor = $package['authors'][0];
             if (isset($firstAuthor['name']) && !isset($info['author'])) {
                 $info['author'] = $firstAuthor['name'];
             }
@@ -190,19 +216,27 @@ class InfoReader
             }
         }
 
-        // Map support.
-        if (isset($composerJson['support']) && is_array($composerJson['support'])) {
-            if (isset($composerJson['support']['issues']) && !isset($info['support_link'])) {
-                $info['support_link'] = $composerJson['support']['issues'];
-            }
+        // Map support issues link.
+        if (isset($package['support']['issues']) && !isset($info['support_link'])) {
+            $info['support_link'] = $package['support']['issues'];
         }
 
-        // Specific: theme_link for themes.
-        if (isset($composerJson['homepage']) && !isset($info['theme_link'])) {
-            $info['theme_link'] = $composerJson['homepage'];
+        // theme_link uses the same homepage as module_link.
+        if (isset($package['homepage']) && !isset($info['theme_link'])) {
+            $info['theme_link'] = $package['homepage'];
         }
 
-        return $this->applyDefaults($info, $path, $composerJson);
+        return $info;
+    }
+
+    /**
+     * Filter out generic keywords that don't add value as tags.
+     */
+    protected function filterGenericKeywords(array $keywords): array
+    {
+        return array_filter($keywords, function ($keyword) {
+            return !in_array(strtolower($keyword), self::GENERIC_KEYWORDS);
+        });
     }
 
     /**
@@ -308,18 +342,7 @@ class InfoReader
      */
     public function projectNameToLabel(string $projectName): string
     {
-        // Extract composer project name.
-        $parts = explode('/', $projectName);
-        $project = end($parts);
-
-        // Remove common prefixes and suffixes.
-        $project = preg_replace('/^(omeka-?s?-?)?(module-|theme-)?/i', '', $project);
-        $project = preg_replace('/(-module|-theme)?(-omeka-?s?)?$/i', '', $project);
-
-        // Convert kebab-case to Title Case.
-        $words = explode('-', $project);
-        $words = array_map('ucfirst', $words);
-
+        $words = $this->projectNameToWords($projectName);
         return implode(' ', $words);
     }
 
@@ -332,19 +355,28 @@ class InfoReader
      */
     public function projectNameToDirectory(string $projectName): string
     {
-        // Extract composer project name.
+        $words = $this->projectNameToWords($projectName);
+        return implode('', $words);
+    }
+
+    /**
+     * Parse project name into clean words, removing omeka/module/theme noise.
+     *
+     * @return string[] Array of capitalized words
+     */
+    protected function projectNameToWords(string $projectName): array
+    {
+        // Extract project name after vendor/.
         $parts = explode('/', $projectName);
         $project = end($parts);
 
         // Remove common prefixes and suffixes.
-        $project = preg_replace('/^(omeka-?s?-?)?(module-|theme-)?/i', '', $project);
-        $project = preg_replace('/(-module|-theme)?(-omeka-?s?)?$/i', '', $project);
+        $project = preg_replace(self::PREFIX_PATTERN, '', $project);
+        $project = preg_replace(self::SUFFIX_PATTERN, '', $project);
 
-        // Convert kebab-case to PascalCase.
+        // Split kebab-case and capitalize each word.
         $words = explode('-', $project);
-        $words = array_map('ucfirst', $words);
-
-        return implode('', $words);
+        return array_map('ucfirst', $words);
     }
 
     /**
@@ -429,74 +461,18 @@ class InfoReader
     }
 
     /**
-     * Build info array from a Composer package entry.
+     * Build info array from a Composer package entry in installed.json.
      */
     protected function buildInfoFromPackage(array $package): array
     {
-        $extra = $package['extra'] ?? [];
-        $info = [];
+        $info = $this->mapPackageToInfo($package);
 
-        // Map standard composer.json fields.
-        foreach ($this->composerToIniMap as $composerKey => $iniKey) {
-            if (isset($package[$composerKey]) && $package[$composerKey] !== '') {
-                $info[$iniKey] = $package[$composerKey];
-            }
-        }
-
-        // Map extra fields.
-        foreach ($this->extraToIniMap as $extraKey => $iniKey) {
-            if (isset($extra[$extraKey])) {
-                $info[$iniKey] = $extra[$extraKey];
-            }
-        }
-
-        // Map keywords to tags.
-        if (isset($package['keywords']) && is_array($package['keywords'])) {
-            $keywords = array_filter($package['keywords'], function ($keyword) {
-                return !in_array(strtolower($keyword), [
-                    'omeka',
-                    'omeka s',
-                    'omeka-s',
-                    'omeka s module',
-                    'omeka module',
-                    'module',
-                    'omeka s theme',
-                    'omeka theme',
-                    'theme',
-                ]);
-            });
-            if (count($keywords)) {
-                $info['tags'] = implode(', ', $keywords);
-            }
-        }
-
-        // Map authors.
-        if (isset($package['authors'][0])) {
-            $firstAuthor = $package['authors'][0];
-            if (isset($firstAuthor['name'])) {
-                $info['author'] = $firstAuthor['name'];
-            }
-            if (isset($firstAuthor['homepage'])) {
-                $info['author_link'] = $firstAuthor['homepage'];
-            }
-        }
-
-        // Map support.
-        if (isset($package['support']['issues'])) {
-            $info['support_link'] = $package['support']['issues'];
-        }
-
-        // Specific: theme_link for themes.
-        if (isset($package['homepage'])) {
-            $info['theme_link'] = $package['homepage'];
-        }
-
-        // Apply defaults.
+        // Default name from project name.
         if (empty($info['name'])) {
             $info['name'] = $this->projectNameToLabel($package['name'] ?? '');
         }
 
-        // Version from package, with 'v' prefix removed.
+        // Default version, with 'v' prefix removed.
         if (empty($info['version'])) {
             $version = $package['version'] ?? '1.0.0';
             $info['version'] = ltrim($version, 'vV');

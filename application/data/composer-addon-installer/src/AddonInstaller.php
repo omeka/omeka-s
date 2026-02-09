@@ -33,10 +33,10 @@ class AddonInstaller extends LibraryInstaller
     {
         $addonName = static::getInstallName($package);
         switch ($package->getType()) {
-            case 'omeka-s-theme':
-                return 'themes/' . $addonName;
             case 'omeka-s-module':
-                return 'modules/' . $addonName;
+                return 'composer-addons/modules/' . $addonName;
+            case 'omeka-s-theme':
+                return 'composer-addons/themes/' . $addonName;
             default:
                 throw new \InvalidArgumentException('Invalid Omeka S addon package type');
         }

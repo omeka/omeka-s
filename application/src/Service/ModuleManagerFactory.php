@@ -31,14 +31,29 @@ class ModuleManagerFactory implements FactoryInterface
         $connection = $serviceLocator->get('Omeka\Connection');
 
         // Get all modules from the filesystem.
-        foreach (new DirectoryIterator(OMEKA_PATH . '/modules') as $dir) {
+        // Scan local modules first so they take precedence over addons.
+        $modulePaths = [
+            OMEKA_PATH . '/modules',
+            OMEKA_PATH . '/composer-addons/modules',
+        ];
+        foreach ($modulePaths as $modulePath) {
+            if (!is_dir($modulePath)) {
+                continue;
+            }
+            foreach (new DirectoryIterator($modulePath) as $dir) {
 
             // Module must be a directory
             if (!$dir->isDir() || $dir->isDot()) {
                 continue;
             }
 
-            $module = $manager->registerModule($dir->getBasename());
+            // Skip if module already registered (local takes precedence).
+            $moduleId = $dir->getBasename();
+            if ($manager->isRegistered($moduleId)) {
+                continue;
+            }
+
+            $module = $manager->registerModule($moduleId);
 
             // Module directory must contain config/module.ini
             $iniFile = new SplFileInfo($dir->getPathname() . '/config/module.ini');
@@ -75,6 +90,7 @@ class ModuleManagerFactory implements FactoryInterface
             if ($omekaConstraint !== null && !Semver::satisfies(CoreModule::VERSION, $omekaConstraint)) {
                 $module->setState(ModuleManager::STATE_INVALID_OMEKA_VERSION);
                 continue;
+            }
             }
         }
 

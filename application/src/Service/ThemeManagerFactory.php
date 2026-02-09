@@ -23,16 +23,32 @@ class ThemeManagerFactory implements FactoryInterface
         $iniReader = new IniReader;
 
         // Get all themes from the filesystem.
-        foreach (new DirectoryIterator(OMEKA_PATH . '/themes') as $dir) {
+        // Scan local themes first so they take precedence over addons.
+        $themePaths = [
+            'themes' => OMEKA_PATH . '/themes',
+            'composer-addons/themes' => OMEKA_PATH . '/composer-addons/themes',
+        ];
+        foreach ($themePaths as $basePath => $themePath) {
+            if (!is_dir($themePath)) {
+                continue;
+            }
+            foreach (new DirectoryIterator($themePath) as $dir) {
 
             // Theme must be a directory
             if (!$dir->isDir() || $dir->isDot()) {
                 continue;
             }
 
-            $theme = $manager->registerTheme($dir->getBasename());
+            // Skip if theme already registered (local takes precedence).
+            $themeId = $dir->getBasename();
+            if ($manager->isRegistered($themeId)) {
+                continue;
+            }
 
-            // Theme directory must contain config/module.ini
+            $theme = $manager->registerTheme($themeId);
+            $theme->setBasePath($basePath);
+
+            // Theme directory must contain config/theme.ini
             $iniFile = new SplFileInfo($dir->getPathname() . '/config/theme.ini');
             if (!$iniFile->isReadable() || !$iniFile->isFile()) {
                 $theme->setState(ThemeManager::STATE_INVALID_INI);
@@ -83,6 +99,7 @@ class ThemeManagerFactory implements FactoryInterface
                     : array_replace_recursive($moduleBlockTemplates, $configSpec['block_templates']);
             }
             $theme->setConfigSpec($configSpec);
+            }
         }
 
         // Note that, unlike the ModuleManagerFactory, this does not register

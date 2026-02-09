@@ -744,7 +744,10 @@ class Module extends AbstractModule
 
             $joinConditions = sprintf(
                 'omeka_fulltext_search.id = omeka_root.id AND omeka_fulltext_search.resource = %s',
-                $qb->createNamedParameter($adapter->getResourceName())
+                // Account for QueryBuilder without createNamedParameter().
+                ($qb instanceof \Omeka\Db\QueryBuilder)
+                    ? $qb->createNamedParameter($adapter->getResourceName())
+                    : $adapter->createNamedParameter($qb, $adapter->getResourceName())
             );
             $qb->innerJoin('Omeka\Entity\FulltextSearch', 'omeka_fulltext_search', 'WITH', $joinConditions);
 

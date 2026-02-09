@@ -139,7 +139,7 @@ class Theme
     public function isConfigurable()
     {
         $configSpec = $this->getConfigSpec();
-        return $configSpec && $configSpec['elements'];
+        return $configSpec && !empty($configSpec['elements']);
     }
 
     /**

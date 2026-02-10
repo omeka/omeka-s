@@ -458,7 +458,7 @@ class Module extends AbstractModule
         $adapter = $event->getTarget();
 
         $qb = $event->getParam('queryBuilder');
-        $itemAlias = self::createAlias();
+        $itemAlias = self::createAlias($qb, $adapter);
         $qb->innerJoin('omeka_root.item', $itemAlias);
 
         // Users can view media they do not own that belong to public items.
@@ -500,7 +500,7 @@ class Module extends AbstractModule
         $identity = $this->getServiceLocator()
             ->get('Omeka\AuthenticationService')->getIdentity();
         if ($identity) {
-            $sitePermissionAlias = self::createAlias();
+            $sitePermissionAlias = self::createAlias($qb, $adapter);
             $qb->leftJoin('omeka_root.sitePermissions', $sitePermissionAlias);
 
             $expression = $qb->expr()->orX(
@@ -957,7 +957,7 @@ class Module extends AbstractModule
      * Accounts for pre-4.2 versions of Omeka, before createAlias() was
      * callable from the query builder.
      */
-    public static function createAlias(DoctrineQueryBuilder $qb)
+    public static function createAlias(DoctrineQueryBuilder $qb, AbstractEntityAdapter $adapter)
     {
         return ($qb instanceof OmekaQueryBuilder)
             ? $qb->createAlias()

@@ -1,10 +1,13 @@
 <?php
 namespace Omeka;
 
+use Doctrine\ORM\QueryBuilder as DoctrineQueryBuilder;
 use EasyRdf\Graph;
+use Omeka\Api\Adapter\AbstractEntityAdapter;
 use Omeka\Api\Adapter\FulltextSearchableInterface;
 use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
 use Omeka\Api\Representation\RepresentationInterface;
+use Omeka\Db\QueryBuilder as OmekaQueryBuilder;
 use Omeka\Entity\Item;
 use Omeka\Entity\Media;
 use Omeka\Module\AbstractModule;
@@ -455,7 +458,7 @@ class Module extends AbstractModule
         $adapter = $event->getTarget();
 
         $qb = $event->getParam('queryBuilder');
-        $itemAlias = $qb->createAlias();
+        $itemAlias = self::createAlias($qb, $adapter);
         $qb->innerJoin('omeka_root.item', $itemAlias);
 
         // Users can view media they do not own that belong to public items.
@@ -469,7 +472,7 @@ class Module extends AbstractModule
                 $expression,
                 $qb->expr()->eq(
                     "$itemAlias.owner",
-                    $qb->createNamedParameter($identity)
+                    self::createNamedParameter($identity, $qb, $adapter)
                 )
             );
         }
@@ -497,7 +500,7 @@ class Module extends AbstractModule
         $identity = $this->getServiceLocator()
             ->get('Omeka\AuthenticationService')->getIdentity();
         if ($identity) {
-            $sitePermissionAlias = $qb->createAlias();
+            $sitePermissionAlias = self::createAlias($qb, $adapter);
             $qb->leftJoin('omeka_root.sitePermissions', $sitePermissionAlias);
 
             $expression = $qb->expr()->orX(
@@ -505,12 +508,12 @@ class Module extends AbstractModule
                 // Users can view all sites they own.
                 $qb->expr()->eq(
                     'omeka_root.owner',
-                    $qb->createNamedParameter($identity)
+                    self::createNamedParameter($identity, $qb, $adapter)
                 ),
                 // Users can view sites where they have a role (any role).
                 $qb->expr()->eq(
                     "$sitePermissionAlias.user",
-                    $qb->createNamedParameter($identity)
+                    self::createNamedParameter($identity, $qb, $adapter)
                 )
             );
         }
@@ -744,7 +747,7 @@ class Module extends AbstractModule
 
             $joinConditions = sprintf(
                 'omeka_fulltext_search.id = omeka_root.id AND omeka_fulltext_search.resource = %s',
-                $qb->createNamedParameter($adapter->getResourceName())
+                self::createNamedParameter($adapter->getResourceName(), $qb, $adapter)
             );
             $qb->innerJoin('Omeka\Entity\FulltextSearch', 'omeka_fulltext_search', 'WITH', $joinConditions);
 
@@ -933,5 +936,31 @@ class Module extends AbstractModule
         if (!array_key_exists($currentSite->id(), $sites)) {
             $view->headMeta()->prependName('robots', 'noindex');
         }
+    }
+
+    /**
+     * Create a unique named parameter.
+     *
+     * Accounts for pre-4.2 versions of Omeka, before createNamedParameter() was
+     * callable from the query builder.
+     */
+    public static function createNamedParameter($value, DoctrineQueryBuilder $qb, AbstractEntityAdapter $adapter)
+    {
+        return ($qb instanceof OmekaQueryBuilder)
+            ? $qb->createNamedParameter($value)
+            : $adapter->createNamedParameter($qb, $value);
+    }
+
+    /**
+     * Create a unique alias.
+     *
+     * Accounts for pre-4.2 versions of Omeka, before createAlias() was
+     * callable from the query builder.
+     */
+    public static function createAlias(DoctrineQueryBuilder $qb, AbstractEntityAdapter $adapter)
+    {
+        return ($qb instanceof OmekaQueryBuilder)
+            ? $qb->createAlias()
+            : $adapter->createAlias();
     }
 }

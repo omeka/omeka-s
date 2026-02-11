@@ -1911,6 +1911,18 @@ fieldset.section > legend {
             box-shadow: 0 0 0 1px #DA8B8B inset;
         }
     }
+
+    button.o-icon-private,
+    button.o-icon-public {
+        background-color: transparent;
+        box-shadow: none;
+        border: 0;
+        color: $red;
+
+        &:hover {
+            color: $light-red;
+        }
+    }
 }
 
 .page-action-menu {
@@ -2702,6 +2714,19 @@ fieldset.section > legend {
         text-align: center;
     }
 
+    .input-footer .actions button {
+        background-color: transparent;
+        color: $red;
+
+        &:before {
+            text-align: center;
+        }
+
+        &:hover {
+            color: $light-red;
+        }
+    }
+
     .more-actions ul {
         padding: 0;
         display: none;
@@ -2715,6 +2740,10 @@ fieldset.section > legend {
         ul {
             display: block;
         }
+    }
+
+    .more-actions .actions button:before {
+        text-align: center;
     }
 
     .value.delete {

@@ -2754,6 +2754,7 @@ fieldset.section > legend {
     .value .restore-value,
     .value.delete a.tab,
     .value.delete .actions a:not(.restore-value),
+    .value.delete .actions button:not(.restore-value),
     .value.delete .block-page-layout-grid-controls {
         display: none;
     }

@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Form;
 
+use Omeka\Form\Element\Asset;
 use Omeka\Form\Element\ItemSetSelect;
 use Omeka\Form\Element\PropertySelect;
 use Omeka\Form\Element\ResourceClassSelect;
@@ -100,6 +101,17 @@ class ResourceBatchUpdateForm extends Form implements EventManagerAwareInterface
                 'label' => 'Set class', // @translate
                 'prepend_value_options' => ['-1' => '[Unset class]'], // @translate
                 'empty_option' => '[No change]', // @translate
+            ],
+        ]);
+
+        $this->add([
+            'name' => 'thumbnail',
+            'type' => Asset::class,
+            'attributes' => [
+                'id' => 'thumbnail',
+            ],
+            'options' => [
+                'label' => 'Set thumbnail', // @translate
             ],
         ]);
 
@@ -364,6 +376,9 @@ class ResourceBatchUpdateForm extends Form implements EventManagerAwareInterface
             $preData['remove']['o:resource_class'] = ['o:id' => null];
         } elseif (is_numeric($data['resource_class'])) {
             $preData['remove']['o:resource_class'] = ['o:id' => $data['resource_class']];
+        }
+        if (is_numeric($data['thumbnail'])) {
+            $preData['remove']['o:thumbnail'] = ['o:id' => $data['thumbnail']];
         }
         if (is_numeric($data['owner'])) {
             $preData['remove']['o:owner'] = ['o:id' => $data['owner']];

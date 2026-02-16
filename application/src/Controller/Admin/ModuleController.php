@@ -98,7 +98,7 @@ class ModuleController extends AbstractActionController
     public function installAction()
     {
         if (!$this->getRequest()->isPost()) {
-            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'not_installed']], true);
         }
         $id = $this->params()->fromQuery('id');
         $form = $this->getForm(ModuleStateChangeForm::class, [
@@ -117,7 +117,9 @@ class ModuleController extends AbstractActionController
             $this->omekaModules->install($module);
         } catch (ModuleCannotInstallException $e) {
             $this->messenger()->addError($e->getMessage());
-            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'not_installed']], true);
+        } catch (\Exception $e) {
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'not_installed']], true);
         }
         $this->messenger()->addSuccess('The module was successfully installed'); // @translate
         if ($module->isConfigurable()) {
@@ -126,7 +128,7 @@ class ModuleController extends AbstractActionController
                 ['query' => ['id' => $module->getId()]], true
             );
         }
-        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'not_installed']], true);
     }
 
     public function uninstallConfirmAction()
@@ -175,7 +177,11 @@ class ModuleController extends AbstractActionController
         if (!$module) {
             throw new Exception\NotFoundException;
         }
-        $this->omekaModules->uninstall($module);
+        try {
+            $this->omekaModules->uninstall($module);
+        } catch (\Exception $e) {
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        }
         $this->messenger()->addSuccess('The module was successfully uninstalled'); // @translate
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
@@ -186,7 +192,7 @@ class ModuleController extends AbstractActionController
     public function activateAction()
     {
         if (!$this->getRequest()->isPost()) {
-            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'not_active']], true);
         }
         $id = $this->params()->fromQuery('id');
         $form = $this->getForm(ModuleStateChangeForm::class, [
@@ -203,7 +209,7 @@ class ModuleController extends AbstractActionController
         }
         $this->omekaModules->activate($module);
         $this->messenger()->addSuccess('The module was successfully activated'); // @translate
-        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'not_active']], true);
     }
 
     /**
@@ -212,7 +218,7 @@ class ModuleController extends AbstractActionController
     public function deactivateAction()
     {
         if (!$this->getRequest()->isPost()) {
-            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'active']], true);
         }
         $id = $this->params()->fromQuery('id');
         $form = $this->getForm(ModuleStateChangeForm::class, [
@@ -229,7 +235,7 @@ class ModuleController extends AbstractActionController
         }
         $this->omekaModules->deactivate($module);
         $this->messenger()->addSuccess('The module was successfully deactivated'); // @translate
-        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'active']], true);
     }
 
     /**
@@ -238,7 +244,7 @@ class ModuleController extends AbstractActionController
     public function upgradeAction()
     {
         if (!$this->getRequest()->isPost()) {
-            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'needs_upgrade']], true);
         }
         $id = $this->params()->fromQuery('id');
         $form = $this->getForm(ModuleStateChangeForm::class, [
@@ -253,9 +259,13 @@ class ModuleController extends AbstractActionController
         if (!$module) {
             throw new Exception\NotFoundException;
         }
-        $this->omekaModules->upgrade($module);
+        try {
+            $this->omekaModules->upgrade($module);
+        } catch (\Exception $e) {
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'needs_upgrade']], true);
+        }
         $this->messenger()->addSuccess('The module was successfully upgraded'); // @translate
-        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'needs_upgrade']], true);
     }
 
     /**
@@ -285,7 +295,7 @@ class ModuleController extends AbstractActionController
                 unset($this->getRequest()->getPost()["{$formName}_csrf"]);
                 if (false !== $moduleObject->handleConfigForm($this)) {
                     $this->messenger()->addSuccess('The module was successfully configured'); // @translate
-                    return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+                    return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'active']], true);
                 }
                 $this->messenger()->addError('There was a problem during configuration'); // @translate
             } else {

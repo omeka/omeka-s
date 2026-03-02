@@ -51,7 +51,8 @@ class ModuleController extends AbstractActionController
             $modules = array_merge(
                 $this->omekaModules->getModulesByState('not_found'),
                 $this->omekaModules->getModulesByState('invalid_module'),
-                $this->omekaModules->getModulesByState('invalid_ini')
+                $this->omekaModules->getModulesByState('invalid_ini'),
+                $this->omekaModules->getModulesByState('invalid_omeka_version')
             );
         } elseif ($state) {
             $modules = $this->omekaModules->getModulesByState($state);

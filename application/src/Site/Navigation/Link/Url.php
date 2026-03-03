@@ -26,6 +26,10 @@ class Url implements LinkInterface
             $errorStore->addError('o:navigation', 'Invalid navigation: URL link missing URL');
             return false;
         }
+        if ('javascript' === parse_url($data['url'], \PHP_URL_SCHEME)) {
+            $errorStore->addError('o:navigation', 'Invalid navigation: URL link invalid scheme');
+            return false;
+        }
         return true;
     }
 

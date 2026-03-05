@@ -29,11 +29,12 @@ class Api extends AbstractHelper
      *
      * @param string $resource
      * @param mixed $data
+     * @param array $options
      * @return \Omeka\Api\Response
      */
-    public function search($resource, $data = [])
+    public function search($resource, $data = [], array $options = [])
     {
-        return $this->apiManager->search($resource, $data);
+        return $this->apiManager->search($resource, $data ,$options);
     }
 
     /**
@@ -44,12 +45,14 @@ class Api extends AbstractHelper
      *
      * @param string $resource
      * @param array $data
+     * @param array $options
      * @return \Omeka\Api\Response
      */
-    public function searchOne($resource, $data = [])
+    public function searchOne($resource, $data = [], array $options = [])
     {
         $data['limit'] = 1;
-        $response = $this->apiManager->search($resource, $data, ['countQuery' => false]);
+        $options['countQuery'] = false;
+        $response = $this->apiManager->search($resource, $data, $options);
         $content = $response->getContent();
         $content = is_array($content) && count($content) ? reset($content) : null;
         $response->setContent($content);
@@ -62,10 +65,11 @@ class Api extends AbstractHelper
      * @param string $resource
      * @param mixed $id
      * @param mixed $data
+     * @param array $options
      * @return \Omeka\Api\Response
      */
-    public function read($resource, $id, $data = [])
+    public function read($resource, $id, $data = [], array $options = [])
     {
-        return $this->apiManager->read($resource, $id, $data);
+        return $this->apiManager->read($resource, $id, $data, $options);
     }
 }

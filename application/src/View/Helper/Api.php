@@ -34,7 +34,7 @@ class Api extends AbstractHelper
      */
     public function search($resource, $data = [], array $options = [])
     {
-        return $this->apiManager->search($resource, $data ,$options);
+        return $this->apiManager->search($resource, $data, $options);
     }
 
     /**

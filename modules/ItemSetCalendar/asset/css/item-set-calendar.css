@@ -1,0 +1,26 @@
+.item-set-calendar-calendar {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.item-set-calendar-calendar .item-set-calendar-month {
+    flex-basis: 25%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    padding: 0 10px;
+}
+
+.item-set-calendar-calendar .item-set-calendar-month .item-set-calendar-days {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.item-set-calendar-calendar .item-set-calendar-month .item-set-calendar-day {
+    flex-basis: calc(100% / 7);
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.item-set-navigation {
+    text-align: right;
+}

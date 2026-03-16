@@ -1,0 +1,141 @@
+<?php $this->htmlElement('body')->appendAttribute('class', 'item resource browse item-set'); ?>
+<?php $this->headLink()->appendStylesheet($this->assetUrl('css/item-set-calendar.css', 'ItemSetCalendar') . '?v=' . time()); ?>
+<?php $pageTitle = $itemSet->displayTitle(); ?>
+<?php if (isset($date)): ?>
+    <?php $pageTitle .= ' (' . $date . ')'; ?>
+<?php elseif (isset($year)): ?>
+    <?php $pageTitle .= ' (' . $year . ')'; ?>
+<?php endif; ?>
+<?php echo $this->pageTitle($pageTitle, 2); ?>
+<h3><?php echo $this->translate('Item set'); ?></h3>
+<div class="metadata">
+    <?php echo $itemSet->displayValues(); ?>
+</div>
+<div class="item-set-items">
+    <?php $yearQuery = $this->params()->fromQuery('year'); ?>
+
+    <?php if ($yearQuery): ?>
+        <div class="item-set-navigation">
+            <a href="<?= $this->escapeHtmlAttr($itemSet->siteUrl()) ?>" class="button item-set-navigation-back-button">
+                <i class="fas fa-angle-left" aria-hidden="true"></i>
+                <?= $this->escapeHtml($this->translate('Back to Full Item Set')) ?>
+            </a>
+        </div>
+    <?php endif; ?>
+
+    <?php echo '<h3>' . $this->escapeHtml($this->translate('Items')) . '</h3>'; ?>
+
+    <?php if (isset($date)): ?>
+        <ul>
+            <?php foreach ($items as $item): ?>
+                <li><?php echo $this->hyperlink($item->displayTitle(), $item->siteUrl()); ?></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php elseif (isset($year)): ?>
+        <?php $months = [
+            1 => $this->translate('January'),
+            2 => $this->translate('February'),
+            3 => $this->translate('March'),
+            4 => $this->translate('April'),
+            5 => $this->translate('May'),
+            6 => $this->translate('June'),
+            7 => $this->translate('July'),
+            8 => $this->translate('August'),
+            9 => $this->translate('September'),
+            10 => $this->translate('October'),
+            11 => $this->translate('November'),
+            12 => $this->translate('December'),
+        ]; ?>
+
+        <?php if (!empty($itemsByDay)): ?>
+            <?= $this->partial(
+                'item-set-calendar/common/years-navigation',
+                ['itemSet' => $itemSet, 'year' => $year, 'prevYear' => $prevYear, 'nextYear' => $nextYear]
+            ) ?>
+
+            <section id="item-set-calendar-by-day">
+                <h4><?php echo $this->translate('By day'); ?></h4>
+
+                <div class="item-set-calendar-calendar">
+                    <?php foreach ($months as $month => $monthName): ?>
+                        <?php if (!empty($itemsByDay[$month]) || $this->setting('itemsetcalendar_show_empty_months', false)): ?>
+                            <div class="item-set-calendar-month">
+                                <h5><?php echo $monthName; ?></h5>
+                                <div class="item-set-calendar-days">
+                                    <?php $days_in_month = cal_days_in_month(CAL_GREGORIAN, $month, $year); ?>
+                                    <?php for($day = 1; $day <= $days_in_month; $day++): ?>
+                                        <div class="item-set-calendar-day">
+                                            <?php if (!empty($itemsByDay[$month][$day])): ?>
+                                                <?php if (count($itemsByDay[$month][$day]) === 1): ?>
+                                                    <?php $item = reset($itemsByDay[$month][$day]); ?>
+                                                    <?php echo $this->hyperlink($day, $item->siteUrl(), ['title' => $item->displayTitle()]); ?>
+                                                <?php else: ?>
+                                                    <?php echo $this->hyperlink(
+                                                        $day,
+                                                        $this->url(
+                                                            'site/item-set',
+                                                            [],
+                                                            [
+                                                                'query' => [
+                                                                    'date' => sprintf('%04d-%02d-%02d', $year, $month, $day),
+                                                                ],
+                                                            ],
+                                                            true
+                                                        ),
+                                                        ['title' => sprintf($this->translate('%d items'), count($itemsByDay[$month][$day]))]
+                                                    ); ?>
+                                                <?php endif; ?>
+                                            <?php else: ?>
+                                                <span><?php echo $day; ?></span>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endfor; ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+            </section>
+        <?php endif; ?>
+
+        <?php if (!empty($itemsByMonth)): ?>
+            <section id="item-set-calendar-by-month">
+                <h4><?php echo $this->translate('By month'); ?></h4>
+
+                <div class="item-set-calendar-months">
+                    <?php foreach ($months as $month => $monthName): ?>
+                        <?php if (!empty($itemsByMonth[$month])): ?>
+                            <div class="item-set-calendar-month">
+                                <h5><?php echo $monthName; ?></h5>
+
+                                <ul>
+                                    <?php foreach ($itemsByMonth[$month] as $item): ?>
+                                        <li><?php echo $this->hyperlink($item->displayTitle(), $item->siteUrl()); ?></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+            </section>
+        <?php endif; ?>
+
+        <?php if (!empty($itemsByYear)): ?>
+            <section id="item-set-calendar-by-year">
+                <h4><?php echo $this->translate('By year'); ?></h4>
+
+                <ul>
+                    <?php foreach ($itemsByYear as $item): ?>
+                        <li><?php echo $this->hyperlink($item->displayTitle(), $item->siteUrl()); ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </section>
+        <?php endif; ?>
+    <?php else: ?>
+        <ul>
+            <?php foreach ($years as $year): ?>
+                <li><?php echo $this->hyperlink($year, $this->url('site/item-set', [], ['query' => ['year' => $year]], true)); ?></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+</div>

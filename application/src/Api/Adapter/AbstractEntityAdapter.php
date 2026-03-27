@@ -181,19 +181,19 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     public function sortByCount(QueryBuilder $qb, array $query,
         $inverseField, $instanceOf = null
     ) {
-        $inverseAlias = $qb->createAlias();
-        $countAlias = $qb->createAlias();
-
-        $qb->addSelect("COUNT($inverseAlias.id) HIDDEN $countAlias");
         if ($instanceOf) {
+            $inverseAlias = $qb->createAlias();
+            $countAlias = $qb->createAlias();
+
+            $qb->addSelect("COUNT($inverseAlias.id) HIDDEN $countAlias");
             $qb->leftJoin(
                 "omeka_root.$inverseField", $inverseAlias,
                 'WITH', "$inverseAlias INSTANCE OF $instanceOf"
             );
+            $qb->addOrderBy($countAlias, $query['sort_order']);
         } else {
-            $qb->leftJoin("omeka_root.$inverseField", $inverseAlias);
+            $qb->addOrderBy("SIZE(omeka_root.$inverseField)", $query['sort_order']);
         }
-        $qb->addOrderBy($countAlias, $query['sort_order']);
     }
 
     /**

@@ -25,9 +25,6 @@ class IiifViewerController extends AbstractActionController
                 'sideBarOpen' => true,
                 'defaultSidebarPanelWidth' => 300,
             ],
-            'osdConfig' => [
-                'maxZoomPixelRatio' => 100,
-            ],
             'windows' => [
                 [
                     'manifestId' => $this->params()->fromQuery('url'),

@@ -1,0 +1,37 @@
+<?php
+$this->headScript()->appendFile($this->assetUrl('js/resource-picker-select-form.js', 'Omeka'));
+
+$endpointUrl = $this->url(
+    $element->getResourcesEndpointRoute(),
+    $element->getResourcesEndpointRouteParams(),
+    ['query' => array_merge($element->getQuery(), ['resource_partial' => $element->getResourcePartial()])]
+);
+
+$selectedIds = array_filter((array) $element->getValue());
+$selectedResources = $selectedIds
+    ? $this->api()->search($element->getApiResource(), ['id' => $selectedIds])->getContent()
+    : [];
+
+$inputName = $element->isMultiple() ? $element->getName() . '[]' : $element->getName();
+?>
+<div class="resource-picker-select-element<?php echo $element->isMultiple() ? ' resource-picker-select-multiple' : ''; ?>"
+    data-input-name="<?php echo $this->escapeHtml($inputName); ?>">
+    <div class="resource-list resource-picker-selections">
+        <?php foreach ($selectedResources as $resource): ?>
+        <div class="resource">
+            <div class="resource-link">
+                <?php echo $this->partial($element->getResourcePartial(), ['resource' => $resource]); ?>
+            </div>
+            <input type="hidden" name="<?php echo $this->escapeHtml($inputName); ?>" value="<?php echo $resource->id(); ?>">
+            <a href="#" class="resource-picker-remove-resource o-icon-delete" title="<?php echo $this->escapeHtml($this->translate('Remove')); ?>"></a>
+        </div>
+        <?php endforeach; ?>
+    </div>
+    <button type="button" class="resource-picker-select-button button"
+        data-sidebar-content-url="<?php echo $this->escapeHtml($endpointUrl); ?>">
+        <?php echo $this->translate('Select'); ?>
+    </button>
+    <?php if ($element->isMultiple()): ?>
+    <button type="button" class="resource-picker-clear red button"><?php echo $this->translate('Clear'); ?></button>
+    <?php endif; ?>
+</div>

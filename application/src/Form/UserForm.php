@@ -2,9 +2,8 @@
 namespace Omeka\Form;
 
 use Omeka\Form\Element\Columns;
-use Omeka\Form\Element\ItemSetSelect;
+use Omeka\Form\Element\ResourcePickerSelect;
 use Omeka\Form\Element\ResourceSelect;
-use Omeka\Form\Element\SiteSelect;
 use Omeka\Form\Element\BrowseDefaults;
 use Omeka\Permissions\Acl;
 use Omeka\Settings\Settings;
@@ -173,44 +172,37 @@ class UserForm extends Form implements EventManagerAwareInterface
         ]);
         $settingsFieldset->add([
             'name' => 'default_item_sets',
-            'type' => ItemSetSelect::class,
-            'attributes' => [
-                'value' => $userId ? $this->userSettings->get('default_item_sets', null, $userId) : [],
-                'class' => 'chosen-select',
-                'data-placeholder' => 'Select item sets', // @translate
-                'multiple' => true,
-                'id' => 'default_item_sets',
-            ],
+            'type' => ResourcePickerSelect::class,
             'options' => [
                 'label' => 'Default item sets for items', // @translate
-                'empty_option' => '',
-                'query' => ['is_open' => true],
+                'multiple' => true,
+                'api_resource' => 'item_sets',
+                'resource_partial' => 'omeka/admin/item-set/resource-picker-resource',
+                'resources_endpoint_route' => 'admin/default',
+                'resources_endpoint_route_params' => ['controller' => 'item-set', 'action' => 'resource-picker'],
             ],
         ]);
+        if ($userId) {
+            $settingsFieldset->get('default_item_sets')
+                ->setValue($this->userSettings->get('default_item_sets', null, $userId) ?: []);
+        }
         $settingsFieldset->add([
             'name' => 'default_item_sites',
-            'type' => SiteSelect::class,
-            'attributes' => [
-                'value' => $userId ? $this->userSettings->get('default_item_sites', null, $userId) : [],
-                'class' => 'chosen-select',
-                'data-placeholder' => 'Select sites', // @translate
-                'multiple' => true,
-                'id' => 'default_sites',
-            ],
+            'type' => ResourcePickerSelect::class,
             'options' => [
                 'label' => 'Default sites for items', // @translate
-                'empty_option' => '',
-                'filter_resource_representations' => function ($sites) {
-                    // The user must have permission to assign items to the site.
-                    foreach ($sites as $index => $site) {
-                        if (!$site->userIsAllowed('can-assign-items')) {
-                            unset($sites[$index]);
-                        }
-                    }
-                    return $sites;
-                },
+                'multiple' => true,
+                'api_resource' => 'sites',
+                'resource_partial' => 'omeka/admin/site/resource-picker-resource',
+                'resources_endpoint_route' => 'admin/default',
+                'resources_endpoint_route_params' => ['controller' => 'site', 'action' => 'resource-picker'],
+                'query' => ['can_assign_items' => true],
             ],
         ]);
+        if ($userId) {
+            $settingsFieldset->get('default_item_sites')
+                ->setValue($this->userSettings->get('default_item_sites', null, $userId) ?: []);
+        }
         $settingsFieldset->add([
             'name' => 'columns_admin_items',
             'type' => Columns::class,

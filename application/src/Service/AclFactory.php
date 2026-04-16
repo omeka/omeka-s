@@ -356,8 +356,9 @@ class AclFactory implements FactoryInterface
             [
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
+                'Omeka\Controller\Admin\Site',
             ],
-            ['sidebar-select', 'search']
+            ['sidebar-select', 'search', 'resource-picker']
         );
         $acl->allow(
             'researcher',
@@ -447,8 +448,9 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
                 'Omeka\Controller\Admin\Media',
+                'Omeka\Controller\Admin\Site',
             ],
-            ['sidebar-select', 'search']
+            ['sidebar-select', 'search', 'resource-picker']
         );
         $acl->allow(
             'author',
@@ -622,8 +624,9 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
                 'Omeka\Controller\Admin\Media',
+                'Omeka\Controller\Admin\Site',
             ],
-            ['sidebar-select', 'search']
+            ['sidebar-select', 'search', 'resource-picker']
         );
         $acl->allow(
             'reviewer',
@@ -800,8 +803,9 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
                 'Omeka\Controller\Admin\Media',
+                'Omeka\Controller\Admin\Site',
             ],
-            ['sidebar-select', 'search']
+            ['sidebar-select', 'search', 'resource-picker']
         );
         $acl->allow(
             'editor',

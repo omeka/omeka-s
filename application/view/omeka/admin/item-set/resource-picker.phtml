@@ -1,0 +1,70 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+?>
+<div class="resource-picker-sidebar-content">
+    <div class="sidebar-header">
+        <h3><?php echo $translate('Select item set'); ?></h3>
+        <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
+    </div>
+    <div class="search-nav">
+        <div class="resource-search" data-search-url="<?php echo $escape($this->url(null, [], ['query' => ['resource_partial' => $resourcePartial]], true)); ?>">
+            <?php echo $this->queryToHiddenInputs([
+                'sort_by', 'sort_order', 'page',
+                'resource_partial', 'search', 'resource_class_id', 'owner_id', 'id',
+            ]); ?>
+            <input type="text" name="search" value="<?php echo $escape($searchValue); ?>">
+            <button type="button" class="o-icon-search resource-picker-search-button"><?php echo $translate('Search'); ?></button>
+            <div class="resource-search-filters">
+                <a href="#" class="<?php echo $expanded ? 'collapse' : 'expand'; ?>" aria-label="<?php echo $expanded ? $escape($translate('Collapse')) : $escape($translate('Expand')); ?>">
+                    <?php echo $translate('Filter search'); ?>
+                </a>
+                <div class="collapsible">
+                    <?php
+                    echo $this->resourceClassSelect([
+                        'name' => 'resource_class_id',
+                        'options' => [
+                            'empty_option' => '',
+                        ],
+                        'attributes' => [
+                            'class' => 'chosen-select',
+                            'value' => $resourceClassId,
+                            'data-placeholder' => $translate('Filter by class'), // @translate
+                        ],
+                    ]);
+                    echo $this->userSelect([
+                        'name' => 'owner_id',
+                        'options' => [
+                            'empty_option' => '',
+                        ],
+                        'attributes' => [
+                            'class' => 'chosen-select',
+                            'value' => $ownerId,
+                            'data-placeholder' => $translate('Filter by owner'), // @translate
+                        ],
+                    ]);
+                    ?>
+                    <input type="number" name="id" min="1" step="1" value="<?php echo $escape($id); ?>" placeholder="<?php echo $escape($translate('Filter by item set ID')); ?>">
+                </div>
+            </div>
+        </div>
+        <?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
+    </div>
+    <?php if ($resources): ?>
+    <div class="resource-list">
+        <?php foreach ($resources as $resource): ?>
+        <?php $resourceHtml = $this->partial($resourcePartial, ['resource' => $resource]); ?>
+        <div class="resource">
+            <a href="#"
+                class="resource-picker-select-resource resource-link"
+                data-resource-id="<?php echo $resource->id(); ?>"
+                data-resource-html="<?php echo $escape($resourceHtml); ?>">
+                <?php echo $resourceHtml; ?>
+            </a>
+        </div>
+        <?php endforeach; ?>
+    </div>
+    <?php else: ?>
+    <p><?php echo $translate('No resources found.'); ?></p>
+    <?php endif; ?>
+</div>

@@ -8,6 +8,7 @@ use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\Entity\SitePermission;
 use Omeka\Entity\SiteItemSet;
+use Omeka\Permissions\Acl;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\Message;
 
@@ -288,6 +289,13 @@ class SiteAdapter extends AbstractEntityAdapter
 
     public function buildQuery(QueryBuilder $qb, array $query)
     {
+        if (isset($query['search']) && '' !== $query['search']) {
+            $qb->andWhere($qb->expr()->like(
+                'omeka_root.title',
+                $qb->createNamedParameter('%' . $query['search'] . '%')
+            ));
+        }
+
         if (isset($query['user_has_role']) && $query['user_has_role']) {
             // Filter out sites where the logged in user has no role.
             $user = $this->getServiceLocator()->get('Omeka\AuthenticationService')->getIdentity();
@@ -302,6 +310,29 @@ class SiteAdapter extends AbstractEntityAdapter
                         $qb->expr()->eq("omeka_root.owner", $qb->createNamedParameter($user))
                     )
                 );
+            }
+        }
+
+        if (isset($query['can_assign_items']) && $query['can_assign_items']) {
+            // Filter to sites where the current user can assign items, i.e.
+            // sites they own or have admin/editor permission on. Global and
+            // site admins are skipped because they can assign items to any site.
+            $user = $this->getServiceLocator()->get('Omeka\AuthenticationService')->getIdentity();
+            if ($user && !in_array($user->getRole(), [Acl::ROLE_GLOBAL_ADMIN, Acl::ROLE_SITE_ADMIN])) {
+                $permAlias = $qb->createAlias();
+                $qb->leftJoin(
+                    'omeka_root.sitePermissions',
+                    $permAlias,
+                    'WITH',
+                    $qb->expr()->andX(
+                        $qb->expr()->eq("$permAlias.user", $qb->createNamedParameter($user->getId())),
+                        $qb->expr()->in("$permAlias.role", [SitePermission::ROLE_ADMIN, SitePermission::ROLE_EDITOR])
+                    )
+                );
+                $qb->andWhere($qb->expr()->orX(
+                    $qb->expr()->eq('omeka_root.owner', $qb->createNamedParameter($user)),
+                    $qb->expr()->isNotNull("$permAlias.id")
+                ));
             }
         }
 
@@ -325,7 +356,7 @@ class SiteAdapter extends AbstractEntityAdapter
             );
         }
 
-        if (isset($query['slug'])) {
+        if (isset($query['slug']) && '' !== $query['slug']) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.slug',
                 $qb->createNamedParameter($query['slug'])

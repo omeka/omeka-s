@@ -2,7 +2,6 @@
 namespace Omeka\Entity;
 
 use DateTime;
-use Laminas\Math\Rand;
 
 /**
  * @Entity
@@ -162,8 +161,14 @@ class ApiKey extends AbstractEntity
         return $this->owner;
     }
 
+    // Generate a cryptographically random string for use as an API key identity or credential.
     protected function getString()
     {
-        return Rand::getString(self::STRING_LENGTH, self::STRING_CHARLIST, true);
+        $result = '';
+        $max = strlen(self::STRING_CHARLIST) - 1;
+        for ($i = 0; $i < self::STRING_LENGTH; $i++) {
+            $result .= self::STRING_CHARLIST[random_int(0, $max)];
+        }
+        return $result;
     }
 }

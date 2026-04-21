@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Stdlib;
 
-use Laminas\Dom\Query;
 use Laminas\Http\Client as HttpClient;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\Uri\Http as HttpUri;
@@ -59,15 +58,19 @@ class Oembed
             if (!$response) {
                 return false;
             }
-            $dom = new Query($response->getBody());
-            $xpath = '//link[@rel="alternate" or @rel="alternative"][@type="application/json+oembed" or @type="text/json+oembed"]';
-            $oembedLinks = $dom->queryXpath($xpath);
-            if (!$oembedLinks->count()) {
+            libxml_use_internal_errors(true);
+            $doc = new \DOMDocument();
+            $doc->loadHTML($response->getBody());
+            libxml_clear_errors();
+            libxml_use_internal_errors(false);
+            $xpath = new \DOMXPath($doc);
+            $oembedLinks = $xpath->query('//link[@rel="alternate" or @rel="alternative"][@type="application/json+oembed" or @type="text/json+oembed"]');
+            if (!$oembedLinks->length) {
                 $errorStore->addError($errorKey, sprintf($this->translator->translate('oEmbed: links cannot be found at %s'), $url));
                 return false;
             }
             // Use the endpoint provided by the discovery link.
-            $oembedUrl = $oembedLinks->current()->getAttribute('href');
+            $oembedUrl = $oembedLinks->item(0)->getAttribute('href');
         }
 
         // Get the oEmbed response.

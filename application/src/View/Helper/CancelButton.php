@@ -11,6 +11,6 @@ class CancelButton extends AbstractHelper
     public function __invoke()
     {
         $view = $this->getView();
-        return $view->hyperlink($view->translate('Cancel'), '#', ['class' => 'cancel button']);
+        return '<button type="button" class="cancel button">' . $view->translate('Cancel') . '</button>';
     }
 }

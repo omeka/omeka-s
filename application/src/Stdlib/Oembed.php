@@ -58,14 +58,11 @@ class Oembed
             if (!$response) {
                 return false;
             }
-            libxml_use_internal_errors(true);
-            $doc = new \DOMDocument();
-            $doc->loadHTML($response->getBody());
-            libxml_clear_errors();
-            libxml_use_internal_errors(false);
-            $xpath = new \DOMXPath($doc);
-            $oembedLinks = $xpath->query('//link[@rel="alternate" or @rel="alternative"][@type="application/json+oembed" or @type="text/json+oembed"]');
-            if (!$oembedLinks->length) {
+            $oembedLinks = $this->queryXpath(
+                $response->getBody(),
+                '//link[@rel="alternate" or @rel="alternative"][@type="application/json+oembed" or @type="text/json+oembed"]'
+            );
+            if (!$oembedLinks || !$oembedLinks->length) {
                 $errorStore->addError($errorKey, sprintf($this->translator->translate('oEmbed: links cannot be found at %s'), $url));
                 return false;
             }
@@ -111,6 +108,27 @@ class Oembed
             );
         }
         return false;
+    }
+
+    /**
+     * Query an HTML string using an XPath expression.
+     *
+     * @param string $html
+     * @param string $xpath
+     * @return \DOMNodeList|false Returns false if the HTML cannot be loaded
+     */
+    protected function queryXpath(string $html, string $xpath): \DOMNodeList|false
+    {
+        // Suppress warnings from malformed HTML and discard any parse errors.
+        libxml_use_internal_errors(true);
+        $doc = new \DOMDocument();
+        $success = $doc->loadHTML($html);
+        libxml_clear_errors();
+        libxml_use_internal_errors(false);
+        if (!$success) {
+            return false;
+        }
+        return (new \DOMXPath($doc))->query($xpath);
     }
 
     /**

@@ -161,7 +161,10 @@ class ApiKey extends AbstractEntity
         return $this->owner;
     }
 
-    // Generate a cryptographically random string for use as an API key identity or credential.
+    /**
+     * Generate a cryptographically random string for use as an API key identity 
+     * or credential.
+     */
     protected function getString()
     {
         $result = '';

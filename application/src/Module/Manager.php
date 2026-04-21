@@ -339,7 +339,7 @@ class Manager implements ResourceInterface
     /**
      * Get a module object
      *
-     * Get from Zend's module manager if loaded (i.e. active), otherwise
+     * Get from Laminas's module manager if loaded (i.e. active), otherwise
      * instantiate a new module object.
      *
      * @param Module $module

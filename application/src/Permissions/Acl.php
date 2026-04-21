@@ -3,9 +3,9 @@ namespace Omeka\Permissions;
 
 use Omeka\Api\ResourceInterface;
 use Laminas\Authentication\AuthenticationServiceInterface;
-use Laminas\Permissions\Acl\Acl as ZendAcl;
+use Laminas\Permissions\Acl\Acl as LaminasAcl;
 
-class Acl extends ZendAcl
+class Acl extends LaminasAcl
 {
     const ROLE_GLOBAL_ADMIN = 'global_admin';
     const ROLE_SITE_ADMIN = 'site_admin';

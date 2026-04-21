@@ -7,7 +7,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events as DoctrineEvent;
 use Omeka\Entity\Resource as OmekaResource;
 use Laminas\EventManager\EventManagerInterface;
-use Laminas\EventManager\Event as ZendEvent;
+use Laminas\EventManager\Event as LaminasEvent;
 
 /**
  * Entity event subscriber.
@@ -113,7 +113,7 @@ class Entity implements EventSubscriber
             $identifiers[] = 'Omeka\Entity\Resource';
         }
         $this->events->setIdentifiers($identifiers);
-        $event = new ZendEvent($eventName, $entity, ['LifecycleEventArgs' => $args]);
+        $event = new LaminasEvent($eventName, $entity, ['LifecycleEventArgs' => $args]);
         $this->events->triggerEvent($event);
     }
 }

@@ -5,7 +5,7 @@ use Laminas\Log\LoggerInterface;
 use Laminas\View\Helper\AbstractHelper;
 
 /**
- * View helper for getting the Zend logger.
+ * View helper for getting the Laminas logger.
  */
 class Logger extends AbstractHelper
 {

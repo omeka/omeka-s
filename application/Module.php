@@ -11,7 +11,7 @@ use Omeka\Db\QueryBuilder as OmekaQueryBuilder;
 use Omeka\Entity\Item;
 use Omeka\Entity\Media;
 use Omeka\Module\AbstractModule;
-use Laminas\EventManager\Event as ZendEvent;
+use Laminas\EventManager\Event as LaminasEvent;
 use Laminas\EventManager\SharedEventManagerInterface;
 use Laminas\Form\Element;
 use Laminas\Json\Json;
@@ -189,7 +189,7 @@ class Module extends AbstractModule
         $sharedEventManager->attach(
             '*',
             'view.layout',
-            function (ZendEvent $event) {
+            function (LaminasEvent $event) {
                 $view = $event->getTarget();
                 // Get the favicon asset ID.
                 if ($view->status()->isSiteRequest()) {
@@ -225,7 +225,7 @@ class Module extends AbstractModule
         $sharedEventManager->attach(
             '*',
             'sql_filter.resource_visibility',
-            function (ZendEvent $event) {
+            function (LaminasEvent $event) {
                 // Users can view block attachments only if they have permission
                 // to view the attached item.
                 $relatedEntities = $event->getParam('relatedEntities');
@@ -245,7 +245,7 @@ class Module extends AbstractModule
             $sharedEventManager->attach(
                 $resource,
                 'view.show.after',
-                function (ZendEvent $event) {
+                function (LaminasEvent $event) {
                     $view = $event->getTarget();
                     if (($view->status()->isAdminRequest() && !$view->setting('disable_jsonld_embed'))
                         || ($view->status()->isSiteRequest() && !$view->siteSetting('disable_jsonld_embed'))
@@ -257,7 +257,7 @@ class Module extends AbstractModule
             $sharedEventManager->attach(
                 $resource,
                 'view.browse.after',
-                function (ZendEvent $event) {
+                function (LaminasEvent $event) {
                     $view = $event->getTarget();
                     if (($view->status()->isAdminRequest() && !$view->setting('disable_jsonld_embed'))
                         || ($view->status()->isSiteRequest() && !$view->siteSetting('disable_jsonld_embed'))
@@ -276,9 +276,9 @@ class Module extends AbstractModule
      *
      * Adds the Omeka, vocabulary, and any other term definitions.
      *
-     * @param ZendEvent $event
+     * @param LaminasEvent $event
      */
-    public function addTermDefinitionsToContext(ZendEvent $event)
+    public function addTermDefinitionsToContext(LaminasEvent $event)
     {
         $context = $event->getParam('context');
         $context[self::OMEKA_VOCABULARY_TERM] = self::OMEKA_VOCABULARY_IRI;
@@ -296,10 +296,10 @@ class Module extends AbstractModule
     /**
      * Determine whether a navigation page is allowed.
      *
-     * @param ZendEvent $event
+     * @param LaminasEvent $event
      * @return bool
      */
-    public function navigationPageIsAllowed(ZendEvent $event)
+    public function navigationPageIsAllowed(LaminasEvent $event)
     {
         $accepted = true;
         $params = $event->getParams();
@@ -325,9 +325,9 @@ class Module extends AbstractModule
     /**
      * Delete all files associated with a removed Media entity.
      *
-     * @param ZendEvent $event
+     * @param LaminasEvent $event
      */
-    public function deleteMediaFiles(ZendEvent $event)
+    public function deleteMediaFiles(LaminasEvent $event)
     {
         $media = $event->getTarget();
         $store = $this->getServiceLocator()->get('Omeka\File\Store');
@@ -349,9 +349,9 @@ class Module extends AbstractModule
     /**
      * Delete the file associated with a removed Asset entity.
      *
-     * @param ZendEvent $event
+     * @param LaminasEvent $event
      */
-    public function deleteAssetFile(ZendEvent $event)
+    public function deleteAssetFile(LaminasEvent $event)
     {
         $asset = $event->getTarget();
         $store = $this->getServiceLocator()->get('Omeka\File\Store');
@@ -361,9 +361,9 @@ class Module extends AbstractModule
     /**
      * Refresh resource titles when updating a resource template.
      *
-     * @param ZendEvent $event
+     * @param LaminasEvent $event
      */
-    public function refreshResourceTemplateResourceTitles(ZendEvent $event)
+    public function refreshResourceTemplateResourceTitles(LaminasEvent $event)
     {
         $args = $event->getParam('LifecycleEventArgs');
         if (!$args->hasChangedField('titleProperty')) {
@@ -399,9 +399,9 @@ class Module extends AbstractModule
     /**
      * Filter the JSON-LD for HTML media.
      *
-     * @param ZendEvent $event
+     * @param LaminasEvent $event
      */
-    public function filterHtmlMediaJsonLd(ZendEvent $event)
+    public function filterHtmlMediaJsonLd(LaminasEvent $event)
     {
         if ('html' !== $event->getTarget()->ingester()) {
             return;
@@ -417,9 +417,9 @@ class Module extends AbstractModule
     /**
      * Filter the JSON-LD for YouTube media.
      *
-     * @param ZendEvent $event
+     * @param LaminasEvent $event
      */
-    public function filterYoutubeMediaJsonLd(ZendEvent $event)
+    public function filterYoutubeMediaJsonLd(LaminasEvent $event)
     {
         if ('youtube' !== $event->getTarget()->ingester()) {
             return;
@@ -446,9 +446,9 @@ class Module extends AbstractModule
     /**
      * Filter media belonging to private items.
      *
-     * @param ZendEvent $event
+     * @param LaminasEvent $event
      */
-    public function filterMedia(ZendEvent $event)
+    public function filterMedia(LaminasEvent $event)
     {
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
         if ($acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {
@@ -482,9 +482,9 @@ class Module extends AbstractModule
     /**
      * Filter private sites.
      *
-     * @param ZendEvent $event
+     * @param LaminasEvent $event
      */
-    public function filterSites(ZendEvent $event)
+    public function filterSites(LaminasEvent $event)
     {
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
         if ($acl->userIsAllowed('Omeka\Entity\Site', 'view-all')) {
@@ -520,7 +520,7 @@ class Module extends AbstractModule
         $qb->andWhere($expression);
     }
 
-    public function batchUpdatePostUser(ZendEvent $event)
+    public function batchUpdatePostUser(LaminasEvent $event)
     {
         $response = $event->getParam('response');
         $data = $response->getRequest()->getContent();
@@ -615,9 +615,9 @@ class Module extends AbstractModule
     /**
      * Save the fulltext of an API resource.
      *
-     * @param ZendEvent $event
+     * @param LaminasEvent $event
      */
-    public function saveFulltext(ZendEvent $event)
+    public function saveFulltext(LaminasEvent $event)
     {
         $adapter = $event->getTarget();
         $entity = $event->getParam('response')->getContent();
@@ -648,9 +648,9 @@ class Module extends AbstractModule
      * We must delete media fulltext here because media may be deleted via cascade
      * remove (during item update), which is invisible to normal API events.
      *
-     * @param ZendEvent $event
+     * @param LaminasEvent $event
      */
-    public function deleteFulltextMedia(ZendEvent $event)
+    public function deleteFulltextMedia(LaminasEvent $event)
     {
         $fulltextSearch = $this->getServiceLocator()->get('Omeka\FulltextSearch');
         $adapterManager = $this->getServiceLocator()->get('Omeka\ApiAdapterManager');
@@ -666,9 +666,9 @@ class Module extends AbstractModule
      * database. Here we set the actual entity ID to a request option so
      * self::deleteFulltext() can handle it correctly.
      *
-     * @param ZendEvent $event
+     * @param LaminasEvent $event
      */
-    public function deleteFulltextPreSitePage(ZendEvent $event)
+    public function deleteFulltextPreSitePage(LaminasEvent $event)
     {
         $request = $event->getParam('request');
         $conditions = $request->getId();
@@ -689,9 +689,9 @@ class Module extends AbstractModule
      * event. If the option exists, this function will use it to delete the
      * fulltext.
      *
-     * @param ZendEvent $event
+     * @param LaminasEvent $event
      */
-    public function deleteFulltext(ZendEvent $event)
+    public function deleteFulltext(LaminasEvent $event)
     {
         $adapter = $event->getTarget();
         $entity = $event->getParam('response')->getContent();
@@ -721,9 +721,9 @@ class Module extends AbstractModule
      *
      * Note that this only works for entity resources.
      *
-     * @param ZendEvent $event
+     * @param LaminasEvent $event
      */
-    public function searchFulltext(ZendEvent $event)
+    public function searchFulltext(LaminasEvent $event)
     {
         $adapter = $event->getTarget();
         if (!($adapter instanceof FulltextSearchableInterface)) {
@@ -790,7 +790,7 @@ class Module extends AbstractModule
         }
     }
 
-    public function addMediaAdvancedForm(ZendEvent $event)
+    public function addMediaAdvancedForm(LaminasEvent $event)
     {
         $view = $event->getTarget();
         $altTextInput = new Element\Textarea('o:alt_text');
@@ -811,19 +811,19 @@ class Module extends AbstractModule
         echo $view->formRow($langInput);
     }
 
-    public function noindexItem(ZendEvent $event)
+    public function noindexItem(LaminasEvent $event)
     {
         $view = $event->getTarget();
         $this->noindexResourceShow($view, $view->item);
     }
 
-    public function noindexMedia(ZendEvent $event)
+    public function noindexMedia(LaminasEvent $event)
     {
         $view = $event->getTarget();
         $this->noindexResourceShow($view, $view->media->item());
     }
 
-    public function noindexItemSet(ZendEvent $event)
+    public function noindexItemSet(LaminasEvent $event)
     {
         $view = $event->getTarget();
         if (!isset($view->itemSet)) {
@@ -835,7 +835,7 @@ class Module extends AbstractModule
     /**
      * Serialize the API output to JSON-LD.
      */
-    public function serializeApiOutputJsonLd(ZendEvent $event)
+    public function serializeApiOutputJsonLd(LaminasEvent $event)
     {
         $renderer = $event->getTarget();
         $model = $event->getParam('model');
@@ -875,7 +875,7 @@ class Module extends AbstractModule
     /**
      * Serialize the API output to RDF formats (rdfxml, n3, turtle, ntriples).
      */
-    public function serializeApiOutputRdf(ZendEvent $event)
+    public function serializeApiOutputRdf(LaminasEvent $event)
     {
         $renderer = $event->getTarget();
         $model = $event->getParam('model');

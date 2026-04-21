@@ -59,12 +59,9 @@ $this->headScript()->appendFile($this->assetUrl('js/asset-browse.js', 'Omeka'));
                     ]); ?></li>
                     <?php endif; ?>
                     <?php if ($asset->userIsAllowed('delete')): ?>
-                    <li><?php echo $this->hyperlink('', '#', [
-                        'data-sidebar-selector' => '#sidebar',
-                        'data-sidebar-content-url' => $asset->url('delete-confirm'),
-                        'class' => 'o-icon-delete sidebar-content',
-                        'title' => $translate('Delete'),
-                    ]); ?></li>
+                    <li>
+                        <button type="button" data-sidebar-selector="#sidebar" data-sidebar-content-url="<?php echo $asset->url('delete-confirm'); ?>" class="o-icon-delete sidebar-content" title="<?php echo $translate('Delete'); ?>"></button>
+                    </li>
                     <?php endif; ?>
                     <li><?php echo $this->hyperlink('', '#', [
                         'data-sidebar-selector' => '#sidebar',

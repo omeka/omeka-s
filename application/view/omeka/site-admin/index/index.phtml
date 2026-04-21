@@ -72,11 +72,9 @@ $this->htmlElement('body')->appendAttribute('class', 'sites browse');
                     ]); ?></li>
                     <?php endif; ?>
                     <?php if ($site->userIsAllowed('delete')): ?>
-                    <li><?php echo $this->hyperlink('', '#', [
-                        'data-sidebar-content-url' => $site->url('delete-confirm'),
-                        'class' => 'o-icon-delete sidebar-content',
-                        'title' => $translate('Delete'),
-                    ]); ?></li>
+                    <li>
+                        <button type="button" data-sidebar-selector="#sidebar" data-sidebar-content-url="<?php echo $site->url('delete-confirm'); ?>" class="o-icon-delete sidebar-content" title="<?php echo $translate('Delete'); ?>"></button>
+                    </li>
                     <?php endif; ?>
                 </ul>
             </td>

@@ -44,11 +44,9 @@ $this->htmlElement('body')->appendAttribute('class', 'vocabs browse');
                     ]); ?></li>
                     <?php endif; ?>
                     <?php if ($vocabulary->userIsAllowed('delete')): ?>
-                    <li><?php echo $this->hyperlink('', '#', [
-                        'data-sidebar-content-url' => $vocabulary->url('delete-confirm'),
-                        'class' => 'o-icon-delete sidebar-content',
-                        'title' => $translate('Delete'),
-                    ]); ?></li>
+                    <li>
+                        <button type="button" data-sidebar-content-url="<?php echo $vocabulary->url('delete-confirm'); ?>" class="o-icon-delete sidebar-content" title="<?php echo $translate('Delete'); ?>"></button>
+                    </li>
                     <?php endif; ?>
                     <?php endif; ?>
                     <li><?php echo $this->hyperlink('', '#', [

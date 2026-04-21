@@ -89,12 +89,9 @@ $userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\UserAdapter'
                     ]) ?></li>
                     <?php endif; ?>
                     <?php if ($userIsAllowedDelete): ?>
-                    <li><?php echo $this->hyperlink('', '#', [
-                        'data-sidebar-content-url' => $user->url('delete-confirm'),
-                        'class' => 'o-icon-delete sidebar-content',
-                        'title' => $translate('Delete'),
-                        'data-sidebar-selector' => '#sidebar-delete-selected',
-                    ]); ?></li>
+                    <li>
+                        <button type="button" data-sidebar-selector="#sidebar" data-sidebar-content-url="<?php echo $user->url('delete-confirm'); ?>" class="o-icon-delete sidebar-content" title="<?php echo $translate('Delete'); ?>"></button>
+                    </li>
                     <?php endif; ?>
                     <li><?php echo $this->hyperlink('', '#', [
                         'data-sidebar-content-url' => $user->url('show-details'),

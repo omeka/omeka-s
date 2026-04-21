@@ -56,11 +56,9 @@ $this->htmlElement('body')->appendAttribute('class', 'resource-templates browse'
                     ]); ?></li>
                     <?php endif; ?>
                     <?php if ($resourceTemplate->userIsAllowed('delete')): ?>
-                    <li><?php echo $this->hyperlink('', '#', [
-                        'data-sidebar-content-url' => $resourceTemplate->url('delete-confirm'),
-                        'class' => 'o-icon-delete sidebar-content',
-                        'title' => $translate('Delete'),
-                    ]); ?></li>
+                    <li>
+                        <button type="button" data-sidebar-content-url="<?php echo $resourceTemplate->url('delete-confirm'); ?>" class="o-icon-delete sidebar-content" title="<?php echo $translate('Delete'); ?>"></button>
+                    </li>
                     <?php endif; ?>
                     <li><?php echo $this->hyperlink('', '#', [
                         'data-sidebar-content-url' => $resourceTemplate->url('show-details'),

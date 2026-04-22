@@ -162,7 +162,7 @@ class ApiKey extends AbstractEntity
     }
 
     /**
-     * Generate a cryptographically random string for use as an API key identity 
+     * Generate a cryptographically random string for use as an API key identity
      * or credential.
      */
     protected function getString()

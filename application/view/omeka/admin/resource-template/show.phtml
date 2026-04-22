@@ -40,11 +40,9 @@ $this->htmlElement('body')->appendAttribute('class', 'resource-templates show');
             <td>
                 <?php echo $escape($translate($property->label())); ?>
                 <ul class="actions">
-                    <li><?php echo $this->hyperlink('', '#', [
-                        'data-sidebar-content-url' => $property->url('show-details'),
-                        'class' => 'o-icon-more sidebar-content',
-                        'title' => $translate('Details'),
-                    ]); ?></li>
+                    <li>
+                        <button type="button" data-sidebar-content-url="<?php echo $property->url('show-details'); ?>" class="o-icon-more sidebar-content" title="<?php echo $translate('Details'); ?>"></button>
+                    </li>
                 </ul>
             </td>
             <td>

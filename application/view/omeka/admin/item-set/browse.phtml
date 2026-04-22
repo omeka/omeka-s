@@ -80,12 +80,9 @@ $this->htmlElement('body')->appendAttribute('class', 'item-sets browse');
                         <button type="button" data-sidebar-selector="#sidebar" data-sidebar-content-url="<?php echo $itemSet->url('delete-confirm'); ?>" class="o-icon-delete sidebar-content" title="<?php echo $translate('Delete'); ?>"></button>
                     </li>
                     <?php endif; ?>
-                    <li><?php echo $this->hyperlink('', '#', [
-                        'data-sidebar-selector' => '#sidebar',
-                        'data-sidebar-content-url' => $itemSet->url('show-details'),
-                        'class' => 'o-icon-more sidebar-content',
-                        'title' => $translate('Details'),
-                    ]); ?></li>
+                    <li>
+                        <button type="button" data-sidebar-selector="#sidebar" data-sidebar-content-url="<?php echo $itemSet->url('show-details'); ?>" class="o-icon-more sidebar-content" title="<?php echo $translate('Details'); ?>"></button>
+                    </li>
                 </ul>
             </td>
             <?php echo $this->browse()->renderContentRow('item_sets', $itemSet); ?>

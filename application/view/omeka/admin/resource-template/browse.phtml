@@ -60,11 +60,9 @@ $this->htmlElement('body')->appendAttribute('class', 'resource-templates browse'
                         <button type="button" data-sidebar-content-url="<?php echo $resourceTemplate->url('delete-confirm'); ?>" class="o-icon-delete sidebar-content" title="<?php echo $translate('Delete'); ?>"></button>
                     </li>
                     <?php endif; ?>
-                    <li><?php echo $this->hyperlink('', '#', [
-                        'data-sidebar-content-url' => $resourceTemplate->url('show-details'),
-                        'class' => 'o-icon-more sidebar-content',
-                        'title' => $translate('Details'),
-                    ]); ?></li>
+                    <li>
+                        <button type="button" data-sidebar-content-url="<?php echo $resourceTemplate->url('show-details'); ?>" class="o-icon-more sidebar-content" title="<?php echo $translate('Details'); ?>"></button>
+                    </li>
                  </ul>
             </td>
             <td><?php echo $escape($translate($resourceTemplate->displayResourceClassLabel())); ?></td>

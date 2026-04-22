@@ -63,12 +63,9 @@ $this->headScript()->appendFile($this->assetUrl('js/asset-browse.js', 'Omeka'));
                         <button type="button" data-sidebar-selector="#sidebar" data-sidebar-content-url="<?php echo $asset->url('delete-confirm'); ?>" class="o-icon-delete sidebar-content" title="<?php echo $translate('Delete'); ?>"></button>
                     </li>
                     <?php endif; ?>
-                    <li><?php echo $this->hyperlink('', '#', [
-                        'data-sidebar-selector' => '#sidebar',
-                        'data-sidebar-content-url' => $asset->url('show-details'),
-                        'class' => 'o-icon-more sidebar-content',
-                        'title' => $translate('Details'),
-                    ]); ?></li>
+                    <li>
+                        <button type="button" data-sidebar-selector="#sidebar" data-sidebar-content-url="<?php echo $asset->url('show-details'); ?>" class="o-icon-more sidebar-content" title="<?php echo $translate('Details'); ?>"></button>
+                    </li>
                 </ul>
             </td>
             <td><?php echo $ownerText; ?></td>

@@ -24,16 +24,10 @@ $form->prepare();
 
 <div id="page-actions">
     <?php if ($itemSet && $itemSet->isOpen()): ?>
-    <?php echo $this->hyperlink('', '#', [
-        'class' => 'o-icon-unlock button',
-        'title' => $translate('Close item set'),
-    ]); ?>
+    <button type="button" class="o-icon-unlock button" aria-label="<?php echo $translate('Close item set'); ?>" title="<?php echo $translate('Close item set'); ?>"></button>
     <input type="hidden" name="o:is_open" value="1">
     <?php else: ?>
-    <?php echo $this->hyperlink('', '#', [
-        'class' => 'o-icon-lock button',
-        'title' => $translate('Open item set'),
-    ]); ?>
+    <button type="button" class="o-icon-lock button" aria-label="<?php echo $translate('Open item set'); ?>" title="<?php echo $translate('Open item set'); ?>"></button>
     <input type="hidden" name="o:is_open" value="0">
     <?php endif; ?>
 

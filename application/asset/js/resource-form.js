@@ -236,7 +236,7 @@
         });
 
         // Open or close item set
-        $('a.o-icon-lock, a.o-icon-unlock').click(function(e) {
+        $('.o-icon-lock, .o-icon-unlock').click(function(e) {
             e.preventDefault();
             var isOpenIcon = $(this);
             $(this).toggleClass('o-icon-lock').toggleClass('o-icon-unlock');

@@ -2,7 +2,7 @@
 $translate = $this->plugin('translate');
 ?>
 <div class="language-wrapper">
-    <?php echo $this->hyperlink('', '#', ['class' => 'value-language o-icon-language', 'title' => $translate('Set language'), ]); ?>
+    <button type="button" class="value-language o-icon-language" title="<?php echo $translate('Set language'); ?>" aria-label="<?php echo $translate('Set language'); ?>"></button>
     <label class="language-label">
         <span class="value-label-text"><?php echo $translate('Language'); ?></span>
         <input class="value-language" type="text" list="value-languages" data-value-key="@language">

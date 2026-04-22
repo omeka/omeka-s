@@ -1,6 +1,6 @@
 <div class="input-body">
     <div class="language-wrapper">
-        <?php echo $this->hyperlink('', '#', ['class' => 'value-language o-icon-language', 'title' => $this->translate('Set language'), ]); ?>
+        <button type="button" class="value-language o-icon-language" title="<?php echo $this->translate('Set language'); ?>" aria-label="<?php echo $this->translate('Set language'); ?>"></button>
         <label class="language-label">
             <span class="value-label-text"><?php echo $this->translate('Language'); ?></span>
             <input class="value-language" type="text" list="value-languages" data-value-key="@language">

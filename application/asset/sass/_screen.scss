@@ -2053,7 +2053,7 @@ fieldset.section > legend {
     font-size: .75 * $base-font-size;
 }
 
-.value .input-body a.value-language {
+.value .input-body button.value-language {
     margin-right: 0;
     vertical-align: top;
     position: absolute;
@@ -2068,13 +2068,18 @@ fieldset.section > legend {
     text-align: center;
     color: $red;
     z-index: 1;
+    background-color: transparent;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
 
     & ~ textarea {
         padding-right: 1.75 * $spacing-large;
     }
 }
 
-.value .input-body .language-wrapper.active a.value-language {
+.value .input-body .language-wrapper.active .value-language {
     border-color: transparent;
 }
 

@@ -180,8 +180,7 @@
             applyResourceTemplate(true);
         });
 
-        $('#resource-values').on('click', 'a.value-language', function(e) {
-            e.preventDefault();
+        $('#resource-values').on('click', 'button.value-language', function(e) {
             var languageWrapper = $(this).closest('.language-wrapper');
             languageWrapper.toggleClass('active');
             if (languageWrapper.hasClass('active')) {

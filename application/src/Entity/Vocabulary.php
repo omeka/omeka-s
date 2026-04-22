@@ -12,6 +12,9 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Vocabulary extends AbstractEntity
 {
+    const PREFIX_PATTERN = '[a-z0-9_-]+';
+    const LOCAL_NAME_PATTERN = '[a-z0-9_-]+';
+
     /**
      * @Id
      * @Column(type="integer")

@@ -2,6 +2,7 @@
 namespace Omeka\Form;
 
 use Laminas\Form\Form;
+use Omeka\Entity\Vocabulary;
 
 class VocabularyForm extends Form
 {
@@ -190,6 +191,22 @@ class VocabularyForm extends Form
         ]);
 
         $inputFilter = $this->getInputFilter();
+        if (!$vocabulary) {
+            $inputFilter->get('vocabulary-info')->add([
+                'name' => 'o:prefix',
+                'validators' => [
+                    [
+                        'name' => 'Regex',
+                        'options' => [
+                            'pattern' => sprintf('/^%s$/i', Vocabulary::PREFIX_PATTERN),
+                            'messages' => [
+                                \Laminas\Validator\Regex::NOT_MATCH => 'The prefix may only contain letters, numbers, hyphens, and underscores.', // @translate
+                            ],
+                        ],
+                    ],
+                ],
+            ]);
+        }
         $inputFilter->get('vocabulary-file')->add([
             'name' => 'url',
             'required' => false,

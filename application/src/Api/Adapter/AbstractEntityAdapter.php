@@ -10,6 +10,7 @@ use Omeka\Api\Response;
 use Omeka\Db\QueryBuilder as OmekaQueryBuilder;
 use Omeka\Entity\User;
 use Omeka\Entity\EntityInterface;
+use Omeka\Entity\Vocabulary;
 use Omeka\Stdlib\ErrorStore;
 use Laminas\EventManager\Event;
 
@@ -787,7 +788,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
      */
     public function isTerm($term)
     {
-        return (bool) preg_match('/^[a-z0-9-_]+:[a-z0-9-_]+$/i', $term);
+        return (bool) preg_match(sprintf('/^%s:%s$/i', Vocabulary::PREFIX_PATTERN, Vocabulary::LOCAL_NAME_PATTERN), $term);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace Omeka\Api\Adapter;
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
+use Omeka\Entity\Vocabulary;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\Message;
 
@@ -201,6 +202,9 @@ class VocabularyAdapter extends AbstractEntityAdapter
         $prefix = $entity->getPrefix();
         if (false == $entity->getPrefix()) {
             $errorStore->addError('o:prefix', 'The prefix cannot be empty.'); // @translate
+        }
+        if ($prefix && !preg_match(sprintf('/^%s$/i', Vocabulary::PREFIX_PATTERN), $prefix)) {
+            $errorStore->addError('o:prefix', 'The prefix may only contain letters, numbers, hyphens, and underscores.'); // @translate
         }
         if (!$this->isUnique($entity, ['prefix' => $prefix])) {
             $errorStore->addError('o:prefix', new Message(

@@ -14,7 +14,7 @@ $this->headScript()->appendFile($this->assetUrl('js/asset-browse.js', 'Omeka'));
 
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\AssetAdapter', 'create')): ?>
-    <?php echo $this->hyperlink($translate('Add new asset'), '#', ['class' => 'button sidebar-content', 'data-sidebar-selector' => '#add-asset-sidebar']); ?>
+    <button type="button" class="button sidebar-content" data-sidebar-selector="#add-asset-sidebar"><?php echo $translate('Add new asset'); ?></button>
     <?php endif; ?>
 </div>
 

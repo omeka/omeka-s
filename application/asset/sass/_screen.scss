@@ -3381,6 +3381,41 @@ fieldset.section > legend {
 
 /* @end */
 
+/* @group ----- Resource Picker ----- */
+
+.resource-picker-sidebar-content,
+.resource-picker-select-element {
+    .resource-list .resource-link {
+        flex: 1;
+    }
+}
+
+.resource-picker-select-element {
+    .resource-picker-selections {
+        margin-bottom: $spacing-medium;
+    }
+
+    .resource-picker-remove-resource {
+        margin-left: $spacing-medium;
+        color: $light-red;
+    }
+}
+
+.resource-picker-select-resource.already-selected {
+    flex: 1;
+    opacity: 0.5;
+    cursor: default;
+
+    &::after {
+        @include font-awesome;
+        content: fa-content($fa-var-check-circle);
+        margin-left: auto;
+        padding-left: $spacing-small;
+    }
+}
+
+/* @end */
+
 /* @group ----- Query Editor ----- */
 
 .sidebar .field-meta,

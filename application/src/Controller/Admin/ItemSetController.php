@@ -150,6 +150,32 @@ class ItemSetController extends AbstractActionController
         return $view;
     }
 
+    public function resourcePickerAction()
+    {
+        $this->setBrowseDefaults('created');
+        $query = $this->params()->fromQuery();
+        $resourcePartial = $query['resource_partial'] ?? null;
+        unset($query['resource_partial']);
+        $response = $this->api()->search('item_sets', $query);
+        $this->paginator($response->getTotalResults());
+
+        $searchValue = $query['search'] ?? '';
+        $resourceClassId = $query['resource_class_id'] ?? '';
+        $ownerId = $query['owner_id'] ?? '';
+        $id = $query['id'] ?? '';
+
+        $view = new ViewModel;
+        $view->setVariable('resources', $response->getContent());
+        $view->setVariable('searchValue', $searchValue);
+        $view->setVariable('resourceClassId', $resourceClassId);
+        $view->setVariable('ownerId', $ownerId);
+        $view->setVariable('id', $id);
+        $view->setVariable('expanded', $resourceClassId || $ownerId || $id);
+        $view->setVariable('resourcePartial', $resourcePartial);
+        $view->setTerminal(true);
+        return $view;
+    }
+
     public function deleteConfirmAction()
     {
         $linkTitle = (bool) $this->params()->fromQuery('link-title', true);

@@ -24,7 +24,9 @@ $icons = [
                         <button type="button" class="value-visibility o-icon-public" aria-label="<?php echo $translate('Make private'); ?>" title="<?php echo $translate('Make private'); ?>"></button>
                         <input type="hidden" class="is_public">
                     </li>
-                    <li><?php echo $this->hyperlink('', '#', ['class' => 'value-annotation-annotate o-icon-annotation', 'title' => $translate('Annotate value')]); ?></li>
+                    <li>
+                        <button type="button" class="value-annotation-annotate o-icon-annotation" title="<?php echo $translate('Annotate value'); ?>"></button>
+                    </li>
                 </ul>
             </li>
         </ul>

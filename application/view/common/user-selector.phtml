@@ -3,7 +3,7 @@ $translate = $this->plugin('translate');
 $totalCount = count($users);
 ?>
 <div id="user-selector" class="selector sidebar<?php echo $alwaysOpen ? ' always-open' : ''; ?>">
-    <a href="#" class="mobile-only sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
+    <button type="button" class="mobile-only sidebar-close o-icon-close" title="<?php echo $translate('Close'); ?>" aria-label="<?php echo $translate('Close'); ?>"></button>
     <div class="resources-available" data-all-resources-count="<?php echo $totalCount; ?>">
     <h3>
         <?php if ($title): ?>

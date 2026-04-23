@@ -27,7 +27,7 @@ $this->headScript()->appendFile($this->assetUrl('js/query-form.js', 'Omeka'));
 </div>
 <button id="nav-selector-button" class="mobile-only"><?php echo $translate('Add a link to a site page'); ?></button>
 <div id="nav-selector" class="always-open sidebar">
-    <a href="#" class="mobile-only sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
+    <button type="button" class="sidebar-close o-icon-close" title="<?php echo $translate('Close'); ?>" aria-label="<?php echo $translate('Close'); ?>"></button>
     <div class="field">
         <label for="o:homepage[o:id]"><?php echo $translate('Select a homepage'); ?></label>
         <?php echo $this->formElement($form->get('o:homepage[o:id]')); ?>

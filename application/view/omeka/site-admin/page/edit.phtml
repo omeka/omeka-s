@@ -76,7 +76,7 @@ $form->prepare();
 <?php echo $this->blockLayout()->forms($page); ?>
 
 <div id="page-layout-data-sidebar" class="sidebar">
-    <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
+    <button type="button" class="sidebar-close o-icon-close" title="<?php echo $translate('Close'); ?>" aria-label="<?php echo $translate('Close'); ?>"></button>
     <h3><?php echo $translate('Page layout configuration'); ?></h3>
     <?php echo $this->formCollection($pageLayoutDataForm); ?>
 </div>
@@ -98,14 +98,14 @@ $form->prepare();
 </div>
 
 <div id="layout-preview-sidebar" class="sidebar">
-    <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
+    <button type="button" class="sidebar-close o-icon-close" title="<?php echo $translate('Close'); ?>" aria-label="<?php echo $translate('Close'); ?>"></button>
     <h3><?php echo $translate('Layout preview'); ?></h3>
     <div id="layout-preview"></div>
 </div>
 
 <div id="block-layout-data-sidebar" class="sidebar" data-api-endpoint-url="<?php echo $escape($this->url('api-local')); ?>">
     <div class="confirm-main">
-        <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
+        <button type="button" class="sidebar-close o-icon-close" title="<?php echo $translate('Close'); ?>" aria-label="<?php echo $translate('Close'); ?>"></button>
         <h3><?php echo $translate('Block layout configuration'); ?></h3>
         <?php echo $this->formCollectionElementGroupsCollapsible($blockLayoutDataForm); ?>
     </div>
@@ -116,7 +116,7 @@ $form->prepare();
 
 <div id="attachment-options" class="sidebar" data-url="<?php echo $this->url(null, ['action' => 'attachment-item-options'], true); ?>">
     <div id="attachment-options-main" class="confirm-main">
-        <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
+        <button type="button" class="sidebar-close o-icon-close" title="<?php echo $translate('Close'); ?>" aria-label="<?php echo $translate('Close'); ?>"></button>
         <div id="attachment-item"></div>
         <div id="attachment-caption" class="option">
             <h3><?php echo $translate('Caption'); ?></h3>

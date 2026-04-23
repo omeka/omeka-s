@@ -5,7 +5,7 @@ $hyperlink = $this->plugin('hyperlink');
 $thumbnail = $this->plugin('thumbnail');
 ?>
 
-<a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
+<button type="button" class="sidebar-close o-icon-close" title="<?php echo $translate('Close'); ?>" aria-label="<?php echo $translate('Close'); ?>"></button>
 
 <?php
 if ($this->userIsAllowed('Omeka\Api\Adapter\AssetAdapter', 'create')):

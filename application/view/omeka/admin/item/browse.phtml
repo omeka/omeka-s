@@ -98,17 +98,11 @@ $this->htmlElement('body')->appendAttribute('class', 'items browse');
 </div>
 
 <div id="sidebar" class="sidebar">
-    <?php echo $this->hyperlink('', '#', [
-        'class' => 'sidebar-close o-icon-close',
-        'title' => $translate('Close'),
-    ]); ?>
+    <button type="button" class="sidebar-close o-icon-close" title="<?php echo $translate('Close'); ?>" aria-label="<?php echo $translate('Close'); ?>"></button>
     <div class="sidebar-content"></div>
 </div>
 <div id="sidebar-delete-selected" class="sidebar">
-    <?php echo $this->hyperlink('', '#', [
-        'class' => 'sidebar-close o-icon-close',
-        'title' => $translate('Close'),
-    ]); ?>
+    <button type="button" class="sidebar-close o-icon-close" title="<?php echo $translate('Close'); ?>" aria-label="<?php echo $translate('Close'); ?>"></button>
     <div class="sidebar-content">
         <div id="sidebar-confirm">
             <h3><?php echo $translate('Delete items'); ?></h3>
@@ -123,10 +117,7 @@ $this->htmlElement('body')->appendAttribute('class', 'items browse');
     </div>
 </div>
 <div id="sidebar-delete-all" class="sidebar">
-    <?php echo $this->hyperlink('', '#', [
-        'class' => 'sidebar-close o-icon-close',
-        'title' => $translate('Close'),
-    ]); ?>
+    <button type="button" class="sidebar-close o-icon-close" title="<?php echo $translate('Close'); ?>" aria-label="<?php echo $translate('Close'); ?>"></button>
     <div class="sidebar-content">
         <div id="sidebar-confirm">
             <h3><?php echo $translate('Delete items'); ?></h3>

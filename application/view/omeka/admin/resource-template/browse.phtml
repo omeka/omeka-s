@@ -73,10 +73,7 @@ $this->htmlElement('body')->appendAttribute('class', 'resource-templates browse'
 </table>
 
 <div class="sidebar">
-    <?php echo $this->hyperlink('', '#', [
-        'class' => 'sidebar-close o-icon-close',
-        'title' => $translate('Close'),
-    ]); ?>
+    <button type="button" class="sidebar-close o-icon-close" title="<?php echo $translate('Close'); ?>" aria-label="<?php echo $translate('Close'); ?>"></button>
     <div class="sidebar-content"></div>
 </div>
 

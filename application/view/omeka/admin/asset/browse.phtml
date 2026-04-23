@@ -80,10 +80,7 @@ $this->headScript()->appendFile($this->assetUrl('js/asset-browse.js', 'Omeka'));
 </div>
 
 <div id="sidebar" class="sidebar">
-    <?php echo $this->hyperlink('', '#', [
-        'class' => 'sidebar-close o-icon-close',
-        'title' => $translate('Close'),
-    ]); ?>
+    <button type="button" class="sidebar-close o-icon-close" title="<?php echo $translate('Close'); ?>" aria-label="<?php echo $translate('Close'); ?>"></button>
     <div class="sidebar-content"></div>
 </div>
 
@@ -97,10 +94,7 @@ $this->headScript()->appendFile($this->assetUrl('js/asset-browse.js', 'Omeka'));
 
 <?php if ($this->userIsAllowed('Omeka\Api\Adapter\AssetAdapter', 'create')): ?>
 <div id="add-asset-sidebar" class="sidebar">
-    <?php echo $this->hyperlink('', '#', [
-        'class' => 'sidebar-close o-icon-close',
-        'title' => $translate('Close'),
-    ]); ?>
+    <button type="button" class="sidebar-close o-icon-close" title="<?php echo $translate('Close'); ?>" aria-label="<?php echo $translate('Close'); ?>"></button>
     <?php echo $this->partial('omeka/admin/asset/add-form'); ?>
 </div>
 <?php endif; ?>

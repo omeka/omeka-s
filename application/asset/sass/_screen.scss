@@ -3918,12 +3918,16 @@ input[type=text].query-form-query {
         margin-bottom: 0;
     }
 
-    a.o-icon-close {
+    button.sidebar-close {
         position: absolute;
         right: $spacing-medium;
         top: $spacing-medium;
         z-index: 3;
         color: #666;
+        background-color: transparent;
+        padding: 0;
+        box-shadow: none;
+        min-height: 0;
     }
 
     .vocabulary,

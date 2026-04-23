@@ -5,7 +5,7 @@ $this->form->setButtonLabel('Confirm delete'); // @translate
 ?>
 <?php if ($this->wrapSidebar): ?>
 <div id="delete" class="sidebar">
-    <?php echo $this->hyperlink('', '#', ['class' => 'sidebar-close o-icon-close', 'title' => $translate('Close')]); ?>
+    <button type="button" class="sidebar-close o-icon-close" title="<?php echo $translate('Close'); ?>" aria-label="<?php echo $translate('Close'); ?>"></button>
 <?php endif; ?>
     <div id="sidebar-confirm">
         <?php $resourceLabel = $translate($this->resourceLabel); ?>

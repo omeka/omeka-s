@@ -113,19 +113,13 @@ $userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\UserAdapter'
 </div>
 
 <div id="sidebar" class="sidebar">
-    <?php echo $this->hyperlink('', '#', [
-        'class' => 'sidebar-close o-icon-close',
-        'title' => $translate('Close'),
-    ]); ?>
+    <button type="button" class="sidebar-close o-icon-close" title="<?php echo $translate('Close'); ?>" aria-label="<?php echo $translate('Close'); ?>"></button>
     <div class="sidebar-content"></div>
 </div>
 
 <?php if ($userIsAllowedBatchDelete): ?>
 <div id="sidebar-delete-selected" class="sidebar">
-    <?php echo $this->hyperlink('', '#', [
-        'class' => 'sidebar-close o-icon-close',
-        'title' => $translate('Close'),
-    ]); ?>
+    <button type="button" class="sidebar-close o-icon-close" title="<?php echo $translate('Close'); ?>" aria-label="<?php echo $translate('Close'); ?>"></button>
     <div class="sidebar-content">
         <div id="sidebar-confirm">
             <h3><?php echo $translate('Delete users'); ?></h3>
@@ -140,10 +134,7 @@ $userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\UserAdapter'
     </div>
 </div>
 <div id="sidebar-delete-all" class="sidebar">
-    <?php echo $this->hyperlink('', '#', [
-        'class' => 'sidebar-close o-icon-close',
-        'title' => $translate('Close'),
-    ]); ?>
+    <button type="button" class="sidebar-close o-icon-close" title="<?php echo $translate('Close'); ?>" aria-label="<?php echo $translate('Close'); ?>"></button>
     <div class="sidebar-content">
         <div id="sidebar-confirm">
             <h3><?php echo $translate('Delete users'); ?></h3>

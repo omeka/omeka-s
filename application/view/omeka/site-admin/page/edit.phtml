@@ -120,10 +120,7 @@ $form->prepare();
         <div id="attachment-item"></div>
         <div id="attachment-caption" class="option">
             <h3><?php echo $translate('Caption'); ?></h3>
-            <?php echo $this->hyperlink('', '#', [
-                'class' => 'collapse',
-                'title' => $translate('Collapse'),
-            ]); ?>
+            <button type="button" class="collapse" title="<?php echo $translate('Collapse'); ?>" aria-label="<?php echo $translate('Collapse'); ?>" aria-expanded="false"></button>
             <div class="collapsible">
                 <textarea class="caption wysiwyg"></textarea>
             </div>

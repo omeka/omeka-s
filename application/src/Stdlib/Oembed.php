@@ -1,6 +1,9 @@
 <?php
 namespace Omeka\Stdlib;
 
+use DOMDocument;
+use DOMNodeList;
+use DOMXPath;
 use Laminas\Http\Client as HttpClient;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\Uri\Http as HttpUri;
@@ -117,18 +120,18 @@ class Oembed
      * @param string $xpath
      * @return \DOMNodeList|false Returns false if the HTML cannot be loaded
      */
-    protected function queryXpath(string $html, string $xpath): \DOMNodeList|false
+    protected function queryXpath(string $html, string $xpath): DOMNodeList|false
     {
         // Suppress warnings from malformed HTML and discard any parse errors.
         libxml_use_internal_errors(true);
-        $doc = new \DOMDocument();
+        $doc = new DOMDocument();
         $success = $doc->loadHTML($html);
         libxml_clear_errors();
         libxml_use_internal_errors(false);
         if (!$success) {
             return false;
         }
-        return (new \DOMXPath($doc))->query($xpath);
+        return (new DOMXPath($doc))->query($xpath);
     }
 
     /**

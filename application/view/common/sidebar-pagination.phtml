@@ -13,13 +13,13 @@ $translate = $this->plugin('translate');
         <?php if ($currentPage != 1): ?>
         <?php echo $this->hyperlink('', $previousPageUrl, ['class' => 'previous o-icon-prev button', 'title' => $translate('Previous'), 'aria-label' => $translate('Previous')]); ?>
         <?php else: ?>
-        <span class="previous o-icon-prev button inactive"></span>
+        <span class="previous o-icon-prev button inactive" aria-hidden="true"></span>
         <?php endif; ?>
 
         <?php if ($currentPage < $pageCount): ?>
         <?php echo $this->hyperlink('', $nextPageUrl, ['class' => 'next o-icon-next button', 'title' => $translate('Next'), 'aria-label' => $translate('Next')]); ?>
         <?php else: ?>
-        <span class="next o-icon-next button inactive"></span>
+        <span class="next o-icon-next button inactive" aria-hidden="true"></span>
         <?php endif; ?>
     </div>
 

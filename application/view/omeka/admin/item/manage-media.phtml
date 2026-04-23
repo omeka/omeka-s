@@ -44,19 +44,17 @@ if ($resource) {
             <input type="hidden" name="o:media[<?php echo $i; ?>][o:is_public]" value="0">
             <?php endif; ?>
             </li>
-            <li><?php echo $media->link('', 'edit', [
+            <li>
+            <?php echo $media->link('', 'edit', [
                 'class'      => 'o-icon-edit',
                 'title'      => $translate('Edit'),
                 'target'     => '_blank'
             ]); ?></li>
-            <li><?php echo $this->hyperlink('', '#', [
-                'class' => 'o-icon-delete remove-value',
-                'title' => $translate('Remove value'),
-            ]); ?></li>
-            <li><?php echo $this->hyperlink('', '#', [
-                'class' => 'o-icon-undo restore-value inactive',
-                'title' => $translate('Restore value'),
-            ]); ?>
+            <li>
+                <button type="button" class="o-icon-delete remove-value" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>">
+            </li>
+            <li>
+                <button type="button" class="o-icon-undo restore-value" aria-label="<?php echo $translate('Restore value'); ?>" title="<?php echo $translate('Restore value'); ?>">
             </li>
         </ul>
     </div>

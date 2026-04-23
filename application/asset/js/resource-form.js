@@ -211,26 +211,24 @@
         });
 
         // Remove value.
-        $('a.remove-value').on('click', function(e) {
-            e.preventDefault();
+        $('button.remove-value').on('click', function() {
             var thisButton = $(this);
             var value = thisButton.closest('.value');
             // Disable all form controls.
-            value.find(':input').prop('disabled', true);
+            value.find(':input:not(.restore-value)').prop('disabled', true);
             value.addClass('delete');
-            value.find('a.restore-value').show().focus();
+            value.find('.restore-value').show().focus();
             thisButton.hide();
         });
 
         // Restore a removed value
-        $('a.restore-value').on('click', function(e) {
-            e.preventDefault();
+        $('button.restore-value').on('click', function() {
             var thisButton = $(this);
             var value = thisButton.closest('.value');
             // Enable all form controls.
             value.find('*').filter(':input').prop('disabled', false);
             value.removeClass('delete');
-            value.find('a.remove-value').show().focus();
+            value.find('.remove-value').show().focus();
             thisButton.hide();
         });
 

@@ -30,7 +30,7 @@ $('#media-selector button').on('click', function(e) {
     $('#media-list .no-resources').hide();
 });
 
-$('#item-media').on('click', 'a.remove-new-media-field', function(e) {
+$('#item-media').on('click', 'button.remove-new-media-field', function(e) {
     e.preventDefault();
     $(this).parents(".media-field-wrapper").remove();
     if ($('.media-field-wrapper').length < 1) {

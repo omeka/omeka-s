@@ -788,7 +788,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
      */
     public function isTerm($term)
     {
-        return (bool) preg_match(sprintf('/^%s:%s$/i', Vocabulary::PREFIX_PATTERN, Vocabulary::LOCAL_NAME_PATTERN), $term);
+        return (bool) preg_match(Vocabulary::TERM_REGEX, $term);
     }
 
     /**

@@ -198,7 +198,7 @@ class VocabularyForm extends Form
                     [
                         'name' => 'Regex',
                         'options' => [
-                            'pattern' => sprintf('/^%s$/i', Vocabulary::PREFIX_PATTERN),
+                            'pattern' => Vocabulary::PREFIX_REGEX,
                             'messages' => [
                                 \Laminas\Validator\Regex::NOT_MATCH => 'The prefix may only contain letters, numbers, hyphens, and underscores.', // @translate
                             ],

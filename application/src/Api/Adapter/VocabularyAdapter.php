@@ -203,7 +203,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
         if (false == $entity->getPrefix()) {
             $errorStore->addError('o:prefix', 'The prefix cannot be empty.'); // @translate
         }
-        if ($prefix && !preg_match(sprintf('/^%s$/i', Vocabulary::PREFIX_PATTERN), $prefix)) {
+        if ($prefix && !preg_match(Vocabulary::PREFIX_REGEX, $prefix)) {
             $errorStore->addError('o:prefix', 'The prefix may only contain letters, numbers, hyphens, and underscores.'); // @translate
         }
         if (!$this->isUnique($entity, ['prefix' => $prefix])) {

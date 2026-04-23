@@ -12,8 +12,10 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Vocabulary extends AbstractEntity
 {
-    const PREFIX_PATTERN = '[a-z0-9_-]+';
-    const LOCAL_NAME_PATTERN = '[a-z0-9_-]+';
+    /** Regex for a valid vocabulary prefix. */
+    const PREFIX_REGEX = '/^[a-z0-9_-]+$/i';
+    /** Regex for a valid JSON-LD term in prefix:localName form. */
+    const TERM_REGEX = '/^[a-z0-9_-]+:[a-z0-9_-]+$/i';
 
     /**
      * @Id

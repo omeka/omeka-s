@@ -196,9 +196,15 @@
             }
         });
 
-        $('.o-icon-more').on('click', function(e) {
-            e.preventDefault();
-            $(this).parent('.more-actions').toggleClass('active');
+        $('button.more-actions-toggle').on('click', function(e) {
+            var moreActionsToggle = $(this);
+            moreActionsToggle.parent('.more-actions').toggleClass('active');
+            if (moreActionsToggle.attr('aria-expanded') == 'true') {
+                moreActionsToggle.attr('aria-expanded', 'false');
+            } else {
+                moreActionsToggle.attr('aria-expanded', 'true');
+            }
+
         });
 
         // Make new value inputs whenever "add value" button clicked.

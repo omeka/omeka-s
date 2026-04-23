@@ -10,9 +10,9 @@ $rowTemplate = '
     <td class="sortable-handle"></td>
     <td class="data-value" data-row-key="child-search"></td>
     <td class="data-value" data-row-key="owner-email"></td>
-    <td>
-' . $this->hyperlink('', '#', ['class' => 'o-icon-delete', 'title' => $translate('Remove item set')])
-  . '<input type="hidden" class="resource-id" name="o:site_item_set[][o:item_set][o:id]">
+    <td class="actions">
+        <button type="button" class="o-icon-delete" aria-label="' . $translate('Remove item set') . '" title="' . $translate('Remove item set') . '"></button>
+        <input type="hidden" class="resource-id" name="o:site_item_set[][o:item_set][o:id]">
     </td>
 </tr>';
 ?>

@@ -21,7 +21,7 @@ foreach ($roles as $key => $value) {
 $userRowTemplate .= '</select></td>
     <td>
         <ul class="actions">
-            <li>' . $this->hyperlink('', '#', ['class' => 'o-icon-delete', 'title' => $delete]) . '</li>
+            <li><button type="button" class="o-icon-delete" aria-label="' . $delete . '" title="' . $delete . '"></button></li>
         </ul>
         <input type="hidden" class="resource-id" name="o:site_permission[__index__][o:user][o:id]">
     </td>

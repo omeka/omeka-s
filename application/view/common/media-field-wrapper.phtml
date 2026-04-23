@@ -11,7 +11,7 @@ $translate = $this->plugin('translate');
                 <input type="hidden" name="o:media[__index__][o:is_public]" value="1">
             </li>
             <li>
-                <?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete remove-new-media-field', 'title' => $translate('Remove value')]); ?>
+                <button type="button" class="o-icon-delete remove-new-media-field" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></button>
             </li>
         </ul>
     </div>

@@ -2713,7 +2713,7 @@ fieldset.section > legend {
         flex-direction: column;
     }
 
-    .input-footer .actions a:before {
+    .input-footer .actions button:before {
         line-height: 1.5 * $spacing-large;
         height: 1.5 * $spacing-large;
         text-align: center;
@@ -2722,6 +2722,7 @@ fieldset.section > legend {
     .input-footer .actions button {
         background-color: transparent;
         color: $red;
+        margin: 0;
 
         &:before {
             text-align: center;
@@ -2758,7 +2759,6 @@ fieldset.section > legend {
 
     .value .restore-value,
     .value.delete a.tab,
-    .value.delete .actions a:not(.restore-value),
     .value.delete .actions button:not(.restore-value),
     .value.delete .block-page-layout-grid-controls {
         display: none;
@@ -3037,7 +3037,7 @@ fieldset.section > legend {
     }
 
     .media.value.delete > *:not(.restore-value),
-    .media.value.delete .actions a:not(.o-icon-undo){
+    .media.value.delete .actions button:not(.o-icon-undo){
         display: none;
     }
 
@@ -3113,6 +3113,10 @@ fieldset.section > legend {
     .o-icon-public.button {
         margin-right: $spacing-small;
         box-shadow: none;
+    }
+
+    .resource-row .actions .o-icon-delete:before {
+        text-align: center;
     }
 
     /* @end */

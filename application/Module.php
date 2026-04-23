@@ -290,6 +290,8 @@ class Module extends AbstractModule
         }
         $context['o-cnt'] = 'http://www.w3.org/2011/content#';
         $context['o-time'] = 'http://www.w3.org/2006/time#';
+        $context['oa'] = 'http://www.w3.org/ns/oa#';
+        $context['rdf'] = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
         $event->setParam('context', $context);
     }
 

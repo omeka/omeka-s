@@ -5,17 +5,22 @@ class ValueAnnotationRepresentation extends AbstractResourceEntityRepresentation
 {
     public function getResourceJsonLdType()
     {
-        return 'o:ValueAnnotation';
+        return ['o:ValueAnnotation', 'oa:Annotation'];
     }
 
     public function getResourceJsonLd()
     {
-        $valueJson = $this->annotatedValue()->jsonSerialize();
+        $value = $this->annotatedValue();
+        $valueJson = $value->jsonSerialize();
         // Unset @annotation to avoid a circular reference back to this object.
         unset($valueJson['@annotation']);
         return [
-            'o:resource' => $this->resource()->getReference(),
-            'o:value' => $valueJson,
+            'oa:hasTarget' => [
+                '@type' => 'rdf:Statement',
+                'rdf:subject' => $this->resource()->getReference(),
+                'rdf:predicate' => ['@id' => $value->property()->uri()],
+                'rdf:object' => $valueJson,
+            ],
         ];
     }
 

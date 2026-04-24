@@ -23,10 +23,10 @@ $this->htmlElement('body')->appendAttribute('class', 'vocabs browse');
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><?php echo $translate('Label'); ?></th>
-            <th><?php echo $translate('Prefix'); ?></th>
-            <th><?php echo $translate('Classes'); ?></th>
-            <th><?php echo $translate('Properties'); ?></th>
+            <th aria-sort="<?php echo $this->browse()->getAriaSortValue('label'); ?>"><?php echo $this->sortLink($translate('Label'), 'label'); ?></th>
+            <th aria-sort="<?php echo $this->browse()->getAriaSortValue('prefix'); ?>"><?php echo $this->sortLink($translate('Prefix'), 'prefix'); ?></th>
+            <th aria-sort="<?php echo $this->browse()->getAriaSortValue('resource_class_count'); ?>"><?php echo $this->sortLink($translate('Classes'), 'resource_class_count'); ?></th>
+            <th aria-sort="<?php echo $this->browse()->getAriaSortValue('property_count'); ?>"><?php echo $this->sortLink($translate('Properties'), 'property_count'); ?></th>
         </tr>
     </thead>
     <tbody>

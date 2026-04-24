@@ -19,8 +19,8 @@ $this->htmlElement('body')->appendAttribute('class', 'browse vocabularies vocabu
 <table class="tablesaw tablesaw-stack" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><?php echo $translate('Label'); ?></th>
-            <th><?php echo $translate('Term'); ?></th>
+            <th aria-sort="<?php echo $this->browse()->getAriaSortValue('label'); ?>"><?php echo $this->sortLink($translate('Label'), 'label'); ?></th>
+            <th aria-sort="<?php echo $this->browse()->getAriaSortValue('local_name'); ?>"><?php echo $this->sortLink($translate('Term'), 'local_name'); ?></th>
         </tr>
     </thead>
     <tbody>

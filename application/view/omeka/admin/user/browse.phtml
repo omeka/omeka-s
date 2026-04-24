@@ -57,14 +57,14 @@ $userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\UserAdapter'
 <table class="tablesaw batch-edit" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th>
+            <th aria-sort="<?php echo $this->browse()->getAriaSortValue('email'); ?>">
                 <?php if ($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete): ?>
                 <input type="checkbox" class="select-all">
                 <?php endif; ?>
-                <?php echo $translate('Email'); ?>
+                <?php echo $this->sortLink($translate('Email'), 'email'); ?>
             </th>
-            <th><?php echo $translate('Role'); ?></th>
-            <th><?php echo $translate('Created'); ?></th>
+            <th aria-sort="<?php echo $this->browse()->getAriaSortValue('role'); ?>"><?php echo $this->sortLink($translate('Role'), 'role'); ?></th>
+            <th aria-sort="<?php echo $this->browse()->getAriaSortValue('created'); ?>"><?php echo $this->sortLink($translate('Created'), 'created'); ?></th>
         </tr>
     </thead>
     <tbody>

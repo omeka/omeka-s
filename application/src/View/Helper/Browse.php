@@ -78,13 +78,33 @@ class Browse extends AbstractHelper
             if (!$this->getBrowseService()->columnTypeIsKnown($columnData['type'])) {
                 continue; // Skip unknown column types.
             }
+            $columnType = $this->getBrowseService()->getColumnType($columnData['type']);
+            $sortBy = $columnType->getSortBy($columnData);
+            $header = $this->getHeader($columnData);
+            if ($sortBy) {
+                $headerContent = $view->sortLink($header, $sortBy);
+                $ariaSortAttr = sprintf(' aria-sort="%s"', $this->getAriaSortValue($sortBy));
+            } else {
+                $headerContent = $escapeHelper($header);
+                $ariaSortAttr = '';
+            }
             $headerRow[] = sprintf(
-                '<th class="column-%s">%s</th>',
+                '<th class="column-%s"%s>%s</th>',
                 $escapeHelper($columnData['type']),
-                $escapeHelper($this->getHeader($columnData))
+                $ariaSortAttr,
+                $headerContent
             );
         }
         return implode("\n", $headerRow);
+    }
+
+    public function getAriaSortValue(string $sortBy): string
+    {
+        $query = $this->getView()->params()->fromQuery();
+        if (($query['sort_by'] ?? null) !== $sortBy) {
+            return 'none';
+        }
+        return ('asc' === ($query['sort_order'] ?? null)) ? 'ascending' : 'descending';
     }
 
     /**

@@ -21,9 +21,14 @@ $this->htmlElement('body')->appendAttribute('class', 'sites pages browse');
 <table id="page-list" class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><?php echo $translate('Title'); ?></th>
-            <th><?php echo $translate('Slug'); ?></th>
-            <th><?php echo $sortBy === 'created' ? $translate('Created') : $translate('Modified'); ?></th>
+            <th aria-sort="<?php echo $this->browse()->getAriaSortValue('title'); ?>"><?php echo $this->sortLink($translate('Title'), 'title'); ?></th>
+            <th aria-sort="<?php echo $this->browse()->getAriaSortValue('slug'); ?>"><?php echo $this->sortLink($translate('Slug'), 'slug'); ?></th>
+            <th aria-sort="<?php echo $this->browse()->getAriaSortValue($sortBy === 'created' ? 'created' : 'modified'); ?>">
+                <?php if ($sortBy === 'created'): ?>
+                    <?php echo $this->sortLink($translate('Created'), 'created'); ?>
+                <?php else: ?>
+                    <?php echo $this->sortLink($translate('Modified'), 'modified'); ?>
+                <?php endif; ?></th>
         </tr>
     </thead>
     <tbody>

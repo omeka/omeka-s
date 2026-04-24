@@ -16,10 +16,10 @@ $this->htmlElement('body')->appendAttribute('class', 'jobs browse');
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><?php echo $translate('ID'); ?></th>
-            <th><?php echo $translate('Class'); ?></th>
-            <th><?php echo $translate('Status'); ?></th>
-            <th><?php echo $translate('Owner'); ?></th>
+            <th aria-sort="<?php echo $this->browse()->getAriaSortValue('id'); ?>"><?php echo $this->sortLink($translate('ID'), 'id'); ?></th>
+            <th aria-sort="<?php echo $this->browse()->getAriaSortValue('class'); ?>"><?php echo $this->sortLink($translate('Class'), 'class'); ?></th>
+            <th aria-sort="<?php echo $this->browse()->getAriaSortValue('status'); ?>"><?php echo $this->sortLink($translate('Status'), 'status'); ?></th>
+            <th aria-sort="<?php echo $this->browse()->getAriaSortValue('owner_email'); ?>"><?php echo $this->sortLink($translate('Owner'), 'owner_email'); ?></th>
         </tr>
     </thead>
     <tbody>

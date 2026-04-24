@@ -1,7 +1,9 @@
 <?php
 namespace Omeka\Stdlib;
 
-use Laminas\Dom\Query;
+use DOMDocument;
+use DOMNodeList;
+use DOMXPath;
 use Laminas\Http\Client as HttpClient;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\Uri\Http as HttpUri;
@@ -59,15 +61,16 @@ class Oembed
             if (!$response) {
                 return false;
             }
-            $dom = new Query($response->getBody());
-            $xpath = '//link[@rel="alternate" or @rel="alternative"][@type="application/json+oembed" or @type="text/json+oembed"]';
-            $oembedLinks = $dom->queryXpath($xpath);
-            if (!$oembedLinks->count()) {
+            $oembedLinks = $this->queryXpath(
+                $response->getBody(),
+                '//link[@rel="alternate" or @rel="alternative"][@type="application/json+oembed" or @type="text/json+oembed"]'
+            );
+            if (!$oembedLinks || !$oembedLinks->length) {
                 $errorStore->addError($errorKey, sprintf($this->translator->translate('oEmbed: links cannot be found at %s'), $url));
                 return false;
             }
             // Use the endpoint provided by the discovery link.
-            $oembedUrl = $oembedLinks->current()->getAttribute('href');
+            $oembedUrl = $oembedLinks->item(0)->getAttribute('href');
         }
 
         // Get the oEmbed response.
@@ -108,6 +111,27 @@ class Oembed
             );
         }
         return false;
+    }
+
+    /**
+     * Query an HTML string using an XPath expression.
+     *
+     * @param string $html
+     * @param string $xpath
+     * @return \DOMNodeList|false Returns false if the HTML cannot be loaded
+     */
+    protected function queryXpath(string $html, string $xpath): DOMNodeList|false
+    {
+        // Suppress warnings from malformed HTML and discard any parse errors.
+        libxml_use_internal_errors(true);
+        $doc = new DOMDocument();
+        $success = $doc->loadHTML($html);
+        libxml_clear_errors();
+        libxml_use_internal_errors(false);
+        if (!$success) {
+            return false;
+        }
+        return (new DOMXPath($doc))->query($xpath);
     }
 
     /**

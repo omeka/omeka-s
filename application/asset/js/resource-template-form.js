@@ -45,10 +45,9 @@ $('#property-selector .selector-child').click(function(e) {
 });
 
 propertyList.on('click', '.property-remove', function(e) {
-    e.preventDefault();
     var thisButton = $(this);
     var prop = thisButton.closest('.property');
-    prop.find(':input').prop('disabled', true);
+    prop.find(':input').not('.property-restore').prop('disabled', true);
     prop.addClass('delete');
     prop.find('.property-restore').show().focus();
     thisButton.hide();

@@ -1496,6 +1496,10 @@ div[role="main"] {
     min-width: 1em;
 }
 
+td.actions {
+    text-align: right;
+}
+
 .actions {
     margin: 0 0 0 auto;
     display: flex;
@@ -1556,6 +1560,14 @@ div[role="main"] {
     &:hover {
         color: $light-red;
     }
+}
+
+.actions .undo {
+    display: none;
+}
+
+.delete .actions .undo {
+    display: inline-block;
 }
 
 .no-resources {
@@ -2759,7 +2771,7 @@ fieldset.section > legend {
 
     .value .restore-value,
     .value.delete a.tab,
-    .value.delete .actions button:not(.restore-value),
+    .value.delete .actions button:not(.o-icon-undo),
     .value.delete .block-page-layout-grid-controls {
         display: none;
     }
@@ -3139,7 +3151,7 @@ fieldset.section > legend {
 
 /* @end */
 
-/* @group ----- Select Item Sidebar ----- */
+/* @group ----- Select Resource Sidebar ----- */
 
 .search-nav {
     width: 100%;
@@ -3292,37 +3304,48 @@ fieldset.section > legend {
     }
 }
 
+.asset-list,    
 .resource-list {
     width: 100%;
+}
 
-    .resource {
-        padding: $spacing-small $spacing-medium #{$spacing-small - 1px};
-        border-bottom: 1px solid rgba(0,0,0,.08);
-        position: relative;
-        width: 100%;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        word-wrap: break-word;
+.asset-list .asset,
+.resource-list .resource {
+    padding: $spacing-small $spacing-medium #{$spacing-small - 1px};
+    border-bottom: 1px solid rgba(0,0,0,.08);
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    word-wrap: break-word;
 
-        &:hover {
-            background-color: rgba(255,255,255,.8);
-        }
-
-        &:hover .select {
-            right: 0px;
-        }
-
-        .select-resource-checkbox-wrapper {
-            height: $base-line-height;
-            margin-right: $spacing-medium;
-        }
+    &:hover {
+        background-color: rgba(255,255,255,.8);
     }
 
+    &:hover .select {
+        right: 0px;
+    }
+}
+
+.resource-list .select-resource-checkbox-wrapper {
+    height: $base-line-height;
+    margin-right: $spacing-medium;
+}
+
+.asset-list button.asset-entry,
+.resource-list button.resource-link {
+    text-align: left;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    color: $red;
+    margin-bottom: 0;
+    min-height: 24px;
 }
 
 #resource-details {
-    background-color: #fff;
     overflow: hidden;
     padding: 0;
 
@@ -4222,8 +4245,8 @@ body.sidebar-open #content {
     }
 }
 
-.resource-templates .property.row:not(.delete) .sortable-handle {
-    display: inline-flex;
+.resource-templates .property.row.delete .sortable-handle:before {
+    opacity: 0;
 }
 
 .resource-templates #properties {

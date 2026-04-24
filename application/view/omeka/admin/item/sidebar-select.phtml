@@ -94,20 +94,15 @@ $expanded = $resourceClassId || $itemSetId || $id;
                 $this->thumbnail($item, 'square'),
                 $escape($item->displayTitle())
             );
-            if ($showDetails):
-                $attrs = [
-                    'class' => 'sidebar-content select-resource resource-link',
-                    'data-sidebar-content-url' => $item->url('show-details'),
-                    'data-sidebar-selector' => '#resource-details',
-                ];
-            else:
-                $attrs = [
-                    'class' => 'select-resource resource-link',
-                    'id' => 'select-item-' . $itemId,
-                ];
-            endif;
-            echo $hyperlink->raw($content, '#', $attrs);
+            if ($showDetails) {
+                $attrs = 'class="sidebar-content select-resource resource-link" data-sidebar-content-url="' . $item->url('show-details') . '" data-sidebar-selector="#resource-details"';
+            } else {
+                $attrs = 'class="select-resource resource-link" id="select-item-' . $itemId . '"';
+            }
             ?>
+            <button type="button" <?php echo $attrs; ?>>
+                <?php echo $content; ?>
+            </button>
         </div>
         <?php endforeach; ?>
     </div>

@@ -9,8 +9,8 @@ $dataTypeName = (strpos('resource', $dataType->getName()) !== false) ? 'resource
         <div class="input-footer">
             <span class="restore-value"><?php echo $this->translate('Value to be removed'); ?></span>
             <ul class="actions">
-                <li><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete value-annotation-remove', 'title' => $this->translate('Remove value'), 'aria-label' => $this->translate('Remove value')]); ?></li>
-                <li><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-undo value-annotation-restore', 'title' => $this->translate('Restore value'), 'aria-label' => $this->translate('Restore value'), 'style' => 'display: none;']); ?></li>
+                <li><button type="button" class="o-icon-delete value-annotation-remove" title="<?php echo $this->translate('Remove value'); ?>" aria-label="<?php echo $this->translate('Remove value'); ?>"></button></li>
+                <li class="undo"><button type="button" class="o-icon-undo value-annotation-restore" title="<?php echo $this->translate('Restore value'); ?>" aria-label="<?php echo $this->translate('Restore value'); ?>"></button></li>
                 <li><button type="button" class="o-icon-public" aria-label="<?php echo $this->translate('Make private'); ?>" title="<?php echo $this->translate('Make private'); ?>"></button></li>
             </ul>
             <input type="hidden" class="is_public" data-value-key="is_public">

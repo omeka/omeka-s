@@ -123,10 +123,7 @@ $this->plugin('formRow')->setPartial(null);
                 );
                 if ($canBeUninstalled && $this->userIsAllowed('Omeka\Module\Manager', 'uninstall')):
                 ?>
-                <?php echo $this->hyperlink($translate('Uninstall'), '#', [
-                    'data-sidebar-content-url' => $this->url(null, ['action' => 'uninstall-confirm'], ['query' => ['id' => $module->getId()]], true),
-                    'class' => 'o-icon-uninstall red button sidebar-content',
-                ]); ?>
+                <button type="button" class="o-icon-uninstall red button sidebar-content" data-sidebar-content-url="<?php echo $this->url(null, ['action' => 'uninstall-confirm'], ['query' => ['id' => $module->getId()]], true); ?>"><?php echo $translate('Uninstall'); ?></button>
                 <?php endif; ?>
 
                 <?php

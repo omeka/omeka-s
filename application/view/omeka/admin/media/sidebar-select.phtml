@@ -26,12 +26,8 @@ $mediaFound = count($media) > 0;
                 $this->thumbnail($m, 'square'),
                 $escape($m->displayTitle())
             );
-            echo $hyperlink->raw($content, '#', [
-                'class' => 'sidebar-content select-resource resource-link',
-                'data-sidebar-content-url' => $m->url('show-details'),
-                'data-sidebar-selector' => '#resource-details',
-            ]);
             ?>
+            <button type="button" class="sidebar-content select-resource resource-link" data-sidebar-selector="#resource-details" data-sidebar-content-url="<?php echo $m->url('show-details'); ?>"><?php echo $content; ?></button>
         </div>
         <?php endforeach; ?>
     <?php else: ?>

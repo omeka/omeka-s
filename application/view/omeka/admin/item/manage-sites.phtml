@@ -44,10 +44,8 @@ $siteTemplate = '
 <tr class="resource-row">
     <td class="data-value" data-row-key="child-search"></td>
     <td class="data-value" data-row-key="resource-email"></td>
-    <td>
-        <ul class="actions">
-            <li>' . $this->hyperlink('', '#', ['class' => 'o-icon-delete', 'title' => $this->translate('Unassign from site')]) . '</li>
-        </ul>
+    <td class="actions">
+        <button type="button" class="o-icon-delete" aria-label="' . $this->translate('Unassign from site') . '" title="' . $this->translate('Unassign from site') . '"></button>
         <input type="hidden" name="o:site[]" class="resource-id">
     </td>
 </tr>';

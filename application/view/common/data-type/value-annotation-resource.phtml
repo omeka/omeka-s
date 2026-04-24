@@ -7,8 +7,5 @@
         <input type="hidden" class="url" data-value-key="url">
         <input type="hidden" class="thumbnail_url" data-value-key="thumbnail_url">
     </p>
-    <?php echo $this->hyperlink($dataTypeLabel, '#', [
-        'class' => 'o-icon-' . $dataTypePlural . ' button value-annotation-resource-select',
-        'data-sidebar-content-url' => $this->url('admin/default', ['controller' => $dataTypeSingle, 'action' => 'sidebar-select'], false),
-    ]); ?>
+    <button type="button" class="o-icon-<?php echo $dataTypePlural; ?> button value-annotation-resource-select" data-sidebar-content-url="<?php echo $this->url('admin/default', ['controller' => $dataTypeSingle, 'action' => 'sidebar-select'], false); ?>"><?php echo $dataTypeLabel; ?></button>
 </div>

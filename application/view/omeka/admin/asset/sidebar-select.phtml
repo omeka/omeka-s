@@ -39,17 +39,8 @@ endif;
 <?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
 <div class="asset-list">
 <?php foreach ($assets as $asset): ?>
-    <div class="asset" data-asset-id='<?php echo $escape($asset->id()); ?>'>
-        <?php
-        echo $hyperlink->raw(
-            sprintf('%s <span class="asset-name">%s</span>',
-                $thumbnail($asset, 'medium'),
-                $escape($asset->name())
-            ),
-            '#',
-            ['class' => 'select-asset asset-entry', 'data-asset-id' => $asset->id(), 'data-asset-url' => $asset->assetUrl()]
-        );
-        ?>
+    <div class="asset" data-asset-id="<?php echo $escape($asset->id()); ?>">
+        <button type="button" class="select-asset asset-entry" data-asset-id="<?php echo $asset->id(); ?>" data-asset-url="<?php echo $asset->assetUrl(); ?>"><?php echo $thumbnail($asset, 'medium'); ?><span class="asset-name"><?php echo $escape($asset->name()); ?></button>
     </div>
 <?php endforeach; ?>
 <?php else: ?>

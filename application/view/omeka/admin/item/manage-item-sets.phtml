@@ -21,12 +21,10 @@ $itemSetTemplate = '
 <tr class="resource-row">
     <td class="data-value" data-row-key="child-search"></td>
     <td class="data-value" data-row-key="owner-email"></td>
-    <td><ul class="actions">
-        <li>' . $this->hyperlink('', '#', [
-            'class' => 'o-icon-delete',
-            'title' => $translate('Remove item set'),
-        ]) . '</li>
-    </ul><input type="hidden" class="resource-id" name="o:item_set[]"></td>
+    <td class="actions">
+        <button type="button" class="o-icon-delete" aria-label="' . $this->translate('Remove item set') . '" title="' . $this->translate('Remove item set') . '"></button>
+        <input type="hidden" class="resource-id" name="o:item_set[]">
+    </td>
 </tr>';
 ?>
 <table id="item-item-sets"

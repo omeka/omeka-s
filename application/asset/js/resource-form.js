@@ -113,28 +113,21 @@
         });
         // Handle "Remove value" click.
         $(document).on('click', '.value-annotation-remove', function(e) {
-            e.preventDefault();
             const thisRemove = $(this);
             const valueAnnotation = thisRemove.closest('.value-annotation');
             valueAnnotation.data('removed', true); // Flag annotation for removal
-            thisRemove.hide();
-            valueAnnotation.find(':input').prop('disabled', true);
+            valueAnnotation.find(':input:not(.value-annotation-restore)').prop('disabled', true);
             valueAnnotation.find('.value').addClass('delete');
-            valueAnnotation.find('.value-annotation-restore').show();
         });
         // Handle "Restore value" click.
         $(document).on('click', '.value-annotation-restore', function(e) {
-            e.preventDefault();
             const thisRestore = $(this);
             const valueAnnotation = thisRestore.closest('.value-annotation');
             valueAnnotation.removeData('removed'); // Un-flag annotation for removal
-            thisRestore.hide();
             valueAnnotation.find(':input').prop('disabled', false);
             valueAnnotation.find('.value').removeClass('delete');
-            valueAnnotation.find('.value-annotation-remove').show();
         });
         $(document).on('click', '.value-annotation-resource-select', function(e) {
-            e.preventDefault();
             const thisButton = $(this);
             const selectResourceSidebar = $('#select-resource');
             $('.selecting-resource').removeClass('selecting-resource');
@@ -144,7 +137,6 @@
         });
         // Handle value visibility click.
         $(document).on('click', '.value-annotation-visibility', function(e) {
-            e.preventDefault();
             const thisVisibilityIcon = $(this);
             const isPublicInput = thisVisibilityIcon.closest('.value').find('input.is_public');
             if (thisVisibilityIcon.hasClass('o-icon-public')) {

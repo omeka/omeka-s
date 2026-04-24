@@ -26,18 +26,14 @@ $propertyId = $escape($property->id());
         <li>
             <button type="button" data-sidebar-selector="#details" data-sidebar-content-url="<?php echo $property->url('show-details'); ?>" class="o-icon-more sidebar-content" title="<?php echo $translate('Details'); ?>"></button>        
         </li>
-        <li><?php echo $this->hyperlink('', '#', [
-            'class' => 'o-icon-edit property-edit',
-            'title' => $translate('Edit property'),
-        ]); ?></li>
-        <li><?php echo $this->hyperlink('', '#', [
-            'class' => 'o-icon-delete property-remove',
-            'title' => $translate('Remove property'),
-        ]); ?></li>
-        <li><?php echo $this->hyperlink('', '#', [
-            'class' => 'o-icon-undo property-restore',
-            'title' => $translate('Restore value'),
-            'style' => 'display: none',
-        ]); ?></li>
+        <li>
+            <button type="button" class="o-icon-edit property-edit" aria-label="<?php echo $translate('Edit property'); ?>" title="<?php echo $translate('Edit'); ?>"></button>
+        </li>
+        <li>
+            <button type="button" class="o-icon-delete property-remove" aria-label="<?php echo $translate('Remove property'); ?>" title="<?php echo $translate('Remove property'); ?>"></button>
+        </li>
+        <li class="undo">
+            <button type="button" class="o-icon-undo property-restore" aria-label="<?php echo $translate('Restore value'); ?>" title="<?php echo $translate('Restore value'); ?>"></button>
+        </li>
     </ul>
 </li>

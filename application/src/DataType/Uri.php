@@ -34,8 +34,13 @@ class Uri extends AbstractDataType implements ValueAnnotatingInterface, Conversi
             return false;
         }
         $uri = trim($uri);
-        $scheme = parse_url($uri, \PHP_URL_SCHEME);
-        return !('' === $uri || 'javascript' === $scheme);
+        if ('' === $uri) {
+            return false;
+        }
+        if ('javascript' === parse_url(strtolower(str_replace(["\t", "\r", "\n"], '', $uri)), \PHP_URL_SCHEME)) {
+            return false;
+        }
+        return true;
     }
 
     public function hydrate(array $valueObject, Value $value, AbstractEntityAdapter $adapter)

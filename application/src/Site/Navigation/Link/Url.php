@@ -18,15 +18,17 @@ class Url implements LinkInterface
 
     public function isValid(array $data, ErrorStore $errorStore)
     {
-        if (!isset($data['label']) || '' === trim($data['label'])) {
+        $label = trim($data['label'] ?? '');
+        $url = trim($data['url'] ?? '');
+        if ('' === $label) {
             $errorStore->addError('o:navigation', 'Invalid navigation: URL link missing label');
             return false;
         }
-        if (!isset($data['url']) || '' === trim($data['url'])) {
+        if ('' === $url) {
             $errorStore->addError('o:navigation', 'Invalid navigation: URL link missing URL');
             return false;
         }
-        if ('javascript' === parse_url($data['url'], \PHP_URL_SCHEME)) {
+        if ('javascript' === parse_url(strtolower(str_replace(["\t", "\r", "\n"], '', $url)), \PHP_URL_SCHEME)) {
             $errorStore->addError('o:navigation', 'Invalid navigation: URL link invalid scheme');
             return false;
         }

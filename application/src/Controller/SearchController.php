@@ -30,7 +30,8 @@ class SearchController extends AbstractActionController
 
     public function sitePagesAction()
     {
-        $this->setBrowseDefaults('created');
+        // Cannot use browse()->setDefaults() — this route has no admin or site context.
+        $this->setBrowseDefaults('id');
         $response = $this->api()->search('site_pages', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults());
         $view = new ViewModel;
@@ -40,7 +41,8 @@ class SearchController extends AbstractActionController
 
     public function itemsAction()
     {
-        $this->setBrowseDefaults('created');
+        // Cannot use browse()->setDefaults() — this route has no admin or site context.
+        $this->setBrowseDefaults('id');
         $query = array_merge($this->params()->fromQuery(), ['in_sites' => true]);
         $response = $this->api()->search('items', $query);
         $this->paginator($response->getTotalResults());
@@ -51,7 +53,8 @@ class SearchController extends AbstractActionController
 
     public function itemSetsAction()
     {
-        $this->setBrowseDefaults('created');
+        // Cannot use browse()->setDefaults() — this route has no admin or site context.
+        $this->setBrowseDefaults('id');
         $query = array_merge($this->params()->fromQuery(), ['in_sites' => true]);
         $response = $this->api()->search('item_sets', $query);
         $this->paginator($response->getTotalResults());

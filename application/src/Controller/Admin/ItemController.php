@@ -93,7 +93,7 @@ class ItemController extends AbstractActionController
 
     public function sidebarSelectAction()
     {
-        $this->setBrowseDefaults('created');
+        $this->browse()->setDefaults('items');
         $response = $this->api()->search('items', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults());
 

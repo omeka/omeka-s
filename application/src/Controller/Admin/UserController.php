@@ -79,7 +79,7 @@ class UserController extends AbstractActionController
 
     public function sidebarSelectAction()
     {
-        $this->setBrowseDefaults('created');
+        $this->browse()->setDefaults('users');
         $response = $this->api()->search('users', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults());
 

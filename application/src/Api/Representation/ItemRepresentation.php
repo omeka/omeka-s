@@ -83,6 +83,9 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
 
     public function primaryMedia()
     {
+        if ($this->primaryMediaCache !== false) {
+            return $this->primaryMediaCache;
+        }
         // Return the primary media if one is set.
         $primaryMedia = $this->resource->getPrimaryMedia();
         if ($primaryMedia) {
@@ -95,11 +98,11 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
                 ->get('Omeka\EntityManager')
                 ->getRepository('Omeka\Entity\Media')
                 ->findOneBy(['id' => $primaryMedia->getId()]);
-            return $this->getAdapter('media')->getRepresentation($primaryMedia);
+            return $this->primaryMediaCache = $this->getAdapter('media')->getRepresentation($primaryMedia);
         }
         // Return the first media if one exists.
         $media = $this->media();
-        return $media ? $media[0] : null;
+        return $this->primaryMediaCache = $media ? $media[0] : null;
     }
 
     public function siteUrl($siteSlug = null, $canonical = false)

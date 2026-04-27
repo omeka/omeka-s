@@ -121,10 +121,6 @@ return array (
   array (
     0 => 'class',
   ),
-  'application/javascript' => 
-  array (
-    0 => 'js',
-  ),
   'application/json' => 
   array (
     0 => 'json',
@@ -865,6 +861,10 @@ return array (
   'application/vnd.geogebra.file' => 
   array (
     0 => 'ggb',
+  ),
+  'application/vnd.geogebra.slides' => 
+  array (
+    0 => 'ggs',
   ),
   'application/vnd.geogebra.tool' => 
   array (
@@ -1700,6 +1700,11 @@ return array (
   array (
     0 => 'sfs',
   ),
+  'application/vnd.sqlite3' => 
+  array (
+    0 => 'sqlite',
+    1 => 'sqlite3',
+  ),
   'application/vnd.stardivision.calc' => 
   array (
     0 => 'sdc',
@@ -1949,6 +1954,10 @@ return array (
   'application/voicexml+xml' => 
   array (
     0 => 'vxml',
+  ),
+  'application/wasm' => 
+  array (
+    0 => 'wasm',
   ),
   'application/widget' => 
   array (
@@ -2498,10 +2507,10 @@ return array (
   ),
   'audio/mpeg' => 
   array (
-    0 => 'mpga',
-    1 => 'mp2',
-    2 => 'mp2a',
-    3 => 'mp3',
+    0 => 'mp3',
+    1 => 'mpga',
+    2 => 'mp2',
+    3 => 'mp2a',
     4 => 'm2a',
     5 => 'm3a',
   ),
@@ -2664,6 +2673,10 @@ return array (
   array (
     0 => 'woff2',
   ),
+  'image/avif' => 
+  array (
+    0 => 'avif',
+  ),
   'image/bmp' => 
   array (
     0 => 'bmp',
@@ -2680,6 +2693,22 @@ return array (
   array (
     0 => 'gif',
   ),
+  'image/heic' => 
+  array (
+    0 => 'heic',
+  ),
+  'image/heic-sequence' => 
+  array (
+    0 => 'heics',
+  ),
+  'image/heif' => 
+  array (
+    0 => 'heif',
+  ),
+  'image/heif-sequence' => 
+  array (
+    0 => 'heifs',
+  ),
   'image/ief' => 
   array (
     0 => 'ief',
@@ -2694,6 +2723,10 @@ return array (
     0 => 'jpeg',
     1 => 'jpg',
     2 => 'jpe',
+  ),
+  'image/jxl' => 
+  array (
+    0 => 'jxl',
   ),
   'image/ktx' => 
   array (
@@ -2898,10 +2931,6 @@ return array (
   array (
     0 => 'gtw',
   ),
-  'model/vnd.mts' => 
-  array (
-    0 => 'mts',
-  ),
   'model/vnd.vtu' => 
   array (
     0 => 'vtu',
@@ -2947,6 +2976,11 @@ return array (
   array (
     0 => 'html',
     1 => 'htm',
+  ),
+  'text/javascript' => 
+  array (
+    0 => 'js',
+    1 => 'mjs',
   ),
   'text/n3' => 
   array (
@@ -3146,6 +3180,13 @@ return array (
   array (
     0 => 'mj2',
     1 => 'mjp2',
+  ),
+  'video/mp2t' => 
+  array (
+    0 => 'ts',
+    1 => 'm2t',
+    2 => 'm2ts',
+    3 => 'mts',
   ),
   'video/mp4' => 
   array (

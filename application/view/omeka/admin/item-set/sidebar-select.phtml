@@ -14,10 +14,10 @@ $expanded = $resourceClassId || $id;
         <input type="text" name="search" value="<?php echo $escape($searchValue); ?>" id="resource-list-search">
         <button type="button" class="o-icon-search"><?php echo $translate('Search'); ?></button>
         <div class="resource-search-filters">
-            <a href="#"
+            <button type="button"
                 class="<?php echo $expanded ? 'collapse' : 'expand'; ?>"
-                aria-label="<?php echo $expanded ? $translate('Collapse') : $translate('Expand'); ?>"><?php echo $translate('Filter search'); ?>
-            </a>
+                aria-expanded="<?php echo $expanded ? 'true' : 'false' ?>"><?php echo $translate('Filter search') ?>
+            </button>
             <div class="collapsible">
             <?php
             echo $this->resourceClassSelect([

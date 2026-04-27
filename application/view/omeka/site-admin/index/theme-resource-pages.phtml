@@ -10,8 +10,8 @@ $blockTemplate = <<<EOT
     <span class="sortable-handle"></span>
     <span class="block-layout-label"></span>
     <ul class="actions">
-        <li><a href="#" class="o-icon-delete block-remove" aria-label="$removeBlockText" title="$removeBlockText"></a></li>
-        <li><a href="#" class="o-icon-undo block-restore" aria-label="$restoreBlockText" title="$restoreBlockText" style="display: none;"></a></li>
+        <li><button type="button" class="o-icon-delete block-remove" aria-label="$removeBlockText" title="$removeBlockText"></button></li>
+        <li class="undo"><button type="button" class="o-icon-undo block-restore" aria-label="$restoreBlockText" title="$restoreBlockText"></button></li>
     </ul>
     <input type="hidden" class="block-layout-name" name="">
 </li>

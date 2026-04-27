@@ -40,15 +40,13 @@
             });
         });
 
-        $('#select-item a').on('click', function (e) {
-            e.preventDefault();
+        $('#select-item button').on('click', function (e) {
             Omeka.closeSidebar($('#select-resource'));
             Omeka.closeSidebar($('#resource-details'));
             $(this).trigger('o:resource-selected');
         });
 
         $('#select-resource').on('click', '.select-resource', function(e) {
-            e.preventDefault();
             if ($('#item-results').hasClass('active')) {
                 var selectCheckbox = $(this).parents('.item.resource').find('.select-resource-checkbox');
                 if (selectCheckbox.prop('checked')) {

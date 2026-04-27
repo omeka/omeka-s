@@ -247,7 +247,7 @@
             }
         });
 
-        $('#select-item a').on('o:resource-selected', function (e) {
+        $('#select-item button').on('o:resource-selected', function (e) {
             var valueObj = $('.resource-details').data('resource-values');
             var value = $('.selecting-resource');
             if (value.hasClass('value')) {

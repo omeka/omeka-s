@@ -122,7 +122,7 @@ $(document).ready(function() {
         thisRemoveIcon.hide();
         block.addClass('delete');
         block.find('.block-restore').show();
-        block.find(':input').prop('disabled', true);
+        block.find(':input:not(.o-icon-undo)').prop('disabled', true);
     });
 
     // Handle restore block button click.

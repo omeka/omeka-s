@@ -24,7 +24,7 @@ $expanded = $resourceClassId || $itemSetId || $id;
     <?php if (!isset($itemStubForm)): ?>
     <div class="sidebar-header">
         <h4><?php echo $translate('Select item'); ?></h4>
-        <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
+        <button type="button" class="sidebar-close o-icon-close" aria-label="<?php echo $translate('Close'); ?>" title="<?php echo $translate('Close'); ?>"></button>
     </div>
     <?php endif; ?>
     <div class="search-nav">

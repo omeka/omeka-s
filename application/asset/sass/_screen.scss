@@ -2811,6 +2811,10 @@ fieldset.section > legend {
     .add-values button,
     .add-values .button {
         line-height: $base-line-height;
+        margin: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: $spacing-small;
     }
 
     .inputs .value textarea,
@@ -3954,7 +3958,7 @@ input[type=text].query-form-query {
         background-color: transparent;
         padding: 0;
         box-shadow: none;
-        min-height: 0;
+        min-height: 24px;
     }
 
     .vocabulary,

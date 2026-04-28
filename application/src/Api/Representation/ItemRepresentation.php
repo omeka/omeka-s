@@ -3,6 +3,9 @@ namespace Omeka\Api\Representation;
 
 class ItemRepresentation extends AbstractResourceEntityRepresentation
 {
+    // false = unresolved; null = no media; MediaRepresentation = resolved
+    protected $primaryMediaCache = false;
+
     public function getControllerName()
     {
         return 'item';

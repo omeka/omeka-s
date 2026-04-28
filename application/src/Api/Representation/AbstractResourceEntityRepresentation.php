@@ -33,9 +33,6 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     protected $values;
 
-    // false = unresolved; null = no media; MediaRepresentation = resolved
-    protected $primaryMediaCache = false;
-
     /**
      * Get the internal members of this resource entity.
      *

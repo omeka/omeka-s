@@ -1,0 +1,45 @@
+<?php
+$translate = $this->plugin('translate');
+// Prepare the user queries
+$ids = isset($query['user_id']) ? $query['user_id'] : [];
+if (!is_array($ids)) {
+    $ids = [$ids];
+}
+$ids = array_filter($ids);
+if (!$ids) {
+    $ids = [null];
+}
+$role = isset($query['role']) ? $query['role'] : null;
+$sitePermissionSiteId = isset($query['site_permission_site_id']) ? $query['site_permission_site_id'] : null;
+?>
+
+<?php
+$value = isset($query['fulltext_search']) ? $query['fulltext_search'] : null;
+?>
+<div class="field" id="fulltext_search_field">
+    <div class="field-meta">
+        <label for="name"><?php echo $this->translate('Search by name'); ?></label>
+    </div>
+    <div class="inputs">
+        <input type="text" name="fulltext_search" id="fulltext_search" value="<?php echo $this->escapeHtml($value); ?>">
+    </div>
+</div>
+
+<div id="owner_id_field" class="field">
+    <div class="field-meta">
+        <label for="owner_id"><?php echo $this->translate('Search by owner'); ?></label>
+        <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $this->translate('Expand')]); ?>
+        <div class="collapsible">
+            <div class="field-description"><?php echo $this->translate('Searches for assets that are owned by this user.'); ?></div>
+        </div>
+    </div>
+    <div class="inputs">
+        <?php echo $this->userSelect([
+            'name' => 'owner_id',
+            'attributes' => [
+                'id' => 'owner_id',
+                'value' => $query['owner_id'] ?? null,
+            ]
+        ]); ?>
+    </div>
+</div>

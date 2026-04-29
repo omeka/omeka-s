@@ -1,4 +1,5 @@
 <?php
+
 namespace Omeka\Controller\Admin;
 
 use Omeka\Api\Exception\ValidationException;
@@ -11,6 +12,13 @@ use Laminas\Mvc\Controller\AbstractActionController;
 
 class AssetController extends AbstractActionController
 {
+    public function searchAction()
+    {
+        $view = new ViewModel;
+        $view->setVariable('query', $this->params()->fromQuery());
+        return $view;
+    }
+
     public function browseAction()
     {
         $this->browse()->setDefaults('assets');

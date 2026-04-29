@@ -1,4 +1,5 @@
 <?php
+
 namespace Omeka\Api\Adapter;
 
 use Doctrine\ORM\QueryBuilder;
@@ -43,6 +44,21 @@ class AssetAdapter extends AbstractEntityAdapter
 
     public function buildQuery(QueryBuilder $qb, array $query)
     {
+        if (!empty($query['fulltext_search'])) {
+            //faire un trim ?
+            $trimmedSearchTerm = trim($query['fulltext_search']);
+            if ($trimmedSearchTerm !== '') {
+                $searchTerm = '%' . $trimmedSearchTerm . '%';
+
+                // $searchTerm = '%' . $query['fulltext_search'] . '%'; si sans le trim
+                $expr = $qb->createNamedParameter($searchTerm);
+
+                $qb->andWhere(
+                    $qb->expr()->like('omeka_root.name', $expr)
+                );
+            }
+        }
+
         if (isset($query['owner_id']) && is_numeric($query['owner_id'])) {
             $userAlias = $qb->createAlias();
             if (0 == $query['owner_id']) {
@@ -53,9 +69,11 @@ class AssetAdapter extends AbstractEntityAdapter
                     'omeka_root.owner',
                     $userAlias
                 );
-                $qb->andWhere($qb->expr()->eq(
-                    "$userAlias.id",
-                    $this->createNamedParameter($qb, $query['owner_id']))
+                $qb->andWhere(
+                    $qb->expr()->eq(
+                        "$userAlias.id",
+                        $this->createNamedParameter($qb, $query['owner_id'])
+                    )
                 );
             }
         }

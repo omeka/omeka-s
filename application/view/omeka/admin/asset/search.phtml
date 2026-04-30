@@ -6,7 +6,7 @@ $this->htmlElement('body')->appendAttribute('class', 'Assets search');
 <form id="advanced-search" method="get" action="<?php echo $this->escapeHtml($this->url(null, ['action' => 'browse'], true)); ?>">
     <?php echo $this->partial(
         'common/advanced-search-assets',
-        ['query' => $this->params()->fromQuery(), 'resourceType' => 'user']
+        ['query' => $this->params()->fromQuery(), 'resourceType' => 'asset']
     ); ?>
     <div id="page-actions">
         <input type="submit" name="submit" value="<?php echo $this->escapeHtml($translate('Search')); ?>">

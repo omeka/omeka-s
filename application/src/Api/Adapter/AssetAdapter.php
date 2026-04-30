@@ -1,5 +1,4 @@
 <?php
-
 namespace Omeka\Api\Adapter;
 
 use Doctrine\ORM\QueryBuilder;
@@ -58,7 +57,7 @@ class AssetAdapter extends AbstractEntityAdapter
                 );
             }
         }
-
+        
         if (isset($query['owner_id']) && is_numeric($query['owner_id'])) {
             $userAlias = $qb->createAlias();
             if (0 == $query['owner_id']) {
@@ -69,11 +68,9 @@ class AssetAdapter extends AbstractEntityAdapter
                     'omeka_root.owner',
                     $userAlias
                 );
-                $qb->andWhere(
-                    $qb->expr()->eq(
-                        "$userAlias.id",
-                        $this->createNamedParameter($qb, $query['owner_id'])
-                    )
+                $qb->andWhere($qb->expr()->eq(
+                    "$userAlias.id",
+                    $this->createNamedParameter($qb, $query['owner_id']))
                 );
             }
         }

@@ -1,5 +1,4 @@
 <?php
-
 namespace Omeka\Controller\Admin;
 
 use Omeka\Api\Exception\ValidationException;
@@ -18,7 +17,7 @@ class AssetController extends AbstractActionController
         $view->setVariable('query', $this->params()->fromQuery());
         return $view;
     }
-
+    
     public function browseAction()
     {
         $this->browse()->setDefaults('assets');

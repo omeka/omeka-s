@@ -2065,7 +2065,7 @@ fieldset.section > legend {
     font-size: .75 * $base-font-size;
 }
 
-.value .input-body button.value-language {
+.value .input-body .value-language {
     margin-right: 0;
     vertical-align: top;
     position: absolute;
@@ -2075,7 +2075,6 @@ fieldset.section > legend {
     width: (1.5 * $spacing-large);
     line-height: (1.5 * $spacing-large);
     border: 1px solid $border-gray;
-    border-width: 0 0 1px 1px;
     overflow: hidden;
     text-align: center;
     color: $red;
@@ -2085,6 +2084,7 @@ fieldset.section > legend {
     padding: 0;
     margin: 0;
     box-shadow: none;
+    background-color: #fff;
 
     & ~ textarea {
         padding-right: 1.75 * $spacing-large;

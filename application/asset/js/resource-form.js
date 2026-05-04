@@ -172,7 +172,7 @@
             applyResourceTemplate(true);
         });
 
-        $('#resource-values').on('click', 'button.value-language', function(e) {
+        $('#resource-values').on('click', '.value .value-language', function(e) {
             var languageWrapper = $(this).closest('.language-wrapper');
             languageWrapper.toggleClass('active');
             if (languageWrapper.hasClass('active')) {
@@ -804,7 +804,7 @@
         } else if (templateProperty['o:data_type'].length === 1) {
             defaultSelector.hide();
             multipleSelector.hide();
-            singleSelector.find('a.add-value.button').data('type', templateProperty['o:data_type'][0]);
+            singleSelector.find('.add-value.button').data('type', templateProperty['o:data_type'][0]);
             singleSelector.show();
         } else {
             multipleSelector.hide();
@@ -834,7 +834,7 @@
             var icon = dataTypeTemplate.data('data-type-icon') ? dataTypeTemplate.data('data-type-icon') : dataType.substring(0, (dataType + ':').indexOf(':'));
             html += dataTypeTemplate.data('data-type-button')
                 ? dataTypeTemplate.data('data-type-button') + ' '
-                : '<a href="#" class="add-value button o-icon-' + icon + '" data-type="' + dataType + '">' + label + '</a> ';
+                : '<button type="button" class="add-value button o-icon-' + icon + '" data-type="' + dataType + '">' + label + '</button> ';
         });
         return html;
     };

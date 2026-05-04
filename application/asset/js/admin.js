@@ -16,7 +16,7 @@
             window.history.go(-1);
         });
 
-        $('#content').on('click', 'button.sidebar-content', function(e) {
+        $('#content').on('click', 'a.sidebar-content, button.sidebar-content', function(e) {
             var sidebarSelector = $(this).data('sidebar-selector') || '#content > .sidebar';
             var sidebar = $(sidebarSelector);
 

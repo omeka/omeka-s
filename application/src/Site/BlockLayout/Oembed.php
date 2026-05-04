@@ -101,8 +101,10 @@ class Oembed extends AbstractBlockLayout implements TemplateableBlockLayoutInter
             ],
         ]);
         return sprintf(
-            '%s<a href="#" class="expand" aria-label="expand"><h4>%s</h4></a><div class="collapsible">%s%s%s%s</div>',
+            '%s<button type="button" class="expand" aria-label="%s" title="%s" aria-expanded="false"><h4>%s</h4></button><div class="collapsible">%s%s%s%s</div>',
             $view->formRow($form->get('o:block[__blockIndex__][o:data][url]')),
+            $view->translate('Expande'),
+            $view->translate('Expande'),
             $view->translate('Advanced'),
             $view->formRow($form->get('oembed_oembed')),
             $view->formRow($form->get('o:block[__blockIndex__][o:data][refresh]')),

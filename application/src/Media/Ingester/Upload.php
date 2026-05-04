@@ -72,7 +72,7 @@ class Upload implements IngesterInterface
         <div class="field">
             <div class="field-meta">
                 <label for="media-file-input-__index__">' . $view->translate('Upload file') . '</label>
-                <a href="#" class="expand" aria-label="' . $view->translate('Expand') . '" title="' . $view->translate('Expand') . '"></a>
+                <button type="button" class="expand" aria-label="' . $view->translate('Expand') . '" title="' . $view->translate('Expand') . '" aria-expanded="false"></button>
                 <div class="collapsible">
                     <div class="field-description">' . $view->uploadLimit() . '</div>
                 </div>

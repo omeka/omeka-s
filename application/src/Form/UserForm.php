@@ -177,9 +177,7 @@ class UserForm extends Form implements EventManagerAwareInterface
                 'label' => 'Default item sets for items', // @translate
                 'multiple' => true,
                 'api_resource' => 'item_sets',
-                'resource_partial' => 'omeka/admin/item-set/resource-picker-resource',
-                'resources_endpoint_route' => 'admin/default',
-                'resources_endpoint_route_params' => ['controller' => 'item-set', 'action' => 'resource-picker'],
+                'resources_endpoint_route_params' => ['controller' => 'item-set'],
             ],
         ]);
         if ($userId) {
@@ -193,9 +191,7 @@ class UserForm extends Form implements EventManagerAwareInterface
                 'label' => 'Default sites for items', // @translate
                 'multiple' => true,
                 'api_resource' => 'sites',
-                'resource_partial' => 'omeka/admin/site/resource-picker-resource',
-                'resources_endpoint_route' => 'admin/default',
-                'resources_endpoint_route_params' => ['controller' => 'site', 'action' => 'resource-picker'],
+                'resources_endpoint_route_params' => ['controller' => 'site'],
                 'query' => ['can_assign_items' => true],
             ],
         ]);

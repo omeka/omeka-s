@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Form;
 
-use Omeka\Form\Element\ResourceClassSelect;
+use Omeka\Form\Element\ResourcePickerSelect;
 use Laminas\Form\Form;
 
 class ResourceTemplateForm extends Form
@@ -22,15 +22,11 @@ class ResourceTemplateForm extends Form
 
         $this->add([
             'name' => 'o:resource_class[o:id]',
-            'type' => ResourceClassSelect::class,
+            'type' => ResourcePickerSelect::class,
             'options' => [
                 'label' => 'Suggested class', // @translate
-                'empty_option' => '',
-            ],
-            'attributes' => [
-                'class' => 'chosen-select',
-                'data-placeholder' => 'Select a class',
-                'id' => 'o:resource_class[o:id]',
+                'resources_endpoint_route_params' => ['controller' => 'resource-class'],
+                'api_resource' => 'resource_classes',
             ],
         ]);
 

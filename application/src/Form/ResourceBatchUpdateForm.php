@@ -1,10 +1,8 @@
 <?php
 namespace Omeka\Form;
 
-use Omeka\Form\Element\ItemSetSelect;
-use Omeka\Form\Element\PropertySelect;
+use Omeka\Form\Element\ResourcePickerSelect;
 use Omeka\Form\Element\ResourceClassSelect;
-use Omeka\Form\Element\SiteSelect;
 use Omeka\Form\Element\ResourceSelect;
 use Omeka\Permissions\Acl;
 use Laminas\EventManager\Event;
@@ -129,57 +127,45 @@ class ResourceBatchUpdateForm extends Form implements EventManagerAwareInterface
             case 'item':
                 $this->add([
                     'name' => 'add_to_item_set',
-                    'type' => ItemSetSelect::class,
-                    'attributes' => [
-                        'id' => 'add-to-item-sets',
-                        'class' => 'chosen-select',
-                        'multiple' => true,
-                        'data-placeholder' => 'Select item sets', // @translate
-                    ],
+                    'type' => ResourcePickerSelect::class,
                     'options' => [
                         'label' => 'Add to item sets', // @translate
+                        'resources_endpoint_route_params' => ['controller' => 'item-set'],
+                        'api_resource' => 'item_sets',
+                        'multiple' => true,
                     ],
                 ]);
 
                 $this->add([
                     'name' => 'remove_from_item_set',
-                    'type' => ItemSetSelect::class,
-                    'attributes' => [
-                        'id' => 'remove-from-item-sets',
-                        'class' => 'chosen-select',
-                        'multiple' => true,
-                        'data-placeholder' => 'Select item sets', // @translate
-                    ],
+                    'type' => ResourcePickerSelect::class,
                     'options' => [
                         'label' => 'Remove from item sets', // @translate
+                        'resources_endpoint_route_params' => ['controller' => 'item-set'],
+                        'api_resource' => 'item_sets',
+                        'multiple' => true,
                     ],
                 ]);
 
                 $this->add([
                     'name' => 'add_to_sites',
-                    'type' => SiteSelect::class,
-                    'attributes' => [
-                        'id' => 'add-to-sites',
-                        'class' => 'chosen-select',
-                        'multiple' => true,
-                        'data-placeholder' => 'Select sites', // @translate
-                    ],
+                    'type' => ResourcePickerSelect::class,
                     'options' => [
                         'label' => 'Add to sites', // @translate
+                        'resources_endpoint_route_params' => ['controller' => 'site'],
+                        'api_resource' => 'sites',
+                        'multiple' => true,
                     ],
                 ]);
 
                 $this->add([
                     'name' => 'remove_from_sites',
-                    'type' => SiteSelect::class,
-                    'attributes' => [
-                        'id' => 'remove-from-sites',
-                        'class' => 'chosen-select',
-                        'multiple' => true,
-                        'data-placeholder' => 'Select sites', // @translate
-                    ],
+                    'type' => ResourcePickerSelect::class,
                     'options' => [
                         'label' => 'Remove from sites', // @translate
+                        'resources_endpoint_route_params' => ['controller' => 'site'],
+                        'api_resource' => 'sites',
+                        'multiple' => true,
                     ],
                 ]);
                 break;
@@ -208,15 +194,12 @@ class ResourceBatchUpdateForm extends Form implements EventManagerAwareInterface
 
         $this->add([
             'name' => 'clear_property_values',
-            'type' => PropertySelect::class,
-            'attributes' => [
-                'id' => 'remove-property-values',
-                'class' => 'chosen-select',
-                'multiple' => true,
-                'data-placeholder' => 'Select properties', // @translate
-            ],
+            'type' => ResourcePickerSelect::class,
             'options' => [
                 'label' => 'Clear property values', // @translate
+                'resources_endpoint_route_params' => ['controller' => 'property'],
+                'api_resource' => 'properties',
+                'multiple' => true,
             ],
         ]);
 

@@ -3,9 +3,8 @@ namespace Omeka\Form;
 
 use DateTimeZone;
 use Omeka\Form\Element\ArrayTextarea;
-use Omeka\Form\Element\PropertySelect;
+use Omeka\Form\Element\ResourcePickerSelect;
 use Omeka\Form\Element\RestoreTextarea;
-use Omeka\Form\Element\SiteSelect;
 use Omeka\Settings\Settings;
 use Laminas\Form\Form;
 use Laminas\EventManager\EventManagerAwareInterface;
@@ -253,21 +252,16 @@ class SettingForm extends Form implements EventManagerAwareInterface
 
         $this->add([
             'name' => 'default_site',
-            'type' => SiteSelect::class,
+            'type' => ResourcePickerSelect::class,
             'options' => [
                 'element_group' => 'display',
                 'label' => 'Default site', // @translate
                 'info' => 'Select which site should appear when users go to the front page of the installation.', // @translate
-                'empty_option' => '',
-            ],
-            'attributes' => [
-                'class' => 'chosen-select',
-                'data-placeholder' => 'No default (show index of sites)', // @translate
-                'value' => $this->settings->get('default_site'),
-                'required' => false,
-                'id' => 'default_site',
+                'resources_endpoint_route_params' => ['controller' => 'site'],
+                'api_resource' => 'sites',
             ],
         ]);
+        $this->get('default_site')->setValue($this->settings->get('default_site'));
 
         $this->add([
             'name' => 'disable_jsonld_embed',
@@ -335,20 +329,17 @@ class SettingForm extends Form implements EventManagerAwareInterface
 
         $this->add([
             'name' => 'media_alt_text_property',
-            'type' => PropertySelect::class,
+            'type' => ResourcePickerSelect::class,
             'options' => [
                 'element_group' => 'editing',
                 'label' => 'Media alt text property', // @translate
                 'info' => 'Media property to use as alt text if no alt text is explicitly set.', // @translate
-                'empty_option' => '[None]', // @translate
-                'term_as_value' => true,
-            ],
-            'attributes' => [
-                'id' => 'media_alt_text_property',
-                'class' => 'chosen-select',
-                'value' => $this->settings->get('media_alt_text_property'),
+                'resources_endpoint_route_params' => ['controller' => 'property'],
+                'api_resource' => 'properties',
+                'value_type' => 'term',
             ],
         ]);
+        $this->get('media_alt_text_property')->setValue($this->settings->get('media_alt_text_property'));
 
         $this->add([
             'name' => 'batch_chunk_size',

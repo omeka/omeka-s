@@ -69,16 +69,12 @@ class ItemStubForm extends Form
             ],
         ]);
         $fieldsetMain->add([
-            'type' => OmekaElement\ResourceClassSelect::class,
+            'type' => OmekaElement\ResourcePickerSelect::class,
             'name' => 'resource_class',
             'options' => [
                 'label' => 'Class', // @translate
-                'empty_option' => '',
-            ],
-            'attributes' => [
-                'id' => 'item-stub-resource-class',
-                'class' => 'chosen-select',
-                'data-placeholder' => 'Select a class', // @translate
+                'resources_endpoint_route_params' => ['controller' => 'resource-class'],
+                'api_resource' => 'resource_classes',
             ],
         ]);
         $fieldsetMain->add([

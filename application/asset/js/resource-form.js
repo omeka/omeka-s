@@ -867,11 +867,16 @@
         return $.get(url)
             .done(function(data) {
                 if (changeClass) {
-                    // Change the resource class.
-                    var classSelect = $('#resource-class-select');
-                    if (data['o:resource_class'] && classSelect.val() === '') {
-                        classSelect.val(data['o:resource_class']['o:id']);
-                        classSelect.trigger('chosen:updated');
+                    var classPicker = $('[data-input-name="o:resource_class[o:id]"]');
+                    var classSelections = classPicker.find('.resource-picker-selections');
+                    if (data['o:resource_class'] && classSelections.is(':empty')) {
+                        var rc = data['o:resource_class'];
+                        var resourceHtml = $('<span class="resource-name">').text(rc['o:label']).prop('outerHTML')
+                            + ' ' + $('<span class="resource-term">').text('(' + rc['o:term'] + ')').prop('outerHTML');
+                        var resource = $('<div class="resource">').append($('<div class="resource-link">').html(resourceHtml));
+                        resource.append($('<input type="hidden">').attr('name', classPicker.data('input-name')).val(rc['o:id']));
+                        resource.append($('<a href="#" class="resource-picker-remove-resource o-icon-delete">').attr('title', Omeka.jsTranslate('Remove')));
+                        classSelections.html(resource);
                     }
                 }
 

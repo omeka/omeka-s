@@ -57,7 +57,7 @@ $escape = $this->plugin('escapeHtml');
         <div class="resource">
             <a href="#"
                 class="resource-picker-select-resource resource-link"
-                data-resource-id="<?php echo $resource->id(); ?>"
+                data-resource-id="<?php echo $escape($resource->id()); ?>"
                 data-resource-html="<?php echo $escape($resourceHtml); ?>">
                 <?php echo $resourceHtml; ?>
             </a>

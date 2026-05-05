@@ -3,7 +3,7 @@ namespace Omeka\Form;
 
 use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
 use Omeka\Form\Element\ResourceSelect;
-use Omeka\Form\Element\ResourceClassSelect;
+use Omeka\Form\Element\ResourcePickerSelect;
 use Laminas\Form\Form;
 use Laminas\View\Helper\Url;
 use Laminas\EventManager\EventManagerAwareInterface;
@@ -57,16 +57,12 @@ class ResourceForm extends Form implements EventManagerAwareInterface
 
         $this->add([
             'name' => 'o:resource_class[o:id]',
-            'type' => ResourceClassSelect::class,
-            'attributes' => [
-                'id' => 'resource-class-select',
-                'class' => 'chosen-select',
-                'data-placeholder' => 'Select a class', // @translate
-            ],
+            'type' => ResourcePickerSelect::class,
             'options' => [
                 'label' => 'Class', // @translate
                 'info' => 'A type for the resource. Different types have different default properties attached to them.', // @translate
-                'empty_option' => '',
+                'resources_endpoint_route_params' => ['controller' => 'resource-class'],
+                'api_resource' => 'resource_classes',
             ],
         ]);
 

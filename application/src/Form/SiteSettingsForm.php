@@ -2,7 +2,7 @@
 namespace Omeka\Form;
 
 use Omeka\Form\Element\BrowseDefaults;
-use Omeka\Form\Element\PropertySelect;
+use Omeka\Form\Element\ResourcePickerSelect;
 use Omeka\Settings\SiteSettings;
 use Omeka\Stdlib\Browse as BrowseService;
 use Laminas\Form\Form;
@@ -214,42 +214,32 @@ class SiteSettingsForm extends Form implements EventManagerAwareInterface
                 'placeholder' => 'Use global setting', // @translate
             ],
         ]);
-        $headingTerm = $settings->get('browse_heading_property_term');
         $this->add([
             'name' => 'browse_heading_property_term',
-            'type' => PropertySelect::class,
+            'type' => ResourcePickerSelect::class,
             'options' => [
                 'element_group' => 'browse',
                 'label' => 'Browse heading property', // @translate
                 'info' => 'Use this property for the heading of each resource on a browse page. Keep unselected to use the default title property of each resource.', // @translate
-                'term_as_value' => true,
-                'empty_option' => '',
-            ],
-            'attributes' => [
-                'id' => 'browse_heading_property_term',
-                'value' => $headingTerm,
-                'class' => 'chosen-select',
-                'data-placeholder' => 'Select a property', // @translate
+                'resources_endpoint_route_params' => ['controller' => 'property'],
+                'api_resource' => 'properties',
+                'value_type' => 'term',
             ],
         ]);
-        $bodyTerm = $settings->get('browse_body_property_term');
+        $this->get('browse_heading_property_term')->setValue($settings->get('browse_heading_property_term'));
         $this->add([
             'name' => 'browse_body_property_term',
-            'type' => PropertySelect::class,
+            'type' => ResourcePickerSelect::class,
             'options' => [
                 'element_group' => 'browse',
                 'label' => 'Browse body property', // @translate
                 'info' => 'Use this property for the body of each resource on a browse page. Keep unselected to use the default description property of each resource.', // @translate
-                'term_as_value' => true,
-                'empty_option' => '',
-            ],
-            'attributes' => [
-                'id' => 'browse_body_property_term',
-                'value' => $bodyTerm,
-                'class' => 'chosen-select',
-                'data-placeholder' => 'Select a property', // @translate
+                'resources_endpoint_route_params' => ['controller' => 'property'],
+                'api_resource' => 'properties',
+                'value_type' => 'term',
             ],
         ]);
+        $this->get('browse_body_property_term')->setValue($settings->get('browse_body_property_term'));
         $this->add([
             'name' => 'browse_defaults_public_items',
             'type' => BrowseDefaults::class,

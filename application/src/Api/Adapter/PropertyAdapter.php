@@ -130,6 +130,12 @@ class PropertyAdapter extends AbstractEntityAdapter
                 $qb->createNamedParameter($query['local_name']))
             );
         }
+        if (isset($query['search']) && '' !== $query['search']) {
+            $qb->andWhere($qb->expr()->like(
+                'omeka_root.label',
+                $qb->createNamedParameter('%' . $query['search'] . '%')
+            ));
+        }
         if (isset($query['term']) && $this->isTerm($query['term'])) {
             [$prefix, $localName] = explode(':', $query['term']);
             $vocabularyAlias = $qb->createAlias();

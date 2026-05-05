@@ -356,6 +356,8 @@ class AclFactory implements FactoryInterface
             [
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
+                'Omeka\Controller\Admin\Property',
+                'Omeka\Controller\Admin\ResourceClass',
                 'Omeka\Controller\Admin\Site',
             ],
             ['sidebar-select', 'search', 'resource-picker']
@@ -448,6 +450,8 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
                 'Omeka\Controller\Admin\Media',
+                'Omeka\Controller\Admin\Property',
+                'Omeka\Controller\Admin\ResourceClass',
                 'Omeka\Controller\Admin\Site',
             ],
             ['sidebar-select', 'search', 'resource-picker']
@@ -624,6 +628,8 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
                 'Omeka\Controller\Admin\Media',
+                'Omeka\Controller\Admin\Property',
+                'Omeka\Controller\Admin\ResourceClass',
                 'Omeka\Controller\Admin\Site',
             ],
             ['sidebar-select', 'search', 'resource-picker']
@@ -803,6 +809,8 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
                 'Omeka\Controller\Admin\Media',
+                'Omeka\Controller\Admin\Property',
+                'Omeka\Controller\Admin\ResourceClass',
                 'Omeka\Controller\Admin\Site',
             ],
             ['sidebar-select', 'search', 'resource-picker']

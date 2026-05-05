@@ -1,0 +1,48 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+?>
+<div class="resource-picker-sidebar-content">
+    <div class="sidebar-header">
+        <h3><?php echo $translate('Select property'); ?></h3>
+        <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
+    </div>
+    <div class="search-nav">
+        <div class="resource-search" data-search-url="<?php echo $escape($this->url(null, [], ['query' => ['resource_partial' => $resourcePartial, 'value_type' => $valueType]], true)); ?>">
+            <?php echo $this->queryToHiddenInputs(['sort_by', 'sort_order', 'page', 'resource_partial', 'value_type', 'search', 'vocabulary_id']); ?>
+            <input type="text" name="search" value="<?php echo $escape($searchValue); ?>">
+            <button type="button" class="o-icon-search resource-picker-search-button"><?php echo $translate('Search'); ?></button>
+            <div class="resource-search-filters">
+                <a href="#" class="<?php echo $expanded ? 'collapse' : 'expand'; ?>" aria-label="<?php echo $expanded ? $escape($translate('Collapse')) : $escape($translate('Expand')); ?>">
+                    <?php echo $translate('Filter search'); ?>
+                </a>
+                <div class="collapsible">
+                    <select name="vocabulary_id" class="chosen-select" data-placeholder="<?php echo $escape($translate('Filter by vocabulary')); ?>">
+                        <option value=""></option>
+                        <?php foreach ($vocabularies as $vocabulary): ?>
+                        <option value="<?php echo $escape($vocabulary->id()); ?>"<?php echo $vocabularyId == $vocabulary->id() ? ' selected' : ''; ?>><?php echo $escape($vocabulary->label()); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
+    </div>
+    <?php if ($resources): ?>
+    <div class="resource-list">
+        <?php foreach ($resources as $resource): ?>
+        <?php $resourceHtml = $this->partial($resourcePartial, ['resource' => $resource]); ?>
+        <div class="resource">
+            <a href="#"
+                class="resource-picker-select-resource resource-link"
+                data-resource-id="<?php echo $escape('term' === $valueType ? $resource->term() : $resource->id()); ?>"
+                data-resource-html="<?php echo $escape($resourceHtml); ?>">
+                <?php echo $resourceHtml; ?>
+            </a>
+        </div>
+        <?php endforeach; ?>
+    </div>
+    <?php else: ?>
+    <p><?php echo $translate('No properties found.'); ?></p>
+    <?php endif; ?>
+</div>

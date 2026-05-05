@@ -115,6 +115,12 @@ class ResourceClassAdapter extends AbstractEntityAdapter
                 $qb->createNamedParameter($query['vocabulary_prefix']))
             );
         }
+        if (isset($query['search']) && '' !== $query['search']) {
+            $qb->andWhere($qb->expr()->like(
+                'omeka_root.label',
+                $qb->createNamedParameter('%' . $query['search'] . '%')
+            ));
+        }
         if (isset($query['local_name'])) {
             $qb->andWhere($qb->expr()->eq(
                 "omeka_root.localName",

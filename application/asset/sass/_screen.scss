@@ -703,8 +703,8 @@ a[class*="o-icon-"] {
 
 .expand,
 .collapse,
-a.expand-group,
-a.collapse-group {
+.expand-group,
+.collapse-group {
     min-width: 24px;
     min-height: $spacing-large;
     display: inline-block;
@@ -714,7 +714,6 @@ a.collapse-group {
 
 .expand,
 .collapse {
-    color: $red;
     background: transparent;
     box-shadow: none !important;
     padding: 0;

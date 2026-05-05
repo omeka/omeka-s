@@ -57,6 +57,6 @@ class Html extends AbstractBlockLayout implements TemplateableBlockLayoutInterfa
 
     public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        return strip_tags($this->render($view, $block));
+        return html_entity_decode(strip_tags($this->render($view, $block)), ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML5, 'UTF-8');
     }
 }

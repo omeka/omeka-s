@@ -17,6 +17,9 @@ CKEDITOR.editorConfig = function(config) {
     config.allowedContent = true;
     // Add extra plugins
     config.extraPlugins = ['sourcedialog','removeformat'];
+    // Don't unnecessarily convert characters to entities
+    config.entities_latin = false;
+    config.entities_greek = false;
     // Allow other scripts to modify configuration.
     $(document).trigger('o:ckeditor-config', config);
 };

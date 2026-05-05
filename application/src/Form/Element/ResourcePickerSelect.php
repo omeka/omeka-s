@@ -16,34 +16,43 @@ class ResourcePickerSelect extends Element implements InputProviderInterface
 
     /**
      * Get the Laminas route name for the controller action that serves the
-     * resources picker sidebar.
+     * resources picker sidebar. Defaults to 'admin/default'.
      *
-     * @return string|null
+     * @return string
      */
     public function getResourcesEndpointRoute()
     {
-        return $this->getOption('resources_endpoint_route');
+        return $this->getOption('resources_endpoint_route') ?? 'admin/default';
     }
 
     /**
      * Get the route params for the resources picker sidebar controller action.
+     * The 'action' param defaults to 'resource-picker' and can be overridden
+     * via the 'resources_endpoint_route_params' option.
      *
      * @return array
      */
     public function getResourcesEndpointRouteParams()
     {
-        return $this->getOption('resources_endpoint_route_params') ?? [];
+        $params = $this->getOption('resources_endpoint_route_params') ?? [];
+        return array_merge(['action' => 'resource-picker'], $params);
     }
 
     /**
      * Get the view partial used to render each resource, both in the sidebar
-     * list and as a selected item in the widget.
+     * list and as a selected item in the widget. Defaults to
+     * 'omeka/admin/{controller}/resource-picker-resource', derived from the
+     * 'controller' key in 'resources_endpoint_route_params'.
      *
      * @return string|null
      */
     public function getResourcePartial()
     {
-        return $this->getOption('resource_partial');
+        if ($partial = $this->getOption('resource_partial')) {
+            return $partial;
+        }
+        $controller = $this->getResourcesEndpointRouteParams()['controller'] ?? null;
+        return $controller ? sprintf('omeka/admin/%s/resource-picker-resource', $controller) : null;
     }
 
     /**
@@ -77,5 +86,16 @@ class ResourcePickerSelect extends Element implements InputProviderInterface
     public function isMultiple()
     {
         return (bool) $this->getOption('multiple');
+    }
+
+    /**
+     * Get the value type, which determines which resource identifier is
+     * submitted with the form (e.g. 'id', 'term').
+     *
+     * @return string
+     */
+    public function getValueType()
+    {
+        return $this->getOption('value_type') ?? 'id';
     }
 }

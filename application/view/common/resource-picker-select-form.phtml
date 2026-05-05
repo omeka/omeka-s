@@ -1,16 +1,33 @@
 <?php
 $this->headScript()->appendFile($this->assetUrl('js/resource-picker-select-form.js', 'Omeka'));
 
+$valueType = $element->getValueType();
+
 $endpointUrl = $this->url(
     $element->getResourcesEndpointRoute(),
     $element->getResourcesEndpointRouteParams(),
-    ['query' => array_merge($element->getQuery(), ['resource_partial' => $element->getResourcePartial()])]
+    ['query' => array_merge($element->getQuery(), [
+        'resource_partial' => $element->getResourcePartial(),
+        'value_type' => $valueType,
+    ])]
 );
 
-$selectedIds = array_filter((array) $element->getValue());
-$selectedResources = $selectedIds
-    ? $this->api()->search($element->getApiResource(), ['id' => $selectedIds])->getContent()
-    : [];
+$selectedValues = array_values(array_filter((array) $element->getValue()));
+if ($selectedValues) {
+    if ('id' === $valueType) {
+        $selectedResources = $this->api()->search($element->getApiResource(), ['id' => $selectedValues])->getContent();
+    } else {
+        $selectedResources = [];
+        foreach ($selectedValues as $value) {
+            $resource = $this->api()->searchOne($element->getApiResource(), [$valueType => $value])->getContent();
+            if ($resource) {
+                $selectedResources[] = $resource;
+            }
+        }
+    }
+} else {
+    $selectedResources = [];
+}
 
 $inputName = $element->isMultiple() ? $element->getName() . '[]' : $element->getName();
 ?>
@@ -22,7 +39,7 @@ $inputName = $element->isMultiple() ? $element->getName() . '[]' : $element->get
             <div class="resource-link">
                 <?php echo $this->partial($element->getResourcePartial(), ['resource' => $resource]); ?>
             </div>
-            <input type="hidden" name="<?php echo $this->escapeHtml($inputName); ?>" value="<?php echo $resource->id(); ?>">
+            <input type="hidden" name="<?php echo $this->escapeHtml($inputName); ?>" value="<?php echo $this->escapeHtml('term' === $valueType ? $resource->term() : $resource->id()); ?>">
             <a href="#" class="resource-picker-remove-resource o-icon-delete" title="<?php echo $this->escapeHtml($this->translate('Remove')); ?>"></a>
         </div>
         <?php endforeach; ?>

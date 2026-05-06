@@ -68,13 +68,12 @@ class ItemSetRepresentation extends AbstractResourceEntityRepresentation
         if ($this->primaryMediaCache !== false) {
             return $this->primaryMediaCache;
         }
+        $this->primaryMediaCache = null;
         $items = $this->resource->getItems()->slice(0, 1);
-        if (!$items) {
-            return $this->primaryMediaCache = null;
+        if ($items) {
+            $this->primaryMediaCache = $this->getAdapter('items')->getRepresentation($items[0])->primaryMedia();
         }
-        return $this->primaryMediaCache = $this->getAdapter('items')
-            ->getRepresentation($items[0])
-            ->primaryMedia();
+        return $this->primaryMediaCache;
     }
 
     public function siteUrl($siteSlug = null, $canonical = false)

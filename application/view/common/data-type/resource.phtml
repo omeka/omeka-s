@@ -17,27 +17,15 @@ if ($resource instanceof ItemRepresentation) {
     <span class="o-title"></span>
     <input type="hidden" class="value to-require" data-value-key="value_resource_id">
 </p>
+<?php if (in_array($dataType, ['resource', 'resource:item'])): ?>
+<button type="button" class="o-icon-items button resource-select" data-sidebar-content-url="<?php echo $this->url('admin/default', ['controller' => 'item', 'action' => 'sidebar-select'], false); ?>"><?php echo $translate('Items'); ?></button>
+<?php endif; ?>
 
-<?php
-if (in_array($dataType, ['resource', 'resource:item'])):
-    echo $this->hyperlink($translate('Items'), '#item-resource-select', [
-        'class' => 'o-icon-items button resource-select',
-        'data-sidebar-content-url' => $this->url('admin/default', ['controller' => 'item', 'action' => 'sidebar-select'], false),
-    ]);
-endif;
+<?php if (in_array($dataType, ['resource', 'resource:itemset'])): ?>
+<button type="button" class="o-icon-item-sets button resource-select" data-sidebar-content-url="<?php echo $this->url('admin/default', ['controller' => 'item-set', 'action' => 'sidebar-select'], false); ?>"><?php echo $translate('Item sets'); ?></button>
+<?php endif; ?>
 
-if (in_array($dataType, ['resource', 'resource:itemset'])):
-    echo $this->hyperlink($translate('Item sets'), '#itemset-resource-select', [
-        'class' => 'o-icon-item-sets button resource-select',
-        'data-sidebar-content-url' => $this->url('admin/default', ['controller' => 'item-set', 'action' => 'sidebar-select'], false),
-    ]);
-endif;
-
-if (in_array($dataType, ['resource', 'resource:media']) && $resource instanceof ItemRepresentation):
-    echo $this->hyperlink($translate('Media'), '#media-resource-select', [
-        'class' => 'o-icon-media button resource-select',
-        'data-sidebar-content-url' => $this->url('admin/default', ['controller' => 'media', 'action' => 'sidebar-select'], $mediaContentUrlOptions, false),
-    ]);
-endif;
-?>
+<?php if (in_array($dataType, ['resource', 'resource:media']) && $resource instanceof ItemRepresentation): ?>
+<button type="button" class="o-icon-media button resource-select" data-sidebar-content-url="<?php echo $this->url('admin/default', ['controller' => 'item', 'action' => 'sidebar-select'], false); ?>"><?php echo $translate('Media'); ?></button>
+<?php endif; ?>
 </div>

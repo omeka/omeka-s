@@ -2910,11 +2910,11 @@ fieldset.section > legend {
         margin: 0;
     }
 
-    .selected-resource a {
+    .selected-resource button {
         width: calc(100% - #{3 * $spacing-large});
     }
 
-    .selected-resource + a.button {
+    .selected-resource + .button {
         margin-left: $spacing-small;
     }
 

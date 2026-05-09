@@ -492,12 +492,6 @@ taskI18nModuleCompile.description = 'Build translation files for a module';
 taskI18nModuleCompile.flags = {'--module-name': 'Name of module (required)'};
 gulp.task('i18n:module:compile', taskI18nModuleCompile);
 
-function taskCreateMediaTypeMap() {
-    return runPhpCommand(scriptsDir + '/create-media-type-map.php');
-}
-taskCreateMediaTypeMap.description = 'Update media type to file extension mappings';
-gulp.task('create-media-type-map', taskCreateMediaTypeMap);
-
 var taskInit = gulp.series('dedist', 'deps');
 taskInit.description = 'Run first-time setup for a source checkout';
 gulp.task('init', taskInit);

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "faea4c0ff76ac9433b741b0d9d5e4b2b",
+    "content-hash": "837a91aad99679c51b33ad90066fb965",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -4227,14 +4227,15 @@
         },
         {
             "name": "omeka/composer-addon-installer",
-            "version": "2.0",
+            "version": "3.0",
             "dist": {
                 "type": "path",
                 "url": "application/data/composer-addon-installer",
-                "reference": "7397409eb65cbdf0000ad73a1c0cc38bae53fff1"
+                "reference": "82f262c0558d4379c2418e8cd4d5b39212ffb364"
             },
             "require": {
-                "composer-plugin-api": "^2.0"
+                "composer-plugin-api": "^2.0",
+                "php": ">=8.1"
             },
             "type": "composer-plugin",
             "extra": {
@@ -4248,6 +4249,7 @@
             "license": [
                 "GPL-3.0"
             ],
+            "description": "Composer plugin to install Omeka S modules and themes into composer-addons/modules/ and composer-addons/themes/.",
             "transport-options": {
                 "relative": true
             }
@@ -9355,5 +9357,5 @@
     "platform-overrides": {
         "php": "8.1"
     },
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.6.0"
 }

@@ -52,6 +52,7 @@ return $config
             ->exclude('application/data/overrides')
             ->exclude('config')
             ->exclude('files')
+            ->exclude('composer-addons')
             ->exclude('modules')
             ->exclude('node_modules')
             ->exclude('themes')

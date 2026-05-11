@@ -1,0 +1,102 @@
+<?php
+$this->headLink()->appendStylesheet($this->assetUrl('css/repeatable-form.css', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/repeatable-form.js', 'Omeka'));
+
+$rows = $element->getValue();
+$fields = array_map(function ($field) {
+    if (!in_array($field['type'], ['textarea', 'select', 'text', 'url', 'email', 'number', 'tel'])) {
+        $field['type'] = 'text';
+    }
+    return $field;
+}, $element->getFields());
+$sortable = $element->isSortable();
+$minRows = $element->getMinRows();
+$maxRows = $element->getMaxRows();
+if ($sortable) {
+    $this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
+}
+while (count($rows) < $minRows) {
+    $rows[] = [];
+}
+$rowCount = count($rows);
+?>
+<div class="repeatable-form-element"
+     data-min-rows="<?php echo $this->escapeHtmlAttr($minRows); ?>"
+     data-max-rows="<?php echo $this->escapeHtmlAttr($maxRows ?? ''); ?>"
+     <?php echo $sortable ? 'data-sortable' : ''; ?>>
+    <input type="hidden"
+           name="<?php echo $this->escapeHtmlAttr($element->getName()); ?>"
+           value="<?php echo $this->escapeHtmlAttr(json_encode($rows)); ?>">
+    <ul class="repeatable-rows">
+        <?php foreach ($rows as $row): ?>
+        <li>
+            <?php if ($sortable): ?>
+            <span class="sortable-handle" aria-hidden="true"></span>
+            <?php endif; ?>
+            <div class="repeatable-fields">
+                <?php foreach ($fields as $fieldName => $field): ?>
+                <label>
+                    <span><?php echo $this->translate($field['label'] ?? $fieldName); ?></span>
+                    <?php $fieldValue = $row[$fieldName] ?? ''; ?>
+                    <?php if ($field['type'] === 'textarea'): ?>
+                    <textarea data-field-name="<?php echo $this->escapeHtmlAttr($fieldName); ?>"><?php echo $this->escapeHtml($fieldValue); ?></textarea>
+                    <?php elseif ($field['type'] === 'select'): ?>
+                    <select data-field-name="<?php echo $this->escapeHtmlAttr($fieldName); ?>">
+                        <option value=""><?php echo $this->translate('Select…'); ?></option>
+                        <?php foreach (($field['value_options'] ?? []) as $optVal => $optLabel): ?>
+                        <option value="<?php echo $this->escapeHtmlAttr($optVal); ?>"<?php echo $fieldValue === (string) $optVal ? ' selected' : ''; ?>><?php echo $this->escapeHtml($this->translate($optLabel)); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <?php else: ?>
+                    <input type="<?php echo $field['type']; ?>"
+                           data-field-name="<?php echo $this->escapeHtmlAttr($fieldName); ?>"
+                           value="<?php echo $this->escapeHtmlAttr($fieldValue); ?>">
+                    <?php endif; ?>
+                </label>
+                <?php endforeach; ?>
+            </div>
+            <button type="button" class="repeatable-remove o-icon-delete"
+                    aria-label="<?php echo $this->translate('Remove'); ?>"
+                    title="<?php echo $this->translate('Remove'); ?>"
+                    <?php echo $rowCount === $minRows ? 'disabled' : ''; ?>></button>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+    <template class="repeatable-row-template">
+        <li>
+            <?php if ($sortable): ?>
+            <span class="sortable-handle" aria-hidden="true"></span>
+            <?php endif; ?>
+            <div class="repeatable-fields">
+                <?php foreach ($fields as $fieldName => $field): ?>
+                <label>
+                    <span><?php echo $this->translate($field['label'] ?? $fieldName); ?></span>
+                    <?php if ($field['type'] === 'textarea'): ?>
+                    <textarea data-field-name="<?php echo $this->escapeHtmlAttr($fieldName); ?>"></textarea>
+                    <?php elseif ($field['type'] === 'select'): ?>
+                    <select data-field-name="<?php echo $this->escapeHtmlAttr($fieldName); ?>">
+                        <option value="" selected><?php echo $this->translate('Select…'); ?></option>
+                        <?php foreach (($field['value_options'] ?? []) as $optVal => $optLabel): ?>
+                        <option value="<?php echo $this->escapeHtmlAttr($optVal); ?>"><?php echo $this->escapeHtml($this->translate($optLabel)); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <?php else: ?>
+                    <input type="<?php echo $field['type']; ?>"
+                           data-field-name="<?php echo $this->escapeHtmlAttr($fieldName); ?>"
+                           value="">
+                    <?php endif; ?>
+                </label>
+                <?php endforeach; ?>
+            </div>
+            <button type="button" class="repeatable-remove o-icon-delete"
+                    aria-label="<?php echo $this->translate('Remove'); ?>"
+                    title="<?php echo $this->translate('Remove'); ?>"></button>
+        </li>
+    </template>
+    <button type="button" class="repeatable-add o-icon-add"
+            aria-label="<?php echo $this->translate('Add'); ?>"
+            title="<?php echo $this->translate('Add'); ?>"
+            <?php echo $maxRows !== null && $rowCount === $maxRows ? 'disabled' : ''; ?>>
+        <?php echo $this->translate('Add'); ?>
+    </button>
+</div>

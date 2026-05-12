@@ -1,0 +1,17 @@
+<label>
+    <span><?php echo $this->translate($field['label'] ?? $fieldName); ?></span>
+    <?php if ($field['type'] === 'textarea'): ?>
+    <textarea data-field-name="<?php echo $this->escapeHtmlAttr($fieldName); ?>"><?php echo $this->escapeHtml($fieldValue); ?></textarea>
+    <?php elseif ($field['type'] === 'select'): ?>
+    <select data-field-name="<?php echo $this->escapeHtmlAttr($fieldName); ?>">
+        <option value=""<?php echo $fieldValue === '' ? ' selected' : ''; ?>><?php echo $this->escapeHtml($this->translate($field['empty_option'] ?? 'Select…')); ?></option>
+        <?php foreach (($field['value_options'] ?? []) as $optVal => $optLabel): ?>
+        <option value="<?php echo $this->escapeHtmlAttr($optVal); ?>"<?php echo $fieldValue === (string) $optVal ? ' selected' : ''; ?>><?php echo $this->escapeHtml($this->translate($optLabel)); ?></option>
+        <?php endforeach; ?>
+    </select>
+    <?php else: ?>
+    <input type="<?php echo $field['type']; ?>"
+           data-field-name="<?php echo $this->escapeHtmlAttr($fieldName); ?>"
+           value="<?php echo $this->escapeHtmlAttr($fieldValue); ?>">
+    <?php endif; ?>
+</label>

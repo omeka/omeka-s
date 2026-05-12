@@ -36,6 +36,7 @@ $(document).ready(function () {
 
     $('#content').on('click', '.repeatable-add', function () {
         const $container = $(this).closest('.repeatable-form-element');
+        // template.content is a DocumentFragment, which jQuery cannot clone — importNode is required.
         const template = $container.find('template.repeatable-row-template')[0];
         $container.find('.repeatable-rows').append(document.importNode(template.content, true));
         serializeRows($container);

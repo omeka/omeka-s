@@ -1,7 +1,4 @@
 <?php
-$this->headLink()->appendStylesheet($this->assetUrl('css/repeatable-form.css', 'Omeka'));
-$this->headScript()->appendFile($this->assetUrl('js/repeatable-form.js', 'Omeka'));
-
 $rows = $element->getValue();
 $fields = array_map(function ($field) {
     if (!in_array($field['type'], ['textarea', 'select', 'text', 'url', 'email', 'number', 'tel'])) {
@@ -12,13 +9,16 @@ $fields = array_map(function ($field) {
 $sortable = $element->isSortable();
 $minRows = $element->getMinRows();
 $maxRows = $element->getMaxRows();
-if ($sortable) {
-    $this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
-}
 while (count($rows) < $minRows) {
     $rows[] = [];
 }
 $rowCount = count($rows);
+
+$this->headLink()->appendStylesheet($this->assetUrl('css/repeatable-form.css', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/repeatable-form.js', 'Omeka'));
+if ($sortable) {
+    $this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
+}
 ?>
 <div class="repeatable-form-element"
      data-min-rows="<?php echo $this->escapeHtmlAttr($minRows); ?>"
@@ -35,24 +35,11 @@ $rowCount = count($rows);
             <?php endif; ?>
             <div class="repeatable-fields">
                 <?php foreach ($fields as $fieldName => $field): ?>
-                <label>
-                    <span><?php echo $this->translate($field['label'] ?? $fieldName); ?></span>
-                    <?php $fieldValue = $row[$fieldName] ?? ''; ?>
-                    <?php if ($field['type'] === 'textarea'): ?>
-                    <textarea data-field-name="<?php echo $this->escapeHtmlAttr($fieldName); ?>"><?php echo $this->escapeHtml($fieldValue); ?></textarea>
-                    <?php elseif ($field['type'] === 'select'): ?>
-                    <select data-field-name="<?php echo $this->escapeHtmlAttr($fieldName); ?>">
-                        <option value=""><?php echo $this->translate('Select…'); ?></option>
-                        <?php foreach (($field['value_options'] ?? []) as $optVal => $optLabel): ?>
-                        <option value="<?php echo $this->escapeHtmlAttr($optVal); ?>"<?php echo $fieldValue === (string) $optVal ? ' selected' : ''; ?>><?php echo $this->escapeHtml($this->translate($optLabel)); ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                    <?php else: ?>
-                    <input type="<?php echo $field['type']; ?>"
-                           data-field-name="<?php echo $this->escapeHtmlAttr($fieldName); ?>"
-                           value="<?php echo $this->escapeHtmlAttr($fieldValue); ?>">
-                    <?php endif; ?>
-                </label>
+                <?php echo $this->partial('common/repeatable-form-field', [
+                    'fieldName' => $fieldName,
+                    'field' => $field,
+                    'fieldValue' => $row[$fieldName] ?? '',
+                ]); ?>
                 <?php endforeach; ?>
             </div>
             <button type="button" class="repeatable-remove o-icon-delete"
@@ -69,23 +56,11 @@ $rowCount = count($rows);
             <?php endif; ?>
             <div class="repeatable-fields">
                 <?php foreach ($fields as $fieldName => $field): ?>
-                <label>
-                    <span><?php echo $this->translate($field['label'] ?? $fieldName); ?></span>
-                    <?php if ($field['type'] === 'textarea'): ?>
-                    <textarea data-field-name="<?php echo $this->escapeHtmlAttr($fieldName); ?>"></textarea>
-                    <?php elseif ($field['type'] === 'select'): ?>
-                    <select data-field-name="<?php echo $this->escapeHtmlAttr($fieldName); ?>">
-                        <option value="" selected><?php echo $this->translate('Select…'); ?></option>
-                        <?php foreach (($field['value_options'] ?? []) as $optVal => $optLabel): ?>
-                        <option value="<?php echo $this->escapeHtmlAttr($optVal); ?>"><?php echo $this->escapeHtml($this->translate($optLabel)); ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                    <?php else: ?>
-                    <input type="<?php echo $field['type']; ?>"
-                           data-field-name="<?php echo $this->escapeHtmlAttr($fieldName); ?>"
-                           value="">
-                    <?php endif; ?>
-                </label>
+                <?php echo $this->partial('common/repeatable-form-field', [
+                    'fieldName' => $fieldName,
+                    'field' => $field,
+                    'fieldValue' => '',
+                ]); ?>
                 <?php endforeach; ?>
             </div>
             <button type="button" class="repeatable-remove o-icon-delete"

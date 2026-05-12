@@ -8,6 +8,13 @@ class Repeatable extends Element implements InputProviderInterface
 {
     protected $value = [];
 
+    /**
+     * Each field is keyed by field name and accepts:
+     *   type         string  text|url|email|number|tel|textarea|select (default: text)
+     *   label        string  Field label (defaults to field name)
+     *   empty_option string  Blank option label for select fields (default: Select…)
+     *   value_options array  Options for select fields, keyed by value
+     */
     public function getFields(): array
     {
         return $this->options['fields'] ?? [];
@@ -55,11 +62,12 @@ class Repeatable extends Element implements InputProviderInterface
                 [
                     'name' => \Laminas\Filter\Callback::class,
                     'options' => [
+                        // Decode the JSON string from the hidden input and strip all-empty rows.
                         'callback' => function ($value) {
                             $rows = is_string($value) ? $this->decodeJson($value) : [];
                             return array_values(array_filter($rows, function ($row) {
                                 foreach ($row as $fieldValue) {
-                                    if ($fieldValue !== '') {
+                                    if (trim($fieldValue) !== '') {
                                         return true;
                                     }
                                 }

@@ -4871,11 +4871,18 @@ body.sidebar-open #content {
 
     .block-content .expand,
     .block-content .collapse {
+        display: flex;
+        width: 100%;
+        gap: $spacing-medium;
+    }
+
+    .block-content .field-meta .expand,
+    .block-content .field-meta .collapse {
         display: inline-flex;
         justify-content: center;
         padding: $spacing-small 0;
         font-weight: bold;
-        gap: $spacing-medium;
+        width: auto;
     }
 
     .block .field-meta .collapse + .collapsible {

@@ -294,11 +294,11 @@
             }
         });
 
-        $('#blocks').on('click', 'a.remove-value, a.restore-value', function (e) {
+        $('#blocks').on('click', '.remove-value, .restore-value', function (e) {
             e.preventDefault();
             var block = $(this).closest('.block');
             block.toggleClass('delete');
-            block.find('a.remove-value, a.restore-value').removeClass('inactive');
+            block.find('.remove-value, .restore-value').removeClass('inactive');
             $(this).toggleClass('inactive');
             Omeka.markDirty($(this).closest('form'));
         });

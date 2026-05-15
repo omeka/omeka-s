@@ -662,7 +662,7 @@ table .icon-sortable {
     }
 }
 
-.jstree i.jstree-themeicon {
+.jstree .jstree-themeicon {
     color: $copy-gray;
     position: static;
     top: auto;
@@ -1512,7 +1512,8 @@ td.actions {
 .actions a,
 .actions a:before,
 .actions button,
-.actions button:before {
+.actions button:before,
+.jstree-anchor button {
     width: $base-line-height;
     height: $base-line-height;
     line-height: $base-line-height;
@@ -1520,10 +1521,13 @@ td.actions {
     border: 0;
     box-shadow: none;
     display: inline-block;
+    margin: 0;
+    padding: 0;
 }
 
 .actions .button:hover,
-.actions button:hover {
+.actions button:hover,
+.jstree-anchor button:hover {
     box-shadow: none !important;
 }
 

@@ -27,8 +27,12 @@
 
 .jstree-anchor {
     @include field-row;
-    display: block;
+    display: flex;
     margin: $spacing-small 0 0;
+}
+
+.jstree-anchor button {
+    align-self: flex-end;
 }
 
 .jstree-editlink-container {
@@ -70,7 +74,7 @@
     background-color: opacify($gray-on-white, .08);
 }
 
-i.jstree-icon {
+.jstree-icon {
     font-style: normal;
     position: absolute;
     right: $spacing-medium;
@@ -111,8 +115,8 @@ i.jstree-icon {
 }
 
 
-i.jstree-icon.jstree-ok,
-i.jstree-icon.jstree-er {
+.jstree-icon.jstree-ok,
+.jstree-icon.jstree-er {
     left: 100%;
     width: 1.5 * $base-line-height;
     height: 1.5 * $base-line-height;
@@ -154,11 +158,11 @@ i.jstree-icon.jstree-er {
     right: 3 * $base-line-height;
 }
 
-i.jstree-editlink-edit {
+.jstree-editlink-edit {
     right: 1.5 * $base-line-height;
 }
 
-i.jstree-private {
+.jstree-private {
     background-color: transparent;
     position: static;
     display: inline-block;
@@ -172,7 +176,7 @@ i.jstree-private {
     right: 4 * $base-line-height;
 }
 
-i.jstree-displaylink {
+.jstree-displaylink {
     right: 2.5 * $base-line-height;
 }
 
@@ -181,7 +185,7 @@ i.jstree-displaylink {
     right: 3 * $base-line-height;
 }
 
-.block-pagelist-tree i.jstree-displaylink {
+.block-pagelist-tree .jstree-displaylink {
     right: 1.5 * $base-line-height;
 }
 
@@ -234,7 +238,7 @@ i.jstree-displaylink {
     display: none;
 }
 
-.jstree-removenode-removed > .jstree-anchor .jstree-removenode-undo, {
+.jstree-removenode-removed > .jstree-anchor .jstree-removenode-undo {
     right: $spacing-medium;
 }
 

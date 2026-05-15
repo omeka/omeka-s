@@ -2,17 +2,19 @@
  * RemoveNode Plugin for jsTree
  */
 $.jstree.plugins.removenode = function(options, parent) {
-    var removeIcon = $('<i>', {
+    var removeIcon = $('<button>', {
         class: 'jstree-icon jstree-removenode-remove',
         attr:{
+            'type': 'button',
             role:'presentation',
             'title':Omeka.jsTranslate('Remove link'),
             'aria-label':Omeka.jsTranslate('Remove link')
         },
     });
-    var undoIcon = $('<i>', {
+    var undoIcon = $('<button>', {
         class: 'jstree-icon jstree-removenode-undo',
         attr:{
+            'type': 'button',
             role:'presentation',
             'title':Omeka.jsTranslate('Restore link'),
             'aria-label':Omeka.jsTranslate('Restore link')
@@ -89,9 +91,10 @@ $.jstree.plugins.removenode = function(options, parent) {
  */
 
 $.jstree.plugins.privateStatus = function(options, parent) {
-    var privateIcon = $('<i>', {
+    var privateIcon = $('<button>', {
         class: 'jstree-icon jstree-private',
         attr:{
+            'type': 'button',
             'role':'presentation',
             'aria-label':Omeka.jsTranslate('Private'),
             'title': Omeka.jsTranslate('Private')},
@@ -118,9 +121,10 @@ $.jstree.plugins.editlink = function(options, parent) {
     var container = $('<div>', {
         class: 'jstree-editlink-container'
     });
-    var editIcon = $('<i>', {
+    var editIcon = $('<button>', {
         class: 'jstree-icon jstree-editlink-edit',
         attr:{
+            'type': 'button',
             role:'presentation',
             'title':Omeka.jsTranslate('Edit link'),
             'aria-label':Omeka.jsTranslate('Edit link')
@@ -244,9 +248,10 @@ $.jstree.plugins.editlink = function(options, parent) {
  * Display Plugin for jsTree
  */
 $.jstree.plugins.display = function(options, parent) {
-    var displayIcon = $('<i>', {
+    var displayIcon = $('<button>', {
         class: 'jstree-icon jstree-displaylink',
         attr:{
+            'type': 'button',
             role: 'presentation',
             'title':Omeka.jsTranslate('View public page'),
             'aria-label':Omeka.jsTranslate('View public page')

@@ -49,6 +49,10 @@
             Omeka.populateSidebarContent($(this).closest('.sidebar'), $(this).attr('href'));
         });
 
+        $('#content').on('click', '.sidebar .pagination button', function () {
+            Omeka.populateSidebarContent($(this).closest('.sidebar'), $(this).data('sidebar-content-url'));
+        });
+
         // Open sidebars on mobile
         $('button.mobile-only').on('click', function(e) {
             e.preventDefault();

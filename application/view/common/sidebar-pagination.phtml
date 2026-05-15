@@ -11,13 +11,13 @@ $translate = $this->plugin('translate');
 
     <div class="pagination-buttons">
         <?php if ($currentPage != 1): ?>
-        <?php echo $this->hyperlink('', $previousPageUrl, ['class' => 'previous o-icon-prev button', 'title' => $translate('Previous'), 'aria-label' => $translate('Previous')]); ?>
+        <button type="button" class="previous o-icon-prev button has-tooltip" data-sidebar-content-url="<?php echo $previousPageUrl; ?>" aria-label="<?php echo $translate('Previous'); ?>" title="<?php echo $translate('Previous'); ?>"></button>
         <?php else: ?>
         <span class="previous o-icon-prev button inactive" aria-hidden="true"></span>
         <?php endif; ?>
 
         <?php if ($currentPage < $pageCount): ?>
-        <?php echo $this->hyperlink('', $nextPageUrl, ['class' => 'next o-icon-next button', 'title' => $translate('Next'), 'aria-label' => $translate('Next')]); ?>
+        <button type="button" class="next o-icon-next button has-tooltip" data-sidebar-content-url="<?php echo $nextPageUrl; ?>" aria-label="<?php echo $translate('Next'); ?>" title="<?php echo $translate('Next'); ?>"></button>
         <?php else: ?>
         <span class="next o-icon-next button inactive" aria-hidden="true"></span>
         <?php endif; ?>

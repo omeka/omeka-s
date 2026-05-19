@@ -26,9 +26,6 @@ $(document).ready(function () {
             new Sortable($container.find('.repeatable-rows')[0], {
                 draggable: 'li',
                 handle: '.sortable-handle',
-                onEnd: function () {
-                    serializeRows($container);
-                },
             });
         }
         updateButtons($container);
@@ -39,18 +36,19 @@ $(document).ready(function () {
         // template.content is a DocumentFragment, which jQuery cannot clone — importNode is required.
         const template = $container.find('template.repeatable-row-template')[0];
         $container.find('.repeatable-rows').append(document.importNode(template.content, true));
-        serializeRows($container);
         updateButtons($container);
     });
 
     $('#content').on('click', '.repeatable-remove', function () {
         const $container = $(this).closest('.repeatable-form-element');
         $(this).closest('li').remove();
-        serializeRows($container);
         updateButtons($container);
     });
 
-    $('#content').on('input change', '[data-field-name]', function () {
-        serializeRows($(this).closest('.repeatable-form-element'));
+    // Serialize all repeatable elements immediately before submit.
+    $('#content').on('submit', 'form', function () {
+        $(this).find('.repeatable-form-element').each(function () {
+            serializeRows($(this));
+        });
     });
 });

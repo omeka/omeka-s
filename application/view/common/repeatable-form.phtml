@@ -1,7 +1,7 @@
 <?php
 $rows = $element->getValue();
 $fields = array_map(function ($field) {
-    if (!in_array($field['type'], ['textarea', 'select', 'text', 'url', 'email', 'number', 'tel'])) {
+    if (!in_array($field['type'], ['textarea', 'select', 'text', 'url', 'email', 'number', 'tel', 'asset', 'color_picker'])) {
         $field['type'] = 'text';
     }
     return $field;
@@ -18,6 +18,14 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/repeatable-form.css', '
 $this->headScript()->appendFile($this->assetUrl('js/repeatable-form.js', 'Omeka'));
 if ($sortable) {
     $this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
+}
+$fieldTypes = array_column($fields, 'type');
+if (in_array('asset', $fieldTypes)) {
+    $this->headLink()->appendStylesheet($this->assetUrl('css/asset-form.css', 'Omeka'));
+    $this->headScript()->appendFile($this->assetUrl('js/asset-form.js', 'Omeka'));
+}
+if (in_array('color_picker', $fieldTypes)) {
+    $this->headScript()->appendFile($this->assetUrl('js/color-picker.js', 'Omeka'));
 }
 ?>
 <div class="repeatable-form-element"

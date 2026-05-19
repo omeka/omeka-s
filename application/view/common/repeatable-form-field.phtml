@@ -9,6 +9,50 @@
         <option value="<?php echo $this->escapeHtmlAttr($optVal); ?>"<?php echo $fieldValue === (string) $optVal ? ' selected' : ''; ?>><?php echo $this->escapeHtml($this->translate($optLabel)); ?></option>
         <?php endforeach; ?>
     </select>
+    <?php elseif ($field['type'] === 'asset'): ?>
+    <?php
+    $asset = null;
+    if ($fieldValue !== '') {
+        try {
+            $asset = $this->api()->read('assets', $fieldValue)->getContent();
+        } catch (\Omeka\Api\Exception\NotFoundException $e) {
+            $fieldValue = '';
+        }
+    }
+    ?>
+    <div class="asset-form-element<?php echo !$asset ? ' empty' : ''; ?>">
+        <input type="hidden"
+               data-field-name="<?php echo $this->escapeHtmlAttr($fieldName); ?>"
+               value="<?php echo $this->escapeHtmlAttr($fieldValue); ?>">
+        <?php if ($asset): ?>
+        <span class="selected-asset">
+            <img class="selected-asset-image" src="<?php echo $this->escapeHtml($asset->assetUrl()); ?>" alt="<?php echo $this->escapeHtml($asset->altText()); ?>">
+            <div class="selected-asset-name"><?php echo $this->escapeHtml($asset->name()); ?></div>
+        </span>
+        <?php else: ?>
+        <span class="selected-asset" style="display: none;">
+            <img class="selected-asset-image"><div class="selected-asset-name"></div>
+        </span>
+        <?php endif; ?>
+        <span class="no-selected-asset"><?php echo $this->translate('[No asset selected]'); ?></span>
+        <button type="button" class="asset-form-select"
+                data-sidebar-content-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>">
+            <?php echo $this->translate('Select'); ?>
+        </button>
+        <button type="button" class="asset-form-clear red button">
+            <?php echo $this->translate('Clear'); ?>
+        </button>
+    </div>
+    <?php elseif ($field['type'] === 'color_picker'): ?>
+    <div class="color-picker">
+        <input type="color_picker"
+               pattern="<?php echo $this->escapeHtmlAttr(\Omeka\Form\Element\ColorPicker::REGEX); ?>"
+               placeholder="<?php echo $this->escapeHtmlAttr($this->translate(\Omeka\Form\Element\ColorPicker::REGEX_EXPLANATION)); ?>"
+               title="<?php echo $this->escapeHtmlAttr($this->translate(\Omeka\Form\Element\ColorPicker::REGEX_EXPLANATION)); ?>"
+               data-field-name="<?php echo $this->escapeHtmlAttr($fieldName); ?>"
+               value="<?php echo $this->escapeHtmlAttr($fieldValue); ?>">
+        <div class="color-picker-sample"></div>
+    </div>
     <?php else: ?>
     <input type="<?php echo $field['type']; ?>"
            data-field-name="<?php echo $this->escapeHtmlAttr($fieldName); ?>"

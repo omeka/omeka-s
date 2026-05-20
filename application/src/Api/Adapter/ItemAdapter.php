@@ -137,6 +137,15 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             $mediaAlias = $qb->createAlias();
             if ($query['has_media']) {
                 $qb->innerJoin('omeka_root.media', $mediaAlias);
+                $services = $this->getServiceLocator();
+                $acl = $services->get('Omeka\Acl');
+                if (!$acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {
+                    $identity = $services->get('Omeka\AuthenticationService')->getIdentity();
+                    $qb->andWhere($qb->expr()->orX(
+                        $qb->expr()->eq("$mediaAlias.isPublic", '1'),
+                        $qb->expr()->eq("$mediaAlias.owner", $qb->createNamedParameter($identity))
+                    ));
+                }
             } else {
                 $qb->leftJoin('omeka_root.media', $mediaAlias);
                 $qb->andWhere($qb->expr()->isNull($mediaAlias));

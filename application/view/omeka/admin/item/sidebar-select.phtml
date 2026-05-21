@@ -77,7 +77,7 @@ $expanded = $resourceClassId || $itemSetId || $id;
             </div>
         </div>
         <?php if ($itemsFound): ?>
-        <?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
+        <?php echo $this->pagination('common/sidebar-pagination.phtml', ['paginationType' => $translate('Item')]); ?>
         <?php endif; ?>
     </div>
 

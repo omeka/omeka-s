@@ -142,7 +142,7 @@ td .o-icon-user-inactive {
 
 /* @group ----- Global content ----- */
 
-div[role="main"] {
+main {
     margin: (1.5 * $spacing-large) 0 0 0;
     width: 100%;
     min-height: calc(100% - #{3 * $spacing-large});
@@ -543,11 +543,11 @@ body.minimal {
         background-color: transparent;
     }
 
-    div[role="main"] {
+    main {
         padding: $spacing-large span(1 of 16);
     }
 
-    div[role="main"] > .messages {
+    main > .messages {
         margin-top: $spacing-large;
     }
 

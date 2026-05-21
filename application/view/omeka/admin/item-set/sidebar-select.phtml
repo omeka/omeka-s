@@ -38,7 +38,7 @@ $expanded = $resourceClassId || $id;
         </div>
     </div>
     <?php if ($itemSetsFound): ?>
-        <?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
+        <?php echo $this->pagination('common/sidebar-pagination.phtml', ['paginationType' => $translate('Item set')]); ?>
     <?php endif; ?>
 </div>
 

@@ -553,7 +553,7 @@ body {
     left: -9999px;
 }
 
-div[role="main"] > .messages {
+main > .messages {
     margin-bottom: $spacing-medium;
 
     li {
@@ -930,7 +930,7 @@ header {
     display:none;
 }
 
-div[role="main"] > h1:first-of-type {
+main > h1:first-of-type {
     background-color: #fff;
     font-size: 1.5 * $base-font-size;
     position: fixed;
@@ -945,7 +945,7 @@ div[role="main"] > h1:first-of-type {
     line-height: 1.5 * $base-line-height;
 }
 
-div[role="main"] > h1:first-of-type .title {
+main > h1:first-of-type .title {
     text-overflow: ellipsis;
     white-space: nowrap;
     max-width: 65%;
@@ -954,7 +954,7 @@ div[role="main"] > h1:first-of-type .title {
     vertical-align: middle;
 }
 
-div[role="main"] .fieldsets-heading {
+main .fieldsets-heading {
     font-size: 1.25 * $base-font-size;
     margin-bottom: 0;
 }
@@ -1312,7 +1312,7 @@ button .o-icon-private {
 
 /* @group ----- Wrappers ----- */
 
-div[role="main"] {
+main {
     width: span(13 of 16);
     padding: (2.5 * $spacing-large) gutter() (1.5 * $spacing-large);
     background-color: #fff;
@@ -5350,7 +5350,7 @@ body.minimal {
     height: auto;
     background-color: $blue;
 
-    div[role="main"] > h1:first-of-type {
+    main > h1:first-of-type {
         position: static;
         padding: 0;
         width: 100%;
@@ -5386,7 +5386,7 @@ body.minimal {
         line-height: 2 * $spacing-large;
     }
 
-    div[role="main"] {
+    main {
         width: 100%;
         min-height: 0;
         margin: 0;

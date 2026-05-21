@@ -36,7 +36,7 @@ $this->trigger('view.layout');
     <?php echo $this->htmlElement('body'); ?>
         <a href="#content" class="skip"><?php echo $translate('Skip to main content'); ?></a>
         <div class="flex">
-            <header>
+            <header aria-label="<?php echo $translate('Header'); ?>">
                 <div class="logo"><a href="<?php echo $this->url('admin'); ?>"><?php echo $escape($this->setting('installation_title', 'Omeka S')); ?></a></div>
                 <div id="mobile-nav">
                     <a href="#" class="o-icon-menu button"><span class="screen-reader-text"><?php echo $translate('Navigation menu'); ?></span></a>
@@ -55,7 +55,7 @@ $this->trigger('view.layout');
                     <?php endif; ?>
                 </div>
                 <div id="search">
-                    <form action="" id="search-form" aria-label="<?php echo $translate('Search'); ?>" role="search">
+                    <form action="" id="search-form" aria-label="<?php echo $translate('Search items'); ?>" role="search">
                         <?php $searchValue = isset($_GET['fulltext_search']) ? $_GET['fulltext_search'] : ''; ?>
                         <input type="text" name="fulltext_search" id="fulltext-search" value="<?php echo $escape($searchValue); ?>" aria-label="<?php echo $translate('Query'); ?>">
                         <button type="button" id="advanced" aria-label="<?php echo $translate('Advanced options'); ?>" title="<?php echo $translate('Advanced options'); ?>" aria-expanded="false" aria-controls="advanced-options"></button>
@@ -77,10 +77,10 @@ $this->trigger('view.layout');
                         <button type="submit" id="search-submit" aria-label="<?php echo $translate('Submit'); ?>" title="<?php echo $translate('Submit'); ?>"><span class="o-icon-search" aria-hidden="true"></span></button>
                     </form>
                 </div>
-                <nav id="menu" aria-label="<?php echo $translate('Navigation menu'); ?>">
+                <nav id="menu" aria-label="<?php echo sprintf($translate('%s admin'), $escape($this->setting('installation_title', 'Omeka S'))); ?>">
                     <?php echo $siteNav; ?>
                     <?php if (isset($site)): ?>
-                    <nav id="site-nav">
+                    <nav id="site-nav" aria-label="<?php echo $escape(sprintf($translate('%s admin'), $site->title())); ?>">
                         <h5><?php echo $site->link($site->title(), 'show'); ?></h5>
                         <?php echo $this->hyperlink('', $site->siteUrl(), ['class' => 'o-icon-external public', 'target' => '_blank', 'title' => $translate('View public site')]); ?>
                     <?php echo $site->adminNav()->menu(); ?>
@@ -111,12 +111,12 @@ $this->trigger('view.layout');
                 });
             </script>
 
-            <div id="content" role="main">
+            <main id="content" aria-label="<?php echo $translate('Main content'); ?>">
                 <?php echo $this->messages(); ?>
                 <?php echo $this->content; ?>
-            </div>
+            </main>
         </div>
-        <footer>
+        <footer aria-label="<?php echo $translate('Footer'); ?>">
             <p class="site-version"><a href="https://omeka.org/s"><?php echo $translate('Omeka S'); ?></a> <span class="version-number"><?php echo sprintf($translate('version %s'), Omeka\Module::VERSION)?></span></p>
             <a href="<?php echo $this->url('admin/default', ['controller' => 'system-info']); ?>"><?php echo $translate('System information'); ?></a>
             <a href="https://omeka.org/s/docs/user-manual"><?php echo $translate('User manual'); ?></a>

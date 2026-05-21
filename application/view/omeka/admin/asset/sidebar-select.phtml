@@ -36,7 +36,7 @@ endif;
 </div>
 
 <?php if (count($assets) > 0): ?>
-<?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
+<?php echo $this->pagination('common/sidebar-pagination.phtml', ['paginationType' => $translate('Asset')]); ?>
 <div class="asset-list">
 <?php foreach ($assets as $asset): ?>
     <div class="asset" data-asset-id='<?php echo $escape($asset->id()); ?>'>

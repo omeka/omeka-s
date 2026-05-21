@@ -19,13 +19,13 @@ $showPagePagination = $this->siteSetting('show_page_pagination', true);
 
 <?php if ($activePage): ?>
 <?php if ($activePage['depth'] !== 0): ?>
-<nav class="breadcrumbs"><?php echo $nav->breadcrumbs(); ?></nav>
+<nav class="breadcrumbs" aria-label="<?php echo __('Breadcrumbs'); ?>"><?php echo $nav->breadcrumbs(); ?></nav>
 <?php endif; ?>
 <?php endif; ?>
 
 <?php if ($activePage): ?>
 <?php if ($displaySubnav): ?>
-<nav class="sub-menu"><?php echo $nav->menu()->renderSubMenu(); ?></nav>
+<nav class="sub-menu" aria-label="<?php echo __('Child pages'); ?>"><?php echo $nav->menu()->renderSubMenu(); ?></nav>
 <?php endif; ?>
 <?php endif; ?>
 

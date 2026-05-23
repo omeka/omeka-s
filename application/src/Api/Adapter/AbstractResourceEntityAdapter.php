@@ -139,10 +139,18 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     "omeka_root.values", $valuesAlias,
                     'WITH', $qb->expr()->eq("$valuesAlias.property", $property->getId())
                 );
-                $qb->addOrderBy(
-                    "GROUP_CONCAT($valuesAlias.value ORDER BY $valuesAlias.id)",
-                    $query['sort_order']
-                );
+                $conn = $this->getServiceLocator()->get('Omeka\Connection');
+                if (\Omeka\Service\ConnectionFactory::isSqlite($conn)) {
+                    $qb->addOrderBy(
+                        "GROUP_CONCAT($valuesAlias.value)",
+                        $query['sort_order']
+                    );
+                } else {
+                    $qb->addOrderBy(
+                        "GROUP_CONCAT($valuesAlias.value ORDER BY $valuesAlias.id)",
+                        $query['sort_order']
+                    );
+                }
             } elseif ('resource_class_label' == $query['sort_by']) {
                 $resourceClassAlias = $qb->createAlias();
                 $qb->leftJoin("omeka_root.resourceClass", $resourceClassAlias)

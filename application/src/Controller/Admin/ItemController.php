@@ -243,14 +243,14 @@ class ItemController extends AbstractActionController
         $request = $this->getRequest();
         $response = $this->getResponse();
         if (!$request->isPost()) {
-            $response->setStatusCode(500);
+            $response->setStatusCode(405);
             return $response;
         }
         $itemData = $this->params()->fromPost();
         $form = $this->getForm(ItemStubForm::class);
         $form->setData($itemData);
         if (!$form->isValid()) {
-            $response->setStatusCode(500);
+            $response->setStatusCode(422);
             $response->setContent(json_encode($form->getMessages()));
             return $response;
         }

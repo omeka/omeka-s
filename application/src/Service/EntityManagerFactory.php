@@ -85,10 +85,13 @@ class EntityManagerFactory implements FactoryInterface
             }
         }
 
-        // Add custom functions.
-        $emConfig->setCustomNumericFunctions($config['entity_manager']['functions']['numeric']);
-        $emConfig->setCustomStringFunctions($config['entity_manager']['functions']['string']);
-        $emConfig->setCustomDatetimeFunctions($config['entity_manager']['functions']['datetime']);
+        // Add custom functions (MySQL-specific DQL functions; skip for SQLite).
+        $connection = $serviceLocator->get('Omeka\Connection');
+        if (!ConnectionFactory::isSqlite($connection)) {
+            $emConfig->setCustomNumericFunctions($config['entity_manager']['functions']['numeric']);
+            $emConfig->setCustomStringFunctions($config['entity_manager']['functions']['string']);
+            $emConfig->setCustomDatetimeFunctions($config['entity_manager']['functions']['datetime']);
+        }
 
         // Load proxies from different directories
         // HACK: Doctrine takes an integer here and just happens to do nothing (which is

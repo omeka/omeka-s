@@ -31,7 +31,7 @@ var langDir = __dirname + '/application/language';
 var pot = langDir + '/template.pot';
 
 var cliOptions = minimist(process.argv.slice(2), {
-    string: ['php-path', 'module-name'],
+    string: ['php-path', 'module-name', 'port', 'host', 'db-path'],
     boolean: 'dev',
     alias: {'module-name': 'module'},
     default: {'php-path': 'php', 'dev': true, 'module-name': null}
@@ -501,6 +501,48 @@ gulp.task('create-media-type-map', taskCreateMediaTypeMap);
 var taskInit = gulp.series('dedist', 'deps');
 taskInit.description = 'Run first-time setup for a source checkout';
 gulp.task('init', taskInit);
+
+function taskServe() {
+    var port = cliOptions['port'] || 8080;
+    var host = cliOptions['host'] || 'localhost';
+    console.log('Starting PHP development server on http://' + host + ':' + port);
+    return runCommand(cliOptions['php-path'], [
+        '-S', host + ':' + port,
+        '-t', __dirname
+    ], {stdio: 'inherit'});
+}
+taskServe.description = 'Start PHP development server';
+taskServe.flags = {'--port': 'Port number (default: 8080)', '--host': 'Host address (default: localhost)'};
+gulp.task('serve', taskServe);
+
+function taskServeSqlite() {
+    var port = cliOptions['port'] || 8080;
+    var host = cliOptions['host'] || 'localhost';
+    var dbPath = path.resolve(cliOptions['db-path'] || path.join(__dirname, 'db', 'omeka.db'));
+    var dbDir = path.dirname(dbPath);
+    var configPath = path.join(__dirname, 'config', 'database.ini');
+
+    // Ensure db directory exists
+    fs.mkdirSync(dbDir, {recursive: true});
+
+    // Write SQLite database.ini config
+    var configContent = 'driver   = "pdo_sqlite"\npath     = "' + dbPath + '"\n';
+    fs.writeFileSync(configPath, configContent);
+    console.log('Configured SQLite database at: ' + dbPath);
+    console.log('Starting PHP development server on http://' + host + ':' + port);
+
+    return runCommand(cliOptions['php-path'], [
+        '-S', host + ':' + port,
+        '-t', __dirname
+    ], {stdio: 'inherit'});
+}
+taskServeSqlite.description = 'Configure SQLite and start PHP development server';
+taskServeSqlite.flags = {
+    '--port': 'Port number (default: 8080)',
+    '--host': 'Host address (default: localhost)',
+    '--db-path': 'SQLite database file path (default: ./db/omeka.db)'
+};
+gulp.task('serve:sqlite', taskServeSqlite);
 
 function taskClean() {
     return rimraf(buildDir).then(function () {

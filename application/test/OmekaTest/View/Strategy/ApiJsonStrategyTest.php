@@ -109,7 +109,7 @@ class ApiJsonStrategyTest extends TestCase
         $this->strategy->injectResponse($this->event);
 
         $headers = $this->event->getResponse()->getHeaders();
-        $expectedContentType = 'application/json; charset=utf-8';
+        $expectedContentType = 'application/ld+json';
         $this->assertEquals($expectedContentType, $headers->get('Content-Type')->getFieldValue());
     }
 }

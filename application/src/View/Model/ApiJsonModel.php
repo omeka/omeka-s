@@ -2,13 +2,15 @@
 
 namespace Omeka\View\Model;
 
-use Laminas\View\Model\JsonModel;
+use Laminas\View\Model\ViewModel;
 
 /**
  * View model for JSON responses from the API.
  */
-class ApiJsonModel extends JsonModel
+class ApiJsonModel extends ViewModel
 {
+    protected $terminate = true;
+
     /**
      * Key that stores the API response in the view variables
      */

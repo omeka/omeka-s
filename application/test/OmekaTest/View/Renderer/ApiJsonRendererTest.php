@@ -3,7 +3,6 @@ namespace OmekaTest\View\Renderer;
 
 use Omeka\Api\Exception\ValidationException;
 use Omeka\View\Renderer\ApiJsonRenderer;
-use Laminas\Json\Json;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Test\TestCase;
 
@@ -35,7 +34,7 @@ class ApiJsonRendererTest extends TestCase
               ->will($this->returnValue($response));
 
         $renderer = new ApiJsonRenderer($this->eventManager);
-        $this->assertEquals(Json::encode($testValue), $renderer->render($model));
+        $this->assertEquals(json_encode($testValue, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP), $renderer->render($model));
     }
 
     public function testRendererPassesOnNullResponse()
@@ -70,6 +69,6 @@ class ApiJsonRendererTest extends TestCase
               ->will($this->returnValue($exception));
 
         $renderer = new ApiJsonRenderer($this->eventManager);
-        $this->assertEquals(Json::encode(['errors' => ['foo' => ['bar']]]), $renderer->render($model));
+        $this->assertEquals(json_encode(['errors' => ['foo' => ['bar']]], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP), $renderer->render($model));
     }
 }

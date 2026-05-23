@@ -4,13 +4,11 @@ namespace Omeka\View\Renderer;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Api\Response;
 use Laminas\EventManager\EventManager;
-use Laminas\Json\Json;
-use Laminas\View\Renderer\JsonRenderer;
+use Laminas\View\Renderer\RendererInterface;
+use Laminas\View\Renderer\TreeRendererInterface;
+use Laminas\View\Resolver\ResolverInterface;
 
-/**
- * JSON renderer for API responses.
- */
-class ApiJsonRenderer extends JsonRenderer
+class ApiJsonRenderer implements RendererInterface, TreeRendererInterface
 {
     /**
      * @var bool
@@ -27,6 +25,20 @@ class ApiJsonRenderer extends JsonRenderer
     public function __construct(EventManager $eventManager)
     {
         $this->eventManager = $eventManager;
+    }
+
+    public function getEngine()
+    {
+        return $this;
+    }
+
+    public function setResolver(ResolverInterface $resolver)
+    {
+    }
+
+    public function canRenderTrees()
+    {
+        return true;
     }
 
     /**
@@ -68,7 +80,12 @@ class ApiJsonRenderer extends JsonRenderer
             return null;
         }
 
-        $output = parent::render($payload);
+        // HEX flags preserved from the previous Laminas\Json\Json::encode() path for output compatibility.
+        $flags = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP;
+        if ($model->getOption('pretty_print')) {
+            $flags |= JSON_PRETTY_PRINT;
+        }
+        $output = json_encode($payload, $flags);
 
         // Allow modules to return custom output.
         $args = $this->eventManager->prepareArgs([

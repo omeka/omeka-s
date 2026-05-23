@@ -8,15 +8,17 @@ use Omeka\Module;
 use Omeka\Mvc\Exception as MvcException;
 use Omeka\View\Model\ApiJsonModel;
 use Omeka\View\Renderer\ApiJsonRenderer;
+use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\EventManager\EventManager;
-use Laminas\View\Strategy\JsonStrategy;
+use Laminas\EventManager\EventManagerInterface;
 use Laminas\View\ViewEvent;
 
 /**
  * View strategy for returning JSON from the API.
  */
-class ApiJsonStrategy extends JsonStrategy
+class ApiJsonStrategy extends AbstractListenerAggregate
 {
+    protected $renderer;
     /**
      * Output formats and their media types.
      */
@@ -40,6 +42,12 @@ class ApiJsonStrategy extends JsonStrategy
     {
         $this->renderer = $renderer;
         $this->eventManager = $eventManager;
+    }
+
+    public function attach(EventManagerInterface $events, $priority = 1)
+    {
+        $this->listeners[] = $events->attach(ViewEvent::EVENT_RENDERER, [$this, 'selectRenderer'], $priority);
+        $this->listeners[] = $events->attach(ViewEvent::EVENT_RESPONSE, [$this, 'injectResponse'], $priority);
     }
 
     public function selectRenderer(ViewEvent $e)
@@ -66,7 +74,10 @@ class ApiJsonStrategy extends JsonStrategy
             return;
         }
 
-        parent::injectResponse($e);
+        $result = $e->getResult();
+        if (is_string($result)) {
+            $e->getResponse()->setContent($result);
+        }
 
         $model = $e->getModel();
         $e->getResponse()->setStatusCode($this->getResponseStatusCode($model));

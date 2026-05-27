@@ -84,7 +84,11 @@ class ApiJsonStrategy extends AbstractListenerAggregate
         $e->getResponse()->getHeaders()->addHeaderLine('Omeka-S-Version', Module::VERSION);
 
         // Add the correct Content-Type header for the output format.
-        $e->getResponse()->getHeaders()->addHeaderLine('Content-Type', $this->formats[$this->getFormat($model)]);
+        if ($this->renderer->hasJsonpCallback()) {
+            $e->getResponse()->getHeaders()->addHeaderLine('Content-Type', 'text/javascript');
+        } else {
+            $e->getResponse()->getHeaders()->addHeaderLine('Content-Type', $this->formats[$this->getFormat($model)]);
+        }
     }
 
     /**

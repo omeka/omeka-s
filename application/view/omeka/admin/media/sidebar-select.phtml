@@ -12,7 +12,7 @@ $mediaFound = count($media) > 0;
         <button type="button" class="o-icon-search"><?php echo $translate('Search'); ?></button>
     </div>
     <?php if ($mediaFound): ?>
-    <?php echo $this->pagination('common/sidebar-pagination.phtml', ['paginationType' => $translate('Media')]); ?>
+    <?php echo $this->pagination('common/sidebar-pagination.phtml', null, null, null, ['paginationType' => $translate('Media')]); ?>
     <?php endif; ?>
 </div>
 

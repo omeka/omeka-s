@@ -1,7 +1,7 @@
 <?php
 $translate = $this->plugin('translate');
-if ($paginationType) {
-    $paginationLabel = sprintf($translate('%s search results pagination'), $sidebarTitle);
+if (isset($paginationType)) {
+    $paginationLabel = sprintf($translate('%s search results pagination'), $paginationType);
 } else {
     $paginationLabel = $translate('Search results pagination');
 }

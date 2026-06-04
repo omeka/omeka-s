@@ -51,7 +51,7 @@ class Pagination extends AbstractHelper
      * @return self
      */
     public function __invoke($partialName = null, $totalCount = null, $currentPage = null,
-        $perPage = null
+        $perPage = null, $partialOptions = null
     ) {
         if (null !== $totalCount) {
             $this->getPaginator()->setTotalCount($totalCount);
@@ -63,6 +63,7 @@ class Pagination extends AbstractHelper
             $this->getPaginator()->setPerPage($perPage);
         }
         $this->partialName = $partialName ?: self::PARTIAL_NAME;
+        $this->partialOptions = $partialOptions ?: [];
         return $this;
     }
 
@@ -83,23 +84,28 @@ class Pagination extends AbstractHelper
             $paginator->setCurrentPage($pageCount);
         }
 
+        $partialDefaults = [
+            'totalCount' => $paginator->getTotalCount(),
+            'perPage' => $paginator->getPerPage(),
+            'currentPage' => $paginator->getCurrentPage(),
+            'previousPage' => $paginator->getPreviousPage(),
+            'nextPage' => $paginator->getNextPage(),
+            'pageCount' => $pageCount,
+            'query' => $this->getView()->params()->fromQuery(),
+            'firstPageUrl' => $this->getUrl(1),
+            'previousPageUrl' => $this->getUrl($paginator->getPreviousPage()),
+            'nextPageUrl' => $this->getUrl($paginator->getNextPage()),
+            'lastPageUrl' => $this->getUrl($pageCount),
+            'pagelessUrl' => $this->getPagelessUrl(),
+            'offset' => $paginator->getOffset(),
+        ];
+
+        $partialOptions = $this->partialOptions;
+        $partialParams = array_merge($partialDefaults, $partialOptions);
+
         return $this->getView()->partial(
             $this->partialName,
-            [
-                'totalCount' => $paginator->getTotalCount(),
-                'perPage' => $paginator->getPerPage(),
-                'currentPage' => $paginator->getCurrentPage(),
-                'previousPage' => $paginator->getPreviousPage(),
-                'nextPage' => $paginator->getNextPage(),
-                'pageCount' => $pageCount,
-                'query' => $this->getView()->params()->fromQuery(),
-                'firstPageUrl' => $this->getUrl(1),
-                'previousPageUrl' => $this->getUrl($paginator->getPreviousPage()),
-                'nextPageUrl' => $this->getUrl($paginator->getNextPage()),
-                'lastPageUrl' => $this->getUrl($pageCount),
-                'pagelessUrl' => $this->getPagelessUrl(),
-                'offset' => $paginator->getOffset(),
-            ]
+            $partialParams
         );
     }
 

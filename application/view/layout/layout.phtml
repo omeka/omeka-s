@@ -22,11 +22,11 @@ $userBar = $this->userBar();
     </head>
     <?php echo $this->htmlElement('body')->appendAttribute('class', 'minimal'); ?>
         <?php echo $userBar; ?>
-        <div id="content" role="main">
+        <main id="content" aria-label="<?php echo $translate('Main content'); ?>">
             <?php echo $this->messages(); ?>
             <?php echo $this->content; ?>
-        </div>
-        <footer>
+        </main>
+        <footer aria-label="<?php echo $translate('Footer'); ?>">
             <span class="powered-by"><?php echo $translate('Powered by Omeka S'); ?></span>
         </footer>
     </body>

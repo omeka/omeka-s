@@ -22,7 +22,7 @@ $userBar = $this->userBar();
     </head>
     <?php echo $this->htmlElement('body')->appendAttribute('class', 'minimal'); ?>
         <?php echo $userBar; ?>
-        <main id="content" aria-label="<?php echo $translate('Main content'); ?>">
+        <main id="content">
             <?php echo $this->messages(); ?>
             <?php echo $this->content; ?>
         </main>

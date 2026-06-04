@@ -55,7 +55,7 @@ $this->trigger('view.layout');
                     <?php endif; ?>
                 </div>
                 <div id="search">
-                    <form action="" id="search-form" aria-label="<?php echo $translate('Search items'); ?>" role="search">
+                    <form action="" id="search-form" aria-label="<?php echo $translate('Items'); ?>" role="search">
                         <?php $searchValue = isset($_GET['fulltext_search']) ? $_GET['fulltext_search'] : ''; ?>
                         <input type="text" name="fulltext_search" id="fulltext-search" value="<?php echo $escape($searchValue); ?>" aria-label="<?php echo $translate('Query'); ?>">
                         <button type="button" id="advanced" aria-label="<?php echo $translate('Advanced options'); ?>" title="<?php echo $translate('Advanced options'); ?>" aria-expanded="false" aria-controls="advanced-options"></button>
@@ -111,7 +111,7 @@ $this->trigger('view.layout');
                 });
             </script>
 
-            <main id="content" aria-label="<?php echo $translate('Main content'); ?>">
+            <main id="content">
                 <?php echo $this->messages(); ?>
                 <?php echo $this->content; ?>
             </main>

@@ -14,9 +14,14 @@ class IIIFFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
+        $config = $services->get('Config');
+        // The largest thumbnail constraint is the minimum size needed for thumbnail generation.
+        $constraints = array_column($config['thumbnails']['types'] ?? [], 'constraint');
+        $maxConstraint = $constraints ? max($constraints) : 800;
         return new IIIF(
             $services->get('Omeka\HttpClient'),
-            $services->get('Omeka\File\Downloader')
+            $services->get('Omeka\File\Downloader'),
+            $maxConstraint
         );
     }
 }

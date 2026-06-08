@@ -189,12 +189,17 @@ class SqliteCompatConnection extends Connection
                 continue;
             }
 
-            // Extract KEY/INDEX into separate CREATE INDEX statements.
-            if (preg_match('/^\s*(?:UNIQUE\s+)?(?:KEY|INDEX)\s+[`"\']?(\w+)[`"\']?\s*(\(.*\))/i', $line, $km)) {
-                $isUnique = preg_match('/^\s*UNIQUE/i', $line) ? 'UNIQUE ' : '';
-                $indexName = $km[1];
+            // Extract KEY/INDEX into separate CREATE INDEX statements. The index
+            // name is optional in MySQL, e.g. "UNIQUE INDEX (`a`, `b`)" or
+            // "KEY (`a`)"; SQLite forbids inline (non-primary) indexes, so both
+            // named and unnamed forms must become standalone CREATE INDEX.
+            if (preg_match('/^\s*(?:(UNIQUE)\s+)?(?:KEY|INDEX)\s*(?:[`"\']?(\w+)[`"\']?\s*)?(\(.*\))/i', $line, $km)) {
+                $isUnique = ($km[1] ?? '') !== '' ? 'UNIQUE ' : '';
                 // Strip prefix lengths like col(191) → col (SQLite doesn't support them).
-                $indexCols = preg_replace('/(\w)`?\s*\(\d+\)/', '$1`', $km[2]);
+                $indexCols = preg_replace('/(\w)`?\s*\(\d+\)/', '$1`', $km[3]);
+                $indexName = ($km[2] ?? '') !== ''
+                    ? $km[2]
+                    : $this->generateIndexName($tableName, $indexCols, $isUnique !== '');
                 $createIndexes[] = "CREATE {$isUnique}INDEX `{$indexName}` ON `{$tableName}` {$indexCols}";
                 continue;
             }
@@ -233,6 +238,20 @@ class SqliteCompatConnection extends Connection
         $line = preg_replace('/^(\s*)UNIQUE\s+KEY\s+[`"\']?\w+[`"\']?\s*/i', '$1UNIQUE ', $line);
 
         return $line;
+    }
+
+    /**
+     * Build a deterministic index name for an unnamed inline MySQL index.
+     *
+     * SQLite requires every index to have a (schema-unique) name, while MySQL
+     * allows anonymous inline indexes. The name is derived from the table and
+     * the referenced columns so it stays stable and collision-free.
+     */
+    private function generateIndexName(string $tableName, string $cols, bool $isUnique): string
+    {
+        $clean = trim((string) preg_replace('/[^a-zA-Z0-9_]+/', '_', $cols), '_');
+        $prefix = $isUnique ? 'uniq' : 'idx';
+        return "{$prefix}_{$tableName}_{$clean}";
     }
 
     /**

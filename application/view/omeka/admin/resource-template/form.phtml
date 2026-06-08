@@ -1,6 +1,10 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$successAlertTemplate = $translate("<span class='sortable-item-title'></span> reordered. ");
+$failAlertTemplate = $translate("Cannot reorder further.");
+$upActionAlertTemplate = $translate("Moved above <span class='positional-sortable-item-title'></span>.");
+$downActionAlertTemplate = $translate("Moved below <span class='positional-sortable-item-title'></span>.");
 $form->prepare();
 $this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 'Omeka'));
@@ -17,6 +21,15 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
 </div>
 <?php $this->trigger("view.$action.form.before", ['form' => $form]); ?>
 <?php echo $this->formCollection($form, false); ?>
+
+<div class="sr-only" role="alert" id="reorder-alerts" 
+    data-success-alert-template="<?php echo $successAlertTemplate; ?>" 
+    data-fail-alert-template="<?php echo $failAlertTemplate; ?>" 
+    data-up-action-alert-template="<?php echo $upActionAlertTemplate; ?>"
+    data-down-action-alert-template="<?php echo $downActionAlertTemplate; ?>"
+    data-nest-action-alert-template="<?php echo $nestActionAlertTemplate; ?>"
+    data-unnest-action-alert-template="<?php echo $unnestActionAlertTemplate; ?>">
+</div>
 
 <ul id="properties" data-add-new-property-row-url="<?php echo $escape($this->url(null, ['action' => 'add-new-property-row'], true)); ?>">
     <?php foreach ($propertyRows as $propertyRow): ?>

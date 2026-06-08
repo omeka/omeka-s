@@ -192,6 +192,18 @@
     @extend .fa-comment-dots;
 }
 
+.o-icon-keyboard {
+    @extend .fa-keyboard;
+}
+
+.o-icon-indent {
+    @extend .fa-indent;
+}
+
+.o-icon-outdent {
+    @extend .fa-outdent;
+}
+
 .screen-reader-text {
     position: absolute;
     top: -9999px;

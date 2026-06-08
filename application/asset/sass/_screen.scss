@@ -691,6 +691,31 @@ table .icon-sortable {
     color: $gray-on-gray;
 }
 
+.actions button.keyboard-reorder-toggle[aria-expanded="true"] {
+    background-color: $gray-on-white;
+    border-radius: 2px 0 0 2px;
+
+    &:before {
+        text-align: center;
+    }
+}
+
+.actions .keyboard-reorder-panel {
+    display: none;
+}
+
+.actions [aria-expanded="true"] + .keyboard-reorder-panel {
+    display: inline-flex;
+    align-items: center;
+    padding-left: 0;
+    background-color: #fff;
+    border-radius: 0 2px 2px 0;
+
+    button:before {
+        text-align: center;
+    }
+}
+
 .o-description {
     margin-bottom: 0;
 }
@@ -1491,6 +1516,8 @@ div[role="main"] {
 
 .actions li {
     list-style-type: none;
+    display: inline-flex;
+    align-items: center;
  }
 
 .actions a,

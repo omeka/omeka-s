@@ -379,6 +379,112 @@ var Omeka = {
         if (button.length > 0) {
             button.click();
         }
+    },
+
+    enableKeyboardNavigation: function(nodeSelector, nodeTitleSelector, orderSelector) {
+        var reorderAlertElement = $('#reorder-alerts');
+        var sortableNode = '';
+        if ((typeof nodeSelector == 'undefined') || nodeSelector == '') {
+            sortableNode = 'li';
+        } else {
+            sortableNode = nodeSelector;
+        }
+
+        $(document).on('click', '.keyboard-reorder-toggle', function() {
+            var keyboardReorderButton = $(this);
+            var currentSortableElement = keyboardReorderButton.parents(sortableNode).first();
+            if (currentSortableElement.hasClass('selected')) {
+                currentSortableElement.removeClass('selected');
+                keyboardReorderButton.attr('aria-expanded', 'false');
+            } else { 
+                var selectedNode = $(sortableNode + '.selected');
+                selectedNode.find('.keyboard-reorder-toggle').attr('aria-expanded', 'false');
+                selectedNode.removeClass('selected');
+                currentSortableElement.addClass('selected');
+                keyboardReorderButton.attr('aria-expanded', 'true');
+                keyboardReorderButton.next('.keyboard-reorder-panel').find('button').first().focus();
+            }
+        });
+
+        $(document).on('click', '.keyboard-reorder-panel button', function() {
+            var activeButton = $(this);
+            var selectedNavItem = activeButton.parents('.selected').first();
+            var selectedNavItemTitle = selectedNavItem.find(nodeTitleSelector).first().text();
+            var actionRegex = /keyboard-reorder-\w.*/;
+            var activeClass = actionRegex.exec(activeButton.attr('class'))[0];
+
+            var nextNavItem = selectedNavItem.next(sortableNode);
+            var prevNavItem = selectedNavItem.prev(sortableNode);
+            var prevNavItemChildren, parentNavItem, positionalNavItem, positionalNavItemTitle;
+
+            switch(activeClass) {
+                case 'keyboard-reorder-down':
+                    selectedNavItem.insertAfter(nextNavItem);
+                    positionalNavItem = nextNavItem;
+                    break;
+                case 'keyboard-reorder-up':
+                    selectedNavItem.insertBefore(prevNavItem);
+                    positionalNavItem = prevNavItem;
+                    break;
+                case 'keyboard-reorder-nest':
+                    if (prevNavItem.length > 0) {
+                        positionalNavItem = prevNavItem;
+                        prevNavItemChildren = prevNavItem.children('.nav-list-item-children').first();
+                        if (prevNavItemChildren.length == 0) {
+                            prevNavItemChildren = $('<ul></ul>');
+                            prevNavItemChildren.appendTo(prevNavItem);
+                        }
+                        selectedNavItem.appendTo(prevNavItemChildren);
+                        prevNavItem = selectedNavItem.prev();
+                    }
+                    break;
+                case 'keyboard-reorder-unnest':
+                    parentNavItem = selectedNavItem.parents('.nav-list-item').first();
+                    selectedNavItem.insertAfter(parentNavItem);
+                    positionalNavItem = parentNavItem;
+                    break;
+                default:
+                    console.log('no reorder');
+            }
+            
+            positionalNavItemTitle = (positionalNavItem) ? positionalNavItem.find(nodeTitleSelector).text() : '';
+
+            if (typeof orderSelector !== 'undefined') {
+                var sortable = $('.sortable');
+                Omeka.updateSortingOrder(sortable, orderSelector);
+            }
+
+            var reorderAction = activeClass.replace('keyboard-reorder-', '');
+            selectedNavItem.find('.' + activeClass).first().focus();
+
+            var newAlert = constructAlert(selectedNavItemTitle, reorderAction, positionalNavItemTitle);
+            reorderAlertElement.html(newAlert);
+            console.log(reorderAlertElement.text());
+        });
+
+        $(document).on('click', '.delete-drawer', function() {
+            var deleteButton = $(this);
+            var parentLi = deleteButton.parents('li').first();
+            if (parentLi.hasClass('selected')) {
+                var keyboardReorder = parentLi.find('.keyboard-reorder').first();
+                keyboardReorder.click();
+            }
+        });
+
+        var constructAlert = function(selectedNavTitle, reorderAction, positionalNavTitle) {
+            var newAlert = '';
+            if (positionalNavTitle !== null) {
+                var successAlert = reorderAlertElement.data('successAlertTemplate');
+                var actionAlert = reorderAlertElement.data(reorderAction + 'ActionAlertTemplate');
+                newAlert = $('<p>' + successAlert + actionAlert + '</p>');
+
+                newAlert.find('.sortable-item-title').text(selectedNavTitle);
+                newAlert.find('.positional-sortable-item-title').text(positionalNavTitle);
+            } else {
+                newAlert = reorderAlertElement.data('failAlertTemplate');
+            }
+            return newAlert;
+        }
     }
 };
 

@@ -245,7 +245,6 @@
                 this.setCustomValidity(Omeka.jsTranslate('Please enter a valid language tag'))
             }
         });
-
     });
 
 }(window.jQuery, window, document));

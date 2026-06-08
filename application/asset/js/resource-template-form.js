@@ -17,6 +17,8 @@ new Sortable(propertyList[0], {
     handle: ".sortable-handle"
 });
 
+Omeka.enableKeyboardNavigation('li.property', '.original-label-cell'); 
+
 // Update the property data types, that are a list in an hidden input.
 $('#resourcetemplateform').on('submit', function(e) {
     propertyList.find('.property.row').each(function() {
@@ -129,5 +131,6 @@ propertyList.on('click', '.property-edit', function(e) {
 
     Omeka.openSidebar($('#edit-sidebar'));
 });
+
 
 });

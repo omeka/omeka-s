@@ -23,6 +23,13 @@ $propertyId = $escape($property->id());
     <span class="alternate-label-cell"><?php echo $escape($propertyRow['o:alternate_label']); ?></span>
 
     <ul class="actions">
+        <li>
+            <button type="button" class="o-icon-keyboard keyboard-reorder-toggle" aria-expanded="false" title="<?php echo $translate('Reorder with keyboard'); ?>"></button>
+            <ul class="keyboard-reorder-panel">
+                <li><button type="button" class="o-icon-up keyboard-reorder-up" title="<?php echo $translate('Move up'); ?>"></button></li>
+                <li><button type="button" class="o-icon-down keyboard-reorder-down" title="<?php echo $translate('Move down'); ?>"></button></li>
+            </ul>
+        </li>
         <li><?php echo $this->hyperlink('', '#', [
             'class' => 'o-icon-more sidebar-content',
             'title' => $translate('Details'),

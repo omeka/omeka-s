@@ -85,6 +85,10 @@ class SqliteCompatConnection extends Connection
      */
     protected function translateSql(string $sql): ?array
     {
+        // Rewrite MySQL scalar functions (NOW(), etc.) on every statement,
+        // including INSERT/UPDATE which skip the keyword fast path below.
+        $sql = $this->translateFunctions($sql);
+
         $trimmed = trim($sql, " \t\n\r\0\x0B;");
 
         // Fast path: most queries don't need translation.
@@ -145,6 +149,85 @@ class SqliteCompatConnection extends Connection
         }
 
         return [$sql];
+    }
+
+    /**
+     * Replace MySQL current-date/time functions with SQLite equivalents,
+     * leaving any text inside quoted strings/identifiers untouched so a
+     * literal value such as 'see NOW() docs' is never corrupted.
+     */
+    private function translateFunctions(string $sql): string
+    {
+        // Cheap bail-out: skip the scan when there is nothing to translate.
+        if (!preg_match('/\b(?:NOW|CURDATE|CURTIME|UTC_TIMESTAMP|UTC_DATE|UTC_TIME)\s*\(\s*\)/i', $sql)) {
+            return $sql;
+        }
+
+        $result = '';
+        $buffer = '';
+        $len = strlen($sql);
+        for ($i = 0; $i < $len; $i++) {
+            $char = $sql[$i];
+            if ($char === "'" || $char === '"' || $char === '`') {
+                // Flush the unquoted buffer (translated) before copying the
+                // quoted region verbatim.
+                $result .= $this->replaceFunctions($buffer);
+                $buffer = '';
+                $quote = $char;
+                $result .= $char;
+                for ($i++; $i < $len; $i++) {
+                    $c = $sql[$i];
+                    // Backslash escape inside '...'/"..." (not for `identifiers`).
+                    if ($c === '\\' && $quote !== '`' && $i + 1 < $len) {
+                        $result .= $c . $sql[$i + 1];
+                        $i++;
+                        continue;
+                    }
+                    if ($c === $quote) {
+                        // Doubled quote ('' / "" / ``) is an escaped quote.
+                        if ($i + 1 < $len && $sql[$i + 1] === $quote) {
+                            $result .= $c . $quote;
+                            $i++;
+                            continue;
+                        }
+                        $result .= $c;
+                        break;
+                    }
+                    $result .= $c;
+                }
+                continue;
+            }
+            $buffer .= $char;
+        }
+        $result .= $this->replaceFunctions($buffer);
+
+        return $result;
+    }
+
+    /**
+     * Apply the MySQL→SQLite function substitutions to unquoted SQL text.
+     */
+    private function replaceFunctions(string $sql): string
+    {
+        return preg_replace(
+            [
+                '/\bNOW\s*\(\s*\)/i',
+                '/\bUTC_TIMESTAMP\s*\(\s*\)/i',
+                '/\bCURDATE\s*\(\s*\)/i',
+                '/\bUTC_DATE\s*\(\s*\)/i',
+                '/\bCURTIME\s*\(\s*\)/i',
+                '/\bUTC_TIME\s*\(\s*\)/i',
+            ],
+            [
+                'CURRENT_TIMESTAMP',
+                'CURRENT_TIMESTAMP',
+                'CURRENT_DATE',
+                'CURRENT_DATE',
+                'CURRENT_TIME',
+                'CURRENT_TIME',
+            ],
+            $sql
+        );
     }
 
     /**

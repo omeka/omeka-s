@@ -45,7 +45,9 @@ if ($responseItems && $responseItems->getTotalResults()):
             <span class="result-title"><?php echo $item->displayTitle(); ?></span>
             <ul>
                 <?php foreach ($sites as $site): ?>
+                <?php if ($site->userIsAllowed('read')): ?>
                 <li><?php echo $this->hyperlink($site->title(), $item->siteUrl($site->slug())); ?></li>
+                <?php endif; ?>
                 <?php endforeach; ?>
             </ul>
         </li>
@@ -75,7 +77,9 @@ if ($responseItems && $responseItems->getTotalResults()):
             <span class="result-title"><?php echo $itemSet->displayTitle(); ?></span>
             <ul>
                 <?php foreach ($sites as $site): ?>
+                <?php if ($site->userIsAllowed('read')): ?>
                 <li><?php echo $this->hyperlink($site->title(), $itemSet->siteUrl($site->slug())); ?></li>
+                <?php endif; ?>
                 <?php endforeach; ?>
             </ul>
         </li>

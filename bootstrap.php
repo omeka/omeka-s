@@ -9,6 +9,7 @@ spl_autoload_register(static function ($class) {
     $overrides = [
         'Doctrine\Common\Proxy\AbstractProxyFactory' => 'AbstractProxyFactory.php',
         'Doctrine\ORM\Proxy\ProxyFactory' => 'ProxyFactory.php',
+        'Laminas\Escaper\Escaper' => 'Escaper.php',
         'Laminas\Stdlib\SplPriorityQueue' => 'SplPriorityQueue.php',
     ];
     if (isset($overrides[$class])) {

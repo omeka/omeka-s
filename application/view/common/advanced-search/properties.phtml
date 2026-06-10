@@ -1,7 +1,7 @@
 <?php
 $translate = $this->plugin('translate');
 // Prepare the property queries.
-$properties = isset($query['property']) ? $query['property'] : [];
+$properties = $query['property'] ?? [];
 $properties = array_filter($properties, function ($value) {
     return isset($value['text']) ? '' !== trim($value['text']) : true;
 });
@@ -18,15 +18,15 @@ if (isset($query['search'])) {
     ]);
 }
 
-$queryOption = function($value, array $search, $key, $text) {
+$queryOption = function ($value, array $search, $key, $text) {
     $selected = null;
     if (isset($search[$key]) && $value === $search[$key]) {
         $selected = ' selected';
     }
     return sprintf('<option value="%s"%s>%s</option>', $value, $selected, $text);
 };
-$queryText = function(array $search, $index) use ($translate) {
-    $text = isset($search['text']) ? $search['text'] : null;
+$queryText = function (array $search, $index) use ($translate) {
+    $text = $search['text'] ?? null;
     return sprintf('<input type="text" class="query-text" name="%s" value="%s" aria-label="%s">',
         $this->escapeHtml("property[$index][text]"),
         $this->escapeHtml($text),

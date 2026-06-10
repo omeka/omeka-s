@@ -2,7 +2,7 @@
 $translate = $this->plugin('translate');
 $item = $media->item();
 $this->headLink()->appendStylesheet($this->assetUrl('css/resource-page-blocks.css', 'Omeka'));
-$this->htmlElement('body')->appendAttribute('class', 'media resource show'); 
+$this->htmlElement('body')->appendAttribute('class', 'media resource show');
 $filterLocale = (bool) $this->siteSetting('filter_locale_values');
 $lang = $this->lang();
 $valueLang = $filterLocale ? [$lang, ''] : null;

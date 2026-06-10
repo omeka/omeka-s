@@ -18,4 +18,4 @@ $propertyAltComment = $escape($resourceTemplateProperty->alternateComment());
     <h4><?php echo $translate('Items'); ?></h4>
     <div class="value"><?php echo $this->hyperlink($resource->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['resource_template_id' => $resource->id()]])); ?></div>
 </div>
-<?php $this->trigger('view.details', array('entity' => $resource)); ?>
+<?php $this->trigger('view.details', ['entity' => $resource]); ?>

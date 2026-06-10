@@ -246,6 +246,28 @@
             }
         });
 
+        var $menu = $('#menu');
+        if ($menu.is('[data-persist-nav]')) {
+            var navKeyPrefix = 'omeka-nav-section-';
+            $menu.find('h5').each(function() {
+                var $toggle = $(this).find('a[data-section]');
+                if (!$toggle.length) return; // skip h5 elements without a section toggle (e.g. site-nav)
+                var stored = localStorage.getItem(navKeyPrefix + $toggle.data('section'));
+                if (stored === 'expand' || stored === 'collapse') {
+                    $toggle.removeClass('expand collapse').addClass(stored)
+                        .attr('aria-expanded', stored === 'collapse' ? 'true' : 'false');
+                }
+                // Always expand the section containing the current page, even if collapsed by user.
+                if ($(this).next('.collapsible').find('.active').length) {
+                    $toggle.removeClass('expand').addClass('collapse').attr('aria-expanded', 'true');
+                }
+            });
+            $menu.on('o:collapsed o:expanded', 'h5 a[data-section]', function() {
+                var state = $(this).hasClass('expand') ? 'expand' : 'collapse';
+                localStorage.setItem(navKeyPrefix + $(this).data('section'), state);
+            });
+        }
+
     });
 
 }(window.jQuery, window, document));

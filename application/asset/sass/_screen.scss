@@ -1250,6 +1250,27 @@ button .o-icon-private {
         margin-bottom: $spacing-small;
     }
 
+    /* Flex so the caret sits at the right edge while the label stays left */
+    #menu h5 .expand,
+    #menu h5 .collapse {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* Visible by default so browsers without :has() support still show nav sections */
+    #menu .collapsible {
+        display: block;
+    }
+
+    /* :has() required because the toggle anchor is inside h5, not a sibling of .collapsible */
+    #menu h5:has(.expand) + .collapsible {
+        display: none;
+    }
+
     /* @end */
 
     /* @group ----- Site-level navigation ----- */

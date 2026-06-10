@@ -226,6 +226,14 @@ div[role="main"] {
     }
 }
 
+/* Reset negative-margin overlay from the rule above — anchor is inside h5, not after it */
+#menu h5 a.expand,
+#menu h5 a.collapse {
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+
 #mobile-nav {
     display: block;
 }

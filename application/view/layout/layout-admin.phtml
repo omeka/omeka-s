@@ -77,24 +77,36 @@ $this->trigger('view.layout');
                         <button type="submit" id="search-submit" aria-label="<?php echo $translate('Submit'); ?>" title="<?php echo $translate('Submit'); ?>"><span class="o-icon-search" aria-hidden="true"></span></button>
                     </form>
                 </div>
-                <nav id="menu" aria-label="<?php echo $translate('Navigation menu'); ?>">
+                <?php
+                $siteContext = isset($site);
+                $toggleClass = $siteContext ? 'expand' : 'collapse';
+                $ariaExpanded = $siteContext ? 'false' : 'true';
+                $ariaLabel = $siteContext ? $translate('Expand') : $translate('Collapse');
+                ?>
+                <nav id="menu" <?php if (!$siteContext): ?>data-persist-nav<?php endif; ?> aria-label="<?php echo $translate('Navigation menu'); ?>">
                     <?php echo $siteNav; ?>
-                    <?php if (isset($site)): ?>
+                    <?php if ($siteContext): ?>
                     <nav id="site-nav">
                         <h5><?php echo $site->link($site->title(), 'show'); ?></h5>
                         <?php echo $this->hyperlink('', $site->siteUrl(), ['class' => 'o-icon-external public', 'target' => '_blank', 'title' => $translate('View public site')]); ?>
                     <?php echo $site->adminNav()->menu(); ?>
                     </nav>
                     <?php endif; ?>
-                    <h5><?php echo $translate('Resources') ?></h5>
-                    <?php echo $resourceNav; ?>
+                    <h5><a href="#" class="<?php echo $toggleClass; ?>" data-section="resources" aria-expanded="<?php echo $ariaExpanded; ?>" aria-label="<?php echo $escape($ariaLabel); ?>" title="<?php echo $escape($ariaLabel); ?>"><?php echo $translate('Resources') ?></a></h5>
+                    <div class="collapsible">
+                        <?php echo $resourceNav; ?>
+                    </div>
                     <?php if ($adminNav): ?>
-                    <h5><?php echo $translate('Admin') ?></h5>
-                    <?php echo $adminNav ?>
+                    <h5><a href="#" class="<?php echo $toggleClass; ?>" data-section="admin" aria-expanded="<?php echo $ariaExpanded; ?>" aria-label="<?php echo $escape($ariaLabel); ?>" title="<?php echo $escape($ariaLabel); ?>"><?php echo $translate('Admin') ?></a></h5>
+                    <div class="collapsible">
+                        <?php echo $adminNav; ?>
+                    </div>
                     <?php endif; ?>
                     <?php if ($moduleNav): ?>
-                    <h5><?php echo $translate('Modules') ?></h5>
-                    <?php echo $moduleNav ?>
+                    <h5><a href="#" class="<?php echo $toggleClass; ?>" data-section="modules" aria-expanded="<?php echo $ariaExpanded; ?>" aria-label="<?php echo $escape($ariaLabel); ?>" title="<?php echo $escape($ariaLabel); ?>"><?php echo $translate('Modules') ?></a></h5>
+                    <div class="collapsible">
+                        <?php echo $moduleNav; ?>
+                    </div>
                     <?php endif; ?>
                 </nav>
             </header>

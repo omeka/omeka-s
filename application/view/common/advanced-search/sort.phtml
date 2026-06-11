@@ -29,7 +29,6 @@ $sortBy->setAttribute('aria-label', 'Sort by'); // @translate
 $sortBy->setEmptyOption('Select sort by…'); // @translate
 $sortBy->setValueOptions($sortConfig);
 $sortBy->setValue((!isset($query['sort_by_default']) && isset($query['sort_by'])) ? $query['sort_by'] : '');
-$sortBy->setValue((!isset($query['sort_order_default']) && isset($query['sort_order'])) ? $query['sort_order'] : '');
 
 $sortOrder = new Element\Select('sort_order');
 $sortOrder->setAttribute('aria-label', 'Sort order'); // @translate
@@ -38,7 +37,7 @@ $sortOrder->setValueOptions([
     'asc' => 'Ascending', // @translate
     'desc' => 'Descending', // @translate
 ]);
-$sortOrder->setValue($query['sort_order'] ?? '');
+$sortOrder->setValue((!isset($query['sort_order_default']) && isset($query['sort_order'])) ? $query['sort_order'] : '');
 ?>
 <div class="field" id="sort_field" role="group" aria-labelledby="sort-group-label">
     <div class="field-meta">

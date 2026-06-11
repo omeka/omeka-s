@@ -13,7 +13,7 @@ $deleteButton = $asset->userIsAllowed('delete')
 <?php echo $this->thumbnail($asset, 'square', ['class' => 'asset-inline']); ?>
 
 <?php echo $this->form()->openTag($form); ?>
-<?php $this->trigger('view.edit.form.before', array('form' => $form)); ?>
+<?php $this->trigger('view.edit.form.before', ['form' => $form]); ?>
 
 <?php echo $this->formCollection($form, false); ?>
 
@@ -24,7 +24,7 @@ $deleteButton = $asset->userIsAllowed('delete')
     <button type="submit"><?php echo $escape('Save'); ?></button>
 </div>
 
-<?php $this->trigger('view.edit.form.after', array('form' => $form)); ?>
+<?php $this->trigger('view.edit.form.after', ['form' => $form]); ?>
 <?php echo $this->form()->closeTag(); ?>
 
 <?php echo $this->deleteConfirm($asset, 'asset')?>

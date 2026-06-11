@@ -18,4 +18,4 @@ $translate = $this->plugin('translate');
     <h4><?php echo $translate('Items'); ?></h4>
     <div class="value"><?php echo $this->hyperlink($resourceClass->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['resource_class_id' => $resourceClass->id()]])); ?></div>
 </div>
-<?php $this->trigger('view.details', array('entity' => $resourceClass)); ?>
+<?php $this->trigger('view.details', ['entity' => $resourceClass]); ?>

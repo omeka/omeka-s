@@ -5,16 +5,16 @@
 # 
 # Translators:
 # John Flatness <john@omeka.org>, 2023
-# Rubén Alcaraz Martínez <rubenalcarazmartinez@gmail.com>, 2025
+# Rubén Alcaraz Martínez <rubenalcarazmartinez@gmail.com>, 2026
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-25 13:32-0500\n"
+"POT-Creation-Date: 2026-06-05 17:41-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: Rubén Alcaraz Martínez <rubenalcarazmartinez@gmail.com>, 2025\n"
+"Last-Translator: Rubén Alcaraz Martínez <rubenalcarazmartinez@gmail.com>, 2026\n"
 "Language-Team: Catalan (Spain) (https://app.transifex.com/omeka/teams/14184/ca_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,23 +62,23 @@ msgstr "L'adaptador %1$s no implementa l'operació de supressió."
 msgid "The %1$s adapter does not implement the batch delete operation."
 msgstr "L'adaptador %1$s no implementa l'operació de supressió en lot."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:302
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:303
 #, php-format
 msgid "The \"%1$s\" field is not available in the %2$s adapter class."
 msgstr "El camp \"%1$s\" no està disponible en l'adaptador de la classe %2$s ."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:318
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:319
 #, php-format
 msgid "The \"%1$s\" field is not available in the %2$s entity class."
 msgstr "El camp \"%1$s\" no està disponible en la classe d'entitat %2$s."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:690
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:691
 #: application/src/Api/Manager.php:209
 #, php-format
 msgid "Permission denied for the current user to %1$s the %2$s resource."
 msgstr "Permís denegat per a l'usuari actual per %1$s al recurs %2$s."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:732
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:733
 #, php-format
 msgid "%1$s entity with criteria %2$s not found"
 msgstr "No s'ha trobat l'entitat %1$samb el criteri %2$s"
@@ -114,8 +114,8 @@ msgstr "Per defecte"
 #: application/view/common/navigation-link-form/url.phtml:15
 #: application/view/omeka/admin/resource-template/review-import.phtml:112
 #: application/view/omeka/admin/resource-template/review-import.phtml:113
-#: application/view/omeka/admin/resource-template/show.phtml:59
-#: application/view/omeka/admin/resource-template/show.phtml:60
+#: application/view/omeka/admin/resource-template/show.phtml:62
+#: application/view/omeka/admin/resource-template/show.phtml:63
 #: application/view/omeka/admin/system-info/browse.phtml:18
 msgid "Yes"
 msgstr "Sí"
@@ -125,8 +125,8 @@ msgstr "Sí"
 #: application/view/common/navigation-link-form/url.phtml:14
 #: application/view/omeka/admin/resource-template/review-import.phtml:112
 #: application/view/omeka/admin/resource-template/review-import.phtml:113
-#: application/view/omeka/admin/resource-template/show.phtml:59
-#: application/view/omeka/admin/resource-template/show.phtml:60
+#: application/view/omeka/admin/resource-template/show.phtml:62
+#: application/view/omeka/admin/resource-template/show.phtml:63
 #: application/view/omeka/admin/system-info/browse.phtml:18
 msgid "No"
 msgstr "No"
@@ -303,7 +303,7 @@ msgstr "La contrasenya ha de:"
 msgid "Expand"
 msgstr "Expandeix"
 
-#: application/src/Form/VocabularyForm.php:79
+#: application/src/Form/VocabularyForm.php:80
 msgid ""
 "The namespace URI you entered does not end with a / or #, as is normally "
 "expected for namespace URIs. Would you like to save anyway?"
@@ -311,7 +311,7 @@ msgstr ""
 "L'URI de l'espai de noms no acaba amb una / o una #, com és habitual. Voleu "
 "desar igualment?"
 
-#: application/src/Form/VocabularyForm.php:80
+#: application/src/Form/VocabularyForm.php:81
 msgid ""
 "The namespace URI you entered does not match the saved namespace URI. Would "
 "you like to save anyway?"
@@ -486,27 +486,27 @@ msgstr ""
 msgid "User activation for %s"
 msgstr "Activicació de l'usuari per %s"
 
-#: application/src/Stdlib/Oembed.php:48
+#: application/src/Stdlib/Oembed.php:50
 #, php-format
 msgid "oEmbed: URL is not allowed %s"
 msgstr "oEmbed: L'URL no és  permès %s"
 
-#: application/src/Stdlib/Oembed.php:66
+#: application/src/Stdlib/Oembed.php:69
 #, php-format
 msgid "oEmbed: links cannot be found at %s"
 msgstr "oEmbed: no es poden trobar els enllaços a %s"
 
-#: application/src/Stdlib/Oembed.php:81
+#: application/src/Stdlib/Oembed.php:84
 #, php-format
 msgid "oEmbed: response cannot be decoded to JSON %s"
 msgstr "oEmbed: la resposta no es pot descodificar a JSON %s"
 
-#: application/src/Stdlib/Oembed.php:126
+#: application/src/Stdlib/Oembed.php:150
 #, php-format
 msgid "oEmbed: URL is invalid: %s"
 msgstr "oEmbed: URL invàlida: %s"
 
-#: application/src/Stdlib/Oembed.php:135
+#: application/src/Stdlib/Oembed.php:159
 #, php-format
 msgid "oEmbed: URL is unreadable at %s: %s (%s)"
 msgstr "oEmbed: No es pot llegir l'URL a %s: %s (%s)"
@@ -621,12 +621,12 @@ msgstr "no té valors"
 #: application/src/View/Helper/SearchFilters.php:45
 #: application/view/common/advanced-search/properties.phtml:92
 msgid "has data type"
-msgstr ""
+msgstr "té el tipus de dada"
 
 #: application/src/View/Helper/SearchFilters.php:46
 #: application/view/common/advanced-search/properties.phtml:93
 msgid "does not have data type"
-msgstr ""
+msgstr "no té el tipus de dada"
 
 #: application/src/View/Helper/SearchFilters.php:53
 #: application/view/common/advanced-search/fulltext.phtml:6
@@ -946,7 +946,7 @@ msgstr "Tipus de cerca"
 
 #: application/view/common/advanced-search/properties.phtml:96
 msgid "Select data type…"
-msgstr ""
+msgstr "Selecciona el tipus de dada..."
 
 #: application/view/common/advanced-search/resource-class.phtml:28
 msgid "Search by class"
@@ -1108,7 +1108,7 @@ msgstr "[Cap pàgina seleccionada]"
 #: application/view/omeka/admin/resource-template/browse.phtml:82
 #: application/view/omeka/admin/resource-template/form.phtml:43
 #: application/view/omeka/admin/resource-template/form.phtml:52
-#: application/view/omeka/admin/resource-template/show.phtml:70
+#: application/view/omeka/admin/resource-template/show.phtml:73
 #: application/view/omeka/admin/user/browse.phtml:124
 #: application/view/omeka/admin/user/browse.phtml:133
 #: application/view/omeka/admin/user/browse.phtml:151
@@ -1493,7 +1493,7 @@ msgid "Type"
 msgstr "Tipus"
 
 #: application/view/common/navigation-link-form/browse.phtml:17
-#: application/view/common/search-form.phtml:18
+#: application/view/common/search-form.phtml:17
 #: application/view/layout/layout-admin.phtml:60
 msgid "Query"
 msgstr "Consulta"
@@ -1596,12 +1596,12 @@ msgstr "Afegeix un valor per a l'URI"
 
 #: application/view/common/property-form-batch-edit.phtml:74
 msgid "Select data type"
-msgstr ""
+msgstr "Selecciona el tipus de dada"
 
 #: application/view/common/property-form-batch-edit.phtml:81
 #: application/view/common/property-form-batch-edit.phtml:113
 msgid "Convert data type"
-msgstr ""
+msgstr "Converteix el tipus de dada"
 
 #: application/view/common/property-form-batch-edit.phtml:91
 #: application/view/omeka/admin/item-set/form.phtml:13
@@ -1696,11 +1696,7 @@ msgstr "Privat"
 msgid "Has annotation"
 msgstr "Té una anotació"
 
-#: application/view/common/search-form.phtml:17
-msgid "Enter a search term"
-msgstr ""
-
-#: application/view/common/search-form.phtml:19
+#: application/view/common/search-form.phtml:18
 #: application/view/layout/layout-admin.phtml:77
 #: application/view/omeka/admin/item-set/batch-edit.phtml:19
 #: application/view/omeka/admin/item/batch-edit.phtml:19
@@ -1812,7 +1808,7 @@ msgstr "Ordenació"
 
 #: application/view/common/user-bar.phtml:8
 msgid "Omeka User"
-msgstr ""
+msgstr "Usuari Omeka"
 
 #: application/view/common/user-bar.phtml:22
 #, php-format
@@ -2008,16 +2004,16 @@ msgstr "Fòrums de suport"
 msgid "Powered by Omeka S"
 msgstr "Funciona amb l'Omeka S"
 
-#: application/view/omeka/admin/asset/add-form.phtml:6
+#: application/view/omeka/admin/asset/add-form.phtml:7
 msgid "Upload new asset"
 msgstr "Puja un nou actiu"
 
-#: application/view/omeka/admin/asset/add-form.phtml:10
+#: application/view/omeka/admin/asset/add-form.phtml:11
 #: application/view/omeka/admin/asset/show-details.phtml:21
 msgid "Alt text"
 msgstr "Text alternatiu"
 
-#: application/view/omeka/admin/asset/add-form.phtml:12
+#: application/view/omeka/admin/asset/add-form.phtml:13
 msgid "Upload"
 msgstr "Puja"
 
@@ -2337,7 +2333,7 @@ msgstr "L'Omeka no ha trobat cap conjunt de recursos"
 #: application/view/omeka/site-admin/index/navigation.phtml:21
 #: application/view/omeka/site-admin/index/resources.phtml:31
 #: application/view/omeka/site-admin/index/theme-resource-pages.phtml:28
-#: application/view/omeka/site-admin/index/theme-settings.phtml:12
+#: application/view/omeka/site-admin/index/theme-settings.phtml:21
 #: application/view/omeka/site-admin/index/theme.phtml:18
 #: application/view/omeka/site-admin/index/users.phtml:48
 #: application/view/omeka/site-admin/page/edit.phtml:32
@@ -2386,7 +2382,7 @@ msgstr "Plantilla del recurs"
 #: application/view/omeka/admin/item-set/show.phtml:98
 #, php-format
 msgid "View this item set in \"%s\""
-msgstr ""
+msgstr "Veure aquest conjunt de recursos a \"%s\""
 
 #: application/view/omeka/admin/item-set/show.phtml:21
 #: application/view/omeka/admin/item/show.phtml:12
@@ -2564,11 +2560,11 @@ msgstr "Recursos"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:17
 msgid "Create item"
-msgstr ""
+msgstr "Crea un recurs"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:18
 msgid "Assign item value"
-msgstr ""
+msgstr "Assigna un valor al recurs"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:75
 msgid "Filter by item ID"
@@ -2576,7 +2572,7 @@ msgstr "Filtra per ID"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:136
 msgid "Add and select item"
-msgstr ""
+msgstr "Afegeix i selecciona un recurs"
 
 #: application/view/omeka/admin/job/browse.phtml:7
 #: application/view/omeka/admin/job/show.phtml:21
@@ -2705,7 +2701,7 @@ msgstr "%s bytes"
 #: application/view/omeka/admin/media/show.phtml:110
 #, php-format
 msgid "View this media in \"%s\""
-msgstr ""
+msgstr "Veure aquest fitxer a \"%s\""
 
 #: application/view/omeka/admin/media/show.phtml:16
 msgid "Edit media"
@@ -3264,21 +3260,21 @@ msgstr "Afegeix un nou lloc"
 #: application/view/omeka/site-admin/index/index.phtml:23
 #, php-format
 msgid "Currently viewing all sites. %s"
-msgstr ""
+msgstr "S'estan visualitzant tots els llocs. %s"
 
 #: application/view/omeka/site-admin/index/index.phtml:27
 #, php-format
 msgid "View sites for %s"
-msgstr ""
+msgstr "Veure llocs %s"
 
 #: application/view/omeka/site-admin/index/index.phtml:32
 #, php-format
 msgid "Currently viewing sites for %s. %s"
-msgstr ""
+msgstr "S'estan visualitzant els llocs %s. %s"
 
 #: application/view/omeka/site-admin/index/index.phtml:34
 msgid "View all sites"
-msgstr ""
+msgstr "Veure tots els llocs"
 
 #: application/view/omeka/site-admin/index/index.phtml:104
 msgid "Omeka could not find any sites."
@@ -3390,7 +3386,7 @@ msgstr "Aquest tema requereix l'Omeka S %s"
 msgid "Edit settings"
 msgstr "Edita els paràmetres"
 
-#: application/view/omeka/site-admin/index/theme-settings.phtml:17
+#: application/view/omeka/site-admin/index/theme-settings.phtml:26
 msgid "The current theme has no configuration options."
 msgstr "El tema seleccionat no té opcions de configuració"
 
@@ -3595,7 +3591,7 @@ msgid "Select sort order…"
 msgstr "Selecciona l'ordre..."
 
 #: application/view/common/property-form-batch-edit.phtml:102
-#: application/src/Form/ResourceBatchUpdateForm.php:216
+#: application/src/Form/ResourceBatchUpdateForm.php:228
 msgid "Select properties"
 msgstr "Selecciona les propietats"
 
@@ -3607,65 +3603,65 @@ msgstr "Confirmeu la supressió"
 msgid "Site admin"
 msgstr "Administració del lloc"
 
-#: application/config/module.config.php:727
+#: application/config/module.config.php:728
 msgid "Owner email"
 msgstr "Email del propietari"
 
-#: application/config/module.config.php:733
-#: application/config/module.config.php:752
-#: application/config/module.config.php:758
+#: application/config/module.config.php:734
+#: application/config/module.config.php:753
+#: application/config/module.config.php:759
 msgid "Item count"
 msgstr "Nombre de recursos"
 
-#: application/config/module.config.php:745
+#: application/config/module.config.php:746
 msgid "Resource class count"
 msgstr "Nombre de classes"
 
-#: application/config/module.config.php:746
+#: application/config/module.config.php:747
 msgid "Property count"
 msgstr "Nombre de propietats"
 
-#: application/config/module.config.php:946
+#: application/config/module.config.php:947
 msgid "Something went wrong"
 msgstr "Vatua l’olla! Alguna cosa ha anat malament"
 
-#: application/config/module.config.php:951
+#: application/config/module.config.php:952
 msgid "You have unsaved changes."
 msgstr "Teniu canvis sense desar."
 
-#: application/config/module.config.php:952
+#: application/config/module.config.php:953
 msgid "Restore item set"
 msgstr "Restaura el conjunt de recursos"
 
-#: application/config/module.config.php:953
+#: application/config/module.config.php:954
 msgid "Close icon set"
 msgstr "Tanca la col·lecció d'icones"
 
-#: application/config/module.config.php:954
+#: application/config/module.config.php:955
 msgid "Open icon set"
 msgstr "Obre la col·lecció d'icones"
 
-#: application/config/module.config.php:956
+#: application/config/module.config.php:957
 msgid "Failed loading resource template from API"
 msgstr "Error en carregar la plantilla de recurs mitjançant l'API"
 
-#: application/config/module.config.php:957
+#: application/config/module.config.php:958
 msgid "Restore property"
 msgstr "Restaura la propietat"
 
-#: application/config/module.config.php:959
+#: application/config/module.config.php:960
 msgid "Please enter a valid language tag"
 msgstr "Introduïu una etiqueta d'idioma vàlida"
 
-#: application/config/module.config.php:961
+#: application/config/module.config.php:962
 msgid "Description"
 msgstr "Descripció"
 
-#: application/config/module.config.php:962
+#: application/config/module.config.php:963
 msgid "Unknown block layout"
 msgstr "Bloc desconegut"
 
-#: application/config/module.config.php:963
+#: application/config/module.config.php:964
 msgid "Required field must be completed"
 msgstr "Hi ha un camp obligatori no informat"
 
@@ -3754,7 +3750,7 @@ msgid "The emails did not match"
 msgstr "Els correus electrònics no coincideixen"
 
 #: application/src/Form/ResourceForm.php:39
-#: application/src/Form/ResourceBatchUpdateForm.php:74
+#: application/src/Form/ResourceBatchUpdateForm.php:75
 #: application/src/Form/UserForm.php:157
 #: application/src/Form/ItemStubForm.php:68
 msgid "Select a template"
@@ -3765,7 +3761,7 @@ msgid "A pre-defined template for resource creation."
 msgstr "Una plantilla predefinida per a la descripció de recursos."
 
 #: application/src/Form/ResourceForm.php:64
-#: application/src/Form/ResourceBatchUpdateForm.php:97
+#: application/src/Form/ResourceBatchUpdateForm.php:98
 #: application/src/Form/ItemStubForm.php:81
 msgid "Select a class"
 msgstr "Selecciona una classe"
@@ -3820,11 +3816,11 @@ msgstr "Estableix el rol"
 #: application/src/Form/UserBatchUpdateForm.php:61
 #: application/src/Form/UserBatchUpdateForm.php:78
 #: application/src/Form/UserBatchUpdateForm.php:93
-#: application/src/Form/ResourceBatchUpdateForm.php:42
-#: application/src/Form/ResourceBatchUpdateForm.php:59
-#: application/src/Form/ResourceBatchUpdateForm.php:79
-#: application/src/Form/ResourceBatchUpdateForm.php:102
-#: application/src/Form/ResourceBatchUpdateForm.php:116
+#: application/src/Form/ResourceBatchUpdateForm.php:43
+#: application/src/Form/ResourceBatchUpdateForm.php:60
+#: application/src/Form/ResourceBatchUpdateForm.php:80
+#: application/src/Form/ResourceBatchUpdateForm.php:103
+#: application/src/Form/ResourceBatchUpdateForm.php:128
 msgid "[No change]"
 msgstr "[Sense canvis]"
 
@@ -3983,19 +3979,21 @@ msgstr ""
 
 #: application/src/Form/SettingForm.php:291
 msgid "Set default item visibility to private"
-msgstr ""
+msgstr "Estableix la visibilitat per defecte dels recursos com a privada"
 
 #: application/src/Form/SettingForm.php:295
 msgid "Set default item set visibility to private"
 msgstr ""
+"Estableix la visibilitat per defecte dels conjunts de recursos com a privada"
 
 #: application/src/Form/SettingForm.php:299
 msgid "Set default site visibility to private"
-msgstr ""
+msgstr "Estableix la visibilitat per defecte dels llocs com a privada"
 
 #: application/src/Form/SettingForm.php:303
 msgid "Set default site page visibility to private"
 msgstr ""
+"Estableix la visibilitat per defecte de les pàgines dels llocs com a privada"
 
 #: application/src/Form/SettingForm.php:326
 msgid "Suggested languages for values"
@@ -4027,12 +4025,14 @@ msgstr "[Cap]"
 
 #: application/src/Form/SettingForm.php:358
 msgid "Batch chunk size"
-msgstr ""
+msgstr "Nombre de recursos per bloc"
 
 #: application/src/Form/SettingForm.php:359
 msgid ""
 "Enter the size of each chunk of resources when batch editing and deleting."
 msgstr ""
+"Introdueix el nombre de recursos de cada bloc quan s'editen o se suprimeixen"
+" per lots."
 
 #: application/src/Form/SettingForm.php:374
 msgid "Index full-text search"
@@ -4093,7 +4093,7 @@ msgstr "Mostra"
 
 #: application/src/Form/SiteSettingsForm.php:37
 msgid "IIIF viewer"
-msgstr ""
+msgstr "Visor IIIF"
 
 #: application/src/Form/SiteSettingsForm.php:47
 msgid "Auto-assign new items"
@@ -4349,15 +4349,15 @@ msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:435
 msgid "Show sidebar"
-msgstr ""
+msgstr "Mostra la barra lateral"
 
 #: application/src/Form/SiteSettingsForm.php:448
 msgid "Light"
-msgstr ""
+msgstr "Clar"
 
 #: application/src/Form/SiteSettingsForm.php:449
 msgid "Dark"
-msgstr ""
+msgstr "Fosc"
 
 #: application/src/Form/BlockLayoutDataForm.php:46
 msgid "Alignment"
@@ -4426,75 +4426,79 @@ msgstr "Cover"
 msgid "Contain"
 msgstr "Contain"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:38
+#: application/src/Form/ResourceBatchUpdateForm.php:39
 msgid "Set visibility"
 msgstr "Estableix la visibilitat"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:55
+#: application/src/Form/ResourceBatchUpdateForm.php:56
 msgid "Set openness"
 msgstr "Estableix l’apertura"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:57
+#: application/src/Form/ResourceBatchUpdateForm.php:58
 msgid "Open"
 msgstr "Obert"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:58
+#: application/src/Form/ResourceBatchUpdateForm.php:59
 msgid "Not open"
 msgstr "Tancat"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:78
+#: application/src/Form/ResourceBatchUpdateForm.php:79
 msgid "Set template"
 msgstr "Estableix la plantilla"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:80
+#: application/src/Form/ResourceBatchUpdateForm.php:81
 msgid "[Unset template]"
 msgstr "[Plantilla deshabilitada]"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:100
+#: application/src/Form/ResourceBatchUpdateForm.php:101
 msgid "Set class"
 msgstr "Estableix la classe"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:101
+#: application/src/Form/ResourceBatchUpdateForm.php:102
 msgid "[Unset class]"
 msgstr "[Classe no configurada]"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:115
+#: application/src/Form/ResourceBatchUpdateForm.php:114
+msgid "Set thumbnail"
+msgstr ""
+
+#: application/src/Form/ResourceBatchUpdateForm.php:127
 msgid "Set owner"
 msgstr "Estableix el propietari"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:137
-#: application/src/Form/ResourceBatchUpdateForm.php:151
+#: application/src/Form/ResourceBatchUpdateForm.php:149
+#: application/src/Form/ResourceBatchUpdateForm.php:163
 #: application/src/Form/UserForm.php:180
 msgid "Select item sets"
 msgstr "Selecciona els conjunts de recursos"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:140
+#: application/src/Form/ResourceBatchUpdateForm.php:152
 msgid "Add to item sets"
 msgstr "Afegeix als conjunts de recursos"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:154
+#: application/src/Form/ResourceBatchUpdateForm.php:166
 msgid "Remove from item sets"
 msgstr "Suprimeix dels conjunts de recursos"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:165
-#: application/src/Form/ResourceBatchUpdateForm.php:179
+#: application/src/Form/ResourceBatchUpdateForm.php:177
+#: application/src/Form/ResourceBatchUpdateForm.php:191
 #: application/src/Form/UserForm.php:196
 msgid "Select sites"
 msgstr "Selecciona els llocs"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:168
+#: application/src/Form/ResourceBatchUpdateForm.php:180
 msgid "Add to sites"
 msgstr "Afegeix als llocs"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:182
+#: application/src/Form/ResourceBatchUpdateForm.php:194
 msgid "Remove from sites"
 msgstr "Suprimeix dels llocs"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:192
+#: application/src/Form/ResourceBatchUpdateForm.php:204
 msgid "Clear language"
 msgstr "Suprimeix l'idioma"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:219
+#: application/src/Form/ResourceBatchUpdateForm.php:231
 msgid "Clear property values"
 msgstr "Suprimeix els valors de la propietat"
 
@@ -4544,11 +4548,11 @@ msgstr "Valors predeterminats de navegació pels conjunts de recursos"
 
 #: application/src/Form/UserForm.php:291
 msgid "Media browse defaults"
-msgstr "Valors predeterminats de navegació pels fitxers"
+msgstr "Valors predeterminats de navegació per als fitxers"
 
 #: application/src/Form/UserForm.php:305
 msgid "Site browse defaults"
-msgstr "Valors predeterminats de navegació pels llocs"
+msgstr "Valors predeterminats de navegació per als llocs"
 
 #: application/src/Form/UserForm.php:321
 msgid "Current password"
@@ -4602,27 +4606,27 @@ msgstr "Fitxer de la plantilla del recurs"
 msgid "Confirm"
 msgstr "Confirma"
 
-#: application/src/Form/VocabularyForm.php:27
+#: application/src/Form/VocabularyForm.php:28
 msgid "Basic info"
 msgstr "Informació bàsica"
 
-#: application/src/Form/VocabularyForm.php:34
+#: application/src/Form/VocabularyForm.php:35
 msgid "File"
 msgstr "Fitxer"
 
-#: application/src/Form/VocabularyForm.php:50
+#: application/src/Form/VocabularyForm.php:51
 msgid "Enter a human-readable title of the vocabulary."
 msgstr "Afegiu un títol per al vocabulari."
 
-#: application/src/Form/VocabularyForm.php:62
+#: application/src/Form/VocabularyForm.php:63
 msgid "Enter a human-readable description of the vocabulary."
 msgstr "Afegiu una descripció per al vocabulari."
 
-#: application/src/Form/VocabularyForm.php:72
+#: application/src/Form/VocabularyForm.php:73
 msgid "Namespace URI"
 msgstr "URI de l'espai de noms"
 
-#: application/src/Form/VocabularyForm.php:73
+#: application/src/Form/VocabularyForm.php:74
 msgid ""
 "Enter the unique namespace URI used to identify the classes and properties "
 "of the vocabulary."
@@ -4630,11 +4634,11 @@ msgstr ""
 "Introdueix un URI per a l'espai de noms per identificar les classes i "
 "propietats del vocabulari."
 
-#: application/src/Form/VocabularyForm.php:89
+#: application/src/Form/VocabularyForm.php:90
 msgid "Namespace prefix"
 msgstr "Prefix de l'espai de noms"
 
-#: application/src/Form/VocabularyForm.php:90
+#: application/src/Form/VocabularyForm.php:91
 msgid ""
 "Enter a concise vocabulary identifier used as a shorthand for the namespace "
 "URI."
@@ -4642,59 +4646,59 @@ msgstr ""
 "Introdueix un identificar per al vocabulari que es farà servir com a part de"
 " l'URL de l'espai de noms."
 
-#: application/src/Form/VocabularyForm.php:102
+#: application/src/Form/VocabularyForm.php:103
 msgid "Import type"
 msgstr "Tipus d'importació"
 
-#: application/src/Form/VocabularyForm.php:117
+#: application/src/Form/VocabularyForm.php:118
 msgid "File upload"
 msgstr "Càrrega de fitxer"
 
-#: application/src/Form/VocabularyForm.php:118
+#: application/src/Form/VocabularyForm.php:119
 msgid "Choose a RDF vocabulary file."
 msgstr "Seleccioneu un fitxer RDF amb el vocabulari"
 
-#: application/src/Form/VocabularyForm.php:128
+#: application/src/Form/VocabularyForm.php:129
 msgid "File URL"
 msgstr "URL del fitxer"
 
-#: application/src/Form/VocabularyForm.php:129
+#: application/src/Form/VocabularyForm.php:130
 msgid "Enter a URL to a RDF vocabulary file."
 msgstr "Introduïu un URL a un fitxer de vocabulari RDF."
 
-#: application/src/Form/VocabularyForm.php:139
+#: application/src/Form/VocabularyForm.php:140
 msgid "File format"
 msgstr "Format"
 
-#: application/src/Form/VocabularyForm.php:141
+#: application/src/Form/VocabularyForm.php:142
 msgid "[Autodetect]"
 msgstr "[Autodetecció]"
 
-#: application/src/Form/VocabularyForm.php:142
+#: application/src/Form/VocabularyForm.php:143
 msgid "JSON-LD (.jsonld)"
 msgstr "JSON-LD (.jsonld)"
 
-#: application/src/Form/VocabularyForm.php:143
+#: application/src/Form/VocabularyForm.php:144
 msgid "N-Triples (.nt)"
 msgstr "N-Triples (.nt)"
 
-#: application/src/Form/VocabularyForm.php:144
+#: application/src/Form/VocabularyForm.php:145
 msgid "RDF/XML (.rdf)"
 msgstr "RDF/XML (.rdf)"
 
-#: application/src/Form/VocabularyForm.php:145
+#: application/src/Form/VocabularyForm.php:146
 msgid "Turtle (.ttl)"
 msgstr "Turtle (.ttl)"
 
-#: application/src/Form/VocabularyForm.php:148
+#: application/src/Form/VocabularyForm.php:149
 msgid "Notation3 (.n3)"
 msgstr "Notation3 (.n3)"
 
-#: application/src/Form/VocabularyForm.php:161
+#: application/src/Form/VocabularyForm.php:162
 msgid "Preferred language"
 msgstr "Idioma preferit"
 
-#: application/src/Form/VocabularyForm.php:162
+#: application/src/Form/VocabularyForm.php:163
 msgid ""
 "Enter the preferred language of the labels and comments using an <a "
 "target=\"_blank\" href=\"https://www.w3.org/International/articles/language-"
@@ -4705,11 +4709,11 @@ msgstr ""
 "href=\"https://www.w3.org/International/articles/language-tags/\"> d'idioma "
 "IETF </a>. El valor per defecte és el primer disponible."
 
-#: application/src/Form/VocabularyForm.php:173
+#: application/src/Form/VocabularyForm.php:174
 msgid "Label property"
 msgstr "Etiqueta de la propietat"
 
-#: application/src/Form/VocabularyForm.php:174
+#: application/src/Form/VocabularyForm.php:175
 msgid ""
 "Enter the label property. This is typically only needed if the vocabulary "
 "uses an unconventional property for labels. Please use the full property URI"
@@ -4719,11 +4723,11 @@ msgstr ""
 "utilitza propietats poc convencionals. Empreu l'URI completa de la propietat"
 " dins de claudàtors,"
 
-#: application/src/Form/VocabularyForm.php:184
+#: application/src/Form/VocabularyForm.php:185
 msgid "Comment property"
 msgstr "Comentari de la propietat"
 
-#: application/src/Form/VocabularyForm.php:185
+#: application/src/Form/VocabularyForm.php:186
 msgid ""
 "Enter the comment property. This is typically only needed if the vocabulary "
 "uses an unconventional property for comments. Please use the full property "
@@ -4732,6 +4736,12 @@ msgstr ""
 "Afegiu un comentari per a la propietat. Només es necessita si el vocabulari "
 "utilitza propietats poc convencionals. Empreu l'URI completa dins de "
 "claudàtors"
+
+#: application/src/Form/VocabularyForm.php:203
+#: application/src/Api/Adapter/VocabularyAdapter.php:207
+msgid ""
+"The prefix may only contain letters, numbers, hyphens, and underscores."
+msgstr ""
 
 #: application/src/Form/SitePageForm.php:42
 msgid "Add to navigation"
@@ -4753,7 +4763,7 @@ msgstr "Confirmeu la contrasenya"
 msgid "The password is invalid"
 msgstr "La contrasenya és incorrecta"
 
-#: application/src/Form/Element/PasswordConfirm.php:107
+#: application/src/Form/Element/PasswordConfirm.php:108
 msgid "The passwords did not match"
 msgstr "Les contrasenyes no coincideixen"
 
@@ -5298,46 +5308,46 @@ msgstr "Completat"
 msgid "Stopped"
 msgstr "Aturat"
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:68
+#: application/src/Api/Adapter/VocabularyAdapter.php:69
 msgid "Classes must be an array"
 msgstr "Les classes han de ser una matriu"
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:74
+#: application/src/Api/Adapter/VocabularyAdapter.php:75
 msgid "Properties must be an array"
 msgstr "Les propietats han de ser una matriu"
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:191
+#: application/src/Api/Adapter/VocabularyAdapter.php:192
 msgid "The namespace URI cannot be empty."
 msgstr "L'URI de l'espai de noms no pot estar en blanc."
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:195
+#: application/src/Api/Adapter/VocabularyAdapter.php:196
 #, php-format
 msgid "The namespace URI \"%s\" is already taken."
 msgstr "L'URI de l'espai de noms \"%s\" ja està en ús."
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:203
+#: application/src/Api/Adapter/VocabularyAdapter.php:204
 msgid "The prefix cannot be empty."
 msgstr "El prefix no pot quedar en blanc."
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:207
+#: application/src/Api/Adapter/VocabularyAdapter.php:211
 #, php-format
 msgid "The prefix \"%s\" is already taken."
 msgstr "El prefix \"%s\" ja està en ús."
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:214
+#: application/src/Api/Adapter/VocabularyAdapter.php:218
 #, php-format
 msgid "The prefix \"%s\" is reserved."
 msgstr "El prefix \"%s\" està reservat."
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:223
+#: application/src/Api/Adapter/VocabularyAdapter.php:227
 #: application/src/Api/Adapter/PropertyAdapter.php:206
 #: application/src/Api/Adapter/ResourceTemplateAdapter.php:98
 #: application/src/Api/Adapter/ResourceClassAdapter.php:197
 msgid "The label cannot be empty."
 msgstr "L'etiqueta no pot estar en blanc."
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:231
-#: application/src/Api/Adapter/VocabularyAdapter.php:244
+#: application/src/Api/Adapter/VocabularyAdapter.php:235
+#: application/src/Api/Adapter/VocabularyAdapter.php:248
 #: application/src/Api/Adapter/PropertyAdapter.php:219
 #: application/src/Api/Adapter/ResourceClassAdapter.php:210
 #, php-format
@@ -5354,11 +5364,11 @@ msgstr "El nom local no pot quedar en blanc."
 msgid "A vocabulary must be set."
 msgstr "S'ha d'especificar un vocabulari."
 
-#: application/src/Api/Adapter/ItemAdapter.php:153
+#: application/src/Api/Adapter/ItemAdapter.php:156
 msgid "Item sets must be an array"
 msgstr "Els conjunts de recursos han de ser una matriu"
 
-#: application/src/Api/Adapter/ItemAdapter.php:159
+#: application/src/Api/Adapter/ItemAdapter.php:162
 msgid "Media must be an array"
 msgstr "Els fitxers multimèdia han de ser una matriu"
 
@@ -5398,6 +5408,8 @@ msgid ""
 "Convert data type - could not convert to \"%s\" from \"%s\" for property "
 "\"%s\" resource \"%s\""
 msgstr ""
+"Conversió del tipus de dades: no s'ha pogut convertir a  \"%s\" des de "
+"\"%s\" per a la propietat \"%s\" del recurs \"%s\""
 
 #: application/src/Api/Adapter/ResourceTemplateAdapter.php:84
 #, php-format
@@ -5798,12 +5810,12 @@ msgstr "Text de l'enllaç per accedir a la vista completa de recursos."
 
 #: application/src/Site/BlockLayout/IiifPresentation.php:32
 msgid "Manifest URL"
-msgstr ""
+msgstr "URL del manifest"
 
 #: application/src/Site/BlockLayout/IiifPresentation.php:46
 #: application/src/Site/BlockLayout/IiifImage.php:46
 msgid "Show title"
-msgstr ""
+msgstr "Mostra el títol"
 
 #: application/src/Site/BlockLayout/IiifPresentation.php:47
 #: application/src/Site/BlockLayout/IiifImage.php:47
@@ -5811,6 +5823,9 @@ msgid ""
 "Check to show the title as a heading. For accessibility, the title will "
 "always be available to screen readers."
 msgstr ""
+"Selecciona per mostrar el títol com un encapçalament. Per raons "
+"d'accessibilitat, el títol sempre ha d'estar disponible per als lectors de "
+"pantalla."
 
 #: application/src/Site/BlockLayout/ListOfPages.php:32
 msgid "List of pages"
@@ -5914,7 +5929,7 @@ msgstr "Exclou el lloc web actual"
 
 #: application/src/Site/BlockLayout/IiifImage.php:32
 msgid "Image URL"
-msgstr ""
+msgstr "URL de la imatge"
 
 #: application/src/Site/BlockLayout/Media.php:14
 msgid "Media embed"

@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-25 13:32-0500\n"
+"POT-Creation-Date: 2026-06-05 17:41-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
 "Last-Translator: Diego Ecker <eckerdiego@gmail.com>, 2025\n"
 "Language-Team: Portuguese (Brazil) (https://app.transifex.com/omeka/teams/14184/pt_BR/)\n"
@@ -65,23 +65,23 @@ msgstr "O adaptador %1$s não implementa a operação de exclusão."
 msgid "The %1$s adapter does not implement the batch delete operation."
 msgstr "O adaptador %1$s não implementa a operação de exclusão em lote."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:302
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:303
 #, php-format
 msgid "The \"%1$s\" field is not available in the %2$s adapter class."
 msgstr "O campo \"%1$s\" não está disponível na classe de entidade %2$s."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:318
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:319
 #, php-format
 msgid "The \"%1$s\" field is not available in the %2$s entity class."
 msgstr "O campo \"%1$s\" não está disponível na classe da entidade %2$s."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:690
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:691
 #: application/src/Api/Manager.php:209
 #, php-format
 msgid "Permission denied for the current user to %1$s the %2$s resource."
 msgstr "O usuário atual não tem autorização para %1$s o recurso %2$s."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:732
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:733
 #, php-format
 msgid "%1$s entity with criteria %2$s not found"
 msgstr "entidade %1$s com o critério %2$s não foi encontrada "
@@ -117,8 +117,8 @@ msgstr "Padrão"
 #: application/view/common/navigation-link-form/url.phtml:15
 #: application/view/omeka/admin/resource-template/review-import.phtml:112
 #: application/view/omeka/admin/resource-template/review-import.phtml:113
-#: application/view/omeka/admin/resource-template/show.phtml:59
-#: application/view/omeka/admin/resource-template/show.phtml:60
+#: application/view/omeka/admin/resource-template/show.phtml:62
+#: application/view/omeka/admin/resource-template/show.phtml:63
 #: application/view/omeka/admin/system-info/browse.phtml:18
 msgid "Yes"
 msgstr "Sim"
@@ -128,8 +128,8 @@ msgstr "Sim"
 #: application/view/common/navigation-link-form/url.phtml:14
 #: application/view/omeka/admin/resource-template/review-import.phtml:112
 #: application/view/omeka/admin/resource-template/review-import.phtml:113
-#: application/view/omeka/admin/resource-template/show.phtml:59
-#: application/view/omeka/admin/resource-template/show.phtml:60
+#: application/view/omeka/admin/resource-template/show.phtml:62
+#: application/view/omeka/admin/resource-template/show.phtml:63
 #: application/view/omeka/admin/system-info/browse.phtml:18
 msgid "No"
 msgstr "Não"
@@ -306,7 +306,7 @@ msgstr "A senha deve:"
 msgid "Expand"
 msgstr "Expandir"
 
-#: application/src/Form/VocabularyForm.php:79
+#: application/src/Form/VocabularyForm.php:80
 msgid ""
 "The namespace URI you entered does not end with a / or #, as is normally "
 "expected for namespace URIs. Would you like to save anyway?"
@@ -314,7 +314,7 @@ msgstr ""
 "O URI do namespace inserido não termina com um / ou #, como normalmente é "
 "esperado para URIs de namespace. Você gostaria de economizar mesmo assim?"
 
-#: application/src/Form/VocabularyForm.php:80
+#: application/src/Form/VocabularyForm.php:81
 msgid ""
 "The namespace URI you entered does not match the saved namespace URI. Would "
 "you like to save anyway?"
@@ -493,27 +493,27 @@ msgstr ""
 msgid "User activation for %s"
 msgstr "Ativação do usuário para %s"
 
-#: application/src/Stdlib/Oembed.php:48
+#: application/src/Stdlib/Oembed.php:50
 #, php-format
 msgid "oEmbed: URL is not allowed %s"
 msgstr "oEmbed: A URL não é permitida %s"
 
-#: application/src/Stdlib/Oembed.php:66
+#: application/src/Stdlib/Oembed.php:69
 #, php-format
 msgid "oEmbed: links cannot be found at %s"
 msgstr "oEmbed: os links não podem ser encontrados em%s"
 
-#: application/src/Stdlib/Oembed.php:81
+#: application/src/Stdlib/Oembed.php:84
 #, php-format
 msgid "oEmbed: response cannot be decoded to JSON %s"
 msgstr "oEmbed: a resposta não pode ser decodificada para JSON %s"
 
-#: application/src/Stdlib/Oembed.php:126
+#: application/src/Stdlib/Oembed.php:150
 #, php-format
 msgid "oEmbed: URL is invalid: %s"
 msgstr "oEmbed: A URL é inválida: %s"
 
-#: application/src/Stdlib/Oembed.php:135
+#: application/src/Stdlib/Oembed.php:159
 #, php-format
 msgid "oEmbed: URL is unreadable at %s: %s (%s)"
 msgstr "oEmbed: URL está ilegível em %s:%s(%s)"
@@ -1117,7 +1117,7 @@ msgstr "[Nenhuma página selecionada]"
 #: application/view/omeka/admin/resource-template/browse.phtml:82
 #: application/view/omeka/admin/resource-template/form.phtml:43
 #: application/view/omeka/admin/resource-template/form.phtml:52
-#: application/view/omeka/admin/resource-template/show.phtml:70
+#: application/view/omeka/admin/resource-template/show.phtml:73
 #: application/view/omeka/admin/user/browse.phtml:124
 #: application/view/omeka/admin/user/browse.phtml:133
 #: application/view/omeka/admin/user/browse.phtml:151
@@ -1502,7 +1502,7 @@ msgid "Type"
 msgstr "Tipo"
 
 #: application/view/common/navigation-link-form/browse.phtml:17
-#: application/view/common/search-form.phtml:18
+#: application/view/common/search-form.phtml:17
 #: application/view/layout/layout-admin.phtml:60
 msgid "Query"
 msgstr "Consulta"
@@ -1705,11 +1705,7 @@ msgstr "Privado"
 msgid "Has annotation"
 msgstr "Tem anotação"
 
-#: application/view/common/search-form.phtml:17
-msgid "Enter a search term"
-msgstr ""
-
-#: application/view/common/search-form.phtml:19
+#: application/view/common/search-form.phtml:18
 #: application/view/layout/layout-admin.phtml:77
 #: application/view/omeka/admin/item-set/batch-edit.phtml:19
 #: application/view/omeka/admin/item/batch-edit.phtml:19
@@ -2017,16 +2013,16 @@ msgstr " Fóruns de suporte"
 msgid "Powered by Omeka S"
 msgstr "Distribuído por Omeka S"
 
-#: application/view/omeka/admin/asset/add-form.phtml:6
+#: application/view/omeka/admin/asset/add-form.phtml:7
 msgid "Upload new asset"
 msgstr "Carregar novo recurso"
 
-#: application/view/omeka/admin/asset/add-form.phtml:10
+#: application/view/omeka/admin/asset/add-form.phtml:11
 #: application/view/omeka/admin/asset/show-details.phtml:21
 msgid "Alt text"
 msgstr "texto alternativo"
 
-#: application/view/omeka/admin/asset/add-form.phtml:12
+#: application/view/omeka/admin/asset/add-form.phtml:13
 msgid "Upload"
 msgstr "Enviar"
 
@@ -2344,7 +2340,7 @@ msgstr "Omeka não encontrou nenhuma coleção."
 #: application/view/omeka/site-admin/index/navigation.phtml:21
 #: application/view/omeka/site-admin/index/resources.phtml:31
 #: application/view/omeka/site-admin/index/theme-resource-pages.phtml:28
-#: application/view/omeka/site-admin/index/theme-settings.phtml:12
+#: application/view/omeka/site-admin/index/theme-settings.phtml:21
 #: application/view/omeka/site-admin/index/theme.phtml:18
 #: application/view/omeka/site-admin/index/users.phtml:48
 #: application/view/omeka/site-admin/page/edit.phtml:32
@@ -3392,7 +3388,7 @@ msgstr "Este tema requer Omeka S %s"
 msgid "Edit settings"
 msgstr "Editar configurações"
 
-#: application/view/omeka/site-admin/index/theme-settings.phtml:17
+#: application/view/omeka/site-admin/index/theme-settings.phtml:26
 msgid "The current theme has no configuration options."
 msgstr "O tema atual não possui opções de configuração."
 
@@ -3598,7 +3594,7 @@ msgid "Select sort order…"
 msgstr "Selecione a ordem de classificação…"
 
 #: application/view/common/property-form-batch-edit.phtml:102
-#: application/src/Form/ResourceBatchUpdateForm.php:216
+#: application/src/Form/ResourceBatchUpdateForm.php:228
 msgid "Select properties"
 msgstr "Selecionar propriedades"
 
@@ -3610,65 +3606,65 @@ msgstr "Confirmar exclusão"
 msgid "Site admin"
 msgstr "Administrador do site"
 
-#: application/config/module.config.php:727
+#: application/config/module.config.php:728
 msgid "Owner email"
 msgstr "E-mail do proprietário"
 
-#: application/config/module.config.php:733
-#: application/config/module.config.php:752
-#: application/config/module.config.php:758
+#: application/config/module.config.php:734
+#: application/config/module.config.php:753
+#: application/config/module.config.php:759
 msgid "Item count"
 msgstr "Contagem de itens"
 
-#: application/config/module.config.php:745
+#: application/config/module.config.php:746
 msgid "Resource class count"
 msgstr "Contagem de classes de recursos"
 
-#: application/config/module.config.php:746
+#: application/config/module.config.php:747
 msgid "Property count"
 msgstr "Contagem de propriedades"
 
-#: application/config/module.config.php:946
+#: application/config/module.config.php:947
 msgid "Something went wrong"
 msgstr "Algo deu errado"
 
-#: application/config/module.config.php:951
+#: application/config/module.config.php:952
 msgid "You have unsaved changes."
 msgstr "Você tem alterações não salvas."
 
-#: application/config/module.config.php:952
+#: application/config/module.config.php:953
 msgid "Restore item set"
 msgstr "Restaurar coleção"
 
-#: application/config/module.config.php:953
+#: application/config/module.config.php:954
 msgid "Close icon set"
 msgstr "Fechar coleção de ícones"
 
-#: application/config/module.config.php:954
+#: application/config/module.config.php:955
 msgid "Open icon set"
 msgstr "Abrir coleção de ícones"
 
-#: application/config/module.config.php:956
+#: application/config/module.config.php:957
 msgid "Failed loading resource template from API"
 msgstr "Falha ao carregar o modelo de recurso da API"
 
-#: application/config/module.config.php:957
+#: application/config/module.config.php:958
 msgid "Restore property"
 msgstr "Restaurar propriedade"
 
-#: application/config/module.config.php:959
+#: application/config/module.config.php:960
 msgid "Please enter a valid language tag"
 msgstr "Por favor, insira uma tag de idioma válida"
 
-#: application/config/module.config.php:961
+#: application/config/module.config.php:962
 msgid "Description"
 msgstr "Descrição"
 
-#: application/config/module.config.php:962
+#: application/config/module.config.php:963
 msgid "Unknown block layout"
 msgstr "Layout de bloco desconhecido"
 
-#: application/config/module.config.php:963
+#: application/config/module.config.php:964
 msgid "Required field must be completed"
 msgstr "Campo obrigatório deve ser preenchido"
 
@@ -3757,7 +3753,7 @@ msgid "The emails did not match"
 msgstr "Os e-mails não correspondiam"
 
 #: application/src/Form/ResourceForm.php:39
-#: application/src/Form/ResourceBatchUpdateForm.php:74
+#: application/src/Form/ResourceBatchUpdateForm.php:75
 #: application/src/Form/UserForm.php:157
 #: application/src/Form/ItemStubForm.php:68
 msgid "Select a template"
@@ -3768,7 +3764,7 @@ msgid "A pre-defined template for resource creation."
 msgstr "Um modelo predefinido para criação de recursos."
 
 #: application/src/Form/ResourceForm.php:64
-#: application/src/Form/ResourceBatchUpdateForm.php:97
+#: application/src/Form/ResourceBatchUpdateForm.php:98
 #: application/src/Form/ItemStubForm.php:81
 msgid "Select a class"
 msgstr "Selecione uma turma"
@@ -3822,11 +3818,11 @@ msgstr "Definir função"
 #: application/src/Form/UserBatchUpdateForm.php:61
 #: application/src/Form/UserBatchUpdateForm.php:78
 #: application/src/Form/UserBatchUpdateForm.php:93
-#: application/src/Form/ResourceBatchUpdateForm.php:42
-#: application/src/Form/ResourceBatchUpdateForm.php:59
-#: application/src/Form/ResourceBatchUpdateForm.php:79
-#: application/src/Form/ResourceBatchUpdateForm.php:102
-#: application/src/Form/ResourceBatchUpdateForm.php:116
+#: application/src/Form/ResourceBatchUpdateForm.php:43
+#: application/src/Form/ResourceBatchUpdateForm.php:60
+#: application/src/Form/ResourceBatchUpdateForm.php:80
+#: application/src/Form/ResourceBatchUpdateForm.php:103
+#: application/src/Form/ResourceBatchUpdateForm.php:128
 msgid "[No change]"
 msgstr "[Sem alteração]"
 
@@ -4427,75 +4423,79 @@ msgstr "Cobrir"
 msgid "Contain"
 msgstr "Conter"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:38
+#: application/src/Form/ResourceBatchUpdateForm.php:39
 msgid "Set visibility"
 msgstr "Definir visibilidade"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:55
+#: application/src/Form/ResourceBatchUpdateForm.php:56
 msgid "Set openness"
 msgstr "Definir abertura"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:57
+#: application/src/Form/ResourceBatchUpdateForm.php:58
 msgid "Open"
 msgstr "Abrir"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:58
+#: application/src/Form/ResourceBatchUpdateForm.php:59
 msgid "Not open"
 msgstr "Não aberto"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:78
+#: application/src/Form/ResourceBatchUpdateForm.php:79
 msgid "Set template"
 msgstr "Definir modelo"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:80
+#: application/src/Form/ResourceBatchUpdateForm.php:81
 msgid "[Unset template]"
 msgstr "[Desativar modelo]"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:100
+#: application/src/Form/ResourceBatchUpdateForm.php:101
 msgid "Set class"
 msgstr "Definir classe"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:101
+#: application/src/Form/ResourceBatchUpdateForm.php:102
 msgid "[Unset class]"
 msgstr "[Desativar classe]"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:115
+#: application/src/Form/ResourceBatchUpdateForm.php:114
+msgid "Set thumbnail"
+msgstr ""
+
+#: application/src/Form/ResourceBatchUpdateForm.php:127
 msgid "Set owner"
 msgstr "Definir proprietário"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:137
-#: application/src/Form/ResourceBatchUpdateForm.php:151
+#: application/src/Form/ResourceBatchUpdateForm.php:149
+#: application/src/Form/ResourceBatchUpdateForm.php:163
 #: application/src/Form/UserForm.php:180
 msgid "Select item sets"
 msgstr "Selecionar coleção"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:140
+#: application/src/Form/ResourceBatchUpdateForm.php:152
 msgid "Add to item sets"
 msgstr "Adicionar as coleções"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:154
+#: application/src/Form/ResourceBatchUpdateForm.php:166
 msgid "Remove from item sets"
 msgstr "Remover das coleções"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:165
-#: application/src/Form/ResourceBatchUpdateForm.php:179
+#: application/src/Form/ResourceBatchUpdateForm.php:177
+#: application/src/Form/ResourceBatchUpdateForm.php:191
 #: application/src/Form/UserForm.php:196
 msgid "Select sites"
 msgstr "Selecionar sites"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:168
+#: application/src/Form/ResourceBatchUpdateForm.php:180
 msgid "Add to sites"
 msgstr "Adicionar ao site"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:182
+#: application/src/Form/ResourceBatchUpdateForm.php:194
 msgid "Remove from sites"
 msgstr "Remover dos sites"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:192
+#: application/src/Form/ResourceBatchUpdateForm.php:204
 msgid "Clear language"
 msgstr "Limpar linguagem"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:219
+#: application/src/Form/ResourceBatchUpdateForm.php:231
 msgid "Clear property values"
 msgstr "Limpar valores de propriedade"
 
@@ -4602,27 +4602,27 @@ msgstr "Arquivo de modelo de recurso"
 msgid "Confirm"
 msgstr "Confirme"
 
-#: application/src/Form/VocabularyForm.php:27
+#: application/src/Form/VocabularyForm.php:28
 msgid "Basic info"
 msgstr "Informação básica"
 
-#: application/src/Form/VocabularyForm.php:34
+#: application/src/Form/VocabularyForm.php:35
 msgid "File"
 msgstr "Arquivo"
 
-#: application/src/Form/VocabularyForm.php:50
+#: application/src/Form/VocabularyForm.php:51
 msgid "Enter a human-readable title of the vocabulary."
 msgstr "Digite um título do vocabulário legível por humanos."
 
-#: application/src/Form/VocabularyForm.php:62
+#: application/src/Form/VocabularyForm.php:63
 msgid "Enter a human-readable description of the vocabulary."
 msgstr "Insira uma descrição do vocabulário legível por humanos."
 
-#: application/src/Form/VocabularyForm.php:72
+#: application/src/Form/VocabularyForm.php:73
 msgid "Namespace URI"
 msgstr "Namespace URI"
 
-#: application/src/Form/VocabularyForm.php:73
+#: application/src/Form/VocabularyForm.php:74
 msgid ""
 "Enter the unique namespace URI used to identify the classes and properties "
 "of the vocabulary."
@@ -4630,11 +4630,11 @@ msgstr ""
 "Insira o URI de namespace exclusivo usado para identificar as classes e "
 "propriedades do vocabulário."
 
-#: application/src/Form/VocabularyForm.php:89
+#: application/src/Form/VocabularyForm.php:90
 msgid "Namespace prefix"
 msgstr "Namespace prefix"
 
-#: application/src/Form/VocabularyForm.php:90
+#: application/src/Form/VocabularyForm.php:91
 msgid ""
 "Enter a concise vocabulary identifier used as a shorthand for the namespace "
 "URI."
@@ -4642,59 +4642,59 @@ msgstr ""
 "Insira um identificador de vocabulário conciso usado como abreviação para o "
 "URI do namespace."
 
-#: application/src/Form/VocabularyForm.php:102
+#: application/src/Form/VocabularyForm.php:103
 msgid "Import type"
 msgstr "Tipo de importação"
 
-#: application/src/Form/VocabularyForm.php:117
+#: application/src/Form/VocabularyForm.php:118
 msgid "File upload"
 msgstr "Upload de arquivo"
 
-#: application/src/Form/VocabularyForm.php:118
+#: application/src/Form/VocabularyForm.php:119
 msgid "Choose a RDF vocabulary file."
 msgstr "Escolha um arquivo de vocabulário RDF."
 
-#: application/src/Form/VocabularyForm.php:128
+#: application/src/Form/VocabularyForm.php:129
 msgid "File URL"
 msgstr "Url do arquivo"
 
-#: application/src/Form/VocabularyForm.php:129
+#: application/src/Form/VocabularyForm.php:130
 msgid "Enter a URL to a RDF vocabulary file."
 msgstr "Insira uma URL para um arquivo de vocabulário RDF."
 
-#: application/src/Form/VocabularyForm.php:139
+#: application/src/Form/VocabularyForm.php:140
 msgid "File format"
 msgstr "Formato de arquivo"
 
-#: application/src/Form/VocabularyForm.php:141
+#: application/src/Form/VocabularyForm.php:142
 msgid "[Autodetect]"
 msgstr "[Detecção automática]"
 
-#: application/src/Form/VocabularyForm.php:142
+#: application/src/Form/VocabularyForm.php:143
 msgid "JSON-LD (.jsonld)"
 msgstr "JSON-LD (.jsonld)"
 
-#: application/src/Form/VocabularyForm.php:143
+#: application/src/Form/VocabularyForm.php:144
 msgid "N-Triples (.nt)"
 msgstr "N-Triples (.nt)"
 
-#: application/src/Form/VocabularyForm.php:144
+#: application/src/Form/VocabularyForm.php:145
 msgid "RDF/XML (.rdf)"
 msgstr "RDF/XML (.rdf)"
 
-#: application/src/Form/VocabularyForm.php:145
+#: application/src/Form/VocabularyForm.php:146
 msgid "Turtle (.ttl)"
 msgstr "Turtle (.ttl)"
 
-#: application/src/Form/VocabularyForm.php:148
+#: application/src/Form/VocabularyForm.php:149
 msgid "Notation3 (.n3)"
 msgstr "Notation3 (.n3)"
 
-#: application/src/Form/VocabularyForm.php:161
+#: application/src/Form/VocabularyForm.php:162
 msgid "Preferred language"
 msgstr "Idioma preferido"
 
-#: application/src/Form/VocabularyForm.php:162
+#: application/src/Form/VocabularyForm.php:163
 msgid ""
 "Enter the preferred language of the labels and comments using an <a "
 "target=\"_blank\" href=\"https://www.w3.org/International/articles/language-"
@@ -4704,11 +4704,11 @@ msgstr ""
 "target=\"_blank\" href=\"https://www.w3.org/International/articles/language-"
 "tags/\"> tag de idioma IETF </a>. O padrão é o primeiro disponível."
 
-#: application/src/Form/VocabularyForm.php:173
+#: application/src/Form/VocabularyForm.php:174
 msgid "Label property"
 msgstr "Propriedade do rótulo"
 
-#: application/src/Form/VocabularyForm.php:174
+#: application/src/Form/VocabularyForm.php:175
 msgid ""
 "Enter the label property. This is typically only needed if the vocabulary "
 "uses an unconventional property for labels. Please use the full property URI"
@@ -4718,11 +4718,11 @@ msgstr ""
 "vocabulário usar uma propriedade não convencional para rótulos. Use o URI "
 "completo da propriedade entre colchetes angulares."
 
-#: application/src/Form/VocabularyForm.php:184
+#: application/src/Form/VocabularyForm.php:185
 msgid "Comment property"
 msgstr "Propriedade de comentário"
 
-#: application/src/Form/VocabularyForm.php:185
+#: application/src/Form/VocabularyForm.php:186
 msgid ""
 "Enter the comment property. This is typically only needed if the vocabulary "
 "uses an unconventional property for comments. Please use the full property "
@@ -4731,6 +4731,12 @@ msgstr ""
 "Insira a propriedade do comentário. Normalmente, isso só é necessário se o "
 "vocabulário usar uma propriedade não convencional para comentários. Use o "
 "URI completo da propriedade entre colchetes angulares."
+
+#: application/src/Form/VocabularyForm.php:203
+#: application/src/Api/Adapter/VocabularyAdapter.php:207
+msgid ""
+"The prefix may only contain letters, numbers, hyphens, and underscores."
+msgstr ""
 
 #: application/src/Form/SitePageForm.php:42
 msgid "Add to navigation"
@@ -4752,7 +4758,7 @@ msgstr "Confirme sua senha"
 msgid "The password is invalid"
 msgstr "A senha é inválida"
 
-#: application/src/Form/Element/PasswordConfirm.php:107
+#: application/src/Form/Element/PasswordConfirm.php:108
 msgid "The passwords did not match"
 msgstr "As senhas não correspondem"
 
@@ -5290,46 +5296,46 @@ msgstr "Concluído"
 msgid "Stopped"
 msgstr "Parou"
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:68
+#: application/src/Api/Adapter/VocabularyAdapter.php:69
 msgid "Classes must be an array"
 msgstr "As classes devem ser um array"
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:74
+#: application/src/Api/Adapter/VocabularyAdapter.php:75
 msgid "Properties must be an array"
 msgstr "As propriedades devem ser um array"
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:191
+#: application/src/Api/Adapter/VocabularyAdapter.php:192
 msgid "The namespace URI cannot be empty."
 msgstr "O URI do namespace não pode estar vazio."
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:195
+#: application/src/Api/Adapter/VocabularyAdapter.php:196
 #, php-format
 msgid "The namespace URI \"%s\" is already taken."
 msgstr "O URI do namespace %s já foi usado."
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:203
+#: application/src/Api/Adapter/VocabularyAdapter.php:204
 msgid "The prefix cannot be empty."
 msgstr "O prefixo não pode estar vazio."
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:207
+#: application/src/Api/Adapter/VocabularyAdapter.php:211
 #, php-format
 msgid "The prefix \"%s\" is already taken."
 msgstr "O prefixo %s já está em uso."
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:214
+#: application/src/Api/Adapter/VocabularyAdapter.php:218
 #, php-format
 msgid "The prefix \"%s\" is reserved."
 msgstr "O prefixo \"%s\" é reservado."
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:223
+#: application/src/Api/Adapter/VocabularyAdapter.php:227
 #: application/src/Api/Adapter/PropertyAdapter.php:206
 #: application/src/Api/Adapter/ResourceTemplateAdapter.php:98
 #: application/src/Api/Adapter/ResourceClassAdapter.php:197
 msgid "The label cannot be empty."
 msgstr "O rótulo não pode estar vazio."
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:231
-#: application/src/Api/Adapter/VocabularyAdapter.php:244
+#: application/src/Api/Adapter/VocabularyAdapter.php:235
+#: application/src/Api/Adapter/VocabularyAdapter.php:248
 #: application/src/Api/Adapter/PropertyAdapter.php:219
 #: application/src/Api/Adapter/ResourceClassAdapter.php:210
 #, php-format
@@ -5346,11 +5352,11 @@ msgstr "O nome local não pode ficar vazio."
 msgid "A vocabulary must be set."
 msgstr "Um vocabulário deve ser definido."
 
-#: application/src/Api/Adapter/ItemAdapter.php:153
+#: application/src/Api/Adapter/ItemAdapter.php:156
 msgid "Item sets must be an array"
 msgstr "As coleções devem ser uma array"
 
-#: application/src/Api/Adapter/ItemAdapter.php:159
+#: application/src/Api/Adapter/ItemAdapter.php:162
 msgid "Media must be an array"
 msgstr "A mídia deve ser uma array"
 

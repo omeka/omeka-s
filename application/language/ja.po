@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-25 13:32-0500\n"
+"POT-Creation-Date: 2026-06-05 17:41-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
 "Last-Translator: Naosuke Okamoto, 2024\n"
 "Language-Team: Japanese (https://app.transifex.com/omeka/teams/14184/ja/)\n"
@@ -67,23 +67,23 @@ msgstr "%1$s アダプタは削除操作を実装していません。"
 msgid "The %1$s adapter does not implement the batch delete operation."
 msgstr "%1$s アダプタは一括削除操作を実装していません。"
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:302
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:303
 #, php-format
 msgid "The \"%1$s\" field is not available in the %2$s adapter class."
 msgstr "「%1$s」フィールドは アダプタクラス%2$sで使用できません。"
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:318
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:319
 #, php-format
 msgid "The \"%1$s\" field is not available in the %2$s entity class."
 msgstr "「%1$s」フィールドは エンティティクラス  %2$s で使用できません。"
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:690
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:691
 #: application/src/Api/Manager.php:209
 #, php-format
 msgid "Permission denied for the current user to %1$s the %2$s resource."
 msgstr "現在のユーザーが %2$sリソースに対し%1$sする権限 が拒否されました。"
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:732
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:733
 #, php-format
 msgid "%1$s entity with criteria %2$s not found"
 msgstr "%1$s エンティティ（ %2$s 基準）が見つかりません"
@@ -119,8 +119,8 @@ msgstr "デフォルト"
 #: application/view/common/navigation-link-form/url.phtml:15
 #: application/view/omeka/admin/resource-template/review-import.phtml:112
 #: application/view/omeka/admin/resource-template/review-import.phtml:113
-#: application/view/omeka/admin/resource-template/show.phtml:59
-#: application/view/omeka/admin/resource-template/show.phtml:60
+#: application/view/omeka/admin/resource-template/show.phtml:62
+#: application/view/omeka/admin/resource-template/show.phtml:63
 #: application/view/omeka/admin/system-info/browse.phtml:18
 msgid "Yes"
 msgstr "はい"
@@ -130,8 +130,8 @@ msgstr "はい"
 #: application/view/common/navigation-link-form/url.phtml:14
 #: application/view/omeka/admin/resource-template/review-import.phtml:112
 #: application/view/omeka/admin/resource-template/review-import.phtml:113
-#: application/view/omeka/admin/resource-template/show.phtml:59
-#: application/view/omeka/admin/resource-template/show.phtml:60
+#: application/view/omeka/admin/resource-template/show.phtml:62
+#: application/view/omeka/admin/resource-template/show.phtml:63
 #: application/view/omeka/admin/system-info/browse.phtml:18
 msgid "No"
 msgstr "いいえ"
@@ -308,13 +308,13 @@ msgstr "パスワードが必要です: "
 msgid "Expand"
 msgstr "展開"
 
-#: application/src/Form/VocabularyForm.php:79
+#: application/src/Form/VocabularyForm.php:80
 msgid ""
 "The namespace URI you entered does not end with a / or #, as is normally "
 "expected for namespace URIs. Would you like to save anyway?"
 msgstr " 入力された名前空間URIは、名前空間URIとして一般的に期待される「/」または「#」で終わっていません。それでも保存しますか？"
 
-#: application/src/Form/VocabularyForm.php:80
+#: application/src/Form/VocabularyForm.php:81
 msgid ""
 "The namespace URI you entered does not match the saved namespace URI. Would "
 "you like to save anyway?"
@@ -487,27 +487,27 @@ msgstr ""
 msgid "User activation for %s"
 msgstr "%s のユーザー認証"
 
-#: application/src/Stdlib/Oembed.php:48
+#: application/src/Stdlib/Oembed.php:50
 #, php-format
 msgid "oEmbed: URL is not allowed %s"
 msgstr " oEmbed: 許可されていないURLです: %s"
 
-#: application/src/Stdlib/Oembed.php:66
+#: application/src/Stdlib/Oembed.php:69
 #, php-format
 msgid "oEmbed: links cannot be found at %s"
 msgstr "oEmbed: %s に該当するリンクが見つかりません"
 
-#: application/src/Stdlib/Oembed.php:81
+#: application/src/Stdlib/Oembed.php:84
 #, php-format
 msgid "oEmbed: response cannot be decoded to JSON %s"
 msgstr "oEmbed: %s のレスポンスをJSONにデコードできませんでした"
 
-#: application/src/Stdlib/Oembed.php:126
+#: application/src/Stdlib/Oembed.php:150
 #, php-format
 msgid "oEmbed: URL is invalid: %s"
 msgstr "oEmbed: 無効なURLです: %s"
 
-#: application/src/Stdlib/Oembed.php:135
+#: application/src/Stdlib/Oembed.php:159
 #, php-format
 msgid "oEmbed: URL is unreadable at %s: %s (%s)"
 msgstr "oEmbed: URLは%sで読み込めません: %s (%s)"
@@ -1107,7 +1107,7 @@ msgstr "[ページが選択されていません]"
 #: application/view/omeka/admin/resource-template/browse.phtml:82
 #: application/view/omeka/admin/resource-template/form.phtml:43
 #: application/view/omeka/admin/resource-template/form.phtml:52
-#: application/view/omeka/admin/resource-template/show.phtml:70
+#: application/view/omeka/admin/resource-template/show.phtml:73
 #: application/view/omeka/admin/user/browse.phtml:124
 #: application/view/omeka/admin/user/browse.phtml:133
 #: application/view/omeka/admin/user/browse.phtml:151
@@ -1492,7 +1492,7 @@ msgid "Type"
 msgstr "タイプ"
 
 #: application/view/common/navigation-link-form/browse.phtml:17
-#: application/view/common/search-form.phtml:18
+#: application/view/common/search-form.phtml:17
 #: application/view/layout/layout-admin.phtml:60
 msgid "Query"
 msgstr "クエリ（問い合わせ）"
@@ -1695,11 +1695,7 @@ msgstr "非公開"
 msgid "Has annotation"
 msgstr ""
 
-#: application/view/common/search-form.phtml:17
-msgid "Enter a search term"
-msgstr ""
-
-#: application/view/common/search-form.phtml:19
+#: application/view/common/search-form.phtml:18
 #: application/view/layout/layout-admin.phtml:77
 #: application/view/omeka/admin/item-set/batch-edit.phtml:19
 #: application/view/omeka/admin/item/batch-edit.phtml:19
@@ -2003,16 +1999,16 @@ msgstr "サポートフォーラム"
 msgid "Powered by Omeka S"
 msgstr "Powered by Omeka S"
 
-#: application/view/omeka/admin/asset/add-form.phtml:6
+#: application/view/omeka/admin/asset/add-form.phtml:7
 msgid "Upload new asset"
 msgstr "新規アセットをアップロード"
 
-#: application/view/omeka/admin/asset/add-form.phtml:10
+#: application/view/omeka/admin/asset/add-form.phtml:11
 #: application/view/omeka/admin/asset/show-details.phtml:21
 msgid "Alt text"
 msgstr ""
 
-#: application/view/omeka/admin/asset/add-form.phtml:12
+#: application/view/omeka/admin/asset/add-form.phtml:13
 msgid "Upload"
 msgstr "アップロード"
 
@@ -2326,7 +2322,7 @@ msgstr "Omekaにアイテムセットがありません。"
 #: application/view/omeka/site-admin/index/navigation.phtml:21
 #: application/view/omeka/site-admin/index/resources.phtml:31
 #: application/view/omeka/site-admin/index/theme-resource-pages.phtml:28
-#: application/view/omeka/site-admin/index/theme-settings.phtml:12
+#: application/view/omeka/site-admin/index/theme-settings.phtml:21
 #: application/view/omeka/site-admin/index/theme.phtml:18
 #: application/view/omeka/site-admin/index/users.phtml:48
 #: application/view/omeka/site-admin/page/edit.phtml:32
@@ -3342,7 +3338,7 @@ msgstr "このテーマは Omeka S %s が必要です"
 msgid "Edit settings"
 msgstr "設定を編集する"
 
-#: application/view/omeka/site-admin/index/theme-settings.phtml:17
+#: application/view/omeka/site-admin/index/theme-settings.phtml:26
 msgid "The current theme has no configuration options."
 msgstr "現在のテーマは設定オプションがありません"
 
@@ -3544,7 +3540,7 @@ msgid "Select sort order…"
 msgstr "ソート順を選択"
 
 #: application/view/common/property-form-batch-edit.phtml:102
-#: application/src/Form/ResourceBatchUpdateForm.php:216
+#: application/src/Form/ResourceBatchUpdateForm.php:228
 msgid "Select properties"
 msgstr "プロパティを選択"
 
@@ -3556,65 +3552,65 @@ msgstr "削除を確定"
 msgid "Site admin"
 msgstr ""
 
-#: application/config/module.config.php:727
+#: application/config/module.config.php:728
 msgid "Owner email"
 msgstr ""
 
-#: application/config/module.config.php:733
-#: application/config/module.config.php:752
-#: application/config/module.config.php:758
+#: application/config/module.config.php:734
+#: application/config/module.config.php:753
+#: application/config/module.config.php:759
 msgid "Item count"
 msgstr ""
 
-#: application/config/module.config.php:745
+#: application/config/module.config.php:746
 msgid "Resource class count"
 msgstr ""
 
-#: application/config/module.config.php:746
+#: application/config/module.config.php:747
 msgid "Property count"
 msgstr ""
 
-#: application/config/module.config.php:946
+#: application/config/module.config.php:947
 msgid "Something went wrong"
 msgstr "間違いがあります"
 
-#: application/config/module.config.php:951
+#: application/config/module.config.php:952
 msgid "You have unsaved changes."
 msgstr "保存されていない変更があります。"
 
-#: application/config/module.config.php:952
+#: application/config/module.config.php:953
 msgid "Restore item set"
 msgstr "アイテムセットの復元"
 
-#: application/config/module.config.php:953
+#: application/config/module.config.php:954
 msgid "Close icon set"
 msgstr "アイコンセットを閉じる"
 
-#: application/config/module.config.php:954
+#: application/config/module.config.php:955
 msgid "Open icon set"
 msgstr "アイコンセットを開く"
 
-#: application/config/module.config.php:956
+#: application/config/module.config.php:957
 msgid "Failed loading resource template from API"
 msgstr "APIからのリソーステンプレートの読み込みに失敗しました"
 
-#: application/config/module.config.php:957
+#: application/config/module.config.php:958
 msgid "Restore property"
 msgstr "プロパティを復元"
 
-#: application/config/module.config.php:959
+#: application/config/module.config.php:960
 msgid "Please enter a valid language tag"
 msgstr "有効な言語タグを入力してください"
 
-#: application/config/module.config.php:961
+#: application/config/module.config.php:962
 msgid "Description"
 msgstr "内容記述／Description"
 
-#: application/config/module.config.php:962
+#: application/config/module.config.php:963
 msgid "Unknown block layout"
 msgstr ""
 
-#: application/config/module.config.php:963
+#: application/config/module.config.php:964
 msgid "Required field must be completed"
 msgstr ""
 
@@ -3695,7 +3691,7 @@ msgid "The emails did not match"
 msgstr "Eメールアドレスが一致しません"
 
 #: application/src/Form/ResourceForm.php:39
-#: application/src/Form/ResourceBatchUpdateForm.php:74
+#: application/src/Form/ResourceBatchUpdateForm.php:75
 #: application/src/Form/UserForm.php:157
 #: application/src/Form/ItemStubForm.php:68
 msgid "Select a template"
@@ -3706,7 +3702,7 @@ msgid "A pre-defined template for resource creation."
 msgstr "リソース作成のための定義済みテンプレート。"
 
 #: application/src/Form/ResourceForm.php:64
-#: application/src/Form/ResourceBatchUpdateForm.php:97
+#: application/src/Form/ResourceBatchUpdateForm.php:98
 #: application/src/Form/ItemStubForm.php:81
 msgid "Select a class"
 msgstr "クラスを選択"
@@ -3758,11 +3754,11 @@ msgstr "役割をセット"
 #: application/src/Form/UserBatchUpdateForm.php:61
 #: application/src/Form/UserBatchUpdateForm.php:78
 #: application/src/Form/UserBatchUpdateForm.php:93
-#: application/src/Form/ResourceBatchUpdateForm.php:42
-#: application/src/Form/ResourceBatchUpdateForm.php:59
-#: application/src/Form/ResourceBatchUpdateForm.php:79
-#: application/src/Form/ResourceBatchUpdateForm.php:102
-#: application/src/Form/ResourceBatchUpdateForm.php:116
+#: application/src/Form/ResourceBatchUpdateForm.php:43
+#: application/src/Form/ResourceBatchUpdateForm.php:60
+#: application/src/Form/ResourceBatchUpdateForm.php:80
+#: application/src/Form/ResourceBatchUpdateForm.php:103
+#: application/src/Form/ResourceBatchUpdateForm.php:128
 msgid "[No change]"
 msgstr "[変更なし]"
 
@@ -4325,75 +4321,79 @@ msgstr ""
 msgid "Contain"
 msgstr ""
 
-#: application/src/Form/ResourceBatchUpdateForm.php:38
+#: application/src/Form/ResourceBatchUpdateForm.php:39
 msgid "Set visibility"
 msgstr "可視性を設定する"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:55
+#: application/src/Form/ResourceBatchUpdateForm.php:56
 msgid "Set openness"
 msgstr "オープン性を設定します。"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:57
+#: application/src/Form/ResourceBatchUpdateForm.php:58
 msgid "Open"
 msgstr "開く"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:58
+#: application/src/Form/ResourceBatchUpdateForm.php:59
 msgid "Not open"
 msgstr "開かない"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:78
+#: application/src/Form/ResourceBatchUpdateForm.php:79
 msgid "Set template"
 msgstr "テンプレート設定"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:80
+#: application/src/Form/ResourceBatchUpdateForm.php:81
 msgid "[Unset template]"
 msgstr "[テンプレート未設定]"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:100
+#: application/src/Form/ResourceBatchUpdateForm.php:101
 msgid "Set class"
 msgstr "クラスを設定"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:101
+#: application/src/Form/ResourceBatchUpdateForm.php:102
 msgid "[Unset class]"
 msgstr "[クラス未設定]"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:115
+#: application/src/Form/ResourceBatchUpdateForm.php:114
+msgid "Set thumbnail"
+msgstr ""
+
+#: application/src/Form/ResourceBatchUpdateForm.php:127
 msgid "Set owner"
 msgstr ""
 
-#: application/src/Form/ResourceBatchUpdateForm.php:137
-#: application/src/Form/ResourceBatchUpdateForm.php:151
+#: application/src/Form/ResourceBatchUpdateForm.php:149
+#: application/src/Form/ResourceBatchUpdateForm.php:163
 #: application/src/Form/UserForm.php:180
 msgid "Select item sets"
 msgstr "アイテムセットを選択"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:140
+#: application/src/Form/ResourceBatchUpdateForm.php:152
 msgid "Add to item sets"
 msgstr "アイテムセットに追加"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:154
+#: application/src/Form/ResourceBatchUpdateForm.php:166
 msgid "Remove from item sets"
 msgstr "アイテムセットから削除"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:165
-#: application/src/Form/ResourceBatchUpdateForm.php:179
+#: application/src/Form/ResourceBatchUpdateForm.php:177
+#: application/src/Form/ResourceBatchUpdateForm.php:191
 #: application/src/Form/UserForm.php:196
 msgid "Select sites"
 msgstr ""
 
-#: application/src/Form/ResourceBatchUpdateForm.php:168
+#: application/src/Form/ResourceBatchUpdateForm.php:180
 msgid "Add to sites"
 msgstr ""
 
-#: application/src/Form/ResourceBatchUpdateForm.php:182
+#: application/src/Form/ResourceBatchUpdateForm.php:194
 msgid "Remove from sites"
 msgstr ""
 
-#: application/src/Form/ResourceBatchUpdateForm.php:192
+#: application/src/Form/ResourceBatchUpdateForm.php:204
 msgid "Clear language"
 msgstr "言語をクリア"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:219
+#: application/src/Form/ResourceBatchUpdateForm.php:231
 msgid "Clear property values"
 msgstr "プロパティ値のクリア"
 
@@ -4497,95 +4497,95 @@ msgstr "リソーステンプレートファイル"
 msgid "Confirm"
 msgstr "確認"
 
-#: application/src/Form/VocabularyForm.php:27
+#: application/src/Form/VocabularyForm.php:28
 msgid "Basic info"
 msgstr "基本情報"
 
-#: application/src/Form/VocabularyForm.php:34
+#: application/src/Form/VocabularyForm.php:35
 msgid "File"
 msgstr "ファイル"
 
-#: application/src/Form/VocabularyForm.php:50
+#: application/src/Form/VocabularyForm.php:51
 msgid "Enter a human-readable title of the vocabulary."
 msgstr "人が理解できる語彙のタイトルを入力します。"
 
-#: application/src/Form/VocabularyForm.php:62
+#: application/src/Form/VocabularyForm.php:63
 msgid "Enter a human-readable description of the vocabulary."
 msgstr "人が理解できる語彙の内容説明を入力します。"
 
-#: application/src/Form/VocabularyForm.php:72
+#: application/src/Form/VocabularyForm.php:73
 msgid "Namespace URI"
 msgstr "名前空間URI"
 
-#: application/src/Form/VocabularyForm.php:73
+#: application/src/Form/VocabularyForm.php:74
 msgid ""
 "Enter the unique namespace URI used to identify the classes and properties "
 "of the vocabulary."
 msgstr "語彙のクラスとプロパティを識別するために使用される一意の名前空間URIを入力します。"
 
-#: application/src/Form/VocabularyForm.php:89
+#: application/src/Form/VocabularyForm.php:90
 msgid "Namespace prefix"
 msgstr "名前空間の接頭語"
 
-#: application/src/Form/VocabularyForm.php:90
+#: application/src/Form/VocabularyForm.php:91
 msgid ""
 "Enter a concise vocabulary identifier used as a shorthand for the namespace "
 "URI."
 msgstr "名前空間URIの省略形として使用される、簡潔な語彙識別子を入力します。"
 
-#: application/src/Form/VocabularyForm.php:102
+#: application/src/Form/VocabularyForm.php:103
 msgid "Import type"
 msgstr ""
 
-#: application/src/Form/VocabularyForm.php:117
+#: application/src/Form/VocabularyForm.php:118
 msgid "File upload"
 msgstr "ファイルアップロード"
 
-#: application/src/Form/VocabularyForm.php:118
+#: application/src/Form/VocabularyForm.php:119
 msgid "Choose a RDF vocabulary file."
 msgstr "RDF語彙ファイルを選択してください。"
 
-#: application/src/Form/VocabularyForm.php:128
+#: application/src/Form/VocabularyForm.php:129
 msgid "File URL"
 msgstr "ファイルURL"
 
-#: application/src/Form/VocabularyForm.php:129
+#: application/src/Form/VocabularyForm.php:130
 msgid "Enter a URL to a RDF vocabulary file."
 msgstr ""
 
-#: application/src/Form/VocabularyForm.php:139
+#: application/src/Form/VocabularyForm.php:140
 msgid "File format"
 msgstr "ファイルフォーマット"
 
-#: application/src/Form/VocabularyForm.php:141
+#: application/src/Form/VocabularyForm.php:142
 msgid "[Autodetect]"
 msgstr "[自動検出]"
 
-#: application/src/Form/VocabularyForm.php:142
+#: application/src/Form/VocabularyForm.php:143
 msgid "JSON-LD (.jsonld)"
 msgstr "JSON-LD (.jsonld)"
 
-#: application/src/Form/VocabularyForm.php:143
+#: application/src/Form/VocabularyForm.php:144
 msgid "N-Triples (.nt)"
 msgstr "N-Triples (.nt)"
 
-#: application/src/Form/VocabularyForm.php:144
+#: application/src/Form/VocabularyForm.php:145
 msgid "RDF/XML (.rdf)"
 msgstr "RDF/XML (.rdf)"
 
-#: application/src/Form/VocabularyForm.php:145
+#: application/src/Form/VocabularyForm.php:146
 msgid "Turtle (.ttl)"
 msgstr "Turtle (.ttl)"
 
-#: application/src/Form/VocabularyForm.php:148
+#: application/src/Form/VocabularyForm.php:149
 msgid "Notation3 (.n3)"
 msgstr ""
 
-#: application/src/Form/VocabularyForm.php:161
+#: application/src/Form/VocabularyForm.php:162
 msgid "Preferred language"
 msgstr "優先する言語"
 
-#: application/src/Form/VocabularyForm.php:162
+#: application/src/Form/VocabularyForm.php:163
 msgid ""
 "Enter the preferred language of the labels and comments using an <a "
 "target=\"_blank\" href=\"https://www.w3.org/International/articles/language-"
@@ -4595,11 +4595,11 @@ msgstr ""
 "href=\"https://www.w3.org/International/articles/language-"
 "tags/\">IETF言語タグ</a>を使用して、ラベルとコメントの優先言語を入力します。 デフォルトは利用可能な最初のものです。"
 
-#: application/src/Form/VocabularyForm.php:173
+#: application/src/Form/VocabularyForm.php:174
 msgid "Label property"
 msgstr "ラベルプロパティ／Label Property"
 
-#: application/src/Form/VocabularyForm.php:174
+#: application/src/Form/VocabularyForm.php:175
 msgid ""
 "Enter the label property. This is typically only needed if the vocabulary "
 "uses an unconventional property for labels. Please use the full property URI"
@@ -4608,11 +4608,11 @@ msgstr ""
 "ラベルプロパティを入力します。 これは通常、語彙がラベルに慣例に沿わないプロパティを使用する場合にのみ必要です。 "
 "山括弧で囲まれた完全なプロパティURIを使用してください。"
 
-#: application/src/Form/VocabularyForm.php:184
+#: application/src/Form/VocabularyForm.php:185
 msgid "Comment property"
 msgstr "コメントプロパティ／Comment property"
 
-#: application/src/Form/VocabularyForm.php:185
+#: application/src/Form/VocabularyForm.php:186
 msgid ""
 "Enter the comment property. This is typically only needed if the vocabulary "
 "uses an unconventional property for comments. Please use the full property "
@@ -4620,6 +4620,12 @@ msgid ""
 msgstr ""
 "コメントプロパティを入力してください。 これは通常、ボキャブラリーがコメントに慣例に沿わないプロパティを使用する場合にのみ必要です。 "
 "山括弧で囲まれた完全なプロパティURIを使用してください。"
+
+#: application/src/Form/VocabularyForm.php:203
+#: application/src/Api/Adapter/VocabularyAdapter.php:207
+msgid ""
+"The prefix may only contain letters, numbers, hyphens, and underscores."
+msgstr ""
 
 #: application/src/Form/SitePageForm.php:42
 msgid "Add to navigation"
@@ -4641,7 +4647,7 @@ msgstr "パスワードを確認"
 msgid "The password is invalid"
 msgstr ""
 
-#: application/src/Form/Element/PasswordConfirm.php:107
+#: application/src/Form/Element/PasswordConfirm.php:108
 msgid "The passwords did not match"
 msgstr "パスワードが一致しません"
 
@@ -5168,46 +5174,46 @@ msgstr "完了"
 msgid "Stopped"
 msgstr "停止"
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:68
+#: application/src/Api/Adapter/VocabularyAdapter.php:69
 msgid "Classes must be an array"
 msgstr "クラスは配列でなければなりません"
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:74
+#: application/src/Api/Adapter/VocabularyAdapter.php:75
 msgid "Properties must be an array"
 msgstr "プロパティは配列でなければなりません"
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:191
+#: application/src/Api/Adapter/VocabularyAdapter.php:192
 msgid "The namespace URI cannot be empty."
 msgstr "名前空間URIは空にすることはできません。"
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:195
+#: application/src/Api/Adapter/VocabularyAdapter.php:196
 #, php-format
 msgid "The namespace URI \"%s\" is already taken."
 msgstr "名前空間URI \"%s\" は既に使用されています。"
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:203
+#: application/src/Api/Adapter/VocabularyAdapter.php:204
 msgid "The prefix cannot be empty."
 msgstr "接頭語を空にすることはできません。"
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:207
+#: application/src/Api/Adapter/VocabularyAdapter.php:211
 #, php-format
 msgid "The prefix \"%s\" is already taken."
 msgstr "接頭語 \"%s\" は既に使用されています。"
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:214
+#: application/src/Api/Adapter/VocabularyAdapter.php:218
 #, php-format
 msgid "The prefix \"%s\" is reserved."
 msgstr "接頭語 \"%s\" は予約されており使えません。"
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:223
+#: application/src/Api/Adapter/VocabularyAdapter.php:227
 #: application/src/Api/Adapter/PropertyAdapter.php:206
 #: application/src/Api/Adapter/ResourceTemplateAdapter.php:98
 #: application/src/Api/Adapter/ResourceClassAdapter.php:197
 msgid "The label cannot be empty."
 msgstr "ラベルは空にすることはできません。"
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:231
-#: application/src/Api/Adapter/VocabularyAdapter.php:244
+#: application/src/Api/Adapter/VocabularyAdapter.php:235
+#: application/src/Api/Adapter/VocabularyAdapter.php:248
 #: application/src/Api/Adapter/PropertyAdapter.php:219
 #: application/src/Api/Adapter/ResourceClassAdapter.php:210
 #, php-format
@@ -5224,11 +5230,11 @@ msgstr "ローカル名は空にすることはできません。"
 msgid "A vocabulary must be set."
 msgstr "語彙を設定する必要があります。"
 
-#: application/src/Api/Adapter/ItemAdapter.php:153
+#: application/src/Api/Adapter/ItemAdapter.php:156
 msgid "Item sets must be an array"
 msgstr "アイテムセットは配列でなければなりません"
 
-#: application/src/Api/Adapter/ItemAdapter.php:159
+#: application/src/Api/Adapter/ItemAdapter.php:162
 msgid "Media must be an array"
 msgstr "メディアは配列でなければなりません"
 

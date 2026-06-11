@@ -5,15 +5,15 @@
  *   - $resourceType: The resource type; options are item, media, itemSet
  *   - $partialExcludelist: An array of partials to exclude
  */
-$query = isset($query) ? $query : null;
-$resourceType = isset($resourceType) ? $resourceType : 'item';
+$query = $query ?? null;
+$resourceType = $resourceType ?? 'item';
 $partialExcludelist = (isset($partialExcludelist) && is_array($partialExcludelist)) ? $partialExcludelist : [];
 
 $this->headLink()->prependStylesheet($this->assetUrl('css/advanced-search.css', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
 
 $partials = [];
-$addPartial = function($partial) use (&$partials, $partialExcludelist) {
+$addPartial = function ($partial) use (&$partials, $partialExcludelist) {
     if (!in_array($partial, $partialExcludelist)) {
         // Add the partial if it is not in the exclude list.
         $partials[] = $partial;

@@ -4,7 +4,7 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/asset-form.css', 'Omeka
 $this->htmlElement('body')->appendAttribute('class', 'sites theme-settings');
 ?>
 <?php echo $this->pageTitle($theme->getName(), 1, $translate('Theme'), $translate('Edit settings')); ?>
-<?php if(isset($this->form)): ?>
+<?php if (isset($this->form)): ?>
     <?php
     // Load CkEditor if the theme uses it in any elements
     foreach ($form->getIterator() as $element) {

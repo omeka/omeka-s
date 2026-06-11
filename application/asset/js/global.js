@@ -71,7 +71,7 @@ var Omeka = {
             var count = 0;
             parent.find('li.selector-child').each(function() {
                 var child = $(this);
-                var label = child.data('child-search').toLowerCase();
+                var label = child.attr('data-child-search').toLowerCase();
                 if ((label.indexOf(filter) < 0) || (child.hasClass('added'))) {
                     // Label doesn't contain the filter string. Hide the child.
                     child.addClass('filter-hidden');

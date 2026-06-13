@@ -4793,13 +4793,14 @@ body.sidebar-open #content {
     .block-content .field-meta {
         display: inline-flex;
         flex-wrap: wrap;
-        align-items: center;
     }
 
     .block-content .field-meta .expand,
     .block-content .field-meta .collapse {
         width: auto;
         justify-content: center;
+        padding: $spacing-small 0 !important;
+        align-self: flex-start;
     }
 
     .block .field-meta .collapse + .collapsible {

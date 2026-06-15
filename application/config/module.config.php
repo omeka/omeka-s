@@ -209,7 +209,10 @@ return [
         'priority' => \Laminas\Log\Logger::NOTICE,
     ],
     'http_client' => [
-        'adapter' => \Laminas\Http\Client\Adapter\Socket::class,
+        // The curl adapter enables HTTP/2 with a transparent fallback to HTTP/1.1.
+        // HttpClientFactory falls back to the socket adapter when curl is unavailable.
+        // You may set adapter Socket explicitly in local.config.php to override it if really needed.
+        'adapter' => \Laminas\Http\Client\Adapter\Curl::class,
         'sslcapath' => null,
         'sslcafile' => null,
     ],

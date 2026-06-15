@@ -23,17 +23,26 @@ class HttpClientFactory implements FactoryInterface
             $options = $config['http_client'];
         }
 
+        // Normalize short adapter aliases to class before check below.
+        if (is_string($options['adapter'] ?? null)) {
+            $aliases = [
+                'curl' => Curl::class,
+                'socket' => Socket::class,
+            ];
+            $options['adapter'] = $aliases[strtolower($options['adapter'])] ?? $options['adapter'];
+        }
+
         // Use curl adapter to support HTTP/2, fallback to socket if unavailable.
-        if (empty($options['adapter'])
-            || ($options['adapter'] === Curl::class && !extension_loaded('curl'))
-        ) {
-            $options['adapter'] = extension_loaded('curl') ? Curl::class : Socket::class;
+        $isCurl = !empty($options['adapter']) && is_a($options['adapter'], Curl::class, true);
+        if (empty($options['adapter']) || ($isCurl && !extension_loaded('curl'))) {
+            $isCurl = extension_loaded('curl');
+            $options['adapter'] = $isCurl ? Curl::class : Socket::class;
         }
 
         // Negotiate HTTP/2 over TLS when curl is used and libcurl supports it,
         // unless the http version is set explicitly.
         // Curl transparently falls back to HTTP/1.1 when server does not /2.
-        if ($options['adapter'] === Curl::class
+        if ($isCurl
             && defined('CURL_HTTP_VERSION_2TLS')
             && !isset($options['curloptions'][CURLOPT_HTTP_VERSION])
         ) {

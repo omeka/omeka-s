@@ -5,18 +5,20 @@ $translate = $this->plugin('translate');
     <ul>
         <?php $iterate = function ($pages) use (&$iterate, $translate) {
             foreach ($pages as $page) {
+                echo '<li>';
                 $pageName = $page['text'];
                 $pageLink = $page['data']['url'];
                 if (empty($pageLink)) {
-                    echo '<li>' . $translate('[Missing Page]') . '</li>';
+                    echo '<span class="list-of-pages-link list-of-pages-link-missing">' . $translate('[Missing Page]') . '</span>';
                 } else {
-                    echo '<li>' . $this->hyperlink($pageName, $pageLink) . '</li>';
+                    echo $this->hyperlink($pageName, $pageLink, ['class' => 'list-of-pages-link']);
                 }
-                if (isset($page['children'])) {
+                if (!empty($page['children'])) {
                     echo '<ul>';
                     $iterate($page['children']);
                     echo '</ul>';
                 }
+                echo '</li>';
             }
         };
         $iterate($pageList); ?>

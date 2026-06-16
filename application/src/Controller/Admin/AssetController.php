@@ -9,8 +9,65 @@ use RecursiveIteratorIterator;
 use Laminas\View\Model\ViewModel;
 use Laminas\Mvc\Controller\AbstractActionController;
 
+use Omeka\Form\AssetForm;
+
 class AssetController extends AbstractActionController
 {
+    //avec get
+    public function searchAction()
+    {
+        $form = $this->getForm(AssetForm::class);
+        if ($form->has('csrf')) {
+            $form->remove('csrf');
+        }
+
+        $form->setAttribute('method', 'get');
+        $form->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'browse'], true));
+
+        // $form->setAttribute('id', 'search-assets');
+        $data = $this->params()->fromQuery();
+        $form->setData($data);
+
+        $view = new ViewModel();
+        $view->setVariable('form', $form);
+
+        return $view;
+    }
+
+    // avec post : MARCHE pas, je ne sais pas pourquoi ?  (voir itemsetController ligne 20 ( c est de la que j ai pris la fct))
+
+    /*
+    public function searchAction()
+    {
+        //  --> $form->setButtonLabel('Search'); // @translate
+
+        $form = $this->getForm(AssetForm::class);
+
+        // methode post : MARCHE pas, je ne sais pas pourquoi ?  (voir itemsetController ligne 20 ( c est de la que j ai pris la fct))
+        if ($this->getRequest()->isPost()) {
+            $data = $this->params()->fromPost();
+            // var_dump($data);
+            $form->setData($data);
+            // var_dump($data); meme resultat que le 1ere;
+
+            if ($form->isValid()) {
+
+                $form->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'browse'], true));
+                $form->setAttribute('id', 'search-assets');
+                $form->setData($this->params()->fromQuery());
+
+            } else {
+                $this->messenger()->addFormErrors($form);
+            }
+        }
+
+        $view = new ViewModel();
+        $view->setVariable('form', $form);
+
+        return $view;
+    }
+        */
+
     public function browseAction()
     {
         $this->browse()->setDefaults('assets');

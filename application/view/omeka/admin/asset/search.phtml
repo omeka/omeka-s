@@ -1,0 +1,21 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$form->prepare(); 
+?>
+
+<?= $this->pageTitle($translate('Advanced search'), 1, $translate('Assets')); ?>
+<?php $this->trigger('view.browse.before'); ?>
+
+<?= $this->form()->openTag($form); ?>
+
+<div id="page-actions">
+    <?= $this->hyperlink($translate('Reset'), $this->url(null, [], true), ['class' => 'button']); ?>
+    <button type="submit"><?= $escape($translate('Search')); ?></button>
+</div>
+<?= $this->formCollection($form) // avoir false en argument ? ($form, false) - le default true , collections are automatically wrapped around a fieldset (j ai pas bien compris le 'wrapped'?>
+
+<?= $this->form()->closeTag(); ?>
+<?php $this->trigger('view.browse.after'); ?>
+
+<!-- is it really a ->.browse' -->

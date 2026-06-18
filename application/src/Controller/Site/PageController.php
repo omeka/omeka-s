@@ -16,7 +16,7 @@ class PageController extends AbstractActionController
 
     public function browseAction()
     {
-        $this->setBrowseDefaults('created');
+        $this->browse()->setDefaults('site_pages');
         $query = $this->params()->fromQuery();
         $query['site_id'] = $this->currentSite()->id();
 

@@ -2,7 +2,7 @@
 namespace Omeka\Entity;
 
 use Omeka\Api\ResourceInterface as OmekaApiResourceInterface;
-use Laminas\Permissions\Acl\Resource\ResourceInterface as ZendAclResourceInterface;
+use Laminas\Permissions\Acl\Resource\ResourceInterface as LaminasAclResourceInterface;
 
 /**
  * Entity interface.
@@ -16,6 +16,6 @@ use Laminas\Permissions\Acl\Resource\ResourceInterface as ZendAclResourceInterfa
  *
  * @link http://docs.doctrine-project.org/en/latest/reference/annotations-reference.html
  */
-interface EntityInterface extends OmekaApiResourceInterface, ZendAclResourceInterface
+interface EntityInterface extends OmekaApiResourceInterface, LaminasAclResourceInterface
 {
 }

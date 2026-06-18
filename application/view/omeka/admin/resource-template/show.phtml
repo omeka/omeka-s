@@ -38,7 +38,7 @@ $this->htmlElement('body')->appendAttribute('class', 'resource-templates show');
         <?php $property = $resourceTemplateProperty->property(); ?>
         <tr data-property-id="<?php echo $escape($property->id()); ?>">
             <td>
-                <?php echo $escape($translate($property->label())); ?>
+                <span class="property-label"><?php echo $escape($translate($property->label())); ?></span>
                 <ul class="actions">
                     <li><?php echo $this->hyperlink('', '#', [
                         'data-sidebar-content-url' => $property->url('show-details'),
@@ -48,11 +48,14 @@ $this->htmlElement('body')->appendAttribute('class', 'resource-templates show');
                 </ul>
             </td>
             <td>
+                <?php $dataTypeLabels = $resourceTemplateProperty->dataTypeLabels(); ?>
+                <?php if (count($dataTypeLabels) > 0): ?>
                 <ul>
-                    <?php foreach ($resourceTemplateProperty->dataTypeLabels() as $dataTypeLabel): ?>
+                    <?php foreach ($dataTypeLabels as $dataTypeLabel): ?>
                     <li><?php echo $escape($dataTypeLabel['label']); ?></li>
                     <?php endforeach; ?>
                 </ul>
+                <?php endif; ?>
             </td>
             <td><?php echo $escape($resourceTemplateProperty->alternateLabel()); ?></td>
             <td><?php echo $escape($resourceTemplateProperty->alternateComment()); ?></td>

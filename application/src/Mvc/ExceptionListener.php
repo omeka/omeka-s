@@ -8,7 +8,7 @@ use Omeka\Permissions\Exception as AclException;
 use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\Http\Response;
-use Laminas\Mvc\Application as ZendApplication;
+use Laminas\Mvc\Application as LaminasApplication;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Stdlib\ResponseInterface;
 use Laminas\View\Model\ViewModel;
@@ -41,7 +41,7 @@ class ExceptionListener extends AbstractListenerAggregate
         }
 
         // Only handle exceptions.
-        if ($e->getError() !== ZendApplication::ERROR_EXCEPTION) {
+        if ($e->getError() !== LaminasApplication::ERROR_EXCEPTION) {
             return;
         }
 

@@ -45,7 +45,7 @@ class ErrorStore
     }
 
     /**
-     * Add errors derived from Zend validator messages.
+     * Add errors derived from Laminas validator messages.
      *
      * @param array $errors
      * @param null|string $customKey

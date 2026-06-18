@@ -20,7 +20,7 @@
         $('#content').on('click', '.asset-list .select-asset', function (e) {
             e.preventDefault();
             selectingForm.find('input[type=hidden]').val($(this).data('assetId'));
-            selectingForm.find('.selected-asset-image').attr('src', $(this).data('assetUrl'));
+            selectingForm.find('.selected-asset-image').attr('src', $(this).data('assetUrl')).attr('alt', $('img', this).attr('alt'));
             selectingForm.find('.selected-asset-name').text($(this).text());
             selectingForm.find('.selected-asset').show();
             selectingForm.removeClass('empty');

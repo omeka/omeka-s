@@ -86,7 +86,7 @@ class i18n extends AbstractHelper
                 ? $constMap[$timeType]
                 : \IntlDateFormatter::NONE;
 
-            // Proxy to Zend's dateFormat helper.
+            // Proxy to Laminas's dateFormat helper.
             return $this->dateFormatHelper->__invoke($date, $dateType, $timeType, $locale, $pattern);
         }
 

@@ -16,6 +16,6 @@ class Html implements RendererInterface, FulltextSearchableInterface
     public function getFulltextText(MediaRepresentation $media)
     {
         $data = $media->mediaData();
-        return strip_tags($data['html']);
+        return html_entity_decode(strip_tags($data['html']), ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML5, 'UTF-8');
     }
 }

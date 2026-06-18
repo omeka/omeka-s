@@ -98,6 +98,7 @@ class PasswordConfirm extends Fieldset implements InputFilterProviderInterface
             [
                 'name' => 'password-confirm',
                 'required' => $isRequired,
+                'continue_if_empty' => true,
                 'validators' => [
                     [
                         'name' => 'Identical',

@@ -2,7 +2,7 @@
 namespace Omeka\Mvc;
 
 use Omeka\Module\Manager as ModuleManager;
-use Laminas\Mvc\Application as ZendApplication;
+use Laminas\Mvc\Application as LaminasApplication;
 use Laminas\Mvc\Service;
 use Laminas\ServiceManager\ServiceManager;
 
@@ -14,8 +14,8 @@ class Application
     /**
      * Initialize the Omeka S application.
      *
-     * @see ZendApplication::init()
-     * @return ZendApplication
+     * @see LaminasApplication::init()
+     * @return LaminasApplication
      */
     public static function init($configuration = [])
     {

@@ -378,7 +378,7 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
                 if ($item) {
                     $text[] = $item->getTitle();
                 }
-                $text[] = strip_tags($attachment->getCaption());
+                $text[] = html_entity_decode(strip_tags($attachment->getCaption()), ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML5, 'UTF-8');
             }
         }
         return implode("\n", array_filter($text));

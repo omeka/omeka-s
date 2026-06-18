@@ -137,6 +137,9 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             $mediaAlias = $qb->createAlias();
             if ($query['has_media']) {
                 $qb->innerJoin('omeka_root.media', $mediaAlias);
+                // The SQL visibility filter joins the resource table as a LEFT JOIN, making
+                // the alias NULL for private media. isNotNull enforces visibility here.
+                $qb->andWhere($qb->expr()->isNotNull($mediaAlias));
             } else {
                 $qb->leftJoin('omeka_root.media', $mediaAlias);
                 $qb->andWhere($qb->expr()->isNull($mediaAlias));

@@ -21,7 +21,7 @@ $sectionNavs = [
 
 <div id="media-metadata" class="active section">
     <?php echo $media->render(); ?>
-    <?php if ( $media->resourceClass()): ?>
+    <?php if ($media->resourceClass()): ?>
     <dl class="resource-class">
         <div class="meta-group">
             <dt><?php echo $translate('Class'); ?></dt>

@@ -74,36 +74,19 @@ class IiifImage extends AbstractBlockLayout
         $block->setData($blockData);
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = 'common/faceted-browse/block-layout/faceted-browse-preview')
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = 'common/block-layout/iiif-image')
     {
-        $blockData = $this->getBlockData($block);
-        if (!$blockData['image_url']) {
+        $imageUrl = $block->dataValue('image_url');
+        if (!$imageUrl) {
             return;
         }
 
-        $tileSourcesUrl = $view->assetUrl('vendor/openseadragon/openseadragon.min.js', 'Omeka');
-        $prefixUrl = $view->assetUrl('vendor/openseadragon/images/', 'Omeka', false, false);
-        $view->headScript()->appendFile($tileSourcesUrl);
-        $html = <<<'HTML'
-        %s
-        <div id="%s" style="height: 400px;" role="group" aria-label="%s"></div>
-        <script type="text/javascript">
-            OpenSeadragon({
-                id: "%s",
-                prefixUrl: "%s",
-                tileSources: "%s"
-            });
-        </script>
-        HTML;
-        return sprintf(
-            $html,
-            ($blockData['title'] && $blockData['show_title']) ? sprintf('<h3>%s</h3>', $blockData['title']) : null,
-            sprintf('iiif-image-%s', $block->id()),
-            $blockData['title'],
-            sprintf('iiif-image-%s', $block->id()),
-            $view->escapeJs($prefixUrl),
-            $view->escapeJs($blockData['image_url'])
-        );
+        return $view->render($templateViewScript, [
+            'block' => $block,
+            'imageUrl' => $imageUrl,
+            'title' => $block->dataValue('title'),
+            'showTitle' => (bool) $block->dataValue('show_title'),
+        ]);
     }
 
     public function getBlockData(?SitePageBlockRepresentation $block)

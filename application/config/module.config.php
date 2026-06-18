@@ -495,6 +495,7 @@ return [
             'resourcePageBlocks' => Service\ViewHelper\ResourcePageBlocksFactory::class,
             'browse' => Service\ViewHelper\BrowseFactory::class,
             'linkedResources' => Service\ViewHelper\LinkedResourcesFactory::class,
+            'config' => Service\ViewHelper\ConfigFactory::class,
         ],
         'shared' => [
             'resourcePageBlocks' => false,

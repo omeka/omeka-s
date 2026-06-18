@@ -9,7 +9,7 @@ $otherMedia = (isset($sortedMedia['otherMedia'])) ? $sortedMedia['otherMedia'] :
 <dl id="other-media">
     <div class="property">
     <dt><?php echo $this->translate('Other Media'); ?></dt>
-    <?php foreach($otherMedia as $media): ?>
+    <?php foreach ($otherMedia as $media): ?>
     <dd class="value">
         <?php echo $media->linkPretty(); ?>
     </dd>

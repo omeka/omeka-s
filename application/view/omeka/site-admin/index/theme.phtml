@@ -10,7 +10,7 @@ $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
 ?>
 <?php echo $this->pageTitle($translate('Theme'), 1, $translate('Sites')); ?>
 
-<?php if(isset($this->form)): ?>
+<?php if (isset($this->form)): ?>
     <?php $form->prepare(); ?>
     <?php echo $this->form()->openTag($form); ?>
     <div id="page-actions">

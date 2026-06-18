@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "faea4c0ff76ac9433b741b0d9d5e4b2b",
+    "content-hash": "b0c896452efec77385aebdf4ac99c65f",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -1433,75 +1433,6 @@
             "time": "2024-10-21T10:45:35+00:00"
         },
         {
-            "name": "laminas/laminas-config",
-            "version": "3.10.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laminas/laminas-config.git",
-                "reference": "0f50adbf2b2e01e0fe99c13e37d3a6c1ef645185"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-config/zipball/0f50adbf2b2e01e0fe99c13e37d3a6c1ef645185",
-                "reference": "0f50adbf2b2e01e0fe99c13e37d3a6c1ef645185",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "laminas/laminas-stdlib": "^3.6",
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
-                "psr/container": "^1.0"
-            },
-            "conflict": {
-                "container-interop/container-interop": "<1.2.0",
-                "zendframework/zend-config": "*"
-            },
-            "require-dev": {
-                "laminas/laminas-coding-standard": "^3.0.1",
-                "laminas/laminas-filter": "^2.39.0",
-                "laminas/laminas-i18n": "^2.29.0",
-                "laminas/laminas-servicemanager": "^3.23.0",
-                "phpunit/phpunit": "^10.5.38"
-            },
-            "suggest": {
-                "laminas/laminas-filter": "^2.7.2; install if you want to use the Filter processor",
-                "laminas/laminas-i18n": "^2.7.4; install if you want to use the Translator processor",
-                "laminas/laminas-servicemanager": "^2.7.8 || ^3.3; if you need an extensible plugin manager for use with the Config Factory"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Laminas\\Config\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "provides a nested object property based user interface for accessing this configuration data within application code",
-            "homepage": "https://laminas.dev",
-            "keywords": [
-                "config",
-                "laminas"
-            ],
-            "support": {
-                "chat": "https://laminas.dev/chat",
-                "docs": "https://docs.laminas.dev/laminas-config/",
-                "forum": "https://discourse.laminas.dev",
-                "issues": "https://github.com/laminas/laminas-config/issues",
-                "rss": "https://github.com/laminas/laminas-config/releases.atom",
-                "source": "https://github.com/laminas/laminas-config"
-            },
-            "funding": [
-                {
-                    "url": "https://funding.communitybridge.org/projects/laminas-project",
-                    "type": "community_bridge"
-                }
-            ],
-            "abandoned": true,
-            "time": "2024-12-05T14:32:05+00:00"
-        },
-        {
             "name": "laminas/laminas-dom",
             "version": "2.14.1",
             "source": {
@@ -2296,246 +2227,6 @@
             "time": "2024-12-05T14:51:57+00:00"
         },
         {
-            "name": "laminas/laminas-loader",
-            "version": "2.11.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laminas/laminas-loader.git",
-                "reference": "c507d5eccb969f7208434e3980680a1f6c0b1d8d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-loader/zipball/c507d5eccb969f7208434e3980680a1f6c0b1d8d",
-                "reference": "c507d5eccb969f7208434e3980680a1f6c0b1d8d",
-                "shasum": ""
-            },
-            "require": {
-                "php": "~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0"
-            },
-            "conflict": {
-                "zendframework/zend-loader": "*"
-            },
-            "require-dev": {
-                "laminas/laminas-coding-standard": "~2.4.0",
-                "phpunit/phpunit": "~9.5.25"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Laminas\\Loader\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Autoloading and plugin loading strategies",
-            "homepage": "https://laminas.dev",
-            "keywords": [
-                "laminas",
-                "loader"
-            ],
-            "support": {
-                "chat": "https://laminas.dev/chat",
-                "docs": "https://docs.laminas.dev/laminas-loader/",
-                "forum": "https://discourse.laminas.dev",
-                "issues": "https://github.com/laminas/laminas-loader/issues",
-                "rss": "https://github.com/laminas/laminas-loader/releases.atom",
-                "source": "https://github.com/laminas/laminas-loader"
-            },
-            "funding": [
-                {
-                    "url": "https://funding.communitybridge.org/projects/laminas-project",
-                    "type": "community_bridge"
-                }
-            ],
-            "abandoned": true,
-            "time": "2024-12-05T14:43:32+00:00"
-        },
-        {
-            "name": "laminas/laminas-log",
-            "version": "2.17.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/omeka/laminas-log.git",
-                "reference": "203eaab1ee325a3ac293a4a4ad2493da296c5aa8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/omeka/laminas-log/zipball/203eaab1ee325a3ac293a4a4ad2493da296c5aa8",
-                "reference": "203eaab1ee325a3ac293a4a4ad2493da296c5aa8",
-                "shasum": ""
-            },
-            "require": {
-                "laminas/laminas-servicemanager": "^3.21.0",
-                "laminas/laminas-stdlib": "^3.0",
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
-                "psr/log": "^1.1.2"
-            },
-            "conflict": {
-                "zendframework/zend-log": "*"
-            },
-            "provide": {
-                "psr/log-implementation": "1.0.0"
-            },
-            "require-dev": {
-                "ext-dom": "*",
-                "ext-json": "*",
-                "ext-xml": "*",
-                "firephp/firephp-core": "^0.5.3",
-                "laminas/laminas-coding-standard": "~2.3.0",
-                "laminas/laminas-db": "^2.6",
-                "laminas/laminas-escaper": "^2.5",
-                "laminas/laminas-filter": "^2.5",
-                "laminas/laminas-mail": "^2.6.1",
-                "laminas/laminas-validator": "^2.10.1",
-                "mikey179/vfsstream": "^1.6.7",
-                "phpspec/prophecy-phpunit": "^2.0",
-                "phpunit/phpunit": "^9.5.10"
-            },
-            "suggest": {
-                "ext-mongo": "mongo extension to use Mongo writer",
-                "ext-mongodb": "mongodb extension to use MongoDB writer",
-                "laminas/laminas-db": "Laminas\\Db component to use the database log writer",
-                "laminas/laminas-escaper": "Laminas\\Escaper component, for use in the XML log formatter",
-                "laminas/laminas-mail": "Laminas\\Mail component to use the email log writer",
-                "laminas/laminas-validator": "Laminas\\Validator component to block invalid log messages"
-            },
-            "type": "library",
-            "extra": {
-                "laminas": {
-                    "component": "Laminas\\Log",
-                    "config-provider": "Laminas\\Log\\ConfigProvider"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Laminas\\Log\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "LaminasTest\\Log\\": "test/"
-                },
-                "files": [
-                    "test/Writer/TestAsset/chmod.php"
-                ]
-            },
-            "scripts": {
-                "check": [
-                    "@cs-check",
-                    "@test"
-                ],
-                "cs-check": [
-                    "phpcs"
-                ],
-                "cs-fix": [
-                    "phpcbf"
-                ],
-                "test": [
-                    "phpunit --colors=always"
-                ],
-                "test-coverage": [
-                    "phpunit --colors=always --coverage-clover clover.xml"
-                ]
-            },
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Robust, composite logger with filtering, formatting, and PSR-3 support",
-            "homepage": "https://laminas.dev",
-            "keywords": [
-                "laminas",
-                "log",
-                "logging"
-            ],
-            "support": {
-                "docs": "https://docs.laminas.dev/laminas-log/",
-                "issues": "https://github.com/laminas/laminas-log/issues",
-                "source": "https://github.com/laminas/laminas-log",
-                "rss": "https://github.com/laminas/laminas-log/releases.atom",
-                "chat": "https://laminas.dev/chat",
-                "forum": "https://discourse.laminas.dev"
-            },
-            "time": "2025-11-14T17:41:25+00:00"
-        },
-        {
-            "name": "laminas/laminas-mail",
-            "version": "2.25.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laminas/laminas-mail.git",
-                "reference": "110e04497395123998220e244cceecb167cc6dda"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-mail/zipball/110e04497395123998220e244cceecb167cc6dda",
-                "reference": "110e04497395123998220e244cceecb167cc6dda",
-                "shasum": ""
-            },
-            "require": {
-                "ext-iconv": "*",
-                "laminas/laminas-loader": "^2.9.0",
-                "laminas/laminas-mime": "^2.11.0",
-                "laminas/laminas-stdlib": "^3.17.0",
-                "laminas/laminas-validator": "^2.31.0",
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
-                "symfony/polyfill-intl-idn": "^1.27.0",
-                "symfony/polyfill-mbstring": "^1.27.0",
-                "webmozart/assert": "^1.11.0"
-            },
-            "require-dev": {
-                "laminas/laminas-coding-standard": "~2.5.0",
-                "laminas/laminas-db": "^2.18",
-                "laminas/laminas-servicemanager": "^3.22.1",
-                "phpunit/phpunit": "^10.4.2",
-                "psalm/plugin-phpunit": "^0.18.4",
-                "symfony/process": "^6.3.4",
-                "vimeo/psalm": "^5.15"
-            },
-            "suggest": {
-                "laminas/laminas-servicemanager": "^3.21 when using SMTP to deliver messages"
-            },
-            "type": "library",
-            "extra": {
-                "laminas": {
-                    "component": "Laminas\\Mail",
-                    "config-provider": "Laminas\\Mail\\ConfigProvider"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Laminas\\Mail\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Provides generalized functionality to compose and send both text and MIME-compliant multipart e-mail messages",
-            "homepage": "https://laminas.dev",
-            "keywords": [
-                "laminas",
-                "mail"
-            ],
-            "support": {
-                "chat": "https://laminas.dev/chat",
-                "docs": "https://docs.laminas.dev/laminas-mail/",
-                "forum": "https://discourse.laminas.dev",
-                "issues": "https://github.com/laminas/laminas-mail/issues",
-                "rss": "https://github.com/laminas/laminas-mail/releases.atom",
-                "source": "https://github.com/laminas/laminas-mail"
-            },
-            "funding": [
-                {
-                    "url": "https://funding.communitybridge.org/projects/laminas-project",
-                    "type": "community_bridge"
-                }
-            ],
-            "abandoned": "symfony/mailer",
-            "time": "2023-11-02T10:32:34+00:00"
-        },
-        {
             "name": "laminas/laminas-math",
             "version": "3.8.1",
             "source": {
@@ -2602,68 +2293,6 @@
             ],
             "abandoned": true,
             "time": "2024-12-05T13:49:56+00:00"
-        },
-        {
-            "name": "laminas/laminas-mime",
-            "version": "2.12.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laminas/laminas-mime.git",
-                "reference": "08cc544778829b7d68d27a097885bd6e7130135e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-mime/zipball/08cc544778829b7d68d27a097885bd6e7130135e",
-                "reference": "08cc544778829b7d68d27a097885bd6e7130135e",
-                "shasum": ""
-            },
-            "require": {
-                "laminas/laminas-stdlib": "^2.7 || ^3.0",
-                "php": "~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0"
-            },
-            "conflict": {
-                "zendframework/zend-mime": "*"
-            },
-            "require-dev": {
-                "laminas/laminas-coding-standard": "~2.4.0",
-                "laminas/laminas-mail": "^2.19.0",
-                "phpunit/phpunit": "~9.5.25"
-            },
-            "suggest": {
-                "laminas/laminas-mail": "Laminas\\Mail component"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Laminas\\Mime\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Create and parse MIME messages and parts",
-            "homepage": "https://laminas.dev",
-            "keywords": [
-                "laminas",
-                "mime"
-            ],
-            "support": {
-                "chat": "https://laminas.dev/chat",
-                "docs": "https://docs.laminas.dev/laminas-mime/",
-                "forum": "https://discourse.laminas.dev",
-                "issues": "https://github.com/laminas/laminas-mime/issues",
-                "rss": "https://github.com/laminas/laminas-mime/releases.atom",
-                "source": "https://github.com/laminas/laminas-mime"
-            },
-            "funding": [
-                {
-                    "url": "https://funding.communitybridge.org/projects/laminas-project",
-                    "type": "community_bridge"
-                }
-            ],
-            "abandoned": "symfony/mime",
-            "time": "2023-11-02T16:47:19+00:00"
         },
         {
             "name": "laminas/laminas-modulemanager",
@@ -2739,85 +2368,6 @@
                 }
             ],
             "time": "2025-10-17T18:22:00+00:00"
-        },
-        {
-            "name": "laminas/laminas-mvc",
-            "version": "3.8.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laminas/laminas-mvc.git",
-                "reference": "53ba28b7222d3a3b49747a26babef43d1b17fb6f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-mvc/zipball/53ba28b7222d3a3b49747a26babef43d1b17fb6f",
-                "reference": "53ba28b7222d3a3b49747a26babef43d1b17fb6f",
-                "shasum": ""
-            },
-            "require": {
-                "container-interop/container-interop": "^1.2",
-                "laminas/laminas-eventmanager": "^3.4",
-                "laminas/laminas-http": "^2.15",
-                "laminas/laminas-modulemanager": "^2.16",
-                "laminas/laminas-router": "^3.11.1",
-                "laminas/laminas-servicemanager": "^3.20.0",
-                "laminas/laminas-stdlib": "^3.19",
-                "laminas/laminas-view": "^2.18.0",
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0"
-            },
-            "conflict": {
-                "zendframework/zend-mvc": "*"
-            },
-            "require-dev": {
-                "laminas/laminas-coding-standard": "^2.5.0",
-                "laminas/laminas-json": "^3.6",
-                "phpunit/phpunit": "^10.5.38",
-                "webmozart/assert": "^1.11"
-            },
-            "suggest": {
-                "laminas/laminas-json": "(^2.6.1 || ^3.0) To auto-deserialize JSON body content in AbstractRestfulController extensions, when json_decode is unavailable",
-                "laminas/laminas-log": "^2.9.1  To provide log functionality via LogFilterManager, LogFormatterManager, and LogProcessorManager",
-                "laminas/laminas-mvc-console": "laminas-mvc-console provides the ability to expose laminas-mvc as a console application",
-                "laminas/laminas-mvc-i18n": "laminas-mvc-i18n provides integration with laminas-i18n, including a translation bridge and translatable route segments",
-                "laminas/laminas-mvc-middleware": "To dispatch middleware in your laminas-mvc application",
-                "laminas/laminas-mvc-plugin-fileprg": "To provide Post/Redirect/Get functionality around forms that container file uploads",
-                "laminas/laminas-mvc-plugin-flashmessenger": "To provide flash messaging capabilities between requests",
-                "laminas/laminas-mvc-plugin-identity": "To access the authenticated identity (per laminas-authentication) in controllers",
-                "laminas/laminas-mvc-plugin-prg": "To provide Post/Redirect/Get functionality within controllers",
-                "laminas/laminas-paginator": "^2.7 To provide pagination functionality via PaginatorPluginManager",
-                "laminas/laminas-servicemanager-di": "laminas-servicemanager-di provides utilities for integrating laminas-di and laminas-servicemanager in your laminas-mvc application"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Laminas\\Mvc\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Laminas's event-driven MVC layer, including MVC Applications, Controllers, and Plugins",
-            "homepage": "https://laminas.dev",
-            "keywords": [
-                "laminas",
-                "mvc"
-            ],
-            "support": {
-                "chat": "https://laminas.dev/chat",
-                "docs": "https://docs.laminas.dev/laminas-mvc/",
-                "forum": "https://discourse.laminas.dev",
-                "issues": "https://github.com/laminas/laminas-mvc/issues",
-                "rss": "https://github.com/laminas/laminas-mvc/releases.atom",
-                "source": "https://github.com/laminas/laminas-mvc"
-            },
-            "funding": [
-                {
-                    "url": "https://funding.communitybridge.org/projects/laminas-project",
-                    "type": "community_bridge"
-                }
-            ],
-            "time": "2024-11-18T00:14:29+00:00"
         },
         {
             "name": "laminas/laminas-mvc-i18n",
@@ -4206,12 +3756,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/omeka-s-themes/default.git",
-                "reference": "9cb0ff9e6000fa0dd93a75c00d31e25e9e100882"
+                "reference": "aab30d17b2f3a056b2ad699b4b38c0c7ce881d0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omeka-s-themes/default/zipball/9cb0ff9e6000fa0dd93a75c00d31e25e9e100882",
-                "reference": "9cb0ff9e6000fa0dd93a75c00d31e25e9e100882",
+                "url": "https://api.github.com/repos/omeka-s-themes/default/zipball/aab30d17b2f3a056b2ad699b4b38c0c7ce881d0c",
+                "reference": "aab30d17b2f3a056b2ad699b4b38c0c7ce881d0c",
                 "shasum": ""
             },
             "require": {
@@ -4220,10 +3770,10 @@
             "default-branch": true,
             "type": "omeka-s-theme",
             "support": {
-                "source": "https://github.com/omeka-s-themes/default/tree/v1.9.2",
+                "source": "https://github.com/omeka-s-themes/default/tree/v1.9.3",
                 "issues": "https://github.com/omeka-s-themes/default/issues"
             },
-            "time": "2025-12-04T20:22:17+00:00"
+            "time": "2026-06-18T16:31:12+00:00"
         },
         {
             "name": "omeka/composer-addon-installer",
@@ -4251,6 +3801,380 @@
             "transport-options": {
                 "relative": true
             }
+        },
+        {
+            "name": "omeka/sanimal-config",
+            "version": "v3.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/omeka/sanimal-config.git",
+                "reference": "3dc7dc598aa13da9e39067587bae46ea6a50d1e8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/omeka/sanimal-config/zipball/3dc7dc598aa13da9e39067587bae46ea6a50d1e8",
+                "reference": "3dc7dc598aa13da9e39067587bae46ea6a50d1e8",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "laminas/laminas-stdlib": "^3.6",
+                "php": "^8.1.0",
+                "psr/container": "^1.0"
+            },
+            "conflict": {
+                "container-interop/container-interop": "<1.2.0",
+                "zendframework/zend-config": "*"
+            },
+            "replace": {
+                "laminas/laminas-config": "3.11.0"
+            },
+            "require-dev": {
+                "laminas/laminas-coding-standard": "^3.0.1",
+                "laminas/laminas-filter": "^2.39.0",
+                "laminas/laminas-i18n": "^2.29.0",
+                "laminas/laminas-servicemanager": "^3.23.0",
+                "phpunit/phpunit": "^10.5.38"
+            },
+            "suggest": {
+                "laminas/laminas-filter": "^2.7.2; install if you want to use the Filter processor",
+                "laminas/laminas-i18n": "^2.7.4; install if you want to use the Translator processor",
+                "laminas/laminas-servicemanager": "^2.7.8 || ^3.3; if you need an extensible plugin manager for use with the Config Factory"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Laminas\\Config\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "provides a nested object property based user interface for accessing this configuration data within application code (fork)",
+            "keywords": [
+                "config",
+                "laminas"
+            ],
+            "support": {
+                "source": "https://github.com/omeka/sanimal-config/tree/v3.11.0"
+            },
+            "time": "2026-05-21T20:02:04+00:00"
+        },
+        {
+            "name": "omeka/sanimal-loader",
+            "version": "v2.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/omeka/sanimal-loader.git",
+                "reference": "b4616048a7cc9232ee04469fe1de1897154a8180"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/omeka/sanimal-loader/zipball/b4616048a7cc9232ee04469fe1de1897154a8180",
+                "reference": "b4616048a7cc9232ee04469fe1de1897154a8180",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0.0"
+            },
+            "conflict": {
+                "zendframework/zend-loader": "*"
+            },
+            "replace": {
+                "laminas/laminas-loader": "2.12.0"
+            },
+            "require-dev": {
+                "laminas/laminas-coding-standard": "~2.4.0",
+                "phpunit/phpunit": "^9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Laminas\\Loader\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Autoloading and plugin loading strategies (fork)",
+            "keywords": [
+                "laminas",
+                "loader"
+            ],
+            "support": {
+                "source": "https://github.com/omeka/sanimal-loader/tree/v2.12.0"
+            },
+            "time": "2026-05-22T19:42:56+00:00"
+        },
+        {
+            "name": "omeka/sanimal-log",
+            "version": "v2.17.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/omeka/sanimal-log.git",
+                "reference": "a080677cad1b49c6cab66d5df20650798ce500ff"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/omeka/sanimal-log/zipball/a080677cad1b49c6cab66d5df20650798ce500ff",
+                "reference": "a080677cad1b49c6cab66d5df20650798ce500ff",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-servicemanager": "^3.21.0",
+                "laminas/laminas-stdlib": "^3.0",
+                "php": "^8.1",
+                "psr/log": "^1.1.2"
+            },
+            "conflict": {
+                "zendframework/zend-log": "*"
+            },
+            "provide": {
+                "psr/log-implementation": "1.0.0"
+            },
+            "replace": {
+                "laminas/laminas-log": "2.17.1"
+            },
+            "require-dev": {
+                "ext-dom": "*",
+                "ext-json": "*",
+                "ext-xml": "*",
+                "firephp/firephp-core": "^0.5.3",
+                "laminas/laminas-coding-standard": "~2.3.0",
+                "laminas/laminas-db": "^2.6",
+                "laminas/laminas-escaper": "^2.5",
+                "laminas/laminas-filter": "^2.5",
+                "laminas/laminas-mail": "^2.6.1",
+                "laminas/laminas-validator": "^2.10.1",
+                "mikey179/vfsstream": "^1.6.7",
+                "phpspec/prophecy-phpunit": "^2.0",
+                "phpunit/phpunit": "^9.5.10"
+            },
+            "suggest": {
+                "ext-mongo": "mongo extension to use Mongo writer",
+                "ext-mongodb": "mongodb extension to use MongoDB writer",
+                "laminas/laminas-db": "Laminas\\Db component to use the database log writer",
+                "laminas/laminas-escaper": "Laminas\\Escaper component, for use in the XML log formatter",
+                "laminas/laminas-mail": "Laminas\\Mail component to use the email log writer",
+                "laminas/laminas-validator": "Laminas\\Validator component to block invalid log messages"
+            },
+            "type": "library",
+            "extra": {
+                "laminas": {
+                    "component": "Laminas\\Log",
+                    "config-provider": "Laminas\\Log\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laminas\\Log\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Robust, composite logger with filtering, formatting, and PSR-3 support (fork)",
+            "keywords": [
+                "laminas",
+                "log",
+                "logging"
+            ],
+            "support": {
+                "issues": "https://github.com/omeka/sanimal-log/issues",
+                "source": "https://github.com/omeka/sanimal-log/tree/v2.17.2"
+            },
+            "time": "2026-05-22T18:53:44+00:00"
+        },
+        {
+            "name": "omeka/sanimal-mail",
+            "version": "v2.25.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/omeka/sanimal-mail.git",
+                "reference": "b38f4dd4539973bf920ae6223fed8eddc2673882"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/omeka/sanimal-mail/zipball/b38f4dd4539973bf920ae6223fed8eddc2673882",
+                "reference": "b38f4dd4539973bf920ae6223fed8eddc2673882",
+                "shasum": ""
+            },
+            "require": {
+                "ext-iconv": "*",
+                "laminas/laminas-loader": "^2.9.0",
+                "laminas/laminas-mime": "^2.11.0",
+                "laminas/laminas-stdlib": "^3.17.0",
+                "laminas/laminas-validator": "^2.31.0",
+                "php": "^8.1",
+                "symfony/polyfill-intl-idn": "^1.27.0",
+                "symfony/polyfill-mbstring": "^1.27.0",
+                "webmozart/assert": "^1.11.0"
+            },
+            "replace": {
+                "laminas/laminas-mail": "2.25.1"
+            },
+            "require-dev": {
+                "laminas/laminas-coding-standard": "~2.5.0",
+                "laminas/laminas-db": "^2.18",
+                "laminas/laminas-servicemanager": "^3.22.1",
+                "phpunit/phpunit": "^10.4.2",
+                "psalm/plugin-phpunit": "^0.18.4",
+                "symfony/process": "^6.3.4",
+                "vimeo/psalm": "^5.15"
+            },
+            "suggest": {
+                "laminas/laminas-servicemanager": "^3.21 when using SMTP to deliver messages"
+            },
+            "type": "library",
+            "extra": {
+                "laminas": {
+                    "component": "Laminas\\Mail",
+                    "config-provider": "Laminas\\Mail\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laminas\\Mail\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Provides generalized functionality to compose and send both text and MIME-compliant multipart e-mail messages (fork)",
+            "keywords": [
+                "laminas",
+                "mail"
+            ],
+            "support": {
+                "source": "https://github.com/omeka/sanimal-mail/tree/v2.25.2"
+            },
+            "time": "2026-05-21T20:07:43+00:00"
+        },
+        {
+            "name": "omeka/sanimal-mime",
+            "version": "v2.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/omeka/sanimal-mime.git",
+                "reference": "51d14f6a1f684b3cb32ea62b006c7a7c0590b07f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/omeka/sanimal-mime/zipball/51d14f6a1f684b3cb32ea62b006c7a7c0590b07f",
+                "reference": "51d14f6a1f684b3cb32ea62b006c7a7c0590b07f",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-stdlib": "^2.7 || ^3.0",
+                "php": "^8.0"
+            },
+            "conflict": {
+                "zendframework/zend-mime": "*"
+            },
+            "replace": {
+                "laminas/laminas-mime": "2.12.0"
+            },
+            "require-dev": {
+                "laminas/laminas-coding-standard": "~2.4.0",
+                "laminas/laminas-mail": "^2.19.0",
+                "phpunit/phpunit": "^9"
+            },
+            "suggest": {
+                "laminas/laminas-mail": "Laminas\\Mail component"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Laminas\\Mime\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Create and parse MIME messages and parts (fork)",
+            "keywords": [
+                "laminas",
+                "mime"
+            ],
+            "support": {
+                "source": "https://github.com/omeka/sanimal-mime/tree/v2.12.0"
+            },
+            "time": "2026-05-21T20:09:34+00:00"
+        },
+        {
+            "name": "omeka/sanimal-mvc",
+            "version": "v3.8.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/omeka/sanimal-mvc.git",
+                "reference": "2a63bb715b5172c0a1ab7a1c212308572b002b2e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/omeka/sanimal-mvc/zipball/2a63bb715b5172c0a1ab7a1c212308572b002b2e",
+                "reference": "2a63bb715b5172c0a1ab7a1c212308572b002b2e",
+                "shasum": ""
+            },
+            "require": {
+                "container-interop/container-interop": "^1.2",
+                "laminas/laminas-eventmanager": "^3.4",
+                "laminas/laminas-http": "^2.15",
+                "laminas/laminas-modulemanager": "^2.16",
+                "laminas/laminas-router": "^3.11.1",
+                "laminas/laminas-servicemanager": "^3.20.0",
+                "laminas/laminas-stdlib": "^3.19",
+                "laminas/laminas-view": "^2.18.0",
+                "php": "^8.1.0"
+            },
+            "conflict": {
+                "zendframework/zend-mvc": "*"
+            },
+            "replace": {
+                "laminas/laminas-mvc": "3.8.0"
+            },
+            "require-dev": {
+                "laminas/laminas-coding-standard": "^2.5.0",
+                "laminas/laminas-json": "^3.6",
+                "phpunit/phpunit": "^10.5.38",
+                "webmozart/assert": "^1.11"
+            },
+            "suggest": {
+                "laminas/laminas-json": "(^2.6.1 || ^3.0) To auto-deserialize JSON body content in AbstractRestfulController extensions, when json_decode is unavailable",
+                "laminas/laminas-log": "^2.9.1  To provide log functionality via LogFilterManager, LogFormatterManager, and LogProcessorManager",
+                "laminas/laminas-mvc-console": "laminas-mvc-console provides the ability to expose laminas-mvc as a console application",
+                "laminas/laminas-mvc-i18n": "laminas-mvc-i18n provides integration with laminas-i18n, including a translation bridge and translatable route segments",
+                "laminas/laminas-mvc-middleware": "To dispatch middleware in your laminas-mvc application",
+                "laminas/laminas-mvc-plugin-fileprg": "To provide Post/Redirect/Get functionality around forms that container file uploads",
+                "laminas/laminas-mvc-plugin-flashmessenger": "To provide flash messaging capabilities between requests",
+                "laminas/laminas-mvc-plugin-identity": "To access the authenticated identity (per laminas-authentication) in controllers",
+                "laminas/laminas-mvc-plugin-prg": "To provide Post/Redirect/Get functionality within controllers",
+                "laminas/laminas-paginator": "^2.7 To provide pagination functionality via PaginatorPluginManager",
+                "laminas/laminas-servicemanager-di": "laminas-servicemanager-di provides utilities for integrating laminas-di and laminas-servicemanager in your laminas-mvc application"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Laminas\\Mvc\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Laminas's event-driven MVC layer, including MVC Applications, Controllers, and Plugins (fork)",
+            "keywords": [
+                "laminas",
+                "mvc"
+            ],
+            "support": {
+                "source": "https://github.com/omeka/sanimal-mvc/tree/v3.8.1"
+            },
+            "time": "2026-05-22T19:36:58+00:00"
         },
         {
             "name": "psr/cache",
@@ -4964,16 +4888,16 @@
         },
         {
             "name": "symfony/polyfill-intl-idn",
-            "version": "v1.33.0",
+            "version": "v1.38.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-idn.git",
-                "reference": "9614ac4d8061dc257ecc64cba1b140873dce8ad3"
+                "reference": "dc21118016c039a66235cf93d96b435ffb282412"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/9614ac4d8061dc257ecc64cba1b140873dce8ad3",
-                "reference": "9614ac4d8061dc257ecc64cba1b140873dce8ad3",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/dc21118016c039a66235cf93d96b435ffb282412",
+                "reference": "dc21118016c039a66235cf93d96b435ffb282412",
                 "shasum": ""
             },
             "require": {
@@ -5027,7 +4951,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-idn/tree/v1.33.0"
+                "source": "https://github.com/symfony/polyfill-intl-idn/tree/v1.38.1"
             },
             "funding": [
                 {
@@ -5047,7 +4971,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-10T14:38:51+00:00"
+            "time": "2026-05-25T15:22:23+00:00"
         },
         {
             "name": "symfony/polyfill-intl-normalizer",
@@ -6841,16 +6765,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.6.29",
+            "version": "9.6.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "9ecfec57835a5581bc888ea7e13b51eb55ab9dd3"
+                "reference": "b36f02317466907a230d3aa1d34467041271ef4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/9ecfec57835a5581bc888ea7e13b51eb55ab9dd3",
-                "reference": "9ecfec57835a5581bc888ea7e13b51eb55ab9dd3",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/b36f02317466907a230d3aa1d34467041271ef4a",
+                "reference": "b36f02317466907a230d3aa1d34467041271ef4a",
                 "shasum": ""
             },
             "require": {
@@ -6872,7 +6796,7 @@
                 "phpunit/php-timer": "^5.0.3",
                 "sebastian/cli-parser": "^1.0.2",
                 "sebastian/code-unit": "^1.0.8",
-                "sebastian/comparator": "^4.0.9",
+                "sebastian/comparator": "^4.0.10",
                 "sebastian/diff": "^4.0.6",
                 "sebastian/environment": "^5.1.5",
                 "sebastian/exporter": "^4.0.8",
@@ -6924,7 +6848,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.29"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.34"
             },
             "funding": [
                 {
@@ -6948,7 +6872,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-09-24T06:29:11+00:00"
+            "time": "2026-01-27T05:45:00+00:00"
         },
         {
             "name": "psr/event-dispatcher",
@@ -7695,16 +7619,16 @@
         },
         {
             "name": "sebastian/comparator",
-            "version": "4.0.9",
+            "version": "4.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "67a2df3a62639eab2cc5906065e9805d4fd5dfc5"
+                "reference": "e4df00b9b3571187db2831ae9aada2c6efbd715d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/67a2df3a62639eab2cc5906065e9805d4fd5dfc5",
-                "reference": "67a2df3a62639eab2cc5906065e9805d4fd5dfc5",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/e4df00b9b3571187db2831ae9aada2c6efbd715d",
+                "reference": "e4df00b9b3571187db2831ae9aada2c6efbd715d",
                 "shasum": ""
             },
             "require": {
@@ -7757,7 +7681,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/comparator/issues",
-                "source": "https://github.com/sebastianbergmann/comparator/tree/4.0.9"
+                "source": "https://github.com/sebastianbergmann/comparator/tree/4.0.10"
             },
             "funding": [
                 {
@@ -7777,7 +7701,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-10T06:51:50+00:00"
+            "time": "2026-01-24T09:22:56+00:00"
         },
         {
             "name": "sebastian/complexity",
@@ -8608,16 +8532,16 @@
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v6.4.25",
+            "version": "v6.4.40",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
-                "reference": "976302990f9f2a6d4c07206836dd4ca77cae9524"
+                "reference": "7e65f76c28f5ed8d933f2c86698a3e2bf0de1b10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/976302990f9f2a6d4c07206836dd4ca77cae9524",
-                "reference": "976302990f9f2a6d4c07206836dd4ca77cae9524",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/7e65f76c28f5ed8d933f2c86698a3e2bf0de1b10",
+                "reference": "7e65f76c28f5ed8d933f2c86698a3e2bf0de1b10",
                 "shasum": ""
             },
             "require": {
@@ -8655,7 +8579,7 @@
             "description": "Eases DOM navigation for HTML and XML documents",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/dom-crawler/tree/v6.4.25"
+                "source": "https://github.com/symfony/dom-crawler/tree/v6.4.40"
             },
             "funding": [
                 {
@@ -8675,7 +8599,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-05T18:56:08+00:00"
+            "time": "2026-05-19T20:33:22+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -9123,16 +9047,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v6.4.26",
+            "version": "v6.4.33",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "48bad913268c8cafabbf7034b39c8bb24fbc5ab8"
+                "reference": "c46e854e79b52d07666e43924a20cb6dc546644e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/48bad913268c8cafabbf7034b39c8bb24fbc5ab8",
-                "reference": "48bad913268c8cafabbf7034b39c8bb24fbc5ab8",
+                "url": "https://api.github.com/repos/symfony/process/zipball/c46e854e79b52d07666e43924a20cb6dc546644e",
+                "reference": "c46e854e79b52d07666e43924a20cb6dc546644e",
                 "shasum": ""
             },
             "require": {
@@ -9164,7 +9088,7 @@
             "description": "Executes commands in sub-processes",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/process/tree/v6.4.26"
+                "source": "https://github.com/symfony/process/tree/v6.4.33"
             },
             "funding": [
                 {
@@ -9184,7 +9108,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-09-11T09:57:09+00:00"
+            "time": "2026-01-23T16:02:12+00:00"
         },
         {
             "name": "symfony/stopwatch",

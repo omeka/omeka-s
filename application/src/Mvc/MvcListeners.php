@@ -9,7 +9,7 @@ use Omeka\Site\Theme\Theme;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\I18n\Translator\TranslatorInterface as TranslatorInterface;
-use Laminas\Mvc\Application as ZendApplication;
+use Laminas\Mvc\Application as LaminasApplication;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Permissions\Acl\Exception as AclException;
 use Laminas\Session\Config\SessionConfig;
@@ -345,7 +345,7 @@ class MvcListeners extends AbstractListenerAggregate
         $themeManager = $services->get('Omeka\Site\ThemeManager');
         $currentTheme = $themeManager->getCurrentTheme();
         if (Manager::STATE_ACTIVE !== $currentTheme->getState()) {
-            $event->setError(ZendApplication::ERROR_EXCEPTION);
+            $event->setError(LaminasApplication::ERROR_EXCEPTION);
             $message = sprintf(
                 'The current theme is not active. Its current state is "%s".', // @translate
                 $currentTheme->getState()
@@ -417,7 +417,7 @@ class MvcListeners extends AbstractListenerAggregate
             $site = $services->get('Omeka\ApiManager')
                 ->read('sites', ['slug' => $siteSlug])->getContent();
         } catch (\Exception $e) {
-            $event->setError(ZendApplication::ERROR_EXCEPTION);
+            $event->setError(LaminasApplication::ERROR_EXCEPTION);
             $event->setParam('exception', $e);
             $event->setName(MvcEvent::EVENT_DISPATCH_ERROR);
             $event->getApplication()->getEventManager()->triggerEvent($event);

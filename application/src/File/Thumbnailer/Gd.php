@@ -98,13 +98,11 @@ class Gd extends AbstractThumbnailer
         // Save a temporary thumbnail image.
         $tempFile = $this->tempFileFactory->build();
         $saveResult = imagejpeg($tempImage, $tempFile->getTempPath());
+        unset($tempImage);
 
         if (false === $saveResult) {
-            imagedestroy($tempImage);
             throw new Exception\CannotCreateThumbnailException;
         }
-
-        imagedestroy($tempImage);
 
         $tempPath = $tempFile->getTempPath();
         if ($this->icc) {
@@ -148,7 +146,6 @@ class Gd extends AbstractThumbnailer
             0, 0, $tempWidth, $tempHeight, $this->origWidth, $this->origHeight);
 
         if (false === $resizeResult) {
-            imagedestroy($tempImage);
             throw new Exception\CannotCreateThumbnailException;
         }
 
@@ -190,7 +187,6 @@ class Gd extends AbstractThumbnailer
             $origX, $origY, $constraint, $constraint, $origSize, $origSize);
 
         if (false === $resizeResult) {
-            imagedestroy($tempImage);
             throw new Exception\CannotCreateThumbnailException;
         }
 
@@ -213,17 +209,5 @@ class Gd extends AbstractThumbnailer
         imagefill($tempImage, 0, 0, $white);
 
         return $tempImage;
-    }
-
-    /**
-     * Destroy the GD resource.
-     *
-     * This works because the gd thumbnailer is a non-shared service.
-     */
-    public function __destruct()
-    {
-        if (is_resource($this->origImage)) {
-            imagedestroy($this->origImage);
-        }
     }
 }

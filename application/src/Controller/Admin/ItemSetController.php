@@ -137,7 +137,7 @@ class ItemSetController extends AbstractActionController
 
     public function sidebarSelectAction()
     {
-        $this->setBrowseDefaults('created');
+        $this->browse()->setDefaults('item_sets');
         $response = $this->api()->search('item_sets', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults());
 

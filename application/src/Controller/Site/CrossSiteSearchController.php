@@ -74,7 +74,7 @@ class CrossSiteSearchController extends AbstractActionController
 
     public function sitePagesAction()
     {
-        $this->setBrowseDefaults('created');
+        $this->browse()->setDefaults('site_pages');
         $response = $this->api()->search('site_pages', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults());
         $view = new ViewModel;
@@ -85,7 +85,7 @@ class CrossSiteSearchController extends AbstractActionController
 
     public function itemsAction()
     {
-        $this->setBrowseDefaults('created');
+        $this->browse()->setDefaults('items');
         $query = array_merge($this->params()->fromQuery(), ['in_sites' => true]);
         $response = $this->api()->search('items', $query);
         $this->paginator($response->getTotalResults());
@@ -97,7 +97,7 @@ class CrossSiteSearchController extends AbstractActionController
 
     public function itemSetsAction()
     {
-        $this->setBrowseDefaults('created');
+        $this->browse()->setDefaults('item_sets');
         $query = array_merge($this->params()->fromQuery(), ['in_sites' => true]);
         $response = $this->api()->search('item_sets', $query);
         $this->paginator($response->getTotalResults());

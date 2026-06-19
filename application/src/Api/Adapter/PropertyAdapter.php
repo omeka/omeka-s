@@ -65,6 +65,8 @@ class PropertyAdapter extends AbstractEntityAdapter
         ErrorStore $errorStore
     ) {
         $data = $request->getContent();
+        $isCreate = Request::CREATE === $request->getOperation();
+
         $this->hydrateOwner($request, $entity);
 
         if ($this->shouldHydrate($request, 'o:local_name')) {
@@ -75,6 +77,14 @@ class PropertyAdapter extends AbstractEntityAdapter
         }
         if ($this->shouldHydrate($request, 'o:comment')) {
             $entity->setComment($request->getValue('o:comment'));
+        }
+        if ($isCreate
+            && isset($data['o:vocabulary']['o:id'])
+            && is_numeric($data['o:vocabulary']['o:id'])
+        ) {
+            $adapter = $this->getAdapter('vocabularies');
+            $vocabularyEntity = $adapter->findEntity($data['o:vocabulary']['o:id']);
+            $entity->setVocabulary($vocabularyEntity);
         }
     }
 

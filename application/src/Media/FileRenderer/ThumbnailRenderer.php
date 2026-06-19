@@ -22,8 +22,10 @@ class ThumbnailRenderer extends AbstractRenderer
             return $img;
         }
 
-        $title = $media->displayTitle();
-
-        return sprintf('<a href="%s" title="%s">%s</a>', $view->escapeHtml($url), $view->escapeHtml($title), $img);
+        $linkAttribs = $options['linkAttribs'] ?? [];
+        if (!array_key_exists('title', $linkAttribs)) {
+            $linkAttribs['title'] = $media->displayTitle();
+        }
+        return $view->plugin('hyperlink')->raw($img, $url, $linkAttribs);
     }
 }

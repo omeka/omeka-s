@@ -4470,7 +4470,7 @@ msgstr "[Classe non impostata]"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:114
 msgid "Set thumbnail"
-msgstr ""
+msgstr "Imposta miniatura"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:127
 msgid "Set owner"
@@ -4754,6 +4754,7 @@ msgstr ""
 msgid ""
 "The prefix may only contain letters, numbers, hyphens, and underscores."
 msgstr ""
+"Il prefisso può contenere solo lettere, numeri, trattini, e trattini bassi."
 
 #: application/src/Form/SitePageForm.php:42
 msgid "Add to navigation"

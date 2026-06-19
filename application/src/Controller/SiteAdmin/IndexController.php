@@ -538,7 +538,7 @@ class IndexController extends AbstractActionController
 
     public function sidebarItemSelectAction()
     {
-        $this->setBrowseDefaults('created');
+        $this->browse()->setDefaults('items');
         $site = $this->currentSite();
 
         $query = $this->params()->fromQuery();

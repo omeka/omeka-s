@@ -39,7 +39,7 @@ class QueryController extends AbstractActionController
             default:
                 $resourceType = 'items';
         }
-        $this->setBrowseDefaults('created');
+        $this->browse()->setDefaults($resourceType);
 
         $previewAppendQuery = json_decode($this->params()->fromQuery('query_preview_append_query'), true);
         $query = array_merge($this->params()->fromQuery(), $previewAppendQuery);

@@ -676,7 +676,7 @@ return [
         ],
         'public' => [
             'items' => [
-                'sort_by' => 'created',
+                'sort_by' => 'id',
                 'sort_order' => 'desc',
             ],
         ],

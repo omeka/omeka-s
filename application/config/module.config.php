@@ -216,6 +216,7 @@ return [
         'adapter' => null,
         'sslcapath' => null,
         'sslcafile' => null,
+        'curloptions' => [],
     ],
     'cli' => [
         'execute_strategy' => 'auto',

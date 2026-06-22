@@ -22,10 +22,10 @@ class InstallationForm extends Form
         $this->add([
             'name' => 'settings',
             'type' => 'fieldset',
-             'options' => [
+            'options' => [
                 'label' => 'Settings', // @translate
             ],
-       ]);
+        ]);
         $this->add([
             'name' => 'submit',
             'type' => 'submit',

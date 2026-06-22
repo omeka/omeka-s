@@ -12,7 +12,7 @@ class NothumbnailFactory implements FactoryInterface
      *
      * @return NoThumbnail
      */
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         return new NoThumbnail();
     }

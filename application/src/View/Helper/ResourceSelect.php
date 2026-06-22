@@ -37,6 +37,6 @@ class ResourceSelect extends AbstractHelper
         $spec['type'] = Select::class;
         $factory = new Factory($this->formElementManager);
         $element = $factory->createElement($spec);
-        return $this->getView()->formSelect($element);
+        return $this->getView()->formSelectSort($element);
     }
 }

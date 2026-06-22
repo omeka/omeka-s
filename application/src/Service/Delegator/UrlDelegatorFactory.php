@@ -8,7 +8,7 @@ use Omeka\View\Helper\Url;
 class UrlDelegatorFactory implements DelegatorFactoryInterface
 {
     public function __invoke(ContainerInterface $container, $name,
-        callable $callback, array $options = null
+        callable $callback, ?array $options = null
     ) {
         return new Url($callback());
     }

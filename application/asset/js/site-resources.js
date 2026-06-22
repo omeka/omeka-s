@@ -10,7 +10,7 @@
             }
         });
 
-        new Sortable(document.getElementById('site-item-sets'), {
+        new Sortable(document.querySelector('#site-item-sets .resource-rows'), {
             draggable: '.resource-row',
             handle: '.sortable-handle',
         });

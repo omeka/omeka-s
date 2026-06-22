@@ -12,7 +12,7 @@ class SiteSettingsFactory implements FactoryInterface
      *
      * @return SiteSettings
      */
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         return new SiteSettings(
             $services->get('Omeka\Connection'),

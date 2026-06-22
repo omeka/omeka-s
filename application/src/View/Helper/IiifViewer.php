@@ -22,7 +22,14 @@ class IiifViewer extends AbstractHelper
         $view = $this->getView();
         $width = $options['width'] ?? '100%';
         $height = $options['height'] ?? '700px';
+        $title = $options['title'] ?? null;
         $src = $view->url('iiif-viewer', [], ['force_canonical' => true, 'query' => $query]);
-        return sprintf('<iframe style="width: %s; height: %s;" src="%s"></iframe>', $width, $height, $view->escapeHtml($src));
+        return sprintf(
+            '<iframe style="width: %s; height: %s;" aria-label="%s" src="%s"></iframe>',
+            $width,
+            $height,
+            $view->escapeHtml($title),
+            $view->escapeHtml($src)
+        );
     }
 }

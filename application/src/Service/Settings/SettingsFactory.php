@@ -12,7 +12,7 @@ class SettingsFactory implements FactoryInterface
      *
      * @return Settings
      */
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, ?array $options = null)
     {
         return new Settings(
             $serviceLocator->get('Omeka\Connection'),

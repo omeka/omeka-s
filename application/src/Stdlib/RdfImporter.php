@@ -99,12 +99,12 @@ class RdfImporter
                 }
                 $file = $options['file'];
                 if (!is_readable($file)) {
-                    throw new ValidationException('File not readable.');
+                    throw new ValidationException('Could not read vocabulary file.');
                 }
                 try {
                     $graph->parseFile($file, $options['format'], $namespaceUri);
                 } catch (\EasyRdf\Exception $e) {
-                    throw new ValidationException($e->getMessage(), $e->getCode(), $e);
+                    throw new ValidationException('Could not parse vocabulary file.');
                 }
                 break;
             case 'url':
@@ -115,7 +115,7 @@ class RdfImporter
                 try {
                     $graph->load($options['url'], $options['format']);
                 } catch (\EasyRdf\Exception $e) {
-                    throw new ValidationException($e->getMessage(), $e->getCode(), $e);
+                    throw new ValidationException('Could not load vocabulary from URL.');
                 }
                 break;
             default:
@@ -335,8 +335,7 @@ class RdfImporter
         foreach ($types as $type) {
             foreach ($graph->allOfType($type) as $resource) {
                 // The resource must be a local member of the vocabulary.
-                $output = strncmp($resource->getUri(), $namespaceUri, strlen($namespaceUri));
-                if (0 === $output) {
+                if ($resource->getUri() === $namespaceUri . $resource->localName()) {
                     $members[$resource->localName()] = [
                         'label' => $this->getLabel($resource, $labelProperty, $lang, $resource->localName()),
                         'comment' => $this->getComment($resource, $commentProperty, $lang),

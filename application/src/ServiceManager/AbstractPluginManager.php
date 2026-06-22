@@ -2,10 +2,10 @@
 namespace Omeka\ServiceManager;
 
 use Laminas\EventManager\EventManagerAwareTrait;
-use Laminas\ServiceManager\AbstractPluginManager as ZendAbstractPluginManager;
+use Laminas\ServiceManager\AbstractPluginManager as LaminasAbstractPluginManager;
 use Laminas\EventManager\Event;
 
-abstract class AbstractPluginManager extends ZendAbstractPluginManager
+abstract class AbstractPluginManager extends LaminasAbstractPluginManager
 {
     use EventManagerAwareTrait;
 
@@ -36,6 +36,24 @@ abstract class AbstractPluginManager extends ZendAbstractPluginManager
         if (isset($v3config['sorted_names'])) {
             $this->sortedNames = $v3config['sorted_names'];
         }
+    }
+
+    /**
+     * Register service names that were set via setFactory().
+     */
+    public function setFactory($name, $factory)
+    {
+        parent::setFactory($name, $factory);
+        $this->registeredNames[$name] = $name;
+    }
+
+    /**
+     * Register service names that were set via setInvokableClass().
+     */
+    public function setInvokableClass($name, $class = null)
+    {
+        parent::setInvokableClass($name, $factory);
+        $this->registeredNames[$name] = $name;
     }
 
     /**

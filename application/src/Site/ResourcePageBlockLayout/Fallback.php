@@ -13,17 +13,17 @@ class Fallback implements ResourcePageBlockLayoutInterface
         $this->name = $name;
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return sprintf('Unknown [%s]', $this->name); // @translate
     }
 
-    public function getCompatibleResourceNames() : array
+    public function getCompatibleResourceNames(): array
     {
         return [];
     }
 
-    public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource) : string
+    public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource): string
     {
         return '';
     }

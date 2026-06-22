@@ -6,8 +6,10 @@ $summary = $showSummary ? $site->summary() : null;
     <?php if ($thumbnail): ?>
     <div class="site-thumbnail"><?php echo $this->thumbnail($thumbnail, 'square', ['class' => 'site-thumbnail-image']); ?></div>
     <?php endif; ?>
-    <?php echo $this->hyperlink($site->title(), $site->siteUrl(), ['class' => 'site-link']); ?>
-    <?php if ($summary): ?>
-    <p class="site-summary"><?php echo nl2br($this->escapeHtml($summary)); ?></p>
-    <?php endif; ?>
+    <div class="site-text">
+        <?php echo $this->hyperlink($site->title(), $site->siteUrl(), ['class' => 'site-link']); ?>
+        <?php if ($summary): ?>
+        <p class="site-summary"><?php echo nl2br($this->escapeHtml($summary)); ?></p>
+        <?php endif; ?>
+    </div>
 </div>

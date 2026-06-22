@@ -2,7 +2,7 @@
 $translate = $this->plugin('translate');
 ?>
 <?php if ($this->setting('version_notifications')): ?>
-<?php $this->headScript()->prependFile($this->assetUrl('vendor/semver/semver.min.js', 'Omeka')); ?>
+<?php $this->headScript()->prependFile($this->assetUrl('vendor/compare-versions/index.js', 'Omeka')); ?>
 <div class="version-notification" style="display: none;">
     <?php echo sprintf(
         $translate('A new version of Omeka S is available. %s'),
@@ -17,7 +17,7 @@ $translate = $this->plugin('translate');
 var currentVersion = '<?php echo $this->escapeJs(Omeka\Module::VERSION); ?>';
 $.get('https://api.omeka.org/latest-version-s')
     .done(function(latestVersion) {
-        if (semver.lt(currentVersion, latestVersion)) {
+        if (compareVersions.compareVersions(currentVersion, latestVersion.trim()) === -1) {
             $('.version-notification').show();
         }
     });

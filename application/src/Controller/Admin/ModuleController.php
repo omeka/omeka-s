@@ -138,9 +138,15 @@ class ModuleController extends AbstractActionController
         }
 
         $form = $this->getForm(ConfirmForm::class);
-        $form->setAttribute('action', $this->url()->fromRoute(
-            null, ['action' => 'uninstall'], ['query' => ['id' => $module->getId()],
-        ], true));
+        $form->setAttribute(
+            'action',
+            $this->url()->fromRoute(
+                null,
+                ['action' => 'uninstall'],
+                ['query' => ['id' => $module->getId()]],
+                true
+            )
+        );
         $form->setButtonLabel('Confirm uninstall'); // @translate
 
         $view = new ViewModel;

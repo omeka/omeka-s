@@ -44,7 +44,7 @@ class AssetAdapter extends AbstractEntityAdapter
     public function buildQuery(QueryBuilder $qb, array $query)
     {
         if (isset($query['owner_id']) && is_numeric($query['owner_id'])) {
-            $userAlias = $this->createAlias();
+            $userAlias = $qb->createAlias();
             if (0 == $query['owner_id']) {
                 // Search assets without an owner.
                 $qb->andWhere($qb->expr()->isNull('omeka_root.owner'));

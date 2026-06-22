@@ -107,7 +107,7 @@ interface AdapterInterface extends EventManagerAwareInterface, ResourceInterface
      * @param ApiResourceInterface $data Data needed to compose the representation.
      * @return \Omeka\Api\Representation\RepresentationInterface|null
      */
-    public function getRepresentation(ApiResourceInterface $data = null);
+    public function getRepresentation(?ApiResourceInterface $data = null);
 
     /**
      * Set the service locator.

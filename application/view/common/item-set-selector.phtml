@@ -4,34 +4,29 @@ $escape = $this->plugin('escapeHtml');
 ?>
 <div id="item-set-selector" class='selector sidebar active'>
     <a href="#" class="mobile-only sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
-    <div class="resources-available" data-all-resources-count="<?php echo $totalItemSetCount; ?>">
+    <div class="resources-available" data-all-resources-count="<?php echo $totalCount; ?>">
         <h3><?php echo $translate('Click on an item set to add it to the edit panel.'); ?></h3>
         <input type="text" class="selector-filter" placeholder=" <?php echo $escape($translate('Filter item sets')); ?>">
         <ul>
-            <li class="total-count-heading"><?php echo $translate('Item sets'); ?> (<span class="selector-total-count"><?php echo $totalItemSetCount; ?></span>)
+            <li class="total-count-heading"><?php echo $translate('Item sets'); ?> (<span class="selector-total-count"><?php echo $totalCount; ?></span>)
                 <ul class="selectable-list">
-                    <?php foreach ($itemSetOwners as $email => $itemSetOwner): ?>
-                    <?php
-                    if ($itemSetOwner['owner']) {
-                        $ownerText = $escape($itemSetOwner['owner']->name());
-                    } else {
-                        $ownerText = $translate('[No owner]');
-                    }
-                    $itemSets = $itemSetOwner['item_sets'];
-                    ?>
+                    <?php foreach ($options as $email => $itemSetOwner): ?>
                     <li class='selector-parent'>
-                        <span><?php echo $ownerText; ?></span> (<span class="selector-child-count"><?php echo count($itemSets); ?></span>)
+                        <span><?php echo $itemSetOwner['label']; ?></span> (<span class="selector-child-count"><?php echo count($itemSetOwner['options']); ?></span>)
                         <ul>
-                            <?php foreach ($itemSets as $itemSet): ?>
+                            <?php foreach ($itemSetOwner['options'] as $itemSet): ?>
+                            <?php
+                            $comment = $itemSet['item_set']->displayDescription();
+                            ?>
                             <li class='selector-child'
-                                data-child-search="<?php echo $escape($itemSet->displayTitle()); ?>"
-                                data-resource-id="<?php echo $escape($itemSet->id()); ?>"
+                                data-child-search="<?php echo $escape($itemSet['label']); ?>"
+                                data-resource-id="<?php echo $escape($itemSet['item_set']->id()); ?>"
                                 data-owner-email="<?php echo $escape($email); ?>">
-                                <div class="description">
+                                <div class="description<?php echo $comment ? '' : ' no-comment'; ?>">
                                     <p class="o-icon-info"><span class="screen-reader-text"><?php echo $translate('More info'); ?></span></p>
-                                    <p class="field-comment"><?php echo $escape($itemSet->displayDescription()); ?></p>
+                                    <p class="field-comment"><?php echo $escape($comment); ?></p>
                                 </div>
-                                <span><?php echo $escape($itemSet->displayTitle()); ?></span>
+                                <span><?php echo $escape($itemSet['label']); ?></span>
                             </li>
                             <?php endforeach; ?>
                         </ul>

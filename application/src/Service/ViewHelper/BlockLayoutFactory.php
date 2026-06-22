@@ -16,8 +16,12 @@ class BlockLayoutFactory implements FactoryInterface
      *
      * @return BlockLayout
      */
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
-        return new BlockLayout($services->get('Omeka\BlockLayoutManager'));
+        return new BlockLayout(
+            $services->get('Omeka\BlockLayoutManager'),
+            $services->get('EventManager'),
+            $services->get('Omeka\Site\ThemeManager')->getCurrentTheme()
+        );
     }
 }

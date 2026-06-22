@@ -6,7 +6,7 @@ use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Laminas\View\Renderer\PhpRenderer;
 
-class ItemWithMetadata extends AbstractBlockLayout
+class ItemWithMetadata extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     public function getLabel()
     {
@@ -14,19 +14,20 @@ class ItemWithMetadata extends AbstractBlockLayout
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
-        SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
+        ?SitePageRepresentation $page = null, ?SitePageBlockRepresentation $block = null
     ) {
         return $view->blockAttachmentsForm($block, true);
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = 'common/block-layout/item-with-metadata')
     {
         $attachments = $block->attachments();
         if (!$attachments) {
             return 'No item selected'; // @translate
         }
 
-        return $view->partial('common/block-layout/item-with-metadata', [
+        return $view->partial($templateViewScript, [
+            'block' => $block,
             'attachments' => $attachments,
         ]);
     }

@@ -68,7 +68,7 @@ class Item extends Resource
         return $this->id;
     }
 
-    public function setPrimaryMedia(Media $primaryMedia = null)
+    public function setPrimaryMedia(?Media $primaryMedia = null)
     {
         $this->primaryMedia = $primaryMedia;
     }

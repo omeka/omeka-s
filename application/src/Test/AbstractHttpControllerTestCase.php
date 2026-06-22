@@ -2,10 +2,10 @@
 
 namespace Omeka\Test;
 
-use Laminas\Test\PHPUnit\Controller\AbstractHttpControllerTestCase as ZendAbstractHttpControllerTestCase;
+use Laminas\Test\PHPUnit\Controller\AbstractHttpControllerTestCase as LaminasAbstractHttpControllerTestCase;
 use Omeka\Mvc\Application;
 
-abstract class AbstractHttpControllerTestCase extends ZendAbstractHttpControllerTestCase
+abstract class AbstractHttpControllerTestCase extends LaminasAbstractHttpControllerTestCase
 {
     public function setUp(): void
     {

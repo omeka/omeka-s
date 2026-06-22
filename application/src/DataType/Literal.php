@@ -6,7 +6,7 @@ use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Entity\Value;
 use Laminas\View\Renderer\PhpRenderer;
 
-class Literal extends AbstractDataType implements ValueAnnotatingInterface
+class Literal extends AbstractDataType implements ValueAnnotatingInterface, ConversionTargetInterface
 {
     public function getName()
     {
@@ -25,13 +25,12 @@ class Literal extends AbstractDataType implements ValueAnnotatingInterface
 
     public function isValid(array $valueObject)
     {
-        if (isset($valueObject['@value'])
-            && is_string($valueObject['@value'])
-            && '' !== trim($valueObject['@value'])
-        ) {
-            return true;
-        }
-        return false;
+        return $this->literalIsValid($valueObject['@value'] ?? null);
+    }
+
+    public function literalIsValid($literal)
+    {
+        return (is_string($literal) && '' !== trim($literal));
     }
 
     public function hydrate(array $valueObject, Value $value, AbstractEntityAdapter $adapter)
@@ -67,5 +66,23 @@ class Literal extends AbstractDataType implements ValueAnnotatingInterface
     public function valueAnnotationForm(PhpRenderer $view)
     {
         return $view->partial('common/data-type/value-annotation-literal');
+    }
+
+    public function convert(Value $valueObject, string $dataTypeTarget): bool
+    {
+        $value = $valueObject->getValue();
+        $uri = $valueObject->getUri();
+
+        // Note that, in order to prevent data loss, we do not convert if a URI
+        // and value are present.
+        if ($this->literalIsValid($uri) && !$this->literalIsValid($value)) {
+            $valueObject->setValue($uri);
+            $valueObject->setUri(null);
+            return true;
+        }
+        if ($this->literalIsValid($value) && !$this->literalIsValid($uri)) {
+            return true;
+        }
+        return false;
     }
 }

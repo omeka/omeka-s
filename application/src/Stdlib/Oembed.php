@@ -1,7 +1,9 @@
 <?php
 namespace Omeka\Stdlib;
 
-use Laminas\Dom\Query;
+use DOMDocument;
+use DOMNodeList;
+use DOMXPath;
 use Laminas\Http\Client as HttpClient;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\Uri\Http as HttpUri;
@@ -33,9 +35,13 @@ class Oembed
     public function getOembed(string $url, ErrorStore $errorStore, string $errorKey = 'oembed-url')
     {
         // Check that the URL is allowed.
+        $regex = null;
+        $endpoint = null;
         $allowed = false;
-        foreach ($this->allowList as $pattern) {
-            if (1 === preg_match($pattern, $url)) {
+        foreach ($this->allowList as $allow) {
+            // Each value of the allowlist could be a string or an array.
+            [$regex, $endpoint] = is_array($allow) ? $allow : [$allow, null];
+            if (preg_match($regex, $url)) {
                 $allowed = true;
                 break;
             }
@@ -45,22 +51,31 @@ class Oembed
             return false;
         }
 
-        // Check for oEmbed support.
-        // @see https://oembed.com/#section4
-        $response = $this->getResponse($url, $errorStore, $errorKey);
-        if (!$response) {
-            return false;
-        }
-        $dom = new Query($response->getBody());
-        $oembedLinks = $dom->queryXpath('//link[@rel="alternate" or @rel="alternative"][@type="application/json+oembed" or @type="text/json+oembed"]');
-        if (!$oembedLinks->count()) {
-            $errorStore->addError($errorKey, sprintf($this->translator->translate('oEmbed: links cannot be found at %s'), $url));
-            return false;
+        if ($endpoint) {
+            // Use the endpoint provided in config.
+            $oembedUrl = sprintf('%s?format=json&url=%s', $endpoint, urlencode($url));
+        } else {
+            // Check for oEmbed support by searching the page for the discovery link.
+            // @see https://oembed.com/#section4
+            $response = $this->getResponse($url, $errorStore, $errorKey);
+            if (!$response) {
+                return false;
+            }
+            $oembedLinks = $this->queryXpath(
+                $response->getBody(),
+                '//link[@rel="alternate" or @rel="alternative"][@type="application/json+oembed" or @type="text/json+oembed"]'
+            );
+            if (!$oembedLinks || !$oembedLinks->length) {
+                $errorStore->addError($errorKey, sprintf($this->translator->translate('oEmbed: links cannot be found at %s'), $url));
+                return false;
+            }
+            // Use the endpoint provided by the discovery link.
+            $oembedUrl = $oembedLinks->item(0)->getAttribute('href');
         }
 
         // Get the oEmbed response.
-        $oembedLinkUrl = $oembedLinks->current()->getAttribute('href');
-        $response = $this->getResponse($oembedLinkUrl, $errorStore, $errorKey);
+
+        $response = $this->getResponse($oembedUrl, $errorStore, $errorKey);
         if (!$response) {
             return false;
         }
@@ -96,6 +111,27 @@ class Oembed
             );
         }
         return false;
+    }
+
+    /**
+     * Query an HTML string using an XPath expression.
+     *
+     * @param string $html
+     * @param string $xpath
+     * @return \DOMNodeList|false Returns false if the HTML cannot be loaded
+     */
+    protected function queryXpath(string $html, string $xpath): DOMNodeList|false
+    {
+        // Suppress warnings from malformed HTML and discard any parse errors.
+        libxml_use_internal_errors(true);
+        $doc = new DOMDocument();
+        $success = $doc->loadHTML($html);
+        libxml_clear_errors();
+        libxml_use_internal_errors(false);
+        if (!$success) {
+            return false;
+        }
+        return (new DOMXPath($doc))->query($xpath);
     }
 
     /**

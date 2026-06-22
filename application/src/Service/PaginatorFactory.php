@@ -12,7 +12,7 @@ class PaginatorFactory implements FactoryInterface
      *
      * @return Paginator
      */
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, ?array $options = null)
     {
         $settings = $serviceLocator->get('Omeka\Settings');
 

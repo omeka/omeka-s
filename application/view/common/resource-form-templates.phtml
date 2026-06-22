@@ -17,17 +17,17 @@ $this->dataType()->prepareForm();
         <div class="values">
             <p class="no-values"><?php echo $translate('Select the first value type.'); ?></p>
         </div>
-        <div class="add-values default-selector">
-            <label class="o-icon-add"><?php echo $translate('Add value'); ?></label>
+        <div class="add-values default-selector" role="group" aria-label="<?php echo $translate('Add value'); ?>">
+            <span class="o-icon-add"></span>
             <a href="#" class="add-value button o-icon-literal" data-type="literal"><?php echo $translate('Text'); ?></a>
             <a href="#" class="add-value button o-icon-resource" data-type="resource"><?php echo $translate('Omeka resource'); ?></a>
             <a href="#" class="add-value button o-icon-uri" data-type="uri"><?php echo $translate('URI'); ?></a>
         </div>
-        <div class="add-values multiple-selector" style="display:none">
-            <label class="o-icon-add"><?php echo $translate('Add value'); ?></label>
+        <div class="add-values multiple-selector" role="group" aria-label="<?php echo $translate('Add value'); ?>" style="display:none">
+            <span class="o-icon-add"></span>
         </div>
-        <div class="add-values single-selector" style="display:none">
-            <label class="o-icon-add"><?php echo $translate('Add value'); ?></label>
+        <div class="add-values single-selector" role="group" aria-label="<?php echo $translate('Add value'); ?>" style="display:none">
+            <span class="o-icon-add" aria-hidden="true"></span>
             <a href="#" class="add-value button"><?php echo $translate('Add value'); ?></a>
         </div>
     </div>

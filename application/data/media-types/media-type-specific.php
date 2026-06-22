@@ -6,6 +6,14 @@
  */
 
 return [
+    'audio/mpeg' => [
+        'mp3',
+        'mpga',
+        'mp2',
+        'mp2a',
+        'm2a',
+        'm3a',
+    ],
     'image/jp2' => [
         'jp2',
         'j2k',

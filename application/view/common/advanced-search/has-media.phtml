@@ -1,12 +1,12 @@
 <?php
 $element = new \Laminas\Form\Element\Select('has_media');
-$element->setLabel($this->translate('Search by media presence'))
+$element
+    ->setLabel('Search by media presence') // @translate
     ->setValueOptions([
-        '1' => $this->translate('Has media'),
-        '0' => $this->translate('Has no media'),
+        '1' => 'Has media', // @translate
+        '0' => 'Has no media', // @translate
     ])
-    ->setEmptyOption($this->translate('Select media presence…'))
+    ->setEmptyOption('Select media presence…') // @translate
     ->setValue($query['has_media'] ?? '')
     ->setAttribute('id', 'has_media');
 echo $this->formRow($element);
-?>

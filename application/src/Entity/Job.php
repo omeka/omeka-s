@@ -136,7 +136,7 @@ class Job extends AbstractEntity
         return $this->log;
     }
 
-    public function setOwner(User $owner = null)
+    public function setOwner(?User $owner = null)
     {
         $this->owner = $owner;
     }

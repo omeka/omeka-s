@@ -83,6 +83,9 @@ class ImageMagick extends AbstractThumbnailer
         $commandArgs = [$this->convertPath];
         if ($mediaType == 'application/pdf') {
             $commandArgs[] = '-density 150';
+            if ($this->getOption('pdfUseCropBox', true)) {
+                $commandArgs[] = '-define pdf:use-cropbox=true';
+            }
         }
         $commandArgs[] = escapeshellarg($origPath);
         $commandArgs = array_merge($commandArgs, $args);

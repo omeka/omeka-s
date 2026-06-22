@@ -93,4 +93,14 @@ class IndexController extends AbstractActionController
             ->setVariable('itemsTotal', @$results['site_pages']['total']);
         return $view;
     }
+
+    public function linkedResourcesAction()
+    {
+        $resource = $this->api()->read('resources', $this->params('id'))->getContent();
+
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setVariable('resource', $resource);
+        return $view;
+    }
 }

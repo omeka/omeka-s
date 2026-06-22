@@ -119,10 +119,10 @@ class Mailer
     {
         $url = $this->viewHelpers->get('url');
         return $url(
-                'create-password',
-                ['key' => $passwordCreation->getId()],
-                ['force_canonical' => true]
-            );
+            'create-password',
+            ['key' => $passwordCreation->getId()],
+            ['force_canonical' => true]
+        );
     }
 
     /**

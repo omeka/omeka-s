@@ -43,7 +43,7 @@ class ValueRepresentation extends AbstractRepresentation
             'string' => $this->dataType->toString($this),
         ]);
         $eventManager->trigger('rep.value.string', $this, $args);
-        return $args['string'];
+        return (string) $args['string'];
     }
 
     /**

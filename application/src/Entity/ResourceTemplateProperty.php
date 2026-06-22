@@ -72,7 +72,7 @@ class ResourceTemplateProperty extends AbstractEntity
         return $this->id;
     }
 
-    public function setResourceTemplate(ResourceTemplate $resourceTemplate = null)
+    public function setResourceTemplate(?ResourceTemplate $resourceTemplate = null)
     {
         $this->resourceTemplate = $resourceTemplate;
     }
@@ -122,7 +122,7 @@ class ResourceTemplateProperty extends AbstractEntity
         $this->position = (int) $position;
     }
 
-    public function setDataType(array $dataType = null)
+    public function setDataType(?array $dataType = null)
     {
         $this->dataType = $dataType;
     }

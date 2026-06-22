@@ -34,6 +34,11 @@ class SitePageBlock extends AbstractEntity
     protected $data;
 
     /**
+     * @Column(type="json", nullable=true)
+     */
+    protected $layoutData;
+
+    /**
      * @Column(type="integer")
      */
     protected $position;
@@ -93,6 +98,16 @@ class SitePageBlock extends AbstractEntity
     public function getPosition()
     {
         return $this->position;
+    }
+
+    public function setLayoutData($layoutData)
+    {
+        $this->layoutData = $layoutData;
+    }
+
+    public function getLayoutData()
+    {
+        return $this->layoutData;
     }
 
     public function setPage(SitePage $page)

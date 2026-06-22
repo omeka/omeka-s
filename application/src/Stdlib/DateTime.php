@@ -16,7 +16,7 @@ class DateTime implements JsonSerializable
     /**
      * @param \DateTime|null $dateTime Null will set the current DateTime
      */
-    public function __construct(\DateTime $dateTime = null)
+    public function __construct(?\DateTime $dateTime = null)
     {
         if (null === $dateTime) {
             // Set current date and time

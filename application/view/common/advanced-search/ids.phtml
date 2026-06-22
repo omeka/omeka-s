@@ -7,7 +7,7 @@ if (isset($query['id'])) {
     }
 }
 ?>
-<div class="field">
+<div class="field" id="id_field">
     <div class="field-meta">
         <label for="id"><?php echo $this->translate('Search by ID'); ?></label>
         <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $this->translate('Expand')]); ?>

@@ -16,7 +16,7 @@ class NavigationLinkFactory implements FactoryInterface
      *
      * @return NavigationLink
      */
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         return new NavigationLink($services->get('Omeka\Site\NavigationLinkManager'));
     }

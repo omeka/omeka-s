@@ -3,11 +3,12 @@ namespace Omeka\Form;
 
 use Omeka\Form\Element\SiteSelect;
 use Laminas\EventManager\Event;
+use Laminas\EventManager\EventManagerAwareInterface;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\Form\Form;
 use Laminas\View\Helper\Url;
 
-class UserBatchUpdateForm extends Form
+class UserBatchUpdateForm extends Form implements EventManagerAwareInterface
 {
     use EventManagerAwareTrait;
 

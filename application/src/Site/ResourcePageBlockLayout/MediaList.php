@@ -6,17 +6,17 @@ use Laminas\View\Renderer\PhpRenderer;
 
 class MediaList implements ResourcePageBlockLayoutInterface
 {
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return 'Media list'; // @translate
     }
 
-    public function getCompatibleResourceNames() : array
+    public function getCompatibleResourceNames(): array
     {
         return ['items'];
     }
 
-    public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource) : string
+    public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource): string
     {
         return $view->partial('common/resource-page-block-layout/media-list', ['resource' => $resource]);
     }

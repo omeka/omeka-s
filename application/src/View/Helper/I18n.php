@@ -31,7 +31,7 @@ class i18n extends AbstractHelper
      *
      * @param string $timezone
      */
-    public function __construct($timezone, DateFormat $dateFormatHelper = null)
+    public function __construct($timezone, ?DateFormat $dateFormatHelper = null)
     {
         $this->timezone = $timezone;
         if ($dateFormatHelper) {
@@ -59,7 +59,7 @@ class i18n extends AbstractHelper
      * @return string
      */
     public function dateFormat(
-        DateTime $date = null,
+        ?DateTime $date = null,
         $dateType = self::DATE_FORMAT_MEDIUM,
         $timeType = self::DATE_FORMAT_NONE,
         $locale = null,
@@ -86,7 +86,7 @@ class i18n extends AbstractHelper
                 ? $constMap[$timeType]
                 : \IntlDateFormatter::NONE;
 
-            // Proxy to Zend's dateFormat helper.
+            // Proxy to Laminas's dateFormat helper.
             return $this->dateFormatHelper->__invoke($date, $dateType, $timeType, $locale, $pattern);
         }
 

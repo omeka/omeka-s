@@ -143,7 +143,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * @param mixed $data Whatever data is needed to compose the representation.
      * @return ResourceInterface|null
      */
-    public function getRepresentation(ResourceInterface $data = null)
+    public function getRepresentation(?ResourceInterface $data = null)
     {
         if (null === $data) {
             // Do not attempt to compose a null representation.

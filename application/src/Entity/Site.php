@@ -175,7 +175,7 @@ class Site extends AbstractEntity
         return $this->summary;
     }
 
-    public function setThumbnail(Asset $thumbnail = null)
+    public function setThumbnail(?Asset $thumbnail = null)
     {
         $this->thumbnail = $thumbnail;
     }
@@ -195,7 +195,7 @@ class Site extends AbstractEntity
         return $this->navigation;
     }
 
-    public function setHomepage(SitePage $homepage = null)
+    public function setHomepage(?SitePage $homepage = null)
     {
         $this->homepage = $homepage;
     }
@@ -215,7 +215,7 @@ class Site extends AbstractEntity
         return $this->itemPool;
     }
 
-    public function setOwner(User $owner = null)
+    public function setOwner(?User $owner = null)
     {
         $this->owner = $owner;
     }

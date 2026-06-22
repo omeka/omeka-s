@@ -35,6 +35,7 @@ $this->htmlElement('body')->appendAttribute('class', 'vocabs browse');
             <td>
                 <?php echo $escape($translate($vocabulary->label())); ?>
                 <ul class="actions">
+                    <?php $this->trigger('view.browse.actions', ['resource' => $vocabulary]); ?>
                     <?php if (!$vocabulary->isPermanent()): ?>
                     <?php if ($vocabulary->userIsAllowed('update')): ?>
                     <li><?php echo $vocabulary->link('', 'edit', [

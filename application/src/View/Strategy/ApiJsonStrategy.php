@@ -8,6 +8,7 @@ use Omeka\Module;
 use Omeka\Mvc\Exception as MvcException;
 use Omeka\View\Model\ApiJsonModel;
 use Omeka\View\Renderer\ApiJsonRenderer;
+use Laminas\EventManager\EventManager;
 use Laminas\View\Strategy\JsonStrategy;
 use Laminas\View\ViewEvent;
 
@@ -27,14 +28,18 @@ class ApiJsonStrategy extends JsonStrategy
         'jsonld' => 'application/ld+json',
     ];
 
+    protected $eventManager;
+
     /**
      * Constructor, sets the renderer object
      *
-     * @param \Omeka\View\Renderer\ApiJsonRenderer
+     * @param ApiJsonRenderer
+     * @param EventManager
      */
-    public function __construct(ApiJsonRenderer $renderer)
+    public function __construct(ApiJsonRenderer $renderer, EventManager $eventManager)
     {
         $this->renderer = $renderer;
+        $this->eventManager = $eventManager;
     }
 
     public function selectRenderer(ViewEvent $e)
@@ -100,7 +105,7 @@ class ApiJsonStrategy extends JsonStrategy
      * @param \Exception|null $exception
      * @return int
      */
-    protected function getStatusCodeForException(\Exception $exception = null)
+    protected function getStatusCodeForException(?\Exception $exception = null)
     {
         if ($exception instanceof MvcException\InvalidJsonException) {
             return 400; // Bad Request
@@ -128,9 +133,14 @@ class ApiJsonStrategy extends JsonStrategy
      */
     protected function getFormat(ApiJsonModel $model)
     {
+        // Allow modules to register formats.
+        $args = $this->eventManager->prepareArgs(['formats' => $this->formats]);
+        $this->eventManager->trigger('api.output.formats', $this, $args);
+        $this->formats = $args['formats'];
+
         // Prioritize the "format" query parameter.
         $format = $model->getOption('format');
-        if (array_key_exists($format, $this->formats)) {
+        if ($format && array_key_exists($format, $this->formats)) {
             return $format;
         }
         // Respect the Accept header for content negotiation.

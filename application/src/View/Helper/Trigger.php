@@ -41,7 +41,7 @@ class Trigger extends AbstractHelper
      * @param bool $filter Filter and return parameters?
      * @param array $ids The identifiers to which the events are attached
      */
-    public function __invoke($name, array $params = [], $filter = false, array $ids = null)
+    public function __invoke($name, array $params = [], $filter = false, ?array $ids = null)
     {
         $controller = $this->controllerPluginManager->getController();
         if (!$controller) {

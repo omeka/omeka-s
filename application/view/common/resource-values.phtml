@@ -2,25 +2,18 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 
-if ($this->status()->isSiteRequest()) {
-    $labelInfo = $this->siteSetting('property_label_information');
-    $showLocale = (bool) $this->siteSetting('show_locale_label', true);
-    $filterLocale = $this->siteSetting('filter_locale_values');
-    $lang = $this->lang();
-    $showValueAnnotations = $this->siteSetting('show_value_annotations');
-} else {
-    $labelInfo = $this->setting('property_label_information');
-    $showLocale = true;
-    $filterLocale = false;
-    $lang = null;
-    $showValueAnnotations = true;
-}
+$labelInfo = $this->fallbackSetting('property_label_information', ['site', 'global'], 'none');
+$showLocale = (bool) $this->fallbackSetting('show_locale_label', ['site'], true);
+$filterLocale = (bool) $this->fallbackSetting('filter_locale_values', ['site'], false);
+$showValueAnnotations = (bool) $this->fallbackSetting('show_value_annotations', ['site'], true);
+$lang = $this->lang();
+
 $filterLocaleCallback = function ($value) use ($lang) {
     $valueLang = $value->lang();
     return $valueLang == '' || strcasecmp($valueLang, $lang) === 0;
 };
 ?>
-
+<?php if (count($values) > 0): ?>
 <dl>
 <?php
 foreach ($values as $term => $propertyData):
@@ -59,6 +52,8 @@ foreach ($values as $term => $propertyData):
             $class[] = $escape($value->valueResource()->resourceName());
         } elseif ('uri' == $valueType) {
             $class[] = 'uri';
+        } else {
+            $class[] = $escape(str_replace(['_', ':'], '-', $valueType));
         }
         ?>
         <dd class="<?php echo implode(' ', $class); ?>" lang="<?php echo $escape($valueLang); ?>">
@@ -66,7 +61,7 @@ foreach ($values as $term => $propertyData):
             <span class="language"><?php echo $valueLang; ?></span>
             <?php endif; ?>
             <span class="value-content"><?php echo $filterLocale ? $value->asHtml($lang) : $value->asHtml(); ?></span>
-            <?php if(!$value->isPublic()): ?>
+            <?php if (!$value->isPublic()): ?>
                 <span class="o-icon-private" role="img" title="<?php echo $this->escapeHtml($translate('Private')); ?>" aria-label="<?php echo $this->escapeHtml($translate('Private')); ?>"></span>
             <?php endif; ?>
             <?php if ($valueAnnotation && $showValueAnnotations): ?>
@@ -83,3 +78,4 @@ foreach ($values as $term => $propertyData):
     </div>
 <?php endforeach; ?>
 </dl>
+<?php endif; ?>

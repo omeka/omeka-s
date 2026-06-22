@@ -52,51 +52,51 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
     public function buildQuery(QueryBuilder $qb, array $query)
     {
         if (isset($query['site_id']) && is_numeric($query['site_id'])) {
-            $siteAlias = $this->createAlias();
+            $siteAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.site',
                 $siteAlias
             );
             $qb->andWhere($qb->expr()->eq(
                 "$siteAlias.id",
-                $this->createNamedParameter($qb, $query['site_id']))
+                $qb->createNamedParameter($query['site_id']))
             );
         }
 
         if (isset($query['item_id']) && is_numeric($query['item_id'])) {
-            $blocksAlias = $this->createAlias();
+            $blocksAlias = $qb->createAlias();
             $qb->innerJoin('omeka_root.blocks', $blocksAlias);
-            $attachmentsAlias = $this->createAlias();
+            $attachmentsAlias = $qb->createAlias();
             $qb->innerJoin("$blocksAlias.attachments", $attachmentsAlias);
             $qb->andWhere($qb->expr()->eq(
                 "$attachmentsAlias.item",
-                $this->createNamedParameter($qb, $query['item_id']))
+                $qb->createNamedParameter($query['item_id']))
             );
         }
 
         if (isset($query['slug'])) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.slug',
-                $this->createNamedParameter($qb, $query['slug'])
+                $qb->createNamedParameter($query['slug'])
             ));
         }
 
         if (isset($query['is_public']) && (is_numeric($query['is_public']) || is_bool($query['is_public']))) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.isPublic',
-                $this->createNamedParameter($qb, (bool) $query['is_public'])
+                $qb->createNamedParameter((bool) $query['is_public'])
             ));
         }
 
         if (!empty($query['site_slug'])) {
-            $siteAlias = $this->createAlias();
+            $siteAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.site',
                 $siteAlias
             );
             $qb->andWhere($qb->expr()->eq(
                 "$siteAlias.slug",
-                $this->createNamedParameter($qb, $query['site_slug'])
+                $qb->createNamedParameter($query['site_slug'])
             ));
         }
     }
@@ -143,6 +143,14 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
             $entity->setIsPublic($request->getValue('o:is_public', true));
         }
 
+        if ($this->shouldHydrate($request, 'o:layout')) {
+            $entity->setLayout($request->getValue('o:layout', null));
+        }
+
+        if ($this->shouldHydrate($request, 'o:layout_data')) {
+            $entity->setLayoutData($request->getValue('o:layout_data', null));
+        }
+
         $appendBlocks = $request->getOperation() === Request::UPDATE && $request->getOption('isPartial', false);
         $this->hydrateBlocks($blockData, $entity, $errorStore, $appendBlocks);
         $this->updateTimestamps($request, $entity);
@@ -168,8 +176,8 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
         }
         $site = $entity->getSite();
         if ($site && $site->getId() && !$this->isUnique($entity, [
-                'slug' => $slug,
-                'site' => $entity->getSite(),
+            'slug' => $slug,
+            'site' => $entity->getSite(),
         ])) {
             $errorStore->addError('o:slug', new Message(
                 'The slug "%s" is already taken.', // @translate
@@ -220,12 +228,21 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
                 return;
             }
             if (!is_array($inputBlock['o:data'])) {
-                $errorStore->addError('o:block', 'Block data must not be a scalar value.'); // @translate
-                return;
+                // Attempt to convert the data to an array before returning with
+                // an error. This is needed in part so fallback blocks don't
+                // lose their data onced saved.
+                $blockData = json_decode($inputBlock['o:data'], true);
+                if (is_array($blockData)) {
+                    $inputBlock['o:data'] = $blockData;
+                } else {
+                    $errorStore->addError('o:block', 'Block data must not be a scalar value.'); // @translate
+                    return;
+                }
             }
 
             $block->setLayout($inputBlock['o:layout']);
             $block->setData($inputBlock['o:data']);
+            $block->setLayoutData($inputBlock['o:layout_data'] ?? null);
 
             // (Re-)order blocks by their order in the input
             $block->setPosition($position++);
@@ -361,7 +378,7 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
                 if ($item) {
                     $text[] = $item->getTitle();
                 }
-                $text[] = strip_tags($attachment->getCaption());
+                $text[] = html_entity_decode(strip_tags($attachment->getCaption()), ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML5, 'UTF-8');
             }
         }
         return implode("\n", array_filter($text));

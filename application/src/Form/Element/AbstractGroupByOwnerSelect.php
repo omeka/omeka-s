@@ -1,12 +1,14 @@
 <?php
 namespace Omeka\Form\Element;
 
+use Laminas\Form\Element\Select;
 use Omeka\Api\Manager as ApiManager;
 use Omeka\Api\Representation\UserRepresentation;
-use Laminas\Form\Element\Select;
 
-abstract class AbstractGroupByOwnerSelect extends Select
+abstract class AbstractGroupByOwnerSelect extends Select implements SelectSortInterface
 {
+    use SelectSortTrait;
+
     /**
      * @var ApiManager
      */
@@ -50,12 +52,19 @@ abstract class AbstractGroupByOwnerSelect extends Select
             $query = [];
         }
 
-        $response = $this->getApiManager()->search($this->getResourceName(), $query);
+        $resourceReps = $this->getApiManager()->search($this->getResourceName(), $query)->getContent();
+
+        // Provide a way to filter the resource representations prior to
+        // building the value options.
+        $callback = $this->getOption('filter_resource_representations');
+        if (is_callable($callback)) {
+            $resourceReps = $callback($resourceReps);
+        }
 
         if ($this->getOption('disable_group_by_owner')) {
             // Group alphabetically by resource label without grouping by owner.
             $resources = [];
-            foreach ($response->getContent() as $resource) {
+            foreach ($resourceReps as $resource) {
                 $resources[$this->getValueLabel($resource)][] = $resource->id();
             }
             ksort($resources);
@@ -68,7 +77,7 @@ abstract class AbstractGroupByOwnerSelect extends Select
         } else {
             // Group alphabetically by owner email.
             $resourceOwners = [];
-            foreach ($response->getContent() as $resource) {
+            foreach ($resourceReps as $resource) {
                 $owner = $resource->owner();
                 $index = $owner ? $owner->email() : null;
                 $resourceOwners[$index]['owner'] = $owner;
@@ -95,10 +104,30 @@ abstract class AbstractGroupByOwnerSelect extends Select
             }
         }
 
-        $prependValueOptions = $this->getOption('prepend_value_options');
-        if (is_array($prependValueOptions)) {
-            $valueOptions = $prependValueOptions + $valueOptions;
+        // Add prepended options.
+        $prependOptions = $this->getOption('prepend_value_options');
+        if (is_array($prependOptions)) {
+            $valueOptions = $prependOptions + $valueOptions;
         }
         return $valueOptions;
+    }
+
+    public function translateValueOptions(): bool
+    {
+        // Do not translate because value options are user input.
+        return false;
+    }
+
+    public function finalizeValueOptions(array $options): array
+    {
+        // Move prepended options to the top.
+        $prependOptions = $this->getOption('prepend_value_options');
+        if (is_array($prependOptions)) {
+            foreach ($prependOptions as $prependKey => $prependOption) {
+                unset($options[$prependKey]);
+            }
+            $options = $prependOptions + $options;
+        }
+        return $options;
     }
 }

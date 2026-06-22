@@ -16,7 +16,7 @@ class ParamsFactory implements FactoryInterface
      *
      * @return Params
      */
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         return new Params($services->get('ControllerPluginManager')->get('Params'));
     }

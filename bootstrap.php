@@ -4,3 +4,15 @@ chdir(OMEKA_PATH);
 date_default_timezone_set('UTC');
 
 require 'vendor/autoload.php';
+
+spl_autoload_register(static function ($class) {
+    $overrides = [
+        'Doctrine\Common\Proxy\AbstractProxyFactory' => 'AbstractProxyFactory.php',
+        'Doctrine\ORM\Proxy\ProxyFactory' => 'ProxyFactory.php',
+        'Laminas\Escaper\Escaper' => 'Escaper.php',
+        'Laminas\Stdlib\SplPriorityQueue' => 'SplPriorityQueue.php',
+    ];
+    if (isset($overrides[$class])) {
+        require OMEKA_PATH . '/application/data/overrides/' . $overrides[$class];
+    }
+}, true, true);

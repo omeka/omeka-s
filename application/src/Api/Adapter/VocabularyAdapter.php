@@ -4,6 +4,7 @@ namespace Omeka\Api\Adapter;
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
+use Omeka\Entity\Vocabulary;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\Message;
 
@@ -159,26 +160,26 @@ class VocabularyAdapter extends AbstractEntityAdapter
     public function buildQuery(QueryBuilder $qb, array $query)
     {
         if (isset($query['owner_id']) && is_numeric($query['owner_id'])) {
-            $userAlias = $this->createAlias();
+            $userAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.owner',
                 $userAlias
             );
             $qb->andWhere($qb->expr()->eq(
                 "$userAlias.id",
-                $this->createNamedParameter($qb, $query['owner_id']))
+                $qb->createNamedParameter($query['owner_id']))
             );
         }
         if (isset($query['namespace_uri'])) {
             $qb->andWhere($qb->expr()->eq(
                 "omeka_root.namespaceUri",
-                $this->createNamedParameter($qb, $query['namespace_uri']))
+                $qb->createNamedParameter($query['namespace_uri']))
             );
         }
         if (isset($query['prefix'])) {
             $qb->andWhere($qb->expr()->eq(
                 "omeka_root.prefix",
-                $this->createNamedParameter($qb, $query['prefix']))
+                $qb->createNamedParameter($query['prefix']))
             );
         }
     }
@@ -201,6 +202,9 @@ class VocabularyAdapter extends AbstractEntityAdapter
         $prefix = $entity->getPrefix();
         if (false == $entity->getPrefix()) {
             $errorStore->addError('o:prefix', 'The prefix cannot be empty.'); // @translate
+        }
+        if ($prefix && !preg_match(Vocabulary::PREFIX_REGEX, $prefix)) {
+            $errorStore->addError('o:prefix', 'The prefix may only contain letters, numbers, hyphens, and underscores.'); // @translate
         }
         if (!$this->isUnique($entity, ['prefix' => $prefix])) {
             $errorStore->addError('o:prefix', new Message(

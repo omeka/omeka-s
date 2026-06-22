@@ -4,8 +4,10 @@ namespace Omeka\Form\Element;
 use Omeka\Api\Manager as ApiManager;
 use Laminas\Form\Element\Select;
 
-class ResourceSelect extends Select
+class ResourceSelect extends Select implements SelectSortInterface
 {
+    use SelectSortTrait;
+
     /**
      * @var ApiManager
      */
@@ -84,5 +86,10 @@ class ResourceSelect extends Select
     public function getApiManager()
     {
         return $this->apiManager;
+    }
+
+    public function translateValueOptions(): bool
+    {
+        return false;
     }
 }

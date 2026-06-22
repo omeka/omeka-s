@@ -21,8 +21,8 @@ class AssertionNegation implements AssertionInterface
         $this->baseAssertion = $baseAssertion;
     }
 
-    public function assert(Acl $acl, RoleInterface $role = null,
-        ResourceInterface $resource = null, $privilege = null
+    public function assert(Acl $acl, ?RoleInterface $role = null,
+        ?ResourceInterface $resource = null, $privilege = null
     ) {
         return !$this->baseAssertion->assert($acl, $role, $resource, $privilege);
     }

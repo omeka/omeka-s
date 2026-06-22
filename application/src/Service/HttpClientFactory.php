@@ -12,7 +12,7 @@ class HttpClientFactory implements FactoryInterface
      *
      * @return Client
      */
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, ?array $options = null)
     {
         $config = $serviceLocator->get('Config');
         $options = [];

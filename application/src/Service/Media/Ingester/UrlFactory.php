@@ -12,7 +12,7 @@ class UrlFactory implements FactoryInterface
      *
      * @return Url
      */
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         return new Url($services->get('Omeka\File\Downloader'));
     }

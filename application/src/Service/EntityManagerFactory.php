@@ -27,10 +27,8 @@ class EntityManagerFactory implements FactoryInterface
      * @param ContainerInterface $serviceLocator
      * @return EntityManager
      */
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, ?array $options = null)
     {
-        require_once OMEKA_PATH . '/application/data/overrides/AbstractProxyFactory.php';
-
         $appConfig = $serviceLocator->get('ApplicationConfig');
         $config = $serviceLocator->get('Config');
 
@@ -52,11 +50,10 @@ class EntityManagerFactory implements FactoryInterface
             $isDevMode = self::IS_DEV_MODE;
         }
 
-        $arrayCache = new ArrayCache();
         if (extension_loaded('apcu') && !$isDevMode) {
             $cache = new ApcuCache();
         } else {
-            $cache = $arrayCache;
+            $cache = new ArrayCache();
         }
 
         // Set up the entity manager configuration.
@@ -69,7 +66,7 @@ class EntityManagerFactory implements FactoryInterface
 
         // Force non-persistent query cache, workaround for issue with SQL filters
         // that vary by user, permission level
-        $emConfig->setQueryCacheImpl($arrayCache);
+        $emConfig->setQueryCacheImpl(new ArrayCache());
 
         // Use the underscore naming strategy to preempt potential compatibility
         // issues with the case sensitivity of various operating systems.

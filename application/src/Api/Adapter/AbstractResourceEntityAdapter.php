@@ -27,26 +27,26 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         }
 
         if (isset($query['owner_id']) && is_numeric($query['owner_id'])) {
-            $userAlias = $this->createAlias();
+            $userAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.owner',
                 $userAlias
             );
             $qb->andWhere($qb->expr()->eq(
                 "$userAlias.id",
-                $this->createNamedParameter($qb, $query['owner_id']))
+                $qb->createNamedParameter($query['owner_id']))
             );
         }
 
         if (isset($query['resource_class_label'])) {
-            $resourceClassAlias = $this->createAlias();
+            $resourceClassAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.resourceClass',
                 $resourceClassAlias
             );
             $qb->andWhere($qb->expr()->eq(
                 "$resourceClassAlias.label",
-                $this->createNamedParameter($qb, $query['resource_class_label']))
+                $qb->createNamedParameter($query['resource_class_label']))
             );
         }
 
@@ -59,20 +59,20 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             if ($classes) {
                 $qb->andWhere($qb->expr()->in(
                     'omeka_root.resourceClass',
-                    $this->createNamedParameter($qb, $classes)
+                    $qb->createNamedParameter($classes)
                 ));
             }
         }
 
         if (isset($query['resource_template_label'])) {
-            $resourceTemplateAlias = $this->createAlias();
+            $resourceTemplateAlias = $qb->createAlias();
             $qb->innerJoin(
                 'omeka_root.resourceTemplate',
                 $resourceTemplateAlias
             );
             $qb->andWhere($qb->expr()->eq(
                 "$resourceTemplateAlias.label",
-                $this->createNamedParameter($qb, $query['resource_template_label']))
+                $qb->createNamedParameter($query['resource_template_label']))
             );
         }
 
@@ -85,7 +85,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             if ($templates) {
                 $qb->andWhere($qb->expr()->in(
                     'omeka_root.resourceTemplate',
-                    $this->createNamedParameter($qb, $templates)
+                    $qb->createNamedParameter($templates)
                 ));
             }
         }
@@ -93,7 +93,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         if (isset($query['is_public']) && (is_numeric($query['is_public']) || is_bool($query['is_public']))) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.isPublic',
-                $this->createNamedParameter($qb, (bool) $query['is_public'])
+                $qb->createNamedParameter((bool) $query['is_public'])
             ));
         }
 
@@ -123,7 +123,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 $qb->andWhere($qb->expr()->{$dateSearch[0]}(
                     sprintf('omeka_root.%s', $dateSearch[1]),
                     // If the date is invalid, pass null to ensure no results.
-                    $this->createNamedParameter($qb, $date ?: null)
+                    $qb->createNamedParameter($date ?: null)
                 ));
             }
         }
@@ -134,7 +134,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         if (is_string($query['sort_by'])) {
             $property = $this->getPropertyByTerm($query['sort_by']);
             if ($property) {
-                $valuesAlias = $this->createAlias();
+                $valuesAlias = $qb->createAlias();
                 $qb->leftJoin(
                     "omeka_root.values", $valuesAlias,
                     'WITH', $qb->expr()->eq("$valuesAlias.property", $property->getId())
@@ -144,15 +144,15 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     $query['sort_order']
                 );
             } elseif ('resource_class_label' == $query['sort_by']) {
-                $resourceClassAlias = $this->createAlias();
+                $resourceClassAlias = $qb->createAlias();
                 $qb->leftJoin("omeka_root.resourceClass", $resourceClassAlias)
                     ->addOrderBy("$resourceClassAlias.label", $query['sort_order']);
             } elseif ('resource_template_label' == $query['sort_by']) {
-                $resourceTemplateAlias = $this->createAlias();
+                $resourceTemplateAlias = $qb->createAlias();
                 $qb->leftJoin("omeka_root.resourceTemplate", $resourceTemplateAlias)
                     ->addOrderBy("$resourceTemplateAlias.label", $query['sort_order']);
             } elseif ('owner_name' == $query['sort_by']) {
-                $ownerAlias = $this->createAlias();
+                $ownerAlias = $qb->createAlias();
                 $qb->leftJoin("omeka_root.owner", $ownerAlias)
                     ->addOrderBy("$ownerAlias.name", $query['sort_order']);
             } else {
@@ -255,6 +255,11 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             return str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], (string) $string);
         };
 
+        // See below "Consecutive OR optimization" comment
+        $previousPropertyId = null;
+        $previousAlias = null;
+        $previousPositive = null;
+
         foreach ($query['property'] as $queryRow) {
             if (!(is_array($queryRow)
                 && array_key_exists('property', $queryRow)
@@ -271,18 +276,45 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 continue;
             }
 
-            $valuesAlias = $this->createAlias();
             $positive = true;
+            if (in_array($queryType, ['neq', 'nin', 'nsw', 'new', 'nres', 'nex', 'ndt'])) {
+                $positive = false;
+                $queryType = substr($queryType, 1);
+            }
+            if (!in_array($queryType, ['eq', 'in', 'sw', 'ew', 'res', 'ex', 'dt'])) {
+                continue;
+            }
+
+            // Consecutive OR optimization
+            //
+            // When we have a run of query rows that are joined by OR and share
+            // the same property ID (or lack thereof), we don't actually need a
+            // separate join to the values table; we can just tack additional OR
+            // clauses onto the WHERE while using the same join and alias. The
+            // extra joins are expensive, so doing this improves performance where
+            // many ORs are used.
+            //
+            // Rows using "negative" searches need their own separate join to the
+            // values table, so they're excluded from this optimization on both
+            // sides: if either the current or previous row is a negative query,
+            // the current row does a new join.
+            if ($previousPropertyId === $propertyId
+                && $previousPositive
+                && $positive
+                && $joiner === 'or'
+            ) {
+                $valuesAlias = $previousAlias;
+                $usePrevious = true;
+            } else {
+                $valuesAlias = $qb->createAlias();
+                $usePrevious = false;
+            }
 
             switch ($queryType) {
-                case 'neq':
-                    $positive = false;
-                    // No break.
                 case 'eq':
-                    $param = $this->createNamedParameter($qb, $value);
-                    $subqueryAlias = $this->createAlias();
-                    $subquery = $this->getEntityManager()
-                        ->createQueryBuilder()
+                    $param = $qb->createNamedParameter($value);
+                    $subqueryAlias = $qb->createAlias();
+                    $subquery = $this->createQueryBuilder()
                         ->select("$subqueryAlias.id")
                         ->from('Omeka\Entity\Resource', $subqueryAlias)
                         ->where($qb->expr()->eq("$subqueryAlias.title", $param));
@@ -293,14 +325,10 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     );
                     break;
 
-                case 'nin':
-                    $positive = false;
-                    // No break.
                 case 'in':
-                    $param = $this->createNamedParameter($qb, '%' . $escapeSqlLike($value) . '%');
-                    $subqueryAlias = $this->createAlias();
-                    $subquery = $this->getEntityManager()
-                        ->createQueryBuilder()
+                    $param = $qb->createNamedParameter('%' . $escapeSqlLike($value) . '%');
+                    $subqueryAlias = $qb->createAlias();
+                    $subquery = $this->createQueryBuilder()
                         ->select("$subqueryAlias.id")
                         ->from('Omeka\Entity\Resource', $subqueryAlias)
                         ->where($qb->expr()->like("$subqueryAlias.title", $param));
@@ -311,14 +339,10 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     );
                     break;
 
-                case 'nsw':
-                    $positive = false;
-                    // No break.
                 case 'sw':
-                    $param = $this->createNamedParameter($qb, $escapeSqlLike($value) . '%');
-                    $subqueryAlias = $this->createAlias();
-                    $subquery = $this->getEntityManager()
-                        ->createQueryBuilder()
+                    $param = $qb->createNamedParameter($escapeSqlLike($value) . '%');
+                    $subqueryAlias = $qb->createAlias();
+                    $subquery = $this->createQueryBuilder()
                         ->select("$subqueryAlias.id")
                         ->from('Omeka\Entity\Resource', $subqueryAlias)
                         ->where($qb->expr()->like("$subqueryAlias.title", $param));
@@ -329,14 +353,10 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     );
                     break;
 
-                case 'new':
-                    $positive = false;
-                    // No break.
                 case 'ew':
-                    $param = $this->createNamedParameter($qb, '%' . $escapeSqlLike($value));
-                    $subqueryAlias = $this->createAlias();
-                    $subquery = $this->getEntityManager()
-                        ->createQueryBuilder()
+                    $param = $qb->createNamedParameter('%' . $escapeSqlLike($value));
+                    $subqueryAlias = $qb->createAlias();
+                    $subquery = $this->createQueryBuilder()
                         ->select("$subqueryAlias.id")
                         ->from('Omeka\Entity\Resource', $subqueryAlias)
                         ->where($qb->expr()->like("$subqueryAlias.title", $param));
@@ -347,21 +367,22 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     );
                     break;
 
-                case 'nres':
-                    $positive = false;
-                    // No break.
                 case 'res':
                     $predicateExpr = $qb->expr()->eq(
                         "$valuesAlias.valueResource",
-                        $this->createNamedParameter($qb, $value)
+                        $qb->createNamedParameter($value)
                     );
                     break;
 
-                case 'nex':
-                    $positive = false;
-                    // No break.
                 case 'ex':
                     $predicateExpr = $qb->expr()->isNotNull("$valuesAlias.id");
+                    break;
+
+                case 'dt':
+                    $predicateExpr = $qb->expr()->eq(
+                        "$valuesAlias.type",
+                        $qb->createNamedParameter($value)
+                    );
                     break;
 
                 default:
@@ -391,10 +412,13 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 $whereClause = $qb->expr()->isNull("$valuesAlias.id");
             }
 
-            if ($joinConditions) {
-                $qb->leftJoin($valuesJoin, $valuesAlias, 'WITH', $qb->expr()->andX(...$joinConditions));
-            } else {
-                $qb->leftJoin($valuesJoin, $valuesAlias);
+            // See above "Consecutive OR optimization" comment
+            if (!$usePrevious) {
+                if ($joinConditions) {
+                    $qb->leftJoin($valuesJoin, $valuesAlias, 'WITH', $qb->expr()->andX(...$joinConditions));
+                } else {
+                    $qb->leftJoin($valuesJoin, $valuesAlias);
+                }
             }
 
             if ($where == '') {
@@ -404,6 +428,11 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             } else {
                 $where .= " AND $whereClause";
             }
+
+            // See above "Consecutive OR optimization" comment
+            $previousPropertyId = $propertyId;
+            $previousPositive = $positive;
+            $previousAlias = $valuesAlias;
         }
 
         if ($where) {
@@ -446,9 +475,11 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      *      123
      * - <property-id>-: Query subject values of the specified property where
      *      there is no corresponding resource template property, e.g. 123-
-     * - <property-id>-<resource-template-property-id>: Query subject values of
-     *      the specified property where there is a corresponding resource
-     *      template property, e.g. 123-234
+     * - <property-id>-<resource-template-property-ids>: Query subject values of
+     *      the specified property where there are corresponding resource
+     *      template properties, e.g. 123-234,345. Note that you can add subject
+     *      values of the specified property where there is no corresponding
+     *      resource template property by adding a zero ID, e.g. 123-0,234,345
      *
      * @param Resource $resource
      * @param int|string|null $propertyId
@@ -458,12 +489,12 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      */
     public function getSubjectValuesQueryBuilder(Resource $resource, $propertyId = null, $resourceType = null, $siteId = null)
     {
-        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb = $this->createQueryBuilder();
         $qb->from('Omeka\Entity\Value', 'value')
             ->join('value.resource', 'resource')
             ->leftJoin('resource.resourceTemplate', 'resource_template')
             ->leftJoin('resource_template.resourceTemplateProperties', 'resource_template_property', 'WITH', 'value.property = resource_template_property.property')
-            ->where($qb->expr()->eq('value.valueResource', $this->createNamedParameter($qb, $resource)));
+            ->where($qb->expr()->eq('value.valueResource', $qb->createNamedParameter($resource)));
         // Filter according to resource type and site. Note that we can only
         // filter by site when a resource type is passed because each resource
         // type requires joins that are mutually incompatible.
@@ -504,13 +535,19 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             if (false !== strpos($propertyId, '-')) {
                 $propertyIds = explode('-', $propertyId);
                 $propertyId = $propertyIds[0];
-                $resourceTemplatePropertyId = $propertyIds[1];
-                $qb->andWhere($resourceTemplatePropertyId
-                    ? $qb->expr()->eq('resource_template_property', $this->createNamedParameter($qb, $resourceTemplatePropertyId))
-                    : $qb->expr()->isNull('resource_template_property')
-                );
+                $resourceTemplatePropertyIds = array_map('intval', explode(',', $propertyIds[1]));
+                if (in_array(0, $resourceTemplatePropertyIds)) {
+                    // A zero ID means subject values of the specified property
+                    // where there is no corresponding resource template property.
+                    $qb->andWhere($qb->expr()->orX(
+                        $qb->expr()->isNull('resource_template_property'),
+                        $qb->expr()->in('resource_template_property', $qb->createNamedParameter($resourceTemplatePropertyIds))
+                    ));
+                } else {
+                    $qb->andWhere($qb->expr()->in('resource_template_property', $qb->createNamedParameter($resourceTemplatePropertyIds)));
+                }
             }
-            $qb->andWhere($qb->expr()->eq('value.property', $this->createNamedParameter($qb, $propertyId)));
+            $qb->andWhere($qb->expr()->eq('value.property', $qb->createNamedParameter($propertyId)));
         }
         // Need to check visibility manually here
         $services = $this->getServiceLocator();
@@ -519,7 +556,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         if (!$acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {
             $qb->andWhere($qb->expr()->orX(
                 $qb->expr()->eq('resource.isPublic', '1'),
-                $qb->expr()->eq('resource.owner', $this->createNamedParameter($qb, $identity))
+                $qb->expr()->eq('resource.owner', $qb->createNamedParameter($identity))
             ));
         }
         return $qb;
@@ -544,11 +581,12 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             ->select([
                 'value val',
                 'property.id property_id',
-                'resource_template_property.id resource_template_property_id',
                 'property.label property_label',
+                'resource_template_property.id resource_template_property_id',
                 'resource_template_property.alternateLabel property_alternate_label',
+                "CASE WHEN resource_template_property.alternateLabel IS NOT NULL AND resource_template_property.alternateLabel NOT LIKE '' THEN resource_template_property.alternateLabel ELSE property.label END order_by_label",
             ])
-            ->orderBy('property.id, resource_template_property.alternateLabel, resource.title')
+            ->orderBy('property.id, order_by_label, resource.title')
             ->setMaxResults($perPage)
             ->setFirstResult($offset);
         $event = new Event('api.subject_values.query', $this, [
@@ -581,7 +619,11 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         $qb = $this->getSubjectValuesQueryBuilder($resource, $propertyId, $resourceType, $siteId)
             ->join('value.property', 'property')
             ->join('property.vocabulary', 'vocabulary')
-            ->select("CONCAT(vocabulary.prefix, ':', property.localName) term, IDENTITY(value.resource) id, resource.title title");
+            ->select([
+                "CONCAT(vocabulary.prefix, ':', property.localName) term",
+                'IDENTITY(value.resource) id',
+                'resource.title title',
+            ]);
         $event = new Event('api.subject_values_simple.query', $this, [
             'queryBuilder' => $qb,
             'resource' => $resource,
@@ -623,16 +665,56 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             ->join('value.property', 'property')
             ->join('property.vocabulary', 'vocabulary')
             ->select([
-                "DISTINCT CONCAT(property.id, '-', COALESCE(resource_template_property.id, '')) id_concat",
-                "CONCAT(vocabulary.prefix, ':', property.localName) term",
                 'property.id property_id',
                 'resource_template_property.id resource_template_property_id',
                 'property.label property_label',
                 'resource_template_property.alternateLabel property_alternate_label',
+                "CONCAT(vocabulary.prefix, ':', property.localName) term",
             ])
             ->orderBy('property.id, resource_template_property.id');
-        $results = $qb->getQuery()->getResult();
-        return $results;
+        // Group the properties by property ID then label. We must use code to
+        // group instead of a SQL "GROUP BY" because of the special case where
+        // there is no resource template property.
+        $results = [];
+        foreach ($qb->getQuery()->getResult() as $result) {
+            if ($result['property_alternate_label']) {
+                $label = $result['property_alternate_label'];
+                $labelIsTranslatable = false;
+                $resourceTemplatePropertyId = $result['resource_template_property_id'];
+            } elseif ($result['resource_template_property_id']) {
+                $label = $result['property_label'];
+                $labelIsTranslatable = true;
+                $resourceTemplatePropertyId = $result['resource_template_property_id'];
+            } else {
+                $label = $result['property_label'];
+                $labelIsTranslatable = true;
+                $resourceTemplatePropertyId = 0;
+            }
+            $results[$result['property_id']][$label]['resource_template_property_ids'][] = $resourceTemplatePropertyId;
+            $results[$result['property_id']][$label]['term'] = $result['term'];
+            // The shared label is translatable if at least one of the individual
+            // labels is a property label. A shared label is not translatable if
+            // all the individual labels are alternate labels.
+            if ($labelIsTranslatable) {
+                $results[$result['property_id']][$label]['label_is_translatable'] = true;
+            }
+        }
+        // Build the properties array from grouped array.
+        $subjectValueProperties = [];
+        foreach ($results as $propertyId => $properties) {
+            foreach ($properties as $label => $data) {
+                $subjectValueProperties[] = [
+                    'label' => $label,
+                    'property_id' => $propertyId,
+                    'term' => $data['term'],
+                    'label_is_translatable' => $data['label_is_translatable'] ?? false,
+                    'compound_id' => sprintf('%s:%s-%s', $resourceType, $propertyId, implode(',', array_unique($data['resource_template_property_ids']))),
+                ];
+            }
+        }
+        // Sort the properties by property ID then label.
+        usort($subjectValueProperties, fn ($a, $b) => strcmp($a['property_id'] . $a['label'], $b['property_id'] . $b['label']));
+        return $subjectValueProperties;
     }
 
     public function preprocessBatchUpdate(array $data, Request $request)
@@ -652,11 +734,17 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         if (isset($rawData['o:resource_class'])) {
             $data['o:resource_class'] = $rawData['o:resource_class'];
         }
+        if (isset($rawData['o:thumbnail'])) {
+            $data['o:thumbnail'] = $rawData['o:thumbnail'];
+        }
         if (isset($rawData['clear_property_values'])) {
             $data['clear_property_values'] = $rawData['clear_property_values'];
         }
         if (isset($rawData['set_value_visibility'])) {
             $data['set_value_visibility'] = $rawData['set_value_visibility'];
+        }
+        if (isset($rawData['convert_data_types'])) {
+            $data['convert_data_types'] = $rawData['convert_data_types'];
         }
 
         // Add values that satisfy the bare minimum needed to identify them.
@@ -694,7 +782,14 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         $services = $this->getServiceLocator();
         $dataTypes = $services->get('Omeka\DataTypeManager');
         $view = $services->get('ViewRenderer');
+        $eventManager = $this->getEventManager();
+
         $criteria = Criteria::create()->where(Criteria::expr()->eq('isPublic', true));
+        $args = $eventManager->prepareArgs(['resource' => $resource, 'criteria' => $criteria]);
+        $event = new Event('api.get_fulltext_text.value_criteria', $this, $args);
+        $eventManager->triggerEvent($event);
+        $criteria = $args['criteria'];
+
         $texts = [];
         foreach ($resource->getValues()->matching($criteria) as $value) {
             $valueRepresentation = new ValueRepresentation($value, $services);
@@ -702,7 +797,17 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             // Add value annotation text, if any.
             $valueAnnotation = $value->getValueAnnotation();
             if ($valueAnnotation) {
-                foreach ($valueAnnotation->getValues()->matching($criteria) as $value) {
+                $valueAnnotationCriteria = Criteria::create()->where(Criteria::expr()->eq('isPublic', true));
+                $args = $eventManager->prepareArgs([
+                    'resource' => $resource,
+                    'value' => $value,
+                    'criteria' => $valueAnnotationCriteria,
+                ]);
+                $event = new Event('api.get_fulltext_text.value_annotation_criteria', $this, $args);
+                $eventManager->triggerEvent($event);
+                $valueAnnotationCriteria = $args['criteria'];
+
+                foreach ($valueAnnotation->getValues()->matching($valueAnnotationCriteria) as $value) {
                     $valueRepresentation = new ValueRepresentation($value, $services);
                     $texts[] = $dataTypes->getForExtract($value)->getFulltextText($view, $valueRepresentation);
                 }

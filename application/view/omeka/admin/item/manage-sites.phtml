@@ -1,21 +1,43 @@
 <?php
+$canAssignItemsSites = [];
+$cannotAssignItemsSites = [];
+
 if ($item) {
-    $siteRepresentations = $item->sites();
-} else {
-    $siteRepresentations = $this->api()->search('sites', ['assign_new_items' => true])->getContent();
+    // This is an existing item.
 
-    $userDefaultSites = $this->userSetting('default_item_sites');
-    if (is_array($userDefaultSites)) {
-        $userDefaultSiteRepresentations = $this->api()->search('sites', ['id' => $userDefaultSites])->getContent();
-        $siteRepresentations = array_merge($siteRepresentations, $userDefaultSiteRepresentations);
+    $sites = $item->sites();
+    foreach ($sites as $site) {
+        if ($site->userIsAllowed('can-assign-items')) {
+            $canAssignItemsSites[] = ['id' => $site->id()];
+        } else {
+            $cannotAssignItemsSites[$site->id()] = $site;
+        }
     }
-}
+} else {
+    // This is a new item.
 
-$sites = [];
-foreach ($siteRepresentations as $siteRepresentation) {
-    $sites[] = [
-        'id' => $siteRepresentation->id(),
-    ];
+    // Get all sites that allow item assignment in site settings.
+    $sites = $this->api()->search('sites', ['assign_new_items' => true])->getContent();
+    foreach ($sites as $site) {
+        if ($site->userIsAllowed('can-assign-items')) {
+            $canAssignItemsSites[] = ['id' => $site->id()];
+        } else {
+            $cannotAssignItemsSites[$site->id()] = $site;
+        }
+    }
+
+    // Get all sites that the user set as default in user settings.
+    $defaultItemSites = $this->userSetting('default_item_sites');
+    $sites = is_array($defaultItemSites)
+        ? $this->api()->search('sites', ['id' => $defaultItemSites])->getContent()
+        : [];
+    foreach ($sites as $site) {
+        if ($site->userIsAllowed('can-assign-items')) {
+            $canAssignItemsSites[] = ['id' => $site->id()];
+        } else {
+            $cannotAssignItemsSites[$site->id()] = $site;
+        }
+    }
 }
 
 $siteTemplate = '
@@ -30,7 +52,7 @@ $siteTemplate = '
     </td>
 </tr>';
 ?>
-<table id="item-sites" data-existing-rows="<?php echo $this->escapeHtml(json_encode(array_values($sites))); ?>" data-row-template="<?php echo $this->escapeHtml($siteTemplate); ?>" data-tablesaw-mode="stack" class="selector-table tablesaw tablesaw-stack <?php echo ($item && (count($sites) > 0)) ? '' : 'empty'; ?>">
+<table id="item-sites" data-existing-rows="<?php echo $this->escapeHtml(json_encode($canAssignItemsSites)); ?>" data-row-template="<?php echo $this->escapeHtml($siteTemplate); ?>" data-tablesaw-mode="stack" class="selector-table tablesaw tablesaw-stack <?php echo ($item && (count($sites) > 0)) ? '' : ''; ?>">
     <thead>
     <tr>
         <th><?php echo $this->translate('Title'); ?></th>
@@ -38,7 +60,15 @@ $siteTemplate = '
         <th></th>
     </tr>
     </thead>
-    <tbody class="resource-rows"></tbody>
+    <tbody class="resource-rows">
+        <?php foreach ($cannotAssignItemsSites as $site): ?>
+        <tr class="resource-row">
+            <td class="data-value" data-row-key="child-search"><?php echo $this->escapeHtml($site->title()); ?></td>
+            <td class="data-value" data-row-key="resource-email"><?php echo $this->escapeHtml($site->owner()->email()); ?></td>
+            <td></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
 </table>
 
 <div class="no-resources">

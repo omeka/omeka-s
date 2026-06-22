@@ -67,10 +67,10 @@ class SitePageBlock extends \Omeka\Entity\SitePageBlock implements \Doctrine\ORM
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'layout', 'data', 'position', 'page', 'attachments'];
+            return ['__isInitialized__', 'id', 'layout', 'data', 'layoutData', 'position', 'page', 'attachments'];
         }
 
-        return ['__isInitialized__', 'id', 'layout', 'data', 'position', 'page', 'attachments'];
+        return ['__isInitialized__', 'id', 'layout', 'data', 'layoutData', 'position', 'page', 'attachments'];
     }
 
     /**
@@ -133,7 +133,7 @@ class SitePageBlock extends \Omeka\Entity\SitePageBlock implements \Doctrine\ORM
      * {@inheritDoc}
      * @internal generated method: use only when explicitly handling proxy specific loading logic
      */
-    public function __setInitializer(\Closure $initializer = null): void
+    public function __setInitializer(?\Closure $initializer = null): void
     {
         $this->__initializer__ = $initializer;
     }
@@ -151,7 +151,7 @@ class SitePageBlock extends \Omeka\Entity\SitePageBlock implements \Doctrine\ORM
      * {@inheritDoc}
      * @internal generated method: use only when explicitly handling proxy specific loading logic
      */
-    public function __setCloner(\Closure $cloner = null): void
+    public function __setCloner(?\Closure $cloner = null): void
     {
         $this->__cloner__ = $cloner;
     }
@@ -256,6 +256,28 @@ class SitePageBlock extends \Omeka\Entity\SitePageBlock implements \Doctrine\ORM
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPosition', []);
 
         return parent::getPosition();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLayoutData($layoutData)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLayoutData', [$layoutData]);
+
+        return parent::setLayoutData($layoutData);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLayoutData()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLayoutData', []);
+
+        return parent::getLayoutData();
     }
 
     /**

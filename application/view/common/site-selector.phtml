@@ -6,21 +6,24 @@
     <ul>
         <li class="total-count-heading"><?php echo $this->translate('Sites'); ?> (<span class="selector-total-count"><?php echo $totalCount; ?></span>)
             <ul class="selectable-list">
-                <?php foreach ($sitesByOwner as $email => $siteByOwner): ?>
+                <?php foreach ($options as $email => $siteByOwner): ?>
                 <?php $ownerText = $siteByOwner['owner'] ? $this->escapeHtml($siteByOwner['owner']->name()) : $this->translate('[No owner]'); ?>
                 <li class='selector-parent'>
-                    <span><?php echo $ownerText; ?></span> (<span class="selector-child-count"><?php echo count($siteByOwner['sites']); ?></span>)
+                    <span><?php echo $ownerText; ?></span> (<span class="selector-child-count"><?php echo count($siteByOwner['options']); ?></span>)
                     <ul>
-                        <?php foreach ($siteByOwner['sites'] as $site): ?>
+                        <?php foreach ($siteByOwner['options'] as $site): ?>
+                        <?php
+                        $comment = $site['site']->summary();
+                        ?>
                         <li class='selector-child'
-                            data-child-search="<?php echo $this->escapeHtml($site->title()); ?>"
-                            data-resource-id="<?php echo $this->escapeHtml($site->id()); ?>"
+                            data-child-search="<?php echo $this->escapeHtml($site['label']); ?>"
+                            data-resource-id="<?php echo $this->escapeHtml($site['site']->id()); ?>"
                             data-resource-email="<?php echo $this->escapeHtml($email); ?>">
-                            <div class="description">
+                            <div class="description<?php echo $comment ? '' : ' no-comment'; ?>">
                                 <p class="o-icon-info"><span class="screen-reader-text"><?php echo $this->translate('More info'); ?></span></p>
-                                <p class="field-comment"><?php echo $this->escapeHtml($site->summary()); ?></p>
+                                <p class="field-comment"><?php echo $this->escapeHtml($comment); ?></p>
                             </div>
-                            <span><?php echo $this->escapeHtml($site->title()); ?></span>
+                            <span><?php echo $this->escapeHtml($site['label']); ?></span>
                         </li>
                         <?php endforeach; ?>
                     </ul>

@@ -7,10 +7,11 @@ $this->htmlElement('body')->appendAttribute('class', 'sites show');
 <?php echo $this->pageTitle($site->title(), 1, $translate('Sites')); ?>
 
 <div id="page-actions">
+    <?php $this->trigger('view.show.page_actions', ['resource' => $site]); ?>
     <?php if ($site->userIsAllowed('update')): ?>
         <?php echo $site->link($translate('Edit'), null, ['class' => 'button']); ?>
     <?php endif; ?>
-    <?php echo $this->hyperlink($translate('View'), $site->siteUrl(), ['class' => 'button']); ?>
+    <?php echo $this->hyperlink($translate('View'), $site->siteUrl(), ['class' => 'button', 'target' => '_blank']); ?>
 </div>
 <div class="breadcrumbs">
     <?php echo $this->hyperlink($translate('Back to site list'), $this->url('admin/site'), ['class' => 'o-icon-left']); ?>
@@ -47,3 +48,5 @@ $this->htmlElement('body')->appendAttribute('class', 'sites show');
     </div>
     <?php endif; ?>
 </dl>
+
+<?php $this->trigger('view.show.after'); ?>

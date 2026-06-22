@@ -81,6 +81,7 @@ $userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\UserAdapter'
                 <span class="o-icon-user-inactive" aria-label="<?php echo $translate('Inactive'); ?>"></span>
                 <?php endif; ?>
                 <ul class="actions">
+                    <?php $this->trigger('view.browse.actions', ['resource' => $user]); ?>
                     <?php if ($userIsAllowedUpdate): ?>
                     <li><?php echo $user->link('', 'edit', [
                         'class' => 'o-icon-edit',

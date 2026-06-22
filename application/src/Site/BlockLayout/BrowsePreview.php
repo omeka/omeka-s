@@ -9,7 +9,7 @@ use Laminas\Form\Element;
 use Laminas\Form\Form;
 use Laminas\View\Renderer\PhpRenderer;
 
-class BrowsePreview extends AbstractBlockLayout
+class BrowsePreview extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     public function getLabel()
     {
@@ -25,7 +25,7 @@ class BrowsePreview extends AbstractBlockLayout
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
-        SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
+        ?SitePageRepresentation $page = null, ?SitePageBlockRepresentation $block = null
     ) {
         $defaults = [
             'resource_type' => 'items',
@@ -123,7 +123,7 @@ class BrowsePreview extends AbstractBlockLayout
         return $view->formCollection($form);
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = 'common/block-layout/browse-preview')
     {
         $resourceType = $block->dataValue('resource_type', 'items');
 
@@ -143,6 +143,7 @@ class BrowsePreview extends AbstractBlockLayout
             $query['sort_by'] = 'created';
         }
         if (!isset($query['sort_order'])) {
+            $query['sort_order_default'] = '';
             $query['sort_order'] = 'desc';
         }
 
@@ -162,7 +163,8 @@ class BrowsePreview extends AbstractBlockLayout
             'media' => 'media',
         ];
 
-        return $view->partial('common/block-layout/browse-preview', [
+        return $view->partial($templateViewScript, [
+            'block' => $block,
             'resourceType' => $resourceTypes[$resourceType],
             'resources' => $resources,
             'heading' => $block->dataValue('heading'),

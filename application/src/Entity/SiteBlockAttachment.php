@@ -74,7 +74,7 @@ class SiteBlockAttachment extends AbstractEntity
         return $this->position;
     }
 
-    public function setItem(Item $item = null)
+    public function setItem(?Item $item = null)
     {
         $this->item = $item;
     }
@@ -84,7 +84,7 @@ class SiteBlockAttachment extends AbstractEntity
         return $this->item;
     }
 
-    public function setMedia(Media $media = null)
+    public function setMedia(?Media $media = null)
     {
         $this->media = $media;
     }

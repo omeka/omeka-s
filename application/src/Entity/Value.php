@@ -7,7 +7,8 @@ namespace Omeka\Entity;
  * @Entity
  * @Table(name="`value`", indexes={
  *     @Index(name="`value`", columns={"`value`"}, options={"lengths":{190}}),
- *     @Index(name="`uri`", columns={"`uri`"}, options={"lengths":{190}})
+ *     @Index(name="`uri`", columns={"`uri`"}, options={"lengths":{190}}),
+ *     @Index(name="is_public", columns={"is_public"})
  * })
  */
 class Value extends AbstractEntity
@@ -73,7 +74,7 @@ class Value extends AbstractEntity
         return $this->id;
     }
 
-    public function setResource(Resource $resource = null)
+    public function setResource(?Resource $resource = null)
     {
         $this->resource = $resource;
     }
@@ -133,7 +134,7 @@ class Value extends AbstractEntity
         return $this->uri;
     }
 
-    public function setValueResource(Resource $valueResource = null)
+    public function setValueResource(?Resource $valueResource = null)
     {
         $this->valueResource = $valueResource;
     }
@@ -158,7 +159,7 @@ class Value extends AbstractEntity
         return $this->getIsPublic();
     }
 
-    public function setValueAnnotation(ValueAnnotation $valueAnnotation = null)
+    public function setValueAnnotation(?ValueAnnotation $valueAnnotation = null)
     {
         $this->valueAnnotation = $valueAnnotation;
     }

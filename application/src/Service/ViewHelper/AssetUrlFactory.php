@@ -17,7 +17,7 @@ class AssetUrlFactory implements FactoryInterface
      *
      * @return AssetUrl
      */
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, ?array $options = null)
     {
         $currentTheme = $serviceLocator->get('Omeka\Site\ThemeManager')->getCurrentTheme();
         $activeModules = $serviceLocator->get('Omeka\ModuleManager')

@@ -10,7 +10,7 @@ use Laminas\ServiceManager\Factory\DelegatorFactoryInterface;
 class FormElementDelegatorFactory implements DelegatorFactoryInterface
 {
     public function __invoke(ContainerInterface $container, $name,
-        callable $callback, array $options = null
+        callable $callback, ?array $options = null
     ) {
         $formElement = $callback();
         $formElement->addType('recaptcha', 'formRecaptcha');
@@ -22,6 +22,7 @@ class FormElementDelegatorFactory implements DelegatorFactoryInterface
         $formElement->addClass('Omeka\Form\Element\Query', 'formQuery');
         $formElement->addClass('Omeka\Form\Element\Columns', 'formColumns');
         $formElement->addClass('Omeka\Form\Element\BrowseDefaults', 'formBrowseDefaults');
+        $formElement->addClass('Omeka\Form\Element\SelectSortInterface', 'formSelectSort');
         return $formElement;
     }
 }

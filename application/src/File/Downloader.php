@@ -48,7 +48,7 @@ class Downloader
      * @param null|ErrorStore $errorStore
      * @return TempFile|false False on error
      */
-    public function download($uri, ErrorStore $errorStore = null)
+    public function download($uri, ?ErrorStore $errorStore = null)
     {
         $client = $this->services->get('Omeka\HttpClient'); // non-shared service
         $tempFile = $this->tempFileFactory->build();
@@ -70,7 +70,7 @@ class Downloader
                         $message = new Message(
                             'Error downloading %1$s: %2$s', // @translate
                             (string) $uri, $e->getMessage()
-                            );
+                        );
                         $errorStore->addError('download', $message);
                     }
                     $tempFile->delete();
@@ -83,7 +83,7 @@ class Downloader
             $message = sprintf(
                 'Error downloading %1$s: %2$s %3$s', // @translate
                 (string) $uri, $response->getStatusCode(), $response->getReasonPhrase()
-                );
+            );
             if ($errorStore) {
                 $errorStore->addError('download', $message);
             }

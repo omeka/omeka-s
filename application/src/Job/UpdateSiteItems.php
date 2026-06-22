@@ -72,7 +72,7 @@ class UpdateSiteItems extends AbstractJob
      * @param array $query
      * @param string $action
      */
-    protected function updateSiteItems(int $siteId, array $query, string $action) : void
+    protected function updateSiteItems(int $siteId, array $query, string $action): void
     {
         $services = $this->getServiceLocator();
         $api = $services->get('Omeka\ApiManager');

@@ -23,7 +23,7 @@ class Csrf implements InitializerInterface
             'options' => [
                 'label' => 'CSRF',
                 'csrf_options' => [
-                    'timeout' => 3600, // 1 hour
+                    'timeout' => 43200, // 12 hours
                 ],
             ],
         ]);

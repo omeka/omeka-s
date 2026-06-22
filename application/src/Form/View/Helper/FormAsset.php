@@ -7,7 +7,7 @@ use Laminas\Form\ElementInterface;
 
 class FormAsset extends AbstractHelper
 {
-    public function __invoke(ElementInterface $element, AssetRepresentation $asset = null)
+    public function __invoke(ElementInterface $element, ?AssetRepresentation $asset = null)
     {
         return $this->render($element, $asset);
     }

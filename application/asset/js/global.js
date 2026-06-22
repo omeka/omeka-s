@@ -71,7 +71,7 @@ var Omeka = {
             var count = 0;
             parent.find('li.selector-child').each(function() {
                 var child = $(this);
-                var label = child.data('child-search').toLowerCase();
+                var label = child.attr('data-child-search').toLowerCase();
                 if ((label.indexOf(filter) < 0) || (child.hasClass('added'))) {
                     // Label doesn't contain the filter string. Hide the child.
                     child.addClass('filter-hidden');
@@ -90,7 +90,6 @@ var Omeka = {
             parent.children('span.selector-child-count').text(count);
         });
         if (filter == '') {
-            selector.find('li.selector-parent').removeClass('show');
             $('.filter-match').removeClass('filter-match');
         }
         selector.find('span.selector-total-count').text(totalCount);
@@ -99,7 +98,7 @@ var Omeka = {
     updateSearch: function () {
         var checkedOption = $("#advanced-options input[type='radio']:checked ");
         $("#search-form").attr("action", checkedOption.data('action'));
-        $("#search-form > input[type='text']").attr("placeholder", checkedOption.data('inputPlaceholder')).attr("aria-label", checkedOption.data('inputPlaceholder'));
+        $("#search-form > input[type='text']").attr("placeholder", checkedOption.data('inputPlaceholder'));
     },
 
     scrollTo: function(wrapper) {
@@ -227,7 +226,8 @@ var Omeka = {
                 tableRowCell.text(tableRowValue);
             });
             selectorRow.addClass('added');
-            table.append(tableRow).removeClass('empty').trigger('appendRow');
+            table.children('.resource-rows').append(tableRow);
+            table.removeClass('empty').trigger('appendRow');
             updateResourceCount(id);
         }
 
@@ -235,6 +235,10 @@ var Omeka = {
             var resource = selector.find('[data-resource-id="' + id + '"]');
             var resourceParent = resource.parents('.selector-parent');
             var childCount = resourceParent.find('.selector-child-count').first();
+            // Update the count only when the resource exists in the selector.
+            if (!selector.find(`.selector-child[data-resource-id="${id}"]`).length) {
+                return;
+            }
             if (resource.hasClass('added')) {
                 var newTotalCount = parseInt(selectorCount.text()) - 1;
                 var newChildCount = parseInt(childCount.text()) - 1;
@@ -318,16 +322,22 @@ var Omeka = {
     disableQueryTextInput: function() {
         var queryType = $(this);
         var queryText = queryType.siblings('.query-text');
-        if (queryType.val() === 'ex' || queryType.val() === 'nex') {
+        var queryTextDataType = queryType.siblings('.query-text-data-type');
+        if (['dt', 'ndt'].includes(queryType.val())) {
+            queryText.prop('disabled', true).val('');
+            queryTextDataType.prop('disabled', false).show();
+        } else if (['ex', 'nex'].includes(queryType.val())) {
             queryText.prop('disabled', true);
+            queryTextDataType.prop('disabled', true).hide();
         } else {
             queryText.prop('disabled', false);
+            queryTextDataType.prop('disabled', true).hide();
         }
     },
 
     // Clean the search query of empty or otherwise unneeded inputs.
     cleanSearchQuery: function(form) {
-        form.find(':input').each(function(index) {
+        form.find(':input:enabled').each(function(index) {
             const input = $(this);
             const inputName = input.attr('name');
             const inputValue = input.val();
@@ -352,7 +362,7 @@ var Omeka = {
                     const match = inputName.match(/property\[(\d+)\]\[text\]/);
                     if (match) {
                         const propertyType = form.find(`[name="property[${match[1]}][type]"]`);
-                        if (['eq', 'neq', 'in', 'nin', 'res', 'nres'].includes(propertyType.val())) {
+                        if (['eq', 'neq', 'in', 'nin', 'res', 'nres', 'dt', 'ndt'].includes(propertyType.val())) {
                             form.find(`[name="property[${match[1]}][joiner]"]`).prop('name', '');
                             form.find(`[name="property[${match[1]}][property]"]`).prop('name', '');
                             form.find(`[name="property[${match[1]}][text]"]`).prop('name', '');
@@ -379,10 +389,10 @@ $(document).ready(function() {
             var toggle = $(this);
             toggle.toggleClass('collapse').toggleClass('expand');
             if (toggle.hasClass('expand')) {
-                toggle.attr('aria-label', Omeka.jsTranslate('Expand')).attr('title', Omeka.jsTranslate('Expand'));
+                toggle.attr('aria-label', Omeka.jsTranslate('Expand')).attr('title', Omeka.jsTranslate('Expand')).attr('aria-expanded', 'false');
                 toggle.trigger('o:collapsed');
             } else {
-                toggle.attr('aria-label', Omeka.jsTranslate('Collapse')).attr('title', Omeka.jsTranslate('Collapse'));
+                toggle.attr('aria-label', Omeka.jsTranslate('Collapse')).attr('title', Omeka.jsTranslate('Collapse')).attr('aria-expanded', 'true');
                 toggle.trigger('o:expanded');
             }
         });

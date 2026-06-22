@@ -17,14 +17,16 @@ class SitePageRepresentation extends AbstractEntityRepresentation
         $modified = null;
         if ($this->modified()) {
             $modified = [
-               '@value' => $this->getDateTime($this->modified()),
-               '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
+                '@value' => $this->getDateTime($this->modified()),
+                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
             ];
         }
         return [
             'o:slug' => $this->slug(),
             'o:title' => $this->title(),
             'o:is_public' => $this->isPublic(),
+            'o:layout' => $this->layout(),
+            'o:layout_data' => $this->layoutData() ?? [],
             'o:block' => $this->blocks(),
             'o:site' => $this->site()->getReference(),
             'o:created' => $created,
@@ -73,6 +75,35 @@ class SitePageRepresentation extends AbstractEntityRepresentation
     }
 
     /**
+     * @return ?string
+     */
+    public function layout()
+    {
+        return $this->resource->getLayout();
+    }
+
+    /**
+     * @return ?array
+     */
+    public function layoutData()
+    {
+        return $this->resource->getLayoutData();
+    }
+
+    /**
+     * Get layout data by key.
+     *
+     * @param string $key The layout data key
+     * @param mixed $default Return this if key does not exist
+     * @return mixed
+     */
+    public function layoutDataValue($key, $default = null)
+    {
+        $layoutData = $this->resource->getLayoutData();
+        return $layoutData[$key] ?? $default;
+    }
+
+    /**
      * Get the blocks assigned to this page.
      *
      * @return array
@@ -108,7 +139,7 @@ class SitePageRepresentation extends AbstractEntityRepresentation
 
     public function siteUrl($siteSlug = null, $canonical = false)
     {
-        if (!$siteSlug) {
+        if ($siteSlug === null) {
             $siteSlug = $this->site()->slug();
         }
         $url = $this->getViewHelper('Url');

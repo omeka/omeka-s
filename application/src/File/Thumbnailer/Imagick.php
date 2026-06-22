@@ -39,6 +39,9 @@ class Imagick extends AbstractThumbnailer
             $imagick = new ImagickPhp;
             if ($mediaType == 'application/pdf') {
                 $imagick->setResolution(150, 150);
+                if ($this->getOption('pdfUseCropBox', true)) {
+                    $imagick->setOption('pdf:use-cropbox', true);
+                }
             }
             $imagick->readImage($origPath);
         } catch (ImagickException $e) {

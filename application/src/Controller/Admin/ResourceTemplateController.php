@@ -321,8 +321,8 @@ class ResourceTemplateController extends AbstractActionController
             }
             if ($oldExport
                  && (!array_key_exists('data_type_name', $property)
-                    || !array_key_exists('data_type_label', $property)
-            )) {
+                    || !array_key_exists('data_type_label', $property))
+            ) {
                 return false;
             }
 

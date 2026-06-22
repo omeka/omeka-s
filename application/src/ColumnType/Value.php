@@ -20,22 +20,22 @@ class Value implements ColumnTypeInterface
         $this->api = $api;
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return 'Value'; // @translate
     }
 
-    public function getResourceTypes() : array
+    public function getResourceTypes(): array
     {
         return ['items', 'item_sets', 'media'];
     }
 
-    public function getMaxColumns() : ?int
+    public function getMaxColumns(): ?int
     {
         return null;
     }
 
-    public function renderDataForm(PhpRenderer $view, array $data) : string
+    public function renderDataForm(PhpRenderer $view, array $data): string
     {
         $propertySelect = $this->formElements->get(OmekaElement\PropertySelect::class);
         $propertySelect->setName('property_term');
@@ -66,12 +66,12 @@ class Value implements ColumnTypeInterface
         return sprintf('%s%s', $view->formRow($propertySelect), $view->formRow($maxValuesInput));
     }
 
-    public function getSortBy(array $data) : ?string
+    public function getSortBy(array $data): ?string
     {
         return $data['property_term'] ?? null;
     }
 
-    public function renderHeader(PhpRenderer $view, array $data) : string
+    public function renderHeader(PhpRenderer $view, array $data): string
     {
         if (!isset($data['property_term']) || '' === trim($data['property_term'])) {
             return $this->getLabel();
@@ -80,7 +80,7 @@ class Value implements ColumnTypeInterface
         return $response ? $response[0]->label() : $this->getLabel();
     }
 
-    public function renderContent(PhpRenderer $view, AbstractEntityRepresentation $resource, array $data) : ?string
+    public function renderContent(PhpRenderer $view, AbstractEntityRepresentation $resource, array $data): ?string
     {
         if (!isset($data['property_term'])) {
             return null;

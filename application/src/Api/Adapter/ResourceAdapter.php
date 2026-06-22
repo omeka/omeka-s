@@ -37,7 +37,7 @@ class ResourceAdapter extends AbstractResourceEntityAdapter
      * @param mixed $data Whatever data is needed to compose the representation.
      * @return ResourceInterface|null
      */
-    public function getRepresentation(ResourceInterface $data = null)
+    public function getRepresentation(?ResourceInterface $data = null)
     {
         if (!$data instanceof ResourceEntity) {
             // Do not attempt to compose a null representation.

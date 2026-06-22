@@ -69,7 +69,7 @@ class AssetUrl extends AbstractHelper
      */
     public function __invoke($file, $module = null, $override = false, $versioned = true, $absolute = false)
     {
-        if (isset($this->externals[$module][$file])) {
+        if ($module && isset($this->externals[$module][$file])) {
             return $this->externals[$module][$file];
         }
         $basePath = $this->getView()->basePath();

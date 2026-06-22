@@ -6,10 +6,11 @@ use Omeka\Form\Element\PropertySelect;
 use Omeka\Settings\SiteSettings;
 use Omeka\Stdlib\Browse as BrowseService;
 use Laminas\Form\Form;
+use Laminas\EventManager\EventManagerAwareInterface;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\EventManager\Event;
 
-class SiteSettingsForm extends Form
+class SiteSettingsForm extends Form implements EventManagerAwareInterface
 {
     use EventManagerAwareTrait;
 
@@ -33,6 +34,7 @@ class SiteSettingsForm extends Form
             'browse' => 'Browse', // @translate
             'show' => 'Show', // @translate
             'search' => 'Search', // @translate
+            'iiif_viewer' => 'IIIF viewer', // @translate
         ]);
 
         // o:assign_new_items element is a pseudo-setting that's ultimately set
@@ -81,24 +83,6 @@ class SiteSettingsForm extends Form
             ],
         ]);
         $this->add([
-            'name' => 'property_label_information',
-            'type' => 'Select',
-            'options' => [
-                'element_group' => 'general',
-                'label' => 'Property label information', // @translate
-                'info' => 'The additional information that accompanies labels on resource pages.', // @translate
-                'value_options' => [
-                    'none' => 'None', // @translate
-                    'vocab' => 'Show Vocabulary', // @translate
-                    'term' => 'Show Term', // @translate
-                ],
-            ],
-            'attributes' => [
-                'id' => 'property_label_information',
-                'value' => $settings->get('property_label_information', 'none'),
-            ],
-        ]);
-        $this->add([
             'name' => 'show_user_bar',
             'type' => 'radio',
             'options' => [
@@ -124,6 +108,35 @@ class SiteSettingsForm extends Form
             ],
             'attributes' => [
                 'value' => $settings->get('disable_jsonld_embed'),
+                'id' => 'disable_jsonld_embed',
+            ],
+        ]);
+        $this->add([
+            'name' => 'favicon',
+            'type' => 'Omeka\Form\Element\Asset',
+            'options' => [
+                'element_group' => 'general',
+                'label' => 'Favicon', // @translate
+            ],
+            'attributes' => [
+                'value' => $settings->get('favicon'),
+                'id' => 'favicon',
+            ],
+        ]);
+        $this->add([
+            'name' => 'subnav_display',
+            'type' => 'select',
+            'options' => [
+                'element_group' => 'general',
+                'label' => 'Page subnavigation display', // @translate
+                'empty_option' => 'Hide on leaf pages (default)', // @translate
+                'value_options' => [
+                    'hide' => 'Hide on all pages', // @translate
+                    'show' => 'Show on all pages', // @translate
+                ],
+            ],
+            'attributes' => [
+                'value' => $settings->get('subnav_display'),
                 'id' => 'disable_jsonld_embed',
             ],
         ]);
@@ -266,6 +279,24 @@ class SiteSettingsForm extends Form
             ],
         ]);
         $this->add([
+            'name' => 'property_label_information',
+            'type' => 'Select',
+            'options' => [
+                'element_group' => 'show',
+                'label' => 'Property label information', // @translate
+                'info' => 'The additional information that accompanies labels on resource pages.', // @translate
+                'value_options' => [
+                    'none' => 'None', // @translate
+                    'vocab' => 'Show Vocabulary', // @translate
+                    'term' => 'Show Term', // @translate
+                ],
+            ],
+            'attributes' => [
+                'id' => 'property_label_information',
+                'value' => $settings->get('property_label_information', 'none'),
+            ],
+        ]);
+        $this->add([
             'name' => 'show_value_annotations',
             'type' => 'select',
             'options' => [
@@ -395,12 +426,44 @@ class SiteSettingsForm extends Form
             ],
         ]);
 
+        // IIIF viewer section
+        $this->add([
+            'type' => 'checkbox',
+            'name' => 'iiif_viewer_sidebar',
+            'options' => [
+                'element_group' => 'iiif_viewer',
+                'label' => 'Show sidebar', // @translate
+            ],
+            'attributes' => [
+                'value' => $settings->get('iiif_viewer_sidebar', false),
+            ],
+        ]);
+        $this->add([
+            'type' => 'select',
+            'name' => 'iiif_viewer_theme',
+            'options' => [
+                'element_group' => 'iiif_viewer',
+                'label' => 'Theme', // @translate
+                'value_options' => [
+                    'light' => 'Light', // @translate
+                    'dark' => 'Dark', // @translate
+                ],
+            ],
+            'attributes' => [
+                'value' => $settings->get('iiif_viewer_theme'),
+            ],
+        ]);
+
         $addEvent = new Event('form.add_elements', $this);
         $this->getEventManager()->triggerEvent($addEvent);
 
         $inputFilter = $this->getInputFilter();
         $inputFilter->add([
             'name' => 'locale',
+            'allow_empty' => true,
+        ]);
+        $inputFilter->add([
+            'name' => 'subnav_display',
             'allow_empty' => true,
         ]);
         $inputFilter->add([

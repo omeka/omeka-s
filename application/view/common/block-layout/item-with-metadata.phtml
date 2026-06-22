@@ -2,7 +2,7 @@
 $translate = $this->plugin('translate');
 ?>
 <div class="item-with-metadata">
-<?php foreach($attachments as $attachment): ?>
+<?php foreach ($attachments as $attachment): ?>
     <?php $item = $attachment->item(); ?>
     <?php if (empty($item)) continue; ?>
     <div class="resource show">
@@ -13,7 +13,7 @@ $translate = $this->plugin('translate');
     }
     echo $item->displayValues($options);
     ?>
-    <?php if($item->itemSets()): ?>
+    <?php if ($item->itemSets()): ?>
         <dl class="item-sets">
             <div class="property">
                 <dt><?php echo $translate('Item sets'); ?></dt>
@@ -23,12 +23,12 @@ $translate = $this->plugin('translate');
             </div>
         </dl>
     <?php endif; ?>
-    <?php if($item->media()): ?>
+    <?php if ($item->media()): ?>
         <dl class="media-list">
             <div class="property">
                 <dt><?php echo $translate('Media'); ?></dt>
                 <?php foreach ($item->media() as $media): ?>
-                <dd class="value"><?php echo $media->linkPretty('square', $media->displayTitle(), ['class' => 'media resource']); ?></dd>
+                <dd class="value"><?php echo $media->linkPretty('square', $media->displayTitle()); ?></dd>
                 <?php endforeach; ?>
             </div>
         </dl>

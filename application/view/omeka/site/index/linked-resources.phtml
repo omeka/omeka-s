@@ -1,0 +1,12 @@
+<?php
+$siteId = null;
+if ($this->siteSetting('exclude_resources_not_in_site')) {
+    $siteId = $this->currentSite()->id();
+}
+echo $resource->displaySubjectValues([
+    'page' => $this->params()->fromQuery('page', 1),
+    'perPage' => $this->siteSetting('pagination_per_page', $this->setting('pagination_per_page', 25)),
+    'resourceProperty' => $this->params()->fromQuery('resource_property'),
+    'siteId' => $siteId,
+]);
+?>

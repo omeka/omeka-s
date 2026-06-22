@@ -1,9 +1,9 @@
 <?php
 namespace Omeka\Form\View\Helper;
 
-use Laminas\Form\View\Helper\FormCollection;
 use Laminas\Form\ElementInterface;
 use Laminas\Form\FieldsetInterface;
+use Laminas\Form\View\Helper\FormCollection;
 
 class FormCollectionElementGroups extends FormCollection
 {
@@ -44,7 +44,7 @@ class FormCollectionElementGroups extends FormCollection
                 continue;
             }
             $markup .= '<fieldset>';
-            $markup .= sprintf('<legend>%s</legend>', $view->escapeHtml($view->translate($elementGroupLabel)));
+            $markup .= sprintf('<legend><h2 class="fieldsets-heading">%s</h2></legend>', $view->escapeHtml($view->translate($elementGroupLabel)));
             foreach ($elementsInGroups[$elementGroupName] as $elementInGroups) {
                 $markup .= $view->formRow($elementInGroups);
             }

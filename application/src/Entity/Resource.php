@@ -18,6 +18,10 @@ use Doctrine\Common\Collections\ArrayCollection;
  *             name="title",
  *             columns={"title"},
  *             options={"lengths":{190}}
+ *         ),
+ *         @Index(
+ *             name="is_public",
+ *             columns={"is_public"}
  *         )
  *     }
  * )
@@ -109,7 +113,7 @@ abstract class Resource extends AbstractEntity
         return $this->id;
     }
 
-    public function setOwner(User $owner = null)
+    public function setOwner(?User $owner = null)
     {
         $this->owner = $owner;
     }
@@ -119,7 +123,7 @@ abstract class Resource extends AbstractEntity
         return $this->owner;
     }
 
-    public function setResourceClass(ResourceClass $resourceClass = null)
+    public function setResourceClass(?ResourceClass $resourceClass = null)
     {
         $this->resourceClass = $resourceClass;
     }
@@ -129,7 +133,7 @@ abstract class Resource extends AbstractEntity
         return $this->resourceClass;
     }
 
-    public function setResourceTemplate(ResourceTemplate $resourceTemplate = null)
+    public function setResourceTemplate(?ResourceTemplate $resourceTemplate = null)
     {
         $this->resourceTemplate = $resourceTemplate;
     }
@@ -139,7 +143,7 @@ abstract class Resource extends AbstractEntity
         return $this->resourceTemplate;
     }
 
-    public function setThumbnail(Asset $thumbnail = null)
+    public function setThumbnail(?Asset $thumbnail = null)
     {
         $this->thumbnail = $thumbnail;
     }

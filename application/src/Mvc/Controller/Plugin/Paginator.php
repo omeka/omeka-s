@@ -36,7 +36,6 @@ class Paginator extends AbstractPlugin
     {
         // Fetch variables from the query if none provided.
         $query = $this->getController()->getRequest()->getQuery();
-        $query->set('sort_by', (!isset($query['sort_by_default']) && isset($query['sort_by'])) ? $query['sort_by'] : '');
         $currentPage = $currentPage ?: $query->get('page', $currentPage);
         $perPage = $perPage ?: $query->get('per_page', $perPage);
 

@@ -10,10 +10,11 @@ use Omeka\Permissions\Acl;
 use Omeka\Settings\Settings;
 use Omeka\Settings\UserSettings;
 use Laminas\Form\Form;
+use Laminas\EventManager\EventManagerAwareInterface;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\EventManager\Event;
 
-class UserForm extends Form
+class UserForm extends Form implements EventManagerAwareInterface
 {
     use EventManagerAwareTrait;
 
@@ -199,6 +200,15 @@ class UserForm extends Form
             'options' => [
                 'label' => 'Default sites for items', // @translate
                 'empty_option' => '',
+                'filter_resource_representations' => function ($sites) {
+                    // The user must have permission to assign items to the site.
+                    foreach ($sites as $index => $site) {
+                        if (!$site->userIsAllowed('can-assign-items')) {
+                            unset($sites[$index]);
+                        }
+                    }
+                    return $sites;
+                },
             ],
         ]);
         $settingsFieldset->add([

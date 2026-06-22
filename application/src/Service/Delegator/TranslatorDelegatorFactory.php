@@ -9,7 +9,7 @@ use Laminas\ServiceManager\Factory\DelegatorFactoryInterface;
 class TranslatorDelegatorFactory implements DelegatorFactoryInterface
 {
     public function __invoke(ContainerInterface $container, $name,
-        callable $callback, array $options = null
+        callable $callback, ?array $options = null
     ) {
         $translator = $callback();
         $translator->getPluginManager()->setFactory(Loader\Gettext::class, function ($loaders) {

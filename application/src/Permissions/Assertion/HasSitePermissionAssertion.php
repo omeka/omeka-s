@@ -18,8 +18,8 @@ class HasSitePermissionAssertion implements AssertionInterface
         $this->roleNumber = $this->getRoleNumber($role);
     }
 
-    public function assert(Acl $acl, RoleInterface $role = null,
-        ResourceInterface $resource = null, $privilege = null
+    public function assert(Acl $acl, ?RoleInterface $role = null,
+        ?ResourceInterface $resource = null, $privilege = null
     ) {
         if (method_exists($resource, 'getSite')) {
             $resource = $resource->getSite();

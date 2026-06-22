@@ -33,7 +33,7 @@ class Uploader
      * @param null|ErrorStore $errorStore
      * @return TempFile|false False on error
      */
-    public function upload(array $fileData, ErrorStore $errorStore = null)
+    public function upload(array $fileData, ?ErrorStore $errorStore = null)
     {
         $tempFile = $this->tempFileFactory->build();
         $fileInput = new FileInput('file');

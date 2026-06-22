@@ -133,7 +133,7 @@ class ResourceTemplate extends \Omeka\Entity\ResourceTemplate implements \Doctri
      * {@inheritDoc}
      * @internal generated method: use only when explicitly handling proxy specific loading logic
      */
-    public function __setInitializer(\Closure $initializer = null): void
+    public function __setInitializer(?\Closure $initializer = null): void
     {
         $this->__initializer__ = $initializer;
     }
@@ -151,7 +151,7 @@ class ResourceTemplate extends \Omeka\Entity\ResourceTemplate implements \Doctri
      * {@inheritDoc}
      * @internal generated method: use only when explicitly handling proxy specific loading logic
      */
-    public function __setCloner(\Closure $cloner = null): void
+    public function __setCloner(?\Closure $cloner = null): void
     {
         $this->__cloner__ = $cloner;
     }
@@ -217,7 +217,7 @@ class ResourceTemplate extends \Omeka\Entity\ResourceTemplate implements \Doctri
     /**
      * {@inheritDoc}
      */
-    public function setOwner(\Omeka\Entity\User $owner = NULL)
+    public function setOwner(?\Omeka\Entity\User $owner = NULL)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOwner', [$owner]);
@@ -239,7 +239,7 @@ class ResourceTemplate extends \Omeka\Entity\ResourceTemplate implements \Doctri
     /**
      * {@inheritDoc}
      */
-    public function setResourceClass(\Omeka\Entity\ResourceClass $resourceClass = NULL)
+    public function setResourceClass(?\Omeka\Entity\ResourceClass $resourceClass = NULL)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setResourceClass', [$resourceClass]);
@@ -261,7 +261,7 @@ class ResourceTemplate extends \Omeka\Entity\ResourceTemplate implements \Doctri
     /**
      * {@inheritDoc}
      */
-    public function setTitleProperty(\Omeka\Entity\Property $titleProperty = NULL)
+    public function setTitleProperty(?\Omeka\Entity\Property $titleProperty = NULL)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTitleProperty', [$titleProperty]);
@@ -283,7 +283,7 @@ class ResourceTemplate extends \Omeka\Entity\ResourceTemplate implements \Doctri
     /**
      * {@inheritDoc}
      */
-    public function setDescriptionProperty(\Omeka\Entity\Property $descriptionProperty = NULL)
+    public function setDescriptionProperty(?\Omeka\Entity\Property $descriptionProperty = NULL)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDescriptionProperty', [$descriptionProperty]);

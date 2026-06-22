@@ -1,6 +1,7 @@
 <?php
-$translate = $this->plugin('translate');
+$this->headScript()->appendFile($this->assetUrl('js/vocabulary-form.js', 'Omeka'));
 $this->htmlElement('body')->appendAttribute('class', 'vocabularies import');
+$translate = $this->plugin('translate');
 $form->prepare();
 ?>
 

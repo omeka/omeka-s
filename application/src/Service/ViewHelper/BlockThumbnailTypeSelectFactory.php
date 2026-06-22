@@ -15,7 +15,7 @@ class BlockThumbnailTypeSelectFactory implements FactoryInterface
      *
      * @return BlockThumbnailTypeSelect
      */
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         $thumbnailManager = $services->get('Omeka\File\ThumbnailManager');
         return new BlockThumbnailTypeSelect($thumbnailManager->getTypes());

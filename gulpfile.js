@@ -17,7 +17,9 @@ var fs = require('fs');
 Promise.promisifyAll(fs);
 var glob = Promise.promisify(require('glob'));
 var rimraf = Promise.promisify(require('rimraf'));
-var tmpFile = Promise.promisify(require('tmp').file, {multiArgs: true});
+var tmp = require('tmp');
+var tmpFile = Promise.promisify(tmp.file, {multiArgs: true});
+tmp.setGracefulCleanup();
 
 var sass = require('gulp-sass')(require('sass'));
 var postcss = require('gulp-postcss');
@@ -38,13 +40,7 @@ var cliOptions = minimist(process.argv.slice(2), {
 });
 
 function ensureBuildDir() {
-    return fs.statAsync(buildDir).catch(function (e) {
-        return fs.mkdirAsync(buildDir);
-    }).then(function () {
-        return fs.statAsync(buildDir + '/cache');
-    }).catch(function (e) {
-        fs.mkdirAsync(buildDir + '/cache');
-    });
+    return fs.promises.mkdir(buildDir + '/cache', {recursive: true});
 }
 
 function download(url, path) {
@@ -335,19 +331,19 @@ gulp.task('deps:module:update', taskDepsModuleUpdate);
 function taskDepsJs(cb) {
     var deps = {
         'chosen-js': ['**', '!*.proto.*'],
-        'ckeditor4': ['**', '!samples/**'],
+        //'ckeditor4': ['**', '!samples/**'],
+        'compare-versions': 'lib/umd/index.js',
         'jquery': 'dist/jquery.min.js',
         'jstree': 'dist/jstree.min.js',
         'lightgallery': ['lightgallery.min.js', '[c]ss/lightgallery-bundle.min.css', '[f]onts/**', '[i]mages/**',
             '[p]lugins/@(hash|rotate|thumbnail|video|zoom)/*.min.js'],
-        'mirador': ['dist/**', '!dist/cjs/**', '!dist/es/**'],
+        'mirador': ['dist/**', '!dist/*.es.*'],
         'openseadragon': 'build/openseadragon/**',
-        'semver': 'semver.min.js',
         'sortablejs': 'Sortable.min.js',
         'tablesaw': 'dist/stackonly/**'
     };
     var depRenames = {
-        'ckeditor4': 'ckeditor'
+        //'ckeditor4': 'ckeditor'
     };
 
     Object.keys(deps).forEach(function (module) {
@@ -362,7 +358,7 @@ function taskDepsJs(cb) {
             }
             return './node_modules/' + module + '/' + value;
         });
-        gulp.src(moduleDeps, {nodir: true})
+        gulp.src(moduleDeps, {encoding: false})
             .pipe(gulp.dest('./application/asset/vendor/' + dest));
     });
     cb();
@@ -535,7 +531,7 @@ var taskZip = gulp.series('clean', 'init', function () {
             '!./**/.gitattributes',
             '!./**/.gitignore'
         ],
-        {base: '.', nodir: true, dot: true})
+        {base: '.', dot: true, encoding: false, resolveSymlinks: false})
         .pipe(rename(function (path) {
             path.dirname = 'omeka-s/' + path.dirname;
         }))

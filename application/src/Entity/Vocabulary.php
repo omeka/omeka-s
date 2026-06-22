@@ -12,6 +12,11 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Vocabulary extends AbstractEntity
 {
+    /** Regex for a valid vocabulary prefix. */
+    const PREFIX_REGEX = '/^[a-z0-9_-]+$/i';
+    /** Regex for a valid JSON-LD term in prefix:localName form. */
+    const TERM_REGEX = '/^[a-z0-9_-]+:[a-z0-9_-]+$/i';
+
     /**
      * @Id
      * @Column(type="integer")
@@ -78,7 +83,7 @@ class Vocabulary extends AbstractEntity
         return $this->id;
     }
 
-    public function setOwner(User $owner = null)
+    public function setOwner(?User $owner = null)
     {
         $this->owner = $owner;
     }

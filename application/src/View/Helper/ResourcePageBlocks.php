@@ -63,21 +63,43 @@ class ResourcePageBlocks extends AbstractHelper
     }
 
     /**
+     * Get the count of blocks for a region of the resource page.
+     *
+     * @return int
+     */
+    public function getBlockCount()
+    {
+        return $this->hasBlocks()
+            ? count($this->resourcePageBlocks[$this->resourceName][$this->regionName])
+            : 0;
+    }
+
+    /**
+     * Return an array of block markup for a region of the resource page.
+     *
+     * @return array An array of block markup keyed by the block name
+     */
+    public function getBlocksArray()
+    {
+        if (!$this->hasBlocks()) {
+            return [];
+        }
+        $view = $this->getView();
+        $blocksArray = [];
+        foreach ($this->resourcePageBlocks[$this->resourceName][$this->regionName] as $blockName) {
+            $blockLayout = $this->blockLayoutManager->get($blockName);
+            $blocksArray[$blockName] = $blockLayout->render($view, $this->resource);
+        }
+        return $blocksArray;
+    }
+
+    /**
      * Return the block markup for a region of the resource page.
      *
      * @return string
      */
     public function getBlocks()
     {
-        if (!$this->hasBlocks()) {
-            return '';
-        }
-        $view = $this->getView();
-        $blockMarkup = [];
-        foreach ($this->resourcePageBlocks[$this->resourceName][$this->regionName] as $blockName) {
-            $blockLayout = $this->blockLayoutManager->get($blockName);
-            $blockMarkup[] = $blockLayout->render($view, $this->resource);
-        }
-        return implode('', $blockMarkup);
+        return implode('', $this->getBlocksArray());
     }
 }

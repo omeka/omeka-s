@@ -7,6 +7,7 @@ $(document).ready(function () {
         var template = fieldContainer.data('field-template');
         var newValue = $(template);
         newValue.children('input[type="text"]').val(null);
+        newValue.find('.query-text-data-type').prop('disabled', true).hide();
         newValue.children('select').prop('selectedIndex', 0);
         newValue.appendTo(fieldContainer.find('.inputs'));
         newValue.trigger('o:value-created');

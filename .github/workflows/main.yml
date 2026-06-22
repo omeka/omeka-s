@@ -17,10 +17,10 @@ on:
 jobs:
   run:
     name: PHP ${{ matrix.php-versions }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
-        php-versions: ['7.4', '8.0', '8.1', '8.2']
+        php-versions: ['8.1', '8.2', '8.3', '8.4', '8.5']
       fail-fast: false
     steps:
     - name: Checkout
@@ -33,14 +33,13 @@ jobs:
       with:
         php-version: ${{ matrix.php-versions }}
         ini-values: mysqli.default_socket=/var/run/mysqld/mysqld.sock
-        tools: composer:v1
       env:
         COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
+
     - name: Set up Node
       uses: actions/setup-node@v3
       with:
-        node-version: 14
+        node-version: 20
         cache: 'npm'
 
     - name: Get composer cache directory
@@ -53,23 +52,23 @@ jobs:
         path: ${{ env.CI_COMPOSER_CACHE_DIR }}
         key: composer-${{ hashFiles('**/composer.lock') }}
         restore-keys: composer-
-    
+
     - name: Cache build caches
       uses: actions/cache@v3
       with:
         path: ./build/cache
         key: build-cache-${{ github.sha }}
         restore-keys: build-cache-
-        
+
     - name: Start MySQL
       run: sudo systemctl start mysql.service
-        
+
     - name: Install Node dependencies
       run: npm install
-  
+
     - name: Gulp init
       run: npx gulp init
-      
+
     - name: Set up database
       run: |
         mysql -e "create database IF NOT EXISTS omeka_test;" -uroot -proot
@@ -77,7 +76,7 @@ jobs:
         sed -i 's/^user.*/user = "root"/' application/test/config/database.ini
         sed -i 's/^dbname.*/dbname = "omeka_test"/' application/test/config/database.ini
         sed -i 's/^password.*/password = "root"/' application/test/config/database.ini
-        
+
     - name: Run tests
       run: npx gulp test --continue
       env:

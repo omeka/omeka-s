@@ -3,6 +3,9 @@ namespace Omeka\Api\Representation;
 
 class ItemSetRepresentation extends AbstractResourceEntityRepresentation
 {
+    // false = unresolved; null = no media; MediaRepresentation = resolved
+    protected $primaryMediaCache = false;
+
     public function getControllerName()
     {
         return 'item-set';
@@ -62,18 +65,20 @@ class ItemSetRepresentation extends AbstractResourceEntityRepresentation
      */
     public function primaryMedia()
     {
-        $itemEntities = $this->resource->getItems();
-        if ($itemEntities->isEmpty()) {
-            return null;
+        if ($this->primaryMediaCache !== false) {
+            return $this->primaryMediaCache;
         }
-        $item = $this->getAdapter('items')
-            ->getRepresentation($itemEntities->slice(0, 1)[0]);
-        return $item->primaryMedia();
+        $this->primaryMediaCache = null;
+        $items = $this->resource->getItems()->slice(0, 1);
+        if ($items) {
+            $this->primaryMediaCache = $this->getAdapter('items')->getRepresentation($items[0])->primaryMedia();
+        }
+        return $this->primaryMediaCache;
     }
 
     public function siteUrl($siteSlug = null, $canonical = false)
     {
-        if (!$siteSlug) {
+        if ($siteSlug === null) {
             $siteSlug = $this->getServiceLocator()->get('Application')
                 ->getMvcEvent()->getRouteMatch()->getParam('site-slug');
         }

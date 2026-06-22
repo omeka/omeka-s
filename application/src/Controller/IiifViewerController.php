@@ -25,9 +25,6 @@ class IiifViewerController extends AbstractActionController
                 'sideBarOpen' => true,
                 'defaultSidebarPanelWidth' => 300,
             ],
-            'osdConfig' => [
-                'maxZoomPixelRatio' => 100,
-            ],
             'windows' => [
                 [
                     'manifestId' => $this->params()->fromQuery('url'),
@@ -48,6 +45,9 @@ class IiifViewerController extends AbstractActionController
         $miradorConfigUser = json_decode((string) $this->params()->fromQuery('mirador_config'), true);
         if (isset($miradorConfigUser['window.sideBarOpen'])) {
             $miradorConfig['window']['sideBarOpen'] = $miradorConfigUser['window.sideBarOpen'];
+        }
+        if (isset($miradorConfigUser['selectedTheme'])) {
+            $miradorConfig['selectedTheme'] = $miradorConfigUser['selectedTheme'];
         }
 
         $view = new ViewModel;

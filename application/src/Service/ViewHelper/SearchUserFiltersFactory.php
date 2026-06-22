@@ -16,7 +16,7 @@ class SearchUserFiltersFactory implements FactoryInterface
      *
      * @return SearchUserFilters
      */
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         $roleLabels = $services->get('Omeka\Acl')->getRoleLabels();
         return new SearchUserFilters($roleLabels);

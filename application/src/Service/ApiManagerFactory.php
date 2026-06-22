@@ -12,7 +12,7 @@ class ApiManagerFactory implements FactoryInterface
      *
      * @return Manager
      */
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, ?array $options = null)
     {
         $adapterManager = $serviceLocator->get('Omeka\ApiAdapterManager');
         $acl = $serviceLocator->get('Omeka\Acl');

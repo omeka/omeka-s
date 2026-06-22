@@ -3,12 +3,13 @@ namespace Omeka\Mvc;
 
 use Omeka\Service\Delegator\SitePaginatorDelegatorFactory;
 use Omeka\Session\SaveHandler\Db;
+use Omeka\Site\ResourcePageBlockLayout\ThemeProvidedResourcePageBlockLayout;
 use Omeka\Site\Theme\Manager;
 use Omeka\Site\Theme\Theme;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\I18n\Translator\TranslatorInterface as TranslatorInterface;
-use Laminas\Mvc\Application as ZendApplication;
+use Laminas\Mvc\Application as LaminasApplication;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Permissions\Acl\Exception as AclException;
 use Laminas\Session\Config\SessionConfig;
@@ -91,6 +92,13 @@ class MvcListeners extends AbstractListenerAggregate
             'use_only_cookies' => true,
             'gc_maxlifetime' => 1209600,
         ];
+
+        // Override PHP defaults that configure for no GC
+        if (empty($config['session']['allow_no_gc']) && ini_get('session.gc_probability') == 0) {
+            $defaultOptions['gc_probability'] = 1;
+            $defaultOptions['gc_divisor'] = 1000;
+        }
+
         $userOptions = $config['session']['config'] ?? [];
         $sessionConfig->setOptions(array_merge($defaultOptions, $userOptions));
 
@@ -134,13 +142,29 @@ class MvcListeners extends AbstractListenerAggregate
             // The translator already loaded the configured locale.
             $locale = $translator->getDelegatedTranslator()->getLocale();
         }
-        if (extension_loaded('intl')) {
-            \Locale::setDefault($locale);
-        }
+        $this->setDefaultLocale($locale);
         $translator->getDelegatedTranslator()->setLocale($locale);
 
         // Enable automatic translation for validation error messages.
         AbstractValidator::setDefaultTranslator($translator);
+    }
+
+    /**
+     * Set the default locale.
+     *
+     * Note that we only set a defualt locale when the intl extension is loaded
+     * and when the locale isn't "debug". The "debug" locale is a special case
+     * used by Omeka to detect translated strings on the page wihout switching
+     * to another language. Otherwise there will be a "Found unconstructed
+     * IntlDateFormatter" error.
+     *
+     * @param string $locale
+     */
+    public function setDefaultLocale($locale)
+    {
+        if (extension_loaded('intl') && 'debug' !== $locale) {
+            \Locale::setDefault($locale);
+        }
     }
 
     /**
@@ -260,7 +284,7 @@ class MvcListeners extends AbstractListenerAggregate
     public function authenticateApiKey(MvcEvent $event)
     {
         $routeMatch = $event->getRouteMatch();
-        if (!$routeMatch->getParam('__API__')) {
+        if (!$routeMatch->getParam('__KEYAUTH__')) {
             // This is not an API request.
             return;
         }
@@ -321,7 +345,7 @@ class MvcListeners extends AbstractListenerAggregate
         $themeManager = $services->get('Omeka\Site\ThemeManager');
         $currentTheme = $themeManager->getCurrentTheme();
         if (Manager::STATE_ACTIVE !== $currentTheme->getState()) {
-            $event->setError(ZendApplication::ERROR_EXCEPTION);
+            $event->setError(LaminasApplication::ERROR_EXCEPTION);
             $message = sprintf(
                 'The current theme is not active. Its current state is "%s".', // @translate
                 $currentTheme->getState()
@@ -353,9 +377,7 @@ class MvcListeners extends AbstractListenerAggregate
         // locale.
         $locale = $services->get('Omeka\Settings\Site')->get('locale');
         if ($locale) {
-            if (extension_loaded('intl')) {
-                \Locale::setDefault($locale);
-            }
+            $this->setDefaultLocale($locale);
             $services->get('MvcTranslator')->getDelegatedTranslator()->setLocale($locale);
         }
     }
@@ -395,7 +417,7 @@ class MvcListeners extends AbstractListenerAggregate
             $site = $services->get('Omeka\ApiManager')
                 ->read('sites', ['slug' => $siteSlug])->getContent();
         } catch (\Exception $e) {
-            $event->setError(ZendApplication::ERROR_EXCEPTION);
+            $event->setError(LaminasApplication::ERROR_EXCEPTION);
             $event->setParam('exception', $e);
             $event->setName(MvcEvent::EVENT_DISPATCH_ERROR);
             $event->getApplication()->getEventManager()->triggerEvent($event);
@@ -428,6 +450,23 @@ class MvcListeners extends AbstractListenerAggregate
                 '%s.mo'
             );
         }
+
+        // Set theme-provided resource page block layouts.
+        $configSpec = $currentTheme->getConfigSpec();
+        $layouts = $configSpec['resource_page_block_layouts'] ?? [];
+        $layouts = is_array($layouts) ? $layouts : [];
+        $layouts = array_filter($layouts, function ($layout) {
+            return isset($layout['label']) && is_string($layout['label'])
+                && isset($layout['compatible_resource_names']) && is_array($layout['compatible_resource_names'])
+                && isset($layout['partial']) && is_string($layout['partial']);
+        });
+        foreach ($layouts as $layoutName => $layoutSpec) {
+            $factory = function ($services) use ($currentTheme, $layoutSpec) {
+                return new ThemeProvidedResourcePageBlockLayout($layoutSpec['label'], $layoutSpec['compatible_resource_names'], $layoutSpec['partial']);
+            };
+            $services->get('Omeka\ResourcePageBlockLayoutManager')->setFactory($layoutName, $factory);
+        }
+
         return $site;
     }
 

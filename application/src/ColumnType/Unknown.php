@@ -17,22 +17,22 @@ class Unknown implements ColumnTypeInterface
         $this->formElements = $formElements;
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return '[Unknown]'; // @translate
     }
 
-    public function getResourceTypes() : array
+    public function getResourceTypes(): array
     {
         return [];
     }
 
-    public function getMaxColumns() : ?int
+    public function getMaxColumns(): ?int
     {
         return null;
     }
 
-    public function renderDataForm(PhpRenderer $view, array $data) : string
+    public function renderDataForm(PhpRenderer $view, array $data): string
     {
         $dataElement = $this->formElements->get(LaminasElement\Textarea::class);
         $dataElement->setName('column_data_unknown');
@@ -47,17 +47,17 @@ class Unknown implements ColumnTypeInterface
         return $view->formRow($dataElement);
     }
 
-    public function getSortBy(array $data) : ?string
+    public function getSortBy(array $data): ?string
     {
         return null;
     }
 
-    public function renderHeader(PhpRenderer $view, array $data) : string
+    public function renderHeader(PhpRenderer $view, array $data): string
     {
         return $this->getLabel();
     }
 
-    public function renderContent(PhpRenderer $view, AbstractEntityRepresentation $resource, array $data) : ?string
+    public function renderContent(PhpRenderer $view, AbstractEntityRepresentation $resource, array $data): ?string
     {
         return '';
     }

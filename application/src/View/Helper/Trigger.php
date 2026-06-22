@@ -44,20 +44,24 @@ class Trigger extends AbstractHelper
     public function __invoke($name, array $params = [], $filter = false, ?array $ids = null)
     {
         $controller = $this->controllerPluginManager->getController();
-        if (!$controller) {
-            return $filter ? $params : null;
-        }
-        $routeMatch = $controller->getEvent()->getRouteMatch();
-        if (!$routeMatch) {
-            // Without a route match this request is 404. No need to trigger.
-            return $filter ? $params : null;
-        }
+        $routeMatch = $controller ? $controller->getEvent()->getRouteMatch() : null;
         if ($filter) {
             $params = $this->events->prepareArgs($params);
         }
         $event = new Event($name, $this->getView(), $params);
-        $this->events->setIdentifiers($ids ?: [$routeMatch->getParam('controller')]);
-        $this->events->triggerEvent($event);
+        // Fall back to the error identifier when no route matched (404, error
+        // page), so modules attached to "view.layout" can still observe event.
+        $isError = !$routeMatch;
+        $this->events->setIdentifiers($ids ?: [$isError ? 'Omeka\Controller\Error' : $routeMatch->getParam('controller')]);
+        // Avoid cascaded error or blank page hiding original failure above.
+        if ($isError) {
+            try {
+                $this->events->triggerEvent($event);
+            } catch (\Throwable $e) {
+            }
+        } else {
+            $this->events->triggerEvent($event);
+        }
         if ($filter) {
             return $params;
         }

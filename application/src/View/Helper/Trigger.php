@@ -54,10 +54,26 @@ class Trigger extends AbstractHelper
         $isError = !$routeMatch;
         $this->events->setIdentifiers($ids ?: [$isError ? 'Omeka\Controller\Error' : $routeMatch->getParam('controller')]);
         // Avoid cascaded error or blank page hiding original failure above.
+        // Nevertheless, add a second message in that case and error_log().
         if ($isError) {
             try {
                 $this->events->triggerEvent($event);
             } catch (\Throwable $e) {
+                try {
+                    $this->getView()->getHelperPluginManager()->getServiceLocator()
+                        ->get('Omeka\Logger')->err(
+                            'Listener exception while triggering "{name}" on error page: {message} in {file}:{line}',
+                            ['name' => $name, 'message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()]
+                        );
+                } catch (\Throwable $loggerError) {
+                    error_log(sprintf(
+                        'Omeka Trigger: listener exception while triggering "%s" on error page: %s in %s:%d',
+                        $name,
+                        $e->getMessage(),
+                        $e->getFile(),
+                        $e->getLine()
+                    ));
+                }
             }
         } else {
             $this->events->triggerEvent($event);

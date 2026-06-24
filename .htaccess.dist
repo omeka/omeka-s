@@ -36,3 +36,9 @@ RewriteRule ^(.*)$ %{ENV:BASE}/index.php [E=OMEKA_REQ:"1",L]
         Deny from all
     </IfModule>
 </FilesMatch>
+
+<IfModule mod_deflate.c>
+    <IfModule mod_filter.c>
+        AddOutputFilterByType DEFLATE text/plain text/html text/css text/javascript application/javascript application/x-javascript application/ld+json application/json text/xml application/xml
+    </IfModule>
+</IfModule>

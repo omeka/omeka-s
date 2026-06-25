@@ -22,10 +22,16 @@ class IIIF implements IngesterInterface
      */
     protected $downloader;
 
-    public function __construct(HttpClient $httpClient, Downloader $downloader)
+    /**
+     * @var int
+     */
+    protected $maxConstraint;
+
+    public function __construct(HttpClient $httpClient, Downloader $downloader, int $maxConstraint)
     {
         $this->httpClient = $httpClient;
         $this->downloader = $downloader;
+        $this->maxConstraint = $maxConstraint;
     }
 
     public function getLabel()
@@ -81,23 +87,49 @@ class IIIF implements IngesterInterface
         // Check API version and generate a thumbnail
         if (isset($IIIFData['@context']) && $IIIFData['@context'] == 'http://iiif.io/api/image/3/context.json') {
             // Version 3.0.
-            $URLString = '/full/max/0/default.jpg';
             $id = $IIIFData['id'];
+            $defaultSize = 'max';
+            $quality = 'default';
         } elseif (isset($IIIFData['@context']) && $IIIFData['@context'] == 'http://iiif.io/api/image/2/context.json') {
             // Version 2.0.
-            $URLString = '/full/full/0/default.jpg';
             $id = $IIIFData['@id'];
+            $defaultSize = 'full'; // 'full' was removed as a size param in v3 in favour of 'max'
+            $quality = 'default';
         } else {
             // Earlier versions
-            $URLString = '/full/full/0/native.jpg';
             $id = $IIIFData['@id'] ?? null;
+            $defaultSize = 'full';
+            $quality = 'native'; // 'native' quality was replaced by 'default' in v2
         }
+        // Prefer a pre-computed size over full resolution to minimise the download.
+        $size = $this->selectSize($IIIFData['sizes'] ?? []) ?? $defaultSize;
+        $URLString = sprintf('/full/%s/0/%s.jpg', $size, $quality);
         if ($id) {
             $tempFile = $this->downloader->download($id . $URLString);
             if ($tempFile) {
                 $tempFile->mediaIngestFile($media, $request, $errorStore, false);
             }
         }
+    }
+
+    protected function selectSize(array $sizes): ?string
+    {
+        $best = array_reduce($sizes, function ($best, $candidate) {
+            if (!isset($candidate['width'], $candidate['height'])) {
+                return $best;
+            }
+            // Both dimensions must meet the constraint to ensure the image is large
+            // enough to produce the required thumbnail regardless of aspect ratio.
+            if (($candidate['width'] < $this->maxConstraint) || ($candidate['height'] < $this->maxConstraint)) {
+                return $best;
+            }
+            // Prefer the smallest sufficient size to minimize the download.
+            if ($best === null || ($candidate['width'] * $candidate['height']) < ($best['width'] * $best['height'])) {
+                return $candidate;
+            }
+            return $best;
+        });
+        return $best ? sprintf('%s,%s', $best['width'], $best['height']) : null;
     }
 
     public function form(PhpRenderer $view, array $options = [])

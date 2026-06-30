@@ -11,6 +11,7 @@
 #advanced-search .value {
     margin-bottom: 0;
     display: flex;
+    align-content: flex-start;
 }
 
 @media screen and (max-width: 767px) {
@@ -34,6 +35,7 @@
 #advanced-search .inputs input[type="date"], 
 #advanced-search .inputs input[type="datetime-local"] {
     margin: 0;
+    max-width: 100%;
  }
 
 #advanced-search .inputs,
@@ -41,16 +43,16 @@
     display: flex;
     flex-wrap: wrap;
     gap: .25rem;
-}
-
-#advanced-search #item-sets .value,
-#advanced-search #property-queries .value {
-    flex-wrap: nowrap;
+    max-width: 100%;
 }
 
 #advanced-search .multi-value .value:first-child .joiner,
 #advanced-search .multi-value .value:only-child button.remove-value {
     display: none;
+}
+
+#advanced-search #resource-class .value {
+    flex-wrap: nowrap;
 }
 
 #advanced-search #property-queries .joiner {

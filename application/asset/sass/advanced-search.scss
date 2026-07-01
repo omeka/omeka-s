@@ -17,7 +17,6 @@
     display: flex;
     width: 100%;
     gap: .25rem;
-    min-width: 0;
 }
 
 @media screen and (max-width: 767px) {
@@ -50,6 +49,7 @@
     flex-wrap: wrap;
     max-width: 100%;
     align-content: flex-start;
+    min-width: 0;
 }
 
 #advanced-search .multi-value .field-meta {

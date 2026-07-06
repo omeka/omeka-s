@@ -50,8 +50,18 @@ final class Cipher
      */
     public function encrypt(string $value): string
     {
-        if ($value === '' || $this->keys === [] || strncmp($value, self::PREFIX, strlen(self::PREFIX)) === 0) {
+        if ($value === '' || $this->keys === []) {
             return $value;
+        }
+
+        // Skip a value already encrypted, but only when the prefix is followed
+        // by a valid ciphertext (avoid rare issue where prefix is sodium:).
+        if (strncmp($value, self::PREFIX, strlen(self::PREFIX)) === 0) {
+            $raw = base64_decode(substr($value, strlen(self::PREFIX)), true);
+            $min = SODIUM_CRYPTO_SECRETBOX_NONCEBYTES + SODIUM_CRYPTO_SECRETBOX_MACBYTES;
+            if ($raw !== false && strlen($raw) >= $min) {
+                return $value;
+            }
         }
 
         $nonce = random_bytes(SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);

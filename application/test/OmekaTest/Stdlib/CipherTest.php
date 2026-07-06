@@ -60,6 +60,15 @@ class CipherTest extends TestCase
         $this->assertSame('', $cipher->encrypt(''));
     }
 
+    public function testCleartextStartingWithPrefixIsEncrypted()
+    {
+        $cipher = new Cipher($this->key());
+        $value = Cipher::PREFIX . 'not-a-real-ciphertext';
+        $encrypted = $cipher->encrypt($value);
+        $this->assertNotSame($value, $encrypted);
+        $this->assertSame($value, $cipher->decrypt($encrypted));
+    }
+
     public function testLegacyClearValueIsReturnedAsIs()
     {
         $cipher = new Cipher($this->key());

@@ -11,15 +11,17 @@ class FormSecretTest extends TestCase
 {
     private function helper()
     {
-        // Stub the renderer helpers used by FormSecret: formPassword echoes the
-        // element name and value, the escapers and translator are identity.
+        // Stub the renderer helpers used by FormSecret: formText/formPassword
+        // echo the element name, type and value, the escapers and translator
+        // are identity.
         $view = $this->getMockBuilder(PhpRenderer::class)
             ->onlyMethods(['__call'])
             ->getMock();
         $view->method('__call')->willReturnCallback(function ($name, $args) {
-            if ($name === 'formPassword') {
+            if ($name === 'formText' || $name === 'formPassword') {
                 $element = $args[0];
-                return sprintf('<input type="password" name="%s" value="%s">', $element->getName(), $element->getValue());
+                $type = $name === 'formPassword' ? 'password' : 'text';
+                return sprintf('<input type="%s" name="%s" value="%s">', $type, $element->getName(), $element->getValue());
             }
             return $args[0];
         });
@@ -34,6 +36,19 @@ class FormSecretTest extends TestCase
         $element->setValue('super-secret');
         $output = $this->helper()->render($element);
         $this->assertStringNotContainsString('super-secret', $output);
+    }
+
+    public function testRendersATextInputByDefault()
+    {
+        $output = $this->helper()->render(new Secret('api_key'));
+        $this->assertStringContainsString('type="text"', $output);
+    }
+
+    public function testRendersAPasswordInputWhenMasked()
+    {
+        $element = new Secret('api_key');
+        $element->setOption('masked', true);
+        $output = $this->helper()->render($element);
         $this->assertStringContainsString('type="password"', $output);
     }
 

@@ -11,7 +11,8 @@ use Laminas\Form\Element\Password;
  * - empty means that a value is already set (a placeholder may be set);
  * - an empty submission keep the current value.
  *
- * Rendered as a masked password input, excluded from browser autofill.
+ * Rendered as a text input with a lock icon, excluded from browser autofill;
+ * set option "masked" to true to render a password input instead.
  * @see \Omeka\Form\View\Helper\FormSecret
  */
 class Secret extends Password

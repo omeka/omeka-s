@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace Omeka\Service\Delegator;
 
 use Interop\Container\ContainerInterface;

@@ -260,6 +260,7 @@ return [
             'Omeka\ApiAdapterManager' => Service\ApiAdapterManagerFactory::class,
             'Omeka\ApiManager' => Service\ApiManagerFactory::class,
             'Omeka\AuthenticationService' => Service\AuthenticationServiceFactory::class,
+            'Omeka\Cipher' => Service\Stdlib\CipherFactory::class,
             'Omeka\EntityManager' => Service\EntityManagerFactory::class,
             'Omeka\Installer' => Service\InstallerFactory::class,
             'Omeka\Logger' => Service\LoggerFactory::class,

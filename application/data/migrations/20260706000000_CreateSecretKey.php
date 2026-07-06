@@ -35,7 +35,7 @@ class CreateSecretKey implements ConstructedMigrationInterface
 
     public function up(Connection $conn)
     {
-        if (SecretKey::resolve() !== null) {
+        if (SecretKey::resolve()) {
             return;
         }
 

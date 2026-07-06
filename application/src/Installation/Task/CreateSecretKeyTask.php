@@ -15,7 +15,7 @@ class CreateSecretKeyTask implements TaskInterface
     public function perform(Installer $installer)
     {
         $services = $installer->getServiceLocator();
-        if (SecretKey::resolve() !== null) {
+        if (SecretKey::resolve()) {
             return;
         }
 

@@ -190,6 +190,7 @@ return [
             Installation\Task\InstallDefaultTemplatesTask::class,
             Installation\Task\CreateFirstUserTask::class,
             Installation\Task\AddDefaultSettingsTask::class,
+            Installation\Task\CreateSecretKeyTask::class,
         ],
     ],
     'translator' => [

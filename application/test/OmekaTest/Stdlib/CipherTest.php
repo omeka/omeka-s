@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace OmekaTest\Stdlib;
 
 use Omeka\Stdlib\Cipher;
@@ -18,6 +19,26 @@ class CipherTest extends TestCase
         $encrypted = $cipher->encrypt('secret-value');
         $this->assertStringStartsWith(Cipher::PREFIX, $encrypted);
         $this->assertSame('secret-value', $cipher->decrypt($encrypted));
+    }
+
+    public function testDecryptsAValueEncryptedWithAPreviousKey()
+    {
+        $old = $this->key("\x01");
+        $new = $this->key("\x02");
+        $encrypted = (new Cipher($old))->encrypt('secret-value');
+        // Current key first, previous key next: the old value is still
+        // readable.
+        $this->assertSame('secret-value', (new Cipher([$new, $old]))->decrypt($encrypted));
+    }
+
+    public function testEncryptsWithTheCurrentKey()
+    {
+        $old = $this->key("\x01");
+        $new = $this->key("\x02");
+        $encrypted = (new Cipher([$new, $old]))->encrypt('secret-value');
+        // Encrypted with the current key: readable by it, not by the old one.
+        $this->assertSame('secret-value', (new Cipher($new))->decrypt($encrypted));
+        $this->assertSame('', (new Cipher($old))->decrypt($encrypted));
     }
 
     public function testEncryptionIsNonDeterministic()

@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace OmekaTest\Stdlib;
 
 use Omeka\Stdlib\SecretKey;
@@ -29,16 +30,28 @@ class SecretKeyTest extends TestCase
         $this->assertNotSame(SecretKey::generate(), SecretKey::generate());
     }
 
-    public function testResolveReturnsNullWhenNothingIsSet()
+    public function testResolveReturnsEmptyArrayWhenNothingIsSet()
     {
-        $this->assertNull(SecretKey::resolve($this->dir));
+        $this->assertSame([], SecretKey::resolve($this->dir));
     }
 
     public function testStoreThenResolveRoundTrip()
     {
         $key = SecretKey::generate();
         $this->assertTrue(SecretKey::store($key, $this->dir));
-        $this->assertSame($key, SecretKey::resolve($this->dir));
+        $this->assertSame([$key], SecretKey::resolve($this->dir));
+    }
+
+    public function testResolveReturnsAllKeysFromFileInOrder()
+    {
+        file_put_contents($this->dir . '/' . SecretKey::FILE, "<?php return ['current', 'previous'];");
+        $this->assertSame(['current', 'previous'], SecretKey::resolve($this->dir));
+    }
+
+    public function testResolveNormalizesALegacyStringFile()
+    {
+        file_put_contents($this->dir . '/' . SecretKey::FILE, "<?php return 'legacy';");
+        $this->assertSame(['legacy'], SecretKey::resolve($this->dir));
     }
 
     public function testFileTakesPrecedenceOverEnvironment()
@@ -46,13 +59,13 @@ class SecretKeyTest extends TestCase
         $fileKey = SecretKey::generate();
         SecretKey::store($fileKey, $this->dir);
         putenv(SecretKey::ENV . '=env-key');
-        $this->assertSame($fileKey, SecretKey::resolve($this->dir));
+        $this->assertSame([$fileKey], SecretKey::resolve($this->dir));
     }
 
     public function testEnvironmentIsUsedWhenThereIsNoFile()
     {
         putenv(SecretKey::ENV . '=env-key');
-        $this->assertSame('env-key', SecretKey::resolve($this->dir));
+        $this->assertSame(['env-key'], SecretKey::resolve($this->dir));
     }
 
     public function testStoreReturnsFalseWhenDirectoryIsNotWritable()

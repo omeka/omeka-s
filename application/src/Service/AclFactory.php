@@ -315,8 +315,11 @@ class AclFactory implements FactoryInterface
     {
         $acl->allow(
             'researcher',
+            'Omeka\Controller\Admin\Index'
+        );
+        $acl->allow(
+            'researcher',
             [
-                'Omeka\Controller\Admin\Index',
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
                 'Omeka\Controller\Admin\Media',
@@ -400,8 +403,11 @@ class AclFactory implements FactoryInterface
     {
         $acl->allow(
             'author',
+            'Omeka\Controller\Admin\Index'
+        );
+        $acl->allow(
+            'author',
             [
-                'Omeka\Controller\Admin\Index',
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
                 'Omeka\Controller\Admin\Media',
@@ -580,8 +586,11 @@ class AclFactory implements FactoryInterface
     {
         $acl->allow(
             'reviewer',
+            'Omeka\Controller\Admin\Index'
+        );
+        $acl->allow(
+            'reviewer',
             [
-                'Omeka\Controller\Admin\Index',
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
                 'Omeka\Controller\Admin\Media',
@@ -753,8 +762,11 @@ class AclFactory implements FactoryInterface
     {
         $acl->allow(
             'editor',
+            'Omeka\Controller\Admin\Index'
+        );
+        $acl->allow(
+            'editor',
             [
-                'Omeka\Controller\Admin\Index',
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
                 'Omeka\Controller\Admin\Media',

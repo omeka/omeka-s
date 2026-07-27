@@ -1,5 +1,6 @@
 <?php
 $fulltextSearch = $this->params()->fromQuery('fulltext_search');
+$escape = $this->plugin('escapeHtml');
 $hasResults = false;
 ?>
 
@@ -42,7 +43,7 @@ if ($responseItems && $responseItems->getTotalResults()):
         <?php foreach ($responseItems->getContent() as $item): ?>
         <?php $sites = $item->sites(); ?>
         <li>
-            <span class="result-title"><?php echo $item->displayTitle(); ?></span>
+            <span class="result-title"><?php echo $escape($item->displayTitle()); ?></span>
             <ul>
                 <?php foreach ($sites as $site): ?>
                 <?php if ($site->userIsAllowed('read')): ?>
@@ -74,7 +75,7 @@ if ($responseItems && $responseItems->getTotalResults()):
         <?php foreach ($responseItemSets->getContent() as $itemSet): ?>
         <?php $sites = $itemSet->sites(); ?>
         <li>
-            <span class="result-title"><?php echo $itemSet->displayTitle(); ?></span>
+            <span class="result-title"><?php echo $escape($itemSet->displayTitle()); ?></span>
             <ul>
                 <?php foreach ($sites as $site): ?>
                 <?php if ($site->userIsAllowed('read')): ?>

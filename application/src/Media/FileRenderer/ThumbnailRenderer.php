@@ -23,7 +23,14 @@ class ThumbnailRenderer extends AbstractRenderer
         }
 
         $title = $media->displayTitle();
+        $source = $media->source();
 
-        return sprintf('<a href="%s" title="%s">%s</a>', $view->escapeHtml($url), $view->escapeHtml($title), $img);
+        return sprintf(
+            '<a href="%s" download="%s" title="%s">%s</a>',
+            $view->escapeHtml($url),
+            $view->escapeHtml($source),
+            $view->escapeHtml($title),
+            $img,
+        );
     }
 }

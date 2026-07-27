@@ -5,6 +5,13 @@
 
 #advanced-search .field {
     gap: .25rem 1rem;
+    flex-wrap: nowrap;
+}
+
+@media screen and (max-width: 640px) {
+    #advanced-search .field {
+        flex-wrap: wrap;
+    }
 }
 
 #advanced-search .field-meta .label, 

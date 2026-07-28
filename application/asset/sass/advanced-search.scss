@@ -52,7 +52,11 @@
 #advanced-search .inputs input[type="datetime-local"] {
     margin: 0;
     max-width: 100%;
- }
+}
+
+.admin#advanced-search .inputs label.button {
+    padding: $spacing-small;
+}
 
 #advanced-search .inputs,
 #advanced-search .inputs .value {

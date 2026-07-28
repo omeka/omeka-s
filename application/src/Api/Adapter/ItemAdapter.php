@@ -174,10 +174,18 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         $append = $isPartial && 'append' === $request->getOption('collectionAction');
         $remove = $isPartial && 'remove' === $request->getOption('collectionAction');
 
+        // Media that already belong to this item, keyed by ID.
+        $itemMedia = $entity->getMedia()->toArray();
+
         if ($this->shouldHydrate($request, 'o:primary_media')) {
             $primaryMedia = $request->getValue('o:primary_media');
             if (isset($primaryMedia['o:id']) && is_numeric($primaryMedia['o:id'])) {
-                $entity->setPrimaryMedia($this->getAdapter('media')->findEntity($primaryMedia['o:id']));
+                $media = $itemMedia[$primaryMedia['o:id']] ?? null;
+                if ($media) {
+                    $entity->setPrimaryMedia($media);
+                } else {
+                    $errorStore->addError('o:primary_media', 'Primary media must belong to this item.'); // @translate
+                }
             } else {
                 $entity->setPrimaryMedia(null);
             }
@@ -291,12 +299,18 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             foreach ($mediasData as $mediaData) {
                 $subErrorStore = new ErrorStore;
                 if (isset($mediaData['o:id'])) {
-                    $media = $adapter->findEntity($mediaData['o:id']);
-                    $media->setPosition($position);
-                    if (isset($mediaData['o:is_public'])) {
-                        $media->setIsPublic($mediaData['o:is_public']);
+                    $media = is_numeric($mediaData['o:id'])
+                        ? ($itemMedia[$mediaData['o:id']] ?? null)
+                        : null;
+                    if ($media) {
+                        $media->setPosition($position);
+                        if (isset($mediaData['o:is_public'])) {
+                            $media->setIsPublic($mediaData['o:is_public']);
+                        }
+                        $retainMedia[] = $media;
+                    } else {
+                        $errorStore->addError('o:media', 'Media must belong to this item.'); // @translate
                     }
-                    $retainMedia[] = $media;
                 } else {
                     // Create a new media.
                     $media = new $class;

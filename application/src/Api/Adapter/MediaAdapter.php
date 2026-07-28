@@ -142,6 +142,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
             if (isset($data['o:item']['o:id'])) {
                 $item = $this->getAdapter('items')
                     ->findEntity($data['o:item']['o:id']);
+                $this->authorize($item, 'update');
                 $entity->setItem($item);
             }
             if (isset($data['data'])) {

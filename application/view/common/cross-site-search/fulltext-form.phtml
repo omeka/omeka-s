@@ -2,7 +2,7 @@
 $action = $action ?? $this->url(null, [], true);
 $fulltextSearch = $fulltextSearch ?? $this->params()->fromQuery('fulltext_search');
 ?>
-<form action="<?php echo $this->escapeHtml($action); ?>" class="sitewide-search-form">
-    <input type="text" name="fulltext_search" value="<?php echo $this->escapeHtml($fulltextSearch); ?>">
+<form action="<?php echo $this->escapeHtml($action); ?>" class="sitewide-search-form" role="search">
+    <input type="text" name="fulltext_search" value="<?php echo $this->escapeHtml($fulltextSearch); ?>" aria-label="<?php echo $this->escapeHtml($this->translate('Query')); ?>">
     <input type="submit" value="<?php echo $this->escapeHtml($this->translate('Search')); ?>">
 </form>

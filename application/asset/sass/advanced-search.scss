@@ -20,7 +20,7 @@
 }
 
 #advanced-search .inputs {
-    gap: 1rem;
+    gap: .5rem 1rem;
 }
 
 #advanced-search .inputs .value {
@@ -34,6 +34,10 @@
     #advanced-search .value {
         flex-wrap: wrap;
     }
+}
+
+#advanced-search #sort_field .inputs {
+    gap: .25rem;
 }
 
 .inputs select[name*="sort"] {
@@ -56,6 +60,15 @@
 
 .admin#advanced-search .inputs label.button {
     padding: $spacing-small;
+}
+
+.admin#advanced-search .inputs select {
+    width: auto; 
+    height: 1.5 * $spacing-large;
+}
+
+.admin#advanced-search button.remove-value {
+    margin: 0;
 }
 
 #advanced-search .inputs,

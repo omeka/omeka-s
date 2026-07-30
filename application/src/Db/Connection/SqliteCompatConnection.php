@@ -458,6 +458,76 @@ class SqliteCompatConnection extends Connection
             }
             return implode((string) $separator, $parts);
         }, -1);
+        $create('field', function ($needle, ...$haystack) {
+            // MySQL: 1-based position of needle in the list, 0 if absent or
+            // needle is NULL; string comparison is case-insensitive.
+            if ($needle === null) {
+                return 0;
+            }
+            foreach ($haystack as $i => $candidate) {
+                if ($candidate === null) {
+                    continue;
+                }
+                if (is_numeric($needle) && is_numeric($candidate)) {
+                    if ((float) $needle === (float) $candidate) {
+                        return $i + 1;
+                    }
+                } elseif (strcasecmp((string) $needle, (string) $candidate) === 0) {
+                    return $i + 1;
+                }
+            }
+            return 0;
+        }, -1);
+        $create('find_in_set', function ($needle, $strlist) {
+            // MySQL: NULL if either argument is NULL, 0 if the list is empty
+            // or the needle is absent, else the 1-based position in the
+            // comma-separated list; comparison is case-insensitive.
+            if ($needle === null || $strlist === null) {
+                return null;
+            }
+            $strlist = (string) $strlist;
+            if ($strlist === '') {
+                return 0;
+            }
+            foreach (explode(',', $strlist) as $i => $candidate) {
+                if (strcasecmp((string) $needle, $candidate) === 0) {
+                    return $i + 1;
+                }
+            }
+            return 0;
+        }, 2);
+        $create('greatest', function (...$args) {
+            // MySQL: NULL if any argument is NULL; numeric comparison when all
+            // arguments are numeric, string comparison otherwise.
+            if (in_array(null, $args, true)) {
+                return null;
+            }
+            $allNumeric = !in_array(false, array_map('is_numeric', $args), true);
+            return $allNumeric
+                ? max(array_map(function ($v) { return $v + 0; }, $args))
+                : max(array_map('strval', $args));
+        }, -1);
+        $create('least', function (...$args) {
+            // MySQL: NULL if any argument is NULL; numeric comparison when all
+            // arguments are numeric, string comparison otherwise.
+            if (in_array(null, $args, true)) {
+                return null;
+            }
+            $allNumeric = !in_array(false, array_map('is_numeric', $args), true);
+            return $allNumeric
+                ? min(array_map(function ($v) { return $v + 0; }, $args))
+                : min(array_map('strval', $args));
+        }, -1);
+        $create('regexp', function ($pattern, $value) {
+            // Backs SQLite's REGEXP operator ("x REGEXP y" calls regexp(y, x)),
+            // which has no default implementation. MySQL returns NULL when
+            // either operand is NULL.
+            if ($pattern === null || $value === null) {
+                return null;
+            }
+            $regex = '/' . str_replace('/', '\\/', (string) $pattern) . '/u';
+            return @preg_match($regex, (string) $value) === 1 ? 1 : 0;
+        }, 2);
     }
 
     /**

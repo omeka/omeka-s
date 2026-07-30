@@ -85,13 +85,15 @@ class EntityManagerFactory implements FactoryInterface
             }
         }
 
-        // Add custom functions (MySQL-specific DQL functions; skip for SQLite).
-        $connection = $serviceLocator->get('Omeka\Connection');
-        if (!ConnectionFactory::isSqlite($connection)) {
-            $emConfig->setCustomNumericFunctions($config['entity_manager']['functions']['numeric']);
-            $emConfig->setCustomStringFunctions($config['entity_manager']['functions']['string']);
-            $emConfig->setCustomDatetimeFunctions($config['entity_manager']['functions']['datetime']);
-        }
+        // Add custom functions. They must be registered on SQLite too: DQL
+        // using them (e.g. GROUP_CONCAT in AbstractResourceEntityAdapter::
+        // sortQuery()) fails at parse time with "Expected known function"
+        // otherwise. SQLite execution is handled by dialect-aware SQL emission
+        // (Omeka\Db\Query\GroupConcat) and the MySQL-function emulations
+        // registered in Omeka\Db\Connection\SqliteCompatConnection.
+        $emConfig->setCustomNumericFunctions($config['entity_manager']['functions']['numeric']);
+        $emConfig->setCustomStringFunctions($config['entity_manager']['functions']['string']);
+        $emConfig->setCustomDatetimeFunctions($config['entity_manager']['functions']['datetime']);
 
         // Load proxies from different directories
         // HACK: Doctrine takes an integer here and just happens to do nothing (which is

@@ -13,6 +13,15 @@ class SqliteCompatConnection extends Connection
 {
     private const TRANSLATABLE_KEYWORDS = ['SHOW', 'SET', 'TRUNCATE', 'DESCRIBE', 'DESC', 'CREATE', 'ALTER'];
 
+    public function connect()
+    {
+        $newConnection = parent::connect();
+        if ($newConnection) {
+            $this->registerMysqlFunctions();
+        }
+        return $newConnection;
+    }
+
     public function exec($sql): int
     {
         $statements = $this->translateSql($sql);
@@ -365,5 +374,136 @@ class SqliteCompatConnection extends Connection
             $parts[] = $current;
         }
         return $parts;
+    }
+
+    /**
+     * Register emulations of common MySQL SQL functions that SQLite lacks.
+     *
+     * Third-party modules that build raw SQL almost always write it in MySQL
+     * dialect, so functions such as FROM_UNIXTIME() fail on SQLite with
+     * "no such function". SQLite supports user defined functions, so the most
+     * common MySQL date/time and string helpers are emulated here with MySQL
+     * semantics (e.g. CONCAT() returns NULL when any argument is NULL, unlike
+     * the SQLite 3.44+ built-in it overrides). translateFunctions() already
+     * handles the no-arg date functions (NOW(), CURDATE(), ...) via plain text
+     * substitution; the functions below need real arguments, so a UDF is used
+     * instead of a regex rewrite.
+     */
+    private function registerMysqlFunctions(): void
+    {
+        $pdo = $this->_conn;
+        if (!$pdo instanceof \PDO) {
+            return;
+        }
+
+        $create = function (string $name, callable $callback, int $numArgs) use ($pdo): void {
+            if (method_exists($pdo, 'createFunction')) {
+                // Pdo\Sqlite subclass (PHP 8.4+ PDO::connect()).
+                $pdo->createFunction($name, $callback, $numArgs);
+            } elseif (method_exists($pdo, 'sqliteCreateFunction')) {
+                $pdo->sqliteCreateFunction($name, $callback, $numArgs);
+            }
+        };
+
+        $create('from_unixtime', function ($timestamp, $format = null) {
+            if ($timestamp === null || !is_numeric($timestamp)) {
+                return null;
+            }
+            $timestamp = (int) $timestamp;
+            if ($format === null) {
+                return date('Y-m-d H:i:s', $timestamp);
+            }
+            return $this->formatMysqlDate($timestamp, (string) $format);
+        }, -1);
+        $create('unix_timestamp', function ($datetime = null) {
+            if ($datetime === null) {
+                return time();
+            }
+            $timestamp = strtotime((string) $datetime);
+            return $timestamp === false ? null : $timestamp;
+        }, -1);
+        $create('date_format', function ($datetime, $format) {
+            if ($datetime === null || $format === null) {
+                return null;
+            }
+            $timestamp = strtotime((string) $datetime);
+            if ($timestamp === false) {
+                return null;
+            }
+            return $this->formatMysqlDate($timestamp, (string) $format);
+        }, 2);
+        $create('if', function ($condition, $ifTrue, $ifFalse) {
+            return $condition ? $ifTrue : $ifFalse;
+        }, 3);
+        $create('md5', function ($value) {
+            return $value === null ? null : md5((string) $value);
+        }, 1);
+        $create('concat', function (...$args) {
+            foreach ($args as $arg) {
+                if ($arg === null) {
+                    return null;
+                }
+            }
+            return implode('', array_map('strval', $args));
+        }, -1);
+        $create('concat_ws', function ($separator, ...$args) {
+            if ($separator === null) {
+                return null;
+            }
+            $parts = [];
+            foreach ($args as $arg) {
+                if ($arg !== null) {
+                    $parts[] = (string) $arg;
+                }
+            }
+            return implode((string) $separator, $parts);
+        }, -1);
+    }
+
+    /**
+     * Format a unix timestamp using a MySQL DATE_FORMAT() format string.
+     *
+     * Covers the commonly used specifiers; week-based specifiers (%u, %v, %V,
+     * %x, %X) are approximated with their ISO-8601 equivalents. As in MySQL,
+     * unknown specifiers yield the literal character.
+     */
+    private function formatMysqlDate(int $timestamp, string $format): string
+    {
+        return preg_replace_callback('/%(.)/', function (array $matches) use ($timestamp): string {
+            switch ($matches[1]) {
+                case 'Y': return date('Y', $timestamp);
+                case 'y': return date('y', $timestamp);
+                case 'M': return date('F', $timestamp);
+                case 'b': return date('M', $timestamp);
+                case 'm': return date('m', $timestamp);
+                case 'c': return date('n', $timestamp);
+                case 'D': return date('jS', $timestamp);
+                case 'd': return date('d', $timestamp);
+                case 'e': return date('j', $timestamp);
+                case 'j': return sprintf('%03d', (int) date('z', $timestamp) + 1);
+                case 'H': return date('H', $timestamp);
+                case 'k': return date('G', $timestamp);
+                case 'h': // 12-hour, zero-padded, same as %I.
+                case 'I': return date('h', $timestamp);
+                case 'l': return date('g', $timestamp);
+                case 'i': return date('i', $timestamp);
+                case 'S': // Seconds, same as %s.
+                case 's': return date('s', $timestamp);
+                case 'f': return sprintf('%06d', (int) date('u', $timestamp));
+                case 'p': return date('A', $timestamp);
+                case 'r': return date('h:i:s A', $timestamp);
+                case 'T': return date('H:i:s', $timestamp);
+                case 'W': return date('l', $timestamp);
+                case 'a': return date('D', $timestamp);
+                case 'w': return date('w', $timestamp);
+                case 'u': // Week-based specifiers approximated as ISO-8601 week.
+                case 'v':
+                case 'V': return date('W', $timestamp);
+                case 'x': // ISO-8601 week-numbering year for %x and %X.
+                case 'X': return date('o', $timestamp);
+                case '%': return '%';
+                default:  return $matches[1];
+            }
+        }, $format);
     }
 }

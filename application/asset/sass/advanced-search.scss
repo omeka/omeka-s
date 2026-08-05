@@ -8,6 +8,10 @@
     flex-wrap: nowrap;
 }
 
+.sidebar #advanced-search .field {
+    flex-wrap: wrap;
+}
+
 @media screen and (max-width: 640px) {
     #advanced-search .field {
         flex-wrap: wrap;
@@ -57,11 +61,7 @@
     margin: 0;
     max-width: 100%;
 }
-
-.admin#advanced-search .inputs label.button {
-    padding: $spacing-small;
-}
-
+ 
 .admin#advanced-search .inputs select {
     width: auto; 
     height: 1.5 * $spacing-large;

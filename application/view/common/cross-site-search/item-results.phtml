@@ -1,4 +1,7 @@
-<?php $fulltextSearch = $this->params()->fromQuery('fulltext_search'); ?>
+<?php
+$fulltextSearch = $this->params()->fromQuery('fulltext_search');
+$escape = $this->plugin('escapeHtml');
+?>
 <?php echo $this->hyperlink(
     $this->translate('Advanced item search'),
     $this->url(null, ['action' => 'items-advanced', 'class' => 'advanced-search'], ['query' => $this->params()->fromQuery()], true),
@@ -14,7 +17,7 @@
         <?php foreach ($items as $item): ?>
         <?php $sites = $item->sites(); ?>
         <li>
-            <span class="result-title"><?php echo $item->displayTitle(); ?></span>
+            <span class="result-title"><?php echo $escape($item->displayTitle()); ?></span>
             <ul>
                 <?php foreach ($sites as $site): ?>
                 <?php if ($site->userIsAllowed('read')): ?>

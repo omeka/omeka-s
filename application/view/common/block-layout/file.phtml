@@ -34,7 +34,7 @@ $hyperlink = $this->plugin('hyperlink');
         <?php if ($showTitleOption === 'item_title'): ?>
         <h3><?php echo $item->link($item->displayTitle()); ?></h3>
         <?php elseif ($showTitleOption === 'file_name'): ?>
-        <h3><?php echo $media->displayTitle(); ?></h3>
+        <h3><?php echo $this->escapeHtml($media->displayTitle()); ?></h3>
         <?php endif; ?>
         <?php $caption = $attachment->caption(); ?>
         <?php if ($caption): ?>

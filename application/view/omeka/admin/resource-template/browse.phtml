@@ -23,9 +23,9 @@ $this->htmlElement('body')->appendAttribute('class', 'resource-templates browse'
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th aria-sort="<?php echo $this->browse()->getAriaSortValue('label'); ?>"><?php echo $this->sortLink($translate('Label'), 'label'); ?></th>
-            <th aria-sort="<?php echo $this->browse()->getAriaSortValue('resource_class_label'); ?>"><?php echo $this->sortLink($translate('Class'), 'resource_class_label'); ?></th>
-            <th aria-sort="<?php echo $this->browse()->getAriaSortValue('owner_name'); ?>"><?php echo $this->sortLink($translate('Owner'), 'owner_name'); ?></th>
+            <?php echo $this->browse()->renderHeaderCell($translate('Label'), 'label'); ?>
+            <?php echo $this->browse()->renderHeaderCell($translate('Class'), 'resource_class_label'); ?>
+            <?php echo $this->browse()->renderHeaderCell($translate('Owner'), 'owner_name'); ?>
         </tr>
     </thead>
     <tbody>

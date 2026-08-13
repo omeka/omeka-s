@@ -24,8 +24,8 @@ $this->headScript()->appendFile($this->assetUrl('js/asset-browse.js', 'Omeka'));
 <table class="tablesaw batch-edit" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th aria-sort="<?php echo $this->browse()->getAriaSortValue('name'); ?>"><?php echo $this->sortLink($translate('Name'), 'name'); ?></th>
-            <th><?php echo $translate('Owner'); ?></th>
+            <?php echo $this->browse()->renderHeaderCell($translate('Name'), 'name'); ?>
+            <?php echo $this->browse()->renderHeaderCell($translate('Owner')); ?>
         </tr>
     </thead>
     <tbody>

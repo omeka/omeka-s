@@ -20,8 +20,8 @@ $this->htmlElement('body')->appendAttribute('class', 'browse vocabularies vocabu
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th aria-sort="<?php echo $this->browse()->getAriaSortValue('label'); ?>"><?php echo $this->sortLink($translate('Label'), 'label'); ?></th>
-            <th aria-sort="<?php echo $this->browse()->getAriaSortValue('local_name'); ?>"><?php echo $this->sortLink($translate('Term'), 'local_name'); ?></th>
+            <?php echo $this->browse()->renderHeaderCell($translate('Label'), 'label'); ?>
+            <?php echo $this->browse()->renderHeaderCell($translate('Term'), 'local_name'); ?>
         </tr>
     </thead>
     <tbody>

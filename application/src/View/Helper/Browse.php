@@ -67,44 +67,84 @@ class Browse extends AbstractHelper
 
     /**
      * Get the header row for a resource type.
+     *
+     * Renders a header cell for every column configured for the resource type.
+     * Tables that need additional cells render them with renderHeaderCell().
      */
     public function renderHeaderRow(string $resourceType): string
     {
         $view = $this->getView();
-        $escapeHelper = $view->plugin('escapeHtml');
-        $context = $view->status()->isAdminRequest() ? 'admin' : 'public';
         $headerRow = [];
+        $context = $view->status()->isAdminRequest() ? 'admin' : 'public';
         foreach ($this->getBrowseService()->getColumnsData($context, $resourceType) as $columnData) {
             if (!$this->getBrowseService()->columnTypeIsKnown($columnData['type'])) {
                 continue; // Skip unknown column types.
             }
             $columnType = $this->getBrowseService()->getColumnType($columnData['type']);
-            $sortBy = $columnType->getSortBy($columnData);
-            $header = $this->getHeader($columnData);
-            if ($sortBy) {
-                $headerContent = $view->sortLink($header, $sortBy);
-                $ariaSortAttr = sprintf(' aria-sort="%s"', $this->getAriaSortValue($sortBy));
-            } else {
-                $headerContent = $escapeHelper($header);
-                $ariaSortAttr = '';
-            }
-            $headerRow[] = sprintf(
-                '<th class="column-%s"%s>%s</th>',
-                $escapeHelper($columnData['type']),
-                $ariaSortAttr,
-                $headerContent
+            $headerRow[] = $this->renderHeaderCell(
+                $this->getHeader($columnData),
+                $columnType->getSortBy($columnData),
+                ['class' => sprintf('column-%s', $columnData['type'])]
             );
         }
         return implode("\n", $headerRow);
     }
 
-    public function getAriaSortValue(string $sortBy): string
+    /**
+     * Get a header cell for a browse table.
+     *
+     * The cell is sortable if a sort_by parameter is passed. Options are:
+     * [
+     *   'select_all_checkbox' => <bool>, // prepend a select all checkbox
+     *   'class' => '<class attribute>',
+     * ]
+     */
+    public function renderHeaderCell(string $label, ?string $sortBy = null, array $options = []): string
     {
-        $query = $this->getView()->params()->fromQuery();
-        if (($query['sort_by'] ?? null) !== $sortBy) {
-            return 'none';
+        $view = $this->getView();
+        $escapeHelper = $view->plugin('escapeHtml');
+        $classAttr = isset($options['class'])
+            ? sprintf(' class="%s"', $escapeHelper($options['class']))
+            : '';
+        $ariaSort = $sortBy ? $this->getAriaSortValue($sortBy) : null;
+        $ariaSortAttr = $ariaSort ? sprintf(' aria-sort="%s"', $ariaSort) : '';
+        $selectAllCheckbox = ($options['select_all_checkbox'] ?? false)
+            ? sprintf(
+                '<input type="checkbox" class="select-all" aria-label="%s">',
+                $escapeHelper($view->translate('Select all'))
+            )
+            : '';
+        $cellContent = $sortBy ? $view->sortLink($label, $sortBy) : $escapeHelper($label);
+        return sprintf(
+            '<th%s%s>%s%s</th>',
+            $classAttr,
+            $ariaSortAttr,
+            $selectAllCheckbox,
+            $cellContent
+        );
+    }
+
+    /**
+     * Get the aria-sort value for a sortable column header.
+     *
+     * Returns null unless the column is the one currently sorted on. This
+     * mirrors the sort link, which only shows a direction when sort_order is
+     * explicitly set.
+     */
+    protected function getAriaSortValue(string $sortBy): ?string
+    {
+        $params = $this->getView()->params();
+        if ($params->fromQuery('sort_by') !== $sortBy) {
+            return null;
         }
-        return ('asc' === ($query['sort_order'] ?? null)) ? 'ascending' : 'descending';
+        switch ($params->fromQuery('sort_order')) {
+            case 'asc':
+                return 'ascending';
+            case 'desc':
+                return 'descending';
+            default:
+                return null;
+        }
     }
 
     /**

@@ -39,7 +39,7 @@ $this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'));
             <?php endif; ?>
             <span class="theme-author">
                 <?php if (isset($authorLink)): ?>
-                <a href="<?php echo $this->escapeHtml($authorLink); ?>" target="_blank"><?php echo $this->escapeHtml($author); ?></a>
+                <a href="<?php echo $this->escapeHtml($authorLink); ?>" target="_blank"><?php echo $this->escapeHtml($author); ?> <span class="sr-only"><?php echo $translate('(external link)'); ?></span></a>
                 <?php else: ?>
                 <?php echo $this->escapeHtml($author); ?>
                 <?php endif; ?>

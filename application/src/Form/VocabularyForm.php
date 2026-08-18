@@ -160,7 +160,7 @@ class VocabularyForm extends Form
             'type' => 'text',
             'options' => [
                 'label' => 'Preferred language', // @translate
-                'info' => 'Enter the preferred language of the labels and comments using an <a target="_blank" href="https://www.w3.org/International/articles/language-tags/">IETF language tag</a>. Defaults to the first available.', // @translate
+                'info' => 'Enter the preferred language of the labels and comments using an <a target="_blank" href="https://www.w3.org/International/articles/language-tags/">IETF language tag <span class="sr-only">(external link)</span></a>. Defaults to the first available.', // @translate
                 'escape_info' => false,
             ],
             'attributes' => [

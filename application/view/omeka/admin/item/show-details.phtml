@@ -49,7 +49,7 @@ $escape = $this->plugin('escapeHtml');
             $externalLinkText = sprintf($translate('View this item in "%s"'), $siteTitle);
             echo $site->link($siteTitle);
             echo $this->hyperlink('', $this->url('site/resource-id', ['site-slug' => $site->slug(), 'controller' => 'item', 'id' => $resource->id()]),
-                ['class' => 'o-icon-external', 'target' => '_blank', 'aria-label' => $externalLinkText, 'title' => $externalLinkText]);
+                ['target' => '_blank', 'aria-label' => $externalLinkText, 'title' => $externalLinkText]);
             ?>
         </div>
         <?php endforeach; ?>

@@ -31,10 +31,16 @@ class Hyperlink extends AbstractHtmlElement
      */
     public function raw($html = null, $href = null, array $attributes = [])
     {
+        $view = $this->getView();
+        $externalLinkTag = '';
         $attributes['href'] = $href;
         if (($html === null || $html === '') && isset($attributes['title']) && !isset($attributes['aria-label'])) {
             $attributes['aria-label'] = $attributes['title'];
         }
-        return '<a' . $this->htmlAttribs($attributes) . '>' . $html . '</a>';
+        if (isset($attributes['target']) && ($attributes['target'] == '_blank')) {
+            $translate = $view->plugin('translate');
+            $externalLinkTag = '<span class="sr-only">' . $translate('(external link)') . '</span>';
+        }
+        return '<a' . $this->htmlAttribs($attributes) . '>' . $html . $externalLinkTag . '</a>';
     }
 }

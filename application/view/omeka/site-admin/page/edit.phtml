@@ -26,7 +26,7 @@ $form->prepare();
     ]); ?>
     <input type="hidden" name="o:is_public" value="0">
     <?php endif; ?>
-    <a href="<?php echo $page->siteUrl(); ?>" class="button" target="_blank"><?php echo $translate('View'); ?></a>
+    <a href="<?php echo $page->siteUrl(); ?>" class="button" target="_blank"><?php echo $translate('View'); ?> <span class="sr-only"><?php echo $translate('(external link)'); ?></span></a>
     <a href="#" class="delete button"><?php echo $translate('Delete'); ?></a>
     <?php echo $this->cancelButton(); ?>
     <button><?php echo $translate('Save'); ?></button>

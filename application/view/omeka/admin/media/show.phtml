@@ -110,7 +110,7 @@ $sectionNavs = [
             $externalLinkText = sprintf($translate('View this media in "%s"'), $siteTitle);
             echo $site->link($siteTitle);
             echo $this->hyperlink('', $this->url('site/resource-id', ['site-slug' => $site->slug(), 'controller' => 'media', 'id' => $media->id()]),
-                ['class' => 'o-icon-external', 'target' => '_blank', 'aria-label' => $externalLinkText, 'title' => $externalLinkText]);
+                ['target' => '_blank', 'aria-label' => $externalLinkText, 'title' => $externalLinkText]);
             ?>
         </div>
         <?php endforeach; ?>

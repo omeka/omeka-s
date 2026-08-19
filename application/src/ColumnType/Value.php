@@ -95,6 +95,11 @@ class Value implements ColumnTypeInterface
         foreach ($values as $value) {
             $content[] = $value->asHtml();
         }
-        return $content ? implode('<br>', $content) : null;
+        if (count($values) > 1) {
+            $html = '<ul><li>' . implode('</li><li>', $content) . '</li></ul>';
+        } else {
+            $html = $content ? $content[0] : null;
+        }
+        return $html;
     }
 }

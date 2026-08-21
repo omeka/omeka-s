@@ -1483,6 +1483,13 @@ div[role="main"] {
     min-width: 1em;
 }
 
+.browse .column-value ul {
+    padding-left: $spacing-medium;
+    text-indent: $spacing-small;
+    list-style-type: "—";
+    margin: 0;
+}
+
 .actions {
     margin: 0 0 0 auto;
     display: flex;

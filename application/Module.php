@@ -15,6 +15,7 @@ use Laminas\EventManager\Event as LaminasEvent;
 use Laminas\EventManager\SharedEventManagerInterface;
 use Laminas\Form\Element;
 use Laminas\Json\Json;
+use Laminas\Mvc\MvcEvent;
 use Laminas\View\Renderer\PhpRenderer;
 
 /**
@@ -44,6 +45,33 @@ class Module extends AbstractModule
             include __DIR__ . '/config/routes.config.php',
             include __DIR__ . '/config/navigation.config.php'
         );
+    }
+
+    public function onBootstrap(MvcEvent $event)
+    {
+        parent::onBootstrap($event);
+
+        // Log uncaught fatal php errors through the standard logger.
+        // Unlike mvc exceptions handled by Omeka\Mvc\ExceptionListener, fatal
+        // errors don't go through mvc layer, so they are only displayed and
+        // never recorded.
+        // See the job fatal handling in Job\DispatchStrategy\Synchronous.
+        $services = $event->getApplication()->getServiceManager();
+        register_shutdown_function(function () use ($services): void {
+            $error = error_get_last();
+            $fatals = E_ERROR | E_PARSE | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR | E_RECOVERABLE_ERROR;
+            if (!$error || !($error['type'] & $fatals)) {
+                return;
+            }
+            try {
+                $services->get('Omeka\Logger')->err(
+                    'Fatal error: {message} in {file}:{line}', // @translate
+                    ['message' => $error['message'], 'file' => $error['file'], 'line' => $error['line']]
+                );
+            } catch (\Throwable $e) {
+                // The logger may be unavailable during shutdown.
+            }
+        });
     }
 
     public function attachListeners(SharedEventManagerInterface $sharedEventManager)

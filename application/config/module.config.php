@@ -209,9 +209,14 @@ return [
         'priority' => \Laminas\Log\Logger::NOTICE,
     ],
     'http_client' => [
-        'adapter' => \Laminas\Http\Client\Adapter\Socket::class,
+        // The adapter is autodetected by HttpClientFactory: curl when available
+        // (HTTP/2 negotiated over TLS, transparent fallback to HTTP/1.1),
+        // socket otherwise.
+        // Set another adapter explicitly in local.config.php to override.
+        'adapter' => null,
         'sslcapath' => null,
         'sslcafile' => null,
+        'curloptions' => [],
     ],
     'cli' => [
         'execute_strategy' => 'auto',

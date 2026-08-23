@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace Omeka\Service\Delegator;
 
 use Interop\Container\ContainerInterface;
@@ -23,6 +24,7 @@ class FormElementDelegatorFactory implements DelegatorFactoryInterface
         $formElement->addClass('Omeka\Form\Element\Columns', 'formColumns');
         $formElement->addClass('Omeka\Form\Element\BrowseDefaults', 'formBrowseDefaults');
         $formElement->addClass('Omeka\Form\Element\SelectSortInterface', 'formSelectSort');
+        $formElement->addClass('Omeka\Form\Element\Secret', 'formSecret');
         return $formElement;
     }
 }

@@ -18,3 +18,4 @@
 .DS_Store
 /application/language/debug.*
 /static/
+/config/secret_key.php

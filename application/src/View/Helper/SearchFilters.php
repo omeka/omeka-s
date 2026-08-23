@@ -207,6 +207,13 @@ class SearchFilters extends AbstractHelper
                         $filters[$filterLabel][] = $filterValue;
                         break;
 
+                    case 'in_sites':
+                        $filterLabel = $translate('In a site'); // @translate
+                        $filters[$filterLabel][] = $value
+                            ? $translate('yes') // @translate
+                            : $translate('no'); // @translate
+                        break;
+
                     case 'is_public':
                         $filterLabel = $translate('Visibility');
                         $filters[$filterLabel][] = $value ? $translate('Public') : $translate('Not public');

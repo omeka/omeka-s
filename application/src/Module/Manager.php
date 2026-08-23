@@ -170,6 +170,8 @@ class Manager implements ResourceInterface
         }
 
         $module->setState(self::STATE_ACTIVE);
+
+        $this->clearCache();
     }
 
     /**
@@ -202,6 +204,8 @@ class Manager implements ResourceInterface
         }
 
         $module->setState(self::STATE_NOT_ACTIVE);
+
+        $this->clearCache();
     }
 
     /**
@@ -236,6 +240,8 @@ class Manager implements ResourceInterface
         $this->getEntityManager()->flush();
 
         $module->setState(self::STATE_ACTIVE);
+
+        $this->clearCache();
     }
 
     /**
@@ -277,6 +283,8 @@ class Manager implements ResourceInterface
         }
 
         $module->setState(self::STATE_NOT_INSTALLED);
+
+        $this->clearCache();
     }
 
     /**
@@ -321,6 +329,8 @@ class Manager implements ResourceInterface
 
         $module->setState($module->getDb('is_active')
             ? self::STATE_ACTIVE : self::STATE_NOT_ACTIVE);
+
+        $this->clearCache();
     }
 
     /**
@@ -403,5 +413,18 @@ class Manager implements ResourceInterface
     public function getResourceId()
     {
         return get_called_class();
+    }
+
+    protected function clearCache()
+    {
+        if (function_exists('opcache_reset')) {
+            opcache_reset();
+        }
+        if (extension_loaded('apcu')) {
+            apcu_clear_cache();
+        }
+        if (function_exists('clearstatcache')) {
+            clearstatcache(true);
+        }
     }
 }

@@ -1,7 +1,47 @@
 <?php
 namespace Omeka;
 
+use \Omeka\Permissions\Acl;
+
 return [
+    'roles' => [
+        Acl::ROLE_GLOBAL_ADMIN => [
+            'role' => Acl::ROLE_GLOBAL_ADMIN,
+            'label' => 'Global Administrator', // @translate
+            'admin' => true,
+            'parents' => [],
+        ],
+        Acl::ROLE_SITE_ADMIN => [
+            'role' => Acl::ROLE_SITE_ADMIN,
+            'label' => 'Supervisor', // @translate
+            'admin' => true,
+            'parents' => [],
+        ],
+        Acl::ROLE_EDITOR => [
+            'role' => Acl::ROLE_EDITOR,
+            'label' => 'Editor', // @translate
+            'admin' => false,
+            'parents' => [],
+        ],
+        Acl::ROLE_REVIEWER => [
+            'role' => Acl::ROLE_REVIEWER,
+            'label' => 'Reviewer', // @translate
+            'admin' => false,
+            'parents' => [],
+        ],
+        Acl::ROLE_AUTHOR => [
+            'role' => Acl::ROLE_AUTHOR,
+            'label' => 'Author', // @translate
+            'admin' => false,
+            'parents' => [],
+        ],
+        Acl::ROLE_RESEARCHER => [
+            'role' => Acl::ROLE_RESEARCHER,
+            'label' => 'Researcher', // @translate
+            'admin' => false,
+            'parents' => [],
+        ],
+    ],
     'password' => [
         'min_length' => 6,
         'min_lowercase' => null,

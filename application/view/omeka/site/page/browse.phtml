@@ -1,5 +1,6 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'page browse');
+$this->headMeta()->appendName('robots', 'noindex');
 ?>
 
 <?php echo $this->pageTitle($this->translate('Pages'), 2); ?>

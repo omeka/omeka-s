@@ -3,12 +3,14 @@ $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $thumbnail = $this->plugin('thumbnail');
 $this->htmlElement('body')->appendAttribute('class', 'item resource browse');
+$this->headMeta()->appendName('robots', 'noindex');
 
 $filterLocale = (bool) $this->siteSetting('filter_locale_values');
 $lang = $this->lang();
 $valueLang = $filterLocale ? [$lang, ''] : null;
 
 $query = $this->params()->fromQuery();
+
 $itemSetShow = isset($itemSet);
 if ($itemSetShow):
     $this->headLink()->appendStylesheet($this->assetUrl('css/resource-page-blocks.css', 'Omeka'));

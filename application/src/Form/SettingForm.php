@@ -21,6 +21,8 @@ class SettingForm extends Form implements EventManagerAwareInterface
      */
     const MEDIA_TYPE_WHITELIST = [
         // application/*
+        'application/json',
+        'application/ld+json',
         'application/msword',
         'application/ogg',
         'application/pdf',
@@ -89,12 +91,13 @@ class SettingForm extends Form implements EventManagerAwareInterface
     const EXTENSION_WHITELIST = [
         'aac', 'aif', 'aiff', 'asf', 'asx', 'avi', 'bmp', 'c', 'cc', 'class',
         'css', 'divx', 'doc', 'docx', 'exe', 'gif', 'gz', 'gzip', 'h', 'ico',
-        'j2k', 'jp2', 'jpe', 'jpeg', 'jpg', 'm4a', 'm4v', 'mdb', 'mid', 'midi', 'mov',
-        'mp2', 'mp3', 'mp4', 'mpa', 'mpe', 'mpeg', 'mpg', 'mpp', 'odb', 'odc',
-        'odf', 'odg', 'odp', 'ods', 'odt', 'ogg', 'opus', 'pdf', 'png', 'pot', 'pps',
-        'ppt', 'pptx', 'qt', 'ra', 'ram', 'rtf', 'rtx', 'swf', 'tar', 'tif',
-        'tiff', 'txt', 'wav', 'wax', 'webm', 'webp', 'wma', 'wmv', 'wmx', 'wri', 'xla',
-        'xls', 'xlsx', 'xlt', 'xlw', 'zip',
+        'j2k', 'jp2', 'jpe', 'jpeg', 'jpg', 'json', 'jsonld', 'm4a', 'm4v',
+        'mdb', 'mid', 'midi', 'mov', 'mp2', 'mp3', 'mp4', 'mpa', 'mpe', 'mpeg',
+        'mpg', 'mpp', 'odb', 'odc', 'odf', 'odg', 'odp', 'ods', 'odt', 'ogg',
+        'opus', 'pdf', 'png', 'pot', 'pps', 'ppt', 'pptx', 'qt', 'ra', 'ram',
+        'rtf', 'rtx', 'swf', 'tar', 'tif', 'tiff', 'txt', 'wav', 'wax', 'webm',
+        'webp', 'wma', 'wmv', 'wmx', 'wri', 'xla', 'xls', 'xlsx', 'xlt', 'xlw',
+        'zip',
     ];
 
     /**

@@ -84,7 +84,14 @@ class Messenger extends AbstractPlugin
             } else {
                 foreach ($elementOrFieldset->getMessages() as $message) {
                     $label = $this->getController()->translate($elementOrFieldset->getLabel());
-                    $this->addError(sprintf('%s: %s', $label, $message));
+                    // Manage form with one level of Collection.
+                    if (is_array($message)) {
+                        foreach ($message as $msg) {
+                            $this->addError(sprintf('%s: %s', $label, $msg));
+                        }
+                    } else {
+                        $this->addError(sprintf('%s: %s', $label, $message));
+                    }
                 }
             }
         }

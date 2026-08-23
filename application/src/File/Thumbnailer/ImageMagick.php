@@ -8,9 +8,10 @@ use Omeka\Stdlib\Cli;
 class ImageMagick extends AbstractThumbnailer
 {
     const CONVERT_COMMAND = 'convert';
+    const MAGICK_COMMAND = 'magick';
 
     /**
-     * @var string Path to the ImageMagick "convert" command
+     * @var string Path to command "magick" (ImageMagick v7) or "convert" (v6).
      */
     protected $convertPath;
 
@@ -102,7 +103,7 @@ class ImageMagick extends AbstractThumbnailer
     }
 
     /**
-     * Set the path to the ImageMagick "convert" command.
+     * Set the path to command "magick" (ImageMagick v7) or "convert" (v6).
      *
      * @param string $convertDir
      */
@@ -110,12 +111,18 @@ class ImageMagick extends AbstractThumbnailer
     {
         $cli = $this->cli;
         if ($convertDir) {
-            $convertPath = $cli->validateCommand($convertDir, self::CONVERT_COMMAND);
+            $convertPath = $cli->validateCommand($convertDir, self::MAGICK_COMMAND);
+            if (false === $convertPath) {
+                $convertPath = $cli->validateCommand($convertDir, self::CONVERT_COMMAND);
+            }
             if (false === $convertPath) {
                 throw new Exception\InvalidThumbnailerException('ImageMagick error: invalid ImageMagick command.');
             }
         } else {
-            $convertPath = $cli->getCommandPath(self::CONVERT_COMMAND);
+            $convertPath = $cli->getCommandPath(self::MAGICK_COMMAND);
+            if (false === $convertPath) {
+                $convertPath = $cli->getCommandPath(self::CONVERT_COMMAND);
+            }
             if (false === $convertPath) {
                 throw new Exception\InvalidThumbnailerException('ImageMagick error: cannot determine path to ImageMagick command.');
             }

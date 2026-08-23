@@ -69,45 +69,21 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     {
         $settings = $this->getServiceLocator()->get('Omeka\Settings');
 
-        // Set the date time value objects.
-        $dateTime = [
-            'o:created' => [
-                '@value' => $this->getDateTime($this->created()),
-                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
-            ],
-            'o:modified' => null,
-        ];
-        if ($this->modified()) {
-            $dateTime['o:modified'] = [
-                '@value' => $this->getDateTime($this->modified()),
-                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
-            ];
-        }
-
         // Set the values as JSON-LD value objects.
         $values = [];
         foreach ($this->values() as $term => $property) {
+            /** @var \Omeka\Api\Representation\ValueRepresentation $value */
             foreach ($property['values'] as $value) {
-                $values[$term][] = $value;
+                $values[$term][] = $value->jsonSerialize();
             }
         }
 
-        $owner = null;
-        if ($this->owner()) {
-            $owner = $this->owner()->getReference();
-        }
-        $resourceClass = null;
-        if ($this->resourceClass()) {
-            $resourceClass = $this->resourceClass()->getReference();
-        }
-        $resourceTemplate = null;
-        if ($this->resourceTemplate()) {
-            $resourceTemplate = $this->resourceTemplate()->getReference();
-        }
-        $thumbnail = null;
-        if ($this->thumbnail()) {
-            $thumbnail = $this->thumbnail()->getReference();
-        }
+        // TODO Simplify with nullsafe operator when omeka will allow php 8.
+        $owner = $this->owner();
+        $resourceClass = $this->resourceClass();
+        $resourceTemplate = $this->resourceTemplate();
+        $thumbnail = $this->thumbnail();
+
         // According to the JSON-LD spec, the value of the @reverse key "MUST be
         // a JSON object containing members representing reverse properties."
         // Here, we include the key only if the resource has reverse properties.
@@ -120,14 +96,15 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         return array_merge(
             [
                 'o:is_public' => $this->isPublic(),
-                'o:owner' => $owner,
-                'o:resource_class' => $resourceClass,
-                'o:resource_template' => $resourceTemplate,
-                'o:thumbnail' => $thumbnail,
+                'o:owner' => $owner ? $owner->getReference()->jsonSerialize() : null,
+                'o:resource_class' => $resourceClass ? $resourceClass->getReference()->jsonSerialize() : null,
+                'o:resource_template' => $resourceTemplate ? $resourceTemplate->getReference()->jsonSerialize() : null,
+                'o:thumbnail' => $thumbnail ? $thumbnail->getReference()->jsonSerialize() : null,
                 'o:title' => $this->title(),
                 'thumbnail_display_urls' => $this->thumbnailDisplayUrls(),
+                'o:created' => $this->getDateTime($this->created())->getJsonLd(),
+                'o:modified' => $this->getDateTime($this->modified())->getJsonLd(),
             ],
-            $dateTime,
             $this->getResourceJsonLd(),
             $values,
             $reverse

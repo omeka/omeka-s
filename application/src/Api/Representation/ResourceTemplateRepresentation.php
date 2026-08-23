@@ -15,29 +15,18 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
 
     public function getJsonLd()
     {
-        $owner = null;
-        if ($this->owner()) {
-            $owner = $this->owner()->getReference();
-        }
-        $resourceClass = null;
-        if ($this->resourceClass()) {
-            $resourceClass = $this->resourceClass()->getReference();
-        }
-        $titleProperty = null;
-        if ($this->titleProperty()) {
-            $titleProperty = $this->titleProperty()->getReference();
-        }
-        $descriptionProperty = null;
-        if ($this->descriptionProperty()) {
-            $descriptionProperty = $this->descriptionProperty()->getReference();
-        }
+        $owner = $this->owner();
+        $resourceClass = $this->resourceClass();
+        $titleProperty = $this->titleProperty();
+        $descriptionProperty = $this->descriptionProperty();
+
         return [
             'o:label' => $this->label(),
-            'o:owner' => $owner,
-            'o:resource_class' => $resourceClass,
-            'o:title_property' => $titleProperty,
-            'o:description_property' => $descriptionProperty,
-            'o:resource_template_property' => $this->resourceTemplateProperties(),
+            'o:owner' => $owner ? $owner->getReference()->jsonSerialize() : null,
+            'o:resource_class' => $resourceClass ? $resourceClass->getReference()->jsonSerialize() : null,
+            'o:title_property' => $titleProperty ? $titleProperty->getReference()->jsonSerialize() : null,
+            'o:description_property' => $descriptionProperty ? $descriptionProperty->getReference()->jsonSerialize() : null,
+            'o:resource_template_property' => array_map(fn ($v) => $v->jsonSerialize(), $this->resourceTemplateProperties()),
         ];
     }
 

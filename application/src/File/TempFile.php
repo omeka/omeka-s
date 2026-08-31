@@ -338,8 +338,8 @@ class TempFile
         }
         if (null === $extension) {
             $mediaType = $this->getMediaType();
-            if (isset($this->mediaTypeMap[$mediaType][0])) {
-                $extension = strtolower($this->mediaTypeMap[$mediaType][0]);
+            if (isset($this->mediaTypeMap[$mediaType])) {
+                $extension = strtolower($this->mediaTypeMap[$mediaType]);
             }
         }
         return $extension;

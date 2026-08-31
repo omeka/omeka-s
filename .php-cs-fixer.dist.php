@@ -48,7 +48,6 @@ return $config
         PhpCsFixer\Finder::create()
             ->exclude('application/asset')
             ->exclude('application/data/doctrine-proxies')
-            ->exclude('application/data/media-types')
             ->exclude('application/data/overrides')
             ->exclude('config')
             ->exclude('files')

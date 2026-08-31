@@ -3,20 +3,45 @@
 
 /* @group ----- Advanced Search ----- */
 
+#advanced-search .field {
+    gap: .25rem 1rem;
+    flex-wrap: nowrap;
+}
+
+.sidebar #advanced-search .field {
+    flex-wrap: wrap;
+}
+
+@media screen and (max-width: 640px) {
+    #advanced-search .field {
+        flex-wrap: wrap;
+    }
+}
+
 #advanced-search .field-meta .label, 
 #advanced-search .field-meta label {
     margin: 0;
 }
 
-#advanced-search .value {
+#advanced-search .inputs {
+    gap: .5rem 1rem;
+}
+
+#advanced-search .inputs .value {
     margin-bottom: 0;
     display: flex;
+    width: 100%;
+    gap: .25rem;
 }
 
 @media screen and (max-width: 767px) {
     #advanced-search .value {
         flex-wrap: wrap;
     }
+}
+
+#advanced-search #sort_field .inputs {
+    gap: .25rem;
 }
 
 .inputs select[name*="sort"] {
@@ -34,18 +59,30 @@
 #advanced-search .inputs input[type="date"], 
 #advanced-search .inputs input[type="datetime-local"] {
     margin: 0;
- }
+    max-width: 100%;
+}
+ 
+.admin#advanced-search .inputs select {
+    width: auto; 
+    height: 1.5 * $spacing-large;
+}
+
+.admin#advanced-search button.remove-value {
+    margin: 0;
+}
 
 #advanced-search .inputs,
 #advanced-search .inputs .value {
     display: flex;
     flex-wrap: wrap;
-    gap: .25rem;
+    max-width: 100%;
+    align-content: flex-start;
+    min-width: 0;
 }
 
-#advanced-search #item-sets .value,
-#advanced-search #property-queries .value {
-    flex-wrap: nowrap;
+#advanced-search .multi-value .field-meta {
+    padding-right: 2rem;
+    position: relative;
 }
 
 #advanced-search .multi-value .value:first-child .joiner,
@@ -63,6 +100,9 @@
 }
 
 #advanced-search .add-value {
+    position: absolute;
+    top: 0;
+    right: 0;
     margin-bottom: 0;
 }
 

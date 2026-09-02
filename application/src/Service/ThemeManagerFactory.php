@@ -2,9 +2,9 @@
 namespace Omeka\Service;
 
 use DirectoryIterator;
-use SplFileInfo;
 use Composer\Semver\Semver;
 use Omeka\Module as CoreModule;
+use Omeka\Module\InfoReader;
 use Omeka\Site\Theme\Manager as ThemeManager;
 use Laminas\Config\Reader\Ini as IniReader;
 use Laminas\ServiceManager\Factory\FactoryInterface;
@@ -20,69 +20,111 @@ class ThemeManagerFactory implements FactoryInterface
         $moduleBlockTemplates = $config['block_templates'];
 
         $manager = new ThemeManager;
+        $infoReader = new InfoReader();
         $iniReader = new IniReader;
 
+        // Load installed.json once for all Composer-installed themes.
+        $infoReader->loadComposerInstalled();
+
         // Get all themes from the filesystem.
-        foreach (new DirectoryIterator(OMEKA_PATH . '/themes') as $dir) {
-
-            // Theme must be a directory
-            if (!$dir->isDir() || $dir->isDot()) {
+        // Scan local themes first so they take precedence over add-ons.
+        // Note: composer-addons/themes/ is scanned even though installed.json contains
+        // the theme list. This ensures theme files exist, handles out-of-sync
+        // cases, and maintains consistency with how themes/ works. The
+        // installed.json is only used for metadata (name, version, etc.), not
+        // for discovering which themes are installed.
+        $themePaths = [
+            'themes' => OMEKA_PATH . '/themes',
+            'composer-addons/themes' => OMEKA_PATH . '/composer-addons/themes',
+        ];
+        $registered = [];
+        foreach ($themePaths as $basePath => $themePath) {
+            if (!is_dir($themePath)) {
                 continue;
             }
+            foreach (new DirectoryIterator($themePath) as $dir) {
 
-            $theme = $manager->registerTheme($dir->getBasename());
+                // Theme must be a directory
+                if (!$dir->isDir() || $dir->isDot()) {
+                    continue;
+                }
 
-            // Theme directory must contain config/module.ini
-            $iniFile = new SplFileInfo($dir->getPathname() . '/config/theme.ini');
-            if (!$iniFile->isReadable() || !$iniFile->isFile()) {
-                $theme->setState(ThemeManager::STATE_INVALID_INI);
-                continue;
+                // Skip if theme already registered (local takes precedence).
+                $themeId = $dir->getBasename();
+                if (isset($registered[$themeId])) {
+                    continue;
+                }
+                $registered[$themeId] = true;
+
+                $theme = $manager->registerTheme($themeId);
+                $theme->setBasePath($basePath);
+
+                // Only use installed.json for themes in composer-addons/themes/.
+                // Local themes in themes/ must read their own files.
+                $info = null;
+                $isComposerAddon = strpos($dir->getPathname(), '/composer-addons/themes/') !== false;
+                if ($isComposerAddon) {
+                    // Try installed.json first to avoid checking compatibility.
+                    $info = $infoReader->getFromComposerInstalled($themeId, 'theme');
+                }
+                if (empty($info)) {
+                    // Fallback: read from individual files (manual themes).
+                    $info = $infoReader->read($dir->getPathname(), 'theme');
+                }
+
+                // Theme must have valid info.
+                if (!$infoReader->isValid($info)) {
+                    $theme->setState(ThemeManager::STATE_INVALID_INI);
+                    continue;
+                }
+
+                // Read config spec from theme.ini [config] section if present.
+                // This is always needed, even for Composer themes, as [config]
+                // defines form elements and is not in composer.json.
+                $configSpec = [];
+                $iniFile = $dir->getPathname() . '/config/theme.ini';
+                if (is_file($iniFile) && is_readable($iniFile)) {
+                    try {
+                        $ini = $iniReader->fromFile($iniFile);
+                        if (isset($ini['config'])) {
+                            $configSpec = $ini['config'];
+                        }
+                    } catch (\Exception $e) {
+                        // Ignore ini read errors for config section.
+                    }
+                }
+
+                $theme->setIni($info);
+                $theme->setConfigSpec($configSpec);
+
+                // Check Omeka version constraint only for manual themes.
+                // Composer add-ons use require.omeka/omeka-s for version checking.
+                if (!$isComposerAddon) {
+                    $omekaConstraint = $theme->getIni('omeka_version_constraint');
+                    if ($omekaConstraint !== null && !Semver::satisfies(CoreModule::VERSION, $omekaConstraint)) {
+                        $theme->setState(ThemeManager::STATE_INVALID_OMEKA_VERSION);
+                        continue;
+                    }
+                }
+
+                $theme->setState(ThemeManager::STATE_ACTIVE);
+
+                // Inject module templates, with priority to theme templates.
+                // Take care of merge with duplicate template keys.
+                if (count($modulePageTemplates)) {
+                    $configSpec['page_templates'] = empty($configSpec['page_templates'])
+                        ? $modulePageTemplates
+                        : array_replace($modulePageTemplates, $configSpec['page_templates']);
+                }
+                if (count($moduleBlockTemplates)) {
+                    $configSpec['block_templates'] = empty($configSpec['block_templates'])
+                        ? $moduleBlockTemplates
+                        // Array_merge_recursive() converts duplicate keys to array.
+                        // Array_map() removes keys.
+                        : array_replace_recursive($moduleBlockTemplates, $configSpec['block_templates']);
+                }
+                $theme->setConfigSpec($configSpec);
             }
-
-            $ini = $iniReader->fromFile($iniFile->getRealPath());
-
-            // The INI configuration must be under the [info] header.
-            if (!isset($ini['info'])) {
-                $theme->setState(ThemeManager::STATE_INVALID_INI);
-                continue;
-            }
-            $configSpec = [];
-            if (isset($ini['config'])) {
-                $configSpec = $ini['config'];
-            }
-
-            $theme->setIni($ini['info']);
-            $theme->setConfigSpec($configSpec);
-
-            // Theme INI must be valid
-            if (!$manager->iniIsValid($theme)) {
-                $theme->setState(ThemeManager::STATE_INVALID_INI);
-                continue;
-            }
-
-            $omekaConstraint = $theme->getIni('omeka_version_constraint');
-            if ($omekaConstraint !== null && !Semver::satisfies(CoreModule::VERSION, $omekaConstraint)) {
-                $theme->setState(ThemeManager::STATE_INVALID_OMEKA_VERSION);
-                continue;
-            }
-
-            $theme->setState(ThemeManager::STATE_ACTIVE);
-
-            // Inject module templates, with priority to theme templates.
-            // Take care of merge with duplicate template keys.
-            if (count($modulePageTemplates)) {
-                $configSpec['page_templates'] = empty($configSpec['page_templates'])
-                    ? $modulePageTemplates
-                    : array_replace($modulePageTemplates, $configSpec['page_templates']);
-            }
-            if (count($moduleBlockTemplates)) {
-                $configSpec['block_templates'] = empty($configSpec['block_templates'])
-                    ? $moduleBlockTemplates
-                    // Array_merge_recursive() converts duplicate keys to array.
-                    // Array_map() removes keys.
-                    : array_replace_recursive($moduleBlockTemplates, $configSpec['block_templates']);
-            }
-            $theme->setConfigSpec($configSpec);
         }
 
         // Note that, unlike the ModuleManagerFactory, this does not register

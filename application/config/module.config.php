@@ -37,6 +37,7 @@ return [
         'externals' => [
             'Omeka' => [
                 'vendor/jquery/jquery.min.js' => 'https://code.jquery.com/jquery-3.7.1.min.js',
+                'css/fonts.css' => 'https://fonts.googleapis.com/css?family=Source%20Code%20Pro|Lato:400,400italic,700,700italic&display=swap',
             ],
         ],
     ],

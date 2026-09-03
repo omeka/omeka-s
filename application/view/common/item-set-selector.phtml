@@ -12,7 +12,7 @@ $escape = $this->plugin('escapeHtml');
                 <ul class="selectable-list">
                     <?php foreach ($options as $email => $itemSetOwner): ?>
                     <li class='selector-parent'>
-                        <span><?php echo $itemSetOwner['label']; ?></span> (<span class="selector-child-count"><?php echo count($itemSetOwner['options']); ?></span>)
+                        <span><?php echo $escape($itemSetOwner['label']); ?></span> (<span class="selector-child-count"><?php echo count($itemSetOwner['options']); ?></span>)
                         <ul>
                             <?php foreach ($itemSetOwner['options'] as $itemSet): ?>
                             <?php

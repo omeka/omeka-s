@@ -50,6 +50,11 @@ class UserRepresentation extends AbstractEntityRepresentation
         return $this->resource->getCreated();
     }
 
+    public function modified()
+    {
+        return $this->resource->getModified();
+    }
+
     public function getEntity()
     {
         return $this->resource;

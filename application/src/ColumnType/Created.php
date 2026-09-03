@@ -13,7 +13,7 @@ class Created implements ColumnTypeInterface
 
     public function getResourceTypes(): array
     {
-        return ['items', 'item_sets', 'media', 'sites'];
+        return ['items', 'item_sets', 'media', 'sites', 'users'];
     }
 
     public function getMaxColumns(): ?int

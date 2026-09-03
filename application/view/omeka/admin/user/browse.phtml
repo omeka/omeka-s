@@ -60,8 +60,7 @@ $userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\UserAdapter'
             <?php echo $this->browse()->renderHeaderCell($translate('Email'), 'email', [
                 'select_all_checkbox' => $userIsAllowedBatchUpdate || $userIsAllowedBatchDelete,
             ]); ?>
-            <?php echo $this->browse()->renderHeaderCell($translate('Role'), 'role'); ?>
-            <?php echo $this->browse()->renderHeaderCell($translate('Created'), 'created'); ?>
+            <?php echo $this->browse()->renderHeaderRow('users'); ?>
         </tr>
     </thead>
     <tbody>
@@ -73,7 +72,7 @@ $userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\UserAdapter'
                 <?php if ($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete): ?>
                 <input type="checkbox" name="resource_ids[]" value="<?php echo $user->id(); ?>"<?php if (!($userIsAllowedUpdate || $userIsAllowedDelete) || $currentUserId == $user->id()): ?> disabled="disabled"<?php endif; ?>>
                 <?php endif; ?>
-                <?php echo $user->link($user->email() . ' (' . $user->name() . ')'); ?>
+                <?php echo $user->link($user->email()); ?>
                 <?php if (!$user->isActive()): ?>
                 <span class="o-icon-user-inactive" aria-label="<?php echo $translate('Inactive'); ?>"></span>
                 <?php endif; ?>
@@ -101,8 +100,7 @@ $userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\UserAdapter'
                     ]); ?></li>
                 </ul>
             </td>
-            <td><?php echo $escape($translate($user->displayRole())); ?></td>
-            <td><?php echo $escape($this->i18n()->dateFormat($user->created())); ?></td>
+            <?php echo $this->browse()->renderContentRow('users', $user); ?>
         </tr>
         <?php endforeach; ?>
     </tbody>

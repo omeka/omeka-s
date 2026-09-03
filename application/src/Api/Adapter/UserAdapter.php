@@ -17,6 +17,7 @@ class UserAdapter extends AbstractEntityAdapter
         'created' => 'created',
         'modified' => 'modified',
         'role' => 'role',
+        'is_active' => 'isActive',
     ];
 
     protected $scalarFields = [

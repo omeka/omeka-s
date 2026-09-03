@@ -4,16 +4,16 @@ namespace Omeka\ColumnType;
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Representation\AbstractEntityRepresentation;
 
-class Id implements ColumnTypeInterface
+class Role implements ColumnTypeInterface
 {
     public function getLabel(): string
     {
-        return 'ID'; // @translate
+        return 'Role'; // @translate
     }
 
     public function getResourceTypes(): array
     {
-        return ['items', 'item_sets', 'media', 'users'];
+        return ['users'];
     }
 
     public function getMaxColumns(): ?int
@@ -28,7 +28,7 @@ class Id implements ColumnTypeInterface
 
     public function getSortBy(array $data): ?string
     {
-        return 'id';
+        return 'role';
     }
 
     public function renderHeader(PhpRenderer $view, array $data): string
@@ -38,6 +38,6 @@ class Id implements ColumnTypeInterface
 
     public function renderContent(PhpRenderer $view, AbstractEntityRepresentation $resource, array $data): ?string
     {
-        return $resource->id();
+        return $view->translate($resource->displayRole());
     }
 }

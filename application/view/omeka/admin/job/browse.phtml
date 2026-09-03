@@ -16,10 +16,10 @@ $this->htmlElement('body')->appendAttribute('class', 'jobs browse');
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><?php echo $translate('ID'); ?></th>
-            <th><?php echo $translate('Class'); ?></th>
-            <th><?php echo $translate('Status'); ?></th>
-            <th><?php echo $translate('Owner'); ?></th>
+            <?php echo $this->browse()->renderHeaderCell($translate('ID'), 'id'); ?>
+            <?php echo $this->browse()->renderHeaderCell($translate('Class'), 'class'); ?>
+            <?php echo $this->browse()->renderHeaderCell($translate('Status'), 'status'); ?>
+            <?php echo $this->browse()->renderHeaderCell($translate('Owner'), 'owner_email'); ?>
         </tr>
     </thead>
     <tbody>

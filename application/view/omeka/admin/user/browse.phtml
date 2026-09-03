@@ -57,14 +57,11 @@ $userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\UserAdapter'
 <table class="tablesaw batch-edit" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th>
-                <?php if ($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete): ?>
-                <input type="checkbox" class="select-all">
-                <?php endif; ?>
-                <?php echo $translate('Email'); ?>
-            </th>
-            <th><?php echo $translate('Role'); ?></th>
-            <th><?php echo $translate('Created'); ?></th>
+            <?php echo $this->browse()->renderHeaderCell($translate('Email'), 'email', [
+                'select_all_checkbox' => $userIsAllowedBatchUpdate || $userIsAllowedBatchDelete,
+            ]); ?>
+            <?php echo $this->browse()->renderHeaderCell($translate('Role'), 'role'); ?>
+            <?php echo $this->browse()->renderHeaderCell($translate('Created'), 'created'); ?>
         </tr>
     </thead>
     <tbody>

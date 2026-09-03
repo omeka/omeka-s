@@ -19,8 +19,8 @@ $this->htmlElement('body')->appendAttribute('class', 'browse vocabularies vocabu
 <table class="tablesaw tablesaw-stack" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><?php echo $translate('Label'); ?></th>
-            <th><?php echo $translate('Term'); ?></th>
+            <?php echo $this->browse()->renderHeaderCell($translate('Label'), 'label'); ?>
+            <?php echo $this->browse()->renderHeaderCell($translate('Term'), 'local_name'); ?>
         </tr>
     </thead>
     <tbody>

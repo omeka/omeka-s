@@ -46,7 +46,7 @@ $this->htmlElement('body')->appendAttribute('class', 'sites browse');
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><?php echo $translate('Title'); ?></th>
+            <?php echo $this->browse()->renderHeaderCell($translate('Title'), 'title'); ?>
             <?php echo $this->browse()->renderHeaderRow('sites'); ?>
         </tr>
     </thead>

@@ -23,10 +23,10 @@ $this->htmlElement('body')->appendAttribute('class', 'vocabs browse');
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><?php echo $translate('Label'); ?></th>
-            <th><?php echo $translate('Prefix'); ?></th>
-            <th><?php echo $translate('Classes'); ?></th>
-            <th><?php echo $translate('Properties'); ?></th>
+            <?php echo $this->browse()->renderHeaderCell($translate('Label'), 'label'); ?>
+            <?php echo $this->browse()->renderHeaderCell($translate('Prefix'), 'prefix'); ?>
+            <?php echo $this->browse()->renderHeaderCell($translate('Classes'), 'resource_class_count'); ?>
+            <?php echo $this->browse()->renderHeaderCell($translate('Properties'), 'property_count'); ?>
         </tr>
     </thead>
     <tbody>

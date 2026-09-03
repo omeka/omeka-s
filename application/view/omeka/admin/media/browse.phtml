@@ -44,10 +44,7 @@ $this->htmlElement('body')->appendAttribute('class', 'media browse');
 <table class="tablesaw batch-edit" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th>
-                <input type="checkbox" class="select-all" aria-label="<?php echo $translate('Select all'); ?>">
-                <?php echo $translate('Title'); ?>
-            </th>
+            <?php echo $this->browse()->renderHeaderCell($translate('Title'), 'title', ['select_all_checkbox' => true]); ?>
             <?php echo $this->browse()->renderHeaderRow('media'); ?>
         </tr>
     </thead>

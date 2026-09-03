@@ -38,6 +38,6 @@ class Name implements ColumnTypeInterface
 
     public function renderContent(PhpRenderer $view, AbstractEntityRepresentation $resource, array $data): ?string
     {
-        return $resource->name();
+        return $view->escapeHtml($resource->name());
     }
 }

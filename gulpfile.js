@@ -4,7 +4,6 @@ var child_process = require('child_process');
 var readline = require('readline');
 var path = require('path');
 
-var Promise = require('bluebird');
 var dateFormat = require('dateformat');
 var minimist = require('minimist');
 
@@ -13,12 +12,10 @@ var replace = require('gulp-replace');
 var rename = require('gulp-rename');
 var zip = require('gulp-zip');
 
-var fs = require('fs');
-Promise.promisifyAll(fs);
-var glob = Promise.promisify(require('glob'));
-var rimraf = Promise.promisify(require('rimraf'));
+var fs = require('fs/promises');
+var {createWriteStream} = require('fs');
+var {glob} = require('glob');
 var tmp = require('tmp');
-var tmpFile = Promise.promisify(tmp.file, {multiArgs: true});
 tmp.setGracefulCleanup();
 
 var sass = require('gulp-sass')(require('sass'));
@@ -39,15 +36,27 @@ var cliOptions = minimist(process.argv.slice(2), {
     default: {'php-path': 'php', 'dev': true, 'module-name': null}
 });
 
+function tmpFile(options) {
+    return new Promise(function(resolve, reject) {
+        tmp.file(options, function (err, path, fd) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve({path, fd});
+            }
+        });
+    });
+}
+
 function ensureBuildDir() {
-    return fs.promises.mkdir(buildDir + '/cache', {recursive: true});
+    return fs.mkdir(buildDir + '/cache', {recursive: true});
 }
 
 function download(url, path) {
     return ensureBuildDir().then(function () {
         return new Promise(function (resolve, reject) {
             var https = require('https');
-            var file = fs.createWriteStream(path);
+            var file = createWriteStream(path);
             file.on('finish', function () {
                 resolve();
             });
@@ -87,9 +96,8 @@ function composer(args, options) {
     var composerPath = buildDir + '/composer.phar';
     var installerPath = buildDir + '/composer-installer';
     var installerUrl = 'https://getcomposer.org/installer';
-    var stat = Promise.promisify(fs.stat);
 
-    return stat(composerPath).catch(function (e) {
+    return fs.stat(composerPath).catch(function (e) {
         return download(installerUrl, installerPath).then(function () {
             return runPhpCommand(installerPath, ['--2'], {cwd: buildDir});
         });
@@ -105,7 +113,7 @@ function composer(args, options) {
 
 function ensureModuleUsesComposer(modulePath) {
     var composerPath = path.join(modulePath, 'composer.json');
-    return fs.statAsync(composerPath).then(
+    return fs.stat(composerPath).then(
         function () { return modulePath; },
         function () { throw new Error('No composer.json found in this module.'); }
     );
@@ -122,8 +130,9 @@ function cssToSass(dir) {
 }
 
 function i18nXgettext(dir, ignore) {
-    return glob('**/*.{php,phtml}', {ignore: ignore, cwd: dir}).then(function (files) {
-        return tmpFile({postfix: 'xgettext.pot'}).spread(function (path, fd) {
+    return glob('**/*.{php,phtml}', {ignore: ignore, cwd: dir, nodir: true}).then(function (files) {
+        files.sort();
+        return tmpFile({postfix: 'xgettext.pot'}).then(function ({path, fd}) {
             var args = ['--language=php', '--from-code=utf-8', '--keyword=translate', '-o', path];
             return runCommand('xgettext', args.concat(files), {cwd: dir}, path);
         });
@@ -131,14 +140,14 @@ function i18nXgettext(dir, ignore) {
 }
 
 function i18nTaggedStrings(dir) {
-    return tmpFile({postfix: 'tagged.pot'}).spread(function (path, fd) {
+    return tmpFile({postfix: 'tagged.pot'}).then(function ({path, fd}) {
         return runPhpCommand(composerDir + '/extract-tagged-strings.php', [],
             {stdio: ['pipe', fd, process.stderr], cwd: dir}, path);
     });
 }
 
 function i18nVocabStrings() {
-    return tmpFile({postfix: 'vocab.pot'}).spread(function (path, fd) {
+    return tmpFile({postfix: 'vocab.pot'}).then(function ({path, fd}) {
         return runPhpCommand(scriptsDir + '/extract-vocab-strings.php', [],
             {stdio: ['pipe', fd, process.stderr]}, path);
     });
@@ -146,7 +155,7 @@ function i18nVocabStrings() {
 
 function i18nStaticStrings(dir) {
     var staticPath = path.join(dir, 'language', 'template.static.pot');
-    return fs.statAsync(staticPath).then(function () {
+    return fs.stat(staticPath).then(function () {
         return staticPath;
     }).catch(function (e) {
         return null;
@@ -166,7 +175,7 @@ function getModulePath() {
     if (!modulePath) {
         return Promise.reject(new Error('No module given! Run gulp from within the module, or use --module-name to specify the module to work on.'));
     }
-    return fs.statAsync(modulePath).then(function (stats) {
+    return fs.stat(modulePath).then(function (stats) {
         if (!stats.isDirectory()) {
             return Promise.reject(new Error('Invalid module given! (not a directory)'))
         }
@@ -448,7 +457,7 @@ function taskI18nModuleTemplate() {
             i18nStaticStrings(modulePath)
         ]);
     }).then(function (tempFiles) {
-        return tmpFile({postfix: 'module-prededupe.pot'}).spread(function (path, fd) {
+        return tmpFile({postfix: 'module-prededupe.pot'}).then(function ({path, fd}) {
             tempFiles = tempFiles.filter(function (path) {
                 // Remove null paths.
                 return path;
@@ -457,24 +466,24 @@ function taskI18nModuleTemplate() {
         });
     });
     var dupesPromise = preDedupePromise.then(function (preDedupePot) {
-        return tmpFile({postfix: 'module-dupes.pot'}).spread(function (path, fd) {
+        return tmpFile({postfix: 'module-dupes.pot'}).then(function ({path, fd}) {
             return runCommand('msgcomm', ['-o', path, preDedupePot, pot], {}, path);
         });
     });
     var languageDirPromise = modulePathPromise.then(function (modulePath) {
         var languageDir = path.join(modulePath, 'language');
-        return fs.statAsync(languageDir).then(function (stats) {
+        return fs.stat(languageDir).then(function (stats) {
             if (!stats.isDirectory()) {
                 throw new Error('Language dir path exists, but is not a directory!');
             }
         }, function () {
-            return fs.mkdirAsync(languageDir);
+            return fs.mkdir(languageDir);
         }).then(function () {
             return languageDir;
         });
     })
 
-    return Promise.join(languageDirPromise, preDedupePromise, dupesPromise, function (languageDir, preDedupePot, dupesPot) {
+    return Promise.all([languageDirPromise, preDedupePromise, dupesPromise]).then(function ([languageDir, preDedupePot, dupesPot]) {
         var modulePot = path.join(languageDir, 'template.pot');
         return runCommand('msgcomm', ['--unique', '--to-code=utf-8', '-o', modulePot, preDedupePot, dupesPot]);
     });
@@ -505,8 +514,8 @@ taskInit.description = 'Run first-time setup for a source checkout';
 gulp.task('init', taskInit);
 
 function taskClean() {
-    return rimraf(buildDir).then(function () {
-        rimraf(__dirname + '/vendor');
+    return fs.rm(buildDir, {recursive: true}).then(function () {
+        fs.rm(__dirname + '/vendor', {recursive: true});
     });
 }
 taskClean.description = 'Clean build files and installed dependencies';

@@ -256,6 +256,17 @@ class UserForm extends Form implements EventManagerAwareInterface
             ],
         ]);
         $settingsFieldset->add([
+            'name' => 'columns_admin_users',
+            'type' => Columns::class,
+            'options' => [
+                'element_group' => 'columns',
+                'label' => 'User browse columns', // @translate
+                'columns_context' => 'admin',
+                'columns_resource_type' => 'users',
+                'columns_user_id' => $userId,
+            ],
+        ]);
+        $settingsFieldset->add([
             'name' => 'browse_defaults_admin_items',
             'type' => BrowseDefaults::class,
             'options' => [
@@ -309,6 +320,20 @@ class UserForm extends Form implements EventManagerAwareInterface
             ],
             'attributes' => [
                 'value' => json_encode($this->browseService->getBrowseConfig('admin', 'sites', $userId)),
+            ],
+        ]);
+        $settingsFieldset->add([
+            'name' => 'browse_defaults_admin_users',
+            'type' => BrowseDefaults::class,
+            'options' => [
+                'element_group' => 'browse_defaults',
+                'label' => 'User browse defaults', // @translate
+                'browse_defaults_context' => 'admin',
+                'browse_defaults_resource_type' => 'users',
+                'browse_defaults_user_id' => $userId,
+            ],
+            'attributes' => [
+                'value' => json_encode($this->browseService->getBrowseConfig('admin', 'users', $userId)),
             ],
         ]);
 

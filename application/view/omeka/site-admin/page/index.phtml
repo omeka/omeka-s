@@ -21,9 +21,11 @@ $this->htmlElement('body')->appendAttribute('class', 'sites pages browse');
 <table id="page-list" class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><?php echo $translate('Title'); ?></th>
-            <th><?php echo $translate('Slug'); ?></th>
-            <th><?php echo $sortBy === 'created' ? $translate('Created') : $translate('Modified'); ?></th>
+            <?php echo $this->browse()->renderHeaderCell($translate('Title'), 'title'); ?>
+            <?php echo $this->browse()->renderHeaderCell($translate('Slug'), 'slug'); ?>
+            <?php echo $sortBy === 'created'
+                ? $this->browse()->renderHeaderCell($translate('Created'), 'created')
+                : $this->browse()->renderHeaderCell($translate('Modified'), 'modified'); ?>
         </tr>
     </thead>
     <tbody>

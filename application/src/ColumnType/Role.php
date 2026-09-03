@@ -3,25 +3,17 @@ namespace Omeka\ColumnType;
 
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Representation\AbstractEntityRepresentation;
-use Omeka\Site\Theme\Manager as ThemeManager;
 
-class Theme implements ColumnTypeInterface
+class Role implements ColumnTypeInterface
 {
-    protected $themeManager;
-
-    public function __construct(ThemeManager $themeManager)
-    {
-        $this->themeManager = $themeManager;
-    }
-
     public function getLabel(): string
     {
-        return 'Theme'; // @translate
+        return 'Role'; // @translate
     }
 
     public function getResourceTypes(): array
     {
-        return ['sites'];
+        return ['users'];
     }
 
     public function getMaxColumns(): ?int
@@ -36,7 +28,7 @@ class Theme implements ColumnTypeInterface
 
     public function getSortBy(array $data): ?string
     {
-        return null;
+        return 'role';
     }
 
     public function renderHeader(PhpRenderer $view, array $data): string
@@ -46,6 +38,6 @@ class Theme implements ColumnTypeInterface
 
     public function renderContent(PhpRenderer $view, AbstractEntityRepresentation $resource, array $data): ?string
     {
-        return $view->escapeHtml($this->themeManager->getTheme($resource->theme())->getName());
+        return $view->escapeHtml($view->translate($resource->displayRole()));
     }
 }

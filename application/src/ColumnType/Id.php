@@ -13,7 +13,7 @@ class Id implements ColumnTypeInterface
 
     public function getResourceTypes(): array
     {
-        return ['items', 'item_sets', 'media'];
+        return ['items', 'item_sets', 'media', 'users'];
     }
 
     public function getMaxColumns(): ?int

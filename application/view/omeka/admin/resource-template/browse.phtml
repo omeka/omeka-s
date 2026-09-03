@@ -23,9 +23,9 @@ $this->htmlElement('body')->appendAttribute('class', 'resource-templates browse'
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><?php echo $translate('Label'); ?></th>
-            <th><?php echo $translate('Class'); ?></th>
-            <th><?php echo $translate('Owner'); ?></th>
+            <?php echo $this->browse()->renderHeaderCell($translate('Label'), 'label'); ?>
+            <?php echo $this->browse()->renderHeaderCell($translate('Class'), 'resource_class_label'); ?>
+            <?php echo $this->browse()->renderHeaderCell($translate('Owner'), 'owner_name'); ?>
         </tr>
     </thead>
     <tbody>

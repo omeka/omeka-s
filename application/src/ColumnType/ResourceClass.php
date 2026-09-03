@@ -38,6 +38,6 @@ class ResourceClass implements ColumnTypeInterface
 
     public function renderContent(PhpRenderer $view, AbstractEntityRepresentation $resource, array $data): ?string
     {
-        return $view->translate($resource->displayResourceClassLabel());
+        return $view->escapeHtml($view->translate($resource->displayResourceClassLabel()));
     }
 }

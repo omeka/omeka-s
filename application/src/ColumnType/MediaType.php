@@ -38,6 +38,6 @@ class MediaType implements ColumnTypeInterface
 
     public function renderContent(PhpRenderer $view, AbstractEntityRepresentation $resource, array $data): ?string
     {
-        return $resource->mediaType();
+        return $view->escapeHtml($resource->mediaType());
     }
 }

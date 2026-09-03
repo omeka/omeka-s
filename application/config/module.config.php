@@ -943,6 +943,8 @@ return [
             ['#^https?://([a-z]{2}|www)\.pinterest\.com(\.(au|mx))?/#i', 'https://www.pinterest.com/oembed.json'],
             ['#^https?://(www\.)?wolframcloud\.com/obj/#i', 'https://www.wolframcloud.com/oembed'],
             ['#^https?://bsky.app/profile/.*/post/#i', 'https://embed.bsky.app/oembed'],
+            ['#^https?://(www\.)?canal\-u\.tv/embed/#i', 'https://www.canal-u.tv/oembed'],
+            ['#^https?://(www\.)?canal\-u\.tv/chaines/#i', 'https://www.canal-u.tv/oembed'],
         ],
     ],
     'mail' => [

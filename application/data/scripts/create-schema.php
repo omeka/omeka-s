@@ -27,7 +27,7 @@ $user = escapeshellarg($testConfig['connection']['user']);
 $password = escapeshellarg($testConfig['connection']['password']);
 $dbname = escapeshellarg($testConfig['connection']['dbname']);
 $schemaSql = 'SET FOREIGN_KEY_CHECKS = 0;' . PHP_EOL;
-$schemaSql .= shell_exec("mysqldump --compact --user $user --password=$password $dbname");
+$schemaSql .= shell_exec("mysqldump --compact --no-tablespaces --user $user --password=$password $dbname");
 $schemaSql .= 'SET FOREIGN_KEY_CHECKS = 1;' . PHP_EOL;
 $schemaSql = preg_replace('/\/\*.+\*\/;\n/', '', $schemaSql);
 file_put_contents('application/data/install/schema.sql', $schemaSql);

@@ -38,6 +38,6 @@ class Slug implements ColumnTypeInterface
 
     public function renderContent(PhpRenderer $view, AbstractEntityRepresentation $resource, array $data): ?string
     {
-        return $resource->slug();
+        return $view->escapeHtml($resource->slug());
     }
 }

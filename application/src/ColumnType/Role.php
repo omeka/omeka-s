@@ -38,6 +38,6 @@ class Role implements ColumnTypeInterface
 
     public function renderContent(PhpRenderer $view, AbstractEntityRepresentation $resource, array $data): ?string
     {
-        return $view->translate($resource->displayRole());
+        return $view->escapeHtml($view->translate($resource->displayRole()));
     }
 }

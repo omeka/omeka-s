@@ -46,6 +46,6 @@ class Theme implements ColumnTypeInterface
 
     public function renderContent(PhpRenderer $view, AbstractEntityRepresentation $resource, array $data): ?string
     {
-        return $this->themeManager->getTheme($resource->theme())->getName();
+        return $view->escapeHtml($this->themeManager->getTheme($resource->theme())->getName());
     }
 }

@@ -8,15 +8,22 @@ use Omeka\Module;
 use Omeka\Mvc\Exception as MvcException;
 use Omeka\View\Model\ApiJsonModel;
 use Omeka\View\Renderer\ApiJsonRenderer;
+use Exception;
+use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\EventManager\EventManager;
-use Laminas\View\Strategy\JsonStrategy;
+use Laminas\EventManager\EventManagerInterface;
 use Laminas\View\ViewEvent;
 
 /**
  * View strategy for returning JSON from the API.
+ *
+ * Selects the renderer for ApiJsonModel requests and injects the response
+ * with the rendered content, HTTP status code, Omeka-S-Version header,
+ * and the correct Content-Type for the output format.
  */
-class ApiJsonStrategy extends JsonStrategy
+class ApiJsonStrategy extends AbstractListenerAggregate
 {
+    protected $renderer;
     /**
      * Output formats and their media types.
      */
@@ -32,9 +39,6 @@ class ApiJsonStrategy extends JsonStrategy
 
     /**
      * Constructor, sets the renderer object
-     *
-     * @param ApiJsonRenderer
-     * @param EventManager
      */
     public function __construct(ApiJsonRenderer $renderer, EventManager $eventManager)
     {
@@ -42,6 +46,18 @@ class ApiJsonStrategy extends JsonStrategy
         $this->eventManager = $eventManager;
     }
 
+    /**
+     * Attach listeners for renderer selection and response injection.
+     */
+    public function attach(EventManagerInterface $events, $priority = 1)
+    {
+        $this->listeners[] = $events->attach(ViewEvent::EVENT_RENDERER, [$this, 'selectRenderer'], $priority);
+        $this->listeners[] = $events->attach(ViewEvent::EVENT_RESPONSE, [$this, 'injectResponse'], $priority);
+    }
+
+    /**
+     * Return our renderer if the model is an ApiJsonModel, otherwise do nothing.
+     */
     public function selectRenderer(ViewEvent $e)
     {
         $model = $e->getModel();
@@ -56,6 +72,9 @@ class ApiJsonStrategy extends JsonStrategy
         return $this->renderer;
     }
 
+    /**
+     * Inject the response with content, status code, and headers.
+     */
     public function injectResponse(ViewEvent $e)
     {
         // Test this again here to avoid running our extra code for non-API
@@ -66,23 +85,30 @@ class ApiJsonStrategy extends JsonStrategy
             return;
         }
 
-        parent::injectResponse($e);
+        $result = $e->getResult();
+        $response = $e->getResponse();
+        $headers = $response->getHeaders();
+
+        if (is_string($result)) {
+            $response->setContent($result);
+        }
 
         $model = $e->getModel();
-        $e->getResponse()->setStatusCode($this->getResponseStatusCode($model));
-        $e->getResponse()->getHeaders()->addHeaderLine('Omeka-S-Version', Module::VERSION);
+        $response->setStatusCode($this->getResponseStatusCode($model));
+        $headers->addHeaderLine('Omeka-S-Version', Module::VERSION);
 
         // Add the correct Content-Type header for the output format.
-        $e->getResponse()->getHeaders()->addHeaderLine('Content-Type', $this->formats[$this->getFormat($model)]);
+        if ($this->renderer->hasJsonpCallback()) {
+            $headers->addHeaderLine('Content-Type', 'text/javascript');
+        } else {
+            $headers->addHeaderLine('Content-Type', $this->formats[$this->getFormat($model)]);
+        }
     }
 
     /**
      * Get the HTTP status code for an API response.
-     *
-     * @param \Omeka\View\Model\ApiJsonModel $response
-     * @return int
      */
-    protected function getResponseStatusCode(ApiJsonModel $model)
+    protected function getResponseStatusCode(ApiJsonModel $model): int
     {
         $response = $model->getApiResponse();
         $exception = $model->getException();
@@ -92,7 +118,7 @@ class ApiJsonStrategy extends JsonStrategy
                 return 204; // No Content
             }
             return 200; // OK
-        } elseif ($exception instanceof \Exception) {
+        } elseif ($exception instanceof Exception) {
             return $this->getStatusCodeForException($exception);
         } else {
             return 200;
@@ -101,11 +127,8 @@ class ApiJsonStrategy extends JsonStrategy
 
     /**
      * Get a status code based on the type of an exception (or lack thereof).
-     *
-     * @param \Exception|null $exception
-     * @return int
      */
-    protected function getStatusCodeForException(?\Exception $exception = null)
+    protected function getStatusCodeForException(?Exception $exception = null): int
     {
         if ($exception instanceof MvcException\InvalidJsonException) {
             return 400; // Bad Request
@@ -127,11 +150,8 @@ class ApiJsonStrategy extends JsonStrategy
 
     /**
      * Get the recognized output format.
-     *
-     * @param ApiJsonModel $model
-     * @return string|null
      */
-    protected function getFormat(ApiJsonModel $model)
+    protected function getFormat(ApiJsonModel $model): string
     {
         // Allow modules to register formats.
         $args = $this->eventManager->prepareArgs(['formats' => $this->formats]);

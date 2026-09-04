@@ -109,7 +109,28 @@ class ApiJsonStrategyTest extends TestCase
         $this->strategy->injectResponse($this->event);
 
         $headers = $this->event->getResponse()->getHeaders();
-        $expectedContentType = 'application/json; charset=utf-8';
+        $expectedContentType = 'application/ld+json';
         $this->assertEquals($expectedContentType, $headers->get('Content-Type')->getFieldValue());
+    }
+
+    public function testStrategySetsJsonpContentType()
+    {
+        $apiResponse = $this->createMock('Omeka\Api\Response');
+
+        $model = $this->createMock('Omeka\View\Model\ApiJsonModel');
+        $model->expects($this->once())
+              ->method('getApiResponse')
+              ->will($this->returnValue($apiResponse));
+
+        $this->renderer->expects($this->any())
+                       ->method('hasJsonpCallback')
+                       ->will($this->returnValue(true));
+
+        $this->event->setModel($model);
+        $this->event->setRenderer($this->renderer);
+        $this->strategy->injectResponse($this->event);
+
+        $headers = $this->event->getResponse()->getHeaders();
+        $this->assertEquals('text/javascript', $headers->get('Content-Type')->getFieldValue());
     }
 }

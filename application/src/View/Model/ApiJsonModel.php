@@ -2,13 +2,22 @@
 
 namespace Omeka\View\Model;
 
-use Laminas\View\Model\JsonModel;
+use Exception;
+use Laminas\View\Model\ViewModel;
 
 /**
  * View model for JSON responses from the API.
+ *
+ * Carries the API response object and any thrown exception through the
+ * view layer to the renderer. Set as terminal to prevent layout wrapping.
  */
-class ApiJsonModel extends JsonModel
+class ApiJsonModel extends ViewModel
 {
+    /**
+     * Terminate rendering after this model to prevent layout wrapping.
+     */
+    protected $terminate = true;
+
     /**
      * Key that stores the API response in the view variables
      */
@@ -25,7 +34,7 @@ class ApiJsonModel extends JsonModel
      * The API response object can be passed here directly as the first
      * argument.
      *
-     * @param \Omeka\Api\Response $apiResponse API response object
+     * @param \Omeka\Api\Response|array|null $apiResponse API response object
      * @param array|\Traversable $options
      */
     public function __construct($apiResponse = null, $options = null)
@@ -37,7 +46,7 @@ class ApiJsonModel extends JsonModel
     /**
      * Get the API response object stored on the model.
      *
-     * @return \Omeka\Api\Response
+     * @return \Omeka\Api\Response|array|null
      */
     public function getApiResponse()
     {
@@ -47,29 +56,25 @@ class ApiJsonModel extends JsonModel
     /**
      * Set the API response object on this model.
      *
-     * @param \Omeka\Api\Response $apiResponse
+     * @param \Omeka\Api\Response|array|null $apiResponse
      */
-    public function setApiResponse($apiResponse)
+    public function setApiResponse($apiResponse): void
     {
         $this->setVariable(self::API_RESPONSE_KEY, $apiResponse);
     }
 
     /**
      * Get the exception stored on the model.
-     *
-     * @return \Exception|null
      */
-    public function getException()
+    public function getException(): ?Exception
     {
         return $this->getVariable(self::EXCEPTION_KEY);
     }
 
     /**
      * Set the exception on this model.
-     *
-     * @param \Exception $exception
      */
-    public function setException(\Exception $exception)
+    public function setException(Exception $exception): void
     {
         $this->setVariable(self::EXCEPTION_KEY, $exception);
     }

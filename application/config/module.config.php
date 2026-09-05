@@ -584,6 +584,7 @@ return [
             'is_active' => ColumnType\IsActive::class,
             'is_open' => ColumnType\IsOpen::class,
             'is_public' => ColumnType\IsPublic::class,
+            'item_count' => ColumnType\ItemCount::class,
             'media_type' => ColumnType\MediaType::class,
             'modified' => ColumnType\Modified::class,
             'name' => ColumnType\Name::class,

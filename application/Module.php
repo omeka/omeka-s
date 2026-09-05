@@ -193,14 +193,7 @@ class Module extends AbstractModule
             function (LaminasEvent $event) {
                 $view = $event->getTarget();
                 // Get the favicon asset ID.
-                if ($view->status()->isSiteRequest()) {
-                    $faviconAssetId = $view->siteSetting('favicon');
-                    if (!is_numeric($faviconAssetId)) {
-                        $faviconAssetId = $view->setting('favicon');
-                    }
-                } else {
-                    $faviconAssetId = $view->setting('favicon');
-                }
+                $faviconAssetId = $view->fallbackSetting('favicon', ['site', 'global']);
                 // Get the favicon href.
                 if (is_numeric($faviconAssetId)) {
                     $faviconAsset = $view->api()->searchOne('assets', ['id' => $faviconAssetId])->getContent();

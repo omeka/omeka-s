@@ -1,53 +1,62 @@
 'use strict';
 
-var child_process = require('child_process');
-var readline = require('readline');
-var path = require('path');
+const child_process = require('child_process');
+const readline = require('readline');
+const path = require('path');
 
-var Promise = require('bluebird');
-var dateFormat = require('dateformat');
-var minimist = require('minimist');
+const dateFormat = require('dateformat');
+const minimist = require('minimist');
 
-var gulp = require('gulp');
-var replace = require('gulp-replace');
-var rename = require('gulp-rename');
-var zip = require('gulp-zip');
+const gulp = require('gulp');
+const replace = require('gulp-replace');
+const rename = require('gulp-rename');
+const zip = require('gulp-zip');
 
-var fs = require('fs');
-Promise.promisifyAll(fs);
-var glob = Promise.promisify(require('glob'));
-var rimraf = Promise.promisify(require('rimraf'));
-var tmp = require('tmp');
-var tmpFile = Promise.promisify(tmp.file, {multiArgs: true});
+const fs = require('fs/promises');
+const {createWriteStream} = require('fs');
+const {glob} = require('glob');
+const tmp = require('tmp');
 tmp.setGracefulCleanup();
 
-var sass = require('gulp-sass')(require('sass'));
-var postcss = require('gulp-postcss');
-var autoprefixer = require('autoprefixer');
+const sass = require('gulp-sass')(require('sass'));
+const postcss = require('gulp-postcss');
+const autoprefixer = require('autoprefixer');
 
-var composerDir = __dirname + '/vendor/bin';
-var buildDir = __dirname + '/build';
-var dataDir = __dirname + '/application/data';
-var scriptsDir = dataDir + '/scripts';
-var langDir = __dirname + '/application/language';
-var pot = langDir + '/template.pot';
+const composerDir = __dirname + '/vendor/bin';
+const buildDir = __dirname + '/build';
+const dataDir = __dirname + '/application/data';
+const scriptsDir = dataDir + '/scripts';
+const langDir = __dirname + '/application/language';
+const pot = langDir + '/template.pot';
 
-var cliOptions = minimist(process.argv.slice(2), {
+const cliOptions = minimist(process.argv.slice(2), {
     string: ['php-path', 'module-name', 'port', 'host', 'db-path'],
     boolean: 'dev',
     alias: {'module-name': 'module'},
     default: {'php-path': 'php', 'dev': true, 'module-name': null}
 });
 
+function tmpFile(options) {
+    return new Promise(function(resolve, reject) {
+        tmp.file(options, function (err, path, fd) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve({path, fd});
+            }
+        });
+    });
+}
+
 function ensureBuildDir() {
-    return fs.promises.mkdir(buildDir + '/cache', {recursive: true});
+    return fs.mkdir(buildDir + '/cache', {recursive: true});
 }
 
 function download(url, path) {
     return ensureBuildDir().then(function () {
         return new Promise(function (resolve, reject) {
-            var https = require('https');
-            var file = fs.createWriteStream(path);
+            const https = require('https');
+            const file = createWriteStream(path);
             file.on('finish', function () {
                 resolve();
             });
@@ -83,79 +92,80 @@ function runPhpCommand(cmd, args, options, resolveWith) {
     return runCommand(cliOptions['php-path'], [cmd].concat(args), options, resolveWith);
 }
 
-function composer(args, options) {
-    var composerPath = buildDir + '/composer.phar';
-    var installerPath = buildDir + '/composer-installer';
-    var installerUrl = 'https://getcomposer.org/installer';
-    var stat = Promise.promisify(fs.stat);
+async function composer(args, options) {
+    const composerPath = buildDir + '/composer.phar';
+    const installerPath = buildDir + '/composer-installer';
+    const installerUrl = 'https://getcomposer.org/installer';
 
-    return stat(composerPath).catch(function (e) {
-        return download(installerUrl, installerPath).then(function () {
-            return runPhpCommand(installerPath, ['--2'], {cwd: buildDir});
-        });
-    }).then(function () {
-        return runPhpCommand(composerPath, ['self-update', '--2']);
-    }).then(function () {
-        if (!cliOptions['dev']) {
-            args.push('--no-dev');
-        }
-        return runPhpCommand(composerPath, args, options);
-    });
+    try {
+        await fs.stat(composerPath);
+    } catch (e) {
+        await download(installerUrl, installerPath);
+        await runPhpCommand(installerPath, ['--2'], {cwd: buildDir});
+    }
+    await runPhpCommand(composerPath, ['self-update', '--2']);
+
+    if (!cliOptions['dev']) {
+        args.push('--no-dev');
+    }
+    return runPhpCommand(composerPath, args, options);
 }
 
-function ensureModuleUsesComposer(modulePath) {
-    var composerPath = path.join(modulePath, 'composer.json');
-    return fs.statAsync(composerPath).then(
-        function () { return modulePath; },
-        function () { throw new Error('No composer.json found in this module.'); }
-    );
+async function ensureModuleUsesComposer(modulePath) {
+    const composerPath = path.join(modulePath, 'composer.json');
+    try {
+        await fs.stat(composerPath);
+        return modulePath;
+    } catch (e) {
+        throw new Error('No composer.json found in this module.');
+    }
 }
 
 function cssToSass(dir) {
-    return gulp.src(dir + '/asset/sass/**/*.scss')
-        .pipe(sass({
-            outputStyle: 'compressed',
-            includePaths: ['node_modules/susy/sass']
-        }).on('error', sass.logError))
-        .pipe(postcss([autoprefixer()]))
-        .pipe(gulp.dest(dir + '/asset/css'));
-}
-
-function i18nXgettext(dir, ignore) {
-    return glob('**/*.{php,phtml}', {ignore: ignore, cwd: dir}).then(function (files) {
-        return tmpFile({postfix: 'xgettext.pot'}).spread(function (path, fd) {
-            var args = ['--language=php', '--from-code=utf-8', '--keyword=translate', '-o', path];
-            return runCommand('xgettext', args.concat(files), {cwd: dir}, path);
-        });
+    return new Promise(function (resolve, reject) {
+        gulp.src(dir + '/asset/sass/**/*.scss')
+            .pipe(sass({
+                outputStyle: 'compressed',
+                includePaths: ['node_modules/susy/sass']
+            }).on('error', sass.logError))
+            .pipe(postcss([autoprefixer()]))
+            .pipe(gulp.dest(dir + '/asset/css'))
+            .on('error', reject)
+            .on('end', resolve);
     });
 }
 
-function i18nTaggedStrings(dir) {
-    return tmpFile({postfix: 'tagged.pot'}).spread(function (path, fd) {
-        return runPhpCommand(composerDir + '/extract-tagged-strings.php', [],
-            {stdio: ['pipe', fd, process.stderr], cwd: dir}, path);
-    });
+async function i18nXgettext(dir, ignore) {
+    const files = await glob('**/*.{php,phtml}', {ignore: ignore, cwd: dir, nodir: true});
+    files.sort();
+    const {path} = await tmpFile({postfix: 'xgettext.pot'});
+    const args = ['--language=php', '--from-code=utf-8', '--keyword=translate', '-o', path];
+    return runCommand('xgettext', args.concat(files), {cwd: dir}, path);
 }
 
-function i18nVocabStrings() {
-    return tmpFile({postfix: 'vocab.pot'}).spread(function (path, fd) {
-        return runPhpCommand(scriptsDir + '/extract-vocab-strings.php', [],
-            {stdio: ['pipe', fd, process.stderr]}, path);
-    });
+async function i18nTaggedStrings(dir) {
+    const {path, fd} = await tmpFile({postfix: 'tagged.pot'});
+    return runPhpCommand(composerDir + '/extract-tagged-strings.php', [], {stdio: ['pipe', fd, process.stderr], cwd: dir}, path);
 }
 
-function i18nStaticStrings(dir) {
-    var staticPath = path.join(dir, 'language', 'template.static.pot');
-    return fs.statAsync(staticPath).then(function () {
+async function i18nVocabStrings() {
+    const {path, fd} = await tmpFile({postfix: 'vocab.pot'});
+    return runPhpCommand(scriptsDir + '/extract-vocab-strings.php', [], {stdio: ['pipe', fd, process.stderr]}, path);
+}
+
+async function i18nStaticStrings(dir) {
+    const staticPath = path.join(dir, 'language', 'template.static.pot');
+    try {
+        await fs.stat(staticPath);
         return staticPath;
-    }).catch(function (e) {
+    } catch (e) {
         return null;
-    });
+    }
 }
 
-function getModulePath() {
-    var modulePath;
-    var moduleName = cliOptions['module-name'];
+async function getModulePath() {
+    let modulePath;
+    const moduleName = cliOptions['module-name'];
 
     if (moduleName) {
         modulePath = path.join(__dirname, 'modules', moduleName);
@@ -164,19 +174,17 @@ function getModulePath() {
     }
 
     if (!modulePath) {
-        return Promise.reject(new Error('No module given! Run gulp from within the module, or use --module-name to specify the module to work on.'));
+        throw new Error('No module given! Run gulp from within the module, or use --module-name to specify the module to work on.');
     }
-    return fs.statAsync(modulePath).then(function (stats) {
-        if (!stats.isDirectory()) {
-            return Promise.reject(new Error('Invalid module given! (not a directory)'))
-        }
-
-        return modulePath;
-    });
+    const stats = await fs.stat(modulePath);
+    if (!stats.isDirectory()) {
+        throw new Error('Invalid module given! (not a directory)');
+    }
+    return modulePath;
 }
 
 function getCurrentModulePath() {
-    var relativePathSegs = path.relative(process.cwd(), process.env.INIT_CWD).split(path.sep);
+    const relativePathSegs = path.relative(process.cwd(), process.env.INIT_CWD).split(path.sep);
     if (relativePathSegs.length < 2 || relativePathSegs[0] !== 'modules') {
         return false;
     }
@@ -184,11 +192,11 @@ function getCurrentModulePath() {
 }
 
 function compileToMo(file) {
-    var outFile = path.join(path.dirname(file), path.basename(file, '.po') + '.mo');
+    const outFile = path.join(path.dirname(file), path.basename(file, '.po') + '.mo');
     return runCommand('msgfmt', [file, '-o', outFile]);
 }
 
-function phpCsFixer(fix, modulePath) {
+async function phpCsFixer(fix, modulePath) {
     let args = ['fix', '--verbose'];
     if (!fix) {
         args = args.concat(['--dry-run', '--diff']);
@@ -202,9 +210,8 @@ function phpCsFixer(fix, modulePath) {
     } else {
         args.push('--cache-file=build/cache/.php_cs.cache');
     }
-    return ensureBuildDir().then(function () {
-        return runCommand('vendor/bin/php-cs-fixer', args);
-    });
+    await ensureBuildDir();
+    return runCommand('vendor/bin/php-cs-fixer', args);
 }
 
 function taskCss() {
@@ -219,21 +226,17 @@ function taskCssWatch() {
 taskCssWatch.description = 'Watch for core sass changes and auto-build css';
 gulp.task('css:watch', taskCssWatch);
 
-function taskCssModule() {
-    var modulePathPromise = getModulePath();
-    return modulePathPromise.then(function(modulePath) {
-        return cssToSass(modulePath);
-    });
+async function taskCssModule() {
+    const modulePath = await getModulePath();
+    return cssToSass(modulePath);
 }
 taskCssModule.description = 'Build css for a module';
 taskCssModule.flags = {'--module-name': 'Folder name of the module to build for (required)'};
 gulp.task('css:module', taskCssModule);
 
-function taskCssModuleWatch() {
-    var modulePathPromise = getModulePath();
-    modulePathPromise.then(function(modulePath) {
-        gulp.watch(modulePath + '/asset/sass/**/*.scss', gulp.parallel('css:module'));
-    });
+async function taskCssModuleWatch() {
+    const modulePath = await getModulePath();
+    gulp.watch(modulePath + '/asset/sass/**/*.scss', gulp.parallel('css:module'));
 }
 taskCssModuleWatch.description = 'Watch for module sass changes and auto-build css';
 taskCssModuleWatch.flags = {'--module-name': 'Folder name of the module to watch for (required)'};
@@ -245,32 +248,27 @@ function taskTestCs() {
 taskTestCs.description = 'Check code standards';
 gulp.task('test:cs', taskTestCs);
 
-function taskTestModuleCs() {
-    return ensureBuildDir()
-        .then(getModulePath)
-        .then(function (modulePath) {
-            return phpCsFixer(false, modulePath);
-        }
-    );
+async function taskTestModuleCs() {
+    const modulePath = await getModulePath();
+    return phpCsFixer(false, modulePath);
 }
 taskTestModuleCs.description = 'Check code standards for a module';
 taskTestModuleCs.flags = {'--module-name': 'Folder name of the module to check'};
 gulp.task('test:module:cs', taskTestModuleCs);
 
-function taskTestPhp() {
-    return ensureBuildDir().then(function () {
-        return runCommand(composerDir + '/phpunit', [
-            '-d',
-            'date.timezone=America/New_York',
-            '--log-junit',
-            buildDir + '/test-results.xml'
-        ], {cwd: 'application/test'});
-    });
+async function taskTestPhp() {
+    await ensureBuildDir();
+    return runCommand(composerDir + '/phpunit', [
+        '-d',
+        'date.timezone=America/New_York',
+        '--log-junit',
+        buildDir + '/test-results.xml'
+    ], {cwd: 'application/test'});
 }
 taskTestPhp.description = 'Run PHPUnit automated tests';
 gulp.task('test:php', taskTestPhp);
 
-var taskTest = gulp.series('test:cs', 'test:php');
+const taskTest = gulp.series('test:cs', 'test:php');
 taskTest.description = 'Run all tests';
 gulp.task('test', taskTest);
 
@@ -280,13 +278,9 @@ function taskFixCs() {
 taskFixCs.description = 'Fix code standards';
 gulp.task('fix:cs', taskFixCs);
 
-function taskFixModuleCs() {
-    return ensureBuildDir()
-        .then(getModulePath)
-        .then(function (modulePath) {
-            return phpCsFixer(true, modulePath);
-        }
-    );
+async function taskFixModuleCs() {
+    const modulePath = await getModulePath();
+    return phpCsFixer(true, modulePath);
 }
 taskFixModuleCs.description = 'Fix code standards for a module';
 taskFixModuleCs.flags = {'--module-name': 'Folder name of the module to fix'};
@@ -298,13 +292,10 @@ function taskDeps() {
 taskDeps.description = 'Install Composer dependencies';
 gulp.task('deps', taskDeps);
 
-function taskDepsModule() {
-    return getModulePath()
-        .then(ensureModuleUsesComposer)
-        .then(function (modulePath) {
-            return composer(['install'], {cwd: modulePath})
-        }
-    );
+async function taskDepsModule() {
+    const modulePath = await getModulePath();
+    await ensureModuleUsesComposer(modulePath);
+    return composer(['install'], {cwd: modulePath});
 }
 taskDepsModule.description = 'Install Composer dependencies for a module';
 taskDepsModule.flags = {'--module-name': 'Folder name of the module'};
@@ -316,20 +307,17 @@ function taskDepsUpdate() {
 taskDepsUpdate.description = 'Update locked Composer dependencies';
 gulp.task('deps:update', taskDepsUpdate);
 
-function taskDepsModuleUpdate() {
-    return getModulePath()
-        .then(ensureModuleUsesComposer)
-        .then(function (modulePath) {
-            return composer(['update'], {cwd: modulePath});
-        }
-    );
+async function taskDepsModuleUpdate() {
+    const modulePath = await getModulePath();
+    await ensureModuleUsesComposer(modulePath);
+    return composer(['update'], {cwd: modulePath});
 }
 taskDepsModuleUpdate.description = 'Update locked Composer dependencies for a module';
 taskDepsModuleUpdate.flags = {'--module-name': 'Folder name of the module'};
 gulp.task('deps:module:update', taskDepsModuleUpdate);
 
 function taskDepsJs(cb) {
-    var deps = {
+    const deps = {
         'chosen-js': ['**', '!*.proto.*'],
         //'ckeditor4': ['**', '!samples/**'],
         'compare-versions': 'lib/umd/index.js',
@@ -342,13 +330,13 @@ function taskDepsJs(cb) {
         'sortablejs': 'Sortable.min.js',
         'tablesaw': 'dist/stackonly/**'
     };
-    var depRenames = {
+    const depRenames = {
         //'ckeditor4': 'ckeditor'
     };
 
     Object.keys(deps).forEach(function (module) {
-        var moduleDeps = deps[module];
-        var dest = depRenames.hasOwnProperty(module) ? depRenames[module] : module;
+        let moduleDeps = deps[module];
+        const dest = depRenames.hasOwnProperty(module) ? depRenames[module] : module;
         if (!(moduleDeps instanceof Array)) {
             moduleDeps = [moduleDeps];
         }
@@ -390,9 +378,9 @@ gulp.task('db:proxies', taskDbProxies);
 
 function taskDbCreateMigration() {
     return new Promise(function(resolve, reject) {
-        var now = new Date();
-        var timestamp = dateFormat(now, 'UTC:yyyymmddhhMMss');
-        var rl = readline.createInterface({input: process.stdin, output: process.stdout});
+        const now = new Date();
+        const timestamp = dateFormat(now, 'UTC:yyyymmddhhMMss');
+        const rl = readline.createInterface({input: process.stdin, output: process.stdout});
         rl.question('Migration name (UpperCamelCased): ', function (migrationName) {
             rl.close();
             gulp.src(dataDir + '/build/migration.php.tpl')
@@ -406,89 +394,64 @@ function taskDbCreateMigration() {
 taskDbCreateMigration.description = 'Create new blank DB migration';
 gulp.task('db:create-migration', taskDbCreateMigration);
 
-var taskDb = gulp.series('db:schema', 'db:proxies');
+const taskDb = gulp.series('db:schema', 'db:proxies');
 taskDb.description = 'Update database files following entity changes';
 gulp.task('db', taskDb);
 
-function taskI18nTemplate() {
-    return Promise.all([
+async function taskI18nTemplate() {
+    const tempFiles = await Promise.all([
         i18nXgettext('.', ['themes/**', 'modules/**']),
         i18nTaggedStrings('.'),
         i18nVocabStrings()
-    ]).then(function (tempFiles) {
-        return runCommand('msgcat', tempFiles.concat(['--use-first', '-o', pot]));
-    });
+    ]);
+    return runCommand('msgcat', tempFiles.concat(['--use-first', '-o', pot]));
 }
 taskI18nTemplate.description = 'Update translation template';
 gulp.task('i18n:template', taskI18nTemplate);
 
-function taskI18nCompile() {
-    return glob('application/language/*.po').then(function (files) {
-        return Promise.all(files.map(compileToMo));
-    });
+async function taskI18nCompile() {
+    const files = await glob('application/language/*.po');
+    return Promise.all(files.map(compileToMo));
 }
 taskI18nCompile.description = 'Build translation files';
 gulp.task('i18n:compile', taskI18nCompile);
 
-function taskI18nDebug() {
-    var debugPo = path.join(langDir, 'debug.po');
-    return runCommand('podebug', ['-i', pot, '-o', debugPo, '--rewrite=unicode']).then(function () {
-        return compileToMo(debugPo);
-    });
+async function taskI18nDebug() {
+    const debugPo = path.join(langDir, 'debug.po');
+    await runCommand('podebug', ['-i', pot, '-o', debugPo, '--rewrite=unicode']);
+    return compileToMo(debugPo);
 }
 taskI18nDebug.description = 'Create debugging dummy translation file (debug.po)';
 gulp.task('i18n:debug', taskI18nDebug);
 
-function taskI18nModuleTemplate() {
-    var modulePathPromise = getModulePath();
-    var preDedupePromise = modulePathPromise.then(function (modulePath) {
-        return Promise.all([
-            i18nXgettext(modulePath),
-            i18nTaggedStrings(modulePath),
-            i18nStaticStrings(modulePath)
-        ]);
-    }).then(function (tempFiles) {
-        return tmpFile({postfix: 'module-prededupe.pot'}).spread(function (path, fd) {
-            tempFiles = tempFiles.filter(function (path) {
-                // Remove null paths.
-                return path;
-            });
-            return runCommand('msgcat', tempFiles.concat(['--use-first', '-o', path]), {}, path);
-        });
-    });
-    var dupesPromise = preDedupePromise.then(function (preDedupePot) {
-        return tmpFile({postfix: 'module-dupes.pot'}).spread(function (path, fd) {
-            return runCommand('msgcomm', ['-o', path, preDedupePot, pot], {}, path);
-        });
-    });
-    var languageDirPromise = modulePathPromise.then(function (modulePath) {
-        var languageDir = path.join(modulePath, 'language');
-        return fs.statAsync(languageDir).then(function (stats) {
-            if (!stats.isDirectory()) {
-                throw new Error('Language dir path exists, but is not a directory!');
-            }
-        }, function () {
-            return fs.mkdirAsync(languageDir);
-        }).then(function () {
-            return languageDir;
-        });
-    })
+async function taskI18nModuleTemplate() {
+    const modulePath = await getModulePath();
+    const potentialTempFiles = await Promise.all([
+        i18nXgettext(modulePath),
+        i18nTaggedStrings(modulePath),
+        i18nStaticStrings(modulePath)
+    ]);
+    const tempFiles = potentialTempFiles.filter(path => path); // remove null paths
+    const {path: preDedupePot} = await tmpFile({postfix: 'module-prededupe.pot'});
+    await runCommand('msgcat', tempFiles.concat(['--use-first', '-o', preDedupePot]));
 
-    return Promise.join(languageDirPromise, preDedupePromise, dupesPromise, function (languageDir, preDedupePot, dupesPot) {
-        var modulePot = path.join(languageDir, 'template.pot');
-        return runCommand('msgcomm', ['--unique', '--to-code=utf-8', '-o', modulePot, preDedupePot, dupesPot]);
-    });
+    const {path: dupesPot} = await tmpFile({postfix: 'module-dupes.pot'});
+    await runCommand('msgcomm', ['-o', dupesPot, preDedupePot, pot]);
+
+    const languageDir = path.join(modulePath, 'language');
+    await fs.mkdir(languageDir, {recursive: true});
+
+    const modulePot = path.join(languageDir, 'template.pot');
+    return runCommand('msgcomm', ['--unique', '--to-code=utf-8', '-o', modulePot, preDedupePot, dupesPot]);
 }
 taskI18nModuleTemplate.description = 'Update translation template for a module';
 taskI18nModuleTemplate.flags = {'--module-name': 'Name of module (required)'};
 gulp.task('i18n:module:template', taskI18nModuleTemplate);
 
-function taskI18nModuleCompile() {
-    return getModulePath().then(function (modulePath) {
-        return glob('language/*.po', {cwd: modulePath, absolute: true}).then(function (files) {
-            return Promise.all(files.map(compileToMo));
-        });
-    });
+async function taskI18nModuleCompile() {
+    const modulePath = getModulePath();
+    const files = await glob('language/*.po', {cwd: modulePath, absolute: true});
+    return Promise.all(files.map(compileToMo));
 }
 taskI18nModuleCompile.description = 'Build translation files for a module';
 taskI18nModuleCompile.flags = {'--module-name': 'Name of module (required)'};
@@ -500,13 +463,13 @@ function taskCreateMediaTypeMap() {
 taskCreateMediaTypeMap.description = 'Update media type to file extension mappings';
 gulp.task('create-media-type-map', taskCreateMediaTypeMap);
 
-var taskInit = gulp.series('dedist', 'deps');
+const taskInit = gulp.series('dedist', 'deps');
 taskInit.description = 'Run first-time setup for a source checkout';
 gulp.task('init', taskInit);
 
-function taskServe() {
-    var port = cliOptions['port'] || 8080;
-    var host = cliOptions['host'] || 'localhost';
+async function taskServe() {
+    const port = cliOptions['port'] || 8080;
+    const host = cliOptions['host'] || 'localhost';
     console.log('Starting PHP development server on http://' + host + ':' + port);
     return runCommand(cliOptions['php-path'], [
         '-S', host + ':' + port,
@@ -517,19 +480,17 @@ taskServe.description = 'Start PHP development server';
 taskServe.flags = {'--port': 'Port number (default: 8080)', '--host': 'Host address (default: localhost)'};
 gulp.task('serve', taskServe);
 
-function taskServeSqlite() {
-    var port = cliOptions['port'] || 8080;
-    var host = cliOptions['host'] || 'localhost';
-    var dbPath = path.resolve(cliOptions['db-path'] || path.join(__dirname, 'db', 'omeka.db'));
-    var dbDir = path.dirname(dbPath);
-    var configPath = path.join(__dirname, 'config', 'database.ini');
+async function taskServeSqlite() {
+    const port = cliOptions['port'] || 8080;
+    const host = cliOptions['host'] || 'localhost';
+    const dbPath = path.resolve(cliOptions['db-path'] || path.join(__dirname, 'db', 'omeka.db'));
+    const dbDir = path.dirname(dbPath);
+    const configPath = path.join(__dirname, 'config', 'database.ini');
 
-    // Ensure db directory exists
-    fs.mkdirSync(dbDir, {recursive: true});
+    await fs.mkdir(dbDir, {recursive: true});
 
-    // Write SQLite database.ini config
-    var configContent = 'driver   = "pdo_sqlite"\npath     = "' + dbPath + '"\n';
-    fs.writeFileSync(configPath, configContent);
+    const configContent = 'driver   = "pdo_sqlite"\npath     = "' + dbPath + '"\n';
+    await fs.writeFile(configPath, configContent);
     console.log('Configured SQLite database at: ' + dbPath);
     console.log('Starting PHP development server on http://' + host + ':' + port);
 
@@ -547,14 +508,15 @@ taskServeSqlite.flags = {
 gulp.task('serve:sqlite', taskServeSqlite);
 
 function taskClean() {
-    return rimraf(buildDir).then(function () {
-        rimraf(__dirname + '/vendor');
-    });
+    return Promise.all([
+        fs.rm(buildDir, {recursive: true, force: true}),
+        fs.rm(__dirname + '/vendor', {recursive: true, force: true})
+    ]);
 }
 taskClean.description = 'Clean build files and installed dependencies';
 gulp.task('clean', taskClean);
 
-var taskZip = gulp.series('clean', 'init', function () {
+const taskZip = gulp.series('clean', 'init', function () {
     return gulp.src(
         [
             './**',

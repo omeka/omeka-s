@@ -11,6 +11,7 @@ use Omeka\Db\QueryBuilder as OmekaQueryBuilder;
 use Omeka\Entity\Item;
 use Omeka\Entity\Media;
 use Omeka\Module\AbstractModule;
+use Omeka\Service\ConnectionFactory;
 use Laminas\EventManager\Event as LaminasEvent;
 use Laminas\EventManager\SharedEventManagerInterface;
 use Laminas\Form\Element;
@@ -728,7 +729,14 @@ class Module extends AbstractModule
         }
         $qb = $event->getParam('queryBuilder');
 
-        $match = 'MATCH(omeka_fulltext_search.title, omeka_fulltext_search.text) AGAINST (:omeka_fulltext_search)';
+        $conn = $this->getServiceLocator()->get('Omeka\Connection');
+        $isSqlite = ConnectionFactory::isSqlite($conn);
+
+        if ($isSqlite) {
+            $match = '(omeka_fulltext_search.title LIKE :omeka_fulltext_search OR omeka_fulltext_search.text LIKE :omeka_fulltext_search)';
+        } else {
+            $match = 'MATCH(omeka_fulltext_search.title, omeka_fulltext_search.text) AGAINST (:omeka_fulltext_search IN BOOLEAN MODE)';
+        }
 
         if ('api.search.query' === $event->getName()) {
 
@@ -736,7 +744,11 @@ class Module extends AbstractModule
             // during "api.search.query" because "api.search.query.finalize"
             // happens after we've already gotten the total count.
 
-            $qb->setParameter('omeka_fulltext_search', $query['fulltext_search']);
+            if ($isSqlite) {
+                $qb->setParameter('omeka_fulltext_search', '%' . $query['fulltext_search'] . '%');
+            } else {
+                $qb->setParameter('omeka_fulltext_search', $query['fulltext_search']);
+            }
 
             $joinConditions = sprintf(
                 'omeka_fulltext_search.id = omeka_root.id AND omeka_fulltext_search.resource = %s',
@@ -745,7 +757,7 @@ class Module extends AbstractModule
             $qb->innerJoin('Omeka\Entity\FulltextSearch', 'omeka_fulltext_search', 'WITH', $joinConditions);
 
             // Filter out resources with no similarity.
-            $qb->andWhere(sprintf('%s > 0', $match));
+            $qb->andWhere($match);
 
             // Set visibility constraints.
             $acl = $this->getServiceLocator()->get('Omeka\Acl');

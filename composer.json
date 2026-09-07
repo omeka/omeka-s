@@ -23,7 +23,7 @@
         "laminas/laminas-eventmanager": "^3.0.1",
         "laminas/laminas-filter": "^2.7.1",
         "laminas/laminas-form": "^3.1.1",
-        "laminas/laminas-http": "^2.5.4",
+        "laminas/laminas-http": "^2.22.0",
         "laminas/laminas-i18n": "^2.7.3",
         "laminas/laminas-i18n-resources": "^2.5.2",
         "laminas/laminas-inputfilter": "^2.7.2",

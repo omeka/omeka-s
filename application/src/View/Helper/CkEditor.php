@@ -14,7 +14,7 @@ class CkEditor extends AbstractHelper
     public function __invoke()
     {
         $view = $this->getView();
-        $customConfigUrl = $view->escapeJs($view->assetUrl('js/ckeditor_config.js', 'Omeka'));
+        $customConfigUrl = $view->escapeJs($view->assetUrl('js/ckeditor_config.js', 'Omeka', true));
         $view->headScript()->appendFile($view->assetUrl('vendor/ckeditor/ckeditor.js', 'Omeka'));
         $view->headScript()->appendFile($view->assetUrl('vendor/ckeditor/adapters/jquery.js', 'Omeka'));
         $view->headScript()->appendScript("CKEDITOR.config.customConfig = '$customConfigUrl'");

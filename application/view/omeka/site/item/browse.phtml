@@ -1,4 +1,6 @@
 <?php
+use Omeka\Api\Representation\ValueRepresentation;
+
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $thumbnail = $this->plugin('thumbnail');
@@ -44,7 +46,10 @@ $headingTerm = $this->siteSetting('browse_heading_property_term');
 $bodyTerm = $this->siteSetting('browse_body_property_term');
 foreach ($items as $item):
     $heading = $headingTerm ? $item->value($headingTerm, ['default' => $translate('[Untitled]'), 'lang' => $valueLang]) : $item->displayTitle(null, $valueLang);
-    $body = $bodyTerm ? $item->value($bodyTerm, ['lang' => $valueLang]) : $item->displayDescription(null, $valueLang);
+    $body = $bodyTerm ? $item->value($bodyTerm, ['lang' => $valueLang]) : $escape($item->displayDescription(null, $valueLang));
+    if ($body instanceof ValueRepresentation) {
+        $body = $body->asHtml();
+    }
 ?>
     <li class="item resource">
         <?php
@@ -54,7 +59,7 @@ foreach ($items as $item):
         echo $item->linkRaw($linkContent, null, ['class' => 'resource-link']);
         ?>
         <?php if ($body): ?>
-        <div class="description"><?php echo $escape($body); ?></div>
+        <div class="description"><?php echo $body; ?></div>
         <?php endif; ?>
     </li>
 <?php endforeach; ?>

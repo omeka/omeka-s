@@ -282,6 +282,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Api\Adapter\AssetAdapter',
                 'Omeka\Api\Adapter\ApiResourceAdapter',
                 'Omeka\Api\Adapter\DataTypeAdapter',
+                'Omeka\Api\Adapter\ValueAnnotationAdapter',
             ],
             [
                 'search',
@@ -299,6 +300,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Entity\Property',
                 'Omeka\Entity\ResourceTemplate',
                 'Omeka\Entity\Asset',
+                'Omeka\Entity\ValueAnnotation',
             ],
             [
                 'read',

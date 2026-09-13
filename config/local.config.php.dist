@@ -1,4 +1,11 @@
 <?php
+
+// The secret key used to encrypt sensitive data is set automatically on
+// install or upgrade in config/secret_key.php. When config/ is unwriteable,
+// it can be set via environment variable OMEKA_SECRET_KEY.
+// An empty key makes secrets stored in clear. Losing it makes encrypted
+// values unrecoverable.
+
 return [
     'logger' => [
         'log' => false,

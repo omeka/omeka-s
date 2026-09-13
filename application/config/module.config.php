@@ -191,6 +191,7 @@ return [
             Installation\Task\InstallDefaultTemplatesTask::class,
             Installation\Task\CreateFirstUserTask::class,
             Installation\Task\AddDefaultSettingsTask::class,
+            Installation\Task\CreateSecretKeyTask::class,
         ],
     ],
     'translator' => [
@@ -260,6 +261,7 @@ return [
             'Omeka\ApiAdapterManager' => Service\ApiAdapterManagerFactory::class,
             'Omeka\ApiManager' => Service\ApiManagerFactory::class,
             'Omeka\AuthenticationService' => Service\AuthenticationServiceFactory::class,
+            'Omeka\Cipher' => Service\Stdlib\CipherFactory::class,
             'Omeka\EntityManager' => Service\EntityManagerFactory::class,
             'Omeka\Installer' => Service\InstallerFactory::class,
             'Omeka\Logger' => Service\LoggerFactory::class,
@@ -446,6 +448,7 @@ return [
             'formAsset' => Form\View\Helper\FormAsset::class,
             'formQuery' => Form\View\Helper\FormQuery::class,
             'formColumns' => Form\View\Helper\FormColumns::class,
+            'formSecret' => Form\View\Helper\FormSecret::class,
             'formBrowseDefaults' => Form\View\Helper\FormBrowseDefaults::class,
             'themeSettingAsset' => View\Helper\ThemeSettingAsset::class,
             'themeSettingAssetUrl' => View\Helper\ThemeSettingAssetUrl::class,
@@ -530,6 +533,9 @@ return [
         'initializers' => [
             Form\Initializer\Csrf::class,
             Form\Initializer\EventManager::class,
+        ],
+        'invokables' => [
+            'Omeka\Form\Element\Secret' => Form\Element\Secret::class,
         ],
         'factories' => [
             'Omeka\Form\ResourceForm' => Service\Form\ResourceFormFactory::class,

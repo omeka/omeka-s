@@ -202,7 +202,7 @@ class ValueRepresentation extends AbstractRepresentation
     public function valueAnnotation()
     {
         $valueAnnotation = $this->value->getValueAnnotation();
-        return $valueAnnotation ? $this->getAdapter('value_annotations')->getRepresentation($valueAnnotation) : null;
+        return $valueAnnotation ? $this->getAdapter('value_annotations')->getRepresentation($valueAnnotation, $this) : null;
     }
 
     /**

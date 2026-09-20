@@ -132,13 +132,48 @@ class Module implements ResourceInterface
     }
 
     /**
-     * Check whether this module is configurable
+     * Check whether this module is configurable.
      *
-     * @return bool
+     * When the key "configurable" is set in module.ini, its value is used.
+     * Otherwise, auto-detection checks the form ConfigForm or the content of
+     * method getConfigForm() via reflection.
      */
-    public function isConfigurable()
+    public function isConfigurable(): bool
     {
-        return (bool) $this->getIni('configurable');
+        $configurable = $this->getIni('configurable');
+        if ($configurable !== null) {
+            return (bool) $configurable;
+        }
+
+        $moduleFilePath = $this->getModuleFilePath();
+        if (!$moduleFilePath) {
+            return false;
+        }
+
+        // Check ConfigForm.
+        $moduleDir = dirname($moduleFilePath);
+        if (file_exists($moduleDir . '/src/Form/ConfigForm.php')) {
+            return true;
+        }
+
+        // Check method in module via Reflection.
+        $moduleClass = $this->getId() . '\Module';
+        if (class_exists($moduleClass, false)) {
+            try {
+                $ref = new \ReflectionMethod($moduleClass, 'getConfigForm');
+                return $ref->getFileName() === realpath($moduleFilePath);
+            } catch (\ReflectionException $e) {
+                return false;
+            }
+        }
+
+        // Check method in module via file when not active.
+        if (file_exists($moduleFilePath)) {
+            $source = file_get_contents($moduleFilePath);
+            return (bool) preg_match('/function\s+getConfigForm\s*\(/', $source);
+        }
+
+        return false;
     }
 
     /**

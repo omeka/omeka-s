@@ -12,9 +12,9 @@ $this->plugin('formRow')->setPartial(null);
 
 <form method="get" class="state-filter">
     <select name="state" aria-label="<?php echo $translate('Filter'); ?>">
-        <option value=""><?php echo $translate('All modules'); ?></option>
+        <option value=""><?php echo sprintf('%s (%d)', $translate('All modules'), $moduleCounts['']); ?></option>
         <?php foreach ($filterStates as $value => $option): ?>
-        <option value="<?php echo $escape($value); ?>"<?php if ($value == $filterState): echo ' selected'; endif; ?>><?php echo $escape($option); ?></option>
+        <option value="<?php echo $escape($value); ?>"<?php if ($value == $filterState): echo ' selected'; endif; ?>><?php echo sprintf('%s (%d)', $escape($option), $moduleCounts[$value]); ?></option>
         <?php endforeach; ?>
     </select>
 </form>

@@ -63,9 +63,23 @@ class ModuleController extends AbstractActionController
             return strcmp(strtolower($a->getName()), strtolower($b->getName()));
         });
 
+        // Count modules per filter state.
+        $allModules = $this->omekaModules->getModules();
+        $moduleCounts = [
+            '' => count($allModules),
+            'active' => count($this->omekaModules->getModulesByState('active')),
+            'not_active' => count($this->omekaModules->getModulesByState('not_active')),
+            'not_installed' => count($this->omekaModules->getModulesByState('not_installed')),
+            'needs_upgrade' => count($this->omekaModules->getModulesByState('needs_upgrade')),
+            'error' => count($this->omekaModules->getModulesByState('not_found'))
+                + count($this->omekaModules->getModulesByState('invalid_module'))
+                + count($this->omekaModules->getModulesByState('invalid_ini')),
+        ];
+
         $view = new ViewModel;
         $view->setVariable('modules', $modules);
         $view->setVariable('filterState', $state);
+        $view->setVariable('moduleCounts', $moduleCounts);
         $view->setVariable('filterStates', [
             'active' => $this->translate('Active'),
             'not_active' => $this->translate('Not active'),

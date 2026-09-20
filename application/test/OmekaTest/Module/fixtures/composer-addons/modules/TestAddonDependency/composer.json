@@ -1,0 +1,21 @@
+{
+    "name": "test/omeka-s-module-test-addon-dependency",
+    "type": "omeka-s-module",
+    "description": "Test module with a composer dependency to verify dependency handling",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Test Author",
+            "email": "test@example.org"
+        }
+    ],
+    "keywords": ["Omeka S", "module", "test"],
+    "extra": {
+        "installer-name": "TestAddonDependency",
+        "label": "Test Addon Dependency"
+    },
+    "require": {
+        "omeka/omeka-s": "^4.0",
+        "laminas/laminas-json": "^3.0"
+    }
+}

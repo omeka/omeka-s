@@ -6,6 +6,11 @@ use Composer\Composer;
 use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
 
+/**
+ * Composer plugin for Omeka S add-on installation.
+ *
+ * Registers the AddonInstaller for modules and themes.
+ */
 class AddonInstallerPlugin implements PluginInterface
 {
     public function activate(Composer $composer, IOInterface $io)

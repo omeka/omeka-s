@@ -22,7 +22,7 @@ new Sortable(mediaList[0], {
 
 $('#media-selector').on('click', 'button.option', function(e) {
     const thisButton = $(this);
-    const type = thisButton.data('media-type');
+    const type = thisButton.val();
     mediaList.append(createMediaFromTemplate(type));
     $('html, body').animate({
         scrollTop: ($('.media-field-wrapper').last().offset().top -100)

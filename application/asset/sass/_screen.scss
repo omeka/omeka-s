@@ -4085,6 +4085,41 @@ input[type=text].query-form-query {
             color: $border-gray;
         }
     }
+
+    .option-sidebar-filter {
+        margin-bottom: $spacing-medium;
+    }
+
+    .option-sidebar-group {
+        margin-bottom: $spacing-medium;
+
+        h4 {
+            margin: 0 0 $spacing-small;
+            font-size: .875 * $base-font-size;
+            color: $copy-gray;
+        }
+    }
+
+    .option-sidebar-pinned {
+        padding-bottom: $spacing-medium;
+        border-bottom: 1px solid $border-gray;
+    }
+
+    .option-sidebar-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .option-sidebar-row.filtered {
+        display: none;
+    }
+
+    .option-sidebar-module {
+        margin-left: auto;
+        padding: 0 $spacing-small;
+        font-size: .75 * $base-font-size;
+    }
 }
 
 #sidebar-confirm {

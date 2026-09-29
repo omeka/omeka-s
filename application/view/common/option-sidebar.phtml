@@ -1,0 +1,61 @@
+<?php
+/**
+ * The body of an "add" sidebar rendered by the optionSidebar view helper.
+ *
+ * The media sidebar sits inside the item form, so every button here has
+ * type="button" and no input has a name. Nothing is submitted with the form or
+ * changes what Omeka.warnIfUnsaved() compares.
+ */
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$showHeadings = (count($groups) + ($pinned ? 1 : 0)) > 1;
+?>
+<div class="option-sidebar" data-sidebar="<?php echo $escape($key); ?>">
+    <?php if ($visibleCount > 10): ?>
+    <input type="search" class="option-sidebar-filter" autocomplete="off"
+        placeholder="<?php echo $escape($translate('Filter')); ?>"
+        aria-label="<?php echo $escape($translate('Filter options')); ?>">
+    <?php endif; ?>
+
+    <?php if ($pinned): ?>
+    <section class="option-sidebar-group option-sidebar-pinned">
+        <?php if ($showHeadings): ?>
+        <h4><?php echo $escape($translate('Pinned')); ?></h4>
+        <?php endif; ?>
+        <ul class="option-sidebar-list">
+            <?php foreach ($pinned as $option): ?>
+            <?php echo $this->partial('common/option-sidebar-row', [
+                'option' => $option,
+                'showModule' => true,
+                'isHidden' => false,
+            ]); ?>
+            <?php endforeach; ?>
+        </ul>
+    </section>
+    <?php endif; ?>
+
+    <?php foreach ($groups as $group): ?>
+    <?php
+    $isModuleGroup = 0 === strpos($group['key'], 'module:');
+    $groupHidden = !array_diff(array_column($group['options'], 'name'), $hidden);
+    ?>
+    <section class="option-sidebar-group" data-group="<?php echo $escape($group['key']); ?>"<?php echo $groupHidden ? ' hidden' : ''; ?>>
+        <?php if ($showHeadings): ?>
+        <h4><?php echo $escape($group['label']); ?></h4>
+        <?php endif; ?>
+        <ul class="option-sidebar-list">
+            <?php foreach ($group['options'] as $option): ?>
+            <?php echo $this->partial('common/option-sidebar-row', [
+                'option' => $option,
+                'showModule' => !$isModuleGroup,
+                'isHidden' => in_array($option['name'], $hidden),
+            ]); ?>
+            <?php endforeach; ?>
+        </ul>
+    </section>
+    <?php endforeach; ?>
+
+    <p class="option-sidebar-no-matches" hidden><?php echo $escape($translate('No matches')); ?></p>
+    <div class="option-sidebar-announcer sr-only" aria-live="polite" aria-atomic="true"
+        data-matches-message="<?php echo $escape($translate('Matching options: %s')); ?>"></div>
+</div>

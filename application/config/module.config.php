@@ -304,6 +304,7 @@ return [
             'Omeka\Environment' => Service\EnvironmentFactory::class,
             'Omeka\ColumnTypeManager' => Service\ColumnType\ManagerFactory::class,
             'Omeka\Browse' => Service\BrowseFactory::class,
+            'Omeka\OptionSidebar' => Service\OptionSidebarFactory::class,
             'Omeka\Oembed' => Service\OembedFactory::class,
         ],
         'invokables' => [
@@ -495,6 +496,7 @@ return [
             'passwordRequirements' => Service\ViewHelper\PasswordRequirementsFactory::class,
             'resourcePageBlocks' => Service\ViewHelper\ResourcePageBlocksFactory::class,
             'browse' => Service\ViewHelper\BrowseFactory::class,
+            'optionSidebar' => Service\ViewHelper\OptionSidebarFactory::class,
             'linkedResources' => Service\ViewHelper\LinkedResourcesFactory::class,
             'config' => Service\ViewHelper\ConfigFactory::class,
             \Laminas\View\Helper\ServerUrl::class => Service\ViewHelper\ServerUrlFactory::class,
@@ -822,6 +824,36 @@ return [
             'listOfPages' => Service\BlockLayout\PageListFactory::class,
             'oembed' => Service\BlockLayout\OembedFactory::class,
         ],
+        'categories' => [
+            'text' => [
+                'label' => 'Text and layout', // @translate
+                'position' => 10,
+            ],
+            'media' => [
+                'label' => 'Media', // @translate
+                'position' => 20,
+            ],
+            'resources' => [
+                'label' => 'Resources and lists', // @translate
+                'position' => 30,
+            ],
+        ],
+        'category_names' => [
+            'html' => 'text',
+            'pageTitle' => 'text',
+            'lineBreak' => 'text',
+            'pageDateTime' => 'text',
+            'media' => 'media',
+            'asset' => 'media',
+            'oembed' => 'media',
+            'iiifImage' => 'media',
+            'iiifPresentation' => 'media',
+            'browsePreview' => 'resources',
+            'itemWithMetadata' => 'resources',
+            'listOfPages' => 'resources',
+            'listOfSites' => 'resources',
+            'tableOfContents' => 'resources',
+        ],
     ],
     'resource_page_block_layouts' => [
         'invokables' => [
@@ -866,6 +898,25 @@ return [
             'iiif_presentation' => Service\Media\Ingester\IiifPresentationFactory::class,
             'oembed' => Service\Media\Ingester\OEmbedFactory::class,
             'youtube' => Service\Media\Ingester\YoutubeFactory::class,
+        ],
+    ],
+    'option_sidebars' => [
+        'block_layouts' => [
+            'manager' => 'Omeka\BlockLayoutManager',
+            'levels' => ['user', 'site'],
+            'exclude' => ['blockGroup'],
+            'pinned' => [
+                'html' => 10,
+                'media' => 20,
+                'asset' => 30,
+            ],
+        ],
+        'media_ingesters' => [
+            'manager' => 'Omeka\Media\Ingester\Manager',
+            'levels' => ['user', 'global'],
+            'pinned' => [
+                'upload' => 10,
+            ],
         ],
     ],
     'media_renderers' => [

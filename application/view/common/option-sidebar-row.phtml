@@ -1,0 +1,21 @@
+<?php
+/**
+ * One option in an "add" sidebar.
+ *
+ * The same row renders in the Pinned section and in the option's group, so a
+ * pinned option appears twice. The module name shows only where the group
+ * heading doesn't already give it, but the filter matches it everywhere.
+ */
+$escape = $this->plugin('escapeHtml');
+?>
+<li class="option-sidebar-row"
+    data-name="<?php echo $escape($option['name']); ?>"
+    data-label="<?php echo $escape($option['label']); ?>"
+    data-module="<?php echo $escape($option['module'] ?? ''); ?>"<?php echo $isHidden ? ' hidden' : ''; ?>>
+    <button type="button" class="option" value="<?php echo $escape($option['name']); ?>">
+        <span class="option-sidebar-label"><?php echo $escape($option['label']); ?></span>
+        <?php if ($showModule && $option['module']): ?>
+        <span class="option-sidebar-module"><?php echo $escape($option['module']); ?></span>
+        <?php endif; ?>
+    </button>
+</li>

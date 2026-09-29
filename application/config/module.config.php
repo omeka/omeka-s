@@ -303,6 +303,7 @@ return [
             'Omeka\FulltextSearch' => Service\FulltextSearchFactory::class,
             'Omeka\Environment' => Service\EnvironmentFactory::class,
             'Omeka\ColumnTypeManager' => Service\ColumnType\ManagerFactory::class,
+            'Omeka\CaptchaManager' => Service\Captcha\ManagerFactory::class,
             'Omeka\Browse' => Service\BrowseFactory::class,
             'Omeka\Oembed' => Service\OembedFactory::class,
         ],
@@ -347,7 +348,6 @@ return [
             'Omeka\Controller\Admin\Media' => Controller\Admin\MediaController::class,
             'Omeka\Controller\Admin\Property' => Controller\Admin\PropertyController::class,
             'Omeka\Controller\Admin\ResourceClass' => Controller\Admin\ResourceClassController::class,
-            'Omeka\Controller\Admin\Setting' => Controller\Admin\SettingController::class,
             'Omeka\Controller\SiteAdmin\Page' => Controller\SiteAdmin\PageController::class,
         ],
         'factories' => [
@@ -360,6 +360,7 @@ return [
             'Omeka\Controller\Admin\Module' => Service\Controller\Admin\ModuleControllerFactory::class,
             'Omeka\Controller\Admin\User' => Service\Controller\Admin\UserControllerFactory::class,
             'Omeka\Controller\Admin\ResourceTemplate' => Service\Controller\Admin\ResourceTemplateControllerFactory::class,
+            'Omeka\Controller\Admin\Setting' => Service\Controller\Admin\SettingControllerFactory::class,
             'Omeka\Controller\Admin\SystemInfo' => Service\Controller\Admin\SystemInfoControllerFactory::class,
             'Omeka\Controller\Admin\Vocabulary' => Service\Controller\Admin\VocabularyControllerFactory::class,
             'Omeka\Controller\Admin\Item' => Service\Controller\Admin\ItemControllerFactory::class,
@@ -437,6 +438,7 @@ return [
             'sidebarSectionNav' => View\Helper\SidebarSectionNav::class,
             'uploadLimit' => View\Helper\UploadLimit::class,
             'formRecaptcha' => Form\View\Helper\FormRecaptcha::class,
+            'formOmekaCaptcha' => Form\View\Helper\FormOmekaCaptcha::class,
             'formCkeditor' => Form\View\Helper\FormCkeditor::class,
             'formCkeditorInline' => Form\View\Helper\FormCkeditorInline::class,
             'formRestoreTextarea' => Form\View\Helper\FormRestoreTextarea::class,
@@ -553,6 +555,7 @@ return [
             'Omeka\Form\Element\RoleSelect' => Service\Form\Element\RoleSelectFactory::class,
             'Omeka\Form\Element\UserSelect' => Service\Form\Element\UserSelectFactory::class,
             'Omeka\Form\Element\Recaptcha' => Service\Form\Element\RecaptchaFactory::class,
+            'Omeka\Form\Element\Captcha' => Service\Form\Element\CaptchaFactory::class,
             'Omeka\Form\Element\HtmlTextarea' => Service\Form\Element\HtmlTextareaFactory::class,
             'Omeka\Form\Element\Ckeditor' => Service\Form\Element\CkeditorFactory::class,
             'Omeka\Form\Element\CkeditorInline' => Service\Form\Element\CkeditorInlineFactory::class,
@@ -598,6 +601,14 @@ return [
         'factories' => [
             'theme' => Service\ColumnType\ThemeFactory::class,
             'value' => Service\ColumnType\ValueFactory::class,
+        ],
+    ],
+    'captchas' => [
+        'factories' => [
+            'recaptcha_v2' => Service\Captcha\RecaptchaV2Factory::class,
+            'recaptcha_v3' => Service\Captcha\RecaptchaV3Factory::class,
+            'hcaptcha' => Service\Captcha\HcaptchaFactory::class,
+            'turnstile' => Service\Captcha\TurnstileFactory::class,
         ],
     ],
     'column_defaults' => [

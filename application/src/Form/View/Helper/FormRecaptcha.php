@@ -4,6 +4,9 @@ namespace Omeka\Form\View\Helper;
 use Laminas\Form\View\Helper\AbstractHelper;
 use Laminas\Form\ElementInterface;
 
+/**
+ * @deprecated Use Omeka\Form\Element\Captcha, rendered by formOmekaCaptcha.
+ */
 class FormRecaptcha extends AbstractHelper
 {
     public function __invoke(ElementInterface $element)

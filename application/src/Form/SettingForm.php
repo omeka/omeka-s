@@ -2,6 +2,7 @@
 namespace Omeka\Form;
 
 use DateTimeZone;
+use Omeka\Captcha\Manager as CaptchaManager;
 use Omeka\Form\Element\ArrayTextarea;
 use Omeka\Form\Element\PropertySelect;
 use Omeka\Form\Element\RestoreTextarea;
@@ -101,6 +102,11 @@ class SettingForm extends Form implements EventManagerAwareInterface
      * @var Settings
      */
     protected $settings;
+
+    /**
+     * @var CaptchaManager
+     */
+    protected $captchaManager;
 
     public function init()
     {
@@ -450,30 +456,43 @@ class SettingForm extends Form implements EventManagerAwareInterface
             ->setRestoreValue(implode(',', self::EXTENSION_WHITELIST));
         $this->add($extensionWhitelist);
 
+        $captcha = $this->settings->get('captcha');
+        $captchaOptions = [];
+        $captchaSettingSpecs = [];
+        foreach ($this->captchaManager->getRegisteredNames() as $captchaName) {
+            $provider = $this->captchaManager->get($captchaName);
+            $captchaOptions[$captchaName] = $provider->getLabel();
+            foreach ($provider->getSettingElements() as $spec) {
+                $spec['options']['element_group'] = 'security';
+                $spec['attributes']['value'] = $this->settings->get($spec['name'], $spec['attributes']['value'] ?? null);
+                // Used to show only the selected provider's settings.
+                $spec['attributes']['data-captcha'] = $captchaName;
+                $captchaSettingSpecs[] = $spec;
+            }
+        }
+        if ($captcha && !isset($captchaOptions[$captcha])) {
+            // Keep the selection when its provider is unavailable, e.g. when
+            // the module that registers it is deactivated.
+            $captchaOptions[$captcha] = '[Unknown]'; // @translate
+        }
         $this->add([
-            'type' => 'text',
-            'name' => 'recaptcha_site_key',
+            'type' => 'select',
+            'name' => 'captcha',
             'options' => [
                 'element_group' => 'security',
-                'label' => 'reCAPTCHA site key', // @translate
+                'label' => 'CAPTCHA', // @translate
+                'info' => 'The service used to verify that people submitting public forms are human.', // @translate
+                'empty_option' => 'None', // @translate
+                'value_options' => $captchaOptions,
             ],
             'attributes' => [
-                'value' => $this->settings->get('recaptcha_site_key'),
-                'id' => 'recaptcha_site_key',
+                'value' => $captcha,
+                'id' => 'captcha',
             ],
         ]);
-        $this->add([
-            'type' => 'text',
-            'name' => 'recaptcha_secret_key',
-            'options' => [
-                'element_group' => 'security',
-                'label' => 'reCAPTCHA secret key', // @translate
-            ],
-            'attributes' => [
-                'value' => $this->settings->get('recaptcha_secret_key'),
-                'id' => 'recaptcha_secret_key',
-            ],
-        ]);
+        foreach ($captchaSettingSpecs as $spec) {
+            $this->add($spec);
+        }
 
         $event = new Event('form.add_elements', $this);
         $triggerResult = $this->getEventManager()->triggerEvent($event);
@@ -494,6 +513,10 @@ class SettingForm extends Form implements EventManagerAwareInterface
         ]);
         $inputFilter->add([
             'name' => 'default_site',
+            'allow_empty' => true,
+        ]);
+        $inputFilter->add([
+            'name' => 'captcha',
             'allow_empty' => true,
         ]);
         $inputFilter->add([
@@ -583,5 +606,13 @@ class SettingForm extends Form implements EventManagerAwareInterface
     public function getSettings()
     {
         return $this->settings;
+    }
+
+    /**
+     * @param CaptchaManager $captchaManager
+     */
+    public function setCaptchaManager(CaptchaManager $captchaManager)
+    {
+        $this->captchaManager = $captchaManager;
     }
 }

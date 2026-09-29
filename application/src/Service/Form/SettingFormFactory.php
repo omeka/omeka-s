@@ -11,6 +11,7 @@ class SettingFormFactory implements FactoryInterface
     {
         $form = new SettingForm;
         $form->setSettings($services->get('Omeka\Settings'));
+        $form->setCaptchaManager($services->get('Omeka\CaptchaManager'));
         return $form;
     }
 }

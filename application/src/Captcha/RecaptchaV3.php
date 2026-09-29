@@ -61,13 +61,10 @@ class RecaptchaV3 extends AbstractSiteverify
 
     public function render(PhpRenderer $view, ElementInterface $element): string
     {
+        // Not async, so the API is available before anyone can submit.
+        $view->headScript()->appendFile($this->getScriptUrl());
         // Gets the token when the form is submitted.
         $view->headScript()->appendFile($view->assetUrl('js/recaptcha-v3.js', 'Omeka'));
-        $view->headScript()->appendFile(
-            $this->getScriptUrl(),
-            'text/javascript',
-            ['async' => true, 'defer' => true]
-        );
         return sprintf(
             '<input type="hidden" name="%s" class="recaptcha-v3" data-sitekey="%s" data-action="%s">',
             $view->escapeHtmlAttr($this->getResponseName()),

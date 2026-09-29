@@ -471,6 +471,9 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * - viewName: Name of view script, or a view model. Default "common/resource-values"
      * - siteId: A site ID
      * - properties: an array of property terms to include in the markup (excludes all others)
+     * - propertiesRespectOrder:
+     *      - false (default): Maintain the original property order, irrespective of the passed order
+     *      - true: Respect the order of properties passed in the "properties" option
      * - excludeProperties: an array of property terms to exclude from the markup (includes all others)
      *
      * @param array $options
@@ -481,6 +484,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $options['viewName'] ??= 'common/resource-values';
         $options['siteId'] ??= null;
         $options['properties'] ??= [];
+        $options['propertiesRespectOrder'] ??= false;
         $options['excludeProperties'] ??= [];
 
         $services = $this->getServiceLocator();
@@ -488,7 +492,17 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
 
         // Filter values by the "properties" and "excludeProperties" options.
         if ($options['properties']) {
-            $values = array_intersect_key($values, array_flip($options['properties']));
+            if ($options['propertiesRespectOrder']) {
+                $orderedValues = [];
+                foreach ($options['properties'] as $term) {
+                    if (isset($values[$term])) {
+                        $orderedValues[$term] = $values[$term];
+                    }
+                }
+                $values = $orderedValues;
+            } else {
+                $values = array_intersect_key($values, array_flip($options['properties']));
+            }
         }
         if ($options['excludeProperties']) {
             $values = array_diff_key($values, array_flip($options['excludeProperties']));

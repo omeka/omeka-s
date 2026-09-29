@@ -6,6 +6,9 @@ use Laminas\Http\PhpEnvironment\RemoteAddress;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
+/**
+ * @deprecated Use Omeka\Form\Element\Captcha.
+ */
 class RecaptchaFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)

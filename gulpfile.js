@@ -449,7 +449,7 @@ taskI18nModuleTemplate.flags = {'--module-name': 'Name of module (required)'};
 gulp.task('i18n:module:template', taskI18nModuleTemplate);
 
 async function taskI18nModuleCompile() {
-    const modulePath = getModulePath();
+    const modulePath = await getModulePath();
     const files = await glob('language/*.po', {cwd: modulePath, absolute: true});
     return Promise.all(files.map(compileToMo));
 }

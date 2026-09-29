@@ -20,7 +20,7 @@ new Sortable(mediaList[0], {
     handle: '.sortable-handle'
 });
 
-$('#media-selector button').on('click', function(e) {
+$('#media-selector').on('click', 'button.option', function(e) {
     const thisButton = $(this);
     const type = thisButton.data('media-type');
     mediaList.append(createMediaFromTemplate(type));

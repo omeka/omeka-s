@@ -1,7 +1,13 @@
+; MySQL configuration (default)
+;driver   = "pdo_mysql"
 user     = ""
 password = ""
 dbname   = ""
 host     = ""
-;port     = 
-;unix_socket = 
-;log_path = 
+;port     =
+;unix_socket =
+;log_path =
+
+; SQLite configuration (uncomment below and comment out MySQL settings above)
+;driver   = "pdo_sqlite"
+;path     = "OMEKA_PATH/db/omeka.db"

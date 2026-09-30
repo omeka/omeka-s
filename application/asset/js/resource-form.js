@@ -435,7 +435,6 @@
             const resourceTemplate = $('#item-stub-resource-template');
             const resourceClass = $('#item-stub-resource-class');
             const propertyValues = $('#item-stub-property-values');
-            console.log(itemStubForm.data('resourceTemplateUrl'));
             const resourceTemplateUrl = itemStubForm.data('resourceTemplateUrl') + '/' + resourceTemplate.val();
             $.get(resourceTemplateUrl, function(rtData) {
                 const templateResourceClass = rtData['o:resource_class'];

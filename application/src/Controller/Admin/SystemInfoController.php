@@ -4,6 +4,7 @@ namespace Omeka\Controller\Admin;
 use PDO;
 use Doctrine\DBAL\Connection;
 use Omeka\Module;
+use Omeka\Service\ConnectionFactory;
 use Omeka\Module\Manager as Modules;
 use Omeka\Stdlib\Cli;
 use Laminas\Mvc\Controller\AbstractActionController;
@@ -55,7 +56,7 @@ class SystemInfoController extends AbstractActionController
     protected function getSystemInfo()
     {
         $conn = $this->connection->getWrappedConnection();
-        $mode = $this->connection->fetchColumn('SELECT @@sql_mode');
+        $isSqlite = ConnectionFactory::isSqlite($this->connection);
 
         $extensions = get_loaded_extensions();
         natcasesort($extensions);
@@ -73,11 +74,23 @@ class SystemInfoController extends AbstractActionController
                 'Garbage Collection' => gc_enabled(),
                 'Extensions' => $extensions,
             ],
-            'MySQL' => [
+        ];
+
+        if ($isSqlite) {
+            $sqliteVersion = $this->connection->fetchColumn('SELECT sqlite_version()');
+            $info['SQLite'] = [
+                'Version' => $sqliteVersion,
+            ];
+        } else {
+            $mode = $this->connection->fetchColumn('SELECT @@sql_mode');
+            $info['MySQL'] = [
                 'Server Version' => $conn->getAttribute(PDO::ATTR_SERVER_VERSION),
                 'Client Version' => $conn->getAttribute(PDO::ATTR_CLIENT_VERSION),
                 'Mode' => explode(',', $mode),
-            ],
+            ];
+        }
+
+        $info += [
             'OS' => [
                 'Version' => sprintf('%s %s %s', php_uname('s'), php_uname('r'), php_uname('m')),
             ],

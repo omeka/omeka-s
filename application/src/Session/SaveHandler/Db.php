@@ -3,6 +3,7 @@ namespace Omeka\Session\SaveHandler;
 
 use Doctrine\DBAL\Connection;
 use Laminas\Session\SaveHandler\SaveHandlerInterface;
+use Omeka\Service\ConnectionFactory;
 
 class Db implements SaveHandlerInterface
 {
@@ -67,8 +68,13 @@ class Db implements SaveHandlerInterface
     #[\ReturnTypeWillChange]
     public function write($id, $data)
     {
-        $sql = 'INSERT INTO session (id, modified, data) VALUES (:id, :modified, :data) '
-             . 'ON DUPLICATE KEY UPDATE modified = :modified, data = :data';
+        if (ConnectionFactory::isSqlite($this->conn)) {
+            $sql = 'INSERT INTO session (id, modified, data) VALUES (:id, :modified, :data) '
+                 . 'ON CONFLICT(id) DO UPDATE SET modified = :modified, data = :data';
+        } else {
+            $sql = 'INSERT INTO session (id, modified, data) VALUES (:id, :modified, :data) '
+                 . 'ON DUPLICATE KEY UPDATE modified = :modified, data = :data';
+        }
         $this->conn->executeStatement($sql, [
             'id' => $id, 'modified' => time(), 'data' => $data,
         ]);

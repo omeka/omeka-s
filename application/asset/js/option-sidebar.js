@@ -94,7 +94,12 @@ const refresh = function(sidebar) {
         .prop('hidden', customizing || (!revealing && 0 === hiddenMatchCount))
         .text(revealing ? messages.hideHidden : messages.showHidden.replace('%s', () => hiddenMatchCount));
 
-    return {query: query, matchCount: matchCount};
+    return {
+        query: query,
+        matchCount: matchCount,
+        // Matches that are out of view until hidden options are shown.
+        hiddenMatchCount: customizing || revealing ? 0 : hiddenMatchCount,
+    };
 };
 
 const getState = function(sidebar) {
@@ -145,18 +150,18 @@ const applyState = function(sidebar, state) {
 };
 
 /**
- * Show where the arrangement came from, and which resets apply.
+ * Show where the arrangement came from, and its reset if it came from the
+ * scope being customized.
  */
 const setSource = function(sidebar, source) {
     sidebar.find('.option-sidebar-source').text(sidebar.data('sourceLabels')[source]);
     sidebar.find('.option-sidebar-reset').each(function() {
-        this.hidden = this.dataset.level !== source;
+        this.hidden = this.dataset.level !== source || source !== sidebar.data('scope');
     });
 };
 
 const enterCustomize = function(sidebar) {
     sidebar.removeClass('revealing');
-    sidebar.find('.option-sidebar-reveal').attr('aria-pressed', 'false');
     sidebar.addClass('customizing');
     sidebar.data('snapshot', getState(sidebar));
     sidebar.find('.option-sidebar-customize').attr('aria-pressed', 'true');
@@ -212,9 +217,9 @@ const cancelCustomize = function(sidebar) {
  */
 const setScope = function(sidebar, scope) {
     const arrangement = sidebar.data('arrangements')[scope];
+    sidebar.data('scope', scope);
     applyState(sidebar, arrangement);
     setSource(sidebar, arrangement.source);
-    sidebar.data('scope', scope);
     sidebar.data('loaded', JSON.stringify(getState(sidebar)));
 };
 
@@ -280,6 +285,8 @@ $(document).on('input', '.option-sidebar-filter', function() {
     const result = refresh(sidebar);
     if ('' === result.query) {
         sidebar.find('.option-sidebar-announcer').text('');
+    } else if (result.hiddenMatchCount) {
+        announce(sidebar, 'matchesAndHidden', result.matchCount, result.hiddenMatchCount);
     } else {
         announce(sidebar, 'matches', result.matchCount);
     }
@@ -326,8 +333,14 @@ $(document).on('click', '.option-sidebar-hide', function() {
 
 $(document).on('click', '.option-sidebar-save', function() {
     const sidebar = $(this).closest('.option-sidebar');
+    // Saving an unchanged list would store a copy that no longer follows the
+    // arrangement it came from, so close as Cancel does.
+    if (!hasChanges(sidebar)) {
+        cancelCustomize(sidebar);
+        return;
+    }
     const state = getState(sidebar);
-    post(sidebar, {level: sidebar.data('scope'), pinned: state.pinned, hidden: state.hidden});
+    post(sidebar,{level: sidebar.data('scope'), pinned: state.pinned, hidden: state.hidden});
 });
 
 // Switching what's being customized discards unsaved changes, so ask first.
@@ -357,7 +370,6 @@ $(document).on('click', '.option-sidebar-reveal', function() {
     const sidebar = $(this).closest('.option-sidebar');
     const revealing = !sidebar.hasClass('revealing');
     sidebar.toggleClass('revealing', revealing);
-    this.setAttribute('aria-pressed', revealing ? 'true' : 'false');
     refresh(sidebar);
 });
 

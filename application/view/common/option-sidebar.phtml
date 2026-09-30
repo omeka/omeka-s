@@ -38,6 +38,7 @@ $resetLabels = [
 $scopeName = sprintf('option-sidebar-%s-scope', $key);
 $messages = [
     'matches' => $translate('Matching options: %s'),
+    'matchesAndHidden' => $translate('Matching options: %1$s. Hidden matches: %2$s'),
     'pinned' => $translate('%1$s pinned, position %2$s of %3$s'),
     'unpinned' => $translate('%s unpinned'),
     'hidden' => $translate('%s hidden'),
@@ -146,6 +147,6 @@ $messages = [
     <?php endforeach; ?>
 
     <p class="option-sidebar-no-matches" hidden><?php echo $escape($translate('No matches')); ?></p>
-    <button type="button" class="option-sidebar-reveal" aria-pressed="false"<?php echo $hidden ? '' : ' hidden'; ?>><?php echo $escape(sprintf($messages['showHidden'], count($hidden))); ?></button>
+    <button type="button" class="option-sidebar-reveal"<?php echo $hidden ? '' : ' hidden'; ?>><?php echo $escape(sprintf($messages['showHidden'], count($hidden))); ?></button>
     <div class="option-sidebar-announcer sr-only" aria-live="polite" aria-atomic="true"></div>
 </div>

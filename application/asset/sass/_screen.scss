@@ -3060,7 +3060,7 @@ fieldset.section > legend {
         height: auto;
     }
 
-    #item-media .sidebar button {
+    #item-media .sidebar button.option {
         width: 100%;
         text-align: left;
     }
@@ -4086,8 +4086,126 @@ input[type=text].query-form-query {
         }
     }
 
-    .option-sidebar-filter {
+    // Rows switch to flex in customize mode, so hidden and filtered must win.
+    .option-sidebar [hidden],
+    .option-sidebar .filtered {
+        display: none !important;
+    }
+
+    .option-sidebar-toolbar {
+        display: flex;
+        align-items: center;
         margin-bottom: $spacing-medium;
+    }
+
+    .option-sidebar-filter {
+        flex: 1;
+        margin-right: $spacing-small;
+    }
+
+    .option-sidebar-customize {
+        margin: 0 0 0 auto;
+        background-color: #fff;
+        border-color: $border-gray;
+        color: $copy-gray;
+
+        &[aria-pressed="true"] {
+            background-color: $copy-gray;
+            border-color: $copy-gray;
+            color: #fff;
+        }
+    }
+
+    .option-sidebar-panel {
+        margin-bottom: $spacing-medium;
+        padding: $spacing-small $spacing-small 0;
+        background-color: #fff;
+        border: 1px solid $border-gray;
+        font-size: .875 * $base-font-size;
+
+        p {
+            margin: 0 0 $spacing-small;
+        }
+
+        // Match the light buttons in the sidebar header.
+        button {
+            background-color: #fff;
+            border-color: $border-gray;
+            color: $copy-gray;
+            padding: $spacing-small;
+            line-height: 1;
+            font-size: .875 * $base-font-size;
+            min-height: 0;
+            margin: 0 $spacing-small $spacing-small 0;
+        }
+    }
+
+    .option-sidebar-instructions {
+        margin: 0 0 $spacing-small;
+    }
+
+    // Undo the sidebar's heading-band labels and full-width inputs.
+    .option-sidebar-scope {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin: 0 0 $spacing-small;
+
+        > span {
+            margin-right: $spacing-small;
+        }
+
+        label {
+            display: inline-flex;
+            align-items: center;
+            width: auto;
+            margin: 0 $spacing-small 0 0;
+            padding: 0;
+            font-size: inherit;
+            font-weight: normal;
+
+            &:after {
+                content: none;
+            }
+        }
+
+        input {
+            width: auto;
+            margin: 0 ($spacing-small / 2) 0 0;
+        }
+    }
+
+    // What's in effect now, with Reset beside it when it applies. It comes
+    // first so it sets the context for the controls below it.
+    .option-sidebar-status {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        border-bottom: 1px solid $border-gray;
+        padding-bottom: $spacing-small;
+        margin-bottom: $spacing-small;
+
+        .option-sidebar-reset {
+            margin: 0 0 0 $spacing-small;
+        }
+    }
+
+    .option-sidebar-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+    }
+
+    // Cancel follows the save buttons, with a wider gap so it doesn't read as
+    // a third place to save.
+    .option-sidebar-panel .option-sidebar-cancel {
+        margin-left: $spacing-small;
+    }
+
+
+    .option-sidebar-pinned-hint {
+        margin: 0 0 $spacing-small;
+        font-size: .875 * $base-font-size;
     }
 
     .option-sidebar-group {
@@ -4111,14 +4229,92 @@ input[type=text].query-form-query {
         padding: 0;
     }
 
-    .option-sidebar-row.filtered {
-        display: none;
-    }
-
     .option-sidebar-module {
         margin-left: auto;
         padding: 0 $spacing-small;
         font-size: .75 * $base-font-size;
+    }
+
+    // The group heading already names the module.
+    .option-sidebar-group[data-group^="module:"] .option-sidebar-module {
+        display: none;
+    }
+
+    .option-sidebar-row .sortable-handle,
+    .option-sidebar-controls {
+        display: none;
+    }
+
+    .option-sidebar-controls button {
+        background-color: transparent;
+        border: 0;
+        box-shadow: none;
+        color: $border-gray;
+        margin: 0;
+        min-height: 0;
+        padding: 0 $spacing-small;
+
+        &[aria-pressed="true"] {
+            color: $copy-gray;
+        }
+
+        // The last toggle ends where the "+" does outside customize mode.
+        &:last-child {
+            padding-right: 0;
+        }
+    }
+
+    .option-sidebar.customizing {
+        // Each row takes on the look of an option button, so the list looks
+        // the same as outside customize mode. The label, the pin and hide
+        // toggles (where the "+" normally is), and in Pinned the drag handle
+        // all sit inside it.
+        .option-sidebar-row {
+            display: flex;
+            align-items: center;
+            min-height: (1.5 * $spacing-large);
+            margin: 0 0 $spacing-medium;
+            padding: 0 10px;
+            background-color: #fff;
+            border-radius: 3px;
+            box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
+        }
+
+        .option-sidebar-row button.option,
+        .option-sidebar-row button.option:disabled {
+            flex: 1;
+            min-width: 0;
+            min-height: 0;
+            margin: 0;
+            padding: $spacing-small 0;
+            background-color: transparent;
+            box-shadow: none !important;
+            cursor: default;
+
+            // Option buttons don't add anything while customizing.
+            &:after {
+                content: none;
+            }
+        }
+
+        .option-sidebar-controls {
+            display: flex;
+        }
+
+        .option-sidebar-pinned .sortable-handle {
+            display: block;
+            margin-right: $spacing-small;
+        }
+
+        // Keep the pin toggle in the same place as in the groups.
+        .option-sidebar-pinned .option-sidebar-hide {
+            visibility: hidden;
+        }
+
+        .option-sidebar-row.is-hidden button.option {
+            opacity: .5;
+            text-decoration: line-through;
+        }
     }
 }
 

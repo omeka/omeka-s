@@ -358,6 +358,7 @@ return [
             'Omeka\Controller\Install' => Service\Controller\InstallControllerFactory::class,
             'Omeka\Controller\Migrate' => Service\Controller\MigrateControllerFactory::class,
             'Omeka\Controller\Admin\Index' => Service\Controller\Admin\IndexControllerFactory::class,
+            'Omeka\Controller\Admin\OptionSidebar' => Service\Controller\Admin\OptionSidebarControllerFactory::class,
             'Omeka\Controller\Admin\Module' => Service\Controller\Admin\ModuleControllerFactory::class,
             'Omeka\Controller\Admin\User' => Service\Controller\Admin\UserControllerFactory::class,
             'Omeka\Controller\Admin\ResourceTemplate' => Service\Controller\Admin\ResourceTemplateControllerFactory::class,

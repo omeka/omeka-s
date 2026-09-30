@@ -9,6 +9,9 @@ class OptionSidebarFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
-        return new OptionSidebar($services->get('Omeka\OptionSidebar'));
+        return new OptionSidebar(
+            $services->get('Omeka\OptionSidebar'),
+            $services->get('FormElementManager')
+        );
     }
 }

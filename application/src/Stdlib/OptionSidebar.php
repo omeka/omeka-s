@@ -7,6 +7,9 @@ use Laminas\I18n\Translator\TranslatorInterface;
 use Omeka\Module\Manager as ModuleManager;
 use Omeka\Module\Module;
 use Omeka\Settings\FallbackSettings;
+use Omeka\Settings\Settings;
+use Omeka\Settings\SiteSettings;
+use Omeka\Settings\UserSettings;
 
 /**
  * Organize the options of "add" sidebars, such as "Add new block" and "Add
@@ -24,6 +27,9 @@ class OptionSidebar
     protected array $managers;
     protected ModuleManager $moduleManager;
     protected FallbackSettings $fallbackSettings;
+    protected Settings $settings;
+    protected SiteSettings $siteSettings;
+    protected UserSettings $userSettings;
     protected TranslatorInterface $translator;
     protected $collator;
 
@@ -32,6 +38,9 @@ class OptionSidebar
      * @param array $managers Plugin managers keyed by sidebar key
      * @param ModuleManager $moduleManager
      * @param FallbackSettings $fallbackSettings
+     * @param Settings $settings
+     * @param SiteSettings $siteSettings
+     * @param UserSettings $userSettings
      * @param TranslatorInterface $translator
      */
     public function __construct(
@@ -39,12 +48,18 @@ class OptionSidebar
         array $managers,
         ModuleManager $moduleManager,
         FallbackSettings $fallbackSettings,
+        Settings $settings,
+        SiteSettings $siteSettings,
+        UserSettings $userSettings,
         TranslatorInterface $translator
     ) {
         $this->config = $config;
         $this->managers = $managers;
         $this->moduleManager = $moduleManager;
         $this->fallbackSettings = $fallbackSettings;
+        $this->settings = $settings;
+        $this->siteSettings = $siteSettings;
+        $this->userSettings = $userSettings;
         $this->translator = $translator;
     }
 
@@ -189,6 +204,54 @@ class OptionSidebar
             return $arrangement;
         }
         return $this->getDefaultArrangement($key);
+    }
+
+    /**
+     * Save a sidebar's arrangement at one of its levels, or delete it.
+     *
+     * The user level belongs to the current user. Saving or deleting at a
+     * shared level (site or global) also deletes the current user's own
+     * arrangement, so the user sees the result of the change they just made.
+     *
+     * @param string $key
+     * @param string $level One of the sidebar's levels
+     * @param array|null $arrangement With "pinned" and "hidden"; null deletes
+     * @param int|null $siteId The site, required for the site level
+     * @throws InvalidArgumentException For an unknown level or a missing site
+     */
+    public function save(string $key, string $level, ?array $arrangement, ?int $siteId = null): void
+    {
+        if (!in_array($level, $this->getLevels($key), true)) {
+            throw new InvalidArgumentException(sprintf('The "%s" option sidebar has no "%s" level.', $key, $level));
+        }
+        if ('site' === $level && !$siteId) {
+            throw new InvalidArgumentException('Saving at the site level requires a site ID.');
+        }
+        $settingId = $this->getSettingId($key);
+        $value = null;
+        if (null !== $arrangement) {
+            $value = $this->normalize($key, $arrangement['pinned'] ?? [], $arrangement['hidden'] ?? []);
+        }
+        switch ($level) {
+            case 'global':
+                null === $value
+                    ? $this->settings->delete($settingId)
+                    : $this->settings->set($settingId, $value);
+                break;
+            case 'site':
+                null === $value
+                    ? $this->siteSettings->delete($settingId, $siteId)
+                    : $this->siteSettings->set($settingId, $value, $siteId);
+                break;
+            case 'user':
+                null === $value
+                    ? $this->userSettings->delete($settingId)
+                    : $this->userSettings->set($settingId, $value);
+                break;
+        }
+        if ('user' !== $level) {
+            $this->userSettings->delete($settingId);
+        }
     }
 
     /**

@@ -19,6 +19,9 @@ class OptionSidebarFactory implements FactoryInterface
             $managers,
             $services->get('Omeka\ModuleManager'),
             $services->get('Omeka\Settings\Fallback'),
+            $services->get('Omeka\Settings'),
+            $services->get('Omeka\Settings\Site'),
+            $services->get('Omeka\Settings\User'),
             $services->get('MvcTranslator')
         );
     }

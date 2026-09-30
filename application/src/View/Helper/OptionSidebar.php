@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\View\Helper;
 
+use Laminas\Form\Form;
+use Laminas\Form\FormElementManager;
 use Laminas\View\Helper\AbstractHelper;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Stdlib\OptionSidebar as OptionSidebarService;
@@ -16,10 +18,12 @@ class OptionSidebar extends AbstractHelper
     const PARTIAL_NAME = 'common/option-sidebar';
 
     protected OptionSidebarService $optionSidebar;
+    protected FormElementManager $formElementManager;
 
-    public function __construct(OptionSidebarService $optionSidebar)
+    public function __construct(OptionSidebarService $optionSidebar, FormElementManager $formElementManager)
     {
         $this->optionSidebar = $optionSidebar;
+        $this->formElementManager = $formElementManager;
     }
 
     /**
@@ -35,6 +39,7 @@ class OptionSidebar extends AbstractHelper
     public function __invoke(string $key, ?SiteRepresentation $site = null): string
     {
         $view = $this->getView();
+        $view->headScript()->appendFile($view->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
         $view->headScript()->appendFile($view->assetUrl('js/option-sidebar.js', 'Omeka'));
 
         $groups = $this->optionSidebar->getGroups($key);
@@ -51,12 +56,27 @@ class OptionSidebar extends AbstractHelper
             $pinned[] = $options[$name];
         }
 
+        // The shared level is the first level after the user's own.
+        $sharedLevel = current(array_diff($this->optionSidebar->getLevels($key), ['user'])) ?: null;
+        $canSaveShared = false;
+        if ('site' === $sharedLevel) {
+            $canSaveShared = $site && $site->userIsAllowed('update');
+        } elseif ('global' === $sharedLevel) {
+            $canSaveShared = $view->userIsAllowed('Omeka\Controller\Admin\Setting', 'browse');
+        }
+
+        $csrfForm = $this->formElementManager->get(Form::class, ['name' => 'option_sidebar']);
+
         return $view->partial(self::PARTIAL_NAME, [
             'key' => $key,
+            'site' => $site,
             'groups' => $groups,
             'pinned' => $pinned,
-            'hidden' => $arrangement['hidden'],
-            'visibleCount' => count(array_diff(array_keys($options), $arrangement['hidden'])),
+            'arrangement' => $arrangement,
+            'sharedLevel' => $sharedLevel,
+            'canSaveShared' => $canSaveShared,
+            'saveUrl' => $view->url('admin/default', ['controller' => 'option-sidebar', 'action' => 'save']),
+            'csrf' => $csrfForm->get('option_sidebar_csrf')->getValue(),
         ]);
     }
 }

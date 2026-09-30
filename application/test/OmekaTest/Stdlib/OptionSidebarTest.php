@@ -8,6 +8,9 @@ use Omeka\Module\Manager as ModuleManager;
 use Omeka\Module\Module;
 use Omeka\ServiceManager\AbstractPluginManager;
 use Omeka\Settings\FallbackSettings;
+use Omeka\Settings\Settings;
+use Omeka\Settings\SiteSettings;
+use Omeka\Settings\UserSettings;
 use Omeka\Site\BlockLayout;
 use Omeka\Site\BlockLayout\BlockLayoutInterface;
 use Omeka\Stdlib\OptionSidebar;
@@ -19,10 +22,16 @@ class OptionSidebarTest extends TestCase
     protected $services = [];
     protected $modulesByClass = [];
     protected $fallbackSettings;
+    protected $settings;
+    protected $siteSettings;
+    protected $userSettings;
 
     public function setUp(): void
     {
         $this->fallbackSettings = $this->createMock(FallbackSettings::class);
+        $this->settings = $this->createMock(Settings::class);
+        $this->siteSettings = $this->createMock(SiteSettings::class);
+        $this->userSettings = $this->createMock(UserSettings::class);
     }
 
     public function testGroupsOptionsByCategoryThenCoreThenModuleThenOther()
@@ -200,12 +209,88 @@ class OptionSidebarTest extends TestCase
         $this->getOptionSidebar([])->getGroups('missing');
     }
 
+    public function testSavesForTheUser()
+    {
+        $this->addCoreOption('lineBreak', new BlockLayout\LineBreak);
+        $this->addCoreOption('pageTitle', new BlockLayout\PageTitle);
+        $this->userSettings->expects($this->once())
+            ->method('set')
+            ->with('option_sidebar_test', ['pinned' => ['pageTitle'], 'hidden' => ['lineBreak']]);
+        $this->userSettings->expects($this->never())->method('delete');
+        $this->siteSettings->expects($this->never())->method($this->anything());
+        $this->settings->expects($this->never())->method($this->anything());
+
+        $this->getOptionSidebar([])->save(
+            'test',
+            'user',
+            ['pinned' => ['pageTitle', 'unknown'], 'hidden' => ['lineBreak']]
+        );
+    }
+
+    public function testDeletesForTheUser()
+    {
+        $this->userSettings->expects($this->once())->method('delete')->with('option_sidebar_test');
+        $this->userSettings->expects($this->never())->method('set');
+
+        $this->getOptionSidebar([])->save('test', 'user', null);
+    }
+
+    public function testSavesForASiteAndClearsTheUsersOwnArrangement()
+    {
+        $this->addCoreOption('lineBreak', new BlockLayout\LineBreak);
+        $this->siteSettings->expects($this->once())
+            ->method('set')
+            ->with('option_sidebar_test', ['pinned' => ['lineBreak'], 'hidden' => []], 5);
+        $this->userSettings->expects($this->once())->method('delete')->with('option_sidebar_test');
+
+        $this->getOptionSidebar([])->save('test', 'site', ['pinned' => ['lineBreak']], 5);
+    }
+
+    public function testDeletesForASiteAndClearsTheUsersOwnArrangement()
+    {
+        $this->siteSettings->expects($this->once())->method('delete')->with('option_sidebar_test', 5);
+        $this->userSettings->expects($this->once())->method('delete')->with('option_sidebar_test');
+
+        $this->getOptionSidebar([])->save('test', 'site', null, 5);
+    }
+
+    public function testSavesGloballyAndClearsTheUsersOwnArrangement()
+    {
+        $this->settings->expects($this->once())
+            ->method('set')
+            ->with('option_sidebar_test', ['pinned' => [], 'hidden' => []]);
+        $this->userSettings->expects($this->once())->method('delete')->with('option_sidebar_test');
+
+        $this->getOptionSidebar([], ['levels' => ['user', 'global']])->save('test', 'global', []);
+    }
+
+    public function testRejectsALevelTheSidebarDoesNotHave()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->getOptionSidebar([])->save('test', 'global', []);
+    }
+
+    public function testRejectsASiteSaveWithoutASite()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->getOptionSidebar([])->save('test', 'site', []);
+    }
+
     public function testGetModuleForClass()
     {
         $moduleManager = new ModuleManager($this->createMock(ServiceLocatorInterface::class));
         $moduleManager->registerModule('Foo')->setState(ModuleManager::STATE_ACTIVE);
         $moduleManager->registerModule('Bar')->setState(ModuleManager::STATE_NOT_ACTIVE);
-        $sidebar = new OptionSidebar([], [], $moduleManager, $this->fallbackSettings, $this->getTranslator());
+        $sidebar = new OptionSidebar(
+            [],
+            [],
+            $moduleManager,
+            $this->fallbackSettings,
+            $this->settings,
+            $this->siteSettings,
+            $this->userSettings,
+            $this->getTranslator()
+        );
         $method = new ReflectionMethod($sidebar, 'getModuleForClass');
         $method->setAccessible(true);
 
@@ -249,6 +334,9 @@ class OptionSidebarTest extends TestCase
                 ['test' => $manager],
                 $this->createMock(ModuleManager::class),
                 $this->fallbackSettings,
+                $this->settings,
+                $this->siteSettings,
+                $this->userSettings,
                 $this->getTranslator(),
             ])
             ->onlyMethods(['getModuleForClass'])

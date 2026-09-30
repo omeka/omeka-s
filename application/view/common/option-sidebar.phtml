@@ -50,7 +50,6 @@ $messages = [
     data-site-id="<?php echo $site ? $escape($site->id()) : ''; ?>"
     data-csrf="<?php echo $escape($csrf); ?>"
     data-shared-level="<?php echo $escape($sharedLevel ?? ''); ?>"
-    data-can-save-shared="<?php echo $canSaveShared ? '1' : '0'; ?>"
     data-arrangement="<?php echo $escape(json_encode($arrangement)); ?>"
     data-source-labels="<?php echo $escape(json_encode($sourceLabels)); ?>"
     data-messages="<?php echo $escape(json_encode($messages)); ?>">

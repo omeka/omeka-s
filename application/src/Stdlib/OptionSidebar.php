@@ -6,7 +6,7 @@ use InvalidArgumentException;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Omeka\Module\Manager as ModuleManager;
 use Omeka\Module\Module;
-use Omeka\Settings\FallbackSettings;
+use Omeka\Service\Exception\RuntimeException;
 use Omeka\Settings\Settings;
 use Omeka\Settings\SiteSettings;
 use Omeka\Settings\UserSettings;
@@ -20,24 +20,27 @@ use Omeka\Settings\UserSettings;
  * fallback order, where its arrangement may be saved, and its default pinned
  * options. The sidebar key is also the plugin manager's own config key, where
  * the optional "categories" and "category_names" keys describe its options.
+ *
+ * A sidebar with a site level is arranged per site: each user's own
+ * arrangement is stored separately for each site, so a site's default isn't
+ * overridden by an arrangement the user made on another site.
  */
 class OptionSidebar
 {
     protected array $config;
     protected array $managers;
     protected ModuleManager $moduleManager;
-    protected FallbackSettings $fallbackSettings;
     protected Settings $settings;
     protected SiteSettings $siteSettings;
     protected UserSettings $userSettings;
     protected TranslatorInterface $translator;
     protected $collator;
+    protected array $names = [];
 
     /**
      * @param array $config The application config
      * @param array $managers Plugin managers keyed by sidebar key
      * @param ModuleManager $moduleManager
-     * @param FallbackSettings $fallbackSettings
      * @param Settings $settings
      * @param SiteSettings $siteSettings
      * @param UserSettings $userSettings
@@ -47,7 +50,6 @@ class OptionSidebar
         array $config,
         array $managers,
         ModuleManager $moduleManager,
-        FallbackSettings $fallbackSettings,
         Settings $settings,
         SiteSettings $siteSettings,
         UserSettings $userSettings,
@@ -56,7 +58,6 @@ class OptionSidebar
         $this->config = $config;
         $this->managers = $managers;
         $this->moduleManager = $moduleManager;
-        $this->fallbackSettings = $fallbackSettings;
         $this->settings = $settings;
         $this->siteSettings = $siteSettings;
         $this->userSettings = $userSettings;
@@ -80,10 +81,27 @@ class OptionSidebar
     }
 
     /**
-     * Get the ID of the setting that stores a sidebar's arrangement.
+     * Is a sidebar arranged per site?
+     *
+     * A sidebar with a site level is, and its user-level arrangements need a
+     * site.
      */
-    public function getSettingId(string $key): string
+    public function isPerSite(string $key): bool
     {
+        return in_array('site', $this->getLevels($key), true);
+    }
+
+    /**
+     * Get the ID of the setting that stores a sidebar's arrangement at a level.
+     *
+     * For a sidebar arranged per site, the user level has one setting per
+     * site.
+     */
+    public function getSettingId(string $key, string $level, ?int $siteId = null): string
+    {
+        if ('user' === $level && $siteId && $this->isPerSite($key)) {
+            return sprintf('option_sidebar_%s_site_%d', $key, $siteId);
+        }
         return sprintf('option_sidebar_%s', $key);
     }
 
@@ -92,8 +110,11 @@ class OptionSidebar
      */
     public function getNames(string $key): array
     {
-        $exclude = $this->getSpec($key)['exclude'] ?? [];
-        return array_values(array_diff($this->managers[$key]->getRegisteredNames(), $exclude));
+        if (!isset($this->names[$key])) {
+            $exclude = $this->getSpec($key)['exclude'] ?? [];
+            $this->names[$key] = array_values(array_diff($this->managers[$key]->getRegisteredNames(), $exclude));
+        }
+        return $this->names[$key];
     }
 
     /**
@@ -178,29 +199,24 @@ class OptionSidebar
      * Get a sidebar's arrangement: its pinned and hidden option names.
      *
      * The levels are checked in fallback order, and the first one with a
-     * well-formed value wins. With no such value, the arrangement is the
-     * config default.
+     * well-formed value wins. As with FallbackSettings, null and an empty
+     * string count as no value. With no value at any level, the arrangement is
+     * the config default.
      *
      * @param string $key
-     * @param int|null $siteId The site to read site-level settings for
+     * @param int|null $siteId The site, for sidebars arranged per site
      * @return array With "pinned", "hidden", and "source" (the level that
      *   supplied the arrangement, or "default")
      */
     public function getArrangement(string $key, ?int $siteId = null): array
     {
-        $settingId = $this->getSettingId($key);
-        $targetIds = $siteId ? ['site' => $siteId] : [];
         foreach ($this->getLevels($key) as $level) {
-            $result = $this->fallbackSettings->getWithSource($settingId, [$level], null, $targetIds);
-            if (null === $result['source'] || !$this->isArrangement($result['value'])) {
+            $value = $this->read($key, $level, $siteId);
+            if (null === $value || '' === $value || !$this->isArrangement($value)) {
                 continue;
             }
-            $arrangement = $this->normalize(
-                $key,
-                $result['value']['pinned'] ?? [],
-                $result['value']['hidden'] ?? []
-            );
-            $arrangement['source'] = $result['source'];
+            $arrangement = $this->normalize($key, $value['pinned'] ?? [], $value['hidden'] ?? []);
+            $arrangement['source'] = $level;
             return $arrangement;
         }
         return $this->getDefaultArrangement($key);
@@ -216,7 +232,7 @@ class OptionSidebar
      * @param string $key
      * @param string $level One of the sidebar's levels
      * @param array|null $arrangement With "pinned" and "hidden"; null deletes
-     * @param int|null $siteId The site, required for the site level
+     * @param int|null $siteId The site, required for sidebars arranged per site
      * @throws InvalidArgumentException For an unknown level or a missing site
      */
     public function save(string $key, string $level, ?array $arrangement, ?int $siteId = null): void
@@ -224,10 +240,10 @@ class OptionSidebar
         if (!in_array($level, $this->getLevels($key), true)) {
             throw new InvalidArgumentException(sprintf('The "%s" option sidebar has no "%s" level.', $key, $level));
         }
-        if ('site' === $level && !$siteId) {
-            throw new InvalidArgumentException('Saving at the site level requires a site ID.');
+        if ($this->isPerSite($key) && !$siteId) {
+            throw new InvalidArgumentException(sprintf('The "%s" option sidebar is arranged per site; saving requires a site ID.', $key));
         }
-        $settingId = $this->getSettingId($key);
+        $settingId = $this->getSettingId($key, $level, $siteId);
         $value = null;
         if (null !== $arrangement) {
             $value = $this->normalize($key, $arrangement['pinned'] ?? [], $arrangement['hidden'] ?? []);
@@ -250,7 +266,7 @@ class OptionSidebar
                 break;
         }
         if ('user' !== $level) {
-            $this->userSettings->delete($settingId);
+            $this->userSettings->delete($this->getSettingId($key, 'user', $siteId));
         }
     }
 
@@ -315,6 +331,33 @@ class OptionSidebar
         $module = $this->moduleManager->getModule(substr($class, 0, $position));
         if ($module && ModuleManager::STATE_ACTIVE === $module->getState()) {
             return $module;
+        }
+        return null;
+    }
+
+    /**
+     * Read a sidebar's stored arrangement at one level, if any.
+     *
+     * @return mixed The stored value, or null when there is none or no user
+     *   or site to read it for
+     */
+    protected function read(string $key, string $level, ?int $siteId)
+    {
+        if ('user' === $level && $this->isPerSite($key) && !$siteId) {
+            return null;
+        }
+        $settingId = $this->getSettingId($key, $level, $siteId);
+        try {
+            switch ($level) {
+                case 'global':
+                    return $this->settings->get($settingId);
+                case 'site':
+                    return $siteId ? $this->siteSettings->get($settingId, null, $siteId) : null;
+                case 'user':
+                    return $this->userSettings->get($settingId);
+            }
+        } catch (RuntimeException $e) {
+            // No authenticated user.
         }
         return null;
     }

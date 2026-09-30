@@ -7,7 +7,7 @@ use Laminas\ServiceManager\ServiceLocatorInterface;
 use Omeka\Module\Manager as ModuleManager;
 use Omeka\Module\Module;
 use Omeka\ServiceManager\AbstractPluginManager;
-use Omeka\Settings\FallbackSettings;
+use Omeka\Service\Exception\RuntimeException;
 use Omeka\Settings\Settings;
 use Omeka\Settings\SiteSettings;
 use Omeka\Settings\UserSettings;
@@ -21,14 +21,12 @@ class OptionSidebarTest extends TestCase
 {
     protected $services = [];
     protected $modulesByClass = [];
-    protected $fallbackSettings;
     protected $settings;
     protected $siteSettings;
     protected $userSettings;
 
     public function setUp(): void
     {
-        $this->fallbackSettings = $this->createMock(FallbackSettings::class);
         $this->settings = $this->createMock(Settings::class);
         $this->siteSettings = $this->createMock(SiteSettings::class);
         $this->userSettings = $this->createMock(UserSettings::class);
@@ -125,7 +123,6 @@ class OptionSidebarTest extends TestCase
         $this->addCoreOption('lineBreak', new BlockLayout\LineBreak);
         $this->addCoreOption('pageTitle', new BlockLayout\PageTitle);
         $this->addCoreOption('tableOfContents', new BlockLayout\TableOfContents);
-        $this->fallbackSettings->method('getWithSource')->willReturn(['value' => null, 'source' => null]);
         $sidebar = $this->getOptionSidebar([], [
             'pinned' => [
                 'tableOfContents' => 20,
@@ -137,7 +134,7 @@ class OptionSidebarTest extends TestCase
 
         $this->assertSame(
             ['pinned' => ['lineBreak', 'tableOfContents'], 'hidden' => [], 'source' => 'default'],
-            $sidebar->getArrangement('test')
+            $sidebar->getArrangement('test', 5)
         );
     }
 
@@ -145,16 +142,14 @@ class OptionSidebarTest extends TestCase
     {
         $this->addCoreOption('lineBreak', new BlockLayout\LineBreak);
         $this->addCoreOption('pageTitle', new BlockLayout\PageTitle);
-        $this->fallbackSettings->expects($this->exactly(2))
-            ->method('getWithSource')
-            ->withConsecutive(
-                ['option_sidebar_test', ['user'], null, ['site' => 5]],
-                ['option_sidebar_test', ['site'], null, ['site' => 5]]
-            )
-            ->willReturnOnConsecutiveCalls(
-                ['value' => null, 'source' => null],
-                ['value' => ['pinned' => ['pageTitle'], 'hidden' => ['lineBreak']], 'source' => 'site']
-            );
+        $this->userSettings->expects($this->once())
+            ->method('get')
+            ->with('option_sidebar_test_site_5')
+            ->willReturn(null);
+        $this->siteSettings->expects($this->once())
+            ->method('get')
+            ->with('option_sidebar_test', null, 5)
+            ->willReturn(['pinned' => ['pageTitle'], 'hidden' => ['lineBreak']]);
         $sidebar = $this->getOptionSidebar([]);
 
         $this->assertSame(
@@ -163,26 +158,79 @@ class OptionSidebarTest extends TestCase
         );
     }
 
+    public function testUsersOwnArrangementIsPerSite()
+    {
+        $this->addCoreOption('lineBreak', new BlockLayout\LineBreak);
+        $this->userSettings->expects($this->once())
+            ->method('get')
+            ->with('option_sidebar_test_site_7')
+            ->willReturn(['pinned' => ['lineBreak']]);
+        $this->siteSettings->expects($this->never())->method('get');
+        $sidebar = $this->getOptionSidebar([]);
+
+        $this->assertSame(
+            ['pinned' => ['lineBreak'], 'hidden' => [], 'source' => 'user'],
+            $sidebar->getArrangement('test', 7)
+        );
+    }
+
+    public function testPerSiteSidebarWithoutASiteReadsNoUserOrSiteArrangement()
+    {
+        $this->addCoreOption('lineBreak', new BlockLayout\LineBreak);
+        $this->userSettings->expects($this->never())->method('get');
+        $this->siteSettings->expects($this->never())->method('get');
+
+        $this->assertSame('default', $this->getOptionSidebar([])->getArrangement('test')['source']);
+    }
+
+    public function testSidebarWithoutASiteLevelHasOneUserArrangement()
+    {
+        $this->addCoreOption('lineBreak', new BlockLayout\LineBreak);
+        $this->userSettings->expects($this->once())
+            ->method('get')
+            ->with('option_sidebar_test')
+            ->willReturn(['pinned' => ['lineBreak']]);
+        $sidebar = $this->getOptionSidebar([], ['levels' => ['user', 'global']]);
+
+        $this->assertSame('user', $sidebar->getArrangement('test', 5)['source']);
+    }
+
     public function testEmptyArrangementIsHonored()
     {
         $this->addCoreOption('lineBreak', new BlockLayout\LineBreak);
-        $this->fallbackSettings->method('getWithSource')
-            ->willReturn(['value' => ['pinned' => [], 'hidden' => []], 'source' => 'user']);
+        $this->userSettings->method('get')->willReturn(['pinned' => [], 'hidden' => []]);
         $sidebar = $this->getOptionSidebar([], ['pinned' => ['lineBreak' => 10]]);
 
-        $this->assertSame(['pinned' => [], 'hidden' => [], 'source' => 'user'], $sidebar->getArrangement('test'));
+        $this->assertSame(['pinned' => [], 'hidden' => [], 'source' => 'user'], $sidebar->getArrangement('test', 5));
     }
 
-    public function testMalformedValueIsTreatedAsUnset()
+    public function testNullAndEmptyStringFallThrough()
     {
         $this->addCoreOption('lineBreak', new BlockLayout\LineBreak);
-        $this->fallbackSettings->method('getWithSource')->willReturnOnConsecutiveCalls(
-            ['value' => 'not an arrangement', 'source' => 'user'],
-            ['value' => ['pinned' => 'lineBreak'], 'source' => 'site']
-        );
+        $this->userSettings->method('get')->willReturn('');
+        $this->siteSettings->method('get')->willReturn(['pinned' => ['lineBreak']]);
+
+        $this->assertSame('site', $this->getOptionSidebar([])->getArrangement('test', 5)['source']);
+    }
+
+    public function testMalformedValueFallsThroughToTheNextLevel()
+    {
+        $this->addCoreOption('lineBreak', new BlockLayout\LineBreak);
+        $this->userSettings->method('get')->willReturn('not an arrangement');
+        $this->siteSettings->method('get')->willReturn(['pinned' => 'lineBreak']);
         $sidebar = $this->getOptionSidebar([], ['pinned' => ['lineBreak' => 10]]);
 
-        $this->assertSame('default', $sidebar->getArrangement('test')['source']);
+        $this->assertSame('default', $sidebar->getArrangement('test', 5)['source']);
+    }
+
+    public function testNoLoggedInUserFallsThroughToTheSite()
+    {
+        $this->addCoreOption('lineBreak', new BlockLayout\LineBreak);
+        $this->userSettings->method('get')
+            ->willThrowException(new RuntimeException('Cannot manage settings when no target ID is set.'));
+        $this->siteSettings->method('get')->willReturn(['pinned' => ['lineBreak']]);
+
+        $this->assertSame('site', $this->getOptionSidebar([])->getArrangement('test', 5)['source']);
     }
 
     public function testNormalizeKeepsKnownUniqueNamesAndUnpinsHiddenNames()
@@ -209,13 +257,13 @@ class OptionSidebarTest extends TestCase
         $this->getOptionSidebar([])->getGroups('missing');
     }
 
-    public function testSavesForTheUser()
+    public function testSavesForTheUserOnThisSite()
     {
         $this->addCoreOption('lineBreak', new BlockLayout\LineBreak);
         $this->addCoreOption('pageTitle', new BlockLayout\PageTitle);
         $this->userSettings->expects($this->once())
             ->method('set')
-            ->with('option_sidebar_test', ['pinned' => ['pageTitle'], 'hidden' => ['lineBreak']]);
+            ->with('option_sidebar_test_site_5', ['pinned' => ['pageTitle'], 'hidden' => ['lineBreak']]);
         $this->userSettings->expects($this->never())->method('delete');
         $this->siteSettings->expects($this->never())->method($this->anything());
         $this->settings->expects($this->never())->method($this->anything());
@@ -223,35 +271,45 @@ class OptionSidebarTest extends TestCase
         $this->getOptionSidebar([])->save(
             'test',
             'user',
-            ['pinned' => ['pageTitle', 'unknown'], 'hidden' => ['lineBreak']]
+            ['pinned' => ['pageTitle', 'unknown'], 'hidden' => ['lineBreak']],
+            5
         );
     }
 
-    public function testDeletesForTheUser()
+    public function testDeletesForTheUserOnThisSite()
     {
-        $this->userSettings->expects($this->once())->method('delete')->with('option_sidebar_test');
+        $this->userSettings->expects($this->once())->method('delete')->with('option_sidebar_test_site_5');
         $this->userSettings->expects($this->never())->method('set');
 
-        $this->getOptionSidebar([])->save('test', 'user', null);
+        $this->getOptionSidebar([])->save('test', 'user', null, 5);
     }
 
-    public function testSavesForASiteAndClearsTheUsersOwnArrangement()
+    public function testSavesForASiteAndClearsTheUsersOwnArrangementThere()
     {
         $this->addCoreOption('lineBreak', new BlockLayout\LineBreak);
         $this->siteSettings->expects($this->once())
             ->method('set')
             ->with('option_sidebar_test', ['pinned' => ['lineBreak'], 'hidden' => []], 5);
-        $this->userSettings->expects($this->once())->method('delete')->with('option_sidebar_test');
+        $this->userSettings->expects($this->once())->method('delete')->with('option_sidebar_test_site_5');
 
         $this->getOptionSidebar([])->save('test', 'site', ['pinned' => ['lineBreak']], 5);
     }
 
-    public function testDeletesForASiteAndClearsTheUsersOwnArrangement()
+    public function testDeletesForASiteAndClearsTheUsersOwnArrangementThere()
     {
         $this->siteSettings->expects($this->once())->method('delete')->with('option_sidebar_test', 5);
-        $this->userSettings->expects($this->once())->method('delete')->with('option_sidebar_test');
+        $this->userSettings->expects($this->once())->method('delete')->with('option_sidebar_test_site_5');
 
         $this->getOptionSidebar([])->save('test', 'site', null, 5);
+    }
+
+    public function testSavesForTheUserOnASidebarWithoutASiteLevel()
+    {
+        $this->userSettings->expects($this->once())
+            ->method('set')
+            ->with('option_sidebar_test', ['pinned' => [], 'hidden' => []]);
+
+        $this->getOptionSidebar([], ['levels' => ['user', 'global']])->save('test', 'user', []);
     }
 
     public function testSavesGloballyAndClearsTheUsersOwnArrangement()
@@ -267,13 +325,29 @@ class OptionSidebarTest extends TestCase
     public function testRejectsALevelTheSidebarDoesNotHave()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->getOptionSidebar([])->save('test', 'global', []);
+        $this->getOptionSidebar([])->save('test', 'global', [], 5);
     }
 
-    public function testRejectsASiteSaveWithoutASite()
+    public function testRejectsASaveWithoutASiteOnAPerSiteSidebar()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->getOptionSidebar([])->save('test', 'site', []);
+        $this->getOptionSidebar([])->save('test', 'user', []);
+    }
+
+    public function testReadsTheOptionNamesOnce()
+    {
+        $this->addCoreOption('lineBreak', new BlockLayout\LineBreak);
+        $sidebar = $this->getOptionSidebar([]);
+        $manager = $this->createMock(AbstractPluginManager::class);
+        $manager->expects($this->once())->method('getRegisteredNames')->willReturn(['lineBreak']);
+        $manager->method('get')->willReturn(new BlockLayout\LineBreak);
+        $property = new \ReflectionProperty($sidebar, 'managers');
+        $property->setAccessible(true);
+        $property->setValue($sidebar, ['test' => $manager]);
+
+        $sidebar->getGroups('test');
+        $sidebar->normalize('test', ['lineBreak'], []);
+        $sidebar->getDefaultArrangement('test');
     }
 
     public function testGetModuleForClass()
@@ -285,7 +359,6 @@ class OptionSidebarTest extends TestCase
             [],
             [],
             $moduleManager,
-            $this->fallbackSettings,
             $this->settings,
             $this->siteSettings,
             $this->userSettings,
@@ -333,7 +406,6 @@ class OptionSidebarTest extends TestCase
                 $config,
                 ['test' => $manager],
                 $this->createMock(ModuleManager::class),
-                $this->fallbackSettings,
                 $this->settings,
                 $this->siteSettings,
                 $this->userSettings,

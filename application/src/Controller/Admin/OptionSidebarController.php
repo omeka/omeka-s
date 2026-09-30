@@ -45,6 +45,9 @@ class OptionSidebarController extends AbstractActionController
         }
 
         $siteId = (int) $this->params()->fromPost('site_id') ?: null;
+        if (!$siteId && $this->optionSidebar->isPerSite($key)) {
+            return $this->error(400, 'This sidebar is arranged per site, so a site is required.'); // @translate
+        }
         $site = null;
         if ($siteId) {
             try {

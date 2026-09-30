@@ -32,11 +32,13 @@ const isCustomizing = function(sidebar) {
  */
 const announce = function(sidebar, messageKey, ...args) {
     let message = sidebar.data('messages')[messageKey];
+    // Replacer functions keep "$&" and similar in a label from being read as
+    // replacement patterns.
     args.forEach(function(arg, index) {
-        message = message.replace('%' + (index + 1) + '$s', arg);
+        message = message.replace('%' + (index + 1) + '$s', () => arg);
     });
     if (args.length) {
-        message = message.replace('%s', args[0]);
+        message = message.replace('%s', () => args[0]);
     }
     sidebar.find('.option-sidebar-announcer').text(message);
 };
@@ -157,6 +159,9 @@ const enterCustomize = function(sidebar) {
         draggable: '.option-sidebar-row',
         handle: '.sortable-handle',
         onEnd: function(e) {
+            if (e.oldIndex === e.newIndex) {
+                return;
+            }
             const row = $(e.item);
             announce(sidebar, 'moved', row[0].dataset.label, row.index() + 1, row.parent().children().length);
         }
@@ -219,6 +224,9 @@ const post = function(sidebar, data) {
 $('.option-sidebar').each(function() {
     const sidebar = $(this);
     setSource(sidebar, sidebar.data('arrangement').source);
+    // Apply the script's rules for headings and groups from the start, so they
+    // don't change after the first interaction.
+    refresh(sidebar);
 });
 
 $(document).on('input', '.option-sidebar-filter', function() {

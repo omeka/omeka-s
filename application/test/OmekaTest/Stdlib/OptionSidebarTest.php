@@ -288,21 +288,21 @@ class OptionSidebarTest extends TestCase
         $this->getOptionSidebar([])->save('test', 'user', null, 5);
     }
 
-    public function testSavesForASiteAndClearsTheUsersOwnArrangementThere()
+    public function testSavesForASiteAndLeavesTheUsersOwnArrangement()
     {
         $this->addCoreOption('lineBreak', new BlockLayout\LineBreak);
         $this->siteSettings->expects($this->once())
             ->method('set')
             ->with('option_sidebar_test', ['pinned' => ['lineBreak'], 'hidden' => []], 5);
-        $this->userSettings->expects($this->once())->method('delete')->with('option_sidebar_test_site_5');
+        $this->userSettings->expects($this->never())->method($this->anything());
 
         $this->getOptionSidebar([])->save('test', 'site', ['pinned' => ['lineBreak']], 5);
     }
 
-    public function testDeletesForASiteAndClearsTheUsersOwnArrangementThere()
+    public function testDeletesForASiteAndLeavesTheUsersOwnArrangement()
     {
         $this->siteSettings->expects($this->once())->method('delete')->with('option_sidebar_test', 5);
-        $this->userSettings->expects($this->once())->method('delete')->with('option_sidebar_test_site_5');
+        $this->userSettings->expects($this->never())->method($this->anything());
 
         $this->getOptionSidebar([])->save('test', 'site', null, 5);
     }
@@ -316,12 +316,12 @@ class OptionSidebarTest extends TestCase
         $this->getOptionSidebar([], ['levels' => ['user', 'global']])->save('test', 'user', []);
     }
 
-    public function testSavesGloballyAndClearsTheUsersOwnArrangement()
+    public function testSavesGloballyAndLeavesTheUsersOwnArrangement()
     {
         $this->settings->expects($this->once())
             ->method('set')
             ->with('option_sidebar_test', ['pinned' => [], 'hidden' => []]);
-        $this->userSettings->expects($this->once())->method('delete')->with('option_sidebar_test');
+        $this->userSettings->expects($this->never())->method($this->anything());
 
         $this->getOptionSidebar([], ['levels' => ['user', 'global']])->save('test', 'global', []);
     }
@@ -352,6 +352,46 @@ class OptionSidebarTest extends TestCase
         $sidebar->getGroups('test');
         $sidebar->normalize('test', ['lineBreak'], []);
         $sidebar->getDefaultArrangement('test');
+    }
+
+    public function testSharedArrangementIgnoresTheUsersOwn()
+    {
+        $this->addCoreOption('lineBreak', new BlockLayout\LineBreak);
+        $this->addCoreOption('pageTitle', new BlockLayout\PageTitle);
+        $this->userSettings->method('get')->willReturn(['pinned' => ['pageTitle']]);
+        $this->siteSettings->method('get')->with('option_sidebar_test', null, 5)
+            ->willReturn(['pinned' => ['lineBreak']]);
+        $sidebar = $this->getOptionSidebar([]);
+
+        $this->assertSame(
+            ['pinned' => ['lineBreak'], 'hidden' => [], 'source' => 'site'],
+            $sidebar->getSharedArrangement('test', 5)
+        );
+    }
+
+    public function testSharedArrangementFallsBackToTheDefault()
+    {
+        $this->addCoreOption('lineBreak', new BlockLayout\LineBreak);
+        $sidebar = $this->getOptionSidebar([], ['pinned' => ['lineBreak' => 10]]);
+
+        $this->assertSame(
+            ['pinned' => ['lineBreak'], 'hidden' => [], 'source' => 'default'],
+            $sidebar->getSharedArrangement('test', 5)
+        );
+    }
+
+    public function testArrangementsByScope()
+    {
+        $this->addCoreOption('lineBreak', new BlockLayout\LineBreak);
+        $this->addCoreOption('pageTitle', new BlockLayout\PageTitle);
+        $this->userSettings->method('get')->willReturn(['pinned' => ['pageTitle']]);
+        $this->siteSettings->method('get')->willReturn(['pinned' => ['lineBreak']]);
+        $sidebar = $this->getOptionSidebar([]);
+
+        $this->assertSame(['user'], array_keys($sidebar->getArrangementsByScope('test', 5, false)));
+        $arrangements = $sidebar->getArrangementsByScope('test', 5, true);
+        $this->assertSame(['pageTitle'], $arrangements['user']['pinned']);
+        $this->assertSame(['lineBreak'], $arrangements['site']['pinned']);
     }
 
     public function testFilterLabelComesFromConfigWithAGenericDefault()

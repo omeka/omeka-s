@@ -3859,7 +3859,8 @@ input[type=text].query-form-query {
     }
 
     .sidebar-header button,
-    .option-sidebar-panel button {
+    .option-sidebar-panel button,
+    .option-sidebar-reveal {
         background-color: #fff;
         color: $copy-gray;
         padding: $spacing-small;
@@ -4116,6 +4117,13 @@ input[type=text].query-form-query {
         }
     }
 
+    // Says what a shared save or reset did, when the list may still show the
+    // user's own arrangement.
+    .option-sidebar-notice {
+        margin: 0 0 $spacing-medium;
+        font-size: .875 * $base-font-size;
+    }
+
     .option-sidebar-panel {
         margin-bottom: $spacing-medium;
         padding: $spacing-small $spacing-small 0;
@@ -4214,6 +4222,11 @@ input[type=text].query-form-query {
         list-style: none;
         margin: 0;
         padding: 0;
+    }
+
+    // Hidden options shown with "Show hidden options" stay addable, dimmed.
+    .option-sidebar.revealing .option-sidebar-row.is-hidden button.option {
+        opacity: .5;
     }
 
     .option-sidebar-module {

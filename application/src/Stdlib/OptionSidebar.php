@@ -277,11 +277,54 @@ class OptionSidebar
     }
 
     /**
+     * Get a sidebar's shared arrangement: the one saved at its shared level,
+     * or the config default when there's none.
+     *
+     * This is what customizing "for this site" or "for everyone" starts from,
+     * whatever the current user's own arrangement is.
+     *
+     * @param string $key
+     * @param int|null $siteId The site, for sidebars arranged per site
+     * @return array With "pinned", "hidden", and "source" (the shared level,
+     *   or "default")
+     */
+    public function getSharedArrangement(string $key, ?int $siteId = null): array
+    {
+        $level = $this->getSharedLevel($key);
+        if ($level) {
+            $value = $this->read($key, $level, $siteId);
+            if ($this->isArrangement($value)) {
+                $arrangement = $this->normalize($key, $value['pinned'] ?? [], $value['hidden'] ?? []);
+                $arrangement['source'] = $level;
+                return $arrangement;
+            }
+        }
+        return $this->getDefaultArrangement($key);
+    }
+
+    /**
+     * Get the arrangements customize mode can start from, keyed by scope.
+     *
+     * "user" is what the user sees now: their own arrangement, or the shared
+     * or default one they fall back to. With $includeShared, the shared level
+     * is added with the shared arrangement.
+     */
+    public function getArrangementsByScope(string $key, ?int $siteId, bool $includeShared): array
+    {
+        $arrangements = ['user' => $this->getArrangement($key, $siteId)];
+        $sharedLevel = $this->getSharedLevel($key);
+        if ($includeShared && $sharedLevel) {
+            $arrangements[$sharedLevel] = $this->getSharedArrangement($key, $siteId);
+        }
+        return $arrangements;
+    }
+
+    /**
      * Save a sidebar's arrangement at one of its levels, or delete it.
      *
      * The user level belongs to the current user. Saving or deleting at a
-     * shared level (site or global) also deletes the current user's own
-     * arrangement, so the user sees the result of the change they just made.
+     * shared level (site or global) changes only that level; the current
+     * user's own arrangement is left alone.
      *
      * @param string $key
      * @param string $level One of the sidebar's levels
@@ -318,9 +361,6 @@ class OptionSidebar
                     ? $this->userSettings->delete($settingId)
                     : $this->userSettings->set($settingId, $value);
                 break;
-        }
-        if ('user' !== $level) {
-            $this->userSettings->delete($this->getSettingId($key, 'user', $siteId));
         }
     }
 

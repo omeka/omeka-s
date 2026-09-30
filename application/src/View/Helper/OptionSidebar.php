@@ -68,6 +68,7 @@ class OptionSidebar extends AbstractHelper
             'groups' => $groups,
             'pinned' => $pinned,
             'arrangement' => $arrangement,
+            'arrangements' => $this->optionSidebar->getArrangementsByScope($key, $site ? $site->id() : null, $canSaveShared),
             'sharedLevel' => $sharedLevel,
             'canSaveShared' => $canSaveShared,
             'saveUrl' => $view->url('admin/default', ['controller' => 'option-sidebar', 'action' => 'save']),

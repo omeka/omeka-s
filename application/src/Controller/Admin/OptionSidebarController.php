@@ -19,8 +19,8 @@ class OptionSidebarController extends AbstractActionController
     /**
      * Save or reset the arrangement of an "add" sidebar.
      *
-     * Responds with the arrangement now in effect for the current user, as
-     * JSON, so the sidebar can show it without reloading the page.
+     * Responds with the arrangements the sidebar can show, keyed by scope, as
+     * JSON, so it can update without reloading the page.
      */
     public function saveAction()
     {
@@ -72,7 +72,9 @@ class OptionSidebarController extends AbstractActionController
         }
         $this->optionSidebar->save($key, $level, $arrangement, $siteId);
 
-        $response->setContent(json_encode($this->optionSidebar->getArrangement($key, $siteId)));
+        $sharedLevel = $this->optionSidebar->getSharedLevel($key);
+        $canSaveShared = $sharedLevel && $this->optionSidebar->canSave($key, $sharedLevel, $site);
+        $response->setContent(json_encode($this->optionSidebar->getArrangementsByScope($key, $siteId, $canSaveShared)));
         return $response;
     }
 

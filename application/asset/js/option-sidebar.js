@@ -47,25 +47,31 @@ const announce = function(sidebar, messageKey, ...args) {
  * Show and hide rows, groups, and headings for the current state.
  *
  * Hidden options stay visible, dimmed, in customize mode so they can be
- * shown again. The Pinned section is hidden while filtering so matches
+ * shown again, and outside it while "Show hidden options" is on, so they can
+ * still be added. The Pinned section is hidden while filtering so matches
  * aren't listed twice.
  */
 const refresh = function(sidebar) {
     const customizing = isCustomizing(sidebar);
+    const revealing = sidebar.hasClass('revealing');
     const query = sidebar.find('.option-sidebar-filter').val().trim().toLowerCase();
     let matchCount = 0;
+    let hiddenMatchCount = 0;
 
     sidebar.find('.option-sidebar-group:not(.option-sidebar-pinned)').each(function() {
         const group = $(this);
         let visibleCount = 0;
         group.find('.option-sidebar-row').each(function() {
             const row = $(this);
-            const isHidden = row.hasClass('is-hidden') && !customizing;
+            const isHidden = row.hasClass('is-hidden') && !customizing && !revealing;
             const text = (this.dataset.label + ' ' + this.dataset.module).toLowerCase();
             const isMatch = '' === query || text.includes(query);
             row.prop('hidden', isHidden || !isMatch);
             if (!isHidden && isMatch) {
                 visibleCount++;
+            }
+            if (row.hasClass('is-hidden') && isMatch) {
+                hiddenMatchCount++;
             }
         });
         group.prop('hidden', 0 === visibleCount);
@@ -80,6 +86,13 @@ const refresh = function(sidebar) {
     }).length;
     sidebar.find('.option-sidebar-group > h4').prop('hidden', !customizing && 2 > visibleSections);
     sidebar.find('.option-sidebar-no-matches').prop('hidden', '' === query || 0 < matchCount);
+
+    // Offer hidden options that match, so an option hidden for the site
+    // isn't mistaken for missing.
+    const messages = sidebar.data('messages');
+    sidebar.find('.option-sidebar-reveal')
+        .prop('hidden', customizing || (!revealing && 0 === hiddenMatchCount))
+        .text(revealing ? messages.hideHidden : messages.showHidden.replace('%s', () => hiddenMatchCount));
 
     return {query: query, matchCount: matchCount};
 };
@@ -142,13 +155,18 @@ const setSource = function(sidebar, source) {
 };
 
 const enterCustomize = function(sidebar) {
+    sidebar.removeClass('revealing');
+    sidebar.find('.option-sidebar-reveal').attr('aria-pressed', 'false');
     sidebar.addClass('customizing');
     sidebar.data('snapshot', getState(sidebar));
     sidebar.find('.option-sidebar-customize').attr('aria-pressed', 'true');
     sidebar.find('.option-sidebar-panel').prop('hidden', false);
     sidebar.find('.option-sidebar-error').prop('hidden', true).text('');
-    // Start from saving for yourself, so a site or global save is a choice.
+    sidebar.find('.option-sidebar-notice').prop('hidden', true).text('');
+    // Start from customizing for yourself, so a site or global customization
+    // is a choice.
     sidebar.find('.option-sidebar-scope input[value="user"]').prop('checked', true);
+    setScope(sidebar, 'user');
     sidebar.find('button.option').prop('disabled', true);
     sidebar.data('sortable', new Sortable(getPinnedList(sidebar)[0], {
         draggable: '.option-sidebar-row',
@@ -180,12 +198,56 @@ const leaveCustomize = function(sidebar) {
 
 const cancelCustomize = function(sidebar) {
     applyState(sidebar, sidebar.data('snapshot'));
+    setSource(sidebar, sidebar.data('arrangements').user.source);
     leaveCustomize(sidebar);
     announce(sidebar, 'canceled');
 };
 
 /**
- * Save or reset the arrangement, then show the arrangement now in effect.
+ * Show the arrangement for a scope: the user's own view, or the shared one.
+ *
+ * What's shown is what gets saved, so choosing "This site" edits the site's
+ * arrangement, never the user's own. The loaded state is kept to tell later
+ * whether there are unsaved changes.
+ */
+const setScope = function(sidebar, scope) {
+    const arrangement = sidebar.data('arrangements')[scope];
+    applyState(sidebar, arrangement);
+    setSource(sidebar, arrangement.source);
+    sidebar.data('scope', scope);
+    sidebar.data('loaded', JSON.stringify(getState(sidebar)));
+};
+
+const hasChanges = function(sidebar) {
+    return JSON.stringify(getState(sidebar)) !== sidebar.data('loaded');
+};
+
+/**
+ * After a save or reset, show the user's own view again.
+ *
+ * After a shared save or reset, the user may still see their own
+ * arrangement, so a visible notice says what happened.
+ */
+const finish = function(sidebar, arrangements, level, isReset) {
+    sidebar.data('arrangements', arrangements);
+    applyState(sidebar, arrangements.user);
+    setSource(sidebar, arrangements.user.source);
+    leaveCustomize(sidebar);
+    const messages = sidebar.data('messages');
+    if ('user' === level) {
+        announce(sidebar, isReset ? 'reset' : 'saved');
+        return;
+    }
+    let notice = (isReset ? messages.resetShared : messages.savedShared)[level];
+    if ('user' === arrangements.user.source) {
+        notice += ' ' + messages.ownStillApplies;
+    }
+    sidebar.find('.option-sidebar-notice').text(notice).prop('hidden', false);
+    sidebar.find('.option-sidebar-announcer').text(notice);
+};
+
+/**
+ * Save or reset an arrangement, then show the user's own view again.
  *
  * The response must be JSON: when the session has expired, the request is
  * redirected to the login page, and that HTML must count as a failure.
@@ -202,11 +264,8 @@ const post = function(sidebar, data) {
             site_id: sidebar.attr('data-site-id'),
             option_sidebar_csrf: sidebar.attr('data-csrf'),
         }, data),
-    }).done(function(arrangement) {
-        applyState(sidebar, arrangement);
-        setSource(sidebar, arrangement.source);
-        leaveCustomize(sidebar);
-        announce(sidebar, 'saved');
+    }).done(function(arrangements) {
+        finish(sidebar, arrangements, data.level, Boolean(data.reset));
     }).fail(function(jqXHR) {
         const message = (jqXHR.responseJSON && jqXHR.responseJSON.error) || sidebar.data('messages').error;
         sidebar.find('.option-sidebar-error').text(message).prop('hidden', false);
@@ -268,12 +327,38 @@ $(document).on('click', '.option-sidebar-hide', function() {
 $(document).on('click', '.option-sidebar-save', function() {
     const sidebar = $(this).closest('.option-sidebar');
     const state = getState(sidebar);
-    const level = sidebar.find('.option-sidebar-scope input:checked').val() || 'user';
-    post(sidebar, {level: level, pinned: state.pinned, hidden: state.hidden});
+    post(sidebar, {level: sidebar.data('scope'), pinned: state.pinned, hidden: state.hidden});
+});
+
+// Switching what's being customized discards unsaved changes, so ask first.
+$(document).on('change', '.option-sidebar-scope input', function() {
+    const sidebar = $(this).closest('.option-sidebar');
+    const previous = sidebar.data('scope');
+    if (hasChanges(sidebar) && !window.confirm(sidebar.data('messages').discard)) {
+        sidebar.find(`.option-sidebar-scope input[value="${previous}"]`).prop('checked', true);
+        return;
+    }
+    setScope(sidebar, this.value);
+    refresh(sidebar);
+    sidebar.find('.option-sidebar-announcer').text(sidebar.find('.option-sidebar-source').text());
 });
 
 $(document).on('click', '.option-sidebar-reset', function() {
-    post($(this).closest('.option-sidebar'), {level: this.dataset.level, reset: 1});
+    const sidebar = $(this).closest('.option-sidebar');
+    const level = this.dataset.level;
+    // A shared arrangement is what everyone sees, so ask first.
+    if ('user' !== level && !window.confirm(sidebar.data('messages').confirmReset[level])) {
+        return;
+    }
+    post(sidebar, {level: level, reset: 1});
+});
+
+$(document).on('click', '.option-sidebar-reveal', function() {
+    const sidebar = $(this).closest('.option-sidebar');
+    const revealing = !sidebar.hasClass('revealing');
+    sidebar.toggleClass('revealing', revealing);
+    this.setAttribute('aria-pressed', revealing ? 'true' : 'false');
+    refresh(sidebar);
 });
 
 $(document).on('click', '.option-sidebar-cancel', function() {

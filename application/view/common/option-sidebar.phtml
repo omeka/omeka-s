@@ -5,8 +5,9 @@
  * The media sidebar sits inside the item form, so every button here has
  * type="button", and nothing here is submitted with the form or changes what
  * Omeka.warnIfUnsaved() compares. The CSRF token is a data attribute, not a
- * hidden input, and the "Save for" radios, which need a name to group, point
- * their form attribute at no form, which takes them out of the item form.
+ * hidden input, and the "Customize for" radios, which need a name to group,
+ * point their form attribute at no form, which takes them out of the item
+ * form.
  */
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
@@ -44,8 +45,25 @@ $messages = [
     'moved' => $translate('%1$s moved to position %2$s of %3$s'),
     'customizing' => $translate('Customizing the list. The option buttons are off until you save or cancel.'),
     'saved' => $translate('Customization saved'),
+    'reset' => $translate('Customization reset'),
+    'savedShared' => [
+        'site' => $translate('Customization saved for this site.'),
+        'global' => $translate('Customization saved for everyone.'),
+    ],
+    'resetShared' => [
+        'site' => $translate('This site\'s customization was reset.'),
+        'global' => $translate('The customization for everyone was reset.'),
+    ],
+    'ownStillApplies' => $translate('Your own customization still applies to you.'),
+    'discard' => $translate('Discard your unsaved changes?'),
     'canceled' => $translate('Changes canceled'),
     'error' => $translate('The customization could not be saved.'),
+    'showHidden' => $translate('Show hidden options (%s)'),
+    'hideHidden' => $translate('Hide hidden options'),
+    'confirmReset' => [
+        'site' => $translate('Reset this site\'s customization? Users without their own customization will see the default.'),
+        'global' => $translate('Reset the customization for everyone? Users without their own customization will see the default.'),
+    ],
 ];
 ?>
 <div class="option-sidebar"
@@ -53,6 +71,7 @@ $messages = [
     data-save-url="<?php echo $escape($saveUrl); ?>"
     data-site-id="<?php echo $site ? $escape($site->id()) : ''; ?>"
     data-csrf="<?php echo $escape($csrf); ?>"
+    data-arrangements="<?php echo $escape(json_encode($arrangements)); ?>"
     data-source-labels="<?php echo $escape(json_encode($sourceLabels)); ?>"
     data-messages="<?php echo $escape(json_encode($messages)); ?>">
 
@@ -65,7 +84,21 @@ $messages = [
             aria-label="<?php echo $escape($translate('Customize this list')); ?>"></button>
     </div>
 
+    <p class="option-sidebar-notice" hidden></p>
+
     <div class="option-sidebar-panel" hidden>
+        <?php if ($canSaveShared): ?>
+        <div class="option-sidebar-scope" role="radiogroup" aria-labelledby="<?php echo $escape($scopeName); ?>-label">
+            <span id="<?php echo $escape($scopeName); ?>-label"><?php echo $escape($translate('Customize for')); ?></span>
+            <?php foreach (['user', $sharedLevel] as $level): ?>
+            <label>
+                <input type="radio" name="<?php echo $escape($scopeName); ?>" form="" autocomplete="off"
+                    value="<?php echo $escape($level); ?>"<?php echo 'user' === $level ? ' checked' : ''; ?>>
+                <?php echo $escape($levelLabels[$level]); ?>
+            </label>
+            <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
         <div class="option-sidebar-status">
             <span class="option-sidebar-source"><?php echo $escape($sourceLabels[$arrangement['source']]); ?></span>
             <button type="button" class="option-sidebar-reset" data-level="user"<?php echo 'user' === $arrangement['source'] ? '' : ' hidden'; ?>
@@ -76,18 +109,6 @@ $messages = [
             <?php endif; ?>
         </div>
         <p class="option-sidebar-instructions"><?php echo $escape($translate('Pin options to keep them at the top. Drag pinned options to reorder them. Hide options you don\'t use.')); ?></p>
-        <?php if ($canSaveShared): ?>
-        <div class="option-sidebar-scope" role="radiogroup" aria-labelledby="<?php echo $escape($scopeName); ?>-label">
-            <span id="<?php echo $escape($scopeName); ?>-label"><?php echo $escape($translate('Save for')); ?></span>
-            <?php foreach (['user', $sharedLevel] as $level): ?>
-            <label>
-                <input type="radio" name="<?php echo $escape($scopeName); ?>" form="" autocomplete="off"
-                    value="<?php echo $escape($level); ?>"<?php echo 'user' === $level ? ' checked' : ''; ?>>
-                <?php echo $escape($levelLabels[$level]); ?>
-            </label>
-            <?php endforeach; ?>
-        </div>
-        <?php endif; ?>
         <div class="option-sidebar-actions">
             <button type="button" class="option-sidebar-save"><?php echo $escape($translate('Save')); ?></button>
             <button type="button" class="option-sidebar-cancel"><?php echo $escape($translate('Cancel')); ?></button>
@@ -125,5 +146,6 @@ $messages = [
     <?php endforeach; ?>
 
     <p class="option-sidebar-no-matches" hidden><?php echo $escape($translate('No matches')); ?></p>
+    <button type="button" class="option-sidebar-reveal" aria-pressed="false"<?php echo $hidden ? '' : ' hidden'; ?>><?php echo $escape(sprintf($messages['showHidden'], count($hidden))); ?></button>
     <div class="option-sidebar-announcer sr-only" aria-live="polite" aria-atomic="true"></div>
 </div>

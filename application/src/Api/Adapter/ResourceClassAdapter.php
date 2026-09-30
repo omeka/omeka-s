@@ -116,10 +116,21 @@ class ResourceClassAdapter extends AbstractEntityAdapter
             );
         }
         if (isset($query['search']) && '' !== $query['search']) {
-            $qb->andWhere($qb->expr()->like(
-                'omeka_root.label',
-                $qb->createNamedParameter('%' . $query['search'] . '%')
-            ));
+            // Match every word, in any order, against the label or the term.
+            // The local name is case-sensitive, so compare the term lowercased.
+            $vocabularyAlias = $qb->createAlias();
+            $qb->innerJoin(
+                'omeka_root.vocabulary',
+                $vocabularyAlias
+            );
+            $words = preg_split('/\s+/', $query['search'], -1, PREG_SPLIT_NO_EMPTY);
+            foreach ($words as $word) {
+                $param = $qb->createNamedParameter('%' . mb_strtolower($word) . '%');
+                $qb->andWhere($qb->expr()->orX(
+                    $qb->expr()->like('omeka_root.label', $param),
+                    $qb->expr()->like("LOWER(CONCAT($vocabularyAlias.prefix, ':', omeka_root.localName))", $param)
+                ));
+            }
         }
         if (isset($query['local_name'])) {
             $qb->andWhere($qb->expr()->eq(

@@ -63,6 +63,7 @@ class OptionSidebar extends AbstractHelper
 
         return $view->partial(self::PARTIAL_NAME, [
             'key' => $key,
+            'filterLabel' => $this->optionSidebar->getFilterLabel($key),
             'site' => $site,
             'groups' => $groups,
             'pinned' => $pinned,

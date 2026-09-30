@@ -354,6 +354,12 @@ class OptionSidebarTest extends TestCase
         $sidebar->getDefaultArrangement('test');
     }
 
+    public function testFilterLabelComesFromConfigWithAGenericDefault()
+    {
+        $this->assertSame('Filter blocks', $this->getOptionSidebar([], ['filter_label' => 'Filter blocks'])->getFilterLabel('test'));
+        $this->assertSame('Filter options', $this->getOptionSidebar([])->getFilterLabel('test'));
+    }
+
     public function testSharedLevelIsTheFirstLevelAfterTheUsers()
     {
         $this->assertSame('site', $this->getOptionSidebar([])->getSharedLevel('test'));
@@ -423,14 +429,16 @@ class OptionSidebarTest extends TestCase
         $this->assertNull($method->invoke($sidebar, 'foo\Site\BlockLayout\Baz'));
     }
 
-    public function testEveryCoreBlockLayoutHasACategory()
+    public function testEveryCoreOptionHasACategory()
     {
         $config = require OMEKA_PATH . '/application/config/module.config.php';
-        $blockLayouts = $config['block_layouts'];
-        $names = array_merge(array_keys($blockLayouts['invokables']), array_keys($blockLayouts['factories']));
-        foreach (array_diff($names, $config['option_sidebars']['block_layouts']['exclude']) as $name) {
-            $this->assertArrayHasKey($name, $blockLayouts['category_names'], $name);
-            $this->assertArrayHasKey($blockLayouts['category_names'][$name], $blockLayouts['categories'], $name);
+        foreach ($config['option_sidebars'] as $key => $spec) {
+            $plugins = $config[$key];
+            $names = array_merge(array_keys($plugins['invokables'] ?? []), array_keys($plugins['factories'] ?? []));
+            foreach (array_diff($names, $spec['exclude'] ?? []) as $name) {
+                $this->assertArrayHasKey($name, $plugins['category_names'], "$key: $name");
+                $this->assertArrayHasKey($plugins['category_names'][$name], $plugins['categories'], "$key: $name");
+            }
         }
     }
 

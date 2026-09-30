@@ -835,8 +835,12 @@ return [
                 'position' => 20,
             ],
             'resources' => [
-                'label' => 'Resources and lists', // @translate
+                'label' => 'Resources', // @translate
                 'position' => 30,
+            ],
+            'navigation' => [
+                'label' => 'Navigation', // @translate
+                'position' => 40,
             ],
         ],
         'category_names' => [
@@ -851,9 +855,9 @@ return [
             'iiifPresentation' => 'media',
             'browsePreview' => 'resources',
             'itemWithMetadata' => 'resources',
-            'listOfPages' => 'resources',
-            'listOfSites' => 'resources',
-            'tableOfContents' => 'resources',
+            'listOfPages' => 'navigation',
+            'listOfSites' => 'navigation',
+            'tableOfContents' => 'navigation',
         ],
     ],
     'resource_page_block_layouts' => [
@@ -900,10 +904,34 @@ return [
             'oembed' => Service\Media\Ingester\OEmbedFactory::class,
             'youtube' => Service\Media\Ingester\YoutubeFactory::class,
         ],
+        'categories' => [
+            'files' => [
+                'label' => 'Files', // @translate
+                'position' => 10,
+            ],
+            'embeds' => [
+                'label' => 'Embeds', // @translate
+                'position' => 20,
+            ],
+            'text' => [
+                'label' => 'Text', // @translate
+                'position' => 30,
+            ],
+        ],
+        'category_names' => [
+            'upload' => 'files',
+            'url' => 'files',
+            'oembed' => 'embeds',
+            'youtube' => 'embeds',
+            'iiif' => 'embeds',
+            'iiif_presentation' => 'embeds',
+            'html' => 'text',
+        ],
     ],
     'option_sidebars' => [
         'block_layouts' => [
             'manager' => 'Omeka\BlockLayoutManager',
+            'filter_label' => 'Filter blocks', // @translate
             'levels' => ['user', 'site'],
             'exclude' => ['blockGroup'],
             'pinned' => [
@@ -914,10 +942,8 @@ return [
         ],
         'media_ingesters' => [
             'manager' => 'Omeka\Media\Ingester\Manager',
+            'filter_label' => 'Filter media types', // @translate
             'levels' => ['user', 'global'],
-            'pinned' => [
-                'upload' => 10,
-            ],
         ],
     ],
     'media_renderers' => [

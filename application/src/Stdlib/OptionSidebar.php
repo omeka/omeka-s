@@ -87,6 +87,16 @@ class OptionSidebar
     }
 
     /**
+     * Get the label for a sidebar's filter, such as "Filter blocks".
+     *
+     * Untranslated. Sidebars without one get a generic label.
+     */
+    public function getFilterLabel(string $key): string
+    {
+        return $this->getSpec($key)['filter_label'] ?? 'Filter options'; // @translate
+    }
+
+    /**
      * Get the level a sidebar's shared arrangement is saved at, if any.
      *
      * That's the first level after the user's own, "site" or "global".

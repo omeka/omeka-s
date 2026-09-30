@@ -56,14 +56,8 @@ class OptionSidebar extends AbstractHelper
             $pinned[] = $options[$name];
         }
 
-        // The shared level is the first level after the user's own.
-        $sharedLevel = current(array_diff($this->optionSidebar->getLevels($key), ['user'])) ?: null;
-        $canSaveShared = false;
-        if ('site' === $sharedLevel) {
-            $canSaveShared = $site && $site->userIsAllowed('update');
-        } elseif ('global' === $sharedLevel) {
-            $canSaveShared = $view->userIsAllowed('Omeka\Controller\Admin\Setting', 'browse');
-        }
+        $sharedLevel = $this->optionSidebar->getSharedLevel($key);
+        $canSaveShared = $sharedLevel && $this->optionSidebar->canSave($key, $sharedLevel, $site);
 
         $csrfForm = $this->formElementManager->get(Form::class, ['name' => 'option_sidebar']);
 

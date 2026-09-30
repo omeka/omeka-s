@@ -52,8 +52,7 @@ const announce = function(sidebar, messageKey, ...args) {
  */
 const refresh = function(sidebar) {
     const customizing = isCustomizing(sidebar);
-    const filter = sidebar.find('.option-sidebar-filter');
-    const query = filter.length ? filter.val().trim().toLowerCase() : '';
+    const query = sidebar.find('.option-sidebar-filter').val().trim().toLowerCase();
     let matchCount = 0;
 
     sidebar.find('.option-sidebar-group:not(.option-sidebar-pinned)').each(function() {
@@ -64,8 +63,7 @@ const refresh = function(sidebar) {
             const isHidden = row.hasClass('is-hidden') && !customizing;
             const text = (this.dataset.label + ' ' + this.dataset.module).toLowerCase();
             const isMatch = '' === query || text.includes(query);
-            row.prop('hidden', isHidden);
-            row.toggleClass('filtered', !isMatch);
+            row.prop('hidden', isHidden || !isMatch);
             if (!isHidden && isMatch) {
                 visibleCount++;
             }
@@ -103,7 +101,7 @@ const setPinned = function(sidebar, name, isPinned) {
             return;
         }
         setHidden(sidebar, name, false);
-        const clone = groupRow.clone().removeClass('filtered').prop('hidden', false);
+        const clone = groupRow.clone().prop('hidden', false);
         getPinnedList(sidebar).append(clone);
     } else {
         withName(getPinnedList(sidebar).children(), name).remove();
@@ -117,7 +115,7 @@ const setHidden = function(sidebar, name, isHidden) {
     const groupRow = withName(getGroupRows(sidebar), name);
     groupRow.toggleClass('is-hidden', isHidden);
     groupRow.find('.option-sidebar-hide').attr('aria-pressed', isHidden ? 'true' : 'false');
-    if (isHidden && withName(getPinnedList(sidebar).children(), name).length) {
+    if (isHidden) {
         setPinned(sidebar, name, false);
     }
 };
@@ -131,18 +129,15 @@ const applyState = function(sidebar, state) {
     state.pinned.forEach(function(name) {
         setPinned(sidebar, name, true);
     });
-    refresh(sidebar);
 };
 
 /**
  * Show where the arrangement came from, and which resets apply.
  */
 const setSource = function(sidebar, source) {
-    const sharedLevel = sidebar.data('sharedLevel');
     sidebar.find('.option-sidebar-source').text(sidebar.data('sourceLabels')[source]);
     sidebar.find('.option-sidebar-reset').each(function() {
-        const level = this.dataset.level;
-        this.hidden = 'user' === level ? 'user' !== source : !sharedLevel || source !== sharedLevel;
+        this.hidden = this.dataset.level !== source;
     });
 };
 
@@ -220,14 +215,6 @@ const post = function(sidebar, data) {
         panelButtons.prop('disabled', false);
     });
 };
-
-$('.option-sidebar').each(function() {
-    const sidebar = $(this);
-    setSource(sidebar, sidebar.data('arrangement').source);
-    // Apply the script's rules for headings and groups from the start, so they
-    // don't change after the first interaction.
-    refresh(sidebar);
-});
 
 $(document).on('input', '.option-sidebar-filter', function() {
     const sidebar = $(this).closest('.option-sidebar');

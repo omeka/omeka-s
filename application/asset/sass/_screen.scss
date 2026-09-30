@@ -3858,7 +3858,8 @@ input[type=text].query-form-query {
         justify-content: space-between;
     }
 
-    .sidebar-header button {
+    .sidebar-header button,
+    .option-sidebar-panel button {
         background-color: #fff;
         color: $copy-gray;
         padding: $spacing-small;
@@ -4086,9 +4087,8 @@ input[type=text].query-form-query {
         }
     }
 
-    // Rows switch to flex in customize mode, so hidden and filtered must win.
-    .option-sidebar [hidden],
-    .option-sidebar .filtered {
+    // Rows switch to flex in customize mode, so hidden must win.
+    .option-sidebar [hidden] {
         display: none !important;
     }
 
@@ -4127,21 +4127,10 @@ input[type=text].query-form-query {
             margin: 0 0 $spacing-small;
         }
 
-        // Match the light buttons in the sidebar header.
+        // These share the sidebar header's light button style.
         button {
-            background-color: #fff;
-            border-color: $border-gray;
-            color: $copy-gray;
-            padding: $spacing-small;
-            line-height: 1;
-            font-size: .875 * $base-font-size;
-            min-height: 0;
             margin: 0 $spacing-small $spacing-small 0;
         }
-    }
-
-    .option-sidebar-instructions {
-        margin: 0 0 $spacing-small;
     }
 
     // Undo the sidebar's heading-band labels and full-width inputs.
@@ -4170,7 +4159,6 @@ input[type=text].query-form-query {
         }
 
         input {
-            width: auto;
             margin: 0 ($spacing-small / 2) 0 0;
         }
     }
@@ -4196,8 +4184,7 @@ input[type=text].query-form-query {
         align-items: baseline;
     }
 
-    // Cancel follows the save buttons, with a wider gap so it doesn't read as
-    // a third place to save.
+    // A wider gap between Save and Cancel.
     .option-sidebar-panel .option-sidebar-cancel {
         margin-left: $spacing-small;
     }
@@ -4280,16 +4267,15 @@ input[type=text].query-form-query {
             box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
         }
 
-        .option-sidebar-row button.option,
-        .option-sidebar-row button.option:disabled {
+        .option-sidebar-row button.option {
             flex: 1;
             min-width: 0;
             min-height: 0;
             margin: 0;
             padding: $spacing-small 0;
             background-color: transparent;
+            // Against the disabled hover rule, which is also !important.
             box-shadow: none !important;
-            cursor: default;
 
             // Option buttons don't add anything while customizing.
             &:after {

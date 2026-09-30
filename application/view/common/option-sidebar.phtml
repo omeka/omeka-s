@@ -10,9 +10,13 @@
  */
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
-$pinnedNames = array_column($pinned, 'name');
 $hidden = $arrangement['hidden'];
-$showHeadings = (count($groups) + ($pinned ? 1 : 0)) > 1;
+// Headings show when more than one section is visible, the same rule the
+// script's refresh() applies, so the first render already matches it.
+$visibleGroups = array_filter($groups, function ($group) use ($hidden) {
+    return (bool) array_diff(array_column($group['options'], 'name'), $hidden);
+});
+$showHeadings = (count($visibleGroups) + ($pinned ? 1 : 0)) > 1;
 // How each source is described, and what each level is called when saving.
 $sourceLabels = [
     'user' => $translate('Currently customized for you'),
@@ -49,13 +53,11 @@ $messages = [
     data-save-url="<?php echo $escape($saveUrl); ?>"
     data-site-id="<?php echo $site ? $escape($site->id()) : ''; ?>"
     data-csrf="<?php echo $escape($csrf); ?>"
-    data-shared-level="<?php echo $escape($sharedLevel ?? ''); ?>"
-    data-arrangement="<?php echo $escape(json_encode($arrangement)); ?>"
     data-source-labels="<?php echo $escape(json_encode($sourceLabels)); ?>"
     data-messages="<?php echo $escape(json_encode($messages)); ?>">
 
     <div class="option-sidebar-toolbar">
-        <input type="search" class="option-sidebar-filter" autocomplete="off"
+        <input type="text" class="option-sidebar-filter" autocomplete="off"
             placeholder="<?php echo $escape($translate('Filter')); ?>"
             aria-label="<?php echo $escape($translate('Filter options')); ?>">
         <button type="button" class="option-sidebar-customize o-icon-configure" aria-pressed="false"
@@ -66,15 +68,15 @@ $messages = [
     <div class="option-sidebar-panel" hidden>
         <div class="option-sidebar-status">
             <span class="option-sidebar-source"><?php echo $escape($sourceLabels[$arrangement['source']]); ?></span>
-            <button type="button" class="option-sidebar-reset" data-level="user" hidden
+            <button type="button" class="option-sidebar-reset" data-level="user"<?php echo 'user' === $arrangement['source'] ? '' : ' hidden'; ?>
                 aria-label="<?php echo $escape($resetLabels['user']); ?>"><?php echo $escape($translate('Reset')); ?></button>
-            <?php if ($sharedLevel && $canSaveShared): ?>
-            <button type="button" class="option-sidebar-reset" data-level="<?php echo $escape($sharedLevel); ?>" hidden
+            <?php if ($canSaveShared): ?>
+            <button type="button" class="option-sidebar-reset" data-level="<?php echo $escape($sharedLevel); ?>"<?php echo $sharedLevel === $arrangement['source'] ? '' : ' hidden'; ?>
                 aria-label="<?php echo $escape($resetLabels[$sharedLevel]); ?>"><?php echo $escape($translate('Reset')); ?></button>
             <?php endif; ?>
         </div>
         <p class="option-sidebar-instructions"><?php echo $escape($translate('Pin options to keep them at the top. Drag pinned options to reorder them. Hide options you don\'t use.')); ?></p>
-        <?php if ($sharedLevel && $canSaveShared): ?>
+        <?php if ($canSaveShared): ?>
         <div class="option-sidebar-scope" role="radiogroup" aria-labelledby="<?php echo $escape($scopeName); ?>-label">
             <span id="<?php echo $escape($scopeName); ?>-label"><?php echo $escape($translate('Save for')); ?></span>
             <?php foreach (['user', $sharedLevel] as $level): ?>
@@ -107,17 +109,14 @@ $messages = [
         </ul>
     </section>
 
-    <?php foreach ($groups as $group): ?>
-    <?php
-    $groupHidden = !array_diff(array_column($group['options'], 'name'), $hidden);
-    ?>
-    <section class="option-sidebar-group" data-group="<?php echo $escape($group['key']); ?>"<?php echo $groupHidden ? ' hidden' : ''; ?>>
+    <?php foreach ($groups as $index => $group): ?>
+    <section class="option-sidebar-group" data-group="<?php echo $escape($group['key']); ?>"<?php echo isset($visibleGroups[$index]) ? '' : ' hidden'; ?>>
         <h4<?php echo $showHeadings ? '' : ' hidden'; ?>><?php echo $escape($group['label']); ?></h4>
         <ul class="option-sidebar-list">
             <?php foreach ($group['options'] as $option): ?>
             <?php echo $this->partial('common/option-sidebar-row', [
                 'option' => $option,
-                'isPinned' => in_array($option['name'], $pinnedNames),
+                'isPinned' => in_array($option['name'], $arrangement['pinned']),
                 'isHidden' => in_array($option['name'], $hidden),
             ]); ?>
             <?php endforeach; ?>

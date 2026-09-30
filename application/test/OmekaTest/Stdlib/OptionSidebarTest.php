@@ -4,8 +4,10 @@ namespace OmekaTest\Stdlib;
 use InvalidArgumentException;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Module\Manager as ModuleManager;
 use Omeka\Module\Module;
+use Omeka\Permissions\Acl;
 use Omeka\ServiceManager\AbstractPluginManager;
 use Omeka\Service\Exception\RuntimeException;
 use Omeka\Settings\Settings;
@@ -24,12 +26,14 @@ class OptionSidebarTest extends TestCase
     protected $settings;
     protected $siteSettings;
     protected $userSettings;
+    protected $acl;
 
     public function setUp(): void
     {
         $this->settings = $this->createMock(Settings::class);
         $this->siteSettings = $this->createMock(SiteSettings::class);
         $this->userSettings = $this->createMock(UserSettings::class);
+        $this->acl = $this->createMock(Acl::class);
     }
 
     public function testGroupsOptionsByCategoryThenCoreThenModuleThenOther()
@@ -350,6 +354,49 @@ class OptionSidebarTest extends TestCase
         $sidebar->getDefaultArrangement('test');
     }
 
+    public function testSharedLevelIsTheFirstLevelAfterTheUsers()
+    {
+        $this->assertSame('site', $this->getOptionSidebar([])->getSharedLevel('test'));
+        $this->assertSame('global', $this->getOptionSidebar([], ['levels' => ['user', 'global']])->getSharedLevel('test'));
+        $this->assertNull($this->getOptionSidebar([], ['levels' => ['user']])->getSharedLevel('test'));
+    }
+
+    public function testAnyoneCanSaveTheirOwnArrangement()
+    {
+        $this->assertTrue($this->getOptionSidebar([])->canSave('test', 'user'));
+    }
+
+    public function testSavingForASiteNeedsPermissionToUpdateIt()
+    {
+        $allowed = $this->createMock(SiteRepresentation::class);
+        $allowed->method('userIsAllowed')->with('update')->willReturn(true);
+        $denied = $this->createMock(SiteRepresentation::class);
+        $denied->method('userIsAllowed')->with('update')->willReturn(false);
+        $sidebar = $this->getOptionSidebar([]);
+
+        $this->assertTrue($sidebar->canSave('test', 'site', $allowed));
+        $this->assertFalse($sidebar->canSave('test', 'site', $denied));
+        $this->assertFalse($sidebar->canSave('test', 'site'));
+    }
+
+    public function testSavingForEveryoneNeedsTheGlobalSettings()
+    {
+        $this->acl->method('userIsAllowed')
+            ->with('Omeka\\Controller\\Admin\\Setting', 'browse')
+            ->willReturnOnConsecutiveCalls(true, false);
+        $sidebar = $this->getOptionSidebar([], ['levels' => ['user', 'global']]);
+
+        $this->assertTrue($sidebar->canSave('test', 'global'));
+        $this->assertFalse($sidebar->canSave('test', 'global'));
+    }
+
+    public function testCannotSaveAtALevelTheSidebarDoesNotHave()
+    {
+        $this->acl->method('userIsAllowed')->willReturn(true);
+
+        $this->assertFalse($this->getOptionSidebar([])->canSave('test', 'global'));
+    }
+
     public function testGetModuleForClass()
     {
         $moduleManager = new ModuleManager($this->createMock(ServiceLocatorInterface::class));
@@ -362,6 +409,7 @@ class OptionSidebarTest extends TestCase
             $this->settings,
             $this->siteSettings,
             $this->userSettings,
+            $this->acl,
             $this->getTranslator()
         );
         $method = new ReflectionMethod($sidebar, 'getModuleForClass');
@@ -409,6 +457,7 @@ class OptionSidebarTest extends TestCase
                 $this->settings,
                 $this->siteSettings,
                 $this->userSettings,
+                $this->acl,
                 $this->getTranslator(),
             ])
             ->onlyMethods(['getModuleForClass'])

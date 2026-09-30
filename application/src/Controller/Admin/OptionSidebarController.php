@@ -56,11 +56,11 @@ class OptionSidebarController extends AbstractActionController
                 return $this->error(404, 'Site not found.'); // @translate
             }
         }
-        if ('site' === $level && (!$site || !$site->userIsAllowed('update'))) {
-            return $this->error(403, 'You are not allowed to change the site default.'); // @translate
-        }
-        if ('global' === $level && !$this->userIsAllowed('Omeka\Controller\Admin\Setting', 'browse')) {
-            return $this->error(403, 'You are not allowed to change the default for everyone.'); // @translate
+        if (!$this->optionSidebar->canSave($key, $level, $site)) {
+            $message = 'site' === $level
+                ? 'You are not allowed to change the site default.' // @translate
+                : 'You are not allowed to change the default for everyone.'; // @translate
+            return $this->error(403, $message);
         }
 
         $arrangement = null;

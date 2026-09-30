@@ -4,8 +4,10 @@ namespace Omeka\Stdlib;
 use Collator;
 use InvalidArgumentException;
 use Laminas\I18n\Translator\TranslatorInterface;
+use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Module\Manager as ModuleManager;
 use Omeka\Module\Module;
+use Omeka\Permissions\Acl;
 use Omeka\Service\Exception\RuntimeException;
 use Omeka\Settings\Settings;
 use Omeka\Settings\SiteSettings;
@@ -33,6 +35,7 @@ class OptionSidebar
     protected Settings $settings;
     protected SiteSettings $siteSettings;
     protected UserSettings $userSettings;
+    protected Acl $acl;
     protected TranslatorInterface $translator;
     protected $collator;
     protected array $names = [];
@@ -44,6 +47,7 @@ class OptionSidebar
      * @param Settings $settings
      * @param SiteSettings $siteSettings
      * @param UserSettings $userSettings
+     * @param Acl $acl
      * @param TranslatorInterface $translator
      */
     public function __construct(
@@ -53,6 +57,7 @@ class OptionSidebar
         Settings $settings,
         SiteSettings $siteSettings,
         UserSettings $userSettings,
+        Acl $acl,
         TranslatorInterface $translator
     ) {
         $this->config = $config;
@@ -61,6 +66,7 @@ class OptionSidebar
         $this->settings = $settings;
         $this->siteSettings = $siteSettings;
         $this->userSettings = $userSettings;
+        $this->acl = $acl;
         $this->translator = $translator;
     }
 
@@ -78,6 +84,44 @@ class OptionSidebar
     public function getLevels(string $key): array
     {
         return $this->getSpec($key)['levels'] ?? [];
+    }
+
+    /**
+     * Get the level a sidebar's shared arrangement is saved at, if any.
+     *
+     * That's the first level after the user's own, "site" or "global".
+     */
+    public function getSharedLevel(string $key): ?string
+    {
+        foreach ($this->getLevels($key) as $level) {
+            if ('user' !== $level) {
+                return $level;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Can the current user save a sidebar's arrangement at a level?
+     *
+     * Anyone can save their own arrangement. Saving for a site requires
+     * permission to update the site, and saving for everyone requires access
+     * to the global settings.
+     */
+    public function canSave(string $key, string $level, ?SiteRepresentation $site = null): bool
+    {
+        if (!in_array($level, $this->getLevels($key), true)) {
+            return false;
+        }
+        switch ($level) {
+            case 'user':
+                return true;
+            case 'site':
+                return $site && $site->userIsAllowed('update');
+            case 'global':
+                return $this->acl->userIsAllowed('Omeka\Controller\Admin\Setting', 'browse');
+        }
+        return false;
     }
 
     /**
@@ -199,7 +243,7 @@ class OptionSidebar
      * Get a sidebar's arrangement: its pinned and hidden option names.
      *
      * The levels are checked in fallback order, and the first one with a
-     * well-formed value wins. As with FallbackSettings, null and an empty
+     * well-formed value wins; as with FallbackSettings, null and an empty
      * string count as no value. With no value at any level, the arrangement is
      * the config default.
      *
@@ -212,7 +256,7 @@ class OptionSidebar
     {
         foreach ($this->getLevels($key) as $level) {
             $value = $this->read($key, $level, $siteId);
-            if (null === $value || '' === $value || !$this->isArrangement($value)) {
+            if (!$this->isArrangement($value)) {
                 continue;
             }
             $arrangement = $this->normalize($key, $value['pinned'] ?? [], $value['hidden'] ?? []);

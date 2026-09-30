@@ -16,7 +16,7 @@
                         $comment = $site['site']->summary();
                         ?>
                         <li class='selector-child'
-                            data-child-search="<?php echo $this->escapeHtml($site['label']); ?>"
+                            data-child-search="<?php echo $this->escapeHtml($site['label'] . ' ' . $site['site']->slug()); ?>"
                             data-resource-id="<?php echo $this->escapeHtml($site['site']->id()); ?>"
                             data-resource-email="<?php echo $this->escapeHtml($email); ?>">
                             <div class="description<?php echo $comment ? '' : ' no-comment'; ?>">

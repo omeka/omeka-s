@@ -1904,6 +1904,84 @@ fieldset.section > legend {
     clear: both;
 }
 
+/* @group ----- Settings filter ----- */
+
+.settings-filter {
+    position: relative;
+    margin-bottom: $spacing-medium;
+    padding: $spacing-small 0;
+
+    // A search icon inside the input.
+    &:before {
+        content: fa-content($fa-var-search);
+        @include font-awesome;
+        position: absolute;
+        top: $spacing-small;
+        left: $spacing-medium;
+        line-height: 1.5 * $spacing-large;
+        color: lighten($copy-gray, 25%);
+        pointer-events: none;
+    }
+
+    .settings-filter-input {
+        width: 100%;
+        margin-bottom: $spacing-small;
+        padding-left: 1.5 * $spacing-large;
+    }
+}
+
+.settings-filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $spacing-medium;
+}
+
+// The chips are the sidebar tabs' pills (see .sidebar-section-nav). A filled
+// selected state stands out among many chips, where the tabs' bold wouldn't.
+.settings-filter-chip[aria-pressed="true"] {
+    background-color: $blue;
+    color: #fff;
+}
+
+// Small labels: "Modules" in the chip row, and "Module" beside a module
+// group's heading, like the left navigation's section labels.
+.settings-filter-modules-label,
+.settings-group-module-label {
+    font-size: .75 * $base-font-size;
+    font-weight: normal;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: lighten($copy-gray, 15%);
+}
+
+.settings-filter-modules-label {
+    padding-left: $spacing-medium;
+    border-left: 1px solid $border-gray;
+}
+
+// Omeka's empty state (.no-resources), with a search icon. The class pair
+// matches the page icons' specificity, such as .sites .no-resources:before,
+// and comes later, so it wins.
+.no-resources.settings-filter-no-matches:before {
+    content: fa-content($fa-var-search);
+}
+
+// Settings and groups the filter hides. A class rather than the hidden
+// attribute, because .field sets its own display, and so clearing the filter
+// never shows something another script hid.
+.settings-filter-hidden {
+    display: none !important;
+}
+
+.settings-group-module > legend {
+    display: flex;
+    align-items: baseline;
+    gap: $spacing-medium;
+}
+
+/* @end */
+
 #page-actions {
     position: fixed;
     padding: $spacing-small gutter();
@@ -3340,7 +3418,9 @@ fieldset.section > legend {
     }
 }
 
-.sidebar-section-nav button[type="button"] {
+// Also the settings filter's chips.
+.sidebar-section-nav button[type="button"],
+.settings-filter-chip {
     background-color: rgba(0,0,0,.08);
     color: $copy-gray;
     border-radius: $spacing-large;

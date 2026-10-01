@@ -434,6 +434,7 @@ return [
             'ckEditor' => View\Helper\CkEditor::class,
             'sitePagePagination' => View\Helper\SitePagePagination::class,
             'sectionNav' => View\Helper\SectionNav::class,
+            'settingsFilter' => View\Helper\SettingsFilter::class,
             'sidebarSectionNav' => View\Helper\SidebarSectionNav::class,
             'uploadLimit' => View\Helper\UploadLimit::class,
             'formRecaptcha' => Form\View\Helper\FormRecaptcha::class,
@@ -975,5 +976,6 @@ return [
         'Description', // @translate
         'Unknown block layout', // @translate
         'Required field must be completed', // @translate
+        'Matching settings: %s', // @translate
     ],
 ];

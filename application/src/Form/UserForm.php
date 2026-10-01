@@ -373,6 +373,9 @@ class UserForm extends Form implements EventManagerAwareInterface
             ]);
         }
 
+        // Record the core groups so modules' groups can be told apart.
+        $settingsFieldset->setOption('core_element_groups', array_keys($settingsFieldset->getOption('element_groups')));
+
         $addEvent = new Event('form.add_elements', $this);
         $this->getEventManager()->triggerEvent($addEvent);
 

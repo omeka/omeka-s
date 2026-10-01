@@ -442,6 +442,7 @@ return [
             'formRestoreTextarea' => Form\View\Helper\FormRestoreTextarea::class,
             'formCollectionElementGroups' => Form\View\Helper\FormCollectionElementGroups::class,
             'formCollectionElementGroupsCollapsible' => Form\View\Helper\FormCollectionElementGroupsCollapsible::class,
+            'formCollectionSettingsGroups' => Form\View\Helper\FormCollectionSettingsGroups::class,
             'queryToHiddenInputs' => View\Helper\QueryToHiddenInputs::class,
             'formAsset' => Form\View\Helper\FormAsset::class,
             'formQuery' => Form\View\Helper\FormQuery::class,

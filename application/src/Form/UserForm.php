@@ -132,6 +132,7 @@ class UserForm extends Form implements EventManagerAwareInterface
 
         $settingsFieldset = $this->get('user-settings');
         $settingsFieldset->setOption('element_groups', [
+            'general' => 'General', // @translate
             'columns' => 'Admin browse columns', // @translate
             'browse_defaults' => 'Admin browse defaults', // @translate
         ]);
@@ -139,6 +140,7 @@ class UserForm extends Form implements EventManagerAwareInterface
             'name' => 'locale',
             'type' => 'Omeka\Form\Element\LocaleSelect',
             'options' => [
+                'element_group' => 'general',
                 'label' => 'Locale', // @translate
                 'info' => 'Global locale/language code for all interfaces.', // @translate
             ],
@@ -158,6 +160,7 @@ class UserForm extends Form implements EventManagerAwareInterface
                 'id' => 'default_resource_template',
             ],
             'options' => [
+                'element_group' => 'general',
                 'label' => 'Default resource template', // @translate
                 'empty_option' => '',
                 'resource_value_options' => [
@@ -182,6 +185,7 @@ class UserForm extends Form implements EventManagerAwareInterface
                 'id' => 'default_item_sets',
             ],
             'options' => [
+                'element_group' => 'general',
                 'label' => 'Default item sets for items', // @translate
                 'empty_option' => '',
                 'query' => ['is_open' => true],
@@ -198,6 +202,7 @@ class UserForm extends Form implements EventManagerAwareInterface
                 'id' => 'default_sites',
             ],
             'options' => [
+                'element_group' => 'general',
                 'label' => 'Default sites for items', // @translate
                 'empty_option' => '',
                 'filter_resource_representations' => function ($sites) {

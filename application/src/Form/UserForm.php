@@ -133,8 +133,8 @@ class UserForm extends Form implements EventManagerAwareInterface
         $settingsFieldset = $this->get('user-settings');
         $settingsFieldset->setOption('element_groups', [
             'general' => 'General', // @translate
-            'columns' => 'Admin browse columns', // @translate
-            'browse_defaults' => 'Admin browse defaults', // @translate
+            'columns' => 'Browse columns', // @translate
+            'browse_defaults' => 'Browse defaults', // @translate
         ]);
         $settingsFieldset->add([
             'name' => 'locale',

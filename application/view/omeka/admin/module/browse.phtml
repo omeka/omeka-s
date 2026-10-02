@@ -147,6 +147,14 @@ if (!in_array($selectedFilter, array_keys($filterLabels), true)) {
                         <?php else: ?>
                         <span id="<?php echo $escape($nameId); ?>">[<?php echo $translate('name not found'); ?>]</span>
                         <?php endif; ?>
+                        <?php // Beside the name, not inside it, because modules' version checks read the name's text and link. ?>
+                        <?php echo $this->hyperlink('', '#', [
+                            'data-sidebar-content-url' => $this->url(null, ['action' => 'show-details'], ['query' => ['id' => $module->getId()]], true),
+                            'class' => 'o-icon-more sidebar-content module-details-link',
+                            'title' => $translate('Details'),
+                            'aria-label' => $translate('Details'),
+                            'aria-describedby' => $nameId,
+                        ]); ?>
                         <?php if ($author = $module->getIni('author')): ?>
                         <span class="module-author">
                             <?php if ($authorLink = $module->getIni('author_link')): ?>

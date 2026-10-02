@@ -65,16 +65,7 @@ class ModuleController extends AbstractActionController
             'needs_upgrade' => $this->translate('Needs upgrade'),
             'error' => $this->translate('Error'),
         ]);
-        $view->setVariable('states', [
-            'active' => $this->translate('Active'),
-            'not_active' => $this->translate('Not active'),
-            'not_installed' => $this->translate('Not installed'),
-            'needs_upgrade' => $this->translate('Needs upgrade'),
-            'not_found' => $this->translate('Not found'),
-            'invalid_module' => $this->translate('Invalid module'),
-            'invalid_ini' => $this->translate('Invalid INI'),
-            'invalid_omeka_version' => $this->translate('Invalid Omeka S version'),
-        ]);
+        $view->setVariable('states', $this->getStateLabels());
         $view->setVariable('stateChangeForm', function ($action, $id) {
             return $this->getForm(ModuleStateChangeForm::class, [
                 'module_action' => $action,
@@ -385,6 +376,12 @@ class ModuleController extends AbstractActionController
         return $view;
     }
 
+    /**
+     * Show a module's details in the modules page sidebar.
+     *
+     * This has its own template. The show-details partial belongs to the
+     * uninstall confirmation, where modules add warnings through view.details.
+     */
     public function showDetailsAction()
     {
         $id = $this->params()->fromQuery('id');
@@ -395,7 +392,28 @@ class ModuleController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setTerminal(true);
+        $view->setTemplate('omeka/admin/module/details');
         $view->setVariable('module', $module);
+        $view->setVariable('states', $this->getStateLabels());
         return $view;
+    }
+
+    /**
+     * Get the label for each module state.
+     *
+     * @return array
+     */
+    protected function getStateLabels()
+    {
+        return [
+            'active' => $this->translate('Active'),
+            'not_active' => $this->translate('Not active'),
+            'not_installed' => $this->translate('Not installed'),
+            'needs_upgrade' => $this->translate('Needs upgrade'),
+            'not_found' => $this->translate('Not found'),
+            'invalid_module' => $this->translate('Invalid module'),
+            'invalid_ini' => $this->translate('Invalid INI'),
+            'invalid_omeka_version' => $this->translate('Invalid Omeka S version'),
+        ];
     }
 }

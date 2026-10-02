@@ -10,7 +10,8 @@ $form->prepare();
 <div id="page-actions">
     <button><?php echo $translate('Save'); ?></button>
 </div>
-<?php echo $this->formCollectionElementGroups($form); ?>
+<?php echo $this->settingsFilter(); ?>
+<?php echo $this->formCollectionSettingsGroups($form); ?>
 <?php echo $this->form()->closeTag(); ?>
 
 <?php $this->trigger('view.browse.after'); ?>

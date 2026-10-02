@@ -28,17 +28,15 @@ $settingsForm->prepare();
     <?php echo $this->cancelButton(); ?>
     <button><?php echo $translate('Save'); ?></button>
 </div>
-<?php echo $this->sectionNav([
-    'site-info' => $translate('Info'),
-    'site-settings' => $translate('Settings'),
-], 'view.show.section_nav', $site); ?>
-<div id="site-info" class="active section">
+<?php echo $this->settingsFilter(); ?>
+<fieldset id="site-info" class="settings-group">
+    <legend><h2 class="fieldsets-heading"><?php echo $translate('Info'); ?></h2></legend>
     <?php $this->trigger('view.edit.form.before', ['form' => $form, 'site' => $site]); ?>
     <?php echo $this->formCollection($form, false); ?>
     <?php $this->trigger('view.edit.form.after', ['form' => $form, 'site' => $site]); ?>
-</div>
-<div id="site-settings" class="section">
-    <?php echo $this->formCollectionElementGroups($settingsForm); ?>
+</fieldset>
+<div id="site-settings">
+    <?php echo $this->formCollectionSettingsGroups($settingsForm); ?>
 </div>
 <?php echo $this->form()->closeTag(); ?>
 <?php $this->trigger('view.edit.after'); ?>

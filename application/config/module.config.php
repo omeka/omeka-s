@@ -434,6 +434,7 @@ return [
             'ckEditor' => View\Helper\CkEditor::class,
             'sitePagePagination' => View\Helper\SitePagePagination::class,
             'sectionNav' => View\Helper\SectionNav::class,
+            'settingsFilter' => View\Helper\SettingsFilter::class,
             'sidebarSectionNav' => View\Helper\SidebarSectionNav::class,
             'uploadLimit' => View\Helper\UploadLimit::class,
             'formRecaptcha' => Form\View\Helper\FormRecaptcha::class,
@@ -442,6 +443,7 @@ return [
             'formRestoreTextarea' => Form\View\Helper\FormRestoreTextarea::class,
             'formCollectionElementGroups' => Form\View\Helper\FormCollectionElementGroups::class,
             'formCollectionElementGroupsCollapsible' => Form\View\Helper\FormCollectionElementGroupsCollapsible::class,
+            'formCollectionSettingsGroups' => Form\View\Helper\FormCollectionSettingsGroups::class,
             'queryToHiddenInputs' => View\Helper\QueryToHiddenInputs::class,
             'formAsset' => Form\View\Helper\FormAsset::class,
             'formQuery' => Form\View\Helper\FormQuery::class,
@@ -974,5 +976,6 @@ return [
         'Description', // @translate
         'Unknown block layout', // @translate
         'Required field must be completed', // @translate
+        'Matching settings: %s', // @translate
     ],
 ];

@@ -1,0 +1,27 @@
+<?php
+/**
+ * The settings filter rendered by the settingsFilter view helper.
+ *
+ * It sits inside the settings form, so every button here has type="button",
+ * and the input has no name, so nothing here is submitted with the form or
+ * changes what Omeka.warnIfUnsaved() compares.
+ */
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+?>
+<div class="o-filter settings-filter">
+    <input type="text" class="o-filter-input" autocomplete="off"
+        placeholder="<?php echo $escape($translate('Filter settings')); ?>"
+        aria-label="<?php echo $escape($translate('Filter settings')); ?>">
+    <div class="o-filter-chips" role="group" aria-label="<?php echo $escape($translate('Show group')); ?>">
+        <button type="button" class="o-filter-chip" aria-pressed="true"><?php echo $escape($translate('All')); ?></button>
+        <span class="settings-filter-modules-label" hidden><?php echo $escape($translate('Modules')); ?></span>
+    </div>
+    <template class="settings-filter-chip-template">
+        <button type="button" class="o-filter-chip" aria-pressed="false"></button>
+    </template>
+    <div class="o-filter-announcer sr-only" aria-live="polite" aria-atomic="true"></div>
+</div>
+<div class="o-filter-no-matches no-resources" hidden>
+    <p><?php echo $escape($translate('No matches')); ?></p>
+</div>

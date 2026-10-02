@@ -950,7 +950,7 @@ class AclFactory implements FactoryInterface
         $acl->deny(
             'site_admin',
             ['Omeka\Module\Manager', 'Omeka\Controller\Admin\Module'],
-            ['activate', 'deactivate', 'install', 'uninstall', 'upgrade', 'configure']
+            ['activate', 'deactivate', 'install', 'uninstall', 'upgrade', 'configure', 'batch']
         );
         $acl->deny(
             'site_admin',

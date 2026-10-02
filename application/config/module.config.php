@@ -974,5 +974,7 @@ return [
         'Description', // @translate
         'Unknown block layout', // @translate
         'Required field must be completed', // @translate
+        'Matching modules: %s', // @translate
+        '%s available', // @translate
     ],
 ];

@@ -8,6 +8,7 @@ use Omeka\Module\Exception\ModuleStateInvalidException;
 use Omeka\Module\Manager as OmekaModuleManager;
 use Laminas\ModuleManager\ModuleManager;
 use Omeka\Mvc\Exception;
+use Omeka\Stdlib\Message;
 use Laminas\Form\Form;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
@@ -45,19 +46,9 @@ class ModuleController extends AbstractActionController
 
     public function browseAction()
     {
-        // Get modules, filtering modules by state.
-        $state = $this->params()->fromQuery('state');
-        if ('error' == $state) {
-            $modules = array_merge(
-                $this->omekaModules->getModulesByState('not_found'),
-                $this->omekaModules->getModulesByState('invalid_module'),
-                $this->omekaModules->getModulesByState('invalid_ini')
-            );
-        } elseif ($state) {
-            $modules = $this->omekaModules->getModulesByState($state);
-        } else {
-            $modules = $this->omekaModules->getModules();
-        }
+        // Get all modules. The page filters them by state in the browser, and
+        // the state query parameter only selects the filter to start with.
+        $modules = $this->omekaModules->getModules();
 
         // Order modules by name.
         uasort($modules, function ($a, $b) {
@@ -66,7 +57,7 @@ class ModuleController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('modules', $modules);
-        $view->setVariable('filterState', $state);
+        $view->setVariable('filterState', $this->params()->fromQuery('state'));
         $view->setVariable('filterStates', [
             'active' => $this->translate('Active'),
             'not_active' => $this->translate('Not active'),
@@ -90,7 +81,78 @@ class ModuleController extends AbstractActionController
                 'module_id' => $id,
             ]);
         });
+        $view->setVariable('batchForm', $this->getForm(Form::class, ['name' => 'module_batch']));
         return $view;
+    }
+
+    /**
+     * Activate or deactivate the selected modules.
+     *
+     * Modules not in the state the action needs are skipped. A failure is
+     * reported and the remaining modules are still processed.
+     */
+    public function batchAction()
+    {
+        if (!$this->getRequest()->isPost()) {
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        }
+        $form = $this->getForm(Form::class, ['name' => 'module_batch']);
+        $form->setData($this->getRequest()->getPost());
+        if (!$form->isValid()) {
+            throw new Exception\PermissionDeniedException;
+        }
+
+        // The manager method each action calls, and the message listing the
+        // modules it changed.
+        $actions = [
+            'activate-selected' => [
+                'activate',
+                'Modules activated: %s', // @translate
+            ],
+            'deactivate-selected' => [
+                'deactivate',
+                'Modules deactivated: %s', // @translate
+            ],
+        ];
+        $action = $this->params()->fromPost('batch_action');
+        if (!isset($actions[$action])) {
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        }
+        [$method, $successMessage] = $actions[$action];
+
+        // Module IDs are strings. Anything else, such as a nested array in a
+        // crafted request, is ignored.
+        $ids = array_unique(array_filter((array) $this->params()->fromPost('module_ids', []), 'is_string'));
+        $changed = [];
+        $skipped = [];
+        foreach ($ids as $id) {
+            $module = $this->omekaModules->getModule($id);
+            $label = ($module ? $module->getName() : null) ?: $id;
+            if (!$module) {
+                $skipped[] = $label;
+                continue;
+            }
+            try {
+                $this->omekaModules->$method($module);
+                $changed[] = $label;
+            } catch (ModuleStateInvalidException $e) {
+                // The manager only changes a module in the state the action
+                // needs, and throws this before changing anything.
+                $skipped[] = $label;
+            } catch (\Exception $e) {
+                $this->messenger()->addError(new Message('%1$s: %2$s', $label, $e->getMessage()));
+            }
+        }
+        if ($changed) {
+            $this->messenger()->addSuccess(new Message($successMessage, implode(', ', $changed)));
+        }
+        if ($skipped) {
+            $this->messenger()->addWarning(new Message(
+                'Modules skipped because the action does not apply to their current state: %s', // @translate
+                implode(', ', $skipped)
+            ));
+        }
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 
     /**

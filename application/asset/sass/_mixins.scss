@@ -39,3 +39,10 @@
     background-color: lighten($red, 55%);
     color: $red;
 }
+
+// The warning background, with text darker than the flash messages' orange,
+// so it's readable at small sizes.
+@mixin warning {
+    background-color: lighten(orange, 45%);
+    color: darken(orange, 30%);
+}

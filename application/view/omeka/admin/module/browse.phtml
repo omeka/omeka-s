@@ -5,152 +5,248 @@ $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'modules browse');
 $this->headScript()->prependFile($this->assetUrl('vendor/compare-versions/index.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/module-filter.js', 'Omeka'));
 $this->plugin('formRow')->setPartial(null);
+
+$versionNotifications = (bool) $this->setting('version_notifications');
+// What the user may do, worked out once rather than for every row.
+$allowed = [];
+foreach (['install', 'activate', 'deactivate', 'upgrade', 'uninstall', 'configure'] as $privilege) {
+    $allowed[$privilege] = $this->userIsAllowed('Omeka\Module\Manager', $privilege);
+}
+$canBatch = $allowed['activate'] || $allowed['deactivate'];
+
+// The four error states share the Error filter.
+$errorStates = [
+    Manager::STATE_NOT_FOUND,
+    Manager::STATE_INVALID_MODULE,
+    Manager::STATE_INVALID_INI,
+    Manager::STATE_INVALID_OMEKA_VERSION,
+];
+$getStateFilter = function ($state) use ($errorStates) {
+    return in_array($state, $errorStates) ? 'error' : $state;
+};
+
+// The action that changes each state.
+$stateActions = [
+    Manager::STATE_NOT_INSTALLED => 'install',
+    Manager::STATE_NOT_ACTIVE => 'activate',
+    Manager::STATE_ACTIVE => 'deactivate',
+    Manager::STATE_NEEDS_UPGRADE => 'upgrade',
+];
+
+// The filters: All, each state, and Updates available when the version check
+// runs, with starting counts. The page script keeps the counts current.
+$filterLabels = ['' => $translate('All')] + $filterStates;
+if ($versionNotifications) {
+    $filterLabels['update_available'] = $translate('Updates available');
+}
+$filterCounts = array_fill_keys(array_keys($filterLabels), 0);
+$filterCounts[''] = count($modules);
+foreach ($modules as $module) {
+    $stateFilter = $getStateFilter($module->getState());
+    if (isset($filterCounts[$stateFilter])) {
+        $filterCounts[$stateFilter]++;
+    }
+}
+
+// The filter to start with, from the state query parameter. An unknown value
+// starts with all modules.
+$selectedFilter = $filterState ? $getStateFilter($filterState) : '';
+if (!in_array($selectedFilter, array_keys($filterLabels), true)) {
+    $selectedFilter = '';
+}
 ?>
 
 <?php echo $this->pageTitle($translate('Modules')); ?>
 
-<form method="get" class="state-filter">
-    <select name="state" aria-label="<?php echo $translate('Filter'); ?>">
-        <option value=""><?php echo $translate('All modules'); ?></option>
-        <?php foreach ($filterStates as $value => $option): ?>
-        <option value="<?php echo $escape($value); ?>"<?php if ($value == $filterState): echo ' selected'; endif; ?>><?php echo $escape($option); ?></option>
+<?php if ($modules): ?>
+<div id="module-filter" class="o-filter">
+    <input type="text" class="o-filter-input" autocomplete="off"
+        placeholder="<?php echo $escape($translate('Filter modules')); ?>"
+        aria-label="<?php echo $escape($translate('Filter modules')); ?>">
+    <div class="o-filter-chips" role="group" aria-label="<?php echo $escape($translate('Show state')); ?>">
+        <?php foreach ($filterLabels as $value => $label): ?>
+        <?php
+        $isSelected = $value === $selectedFilter;
+        // As in the page script, a filter with no modules hides, except All
+        // and the selected one.
+        $isHidden = '' !== $value && !$filterCounts[$value] && !$isSelected;
+        ?>
+        <button type="button" class="o-filter-chip" data-state-filter="<?php echo $escape($value); ?>" aria-pressed="<?php echo $isSelected ? 'true' : 'false'; ?>"<?php if ($isHidden): ?> hidden<?php endif; ?>>
+            <?php echo $escape($label); ?>
+            <span class="o-filter-chip-count"><?php echo $filterCounts[$value]; ?></span>
+        </button>
         <?php endforeach; ?>
-    </select>
-</form>
+    </div>
+    <div class="o-filter-announcer sr-only" aria-live="polite" aria-atomic="true"></div>
+</div>
+<?php endif; ?>
 <?php $this->trigger('view.browse.before'); ?>
 <?php if ($modules): ?>
-<div id="modules">
-        <?php foreach ($modules as $id => $module): ?>
-        <div class="module">
-            <div class="module-meta">
-                <?php if ($name = $module->getName()): ?>
-                <span class="module-name">
-                    <?php if ($moduleLink = $module->getIni('module_link')): ?>
-                    <?php echo $this->hyperlink($name, $moduleLink, ['target' => '_blank']); ?>
-                    <?php else: ?>
-                    <?php echo $name; ?>
-                    <?php endif; ?>
-                </span>
-                <?php else: ?>
-                [<?php echo $translate('name not found'); ?>]
+<div id="module-batch">
+    <?php if ($canBatch): ?>
+    <form method="post" id="module-batch-form" class="disable-unsaved-warning" action="<?php echo $escape($this->url(null, ['action' => 'batch'], true)); ?>">
+        <div class="batch-inputs">
+            <select class="batch-actions-select" name="batch_action" aria-label="<?php echo $escape($translate('Batch actions')); ?>">
+                <option value="default"><?php echo $escape($translate('Batch actions')); ?></option>
+                <?php if ($allowed['activate']): ?>
+                <option value="activate-selected" class="batch-selected" disabled><?php echo $escape($translate('Activate selected')); ?></option>
                 <?php endif; ?>
-                <?php if (($versionIni = $module->getIni('version')) || ($versionDb = $module->getDb('version'))): ?>
-                <span class="module-version"><?php echo sprintf($translate('version %s'), $escape($versionIni ?: $versionDb)); ?></span>
+                <?php if ($allowed['deactivate']): ?>
+                <option value="deactivate-selected" class="batch-selected" disabled><?php echo $escape($translate('Deactivate selected')); ?></option>
                 <?php endif; ?>
-                <?php if ($author = $module->getIni('author')): ?>
-                <span class="module-author">
-                    <?php if ($moduleLink = $module->getIni('author_link')): ?>
-                    <?php echo sprintf($translate('by %s'), $this->hyperlink($author, $module->getIni('author_link'), ['target' => "_blank"])); ?>
-                    <?php else: ?>
-                    <?php echo sprintf($translate('by %s'), $author); ?>
-                    <?php endif; ?>
-                </span>
+            </select>
+            <div class="batch-actions">
+                <button type="button" class="default active" disabled><?php echo $escape($translate('Go')); ?></button>
+                <?php if ($allowed['activate']): ?>
+                <button type="submit" class="activate-selected"><?php echo $escape($translate('Go')); ?></button>
                 <?php endif; ?>
-                <?php if ($description = $module->getIni('description')): ?>
-                <span class="module-description"><?php echo $description; ?></span>
-                <?php endif; ?>
-                <?php if (Manager::STATE_ACTIVE === $module->getState()): ?>
-                <div class="version-notification" style="display: none;"
-                    data-addon-id="<?php echo $this->escapeHtml($module->getId()); ?>"
-                    data-current-version="<?php echo $this->escapeHtml($module->getIni('version')); ?>">
-                    <?php echo sprintf(
-                        $translate('A new version of this module is available. %s'),
-                        sprintf(
-                            '<a href="%s">%s</a>',
-                            'http://omeka.org/s/modules/' . $module->getId(),
-                            $translate('Get the new version.')
-                        )
-                    ); ?>
-                </div>
+                <?php if ($allowed['deactivate']): ?>
+                <button type="submit" class="deactivate-selected"><?php echo $escape($translate('Go')); ?></button>
                 <?php endif; ?>
             </div>
-            <div class="module-actions">
-                <?php
-                // configure control
-                if (Manager::STATE_ACTIVE == $module->getState()
-                    && $module->isConfigurable()
-                    && $this->userIsAllowed('Omeka\Module\Manager', 'configure')
-                ) {
-                    echo $this->hyperlink($escape($translate('Configure')),
-                        $this->url(
-                            null,
-                            ['action' => 'configure'],
-                            ['query' => ['id' => $module->getId()]
-                        ], true),
-                        [
-                            'class' => 'o-icon-configure button'
-                        ]
-                    );
-                }
-                ?>
-
-                <?php
-                // activate control
-                if (Manager::STATE_NOT_ACTIVE == $module->getState()
-                    && $this->userIsAllowed('Omeka\Module\Manager', 'activate')
-                ) {
-                    $form = $stateChangeForm('activate', $module->getId());
-                    echo $this->form($form);
-                }
-                ?>
-
-                <?php
-                // deactivate control
-                if (Manager::STATE_ACTIVE == $module->getState()
-                    && $this->userIsAllowed('Omeka\Module\Manager', 'deactivate')
-                ) {
-                    $form = $stateChangeForm('deactivate', $module->getId());
-                    echo $this->form($form);
-                }
-                ?>
-
-                <?php
-                // install control
-                if (Manager::STATE_NOT_INSTALLED == $module->getState()
-                    && $this->userIsAllowed('Omeka\Module\Manager', 'install')
-                ) {
-                    $form = $stateChangeForm('install', $module->getId());
-                    echo $this->form($form);
-                }
-                ?>
-
-                <?php
-                // uninstall control
-                $canBeUninstalled = in_array(
-                    $module->getState(),
-                    [Manager::STATE_ACTIVE, Manager::STATE_NOT_ACTIVE]
-                );
-                if ($canBeUninstalled && $this->userIsAllowed('Omeka\Module\Manager', 'uninstall')):
-                ?>
-                <?php echo $this->hyperlink($translate('Uninstall'), '#', [
-                    'data-sidebar-content-url' => $this->url(null, ['action' => 'uninstall-confirm'], ['query' => ['id' => $module->getId()]], true),
-                    'class' => 'o-icon-uninstall red button sidebar-content',
-                ]); ?>
-                <?php endif; ?>
-
-                <?php
-                // upgrade control
-                if (Manager::STATE_NEEDS_UPGRADE == $module->getState()
-                    && $this->userIsAllowed('Omeka\Module\Manager', 'upgrade')
-                ) {
-                    $form = $stateChangeForm('upgrade', $module->getId());
-                    echo $this->form($form);
-                }
-                ?>
-
-                <?php if ($module->getState() === Manager::STATE_INVALID_MODULE): ?>
-                <span class="error"><?php echo $translate('Error: invalid Module.php file'); ?></span>
-                <?php elseif ($module->getState() === Manager::STATE_INVALID_INI): ?>
-                <span class="error"><?php echo $translate('Error: invalid config/module.ini file'); ?></span>
-                <?php elseif ($module->getState() === Manager::STATE_INVALID_OMEKA_VERSION): ?>
-                <span class="error"><?php echo sprintf($translate('Error: %1$s requires Omeka S %2$s'), $module->getName(), $module->getIni('omeka_version_constraint')); ?></span>
-                <?php elseif ($module->getState() === Manager::STATE_NOT_FOUND): ?>
-                <span class="error"><?php echo $translate('Error: module in database but not in filesystem'); ?></span>
-                <?php endif; ?>
-            </div>
+            <?php echo $this->formElement($batchForm->get($batchForm->getName() . '_csrf')); ?>
         </div>
-        <?php endforeach; ?>
+    </form>
+    <?php endif; ?>
+    <table id="modules" class="tablesaw batch-edit" data-tablesaw-mode="stack">
+        <thead>
+            <tr>
+                <?php echo $this->browse()->renderHeaderCell($translate('Module'), null, ['select_all_checkbox' => $canBatch]); ?>
+                <?php echo $this->browse()->renderHeaderCell($translate('Version'), null, ['class' => 'module-version']); ?>
+                <?php echo $this->browse()->renderHeaderCell($translate('State'), null, ['class' => 'module-state']); ?>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($modules as $module): ?>
+            <?php
+            $state = $module->getState();
+            $name = $module->getName();
+            // The module's name, which each action in the row refers to, so a
+            // screen reader announces which module the action is for. A space
+            // would split the reference in two, so whitespace is replaced.
+            $nameId = 'module-name-' . preg_replace('/\s/', '_', $module->getId());
+            ?>
+            <tr class="module" data-module-id="<?php echo $escape($module->getId()); ?>" data-state-filter="<?php echo $escape($getStateFilter($state)); ?>">
+                <td class="module-meta">
+                    <?php if ($canBatch): ?>
+                    <?php $isBatchable = in_array($state, [Manager::STATE_ACTIVE, Manager::STATE_NOT_ACTIVE]); ?>
+                    <input type="checkbox" name="module_ids[]" value="<?php echo $escape($module->getId()); ?>" form="module-batch-form"
+                        aria-label="<?php echo $escape(sprintf($translate('Select %s'), $name ?: $module->getId())); ?>"<?php if (!$isBatchable): ?> disabled data-batch-disabled<?php endif; ?>>
+                    <?php endif; ?>
+                    <div class="module-summary">
+                        <?php if ($name): ?>
+                        <span class="module-name" id="<?php echo $escape($nameId); ?>">
+                            <?php if ($moduleLink = $module->getIni('module_link')): ?>
+                            <?php echo $this->hyperlink($name, $moduleLink, ['target' => '_blank']); ?>
+                            <?php else: ?>
+                            <?php echo $escape($name); ?>
+                            <?php endif; ?>
+                        </span>
+                        <?php else: ?>
+                        <span id="<?php echo $escape($nameId); ?>">[<?php echo $translate('name not found'); ?>]</span>
+                        <?php endif; ?>
+                        <?php if ($author = $module->getIni('author')): ?>
+                        <span class="module-author">
+                            <?php if ($authorLink = $module->getIni('author_link')): ?>
+                            <?php echo sprintf($translate('by %s'), $this->hyperlink($author, $authorLink, ['target' => "_blank"])); ?>
+                            <?php else: ?>
+                            <?php echo sprintf($translate('by %s'), $escape($author)); ?>
+                            <?php endif; ?>
+                        </span>
+                        <?php endif; ?>
+                        <?php if ($description = $module->getIni('description')): ?>
+                        <span class="module-description"><?php echo $escape($description); ?></span>
+                        <?php endif; ?>
+                        <?php // What needs attention and why, in a box like the update notice. ?>
+                        <?php if ($state === Manager::STATE_INVALID_MODULE): ?>
+                        <span class="error"><?php echo $translate("This module's Module.php file is missing or invalid."); ?></span>
+                        <?php elseif ($state === Manager::STATE_INVALID_INI): ?>
+                        <span class="error"><?php echo $translate("This module's config/module.ini file is missing or invalid."); ?></span>
+                        <?php elseif ($state === Manager::STATE_INVALID_OMEKA_VERSION): ?>
+                        <span class="error"><?php echo sprintf($translate('This module requires Omeka S %s.'), $escape($module->getIni('omeka_version_constraint'))); ?></span>
+                        <?php elseif ($state === Manager::STATE_NOT_FOUND): ?>
+                        <span class="error"><?php echo $translate('This module is installed, but its files are missing.'); ?></span>
+                        <?php elseif ($state === Manager::STATE_NEEDS_UPGRADE): ?>
+                        <span class="warning"><?php echo $translate('This module must be upgraded before it can be used.'); ?></span>
+                        <?php endif; ?>
+                        <?php if (Manager::STATE_ACTIVE === $state): ?>
+                        <div class="version-notification" style="display: none;"
+                            data-addon-id="<?php echo $this->escapeHtml($module->getId()); ?>"
+                            data-current-version="<?php echo $this->escapeHtml($module->getIni('version')); ?>">
+                            <?php echo sprintf(
+                                $translate('A new version of this module is available. %s'),
+                                sprintf(
+                                    '<a href="%s">%s</a>',
+                                    'https://omeka.org/s/modules/' . $module->getId(),
+                                    $translate('Get the new version.')
+                                )
+                            ); ?>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                </td>
+                <td class="module-version">
+                    <?php
+                    $versionIni = $module->getIni('version');
+                    $versionDb = $module->getDb('version');
+                    ?>
+                    <?php if (Manager::STATE_NEEDS_UPGRADE === $state && $versionIni && $versionDb): ?>
+                    <?php // The installed version, then the version of the files it upgrades to. ?>
+                    <?php echo $escape($versionDb); ?> → <?php echo $escape($versionIni); ?>
+                    <?php else: ?>
+                    <?php echo $escape($versionIni ?: $versionDb); ?>
+                    <?php endif; ?>
+                    <?php if (Manager::STATE_ACTIVE === $state): ?>
+                    <?php // The latest version, filled in by the version check when it's newer. ?>
+                    <div class="module-version-available" hidden></div>
+                    <?php endif; ?>
+                </td>
+                <td class="module-state">
+                    <span class="module-state-label"><?php echo $escape($states[$state] ?? $state); ?></span>
+                    <?php
+                    // The action that changes the state, then Uninstall, then
+                    // Configure, which only some rows have, so the others keep
+                    // their places. Collected first, so a row with no actions,
+                    // such as an error, has no empty list.
+                    ob_start();
+                    ?>
+                        <?php if (isset($stateActions[$state]) && $allowed[$stateActions[$state]]): ?>
+                        <?php
+                        $form = $stateChangeForm($stateActions[$state], $module->getId());
+                        $form->get('id')->setAttribute('aria-describedby', $nameId);
+                        ?>
+                        <li><?php echo $this->form($form); ?></li>
+                        <?php endif; ?>
+                        <?php if (in_array($state, [Manager::STATE_ACTIVE, Manager::STATE_NOT_ACTIVE]) && $allowed['uninstall']): ?>
+                        <li><?php echo $this->hyperlink($translate('Uninstall'), '#', [
+                            'data-sidebar-content-url' => $this->url(null, ['action' => 'uninstall-confirm'], ['query' => ['id' => $module->getId()]], true),
+                            'class' => 'o-icon-uninstall red button sidebar-content',
+                            'aria-describedby' => $nameId,
+                        ]); ?></li>
+                        <?php endif; ?>
+                        <?php if (Manager::STATE_ACTIVE === $state && $module->isConfigurable() && $allowed['configure']): ?>
+                        <li><?php echo $this->hyperlink($translate('Configure'), $this->url(null, ['action' => 'configure'], ['query' => ['id' => $module->getId()]], true), [
+                            'class' => 'o-icon-configure button',
+                            'aria-describedby' => $nameId,
+                        ]); ?></li>
+                        <?php endif; ?>
+                        <?php $this->trigger('view.browse.actions', ['module' => $module]); ?>
+                    <?php $actions = trim(ob_get_clean()); ?>
+                    <?php if ('' !== $actions): ?>
+                    <ul class="module-actions">
+                        <?php echo $actions; ?>
+                    </ul>
+                    <?php endif; ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+<div class="o-filter-no-matches no-resources" hidden>
+    <p><?php echo $escape($translate('No matches')); ?></p>
 </div>
 <div class="sidebar">
     <?php echo $this->hyperlink('', '#', [
@@ -168,13 +264,7 @@ $this->plugin('formRow')->setPartial(null);
 
 <?php endif; ?>
 
-<script>
-$(".state-filter select").change(function() {
-    $(this).closest('form').submit();
-});
-</script>
-
-<?php if ($this->setting('version_notifications')): ?>
+<?php if ($versionNotifications): ?>
 <script>
 $.get('https://omeka.org/add-ons/json/s_module.json')
     .done(function(data) {
@@ -182,11 +272,26 @@ $.get('https://omeka.org/add-ons/json/s_module.json')
             var addon = $(this);
             var addonId = addon.data('addon-id');
             if (addonId in data) {
-                if (compareVersions.compareVersions(addon.data('current-version'), data[addonId]['latest_version']) === -1) {
+                var latestVersion = data[addonId]['latest_version'];
+                // The version as text, which data() would turn into a number
+                // for a version such as "2". A version that can't be compared
+                // is skipped, rather than ending the check for the rest.
+                var isNewer;
+                try {
+                    isNewer = compareVersions.compareVersions(addon.attr('data-current-version'), latestVersion) === -1;
+                } catch (e) {
+                    return;
+                }
+                if (isNewer) {
                     addon.show();
+                    addon.closest('tr').find('.module-version-available')
+                        .text(Omeka.jsTranslate('%s available').replace('%s', latestVersion))
+                        .prop('hidden', false);
                 }
             }
         });
+        // Let the filter count the notices revealed here.
+        $(document).trigger('o:version-notifications-checked');
     });
 </script>
 <?php endif; ?>

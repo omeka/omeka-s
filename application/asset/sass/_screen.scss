@@ -1665,7 +1665,10 @@ td .o-icon-user-inactive {
 
     /* @group ----- Batch Update ----- */
 
-    #batch-form {
+    // #module-batch holds the modules page's batch form and its table, which
+    // the form can't wrap, because each row has forms of its own.
+    #batch-form,
+    #module-batch {
         border: 1px solid $border-gray;
         border-bottom: 0;
         border-radius: 3px;
@@ -1903,6 +1906,68 @@ fieldset.section > legend {
     display: block;
     clear: both;
 }
+
+/* @group ----- Filter ----- */
+
+// A text filter and chips above a list, such as the modules page's filter.
+
+.o-filter {
+    position: relative;
+    margin-bottom: $spacing-medium;
+    padding: $spacing-small 0;
+
+    // A search icon inside the input.
+    &:before {
+        content: fa-content($fa-var-search);
+        @include font-awesome;
+        position: absolute;
+        top: $spacing-small;
+        left: $spacing-medium;
+        line-height: 1.5 * $spacing-large;
+        color: lighten($copy-gray, 25%);
+        pointer-events: none;
+    }
+
+    .o-filter-input {
+        width: 100%;
+        margin-bottom: $spacing-small;
+        padding-left: 1.5 * $spacing-large;
+    }
+}
+
+.o-filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $spacing-medium;
+}
+
+// The chips are the sidebar tabs' pills (see .sidebar-section-nav). A filled
+// selected state stands out among many chips, where the tabs' bold wouldn't.
+.o-filter-chip[aria-pressed="true"] {
+    background-color: $blue;
+    color: #fff;
+}
+
+.o-filter-chip-count {
+    margin-left: .25em;
+    opacity: .75;
+}
+
+// Omeka's empty state (.no-resources), with a search icon. The class pair
+// matches the page icons' specificity, such as .modules .no-resources:before,
+// and comes later, so it wins.
+.no-resources.o-filter-no-matches:before {
+    content: fa-content($fa-var-search);
+}
+
+// What the filter hides. A class rather than the hidden attribute, because
+// table rows and other elements set their own display.
+.o-filter-hidden {
+    display: none !important;
+}
+
+/* @end */
 
 #page-actions {
     position: fixed;
@@ -3340,7 +3405,9 @@ fieldset.section > legend {
     }
 }
 
-.sidebar-section-nav button[type="button"] {
+// Also the filter's chips.
+.sidebar-section-nav button[type="button"],
+.o-filter-chip {
     background-color: rgba(0,0,0,.08);
     color: $copy-gray;
     border-radius: $spacing-large;
@@ -4289,18 +4356,6 @@ body.sidebar-open #content {
 
 /* @group ----- Module: Browse ----- */
 
-#modules.installed tbody tr:not(.installed),
-#modules.uninstalled tbody tr:not(.uninstalled),
-#modules.needs-upgrade tbody tr:not(.needs-upgrade),
-#modules.active tbody tr:not(.active),
-#modules.deactivated tbody tr:not(.deactivated) {
-    display: none;
-}
-
-.state-filter select {
-    margin-bottom: $spacing-medium;
-}
-
 .module-name {
     font-weight: bold;
 }
@@ -4309,64 +4364,128 @@ body.sidebar-open #content {
     display: block;
 }
 
-#modules .module {
-    border-bottom: 1px solid $border-gray;
-    padding-bottom: ($spacing-medium - 1px);
-    margin-bottom: $spacing-medium;
-    overflow: hidden;
+// A row's cells hold several lines, so they align at the top, where the
+// module's name, version and state read across as one line.
+#modules td {
+    vertical-align: top;
 }
 
-#modules .module-meta {
-    float: left;
-    max-width: 50%;
-    padding-right: $spacing-medium;
+// The checkbox beside the module's name, not centered in the cell.
+#modules .module-meta .tablesaw-cell-content {
+    align-items: flex-start;
 }
 
-#modules .module-actions {
-    float: right;
-    max-width: 50%;
-    text-align: right;
-    padding-left: $spacing-medium;
+#modules .module-summary {
+    flex: 1;
+    min-width: 0;
+
+    // The Details icon, beside the module's name.
+    .module-details-link {
+        margin-left: $spacing-small;
+    }
+
+    // On its own line, even for a module with no author.
+    .module-description {
+        display: block;
+    }
+
+    // What needs attention and why, in a box like the update notice: red for
+    // an error, and amber for an upgrade, like the chips.
+    .error,
+    .warning {
+        @include message;
+        margin-top: $spacing-small;
+    }
 
     .error {
         @include error;
-        @include message;
+    }
+
+    .warning {
+        @include warning;
     }
 }
 
-#modules .module form {
-    display: inline-block;
+// Tables have a fixed layout, so the header cells set the column widths. The
+// module column takes what Version and State leave.
+#modules th:first-child {
+    width: auto;
 }
 
-#modules button,
-#modules .button {
-    display: inline-block;
-    margin-left: $spacing-small;
-    box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
+#modules .module-version {
+    width: 12%;
 
-    &:hover {
-        box-shadow: 0 0 0 1px rgba(0,0,0,.3) inset;
-    }
-
-    &:before {
-        margin-right: $spacing-small;
+    // The installed version above any available one.
+    .tablesaw-cell-content {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
 
-#modules .o-icon-install {
-    box-shadow: 0 0 0 1px #addead inset;
+// The latest version, when the version check finds a newer one. Green, like
+// the update notice.
+#modules .module-version-available {
+    color: green;
+    font-size: .875 * $base-font-size;
+}
 
-    &:hover {
-        box-shadow: 0 0 0 1px #63c363 inset;
+#modules .module-state {
+    width: 30%;
+
+    // The state's name above its actions.
+    .tablesaw-cell-content {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
 
-#modules .o-icon-uninstall {
-    margin-left: $spacing-large;
-    box-shadow: 0 0 0 1px #E0C3C3 inset;
+// The states that need attention stand out, each in the color of its
+// messages: Needs upgrade in the warning color, Error in the error color, and
+// Updates available in the update notice's green.
+// A chip for a state with no modules hides, so the tint only shows when there's
+// something to look at. A selected chip is blue like the others.
+#module-filter .o-filter-chip:not([aria-pressed="true"]) {
+    &[data-state-filter="update_available"] {
+        @include success;
+        box-shadow: 0 0 0 1px #addead inset;
+    }
 
-    &:hover {
-        box-shadow: 0 0 0 1px #DA8B8B inset;
+    &[data-state-filter="needs_upgrade"] {
+        @include warning;
+        box-shadow: 0 0 0 1px lighten(orange, 30%) inset;
+    }
+
+    &[data-state-filter="error"] {
+        @include error;
+        box-shadow: 0 0 0 1px #E0C3C3 inset;
+    }
+}
+
+// The actions under a module's state: the global button colors, at the batch
+// bar's smaller size, so three fit on a line.
+#modules .module-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-small;
+    margin: $spacing-small 0 0;
+    padding: 0;
+    list-style: none;
+
+    form {
+        margin: 0;
+    }
+
+    button,
+    .button {
+        min-height: 0;
+        margin: 0;
+        padding: 0 $spacing-small;
+        font-size: .875 * $base-font-size;
+        line-height: $base-line-height;
+
+        &:before {
+            margin-right: $spacing-small;
+        }
     }
 }
 

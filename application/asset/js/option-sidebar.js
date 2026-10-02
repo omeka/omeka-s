@@ -27,6 +27,12 @@ const isCustomizing = function(sidebar) {
     return sidebar.hasClass('customizing');
 };
 
+// Text for matching: lowercase and without accents, so "evenement" finds
+// "Événement".
+const normalize = function(text) {
+    return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+};
+
 /**
  * Announce a message to screen readers, filling %s or %1$s, %2$s, ...
  */
@@ -54,7 +60,9 @@ const announce = function(sidebar, messageKey, ...args) {
 const refresh = function(sidebar) {
     const customizing = isCustomizing(sidebar);
     const revealing = sidebar.hasClass('revealing');
-    const query = sidebar.find('.option-sidebar-filter').val().trim().toLowerCase();
+    // A row matches when its text has every word, in any order.
+    const words = normalize(sidebar.find('.option-sidebar-filter').val()).split(/\s+/).filter(Boolean);
+    const hasText = 0 < words.length;
     let matchCount = 0;
     let hiddenMatchCount = 0;
 
@@ -64,8 +72,10 @@ const refresh = function(sidebar) {
         group.find('.option-sidebar-row').each(function() {
             const row = $(this);
             const isHidden = row.hasClass('is-hidden') && !customizing && !revealing;
-            const text = (this.dataset.label + ' ' + this.dataset.module).toLowerCase();
-            const isMatch = '' === query || text.includes(query);
+            const text = normalize(this.dataset.label + ' ' + this.dataset.module);
+            const isMatch = words.every(function(word) {
+                return text.includes(word);
+            });
             row.prop('hidden', isHidden || !isMatch);
             if (!isHidden && isMatch) {
                 visibleCount++;
@@ -79,13 +89,13 @@ const refresh = function(sidebar) {
     });
 
     const pinnedCount = getPinnedList(sidebar).children().length;
-    sidebar.find('.option-sidebar-pinned').prop('hidden', '' !== query || (!customizing && 0 === pinnedCount));
+    sidebar.find('.option-sidebar-pinned').prop('hidden', hasText || (!customizing && 0 === pinnedCount));
     sidebar.find('.option-sidebar-pinned-hint').prop('hidden', !customizing || 0 < pinnedCount);
     const visibleSections = sidebar.find('.option-sidebar-group').filter(function() {
         return !this.hidden;
     }).length;
     sidebar.find('.option-sidebar-group > h4').prop('hidden', !customizing && 2 > visibleSections);
-    sidebar.find('.option-sidebar-no-matches').prop('hidden', '' === query || 0 < matchCount);
+    sidebar.find('.option-sidebar-no-matches').prop('hidden', !hasText || 0 < matchCount);
 
     // Offer hidden options that match, so an option hidden for the site
     // isn't mistaken for missing.
@@ -95,7 +105,7 @@ const refresh = function(sidebar) {
         .text(revealing ? messages.hideHidden : messages.showHidden.replace('%s', () => hiddenMatchCount));
 
     return {
-        query: query,
+        hasText: hasText,
         matchCount: matchCount,
         // Matches that are out of view until hidden options are shown.
         hiddenMatchCount: customizing || revealing ? 0 : hiddenMatchCount,
@@ -283,7 +293,7 @@ const post = function(sidebar, data) {
 $(document).on('input', '.option-sidebar-filter', function() {
     const sidebar = $(this).closest('.option-sidebar');
     const result = refresh(sidebar);
-    if ('' === result.query) {
+    if (!result.hasText) {
         sidebar.find('.option-sidebar-announcer').text('');
     } else if (result.hiddenMatchCount) {
         announce(sidebar, 'matchesAndHidden', result.matchCount, result.hiddenMatchCount);
@@ -293,10 +303,12 @@ $(document).on('input', '.option-sidebar-filter', function() {
 });
 
 // The media sidebar sits inside the item form, where Enter in the filter would
-// submit the item.
+// submit the item. Escape clears the filter.
 $(document).on('keydown', '.option-sidebar-filter', function(e) {
     if ('Enter' === e.key) {
         e.preventDefault();
+    } else if ('Escape' === e.key && '' !== this.value) {
+        $(this).val('').trigger('input');
     }
 });
 

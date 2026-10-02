@@ -4,6 +4,7 @@ namespace Omeka\Controller\Admin;
 use Omeka\Form\ModuleStateChangeForm;
 use Omeka\Form\ConfirmForm;
 use Omeka\Module\Exception\ModuleCannotInstallException;
+use Omeka\Module\Exception\ModuleStateInvalidException;
 use Omeka\Module\Manager as OmekaModuleManager;
 use Laminas\ModuleManager\ModuleManager;
 use Omeka\Mvc\Exception;
@@ -115,7 +116,9 @@ class ModuleController extends AbstractActionController
         }
         try {
             $this->omekaModules->install($module);
-        } catch (ModuleCannotInstallException $e) {
+        } catch (ModuleCannotInstallException | ModuleStateInvalidException $e) {
+            // A state error means the page was out of date, such as after Back
+            // or a second click. It's thrown before anything changes.
             $this->messenger()->addError($e->getMessage());
             return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
@@ -175,8 +178,13 @@ class ModuleController extends AbstractActionController
         if (!$module) {
             throw new Exception\NotFoundException;
         }
-        $this->omekaModules->uninstall($module);
-        $this->messenger()->addSuccess('The module was successfully uninstalled'); // @translate
+        try {
+            $this->omekaModules->uninstall($module);
+            $this->messenger()->addSuccess('The module was successfully uninstalled'); // @translate
+        } catch (ModuleStateInvalidException $e) {
+            // The page was out of date. This is thrown before anything changes.
+            $this->messenger()->addError($e->getMessage());
+        }
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 
@@ -201,8 +209,13 @@ class ModuleController extends AbstractActionController
         if (!$module) {
             throw new Exception\NotFoundException;
         }
-        $this->omekaModules->activate($module);
-        $this->messenger()->addSuccess('The module was successfully activated'); // @translate
+        try {
+            $this->omekaModules->activate($module);
+            $this->messenger()->addSuccess('The module was successfully activated'); // @translate
+        } catch (ModuleStateInvalidException $e) {
+            // The page was out of date. This is thrown before anything changes.
+            $this->messenger()->addError($e->getMessage());
+        }
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 
@@ -227,8 +240,13 @@ class ModuleController extends AbstractActionController
         if (!$module) {
             throw new Exception\NotFoundException;
         }
-        $this->omekaModules->deactivate($module);
-        $this->messenger()->addSuccess('The module was successfully deactivated'); // @translate
+        try {
+            $this->omekaModules->deactivate($module);
+            $this->messenger()->addSuccess('The module was successfully deactivated'); // @translate
+        } catch (ModuleStateInvalidException $e) {
+            // The page was out of date. This is thrown before anything changes.
+            $this->messenger()->addError($e->getMessage());
+        }
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 
@@ -253,8 +271,13 @@ class ModuleController extends AbstractActionController
         if (!$module) {
             throw new Exception\NotFoundException;
         }
-        $this->omekaModules->upgrade($module);
-        $this->messenger()->addSuccess('The module was successfully upgraded'); // @translate
+        try {
+            $this->omekaModules->upgrade($module);
+            $this->messenger()->addSuccess('The module was successfully upgraded'); // @translate
+        } catch (ModuleStateInvalidException $e) {
+            // The page was out of date. This is thrown before anything changes.
+            $this->messenger()->addError($e->getMessage());
+        }
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 

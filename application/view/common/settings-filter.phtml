@@ -9,19 +9,19 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 ?>
-<div class="settings-filter">
-    <input type="text" class="settings-filter-input" autocomplete="off"
+<div class="o-filter settings-filter">
+    <input type="text" class="o-filter-input" autocomplete="off"
         placeholder="<?php echo $escape($translate('Filter settings')); ?>"
         aria-label="<?php echo $escape($translate('Filter settings')); ?>">
-    <div class="settings-filter-chips" role="group" aria-label="<?php echo $escape($translate('Show group')); ?>">
-        <button type="button" class="settings-filter-chip" aria-pressed="true"><?php echo $escape($translate('All')); ?></button>
+    <div class="o-filter-chips" role="group" aria-label="<?php echo $escape($translate('Show group')); ?>">
+        <button type="button" class="o-filter-chip" aria-pressed="true"><?php echo $escape($translate('All')); ?></button>
         <span class="settings-filter-modules-label" hidden><?php echo $escape($translate('Modules')); ?></span>
     </div>
     <template class="settings-filter-chip-template">
-        <button type="button" class="settings-filter-chip" aria-pressed="false"></button>
+        <button type="button" class="o-filter-chip" aria-pressed="false"></button>
     </template>
-    <div class="settings-filter-announcer sr-only" aria-live="polite" aria-atomic="true"></div>
+    <div class="o-filter-announcer sr-only" aria-live="polite" aria-atomic="true"></div>
 </div>
-<div class="settings-filter-no-matches no-resources" hidden>
+<div class="o-filter-no-matches no-resources" hidden>
     <p><?php echo $escape($translate('No matches')); ?></p>
 </div>

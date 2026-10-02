@@ -23,6 +23,12 @@ const noMatches = $('.o-filter-no-matches');
 const batchSelect = $('.batch-actions-select');
 let selectedState = chips.filter('[aria-pressed="true"]').attr('data-state-filter') || '';
 
+// Text for matching: lowercase and without accents, so "evenement" finds
+// "Événement".
+const normalize = function(text) {
+    return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+};
+
 // What the filter reads from each row, gathered once. The text is the
 // module's name, ID, author and description, not the row's text, which in the
 // stacked layout includes the column labels.
@@ -30,12 +36,12 @@ const rows = table.find('tr.module').toArray().map(function(element) {
     const row = $(element);
     return {
         row: row,
-        text: [
+        text: normalize([
             row.find('.module-name').text(),
             row.attr('data-module-id'),
             row.find('.module-author').text(),
             row.find('.module-description').text(),
-        ].join(' ').toLowerCase(),
+        ].join(' ')),
         state: row.attr('data-state-filter'),
         checkbox: row.find('input[name="module_ids[]"]'),
         isShown: true,
@@ -74,7 +80,8 @@ const updateBatchActions = function() {
  * chips' counts of the modules that match the text.
  */
 const refresh = function() {
-    const query = input.val().trim().toLowerCase();
+    // A module matches when its text has every word, in any order.
+    const words = normalize(input.val()).split(/\s+/).filter(Boolean);
     // Counts of the modules that match the text, for All, each state, and
     // Updates available.
     const counts = {};
@@ -83,7 +90,9 @@ const refresh = function() {
     };
     let shownCount = 0;
     rows.forEach(function(data) {
-        const isMatch = '' === query || data.text.includes(query);
+        const isMatch = words.every(function(word) {
+            return data.text.includes(word);
+        });
         const isUpdate = hasUpdate(data.row);
         if (isMatch) {
             count('');
@@ -119,7 +128,7 @@ const refresh = function() {
     });
     batch.toggleClass('o-filter-hidden', 0 === shownCount);
     noMatches.prop('hidden', 0 < shownCount);
-    const filtering = '' !== query || '' !== selectedState;
+    const filtering = 0 < words.length || '' !== selectedState;
     announcer.text(filtering ? Omeka.jsTranslate('Matching modules: %s').replace('%s', shownCount) : '');
     updateBatchActions();
 };

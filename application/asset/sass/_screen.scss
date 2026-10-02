@@ -1909,7 +1909,7 @@ fieldset.section > legend {
 
 /* @group ----- Filter ----- */
 
-// A text filter and chips above a list, such as the modules page's filter.
+// A text filter and chips that narrow the list or form below them.
 
 .o-filter {
     position: relative;
@@ -1955,14 +1955,15 @@ fieldset.section > legend {
 }
 
 // Omeka's empty state (.no-resources), with a search icon. The class pair
-// matches the page icons' specificity, such as .modules .no-resources:before,
+// matches the page icons' specificity, such as .sites .no-resources:before,
 // and comes later, so it wins.
 .no-resources.o-filter-no-matches:before {
     content: fa-content($fa-var-search);
 }
 
 // What the filter hides. A class rather than the hidden attribute, because
-// table rows and other elements set their own display.
+// table rows, fields, and other elements set their own display, and so
+// clearing the filter never shows something another script hid.
 .o-filter-hidden {
     display: none !important;
 }

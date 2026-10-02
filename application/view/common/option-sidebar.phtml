@@ -1,0 +1,152 @@
+<?php
+/**
+ * The body of an "add" sidebar rendered by the optionSidebar view helper.
+ *
+ * The media sidebar sits inside the item form, so every button here has
+ * type="button", and nothing here is submitted with the form or changes what
+ * Omeka.warnIfUnsaved() compares. The CSRF token is a data attribute, not a
+ * hidden input, and the "Customize for" radios, which need a name to group,
+ * point their form attribute at no form, which takes them out of the item
+ * form.
+ */
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$hidden = $arrangement['hidden'];
+// Headings show when more than one section is visible, the same rule the
+// script's refresh() applies, so the first render already matches it.
+$visibleGroups = array_filter($groups, function ($group) use ($hidden) {
+    return (bool) array_diff(array_column($group['options'], 'name'), $hidden);
+});
+$showHeadings = (count($visibleGroups) + ($pinned ? 1 : 0)) > 1;
+// How each source is described, and what each level is called when saving.
+$sourceLabels = [
+    'user' => $translate('Currently customized for you'),
+    'site' => $translate('Currently customized for this site'),
+    'global' => $translate('Currently customized for everyone'),
+    'default' => $translate('Currently not customized'),
+];
+$levelLabels = [
+    'user' => $translate('Me'),
+    'site' => $translate('This site'),
+    'global' => $translate('Everyone'),
+];
+$resetLabels = [
+    'user' => $translate('Reset your customization'),
+    'site' => $translate('Reset this site\'s customization'),
+    'global' => $translate('Reset the customization for everyone'),
+];
+$scopeName = sprintf('option-sidebar-%s-scope', $key);
+$messages = [
+    'matches' => $translate('Matching options: %s'),
+    'matchesAndHidden' => $translate('Matching options: %1$s. Hidden matches: %2$s'),
+    'pinned' => $translate('%1$s pinned, position %2$s of %3$s'),
+    'unpinned' => $translate('%s unpinned'),
+    'hidden' => $translate('%s hidden'),
+    'shown' => $translate('%s shown'),
+    'moved' => $translate('%1$s moved to position %2$s of %3$s'),
+    'customizing' => $translate('Customizing the list. The option buttons are off until you save or cancel.'),
+    'saved' => $translate('Customization saved'),
+    'reset' => $translate('Customization reset'),
+    'savedShared' => [
+        'site' => $translate('Customization saved for this site.'),
+        'global' => $translate('Customization saved for everyone.'),
+    ],
+    'resetShared' => [
+        'site' => $translate('This site\'s customization was reset.'),
+        'global' => $translate('The customization for everyone was reset.'),
+    ],
+    'ownStillApplies' => $translate('Your own customization still applies to you.'),
+    'discard' => $translate('Discard your unsaved changes?'),
+    'canceled' => $translate('Changes canceled'),
+    'error' => $translate('The customization could not be saved.'),
+    'showHidden' => $translate('Show hidden options (%s)'),
+    'hideHidden' => $translate('Hide hidden options'),
+    'confirmReset' => [
+        'site' => $translate('Reset this site\'s customization? Users without their own customization will see the default.'),
+        'global' => $translate('Reset the customization for everyone? Users without their own customization will see the default.'),
+    ],
+];
+?>
+<div class="option-sidebar"
+    data-sidebar="<?php echo $escape($key); ?>"
+    data-save-url="<?php echo $escape($saveUrl); ?>"
+    data-site-id="<?php echo $site ? $escape($site->id()) : ''; ?>"
+    data-csrf="<?php echo $escape($csrf); ?>"
+    data-arrangements="<?php echo $escape(json_encode($arrangements)); ?>"
+    data-source-labels="<?php echo $escape(json_encode($sourceLabels)); ?>"
+    data-messages="<?php echo $escape(json_encode($messages)); ?>">
+
+    <div class="option-sidebar-toolbar">
+        <input type="text" class="option-sidebar-filter" autocomplete="off"
+            placeholder="<?php echo $escape($translate($filterLabel)); ?>"
+            aria-label="<?php echo $escape($translate($filterLabel)); ?>">
+        <button type="button" class="option-sidebar-customize o-icon-configure" aria-pressed="false"
+            title="<?php echo $escape($translate('Customize this list')); ?>"
+            aria-label="<?php echo $escape($translate('Customize this list')); ?>"></button>
+    </div>
+
+    <p class="option-sidebar-notice" hidden></p>
+
+    <div class="option-sidebar-panel" hidden>
+        <?php if ($canSaveShared): ?>
+        <div class="option-sidebar-scope" role="radiogroup" aria-labelledby="<?php echo $escape($scopeName); ?>-label">
+            <span id="<?php echo $escape($scopeName); ?>-label"><?php echo $escape($translate('Customize for')); ?></span>
+            <?php foreach (['user', $sharedLevel] as $level): ?>
+            <label>
+                <input type="radio" name="<?php echo $escape($scopeName); ?>" form="" autocomplete="off"
+                    value="<?php echo $escape($level); ?>"<?php echo 'user' === $level ? ' checked' : ''; ?>>
+                <?php echo $escape($levelLabels[$level]); ?>
+            </label>
+            <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
+        <div class="option-sidebar-status">
+            <span class="option-sidebar-source"><?php echo $escape($sourceLabels[$arrangement['source']]); ?></span>
+            <button type="button" class="option-sidebar-reset" data-level="user"<?php echo 'user' === $arrangement['source'] ? '' : ' hidden'; ?>
+                aria-label="<?php echo $escape($resetLabels['user']); ?>"><?php echo $escape($translate('Reset')); ?></button>
+            <?php if ($canSaveShared): ?>
+            <button type="button" class="option-sidebar-reset" data-level="<?php echo $escape($sharedLevel); ?>"<?php echo $sharedLevel === $arrangement['source'] ? '' : ' hidden'; ?>
+                aria-label="<?php echo $escape($resetLabels[$sharedLevel]); ?>"><?php echo $escape($translate('Reset')); ?></button>
+            <?php endif; ?>
+        </div>
+        <p class="option-sidebar-instructions"><?php echo $escape($translate('Pin options to keep them at the top. Drag pinned options to reorder them. Hide options you don\'t use.')); ?></p>
+        <div class="option-sidebar-actions">
+            <button type="button" class="option-sidebar-save"><?php echo $escape($translate('Save')); ?></button>
+            <button type="button" class="option-sidebar-cancel"><?php echo $escape($translate('Cancel')); ?></button>
+        </div>
+        <p class="option-sidebar-error error" hidden></p>
+    </div>
+
+    <section class="option-sidebar-group option-sidebar-pinned"<?php echo $pinned ? '' : ' hidden'; ?>>
+        <h4<?php echo $showHeadings ? '' : ' hidden'; ?>><?php echo $escape($translate('Pinned')); ?></h4>
+        <p class="option-sidebar-pinned-hint" hidden><?php echo $escape($translate('Use the pin buttons to list options here.')); ?></p>
+        <ul class="option-sidebar-list">
+            <?php foreach ($pinned as $option): ?>
+            <?php echo $this->partial('common/option-sidebar-row', [
+                'option' => $option,
+                'isPinned' => true,
+                'isHidden' => false,
+            ]); ?>
+            <?php endforeach; ?>
+        </ul>
+    </section>
+
+    <?php foreach ($groups as $index => $group): ?>
+    <section class="option-sidebar-group" data-group="<?php echo $escape($group['key']); ?>"<?php echo isset($visibleGroups[$index]) ? '' : ' hidden'; ?>>
+        <h4<?php echo $showHeadings ? '' : ' hidden'; ?>><?php echo $escape($group['label']); ?></h4>
+        <ul class="option-sidebar-list">
+            <?php foreach ($group['options'] as $option): ?>
+            <?php echo $this->partial('common/option-sidebar-row', [
+                'option' => $option,
+                'isPinned' => in_array($option['name'], $arrangement['pinned']),
+                'isHidden' => in_array($option['name'], $hidden),
+            ]); ?>
+            <?php endforeach; ?>
+        </ul>
+    </section>
+    <?php endforeach; ?>
+
+    <p class="option-sidebar-no-matches" hidden><?php echo $escape($translate('No matches')); ?></p>
+    <button type="button" class="option-sidebar-reveal"<?php echo $hidden ? '' : ' hidden'; ?>><?php echo $escape(sprintf($messages['showHidden'], count($hidden))); ?></button>
+    <div class="option-sidebar-announcer sr-only" aria-live="polite" aria-atomic="true"></div>
+</div>

@@ -304,6 +304,7 @@ return [
             'Omeka\Environment' => Service\EnvironmentFactory::class,
             'Omeka\ColumnTypeManager' => Service\ColumnType\ManagerFactory::class,
             'Omeka\Browse' => Service\BrowseFactory::class,
+            'Omeka\OptionSidebar' => Service\OptionSidebarFactory::class,
             'Omeka\Oembed' => Service\OembedFactory::class,
         ],
         'invokables' => [
@@ -357,6 +358,7 @@ return [
             'Omeka\Controller\Install' => Service\Controller\InstallControllerFactory::class,
             'Omeka\Controller\Migrate' => Service\Controller\MigrateControllerFactory::class,
             'Omeka\Controller\Admin\Index' => Service\Controller\Admin\IndexControllerFactory::class,
+            'Omeka\Controller\Admin\OptionSidebar' => Service\Controller\Admin\OptionSidebarControllerFactory::class,
             'Omeka\Controller\Admin\Module' => Service\Controller\Admin\ModuleControllerFactory::class,
             'Omeka\Controller\Admin\User' => Service\Controller\Admin\UserControllerFactory::class,
             'Omeka\Controller\Admin\ResourceTemplate' => Service\Controller\Admin\ResourceTemplateControllerFactory::class,
@@ -495,6 +497,7 @@ return [
             'passwordRequirements' => Service\ViewHelper\PasswordRequirementsFactory::class,
             'resourcePageBlocks' => Service\ViewHelper\ResourcePageBlocksFactory::class,
             'browse' => Service\ViewHelper\BrowseFactory::class,
+            'optionSidebar' => Service\ViewHelper\OptionSidebarFactory::class,
             'linkedResources' => Service\ViewHelper\LinkedResourcesFactory::class,
             'config' => Service\ViewHelper\ConfigFactory::class,
             \Laminas\View\Helper\ServerUrl::class => Service\ViewHelper\ServerUrlFactory::class,
@@ -822,6 +825,40 @@ return [
             'listOfPages' => Service\BlockLayout\PageListFactory::class,
             'oembed' => Service\BlockLayout\OembedFactory::class,
         ],
+        'categories' => [
+            'text' => [
+                'label' => 'Text and layout', // @translate
+                'position' => 10,
+            ],
+            'media' => [
+                'label' => 'Media', // @translate
+                'position' => 20,
+            ],
+            'resources' => [
+                'label' => 'Resources', // @translate
+                'position' => 30,
+            ],
+            'navigation' => [
+                'label' => 'Navigation', // @translate
+                'position' => 40,
+            ],
+        ],
+        'category_names' => [
+            'html' => 'text',
+            'pageTitle' => 'text',
+            'lineBreak' => 'text',
+            'pageDateTime' => 'text',
+            'media' => 'media',
+            'asset' => 'media',
+            'oembed' => 'media',
+            'iiifImage' => 'media',
+            'iiifPresentation' => 'media',
+            'browsePreview' => 'resources',
+            'itemWithMetadata' => 'resources',
+            'listOfPages' => 'navigation',
+            'listOfSites' => 'navigation',
+            'tableOfContents' => 'navigation',
+        ],
     ],
     'resource_page_block_layouts' => [
         'invokables' => [
@@ -866,6 +903,47 @@ return [
             'iiif_presentation' => Service\Media\Ingester\IiifPresentationFactory::class,
             'oembed' => Service\Media\Ingester\OEmbedFactory::class,
             'youtube' => Service\Media\Ingester\YoutubeFactory::class,
+        ],
+        'categories' => [
+            'files' => [
+                'label' => 'Files', // @translate
+                'position' => 10,
+            ],
+            'embeds' => [
+                'label' => 'Embeds', // @translate
+                'position' => 20,
+            ],
+            'text' => [
+                'label' => 'Text', // @translate
+                'position' => 30,
+            ],
+        ],
+        'category_names' => [
+            'upload' => 'files',
+            'url' => 'files',
+            'oembed' => 'embeds',
+            'youtube' => 'embeds',
+            'iiif' => 'embeds',
+            'iiif_presentation' => 'embeds',
+            'html' => 'text',
+        ],
+    ],
+    'option_sidebars' => [
+        'block_layouts' => [
+            'manager' => 'Omeka\BlockLayoutManager',
+            'filter_label' => 'Filter blocks', // @translate
+            'levels' => ['user', 'site'],
+            'exclude' => ['blockGroup'],
+            'pinned' => [
+                'html' => 10,
+                'media' => 20,
+                'asset' => 30,
+            ],
+        ],
+        'media_ingesters' => [
+            'manager' => 'Omeka\Media\Ingester\Manager',
+            'filter_label' => 'Filter media types', // @translate
+            'levels' => ['user', 'global'],
         ],
     ],
     'media_renderers' => [

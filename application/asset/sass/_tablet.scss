@@ -339,9 +339,8 @@ fieldset.section > .always.active {
 
 /* @group ----- Module: Browse ----- */
 
-// Stacked cells take the full width, as tablesaw sets it, not the table's
-// column widths.
-#modules .module-version,
+// The stacked State cell takes the full width, as tablesaw sets it, not the
+// table's column width.
 #modules .module-state {
     width: 100%;
 }

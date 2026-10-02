@@ -114,7 +114,6 @@ if (!in_array($selectedFilter, array_keys($filterLabels), true)) {
         <thead>
             <tr>
                 <?php echo $this->browse()->renderHeaderCell($translate('Module'), null, ['select_all_checkbox' => $canBatch]); ?>
-                <?php echo $this->browse()->renderHeaderCell($translate('Version'), null, ['class' => 'module-version']); ?>
                 <?php echo $this->browse()->renderHeaderCell($translate('State'), null, ['class' => 'module-state']); ?>
             </tr>
         </thead>
@@ -127,6 +126,11 @@ if (!in_array($selectedFilter, array_keys($filterLabels), true)) {
             // screen reader announces which module the action is for. A space
             // would split the reference in two, so whitespace is replaced.
             $nameId = 'module-name-' . preg_replace('/\s/', '_', $module->getId());
+            // The installed version. While an upgrade is pending, that's the
+            // database's, and the files' version is the one it upgrades to.
+            $versionIni = $module->getIni('version');
+            $versionDb = $module->getDb('version');
+            $version = Manager::STATE_NEEDS_UPGRADE === $state ? $versionDb : ($versionIni ?: $versionDb);
             ?>
             <tr class="module" data-module-id="<?php echo $escape($module->getId()); ?>" data-state-filter="<?php echo $escape($getStateFilter($state)); ?>">
                 <td class="module-meta">
@@ -146,6 +150,9 @@ if (!in_array($selectedFilter, array_keys($filterLabels), true)) {
                         </span>
                         <?php else: ?>
                         <span id="<?php echo $escape($nameId); ?>">[<?php echo $translate('name not found'); ?>]</span>
+                        <?php endif; ?>
+                        <?php if ($version): ?>
+                        <span class="module-version"><?php echo $escape(sprintf($translate('version %s'), $version)); ?></span>
                         <?php endif; ?>
                         <?php // Beside the name, not inside it, because modules' version checks read the name's text and link. ?>
                         <?php echo $this->hyperlink('', '#', [
@@ -195,24 +202,14 @@ if (!in_array($selectedFilter, array_keys($filterLabels), true)) {
                         <?php endif; ?>
                     </div>
                 </td>
-                <td class="module-version">
-                    <?php
-                    $versionIni = $module->getIni('version');
-                    $versionDb = $module->getDb('version');
-                    ?>
-                    <?php if (Manager::STATE_NEEDS_UPGRADE === $state && $versionIni && $versionDb): ?>
-                    <?php // The installed version, then the version of the files it upgrades to. ?>
-                    <?php echo $escape($versionDb); ?> → <?php echo $escape($versionIni); ?>
-                    <?php else: ?>
-                    <?php echo $escape($versionIni ?: $versionDb); ?>
-                    <?php endif; ?>
-                    <?php if (Manager::STATE_ACTIVE === $state): ?>
-                    <?php // The latest version, filled in by the version check when it's newer. ?>
-                    <div class="module-version-available" hidden></div>
-                    <?php endif; ?>
-                </td>
                 <td class="module-state">
-                    <span class="module-state-label"><?php echo $escape($states[$state] ?? $state); ?></span>
+                    <span class="module-state-label">
+                        <?php if (Manager::STATE_NEEDS_UPGRADE === $state && $versionIni): ?>
+                        <?php echo $escape(sprintf($translate('Needs upgrade to %s'), $versionIni)); ?>
+                        <?php else: ?>
+                        <?php echo $escape($states[$state] ?? $state); ?>
+                        <?php endif; ?>
+                    </span>
                     <?php
                     // The action that changes the state, then Uninstall, then
                     // Configure, which only some rows have, so the others keep
@@ -291,10 +288,10 @@ $.get('https://omeka.org/add-ons/json/s_module.json')
                     return;
                 }
                 if (isNewer) {
+                    // Name the version in the notice, keeping its link.
+                    var link = addon.find('a').detach();
+                    addon.text(Omeka.jsTranslate('Version %s of this module is available.').replace('%s', latestVersion) + ' ').append(link);
                     addon.show();
-                    addon.closest('tr').find('.module-version-available')
-                        .text(Omeka.jsTranslate('%s available').replace('%s', latestVersion))
-                        .prop('hidden', false);
                 }
             }
         });

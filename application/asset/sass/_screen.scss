@@ -4365,7 +4365,7 @@ body.sidebar-open #content {
 }
 
 // A row's cells hold several lines, so they align at the top, where the
-// module's name, version and state read across as one line.
+// module's name and state read across as one line.
 #modules td {
     vertical-align: top;
 }
@@ -4379,9 +4379,16 @@ body.sidebar-open #content {
     flex: 1;
     min-width: 0;
 
-    // The Details icon, beside the module's name.
+    // The installed version and the Details icon, beside the module's name.
+    // Each stays whole when a long name wraps.
+    .module-version,
     .module-details-link {
         margin-left: $spacing-small;
+        white-space: nowrap;
+    }
+
+    .module-version {
+        color: lighten($copy-gray, 15%);
     }
 
     // On its own line, even for a module with no author.
@@ -4407,26 +4414,9 @@ body.sidebar-open #content {
 }
 
 // Tables have a fixed layout, so the header cells set the column widths. The
-// module column takes what Version and State leave.
+// module column takes what State leaves.
 #modules th:first-child {
     width: auto;
-}
-
-#modules .module-version {
-    width: 12%;
-
-    // The installed version above any available one.
-    .tablesaw-cell-content {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-}
-
-// The latest version, when the version check finds a newer one. Green, like
-// the update notice.
-#modules .module-version-available {
-    color: green;
-    font-size: .875 * $base-font-size;
 }
 
 #modules .module-state {

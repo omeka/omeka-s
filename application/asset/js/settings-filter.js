@@ -125,12 +125,26 @@ $('.settings-filter').each(function() {
         announcer.text(filtering ? Omeka.jsTranslate('Matching settings: %s').replace('%s', matchCount) : '');
     };
 
+    // The selected group is kept in the URL's hash, so a link can open it
+    // (/admin/setting#settings-group-security). As with the tabs, pages with
+    // no-section-hashes leave the URL alone.
+    const usesHash = !$('body').hasClass('no-section-hashes');
+    const getLinkedGroup = function() {
+        const target = window.location.hash ? document.getElementById(window.location.hash.slice(1)) : null;
+        return target && groups.is(target) ? target : null;
+    };
+
     const selectGroup = function(group) {
         selectedGroup = group;
         chips.children('.o-filter-chip').each(function() {
             const chip = $(this);
             chip.attr('aria-pressed', (chip.data('group') || null) === group ? 'true' : 'false');
         });
+        if (usesHash && group) {
+            history.replaceState(null, document.title, '#' + group.id);
+        } else if (usesHash && getLinkedGroup()) {
+            history.replaceState(null, document.title, window.location.pathname + window.location.search);
+        }
     };
 
     input.on('input', refresh);
@@ -159,6 +173,32 @@ $('.settings-filter').each(function() {
             refresh();
         }
     }, true);
+
+    // Saving keeps the selected group: the hash goes in the form's action,
+    // and the browser carries it across the redirect back to this page.
+    bar.closest('form').on('submit', function() {
+        if (usesHash && selectedGroup) {
+            this.action = (this.getAttribute('action') || window.location.pathname + window.location.search) + '#' + selectedGroup.id;
+        }
+    });
+
+    // A link to a group opens it, when the page loads and when the hash
+    // changes on the page.
+    const openLinkedGroup = function() {
+        const group = getLinkedGroup();
+        if (group) {
+            selectGroup(group);
+            refresh();
+            window.scrollTo(0, 0);
+        }
+    };
+    if (usesHash) {
+        // Wait until every other script's startup code has run, so widgets
+        // such as maps set themselves up while visible, before the group
+        // hides them.
+        window.setTimeout(openLinkedGroup, 0);
+        window.addEventListener('hashchange', openLinkedGroup);
+    }
 });
 
 });

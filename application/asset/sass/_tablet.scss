@@ -339,23 +339,10 @@ fieldset.section > .always.active {
 
 /* @group ----- Module: Browse ----- */
 
-#modules .module-meta,
-#modules .module-actions {
+// The stacked State cell takes the full width, as tablesaw sets it, not the
+// table's column width.
+#modules .module-state {
     width: 100%;
-    max-width: 100%;
-}
-
-#modules .module-meta {
-    margin-bottom: $spacing-medium;
-}
-
-#modules .module-actions {
-    text-align: left;
-}
-
-#modules button,
-#modules .button {
-    margin: 0 $spacing-small 0 0;
 }
 
 /* @end */

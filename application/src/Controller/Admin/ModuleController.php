@@ -4,9 +4,11 @@ namespace Omeka\Controller\Admin;
 use Omeka\Form\ModuleStateChangeForm;
 use Omeka\Form\ConfirmForm;
 use Omeka\Module\Exception\ModuleCannotInstallException;
+use Omeka\Module\Exception\ModuleStateInvalidException;
 use Omeka\Module\Manager as OmekaModuleManager;
 use Laminas\ModuleManager\ModuleManager;
 use Omeka\Mvc\Exception;
+use Omeka\Stdlib\Message;
 use Laminas\Form\Form;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
@@ -44,19 +46,9 @@ class ModuleController extends AbstractActionController
 
     public function browseAction()
     {
-        // Get modules, filtering modules by state.
-        $state = $this->params()->fromQuery('state');
-        if ('error' == $state) {
-            $modules = array_merge(
-                $this->omekaModules->getModulesByState('not_found'),
-                $this->omekaModules->getModulesByState('invalid_module'),
-                $this->omekaModules->getModulesByState('invalid_ini')
-            );
-        } elseif ($state) {
-            $modules = $this->omekaModules->getModulesByState($state);
-        } else {
-            $modules = $this->omekaModules->getModules();
-        }
+        // Get all modules. The page filters them by state in the browser, and
+        // the state query parameter only selects the filter to start with.
+        $modules = $this->omekaModules->getModules();
 
         // Order modules by name.
         uasort($modules, function ($a, $b) {
@@ -65,7 +57,7 @@ class ModuleController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('modules', $modules);
-        $view->setVariable('filterState', $state);
+        $view->setVariable('filterState', $this->params()->fromQuery('state'));
         $view->setVariable('filterStates', [
             'active' => $this->translate('Active'),
             'not_active' => $this->translate('Not active'),
@@ -73,23 +65,85 @@ class ModuleController extends AbstractActionController
             'needs_upgrade' => $this->translate('Needs upgrade'),
             'error' => $this->translate('Error'),
         ]);
-        $view->setVariable('states', [
-            'active' => $this->translate('Active'),
-            'not_active' => $this->translate('Not active'),
-            'not_installed' => $this->translate('Not installed'),
-            'needs_upgrade' => $this->translate('Needs upgrade'),
-            'not_found' => $this->translate('Not found'),
-            'invalid_module' => $this->translate('Invalid module'),
-            'invalid_ini' => $this->translate('Invalid INI'),
-            'invalid_omeka_version' => $this->translate('Invalid Omeka S version'),
-        ]);
+        $view->setVariable('states', $this->getStateLabels());
         $view->setVariable('stateChangeForm', function ($action, $id) {
             return $this->getForm(ModuleStateChangeForm::class, [
                 'module_action' => $action,
                 'module_id' => $id,
             ]);
         });
+        $view->setVariable('batchForm', $this->getForm(Form::class, ['name' => 'module_batch']));
         return $view;
+    }
+
+    /**
+     * Activate or deactivate the selected modules.
+     *
+     * Modules not in the state the action needs are skipped. A failure is
+     * reported and the remaining modules are still processed.
+     */
+    public function batchAction()
+    {
+        if (!$this->getRequest()->isPost()) {
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        }
+        $form = $this->getForm(Form::class, ['name' => 'module_batch']);
+        $form->setData($this->getRequest()->getPost());
+        if (!$form->isValid()) {
+            throw new Exception\PermissionDeniedException;
+        }
+
+        // The manager method each action calls, and the message listing the
+        // modules it changed.
+        $actions = [
+            'activate-selected' => [
+                'activate',
+                'Modules activated: %s', // @translate
+            ],
+            'deactivate-selected' => [
+                'deactivate',
+                'Modules deactivated: %s', // @translate
+            ],
+        ];
+        $action = $this->params()->fromPost('batch_action');
+        if (!isset($actions[$action])) {
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        }
+        [$method, $successMessage] = $actions[$action];
+
+        // Module IDs are strings. Anything else, such as a nested array in a
+        // crafted request, is ignored.
+        $ids = array_unique(array_filter((array) $this->params()->fromPost('module_ids', []), 'is_string'));
+        $changed = [];
+        $skipped = [];
+        foreach ($ids as $id) {
+            $module = $this->omekaModules->getModule($id);
+            $label = ($module ? $module->getName() : null) ?: $id;
+            if (!$module) {
+                $skipped[] = $label;
+                continue;
+            }
+            try {
+                $this->omekaModules->$method($module);
+                $changed[] = $label;
+            } catch (ModuleStateInvalidException $e) {
+                // The manager only changes a module in the state the action
+                // needs, and throws this before changing anything.
+                $skipped[] = $label;
+            } catch (\Exception $e) {
+                $this->messenger()->addError(new Message('%1$s: %2$s', $label, $e->getMessage()));
+            }
+        }
+        if ($changed) {
+            $this->messenger()->addSuccess(new Message($successMessage, implode(', ', $changed)));
+        }
+        if ($skipped) {
+            $this->messenger()->addWarning(new Message(
+                'Modules skipped because the action does not apply to their current state: %s', // @translate
+                implode(', ', $skipped)
+            ));
+        }
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 
     /**
@@ -115,7 +169,9 @@ class ModuleController extends AbstractActionController
         }
         try {
             $this->omekaModules->install($module);
-        } catch (ModuleCannotInstallException $e) {
+        } catch (ModuleCannotInstallException | ModuleStateInvalidException $e) {
+            // A state error means the page was out of date, such as after Back
+            // or a second click. It's thrown before anything changes.
             $this->messenger()->addError($e->getMessage());
             return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
@@ -175,8 +231,13 @@ class ModuleController extends AbstractActionController
         if (!$module) {
             throw new Exception\NotFoundException;
         }
-        $this->omekaModules->uninstall($module);
-        $this->messenger()->addSuccess('The module was successfully uninstalled'); // @translate
+        try {
+            $this->omekaModules->uninstall($module);
+            $this->messenger()->addSuccess('The module was successfully uninstalled'); // @translate
+        } catch (ModuleStateInvalidException $e) {
+            // The page was out of date. This is thrown before anything changes.
+            $this->messenger()->addError($e->getMessage());
+        }
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 
@@ -201,8 +262,13 @@ class ModuleController extends AbstractActionController
         if (!$module) {
             throw new Exception\NotFoundException;
         }
-        $this->omekaModules->activate($module);
-        $this->messenger()->addSuccess('The module was successfully activated'); // @translate
+        try {
+            $this->omekaModules->activate($module);
+            $this->messenger()->addSuccess('The module was successfully activated'); // @translate
+        } catch (ModuleStateInvalidException $e) {
+            // The page was out of date. This is thrown before anything changes.
+            $this->messenger()->addError($e->getMessage());
+        }
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 
@@ -227,8 +293,13 @@ class ModuleController extends AbstractActionController
         if (!$module) {
             throw new Exception\NotFoundException;
         }
-        $this->omekaModules->deactivate($module);
-        $this->messenger()->addSuccess('The module was successfully deactivated'); // @translate
+        try {
+            $this->omekaModules->deactivate($module);
+            $this->messenger()->addSuccess('The module was successfully deactivated'); // @translate
+        } catch (ModuleStateInvalidException $e) {
+            // The page was out of date. This is thrown before anything changes.
+            $this->messenger()->addError($e->getMessage());
+        }
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 
@@ -253,8 +324,13 @@ class ModuleController extends AbstractActionController
         if (!$module) {
             throw new Exception\NotFoundException;
         }
-        $this->omekaModules->upgrade($module);
-        $this->messenger()->addSuccess('The module was successfully upgraded'); // @translate
+        try {
+            $this->omekaModules->upgrade($module);
+            $this->messenger()->addSuccess('The module was successfully upgraded'); // @translate
+        } catch (ModuleStateInvalidException $e) {
+            // The page was out of date. This is thrown before anything changes.
+            $this->messenger()->addError($e->getMessage());
+        }
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 
@@ -300,6 +376,12 @@ class ModuleController extends AbstractActionController
         return $view;
     }
 
+    /**
+     * Show a module's details in the modules page sidebar.
+     *
+     * This has its own template. The show-details partial belongs to the
+     * uninstall confirmation, where modules add warnings through view.details.
+     */
     public function showDetailsAction()
     {
         $id = $this->params()->fromQuery('id');
@@ -310,7 +392,28 @@ class ModuleController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setTerminal(true);
+        $view->setTemplate('omeka/admin/module/details');
         $view->setVariable('module', $module);
+        $view->setVariable('states', $this->getStateLabels());
         return $view;
+    }
+
+    /**
+     * Get the label for each module state.
+     *
+     * @return array
+     */
+    protected function getStateLabels()
+    {
+        return [
+            'active' => $this->translate('Active'),
+            'not_active' => $this->translate('Not active'),
+            'not_installed' => $this->translate('Not installed'),
+            'needs_upgrade' => $this->translate('Needs upgrade'),
+            'not_found' => $this->translate('Not found'),
+            'invalid_module' => $this->translate('Invalid module'),
+            'invalid_ini' => $this->translate('Invalid INI'),
+            'invalid_omeka_version' => $this->translate('Invalid Omeka S version'),
+        ];
     }
 }

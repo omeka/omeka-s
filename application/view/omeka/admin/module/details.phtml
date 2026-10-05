@@ -1,0 +1,58 @@
+<?php
+/**
+ * A module's details, shown in the modules page sidebar.
+ *
+ * Only the details a module provides are shown.
+ */
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$hyperlink = $this->plugin('hyperlink');
+
+$versionIni = $module->getIni('version');
+$versionDb = $module->getDb('version');
+$link = function ($url) use ($hyperlink) {
+    return $hyperlink($url, $url, ['target' => '_blank']);
+};
+
+// Each detail's label and its value as HTML.
+$details = [
+    $translate('Directory') => $escape($module->getId()),
+    $translate('State') => $escape($states[$module->getState()] ?? $module->getState()),
+];
+if ($versionIni) {
+    $details[$translate('Version')] = $escape($versionIni);
+}
+// The installed version differs from the files' while an upgrade is pending.
+if ($versionDb && $versionDb !== $versionIni) {
+    $details[$translate('Installed version')] = $escape($versionDb);
+}
+if ($author = $module->getIni('author')) {
+    $authorLink = $module->getIni('author_link');
+    $details[$translate('Author')] = $authorLink ? $hyperlink($author, $authorLink, ['target' => '_blank']) : $escape($author);
+}
+if ($constraint = $module->getIni('omeka_version_constraint')) {
+    $details[$translate('Required Omeka S version')] = $escape($constraint);
+}
+if ($license = $module->getIni('license')) {
+    $details[$translate('License')] = $escape($license);
+}
+if ($moduleLink = $module->getIni('module_link')) {
+    $details[$translate('Module page')] = $link($moduleLink);
+}
+if ($supportLink = $module->getIni('support_link')) {
+    $details[$translate('Support')] = $link($supportLink);
+}
+if ($devLink = $module->getIni('dev_link')) {
+    $details[$translate('For developers')] = $link($devLink);
+}
+?>
+<h3 class="o-title"><?php echo $escape($module->getName() ?: $module->getId()); ?></h3>
+<?php if ($description = $module->getIni('description')): ?>
+<div class="o-description"><?php echo $escape($description); ?></div>
+<?php endif; ?>
+<?php foreach ($details as $label => $value): ?>
+<div class="meta-group">
+    <h4><?php echo $escape($label); ?></h4>
+    <div class="value"><?php echo $value; ?></div>
+</div>
+<?php endforeach; ?>

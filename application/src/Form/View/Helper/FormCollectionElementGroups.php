@@ -28,27 +28,67 @@ class FormCollectionElementGroups extends FormCollection
             // default formCollection() behavior.
             return parent::render($element);
         }
-        $view = $this->getView();
         $elementsInGroups = [];
         $elementsNotInGroups = [];
         $this->groupElements($element, $elementGroups, $elementsInGroups, $elementsNotInGroups);
-        $markup = '';
+        return $this->renderGroups($element, $elementGroups, $elementsInGroups, $elementsNotInGroups);
+    }
+
+    /**
+     * Render elements that are not in groups, then the element groups.
+     *
+     * @param ElementInterface $element The form/fieldset that registers the groups
+     * @param array $elementGroups
+     * @param array $elementsInGroups
+     * @param array $elementsNotInGroups
+     * @return string
+     */
+    protected function renderGroups(ElementInterface $element, array $elementGroups, array $elementsInGroups, array $elementsNotInGroups): string
+    {
         // First, render elements that are not in groups.
-        foreach ($elementsNotInGroups as $elementNotInGroups) {
-            $markup .= $view->formRow($elementNotInGroups);
-        }
+        $markup = $this->renderRows($elementsNotInGroups);
         // Then render elements that are in groups.
         foreach ($elementGroups as $elementGroupName => $elementGroupLabel) {
             if (!isset($elementsInGroups[$elementGroupName])) {
                 // No elements belong to this group.
                 continue;
             }
-            $markup .= '<fieldset>';
-            $markup .= sprintf('<legend><h2 class="fieldsets-heading">%s</h2></legend>', $view->escapeHtml($view->translate($elementGroupLabel)));
-            foreach ($elementsInGroups[$elementGroupName] as $elementInGroups) {
-                $markup .= $view->formRow($elementInGroups);
-            }
-            $markup .= '</fieldset>';
+            $markup .= $this->renderGroup($element, $elementGroupName, $elementGroupLabel, $elementsInGroups[$elementGroupName]);
+        }
+        return $markup;
+    }
+
+    /**
+     * Render one element group.
+     *
+     * @param ElementInterface $element The form/fieldset that registers the groups
+     * @param string $groupName
+     * @param mixed $groupLabel Whatever the translate helper accepts
+     * @param array $groupElements
+     * @return string
+     */
+    protected function renderGroup(ElementInterface $element, $groupName, $groupLabel, array $groupElements): string
+    {
+        $view = $this->getView();
+        $markup = '<fieldset>';
+        $markup .= sprintf('<legend><h2 class="fieldsets-heading">%s</h2></legend>', $view->escapeHtml($view->translate($groupLabel)));
+        $markup .= $this->renderRows($groupElements);
+        $markup .= '</fieldset>';
+        return $markup;
+    }
+
+    /**
+     * Render a row for each element.
+     *
+     * @param array $elements
+     * @return string
+     */
+    protected function renderRows(array $elements): string
+    {
+        $view = $this->getView();
+        $markup = '';
+        foreach ($elements as $element) {
+            $markup .= $view->formRow($element);
         }
         return $markup;
     }

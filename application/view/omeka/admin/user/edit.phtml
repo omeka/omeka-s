@@ -3,7 +3,6 @@ $translate = $this->plugin('translate');
 $this->htmlElement('body')->appendAttribute('class', 'edit users');
 $form->prepare();
 $sectionNavs = [
-    'user-information' => $translate('User information'),
     'user-settings' => $translate('User settings'),
     'change-password' => $translate('Password'),
     'edit-keys' => $translate('API keys'),
@@ -20,11 +19,13 @@ $formElement = $this->plugin('formElement');
 </div>
 <?php echo $this->sectionNav($sectionNavs, 'view.edit.section_nav'); ?>
 <?php $this->trigger('view.edit.form.before', ['form' => $form]); ?>
-<fieldset id="user-information" class="section active">
-    <?php echo $this->formCollection($form->get('user-information'), false); ?>
-</fieldset>
-<fieldset id="user-settings" class="section">
-    <?php echo $this->formCollectionElementGroups($form->get('user-settings')); ?>
+<fieldset id="user-settings" class="section active">
+    <?php echo $this->settingsFilter(); ?>
+    <fieldset id="user-information" class="settings-group">
+        <legend><h2 class="fieldsets-heading"><?php echo $translate('User information'); ?></h2></legend>
+        <?php echo $this->formCollection($form->get('user-information'), false); ?>
+    </fieldset>
+    <?php echo $this->formCollectionSettingsGroups($form->get('user-settings')); ?>
 </fieldset>
 <fieldset id="change-password" class="section">
     <?php echo $this->formCollection($form->get('change-password'), false); ?>

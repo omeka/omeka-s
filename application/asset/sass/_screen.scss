@@ -1895,6 +1895,32 @@ fieldset.section > legend {
     }
 }
 
+/* @group ----- Settings filter ----- */
+
+// Small labels: "Modules" in the settings filter's chip row, and "Module"
+// beside a module group's heading, like the left navigation's section labels.
+.settings-filter-modules-label,
+.settings-group-module-label {
+    font-size: .75 * $base-font-size;
+    font-weight: normal;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: lighten($copy-gray, 15%);
+}
+
+.settings-filter-modules-label {
+    padding-left: $spacing-medium;
+    border-left: 1px solid $border-gray;
+}
+
+.settings-group-module > legend {
+    display: flex;
+    align-items: baseline;
+    gap: $spacing-medium;
+}
+
+/* @end */
+
 .section:not(a) {
     display: none;
 }
@@ -1903,6 +1929,69 @@ fieldset.section > legend {
     display: block;
     clear: both;
 }
+
+/* @group ----- Filter ----- */
+
+// A text filter and chips that narrow the list or form below them.
+
+.o-filter {
+    position: relative;
+    margin-bottom: $spacing-medium;
+    padding: $spacing-small 0;
+
+    // A search icon inside the input.
+    &:before {
+        content: fa-content($fa-var-search);
+        @include font-awesome;
+        position: absolute;
+        top: $spacing-small;
+        left: $spacing-medium;
+        line-height: 1.5 * $spacing-large;
+        color: lighten($copy-gray, 25%);
+        pointer-events: none;
+    }
+
+    .o-filter-input {
+        width: 100%;
+        margin-bottom: $spacing-small;
+        padding-left: 1.5 * $spacing-large;
+    }
+}
+
+.o-filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $spacing-medium;
+}
+
+// The chips are the sidebar tabs' pills (see .sidebar-section-nav). A filled
+// selected state stands out among many chips, where the tabs' bold wouldn't.
+.o-filter-chip[aria-pressed="true"] {
+    background-color: $blue;
+    color: #fff;
+}
+
+.o-filter-chip-count {
+    margin-left: .25em;
+    opacity: .75;
+}
+
+// Omeka's empty state (.no-resources), with a search icon. The class pair
+// matches the page icons' specificity, such as .sites .no-resources:before,
+// and comes later, so it wins.
+.no-resources.o-filter-no-matches:before {
+    content: fa-content($fa-var-search);
+}
+
+// What the filter hides. A class rather than the hidden attribute, because
+// table rows, fields, and other elements set their own display, and so
+// clearing the filter never shows something another script hid.
+.o-filter-hidden {
+    display: none !important;
+}
+
+/* @end */
 
 #page-actions {
     position: fixed;
@@ -3340,7 +3429,9 @@ fieldset.section > legend {
     }
 }
 
-.sidebar-section-nav button[type="button"] {
+// Also the filter's chips.
+.sidebar-section-nav button[type="button"],
+.o-filter-chip {
     background-color: rgba(0,0,0,.08);
     color: $copy-gray;
     border-radius: $spacing-large;

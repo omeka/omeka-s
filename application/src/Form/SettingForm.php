@@ -475,6 +475,9 @@ class SettingForm extends Form implements EventManagerAwareInterface
             ],
         ]);
 
+        // Record the core groups so modules' groups can be told apart.
+        $this->setOption('core_element_groups', array_keys($this->getOption('element_groups')));
+
         $event = new Event('form.add_elements', $this);
         $triggerResult = $this->getEventManager()->triggerEvent($event);
 

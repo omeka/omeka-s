@@ -20,7 +20,8 @@ $this->htmlElement('body')->appendAttribute('class', 'sites theme-settings');
         <?php echo $this->cancelButton(); ?>
         <button><?php echo $translate('Save'); ?></button>
     </div>
-    <?php echo $this->formCollectionElementGroups($form, false); ?>
+    <?php echo $this->settingsFilter(); ?>
+    <?php echo $this->formCollectionSettingsGroups($form, false); ?>
     <?php echo $this->form()->closeTag(); ?>
 <?php else: ?>
     <p><?php echo $translate('The current theme has no configuration options.'); ?></p>

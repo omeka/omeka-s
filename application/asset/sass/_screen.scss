@@ -2092,15 +2092,6 @@ fieldset.section > legend {
     padding-right: 2 * $spacing-large;
 }
 
-.value .actions a.o-icon-more {
-    display: block;
-    height: 1.5 * $spacing-large;
-}
-
-.more-actions.active a.o-icon-more {
-    border-bottom: 1px solid #dfdfdf;
-}
-
 .language-wrapper input[type="text"].value-language {
     line-height: $base-line-height;
     background-color: transparent;
@@ -2724,19 +2715,27 @@ fieldset.section > legend {
         text-align: center;
     }
 
-    .more-actions ul {
-        padding: 0;
-        display: none;
+    // Resource values show visibility and annotate in a second column, left of
+    // delete. Value annotations in the sidebar keep the single column from the
+    // rules above.
+    #properties .value:not(.delete) > .input-footer {
+        width: 2.5 * $spacing-large;
+
+        // Fills each column top to bottom, so visibility and annotate form the
+        // left column and delete (or restore) the right.
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(2, $spacing-large);
+            grid-template-rows: repeat(2, 1.5 * $spacing-large);
+            grid-auto-flow: column;
+            column-gap: $spacing-small;
+        }
     }
 
-    .more-actions.active {
-        box-shadow: 0 0 0 1px $border-gray;
-        background-color: #fff;
-        border-radius: 2px;
-
-        ul {
-            display: block;
-        }
+    // Font Awesome's regular weight draws the outline icon, for values without
+    // annotations.
+    #properties .value-annotation-annotate:not(.has-annotations):before {
+        font-weight: 400;
     }
 
     .value.delete {
@@ -2828,6 +2827,16 @@ fieldset.section > legend {
 
     .value:not(:only-of-type) .input-body {
         max-width: calc(100% - 48px);
+    }
+
+    // Leave room for the wider action column on resource values; with a drag
+    // handle, also for the handle and its spacing.
+    #properties .value > .input-body {
+        max-width: calc(100% - 60px);
+    }
+
+    #properties .value:not(:only-of-type) > .input-body {
+        max-width: calc(100% - 78px);
     }
 
     .inputs .input-body input[type="text"] {

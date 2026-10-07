@@ -267,7 +267,7 @@
             maxAttachments ? bulkSelectControls.hide() : bulkSelectControls.show();
         });
 
-        $('#new-block button').on('click', function() {
+        $('#new-block').on('click', 'button.option, button.add-block-group', function() {
             $.post(
                 $(this).parents('#new-block').data('url'),
                 {layout: $(this).val()}

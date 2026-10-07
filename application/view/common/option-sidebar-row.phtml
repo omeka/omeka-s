@@ -1,0 +1,41 @@
+<?php
+/**
+ * One option in an "add" sidebar.
+ *
+ * The same row renders in the Pinned section and in the option's group, so a
+ * pinned option appears twice, and pinning clones the group row. The module
+ * name is always rendered, and CSS hides it inside the module's own group,
+ * where the heading already gives it.
+ *
+ * The drag handle and the pin and hide toggles show only in customize mode;
+ * the handle shows only in the Pinned section, and the hide toggle only in
+ * the groups.
+ *
+ * Customize mode disables the option buttons, and autocomplete="off" keeps
+ * Firefox from restoring that disabled state when the page is reloaded.
+ */
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+?>
+<li class="option-sidebar-row<?php echo $isHidden ? ' is-hidden' : ''; ?>"
+    data-name="<?php echo $escape($option['name']); ?>"
+    data-label="<?php echo $escape($option['label']); ?>"
+    data-module="<?php echo $escape($option['module'] ?? ''); ?>"<?php echo $isHidden ? ' hidden' : ''; ?>>
+    <span class="sortable-handle" aria-hidden="true"></span>
+    <button type="button" class="option" value="<?php echo $escape($option['name']); ?>" autocomplete="off">
+        <span class="option-sidebar-label"><?php echo $escape($option['label']); ?></span>
+        <?php if ($option['module']): ?>
+        <span class="option-sidebar-module"><?php echo $escape($option['module']); ?></span>
+        <?php endif; ?>
+    </button>
+    <span class="option-sidebar-controls">
+        <button type="button" class="option-sidebar-pin o-icon-pin"
+            aria-pressed="<?php echo $isPinned ? 'true' : 'false'; ?>"
+            title="<?php echo $escape($translate('Pin')); ?>"
+            aria-label="<?php echo $escape(sprintf($translate('Pin %s'), $option['label'])); ?>"></button>
+        <button type="button" class="option-sidebar-hide o-icon-private"
+            aria-pressed="<?php echo $isHidden ? 'true' : 'false'; ?>"
+            title="<?php echo $escape($translate('Hide')); ?>"
+            aria-label="<?php echo $escape(sprintf($translate('Hide %s'), $option['label'])); ?>"></button>
+    </span>
+</li>

@@ -107,6 +107,10 @@
     @extend .fa-eye-slash;
 }
 
+.o-icon-pin {
+    @extend .fa-thumbtack;
+}
+
 .o-icon-user-inactive {
     @extend .fa-user-times;
 }

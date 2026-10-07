@@ -94,13 +94,7 @@ $form->prepare();
         <h3><?php echo $translate('Add new block'); ?></h3>
         <button type="button" value="blockGroup" class="add-block-group"><?php echo $translate('Add block group'); ?></button>
     </div>
-    <?php foreach ($this->blockLayout()->getLayouts() as $layout): ?>
-    <?php if ('blockGroup' !== $layout): ?>
-    <button type="button" value="<?php echo $escape($layout); ?>" class="option">
-        <?php echo $escape($translate($this->blockLayout()->getLayoutLabel($layout))); ?>
-    </button>
-    <?php endif; ?>
-    <?php endforeach; ?>
+    <?php echo $this->optionSidebar('block_layouts', $site); ?>
 </div>
 
 <div id="layout-preview-sidebar" class="sidebar">

@@ -62,20 +62,34 @@ class Manager extends AbstractPluginManager
     /**
      * Get all block layouts that are compatible with a resource.
      *
+     * Layouts are sorted alphabetically by translated label.
+     *
      * @param string $resourceName
      * @return array
      */
     public function getAllForResource($resourceName)
     {
         $allForResource = [];
+        $labels = [];
         foreach ($this->getRegisteredNames() as $blockLayoutName) {
             $blockLayout = $this->get($blockLayoutName);
             $compatibleResourceNames = $blockLayout->getCompatibleResourceNames();
             if (in_array($resourceName, $compatibleResourceNames)) {
                 $allForResource[$blockLayoutName] = $blockLayout;
+                $labels[$blockLayoutName] = $this->translator->translate($blockLayout->getLabel());
             }
         }
-        return $allForResource;
+        if (extension_loaded('intl')) {
+            $collator = new \Collator('root');
+            $collator->asort($labels);
+        } else {
+            natcasesort($labels);
+        }
+        $sorted = [];
+        foreach (array_keys($labels) as $blockLayoutName) {
+            $sorted[$blockLayoutName] = $allForResource[$blockLayoutName];
+        }
+        return $sorted;
     }
 
     /**

@@ -53,6 +53,19 @@ class SiteSettingsForm extends Form implements EventManagerAwareInterface
             ],
         ]);
         $this->add([
+            'name' => 'assign_new_item_sets',
+            'type' => 'checkbox',
+            'options' => [
+                'element_group' => 'general',
+                'label' => 'Auto-assign new item sets', // @translate
+                'info' => 'Select this if you want new item sets to be automatically assigned to this site. Note that item set owners may unassign their item sets at any time.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'assign_new_item_sets',
+                'value' => $settings->get('assign_new_item_sets', true),
+            ],
+        ]);
+        $this->add([
             'name' => 'attachment_link_type',
             'type' => 'Select',
             'options' => [

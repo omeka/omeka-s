@@ -1,16 +1,22 @@
 <?php
 namespace Omeka\View\Renderer;
 
+use Exception;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Api\Response;
 use Laminas\EventManager\EventManager;
-use Laminas\Json\Json;
-use Laminas\View\Renderer\JsonRenderer;
+use Laminas\View\Renderer\RendererInterface;
+use Laminas\View\Renderer\TreeRendererInterface;
+use Laminas\View\Resolver\ResolverInterface;
 
 /**
  * JSON renderer for API responses.
+ *
+ * Encodes the API response payload as JSON and fires the
+ * api.output.serialize event, allowing modules to provide custom output
+ * for alternate formats such as RDF serializations.
  */
-class ApiJsonRenderer extends JsonRenderer
+class ApiJsonRenderer implements RendererInterface, TreeRendererInterface
 {
     /**
      * @var bool
@@ -29,25 +35,45 @@ class ApiJsonRenderer extends JsonRenderer
         $this->eventManager = $eventManager;
     }
 
+    public function getEngine()
+    {
+        return $this;
+    }
+
+    public function setResolver(ResolverInterface $resolver)
+    {
+    }
+
+    public function canRenderTrees()
+    {
+        return true;
+    }
+
     /**
      * Return whether the response is JSONP
      *
      * The view strategy checks this to decide what Content-Type to send, and
      * we need to provide a different implementation to preserve that signal
      * since we're handling JSONP manually here.
-     *
-     * @return bool
      */
-    public function hasJsonpCallback()
+    public function hasJsonpCallback(): bool
     {
         return $this->hasJsonpCallback;
     }
 
-    public function setHasJsonpCallback(bool $hasJsonpCallback)
+    public function setHasJsonpCallback(bool $hasJsonpCallback): void
     {
         $this->hasJsonpCallback = $hasJsonpCallback;
     }
 
+    /**
+     * Render an API response as JSON.
+     *
+     * Returns null for empty (204 No Content) responses.
+     *
+     * @param \Omeka\View\Model\ApiJsonModel $model
+     * @return string|null
+     */
     public function render($model, $values = null)
     {
         $response = $model->getApiResponse();
@@ -58,7 +84,7 @@ class ApiJsonRenderer extends JsonRenderer
         } elseif ($exception instanceof ValidationException) {
             $errors = $exception->getErrorStore()->getErrors();
             $payload = ['errors' => $errors];
-        } elseif ($exception instanceof \Exception) {
+        } elseif ($exception instanceof Exception) {
             $payload = ['errors' => ['error' => $exception->getMessage()]];
         } else {
             $payload = $response;
@@ -68,7 +94,12 @@ class ApiJsonRenderer extends JsonRenderer
             return null;
         }
 
-        $output = parent::render($payload);
+        // HEX flags preserved from the previous Laminas\Json\Json::encode() path for output compatibility.
+        $flags = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP;
+        if ($model->getOption('pretty_print')) {
+            $flags |= JSON_PRETTY_PRINT;
+        }
+        $output = json_encode($payload, $flags);
 
         // Allow modules to return custom output.
         $args = $this->eventManager->prepareArgs([
@@ -83,10 +114,8 @@ class ApiJsonRenderer extends JsonRenderer
 
     /**
      * Set an alternate output format.
-     *
-     * @param string $format
      */
-    public function setFormat($format)
+    public function setFormat(string $format): void
     {
         $this->format = $format;
     }

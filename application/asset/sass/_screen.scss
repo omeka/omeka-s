@@ -2701,7 +2701,6 @@ fieldset.section > legend {
 
     .input-footer {
         display: flex;
-        width: 1.25 * $spacing-large;
     }
 
     .input-footer .actions {
@@ -2715,21 +2714,14 @@ fieldset.section > legend {
         text-align: center;
     }
 
-    // Resource values show visibility and annotate in a second column, left of
-    // delete. Value annotations in the sidebar keep the single column from the
-    // rules above.
-    #properties .value:not(.delete) > .input-footer {
-        width: 2.5 * $spacing-large;
-
-        // Fills each column top to bottom, so visibility and annotate form the
-        // left column and delete (or restore) the right.
-        .actions {
-            display: grid;
-            grid-template-columns: repeat(2, $spacing-large);
-            grid-template-rows: repeat(2, 1.5 * $spacing-large);
-            grid-auto-flow: column;
-            column-gap: $spacing-small;
-        }
+    // Value actions are two columns, only in the main section
+    // Fill down columns first, so delete is on the right
+    #properties .value:not(.delete) > .input-footer .actions {
+        display: grid;
+        grid-template-columns: repeat(2, $spacing-large);
+        grid-template-rows: repeat(2, 1.5 * $spacing-large);
+        grid-auto-flow: column;
+        column-gap: $spacing-small;
     }
 
     // Font Awesome's regular weight draws the outline icon, for values without
@@ -2822,21 +2814,6 @@ fieldset.section > legend {
         flex: 1;
         position: relative;
         box-shadow: 0 0 0 1px inset $border-gray;
-        max-width: calc(100% - 30px);
-    }
-
-    .value:not(:only-of-type) .input-body {
-        max-width: calc(100% - 48px);
-    }
-
-    // Leave room for the wider action column on resource values; with a drag
-    // handle, also for the handle and its spacing.
-    #properties .value > .input-body {
-        max-width: calc(100% - 60px);
-    }
-
-    #properties .value:not(:only-of-type) > .input-body {
-        max-width: calc(100% - 78px);
     }
 
     .inputs .input-body input[type="text"] {

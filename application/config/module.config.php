@@ -974,5 +974,7 @@ return [
         'Description', // @translate
         'Unknown block layout', // @translate
         'Required field must be completed', // @translate
+        'Annotate value', // @translate
+        'Edit annotations', // @translate
     ],
 ];

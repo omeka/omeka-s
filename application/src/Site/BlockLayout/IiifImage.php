@@ -70,7 +70,6 @@ class IiifImage extends AbstractBlockLayout
         $blockData['title'] = is_string($blockData['title'])
             ? trim($blockData['title'])
             : $this->defaultBlockData['title'];
-        $blockData['show_title'] = $blockData['show_title'];
         $block->setData($blockData);
     }
 

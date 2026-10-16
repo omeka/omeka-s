@@ -28,7 +28,7 @@ $escape = $this->plugin('escapeHtml');
                 $comment = $property->comment();
                 ?>
                 <li class="selector-child"
-                    data-child-search="<?php echo $escape($prop['label']); ?>"
+                    data-child-search="<?php echo $escape($prop['label'] . ' ' . $property->term()); ?>"
                     data-property-id="<?php echo $escape($property->id()); ?>"
                     data-property-term="<?php echo $escape($property->term()); ?>">
                     <div class="description<?php echo $comment ? '' : ' no-comment'; ?>">

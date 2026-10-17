@@ -765,9 +765,96 @@ SQL;
             if ($pattern === null || $value === null) {
                 return null;
             }
-            $regex = '/' . str_replace('/', '\\/', (string) $pattern) . '/u';
-            return @preg_match($regex, (string) $value) === 1 ? 1 : 0;
+            return @preg_match($this->mysqlRegex($pattern), (string) $value) === 1 ? 1 : 0;
         }, 2);
+        $create('regexp_replace', function ($value, $pattern, $replacement) {
+            if ($value === null || $pattern === null || $replacement === null) {
+                return null;
+            }
+            return preg_replace($this->mysqlRegex($pattern), (string) $replacement, (string) $value);
+        }, 3);
+        $create('regexp_substr', function ($value, $pattern) {
+            if ($value === null || $pattern === null) {
+                return null;
+            }
+            return preg_match($this->mysqlRegex($pattern), (string) $value, $m) === 1 ? $m[0] : null;
+        }, 2);
+        $create('substring_index', function ($value, $delimiter, $count) {
+            // MySQL: the part before the count-th delimiter, counted from the
+            // right when count is negative.
+            if ($value === null || $delimiter === null || $count === null) {
+                return null;
+            }
+            $count = (int) $count;
+            if ($count === 0 || (string) $delimiter === '') {
+                return '';
+            }
+            $parts = explode((string) $delimiter, (string) $value);
+            return implode((string) $delimiter, $count > 0 ? array_slice($parts, 0, $count) : array_slice($parts, $count));
+        }, 3);
+        $create('rand', function () {
+            // ponytail: a seed argument is ignored, add seeding if a module relies on repeatable order.
+            return mt_rand() / (mt_getrandmax() + 1);
+        }, -1);
+        foreach (['year' => 1, 'month' => 2, 'day' => 3, 'hour' => 4, 'minute' => 5, 'second' => 6] as $name => $part) {
+            $create($name, function ($datetime) use ($part) {
+                // MySQL returns NULL for a value that is not a date.
+                if ($datetime === null || !preg_match('/^(\d{4})-(\d{1,2})-(\d{1,2})(?:[ T](\d{1,2}):(\d{1,2})(?::(\d{1,2}))?)?/', (string) $datetime, $m)) {
+                    return null;
+                }
+                return (int) ($m[$part] ?? 0);
+            }, 1);
+        }
+        $create('last_day', function ($datetime) {
+            $timestamp = $datetime === null ? false : strtotime((string) $datetime);
+            return $timestamp === false ? null : date('Y-m-t', $timestamp);
+        }, 1);
+        $create('str_to_date', function ($value, $format) {
+            if ($value === null || $format === null) {
+                return null;
+            }
+            $map = ['%Y' => 'Y', '%y' => 'y', '%m' => 'm', '%c' => 'n', '%d' => 'd', '%e' => 'j', '%M' => 'F', '%b' => 'M',
+                '%H' => 'H', '%k' => 'G', '%h' => 'h', '%I' => 'h', '%l' => 'g', '%i' => 'i', '%s' => 's', '%S' => 's',
+                '%p' => 'A', '%f' => 'u', '%T' => 'H:i:s', '%%' => '%'];
+            $date = \DateTime::createFromFormat('!' . strtr((string) $format, $map), (string) $value);
+            $errors = \DateTime::getLastErrors();
+            if ($date === false || ($errors && ($errors['warning_count'] || $errors['error_count']))) {
+                return null;
+            }
+            // MySQL returns a DATE unless the format has time parts.
+            return $date->format(preg_match('/%[HkhIlisSpfT]/', (string) $format) ? 'Y-m-d H:i:s' : 'Y-m-d');
+        }, 2);
+        $create('crc32', function ($value) {
+            // PHP passes integers to SQLite as 32-bit signed values; a real
+            // keeps the unsigned checksum exact.
+            return $value === null ? null : (float) crc32((string) $value);
+        }, 1);
+        $create('sha1', function ($value) {
+            return $value === null ? null : sha1((string) $value);
+        }, 1);
+        $create('sha2', function ($value, $length) {
+            $length = (int) $length ?: 256;
+            if ($value === null || !in_array($length, [224, 256, 384, 512], true)) {
+                return null;
+            }
+            return hash('sha' . $length, (string) $value);
+        }, 2);
+        $create('json_unquote', function ($value) {
+            if ($value === null) {
+                return null;
+            }
+            $decoded = json_decode((string) $value);
+            return is_string($decoded) ? $decoded : (string) $value;
+        }, 1);
+    }
+
+    /**
+     * Build a PCRE pattern from a MySQL regular expression. Omeka tables use
+     * case-insensitive collations, so MySQL matches them case-insensitively.
+     */
+    private function mysqlRegex($pattern): string
+    {
+        return '/' . str_replace('/', '\\/', (string) $pattern) . '/iu';
     }
 
     /**

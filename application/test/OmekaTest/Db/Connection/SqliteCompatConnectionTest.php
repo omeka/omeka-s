@@ -541,6 +541,51 @@ class SqliteCompatConnectionTest extends TestCase
         $this->assertSame('NOW(); CURDATE()', $this->connection->fetchOne("SELECT 'NOW(); CURDATE()'"));
     }
 
+    /** @dataProvider moduleFunctionQueries */
+    public function testMysqlFunctionsUsedByModules($sql, $expected)
+    {
+        $this->assertSame($expected, $this->connection->fetchOne($sql));
+    }
+
+    public function moduleFunctionQueries()
+    {
+        return [
+            'substring_index left' => ["SELECT SUBSTRING_INDEX('a.b.c', '.', 2)", 'a.b'],
+            'substring_index right' => ["SELECT SUBSTRING_INDEX('a.b.c', '.', -1)", 'c'],
+            'substring_index beyond' => ["SELECT SUBSTRING_INDEX('a.b.c', '.', 5)", 'a.b.c'],
+            'substring_index zero' => ["SELECT SUBSTRING_INDEX('a.b.c', '.', 0)", ''],
+            'substring_index null' => ["SELECT SUBSTRING_INDEX(NULL, '.', 1)", null],
+            'year' => ["SELECT YEAR('2024-02-29 13:45:06')", 2024],
+            'month' => ["SELECT MONTH('2024-02-29')", 2],
+            'day' => ["SELECT DAY('2024-02-29')", 29],
+            'hour minute second' => ["SELECT HOUR('2024-02-29 13:45:06') || ':' || MINUTE('2024-02-29 13:45:06') || ':' || SECOND('2024-02-29 13:45:06')", '13:45:6'],
+            'year invalid' => ["SELECT YEAR('not a date')", null],
+            'last_day' => ["SELECT LAST_DAY('2024-02-10 08:00:00')", '2024-02-29'],
+            'str_to_date date' => ["SELECT STR_TO_DATE('29/02/2024', '%d/%m/%Y')", '2024-02-29'],
+            'str_to_date datetime' => ["SELECT STR_TO_DATE('2024-02-29 13:45', '%Y-%m-%d %H:%i')", '2024-02-29 13:45:00'],
+            'str_to_date invalid' => ["SELECT STR_TO_DATE('foo', '%Y-%m-%d')", null],
+            'regexp_replace' => ["SELECT REGEXP_REPLACE('Omeka S 4', '[0-9]+', 'x')", 'Omeka S x'],
+            'regexp_replace backreference, case-insensitive' => ["SELECT REGEXP_REPLACE('abc ABC', '(b)', '[$1]')", 'a[b]c A[B]C'],
+            'regexp_substr' => ["SELECT REGEXP_SUBSTR('POINT(1 2)', '[0-9]+ [0-9]+')", '1 2'],
+            'regexp_substr none' => ["SELECT REGEXP_SUBSTR('abc', '[0-9]')", null],
+            'regexp operator case-insensitive' => ["SELECT 'Omeka' REGEXP '^omeka$'", 1],
+            'crc32' => ["SELECT CRC32('omeka') = 3870085686", 1],
+            'sha1' => ["SELECT SHA1('omeka')", sha1('omeka')],
+            'sha2' => ["SELECT SHA2('omeka', 256)", hash('sha256', 'omeka')],
+            'json_unquote string' => ['SELECT JSON_UNQUOTE(\'"a\\"b"\')', 'a"b'],
+            'json_unquote other' => ["SELECT JSON_UNQUOTE('[1]')", '[1]'],
+        ];
+    }
+
+    public function testRandReturnsAFractionAndSortsRows()
+    {
+        $value = (float) $this->connection->fetchOne('SELECT RAND()');
+        $this->assertGreaterThanOrEqual(0, $value);
+        $this->assertLessThan(1, $value);
+        $this->connection->exec("INSERT INTO setting VALUES ('a', '1'), ('b', '2')");
+        $this->assertCount(2, $this->connection->fetchFirstColumn('SELECT id FROM setting ORDER BY RAND()'));
+    }
+
     public function testUniquePrefixIndexesEnforcePrefixUniqueness()
     {
         $this->connection->exec('CREATE TABLE example (value TEXT, UNIQUE KEY prefix (value(3)))');

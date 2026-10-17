@@ -159,6 +159,10 @@ REGEX;
 
         $sql = $this->translateFunctions($sql);
         $sql = $this->translateDateArithmetic($sql);
+        $sql = $this->translateGroupConcat($sql);
+        $sql = $this->translateMatch($sql);
+        $sql = $this->translateTrimFrom($sql);
+        $sql = preg_replace('/^(\s*CREATE\s+)FULLTEXT\s+(INDEX\b)/i', '$1$2', $sql);
         $sql = preg_replace('/^(\s*)INSERT\s+IGNORE\b/i', '$1INSERT OR IGNORE', $sql);
         $sql = $this->translateUpsert($sql);
         $sql = $this->translateDeleteJoin($sql);
@@ -177,6 +181,11 @@ REGEX;
             $type = empty($m[1]) ? '' : ", 'BASE TABLE' AS Table_type";
             $filter = isset($m[2]) ? ' AND name LIKE ' . $m[2] : '';
             return ["SELECT name AS Tables_in_main$type FROM sqlite_master WHERE type='table' AND name NOT GLOB 'sqlite_*'$filter ORDER BY name"];
+        }
+
+        // No server variables: modules then take their portable code path.
+        if (preg_match('/^SHOW\s+(?:(?:GLOBAL|SESSION)\s+)?VARIABLES\b/i', $trimmed)) {
+            return ['SELECT NULL AS Variable_name, NULL AS Value WHERE 0'];
         }
 
         if (preg_match('/^SHOW\s+(?:INDEX(?:ES)?|KEYS)\s+(?:FROM|IN)\s+[`"\']?(\w+)[`"\']?(?:\s+WHERE\s+(.+))?$/is', $trimmed, $m)) {
@@ -232,33 +241,168 @@ REGEX;
      */
     private function translateDateArithmetic(string $sql): string
     {
-        if (!preg_match('/\b(?:DATE_ADD|DATE_SUB|ADDDATE|SUBDATE)\s*\(/i', $sql)) {
-            return $sql;
-        }
-        $offset = 0;
-        while (preg_match('/(?:' . self::SQL_PROTECTED . ')(*SKIP)(*F)|\b(DATE_ADD|DATE_SUB|ADDDATE|SUBDATE)\s*\(/is', $sql, $m, PREG_OFFSET_CAPTURE, $offset)) {
-            $start = $m[0][1];
-            $open = $start + strlen($m[0][0]) - 1;
-            $close = $this->closingParenthesis($sql, $open);
-            $args = $close === null ? [] : $this->splitSql(substr($sql, $open + 1, $close - $open - 1), ',');
-            $offset = $open + 1;
+        return $this->replaceCalls($sql, 'DATE_ADD|DATE_SUB|ADDDATE|SUBDATE', function (string $function, string $arguments): ?string {
+            $args = $this->splitSql($arguments, ',');
             if (count($args) !== 2) {
-                continue;
+                return null;
             }
-            $function = strtoupper($m[1][0]);
             if (preg_match('/^INTERVAL\s+(.+)\s+(SECOND|MINUTE|HOUR|DAY|WEEK|MONTH|QUARTER|YEAR)$/is', $args[1], $interval)) {
                 [, $amount, $unit] = $interval;
             } elseif (in_array($function, ['ADDDATE', 'SUBDATE'], true)) {
                 [$amount, $unit] = [$args[1], 'DAY'];
             } else {
-                continue;
+                return null;
             }
             $sign = in_array($function, ['DATE_SUB', 'SUBDATE'], true) ? '-' : '';
-            $replacement = 'mysql_date_add(' . $this->translateDateArithmetic($args[0]) . ', ' . $sign . '(' . $this->translateDateArithmetic($amount) . "), '" . strtoupper($unit) . "')";
+            return "mysql_date_add($args[0], $sign($amount), '" . strtoupper($unit) . "')";
+        });
+    }
+
+    /**
+     * Translate GROUP_CONCAT([DISTINCT] expr[, expr…] [ORDER BY …] [SEPARATOR s]).
+     *
+     * MySQL concatenates several expressions, skipping rows where one is NULL,
+     * while SQLite takes the separator as second argument. SQLite refuses
+     * DISTINCT with a separator, so mysql_group_concat_distinct() does it.
+     */
+    private function translateGroupConcat(string $sql): string
+    {
+        return $this->replaceCalls($sql, 'GROUP_CONCAT', function (string $function, string $arguments) use ($sql): ?string {
+            $distinct = preg_match('/^\s*DISTINCT\s+/i', $arguments, $d) ? $d[0] : '';
+            $arguments = substr($arguments, strlen($distinct));
+            $at = $this->topLevelKeywords($arguments, 'ORDER\s+BY|SEPARATOR');
+            $expressions = $this->splitSql(substr($arguments, 0, $at ? min($at) : strlen($arguments)), ',');
+            $separator = isset($at['SEPARATOR']) ? trim(substr($arguments, $at['SEPARATOR'] + 9)) : null;
+            $orderBy = isset($at['ORDER']) ? ' ' . trim(substr($arguments, $at['ORDER'], ($at['SEPARATOR'] ?? strlen($arguments)) - $at['ORDER'])) : '';
+            if (count($expressions) === 1 && $separator === null) {
+                return null;
+            }
+            if (strpos($this->unquoted((string) $separator), '?') !== false && strpos($this->unquoted($orderBy), '?') !== false) {
+                throw new \RuntimeException('SQLite compatibility cannot reorder positional parameters of a GROUP_CONCAT(): ' . $sql);
+            }
+            $value = count($expressions) === 1 ? $expressions[0] : '(' . implode(') || (', $expressions) . ')';
+            if ($separator === null) {
+                return "GROUP_CONCAT($distinct$value$orderBy)";
+            }
+            return ($distinct !== '' ? 'mysql_group_concat_distinct(' : 'GROUP_CONCAT(') . "$value, $separator$orderBy)";
+        });
+    }
+
+    /**
+     * Translate MATCH(columns) AGAINST(expr [modifier]) into mysql_match(),
+     * which scores rows without a fulltext index. Arguments keep their order
+     * for parameters.
+     */
+    private function translateMatch(string $sql): string
+    {
+        if (stripos($sql, 'AGAINST') === false) {
+            return $sql;
+        }
+        $offset = 0;
+        while (preg_match('/(?:' . self::SQL_PROTECTED . ')(*SKIP)(*F)|\bMATCH\s*\(/is', $sql, $m, PREG_OFFSET_CAPTURE, $offset)) {
+            $start = $m[0][1];
+            $offset = $start + 1;
+            $close = $this->closingParenthesis($sql, $start + strlen($m[0][0]) - 1);
+            if ($close === null || !preg_match('/\G\s*AGAINST\s*\(/i', $sql, $against, 0, $close + 1)) {
+                continue;
+            }
+            $againstClose = $this->closingParenthesis($sql, $close + strlen($against[0]));
+            if ($againstClose === null) {
+                continue;
+            }
+            $columns = substr($sql, $start + strlen($m[0][0]), $close - $start - strlen($m[0][0]));
+            $expression = substr($sql, $close + 1 + strlen($against[0]), $againstClose - $close - 1 - strlen($against[0]));
+            $mode = 'natural';
+            if (preg_match('/\s+(?:IN\s+(NATURAL\s+LANGUAGE|BOOLEAN)\s+MODE)?(?:\s*WITH\s+QUERY\s+EXPANSION)?\s*$/i', $expression, $modifier) && trim($modifier[0]) !== '') {
+                $mode = stripos($modifier[0], 'BOOLEAN') !== false ? 'boolean' : 'natural';
+                $expression = substr($expression, 0, -strlen($modifier[0]));
+            }
+            $replacement = "mysql_match('$mode', $columns, $expression)";
+            $sql = substr($sql, 0, $start) . $replacement . substr($sql, $againstClose + 1);
+            $offset = $start + strlen($replacement);
+        }
+        return $sql;
+    }
+
+    /**
+     * Translate TRIM([BOTH|LEADING|TRAILING] [remstr] FROM str) into trim(),
+     * ltrim() or rtrim(). MySQL removes remstr as a string and SQLite as a
+     * set of characters, so only literals of one character are supported.
+     * Backslash escapes such as "\t" are decoded as in MySQL.
+     */
+    private function translateTrimFrom(string $sql): string
+    {
+        return $this->replaceCalls($sql, 'TRIM', function (string $function, string $arguments) use ($sql): ?string {
+            $at = $this->topLevelKeywords($arguments, 'FROM');
+            if (!isset($at['FROM']) || !preg_match('/^\s*(?:(BOTH|LEADING|TRAILING)\b)?\s*(.*?)\s*$/is', substr($arguments, 0, $at['FROM']), $head)) {
+                return null;
+            }
+            $characters = $head[2] === '' ? ' ' : null;
+            if (preg_match('/^([\'"])(.*)\1$/s', $head[2], $literal)) {
+                $characters = strtr(str_replace($literal[1] . $literal[1], $literal[1], $literal[2]), ['\\0' => "\0", '\\n' => "\n", '\\r' => "\r", '\\t' => "\t", '\\Z' => "\x1A", '\\\\' => '\\', "\\'" => "'", '\\"' => '"']);
+            }
+            if ($characters === null || mb_strlen($characters) !== 1) {
+                throw new \RuntimeException('SQLite compatibility only supports TRIM(… FROM …) with a single character: ' . $sql);
+            }
+            $trim = ['LEADING' => 'ltrim', 'TRAILING' => 'rtrim'][strtoupper($head[1])] ?? 'trim';
+            return "$trim(" . trim(substr($arguments, $at['FROM'] + 4)) . ", '" . str_replace("'", "''", $characters) . "')";
+        });
+    }
+
+    /**
+     * Replace calls of the functions matching $names, innermost first, with
+     * $replace(NAME, arguments), unless it returns null.
+     */
+    private function replaceCalls(string $sql, string $names, callable $replace): string
+    {
+        if (!preg_match('/\b(?:' . $names . ')\s*\(/i', $sql)) {
+            return $sql;
+        }
+        $offset = 0;
+        while (preg_match('/(?:' . self::SQL_PROTECTED . ')(*SKIP)(*F)|\b(' . $names . ')\s*\(/is', $sql, $m, PREG_OFFSET_CAPTURE, $offset)) {
+            $start = $m[0][1];
+            $open = $start + strlen($m[0][0]) - 1;
+            $close = $this->closingParenthesis($sql, $open);
+            if ($close === null) {
+                break;
+            }
+            $arguments = $this->replaceCalls(substr($sql, $open + 1, $close - $open - 1), $names, $replace);
+            $replacement = $replace(strtoupper($m[1][0]), $arguments) ?? substr($sql, $start, $open + 1 - $start) . $arguments . ')';
             $sql = substr($sql, 0, $start) . $replacement . substr($sql, $close + 1);
             $offset = $start + strlen($replacement);
         }
         return $sql;
+    }
+
+    /**
+     * Offsets of the first occurrence of each keyword outside parentheses and
+     * quoted text, keyed by its first word in upper case.
+     *
+     * @return int[]
+     */
+    private function topLevelKeywords(string $sql, string $keywords): array
+    {
+        preg_match_all('/' . self::SQL_PROTECTED . '|[()]|\b(?:' . $keywords . ')\b/is', $sql, $tokens, PREG_OFFSET_CAPTURE);
+        $depth = 0;
+        $at = [];
+        foreach ($tokens[0] as [$token, $offset]) {
+            if ($token === '(') {
+                $depth++;
+            } elseif ($token === ')') {
+                $depth--;
+            } elseif ($depth === 0 && ctype_alpha($token[0])) {
+                $at[strtoupper(strtok($token, " \t\r\n"))] ??= $offset;
+            }
+        }
+        return $at;
+    }
+
+    /**
+     * Remove quoted text and comments, e.g. to look for parameters.
+     */
+    private function unquoted(string $sql): string
+    {
+        return preg_replace('/' . self::SQL_PROTECTED . '/s', '', $sql);
     }
 
     /**
@@ -344,22 +488,11 @@ REGEX;
         $id = '[`"]?(\w+)[`"]?';
         $join = '(?:(?:INNER|CROSS|LEFT(?:\s+OUTER)?)\s+)?JOIN\b';
         if (!preg_match('/^(\s*)UPDATE\s+' . $id . '(?:\s+(?:AS\s+)?(?!(?:INNER|CROSS|LEFT|JOIN|SET)\b)' . $id . ')?\s+(' . $join . '.+?)[\s;]*$/is', $sql, $m)) {
-            return $sql;
+            return $this->unqualifyUpdateTargets($sql);
         }
         [, $indent, $table, $alias, $rest] = $m;
         $target = $alias !== '' ? $alias : $table;
-        preg_match_all('/' . self::SQL_PROTECTED . '|[()]|\b(?:SET|WHERE)\b/is', $rest, $tokens, PREG_OFFSET_CAPTURE);
-        $depth = 0;
-        $at = [];
-        foreach ($tokens[0] as [$token, $offset]) {
-            if ($token === '(') {
-                $depth++;
-            } elseif ($token === ')') {
-                $depth--;
-            } elseif ($depth === 0 && ctype_alpha($token)) {
-                $at[strtoupper($token)] ??= $offset;
-            }
-        }
+        $at = $this->topLevelKeywords($rest, 'SET|WHERE');
         if (!isset($at['SET'])) {
             return $sql;
         }
@@ -367,10 +500,7 @@ REGEX;
         $end = isset($at['WHERE']) && $at['WHERE'] > $at['SET'] ? $at['WHERE'] : strlen($rest);
         $assignments = substr($rest, $at['SET'] + 3, $end - $at['SET'] - 3);
         $where = substr($rest, $end);
-        $unquoted = function (string $part): string {
-            return preg_replace('/' . self::SQL_PROTECTED . '/s', '', $part);
-        };
-        if (strpos($unquoted($joins), '?') !== false && strpos($unquoted($assignments), '?') !== false) {
+        if (strpos($this->unquoted($joins), '?') !== false && strpos($this->unquoted($assignments), '?') !== false) {
             throw new \RuntimeException('SQLite compatibility cannot reorder positional parameters of an UPDATE … JOIN: ' . $sql);
         }
         $set = [];
@@ -391,7 +521,26 @@ REGEX;
     }
 
     /**
-     * Translate ALTER TABLE statements made only of ADD [UNIQUE] INDEX|KEY and
+     * Remove the table or alias qualifier of the columns assigned by a
+     * single-table UPDATE, e.g. UPDATE value AS v SET v.value = …, which
+     * SQLite refuses.
+     */
+    private function unqualifyUpdateTargets(string $sql): string
+    {
+        if (!preg_match('/^(\s*UPDATE\s+[`"]?(\w+)[`"]?(?:\s+(?:AS\s+)?(?!SET\b)[`"]?(\w+)[`"]?)?\s+SET\s)(.+)$/is', $sql, $m)) {
+            return $sql;
+        }
+        [, $head, $table, $alias, $rest] = $m;
+        $qualifier = '/^[`"]?(?:' . $table . ($alias !== '' ? '|' . $alias : '') . ')[`"]?\s*\.\s*(?=[`"]?\w+[`"]?\s*=)/i';
+        $at = $this->topLevelKeywords($rest, 'WHERE|ORDER\s+BY|LIMIT');
+        $end = $at ? min($at) : strlen($rest);
+        $assignments = $this->splitSql(substr($rest, 0, $end), ',');
+        $unqualified = preg_replace($qualifier, '', $assignments);
+        return $unqualified === $assignments ? $sql : $head . implode(', ', $unqualified) . ' ' . substr($rest, $end);
+    }
+
+    /**
+     * Translate ALTER TABLE statements made only of ADD [UNIQUE|FULLTEXT] INDEX|KEY and
      * DROP INDEX|KEY clauses into CREATE INDEX and DROP INDEX.
      *
      * Index names are per table in MySQL but per database in SQLite, so they
@@ -414,7 +563,7 @@ REGEX;
             if (preg_match('/^(?:ALGORITHM|LOCK)\s*=?\s*\w+$/i', $clause)) {
                 continue;
             }
-            if (preg_match('/^ADD\s+(UNIQUE\s+)?(?:INDEX|KEY)\s+(IF\s+NOT\s+EXISTS\s+)?' . $id . '\s*(\(.*\))$/is', $clause, $add)) {
+            if (preg_match('/^ADD\s+(?:(UNIQUE)\s+|FULLTEXT\s+)?(?:INDEX|KEY)\s+(IF\s+NOT\s+EXISTS\s+)?' . $id . '\s*(\(.*\))$/is', $clause, $add)) {
                 $isUnique = $add[1] !== '' ? 'UNIQUE ' : '';
                 $ifNotExists = $add[2] !== '' ? 'IF NOT EXISTS ' : '';
                 $statements[] = "CREATE {$isUnique}INDEX {$ifNotExists}`{$tableName}_{$add[3]}` ON `{$tableName}` " . $this->translateIndexColumns($add[4], $isUnique !== '');
@@ -485,7 +634,7 @@ REGEX;
             if (preg_match('/^(?:ALGORITHM|LOCK)\s*=?\s*\w+$/i', $clause)) {
                 continue;
             }
-            if (preg_match('/^(ADD|DROP)\s+(?:UNIQUE\s+)?(?:INDEX|KEY)\b/i', $clause, $index)) {
+            if (preg_match('/^(ADD|DROP)\s+(?:(?:UNIQUE|FULLTEXT)\s+)?(?:INDEX|KEY)\b/i', $clause, $index)) {
                 $statements = $this->translateAlterIndexes("ALTER TABLE `$tableName` $clause");
                 if ($statements === null) {
                     $unsupported[] = $clause;
@@ -792,9 +941,10 @@ SQL;
                 continue;
             }
 
-            if (preg_match('/^\s*FULLTEXT\s+(KEY|INDEX)\s+/i', $line)) {
-                throw new \RuntimeException('MySQL FULLTEXT indexes require a SQLite-specific search implementation.');
-            }
+            // ponytail: a FULLTEXT index becomes a plain index, which keeps
+            // SHOW INDEX and DROP INDEX working but does not speed up
+            // MATCH() (see mysql_match()); use FTS5 if searches get slow.
+            $line = preg_replace('/^\s*FULLTEXT\s+(?:(?:KEY|INDEX)\b\s*)?/i', 'INDEX ', $line);
 
             // Extract KEY/INDEX into separate CREATE INDEX statements. The index
             // name is optional in MySQL, e.g. "UNIQUE INDEX (`a`, `b`)" or
@@ -946,6 +1096,13 @@ SQL;
                 $pdo->createFunction($name, $callback, $numArgs);
             } elseif (method_exists($pdo, 'sqliteCreateFunction')) {
                 $pdo->sqliteCreateFunction($name, $callback, $numArgs);
+            }
+        };
+        $aggregate = function (string $name, callable $step, callable $finalize, int $numArgs) use ($pdo): void {
+            if (method_exists($pdo, 'createAggregate')) {
+                $pdo->createAggregate($name, $step, $finalize, $numArgs);
+            } elseif (method_exists($pdo, 'sqliteCreateAggregate')) {
+                $pdo->sqliteCreateAggregate($name, $step, $finalize, $numArgs);
             }
         };
 
@@ -1138,6 +1295,44 @@ SQL;
                 ? $date->format('Y-m-d')
                 : $date->format('Y-m-d H:i:s');
         }, 3);
+        // Target of MATCH() … AGAINST() (see translateMatch()). The score is
+        // the number of matched terms: no stopwords, minimum word length or
+        // query expansion. Boolean mode supports +, -, "phrases" and prefix*,
+        // not grouping.
+        $create('mysql_match', function ($mode, ...$args) {
+            $query = (string) array_pop($args);
+            $text = implode(' ', array_filter($args, 'is_scalar'));
+            $word = '[\p{L}\p{N}_]';
+            preg_match_all('/([+\-~<>]?)(?:"([^"]*)"|(' . $word . '+)(\*?))/u', $query, $terms, PREG_SET_ORDER);
+            $score = 0;
+            foreach ($terms as $term) {
+                $words = preg_split('/[^\p{L}\p{N}_]+/u', ($term[2] ?? '') !== '' ? $term[2] : ($term[3] ?? ''), -1, PREG_SPLIT_NO_EMPTY);
+                if (!$words) {
+                    continue;
+                }
+                $pattern = '/(?<!' . $word . ')' . implode('[^\p{L}\p{N}_]+', array_map(function ($w) {
+                    return preg_quote($w, '/');
+                }, $words)) . (($term[4] ?? '') === '*' ? '' : '(?!' . $word . ')') . '/iu';
+                $found = preg_match($pattern, $text) === 1;
+                $operator = $mode === 'boolean' ? $term[1] : '';
+                if ($operator === '-' ? $found : ($operator === '+' && !$found)) {
+                    return 0;
+                }
+                $score += $found && $operator !== '-' ? 1 : 0;
+            }
+            return $score;
+        }, -1);
+        // DISTINCT with a separator, which SQLite's group_concat() refuses
+        // (see translateGroupConcat()). Values keep the ORDER BY order.
+        $aggregate('mysql_group_concat_distinct', function ($context, $row, $value, $separator) {
+            $context ??= ['separator' => (string) $separator, 'values' => []];
+            if ($value !== null) {
+                $context['values'][(string) $value] = true;
+            }
+            return $context;
+        }, function ($context) {
+            return empty($context['values']) ? null : implode($context['separator'], array_keys($context['values']));
+        }, 2);
         $create('str_to_date', function ($value, $format) {
             if ($value === null || $format === null) {
                 return null;

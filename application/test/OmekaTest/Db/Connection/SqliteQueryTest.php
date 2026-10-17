@@ -40,10 +40,10 @@ class SqliteQueryTest extends TestCase
         $this->assertSame('11|22', $value);
     }
 
-    public function testDistinctGroupConcatDoesNotSilentlyDiscardSeparator()
+    public function testDistinctGroupConcatKeepsSeparatorAndOrder()
     {
-        $this->expectException(\RuntimeException::class);
-        $this->entityManager->createQuery("SELECT GROUP_CONCAT(DISTINCT s.id SEPARATOR '|') FROM Omeka\\Entity\\Setting s")->getSingleScalarResult();
+        $value = $this->entityManager->createQuery("SELECT GROUP_CONCAT(DISTINCT s.value ORDER BY s.id DESC SEPARATOR '|') FROM Omeka\\Entity\\Setting s")->getSingleScalarResult();
+        $this->assertSame('two|one', $value);
     }
 
     public function testFulltextDefaultSortExecutesOnSqlite()

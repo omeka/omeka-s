@@ -122,6 +122,78 @@ class SqliteCompatConnectionTest extends TestCase
         }
     }
 
+    /** @dataProvider groupConcatQueries */
+    public function testGroupConcatWithMysqlSyntax($sql, $params, $expected)
+    {
+        // Bulk Import, Deduplicate, TypesenseSearch, Urify: raw MySQL SQL.
+        $this->connection->exec('CREATE TABLE gc (id INT PRIMARY KEY, resource_id INT, text TEXT)');
+        $this->connection->exec("INSERT INTO gc VALUES (1, 2, 'a'), (2, 1, 'b'), (3, 1, 'c'), (4, 1, NULL), (5, 2, 'a')");
+        $this->assertSame($expected, $this->connection->fetchAllNumeric($sql, $params));
+    }
+
+    public function groupConcatQueries()
+    {
+        return [
+            'separator' => ["SELECT GROUP_CONCAT(text ORDER BY id SEPARATOR '|') FROM gc", [], [['a|b|c|a']]],
+            'distinct with separator keeps the order' => ["SELECT GROUP_CONCAT(DISTINCT `text` ORDER BY `id` DESC SEPARATOR ' ') FROM gc", [], [['a c b']]],
+            'distinct without separator' => ['SELECT GROUP_CONCAT(DISTINCT text ORDER BY text) FROM gc', [], [['a,b,c']]],
+            'several expressions skip rows with a null' => ["SELECT GROUP_CONCAT(id, ':', text ORDER BY id SEPARATOR ';') FROM gc", [], [['1:a;2:b;3:c;5:a']]],
+            'parameters per group' => ['SELECT resource_id, GROUP_CONCAT(id, :unit, text ORDER BY id SEPARATOR :group) FROM gc GROUP BY resource_id ORDER BY resource_id', ['unit' => '-', 'group' => '|'], [[1, '2-b|3-c'], [2, '1-a|5-a']]],
+            'only nulls' => ["SELECT GROUP_CONCAT(DISTINCT text SEPARATOR '|') FROM gc WHERE id = 4", [], [[null]]],
+            'literal text' => ["SELECT 'GROUP_CONCAT(a SEPARATOR b)'", [], [['GROUP_CONCAT(a SEPARATOR b)']]],
+        ];
+    }
+
+    /** @dataProvider matchQueries */
+    public function testMatchAgainstScoresRowsWithoutFulltextIndex($sql, $params, $expected)
+    {
+        // Advanced Search, DataScribe, Folksonomy.
+        $this->connection->exec('CREATE TABLE doc (id INT PRIMARY KEY, title TEXT, text TEXT, FULLTEXT INDEX ft_doc (title, text))');
+        $this->connection->exec("INSERT INTO doc VALUES (1, 'Omeka S', 'Collections of cultural heritage'), (2, 'Mapping', 'Maps and collection items'), (3, 'Other', NULL)");
+        $this->assertSame($expected, array_map('intval', $this->connection->fetchFirstColumn($sql, $params)));
+    }
+
+    public function matchQueries()
+    {
+        return [
+            'natural language, sorted by relevance' => ["SELECT id FROM doc WHERE MATCH(title, text) AGAINST ('maps items collections') ORDER BY MATCH (title, text) AGAINST ('maps items collections') DESC, id", [], [2, 1]],
+            'boolean required, excluded and prefix' => ["SELECT id FROM doc WHERE MATCH(title, text) AGAINST('+collection* -cultural' IN BOOLEAN MODE)", [], [2]],
+            'boolean phrase' => ["SELECT id FROM doc WHERE MATCH(doc.title, doc.text) AGAINST('\"cultural heritage\"' IN BOOLEAN MODE)", [], [1]],
+            'whole words only' => ["SELECT id FROM doc WHERE MATCH(title, text) AGAINST('map')", [], []],
+            'parameter' => ['SELECT id FROM doc WHERE MATCH(`title`) AGAINST(:value_match IN BOOLEAN MODE) > 0', ['value_match' => 'OMEKA'], [1]],
+        ];
+    }
+
+    public function testFulltextIndexesCanBeAddedCheckedAndDropped()
+    {
+        // Advanced Search's install script declares an unnamed FULLTEXT index.
+        $this->connection->exec('CREATE TABLE `search_suggestion` (`id` INT AUTO_INCREMENT NOT NULL, `suggester_id` INT NOT NULL, `text` VARCHAR(190) NOT NULL, FULLTEXT INDEX (`text`), UNIQUE INDEX (`suggester_id`, `text`), PRIMARY KEY(`id`)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->connection->exec('ALTER TABLE search_suggestion ADD FULLTEXT INDEX ft_text (`text`)');
+        $this->connection->exec('CREATE FULLTEXT INDEX ft_global ON search_suggestion (text)');
+        $this->assertSame(['ft_text'], array_column($this->connection->fetchAllAssociative("SHOW INDEX FROM search_suggestion WHERE Key_name = 'ft_text'"), 'Key_name'));
+        $this->connection->exec('ALTER TABLE search_suggestion DROP INDEX ft_text');
+        $this->assertSame([], $this->connection->fetchAllAssociative("SHOW INDEX FROM search_suggestion WHERE Key_name = 'ft_text'"));
+    }
+
+    public function testBulkEditTrimFallsBackToTrimFrom()
+    {
+        // Bulk Edit TrimValues: no server version, so TRIM(… FROM …) is used,
+        // with MySQL backslash escapes and qualified assigned columns.
+        $this->assertSame([], $this->connection->fetchAllKeyValue('SHOW VARIABLES LIKE "version";'));
+        $this->connection->exec('CREATE TABLE value (id INT PRIMARY KEY, resource_id INT, value TEXT, lang TEXT, uri TEXT)');
+        $this->connection->executeStatement('INSERT INTO value VALUES (1, 1, ?, ?, NULL), (2, 1, ?, NULL, NULL), (3, 1, ?, NULL, NULL), (4, 2, ?, NULL, NULL)', ["\tcat\n", ' fr', "\n\r\t", "tt\t", " x\t"]);
+        $this->connection->executeStatement(<<<'SQL'
+            UPDATE `value` AS `v`
+            SET
+                `v`.`value` = NULLIF(TRIM(TRIM("\t" FROM TRIM("\n" FROM TRIM("\r" FROM TRIM("\n" FROM `v`.`value`))))), ""),
+                `v`.`lang` = NULLIF(TRIM(TRIM("\t" FROM TRIM("\n" FROM TRIM("\r" FROM TRIM("\n" FROM `v`.`lang`))))), ""),
+                `v`.`uri` = NULLIF(TRIM(TRIM("\t" FROM TRIM("\n" FROM TRIM("\r" FROM TRIM("\n" FROM `v`.`uri`))))), "")
+            WHERE `v`.`resource_id` IN (:resource_ids)
+            SQL, ['resource_ids' => [1]], ['resource_ids' => \Doctrine\DBAL\Connection::PARAM_INT_ARRAY]);
+        $this->assertSame([[1, 'cat', 'fr'], [2, null, null], [3, 'tt', null], [4, " x\t", null]], $this->connection->fetchAllNumeric('SELECT id, value, lang FROM value ORDER BY id'));
+        $this->assertSame('aa', $this->connection->fetchOne("SELECT TRIM(LEADING 'x' FROM 'xxa') || TRIM(TRAILING FROM 'a  ')"));
+    }
+
     public function testDateArithmeticWithNowAndParameters()
     {
         // Lock Edit, Two-Factor Authentication: expire rows older than a duration.
@@ -355,7 +427,7 @@ class SqliteCompatConnectionTest extends TestCase
             ['ALTER TABLE setting ADD `modified` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'],
             ['UPDATE setting s JOIN setting t ON t.id = s.id SET t.value = s.value'],
             ['UPDATE setting s JOIN setting t ON t.id = ? SET s.value = ?'],
-            ['CREATE TABLE example (text TEXT, FULLTEXT KEY search (text))'],
+            ["SELECT TRIM('ab' FROM 'abxab')"],
         ];
     }
 

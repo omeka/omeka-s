@@ -152,8 +152,7 @@ return [
                 'field' => \DoctrineExtensions\Query\Mysql\Field::class,
                 'find_in_set' => \DoctrineExtensions\Query\Mysql\FindInSet::class,
                 'greatest' => \DoctrineExtensions\Query\Mysql\Greatest::class,
-                // Dialect-aware: emits MySQL or SQLite GROUP_CONCAT syntax.
-                'group_concat' => \Omeka\Db\Query\GroupConcat::class,
+                'group_concat' => \DoctrineExtensions\Query\Mysql\GroupConcat::class,
                 'ifelse' => \DoctrineExtensions\Query\Mysql\IfElse::class,
                 'ifnull' => \DoctrineExtensions\Query\Mysql\IfNull::class,
                 'least' => \DoctrineExtensions\Query\Mysql\Least::class,

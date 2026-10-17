@@ -204,11 +204,69 @@ REGEX;
             return $this->translateCreateTable($trimmed);
         }
 
+        if (preg_match('/^ALTER\s+TABLE\s+/i', $trimmed) && ($statements = $this->translateAlterIndexes($trimmed)) !== null) {
+            return $statements;
+        }
+
         if (preg_match('/^ALTER\s+TABLE\s+.+\s+(?:ADD\s+(?:CONSTRAINT\s+.+\s+)?|DROP\s+)FOREIGN\s+KEY/is', $trimmed)) {
             return $this->translateAlterForeignKeys($trimmed);
         }
 
         return [$sql];
+    }
+
+    /**
+     * Translate ALTER TABLE statements made only of ADD [UNIQUE] INDEX|KEY and
+     * DROP INDEX|KEY clauses into CREATE INDEX and DROP INDEX.
+     *
+     * Index names are per table in MySQL but per database in SQLite, so they
+     * get the table prefix used for indexes declared in CREATE TABLE. A drop
+     * falls back to the bare name for indexes created by plain CREATE INDEX.
+     * MySQL online DDL options (ALGORITHM, LOCK) are ignored.
+     *
+     * @return string[]|null Null when the statement has other clauses.
+     */
+    private function translateAlterIndexes(string $sql): ?array
+    {
+        $id = '[`"]?(\w+)[`"]?';
+        if (!preg_match('/^ALTER\s+TABLE\s+' . $id . '\s+(.+)$/is', $sql, $m)) {
+            return null;
+        }
+        $tableName = $m[1];
+        $statements = [];
+        foreach ($this->splitSql($m[2], ',') as $clause) {
+            $clause = trim($clause);
+            if (preg_match('/^(?:ALGORITHM|LOCK)\s*=?\s*\w+$/i', $clause)) {
+                continue;
+            }
+            if (preg_match('/^ADD\s+(UNIQUE\s+)?(?:INDEX|KEY)\s+(IF\s+NOT\s+EXISTS\s+)?' . $id . '\s*(\(.*\))$/is', $clause, $add)) {
+                $isUnique = $add[1] !== '' ? 'UNIQUE ' : '';
+                $ifNotExists = $add[2] !== '' ? 'IF NOT EXISTS ' : '';
+                $statements[] = "CREATE {$isUnique}INDEX {$ifNotExists}`{$tableName}_{$add[3]}` ON `{$tableName}` " . $this->translateIndexColumns($add[4], $isUnique !== '');
+            } elseif (preg_match('/^DROP\s+(?:INDEX|KEY)\s+(IF\s+EXISTS\s+)?' . $id . '$/is', $clause, $drop)) {
+                $name = $tableName . '_' . $drop[2];
+                if (!$this->fetchOne("SELECT 1 FROM sqlite_master WHERE type = 'index' AND name = ?", [$name])
+                    && $this->fetchOne("SELECT 1 FROM sqlite_master WHERE type = 'index' AND name = ? AND tbl_name = ?", [$drop[2], $tableName])
+                ) {
+                    $name = $drop[2];
+                }
+                $statements[] = 'DROP INDEX ' . ($drop[1] !== '' ? 'IF EXISTS ' : '') . "`{$name}`";
+            } else {
+                return null;
+            }
+        }
+        return $statements ?: null;
+    }
+
+    /**
+     * Keep MySQL prefix uniqueness, e.g. UNIQUE (`a`(10)), with expression
+     * indexes on SQLite; prefixes of non-unique indexes are dropped.
+     */
+    private function translateIndexColumns(string $columns, bool $isUnique): string
+    {
+        return preg_replace_callback('/([`"]?\w+[`"]?)\s*\((\d+)\)/', function (array $m) use ($isUnique): string {
+            return $isUnique ? 'substr(' . $m[1] . ', 1, ' . $m[2] . ')' : $m[1];
+        }, $columns);
     }
 
     /**
@@ -296,10 +354,15 @@ REGEX;
             throw new \RuntimeException('Cannot show indexes: table does not exist: ' . $table);
         }
         // Integer rowid primary keys have no entry in pragma_index_list.
-        // shortcut: expose physical SQLite index names, port name-based migrations explicitly.
+        // Report the MySQL name of indexes that got the table prefix (see
+        // translateAlterIndexes()), except an index named after its column.
+        $prefix = strlen($table) + 2;
         $sql = <<<SQL
 WITH index_columns AS (
-    SELECT CASE WHEN il.origin = 'pk' THEN 'PRIMARY' ELSE il.name END AS index_name,
+    SELECT CASE WHEN il.origin = 'pk' THEN 'PRIMARY'
+            WHEN substr(il.name, 1, $prefix - 1) = '{$table}_' COLLATE NOCASE
+                AND NOT EXISTS (SELECT 1 FROM pragma_index_info(il.name) WHERE name = il.name)
+            THEN substr(il.name, $prefix) ELSE il.name END AS index_name,
         1 - il."unique" AS non_unique, ix.seqno + 1 AS position,
         ix.name AS column_name, ix."desc" AS descending
     FROM pragma_index_list('$table') AS il
@@ -432,10 +495,7 @@ SQL;
             // named and unnamed forms must become standalone CREATE INDEX.
             if (preg_match('/^\s*(?:(UNIQUE)\s+)?(?:KEY|INDEX)\s*(?:[`"\']?(\w+)[`"\']?\s*)?(\(.*\))/i', $line, $km)) {
                 $isUnique = ($km[1] ?? '') !== '' ? 'UNIQUE ' : '';
-                // Preserve prefix uniqueness with expression indexes on SQLite.
-                $indexCols = preg_replace_callback('/([`"]?\w+[`"]?)\s*\((\d+)\)/', function (array $m) use ($isUnique): string {
-                    return $isUnique ? 'substr(' . $m[1] . ', 1, ' . $m[2] . ')' : $m[1];
-                }, $km[3]);
+                $indexCols = $this->translateIndexColumns($km[3], $isUnique !== '');
                 $indexName = ($km[2] ?? '') !== ''
                     ? $tableName . '_' . $km[2]
                     : $this->generateIndexName($tableName, $indexCols, $isUnique !== '');

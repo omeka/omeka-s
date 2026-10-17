@@ -193,12 +193,12 @@ class SqliteCompatConnectionTest extends TestCase
         $this->assertFalse($this->connection->fetchOne('SHOW INDEX FROM setting WHERE Column_name = :column', ['column' => 'absent']));
     }
 
-    public function testShowIndexReportsActualNamesOfTranslatedAndNativeIndexes()
+    public function testShowIndexReportsMysqlNamesOfIndexesDeclaredInCreateTable()
     {
         $this->connection->exec('CREATE TABLE example (value TEXT, KEY shared(value))');
-        $rows = $this->connection->fetchAllAssociative("SHOW INDEX FROM example WHERE Key_name = 'example_shared'");
+        $rows = $this->connection->fetchAllAssociative("SHOW INDEX FROM example WHERE Key_name = 'shared'");
         $this->assertCount(1, $rows);
-        $this->assertSame('example_shared', $rows[0]['Key_name']);
+        $this->assertSame('shared', $rows[0]['Key_name']);
     }
 
     public function testShowIndexDoesNotReportAuxiliaryColumnsAsIndexed()
@@ -402,6 +402,83 @@ class SqliteCompatConnectionTest extends TestCase
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('FK_missing');
         $this->connection->exec('ALTER TABLE child DROP FOREIGN KEY FK_missing');
+    }
+
+    /** @dataProvider alterIndexQueries */
+    public function testAlterTableAddsAndDropsIndexes($sql, $expected)
+    {
+        $this->createForeignKeyFixture();
+        $this->connection->exec($sql);
+        $indexes = [];
+        foreach ($this->connection->fetchAllAssociative("SELECT name, \"unique\" FROM pragma_index_list('child') WHERE origin = 'c'") as $index) {
+            $indexes[$index['name']] = implode(',', $this->connection->fetchFirstColumn("SELECT coalesce(name, 'expr') FROM pragma_index_info('{$index['name']}')")) . ($index['unique'] ? ' unique' : '');
+        }
+        ksort($indexes);
+        ksort($expected);
+        $this->assertSame($expected, $indexes);
+    }
+
+    public function alterIndexQueries()
+    {
+        $base = ['child_IDX_child_setting' => 'setting_id', 'child_UNIQ_child_label_owner' => 'label,owner_id unique'];
+        return [
+            'add doctrine' => [
+                'ALTER TABLE child ADD INDEX IDX_child_owner (owner_id)',
+                $base + ['child_IDX_child_owner' => 'owner_id'],
+            ],
+            'add several quoted, unique, prefix, online options' => [
+                'ALTER TABLE `child` ADD UNIQUE INDEX `UNIQ_owner_label` (`owner_id`, `label`), ADD KEY `label` (`label`(10)), ALGORITHM=INPLACE, LOCK=NONE;',
+                $base + ['child_UNIQ_owner_label' => 'owner_id,label unique', 'child_label' => 'label'],
+            ],
+            'drop index created with the table' => [
+                'ALTER TABLE child DROP INDEX IDX_child_setting',
+                ['child_UNIQ_child_label_owner' => 'label,owner_id unique'],
+            ],
+            'drop and add in one statement, if exists' => [
+                'ALTER TABLE child DROP KEY IF EXISTS `missing`, DROP INDEX UNIQ_child_label_owner, ADD UNIQUE INDEX IF NOT EXISTS UNIQ_label (label)',
+                ['child_IDX_child_setting' => 'setting_id', 'child_UNIQ_label' => 'label unique'],
+            ],
+        ];
+    }
+
+    public function testShowIndexReportsMysqlNamesOfAddedIndexes()
+    {
+        // Modules such as Common check SHOW INDEX by name before adding an index.
+        $this->createForeignKeyFixture();
+        $this->connection->exec('ALTER TABLE child ADD INDEX idx_label (label)');
+        $keyNames = function (string $where): array {
+            return array_column($this->connection->fetchAllAssociative("SHOW INDEX FROM child WHERE $where"), 'Key_name');
+        };
+        $this->assertSame(['idx_label'], $keyNames("Key_name = 'idx_label'"));
+        $this->assertSame(['IDX_child_setting'], $keyNames("Column_name = 'setting_id'"));
+        // An index named after its column keeps its name, e.g. media_type on media.
+        $this->connection->exec('ALTER TABLE child ADD COLUMN child_type TEXT');
+        $this->connection->exec('CREATE INDEX child_type ON child (child_type)');
+        $this->assertSame(['child_type'], $keyNames("Column_name = 'child_type'"));
+    }
+
+    public function testAlterTableIndexNamesArePerTable()
+    {
+        // MySQL index names are per table; several modules reuse names such as "is_public".
+        $this->createForeignKeyFixture();
+        $this->connection->exec('ALTER TABLE child ADD INDEX is_public (label)');
+        $this->connection->exec('ALTER TABLE owner ADD INDEX is_public (name)');
+        $this->assertCount(2, $this->connection->fetchFirstColumn("SELECT name FROM sqlite_master WHERE type = 'index' AND name LIKE '%is_public'"));
+    }
+
+    public function testAlterTableDropsIndexCreatedWithoutTablePrefix()
+    {
+        $this->createForeignKeyFixture();
+        $this->connection->exec('CREATE INDEX idx_plain ON child (label)');
+        $this->connection->exec('ALTER TABLE child DROP INDEX idx_plain');
+        $this->assertFalse($this->connection->fetchOne("SELECT name FROM sqlite_master WHERE name = 'idx_plain'"));
+    }
+
+    public function testAlterTableDropUnknownIndexFailsExplicitly()
+    {
+        $this->createForeignKeyFixture();
+        $this->expectException(\Doctrine\DBAL\Exception::class);
+        $this->connection->exec('ALTER TABLE child DROP INDEX idx_missing');
     }
 
     private function createForeignKeyFixture(): void

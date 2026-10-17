@@ -475,7 +475,7 @@ SQL;
 
         $create = function (string $name, callable $callback, int $numArgs) use ($pdo): void {
             if (method_exists($pdo, 'createFunction')) {
-                // Pdo\Sqlite subclass (PHP 8.4+ PDO::connect()).
+                // Pdo\Sqlite subclass: Omeka\Db\Driver\SqlitePdoConnection on PHP 8.4+.
                 $pdo->createFunction($name, $callback, $numArgs);
             } elseif (method_exists($pdo, 'sqliteCreateFunction')) {
                 $pdo->sqliteCreateFunction($name, $callback, $numArgs);

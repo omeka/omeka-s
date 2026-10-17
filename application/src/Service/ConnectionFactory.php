@@ -6,6 +6,7 @@ use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Omeka\Db\Connection\SqliteCompatConnection;
+use Omeka\Db\Driver\SqliteDriver;
 use Omeka\Db\Logging\FileSqlLogger;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
@@ -38,6 +39,9 @@ class ConnectionFactory implements FactoryInterface
         if ($driver === self::DRIVER_SQLITE) {
             $platform = new SqlitePlatform;
             $config['connection']['driver'] = self::DRIVER_SQLITE;
+            // Registers SQLite user defined functions without the PDO method
+            // deprecated in PHP 8.5; see Omeka\Db\Driver\SqliteDriver.
+            $config['connection']['driverClass'] = SqliteDriver::class;
             $config['connection']['platform'] = $platform;
             // Remove MySQL-specific options that don't apply to SQLite
             unset($config['connection']['charset']);

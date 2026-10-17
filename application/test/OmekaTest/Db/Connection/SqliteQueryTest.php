@@ -10,6 +10,7 @@ use Laminas\EventManager\Event;
 use Omeka\Api\Adapter\ItemAdapter;
 use Omeka\Api\Request;
 use Omeka\Db\Connection\SqliteCompatConnection;
+use Omeka\Db\Driver\SqliteDriver;
 use Omeka\Test\TestCase;
 
 class SqliteQueryTest extends TestCase
@@ -20,6 +21,7 @@ class SqliteQueryTest extends TestCase
     {
         $connection = DriverManager::getConnection([
             'driver' => 'pdo_sqlite',
+            'driverClass' => SqliteDriver::class,
             'memory' => true,
             'wrapperClass' => SqliteCompatConnection::class,
         ]);

@@ -3,6 +3,7 @@ namespace OmekaTest\Db\Connection;
 
 use Doctrine\DBAL\DriverManager;
 use Omeka\Db\Connection\SqliteCompatConnection;
+use Omeka\Db\Driver\SqliteDriver;
 use Omeka\Test\TestCase;
 
 class SqliteCompatConnectionTest extends TestCase
@@ -13,6 +14,7 @@ class SqliteCompatConnectionTest extends TestCase
     {
         $this->connection = DriverManager::getConnection([
             'driver' => 'pdo_sqlite',
+            'driverClass' => SqliteDriver::class,
             'memory' => true,
             'wrapperClass' => SqliteCompatConnection::class,
         ]);

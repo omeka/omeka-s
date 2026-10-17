@@ -21,7 +21,7 @@ class FormRecaptcha extends AbstractHelper
             $view->assetUrl('js/recaptcha.js', 'Omeka')
         );
         $view->headScript()->appendFile(
-            'https://www.google.com/recaptcha/api.js?onload=recaptchaCallback&render=explicit',
+            'https://www.recaptcha.net/recaptcha/api.js?onload=recaptchaCallback&render=explicit',
             'text/javascript',
             ['async' => true, 'defer' => true]
         );

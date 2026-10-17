@@ -53,7 +53,7 @@ class RecaptchaV2 extends AbstractSiteverify
 
     protected function getScriptUrl(): string
     {
-        return 'https://www.google.com/recaptcha/api.js?onload=recaptchaCallback&render=explicit';
+        return 'https://www.recaptcha.net/recaptcha/api.js?onload=recaptchaCallback&render=explicit';
     }
 
     protected function getWidgetClass(): string
@@ -63,6 +63,6 @@ class RecaptchaV2 extends AbstractSiteverify
 
     protected function getVerifyUrl(): string
     {
-        return 'https://www.google.com/recaptcha/api/siteverify';
+        return 'https://www.recaptcha.net/recaptcha/api/siteverify';
     }
 }

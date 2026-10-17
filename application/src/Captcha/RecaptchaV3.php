@@ -113,7 +113,7 @@ class RecaptchaV3 extends AbstractSiteverify
 
     protected function getScriptUrl(): string
     {
-        return 'https://www.google.com/recaptcha/api.js?render=' . rawurlencode($this->getSiteKey());
+        return 'https://www.recaptcha.net/recaptcha/api.js?render=' . rawurlencode($this->getSiteKey());
     }
 
     protected function getWidgetClass(): string
@@ -124,6 +124,6 @@ class RecaptchaV3 extends AbstractSiteverify
 
     protected function getVerifyUrl(): string
     {
-        return 'https://www.google.com/recaptcha/api/siteverify';
+        return 'https://www.recaptcha.net/recaptcha/api/siteverify';
     }
 }

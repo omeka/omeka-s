@@ -162,6 +162,7 @@ REGEX;
         $sql = $this->translateGroupConcat($sql);
         $sql = $this->translateMatch($sql);
         $sql = $this->translateTrimFrom($sql);
+        $sql = $this->translateInformationSchema($sql);
         $sql = preg_replace('/^(\s*CREATE\s+)FULLTEXT\s+(INDEX\b)/i', '$1$2', $sql);
         $sql = preg_replace('/^(\s*)INSERT\s+IGNORE\b/i', '$1INSERT OR IGNORE', $sql);
         $sql = $this->translateUpsert($sql);
@@ -347,6 +348,25 @@ REGEX;
             $trim = ['LEADING' => 'ltrim', 'TRAILING' => 'rtrim'][strtoupper($head[1])] ?? 'trim';
             return "$trim(" . trim(substr($arguments, $at['FROM'] + 4)) . ", '" . str_replace("'", "''", $characters) . "')";
         });
+    }
+
+    /**
+     * Replace information_schema.TABLES with the tables and views of the
+     * database. Sizes and row counts are unknown (NULL); the schema is the
+     * name returned by DATABASE().
+     */
+    private function translateInformationSchema(string $sql): string
+    {
+        if (stripos($sql, 'information_schema') === false) {
+            return $sql;
+        }
+        $schema = $this->quote($this->getDatabase() ?? 'main');
+        $tables = "(SELECT 'def' AS TABLE_CATALOG, $schema AS TABLE_SCHEMA, name AS TABLE_NAME,"
+            . " CASE type WHEN 'view' THEN 'VIEW' ELSE 'BASE TABLE' END AS TABLE_TYPE, NULL AS ENGINE,"
+            . ' NULL AS TABLE_ROWS, NULL AS DATA_LENGTH, NULL AS INDEX_LENGTH, NULL AS TABLE_COLLATION'
+            . " FROM sqlite_master WHERE type IN ('table', 'view') AND name NOT GLOB 'sqlite_*')";
+        // Quoted identifiers are matched before the protected text is skipped.
+        return preg_replace('/`?\binformation_schema`?\s*\.\s*`?TABLES\b`?|(?:' . self::SQL_PROTECTED . ')(*SKIP)(*F)/i', $tables, $sql);
     }
 
     /**
@@ -999,7 +1019,7 @@ SQL;
         $ifNotExists = preg_match('/^CREATE\s+TABLE\s+IF\s+NOT\s+EXISTS/i', $sql) ? 'IF NOT EXISTS ' : '';
         $columnsStr = implode(",\n  ", $columns);
         $suffix = substr($sql, $closeParen + 1);
-        $suffix = preg_replace('/(?:' . self::SQL_PROTECTED . ')(*SKIP)(*F)|\s*(?:ENGINE\s*=?\s*\w+|(?:DEFAULT\s+)?(?:CHARSET|CHARACTER\s+SET)\s*=?\s*\w+|COLLATE\s*=?\s*(?:\w+|`\w+`|"\w+"|\'\w+\')|COMMENT\s*=?\s*\'(?:[^\']|\'\')*\')/is', '', $suffix);
+        $suffix = preg_replace('/(?:' . self::SQL_PROTECTED . ')(*SKIP)(*F)|\s*(?:(?:ENGINE|(?:DEFAULT\s+)?(?:CHARSET|CHARACTER\s+SET)|COLLATE)\s*=?\s*(?:\w+|`\w+`|"\w+"|\'\w+\')|COMMENT\s*=?\s*\'(?:[^\']|\'\')*\')/is', '', $suffix);
         $result = ["CREATE TABLE {$ifNotExists}`{$tableName}` (\n  {$columnsStr}\n)$suffix"];
 
         // Append CREATE INDEX statements.
@@ -1162,6 +1182,9 @@ SQL;
             }
             return implode((string) $separator, $parts);
         }, -1);
+        $create('elt', function ($index, ...$strings) {
+            return is_numeric($index) ? ($strings[(int) $index - 1] ?? null) : null;
+        }, -1);
         $create('field', function ($needle, ...$haystack) {
             // MySQL: 1-based position of needle in the list, 0 if absent or
             // needle is NULL; string comparison is case-insensitive.
@@ -1295,6 +1318,15 @@ SQL;
                 ? $date->format('Y-m-d')
                 : $date->format('Y-m-d H:i:s');
         }, 3);
+        // Modules read it to tell MySQL from MariaDB.
+        $version = $pdo->getAttribute(\PDO::ATTR_SERVER_VERSION);
+        $create('version', function () use ($version) {
+            return $version;
+        }, 0);
+        $database = $this->getDatabase() ?? 'main';
+        $create('database', function () use ($database) {
+            return $database;
+        }, 0);
         // Target of MATCH() … AGAINST() (see translateMatch()). The score is
         // the number of matched terms: no stopwords, minimum word length or
         // query expansion. Boolean mode supports +, -, "phrases" and prefix*,

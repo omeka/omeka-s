@@ -175,6 +175,24 @@ class SqliteCompatConnectionTest extends TestCase
         $this->assertSame([], $this->connection->fetchAllAssociative("SHOW INDEX FROM search_suggestion WHERE Key_name = 'ft_text'"));
     }
 
+    public function testQuotedTableOptionsAndServerVersion()
+    {
+        // Mapper, Contribute: quoted table options. Access: VERSION().
+        $this->connection->exec("CREATE TABLE `mapper` (`id` INT AUTO_INCREMENT NOT NULL, PRIMARY KEY(`id`)) DEFAULT CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` ENGINE = `InnoDB`");
+        $this->assertSame(['mapper'], $this->connection->fetchFirstColumn("SELECT name FROM sqlite_master WHERE name = 'mapper'"));
+        $this->assertSame($this->connection->fetchOne('SELECT sqlite_version()'), $this->connection->fetchOne('SELECT VERSION()'));
+    }
+
+    public function testInformationSchemaTablesListsTablesOfTheDatabase()
+    {
+        // Common, Contribute, Easy Admin: table existence and row counts.
+        $this->connection->exec('CREATE VIEW setting_view AS SELECT id FROM setting');
+        $this->assertSame([['setting', 'BASE TABLE', null], ['setting_view', 'VIEW', null]], $this->connection->fetchAllNumeric('SELECT TABLE_NAME, TABLE_TYPE, TABLE_ROWS FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() ORDER BY TABLE_NAME'));
+        $this->assertSame('1', (string) $this->connection->fetchOne('SELECT 1 FROM `information_schema`.`tables` WHERE table_schema = ? AND table_name = ?', [$this->connection->getDatabase() ?? 'main', 'setting']));
+        $this->assertSame(['setting'], $this->connection->fetchFirstColumn('SELECT t.table_name FROM information_schema.tables t WHERE t.table_name IN (?)', [['setting', 'missing']], [\Doctrine\DBAL\Connection::PARAM_STR_ARRAY]));
+        $this->assertSame('information_schema.tables', $this->connection->fetchOne("SELECT 'information_schema.tables'"));
+    }
+
     public function testBulkEditTrimFallsBackToTrimFrom()
     {
         // Bulk Edit TrimValues: no server version, so TRIM(… FROM …) is used,
@@ -830,6 +848,7 @@ class SqliteCompatConnectionTest extends TestCase
             'sha2' => ["SELECT SHA2('omeka', 256)", hash('sha256', 'omeka')],
             'json_unquote string' => ['SELECT JSON_UNQUOTE(\'"a\\"b"\')', 'a"b'],
             'json_unquote other' => ["SELECT JSON_UNQUOTE('[1]')", '[1]'],
+            'elt' => ["SELECT ELT(2, 'free', 'reserved') || coalesce(ELT(3, 'free', 'reserved'), '-')", 'reserved-'],
             'date_sub seconds' => ["SELECT DATE_SUB('2024-03-01 00:00:10', INTERVAL 20 SECOND)", '2024-02-29 23:59:50'],
             'date_add month keeps the day in the month' => ["SELECT DATE_ADD('2024-01-31', INTERVAL 1 MONTH)", '2024-02-29'],
             'date_add hour to a date' => ["SELECT DATE_ADD('2024-01-31', INTERVAL 1 HOUR)", '2024-01-31 01:00:00'],

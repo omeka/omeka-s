@@ -2,6 +2,7 @@
 namespace Omeka\Test;
 
 use Laminas\Mvc\Application;
+use Omeka\Service\ConnectionFactory;
 
 /**
  * Database test case.
@@ -68,14 +69,22 @@ class DbTestCase extends TestCase
     {
         $connection = self::getApplication()->getServiceManager()
             ->get('Omeka\EntityManager')->getConnection();
-        $connection->query('SET FOREIGN_KEY_CHECKS=0');
+        if (ConnectionFactory::isSqlite($connection)) {
+            $connection->exec('PRAGMA foreign_keys = OFF');
+        } else {
+            $connection->query('SET FOREIGN_KEY_CHECKS=0');
+        }
         foreach ($connection->getSchemaManager()->listTableNames() as $table) {
             $connection->executeUpdate(
                 $connection->getDatabasePlatform()
                     ->getDropTableSQL($table)
             );
         }
-        $connection->query('SET FOREIGN_KEY_CHECKS=1');
+        if (ConnectionFactory::isSqlite($connection)) {
+            $connection->exec('PRAGMA foreign_keys = ON');
+        } else {
+            $connection->query('SET FOREIGN_KEY_CHECKS=1');
+        }
     }
 
     /**

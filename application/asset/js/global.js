@@ -63,7 +63,11 @@ var Omeka = {
     },
 
     filterSelector : function() {
-        var filter = $(this).val().toLowerCase();
+        // Match every word of the filter, in any order, ignoring case and accents.
+        var normalize = function(text) {
+            return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+        };
+        var words = normalize($(this).val()).split(/\s+/).filter(Boolean);
         var selector = $(this).closest('.selector');
         var totalCount = 0;
         selector.find('li.selector-parent').each(function() {
@@ -71,12 +75,15 @@ var Omeka = {
             var count = 0;
             parent.find('li.selector-child').each(function() {
                 var child = $(this);
-                var label = child.attr('data-child-search').toLowerCase();
-                if ((label.indexOf(filter) < 0) || (child.hasClass('added'))) {
-                    // Label doesn't contain the filter string. Hide the child.
+                var label = normalize(child.attr('data-child-search'));
+                var isMatch = words.every(function(word) {
+                    return label.indexOf(word) > -1;
+                });
+                if (!isMatch || child.hasClass('added')) {
+                    // Label doesn't contain every filter word. Hide the child.
                     child.addClass('filter-hidden');
                 } else {
-                    // Label contains the filter string. Show the child.
+                    // Label contains every filter word. Show the child.
                     child.removeClass('filter-hidden');
                     totalCount++;
                     count++;
@@ -89,7 +96,7 @@ var Omeka = {
             }
             parent.children('span.selector-child-count').text(count);
         });
-        if (filter == '') {
+        if (!words.length) {
             $('.filter-match').removeClass('filter-match');
         }
         selector.find('span.selector-total-count').text(totalCount);

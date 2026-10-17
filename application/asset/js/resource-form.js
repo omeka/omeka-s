@@ -108,7 +108,7 @@
         vaSetButton.on('click', function(e) {
             e.preventDefault();
             const values = collectValueAnnotationValues(vaContainer);
-            annotatingValue.data('valueAnnotations', values);
+            setValueAnnotations(annotatingValue, values);
             Omeka.closeSidebar(vaSidebar);
         });
         // Handle "Remove value" click.
@@ -195,11 +195,6 @@
             } else {
                 this.setCustomValidity(Omeka.jsTranslate('Please enter a valid language tag'))
             }
-        });
-
-        $('.o-icon-more').on('click', function(e) {
-            e.preventDefault();
-            $(this).parent('.more-actions').toggleClass('active');
         });
 
         // Make new value inputs whenever "add value" button clicked.
@@ -592,6 +587,20 @@
     };
 
     /**
+     * Set a value's annotations, and show on its annotate button whether it has
+     * any.
+     */
+    var setValueAnnotations = function(value, annotations) {
+        value.data('valueAnnotations', annotations);
+        const hasAnnotations = !$.isEmptyObject(annotations);
+        const label = hasAnnotations ? Omeka.jsTranslate('Edit annotations') : Omeka.jsTranslate('Annotate value');
+        value.find('a.value-annotation-annotate')
+            .toggleClass('has-annotations', hasAnnotations)
+            .attr('title', label)
+            .attr('aria-label', label);
+    };
+
+    /**
      * Make a new value.
      */
     var makeNewValue = function(term, dataType, valueObj) {
@@ -605,7 +614,7 @@
         var value = $('.value.template[data-data-type="' + dataType + '"]').clone(true);
         value.removeClass('template');
         value.data('data-term', term);
-        value.data('valueAnnotations', valueObj ? valueObj['@annotation'] : null);
+        setValueAnnotations(value, valueObj ? valueObj['@annotation'] : null);
 
         // Get and display the value's visibility.
         var isPublic = true; // values are public by default

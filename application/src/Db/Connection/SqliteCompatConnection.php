@@ -3,9 +3,13 @@ namespace Omeka\Db\Connection;
 
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\ColumnDiff;
+use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
+use Doctrine\DBAL\Types\Type;
 
 /**
  * A DBAL Connection wrapper that transparently translates MySQL-specific SQL
@@ -154,9 +158,14 @@ REGEX;
         $sql = $parts[0] ?? '';
 
         $sql = $this->translateFunctions($sql);
+        $sql = $this->translateDateArithmetic($sql);
         $sql = preg_replace('/^(\s*)INSERT\s+IGNORE\b/i', '$1INSERT OR IGNORE', $sql);
         $sql = $this->translateUpsert($sql);
         $sql = $this->translateDeleteJoin($sql);
+        $sql = $this->translateUpdateJoin($sql);
+        // SQLite transactions are serializable: a write lock covers the whole
+        // database, so row locks of locking reads are not needed.
+        $sql = preg_replace('/^(\s*SELECT\b.*?)\s+(?:FOR\s+(?:UPDATE|SHARE)(?:\s+NOWAIT|\s+SKIP\s+LOCKED)?|LOCK\s+IN\s+SHARE\s+MODE)[\s;]*$/is', '$1', $sql);
         $trimmed = trim($sql, " \t\n\r\0\x0B;");
 
         preg_match('/^\w+/', $trimmed, $keyword);
@@ -185,6 +194,10 @@ REGEX;
         if (preg_match('/^SET\s+NAMES\s+[\w\'"`]+(?:\s+COLLATE\s+[\w\'"`]+)?$/i', $trimmed)) {
             return null;
         }
+        // Nor SQL modes or a GROUP_CONCAT() length limit, and its clock is UTC.
+        if (preg_match('/^SET\s+(?:(?:SESSION|LOCAL)\s+|@@(?:SESSION\.)?)?(?:SQL_MODE\s*=\s*(?:\'[^\']*\'|"[^"]*"|\w+)|GROUP_CONCAT_MAX_LEN\s*=\s*\d+|TIME_ZONE\s*=\s*([\'"])(?:\+00:00|UTC)\1)$/i', $trimmed)) {
+            return null;
+        }
         if (preg_match('/^SET\b/i', $trimmed)) {
             throw new \RuntimeException('Unsupported MySQL SET statement on SQLite: ' . $trimmed);
         }
@@ -206,15 +219,63 @@ REGEX;
             return $this->translateCreateTable($trimmed);
         }
 
-        if (preg_match('/^ALTER\s+TABLE\s+/i', $trimmed) && ($statements = $this->translateAlterIndexes($trimmed)) !== null) {
-            return $statements;
-        }
-
-        if (preg_match('/^ALTER\s+TABLE\s+.+\s+(?:ADD\s+(?:CONSTRAINT\s+.+\s+)?|DROP\s+)FOREIGN\s+KEY/is', $trimmed)) {
-            return $this->translateAlterForeignKeys($trimmed);
+        if (preg_match('/^ALTER\s+TABLE\s+/i', $trimmed)) {
+            return $this->translateAlterIndexes($trimmed) ?? $this->translateAlterTable($trimmed) ?? [$sql];
         }
 
         return [$sql];
+    }
+
+    /**
+     * Translate DATE_ADD(), DATE_SUB(), ADDDATE() and SUBDATE() into the
+     * mysql_date_add() function, keeping arguments in order for parameters.
+     */
+    private function translateDateArithmetic(string $sql): string
+    {
+        if (!preg_match('/\b(?:DATE_ADD|DATE_SUB|ADDDATE|SUBDATE)\s*\(/i', $sql)) {
+            return $sql;
+        }
+        $offset = 0;
+        while (preg_match('/(?:' . self::SQL_PROTECTED . ')(*SKIP)(*F)|\b(DATE_ADD|DATE_SUB|ADDDATE|SUBDATE)\s*\(/is', $sql, $m, PREG_OFFSET_CAPTURE, $offset)) {
+            $start = $m[0][1];
+            $open = $start + strlen($m[0][0]) - 1;
+            $close = $this->closingParenthesis($sql, $open);
+            $args = $close === null ? [] : $this->splitSql(substr($sql, $open + 1, $close - $open - 1), ',');
+            $offset = $open + 1;
+            if (count($args) !== 2) {
+                continue;
+            }
+            $function = strtoupper($m[1][0]);
+            if (preg_match('/^INTERVAL\s+(.+)\s+(SECOND|MINUTE|HOUR|DAY|WEEK|MONTH|QUARTER|YEAR)$/is', $args[1], $interval)) {
+                [, $amount, $unit] = $interval;
+            } elseif (in_array($function, ['ADDDATE', 'SUBDATE'], true)) {
+                [$amount, $unit] = [$args[1], 'DAY'];
+            } else {
+                continue;
+            }
+            $sign = in_array($function, ['DATE_SUB', 'SUBDATE'], true) ? '-' : '';
+            $replacement = 'mysql_date_add(' . $this->translateDateArithmetic($args[0]) . ', ' . $sign . '(' . $this->translateDateArithmetic($amount) . "), '" . strtoupper($unit) . "')";
+            $sql = substr($sql, 0, $start) . $replacement . substr($sql, $close + 1);
+            $offset = $start + strlen($replacement);
+        }
+        return $sql;
+    }
+
+    /**
+     * Find the parenthesis closing the one at $open, skipping quoted text.
+     */
+    private function closingParenthesis(string $sql, int $open): ?int
+    {
+        preg_match_all('/' . self::SQL_PROTECTED . '|[()]/s', $sql, $tokens, PREG_OFFSET_CAPTURE, $open);
+        $depth = 0;
+        foreach ($tokens[0] as [$token, $offset]) {
+            if ($token === '(') {
+                $depth++;
+            } elseif ($token === ')' && --$depth === 0) {
+                return $offset;
+            }
+        }
+        return null;
     }
 
     /**
@@ -272,6 +333,64 @@ REGEX;
     }
 
     /**
+     * Translate MySQL's multiple-table UPDATE target … JOIN … SET … into an
+     * SQLite UPDATE … FROM a subquery made of the same joins and WHERE, which
+     * selects the target rowid and the assigned values. SQLite does not let
+     * joins reference the target table; inside the subquery they can.
+     * Only columns of the target table can be assigned.
+     */
+    private function translateUpdateJoin(string $sql): string
+    {
+        $id = '[`"]?(\w+)[`"]?';
+        $join = '(?:(?:INNER|CROSS|LEFT(?:\s+OUTER)?)\s+)?JOIN\b';
+        if (!preg_match('/^(\s*)UPDATE\s+' . $id . '(?:\s+(?:AS\s+)?(?!(?:INNER|CROSS|LEFT|JOIN|SET)\b)' . $id . ')?\s+(' . $join . '.+?)[\s;]*$/is', $sql, $m)) {
+            return $sql;
+        }
+        [, $indent, $table, $alias, $rest] = $m;
+        $target = $alias !== '' ? $alias : $table;
+        preg_match_all('/' . self::SQL_PROTECTED . '|[()]|\b(?:SET|WHERE)\b/is', $rest, $tokens, PREG_OFFSET_CAPTURE);
+        $depth = 0;
+        $at = [];
+        foreach ($tokens[0] as [$token, $offset]) {
+            if ($token === '(') {
+                $depth++;
+            } elseif ($token === ')') {
+                $depth--;
+            } elseif ($depth === 0 && ctype_alpha($token)) {
+                $at[strtoupper($token)] ??= $offset;
+            }
+        }
+        if (!isset($at['SET'])) {
+            return $sql;
+        }
+        $joins = substr($rest, 0, $at['SET']);
+        $end = isset($at['WHERE']) && $at['WHERE'] > $at['SET'] ? $at['WHERE'] : strlen($rest);
+        $assignments = substr($rest, $at['SET'] + 3, $end - $at['SET'] - 3);
+        $where = substr($rest, $end);
+        $unquoted = function (string $part): string {
+            return preg_replace('/' . self::SQL_PROTECTED . '/s', '', $part);
+        };
+        if (strpos($unquoted($joins), '?') !== false && strpos($unquoted($assignments), '?') !== false) {
+            throw new \RuntimeException('SQLite compatibility cannot reorder positional parameters of an UPDATE … JOIN: ' . $sql);
+        }
+        $set = [];
+        $values = ["`{$target}`.rowid AS __rowid"];
+        foreach ($this->splitSql($assignments, ',') as $i => $assignment) {
+            if (!preg_match('/^(?:[`"]?(\w+)[`"]?\s*\.\s*)?[`"]?(\w+)[`"]?\s*=(.+)$/s', $assignment, $a)
+                || ($a[1] !== '' && strcasecmp($a[1], $target) !== 0)
+            ) {
+                throw new \RuntimeException('SQLite can only update columns of the target table of an UPDATE … JOIN: ' . $sql);
+            }
+            $set[] = "`{$a[2]}` = __update_join.__value{$i}";
+            $values[] = trim($a[3]) . " AS __value{$i}";
+        }
+        $from = "`{$table}`" . ($alias !== '' ? " AS `{$alias}`" : '');
+        return "{$indent}UPDATE `{$table}` SET " . implode(', ', $set)
+            . ' FROM (SELECT ' . implode(', ', $values) . " FROM {$from} " . trim($joins) . ($where !== '' ? ' ' . $where : '') . ') AS __update_join'
+            . " WHERE `{$table}`.rowid = __update_join.__rowid";
+    }
+
+    /**
      * Translate ALTER TABLE statements made only of ADD [UNIQUE] INDEX|KEY and
      * DROP INDEX|KEY clauses into CREATE INDEX and DROP INDEX.
      *
@@ -326,19 +445,20 @@ REGEX;
     }
 
     /**
-     * Translate ALTER TABLE … ADD [CONSTRAINT name] FOREIGN KEY and
-     * DROP FOREIGN KEY name clauses.
+     * Translate ALTER TABLE statements that change columns (CHANGE, MODIFY,
+     * ADD and DROP [COLUMN]) or foreign keys (ADD [CONSTRAINT name] FOREIGN
+     * KEY, DROP FOREIGN KEY name), possibly mixed with index clauses.
      *
-     * SQLite cannot add or drop a foreign key of an existing table, so the table is
+     * SQLite cannot change the columns or the foreign keys of an existing table, so the table is
      * rebuilt by DBAL (copy to a temporary table, recreate with the new keys,
      * copy back, recreate indexes). Enforcement is switched off during the
      * rebuild so dropping the old table never cascades into child tables,
      * then restored. PRAGMA foreign_keys is a no-op inside a transaction, so
      * a rebuild with enforcement on inside a transaction is refused.
      *
-     * @return string[]
+     * @return string[]|null Null when the statement has none of these clauses.
      */
-    private function translateAlterForeignKeys(string $sql): array
+    private function translateAlterTable(string $sql): ?array
     {
         $id = '(?:`([^`]+)`|"([^"]+)"|(\w+))';
         $unquote = function (string $name): string {
@@ -348,32 +468,65 @@ REGEX;
             return array_map($unquote, explode(',', $list));
         };
         $action = '(CASCADE|SET\s+NULL|SET\s+DEFAULT|RESTRICT|NO\s+ACTION)';
+        $notColumn = '(?!(?:INDEX|KEY|UNIQUE|PRIMARY|FOREIGN|CONSTRAINT|FULLTEXT|SPATIAL|CHECK)\b)';
         if (!preg_match('/^ALTER\s+TABLE\s+' . $id . '\s+(.+)$/is', $sql, $m)) {
-            throw new \RuntimeException('Unsupported ALTER TABLE foreign key statement on SQLite: ' . $sql);
+            return null;
         }
         $tableName = $m[1] . $m[2] . $m[3];
         $foreignKeys = [];
         $droppedForeignKeys = [];
+        $changes = [];
+        $addedColumns = [];
+        $removedColumns = [];
+        $indexesBefore = [];
+        $indexesAfter = [];
+        $unsupported = [];
         foreach ($this->splitSql($m[4], ',') as $clause) {
-            if (preg_match('/^DROP\s+FOREIGN\s+KEY\s+' . $id . '$/is', trim($clause), $drop)) {
-                $droppedForeignKeys[] = implode('', array_slice($drop, 1));
+            if (preg_match('/^(?:ALGORITHM|LOCK)\s*=?\s*\w+$/i', $clause)) {
                 continue;
             }
-            if (!preg_match('/^ADD\s+(?:CONSTRAINT\s+' . $id . '\s+)?FOREIGN\s+KEY\s*(?:' . $id . '\s*)?\(([^)]+)\)\s*REFERENCES\s+' . $id . '\s*\(([^)]+)\)((?:\s+ON\s+(?:DELETE|UPDATE)\s+' . $action . ')*)$/is', trim($clause), $fk)) {
-                throw new \RuntimeException('SQLite can only rebuild a table for ALTER TABLE statements that add or drop foreign keys: ' . $sql);
+            if (preg_match('/^(ADD|DROP)\s+(?:UNIQUE\s+)?(?:INDEX|KEY)\b/i', $clause, $index)) {
+                $statements = $this->translateAlterIndexes("ALTER TABLE `$tableName` $clause");
+                if ($statements === null) {
+                    $unsupported[] = $clause;
+                } elseif (strtoupper($index[1]) === 'DROP') {
+                    array_push($indexesBefore, ...$statements);
+                } else {
+                    array_push($indexesAfter, ...$statements);
+                }
+            } elseif (preg_match('/^DROP\s+FOREIGN\s+KEY\s+' . $id . '$/is', $clause, $drop)) {
+                $droppedForeignKeys[] = implode('', array_slice($drop, 1));
+            } elseif (preg_match('/^ADD\s+(?:CONSTRAINT\s+' . $id . '\s+)?FOREIGN\s+KEY\s*(?:' . $id . '\s*)?\(([^)]+)\)\s*REFERENCES\s+' . $id . '\s*\(([^)]+)\)((?:\s+ON\s+(?:DELETE|UPDATE)\s+' . $action . ')*)$/is', $clause, $fk)) {
+                $options = [];
+                preg_match_all('/ON\s+(DELETE|UPDATE)\s+' . $action . '/i', $fk[12], $actions, PREG_SET_ORDER);
+                foreach ($actions as $a) {
+                    $options['on' . ucfirst(strtolower($a[1]))] = strtoupper(preg_replace('/\s+/', ' ', $a[2]));
+                }
+                $foreignKeys[] = new ForeignKeyConstraint(
+                    $columns($fk[7]),
+                    $fk[8] . $fk[9] . $fk[10],
+                    $columns($fk[11]),
+                    ($fk[1] . $fk[2] . $fk[3]) ?: null,
+                    $options
+                );
+            } elseif (preg_match('/^(?:CHANGE\s+(?:COLUMN\s+)?' . $id . '\s+|MODIFY\s+(?:COLUMN\s+)?)' . $id . '\s+(.+)$/is', $clause, $c)) {
+                $name = $c[4] . $c[5] . $c[6];
+                $changes[] = [($c[1] . $c[2] . $c[3]) ?: $name, $name, $c[7]];
+            } elseif (preg_match('/^ADD\s+(?:COLUMN\s+)?' . $notColumn . $id . '\s+(.+)$/is', $clause, $c)) {
+                $addedColumns[] = $this->parseColumnDefinition($c[1] . $c[2] . $c[3], $c[4], true);
+            } elseif (preg_match('/^DROP\s+(?:COLUMN\s+)?' . $notColumn . $id . '$/is', $clause, $c)) {
+                $removedColumns[] = $c[1] . $c[2] . $c[3];
+            } else {
+                $unsupported[] = $clause;
             }
-            $options = [];
-            preg_match_all('/ON\s+(DELETE|UPDATE)\s+' . $action . '/i', $fk[12], $actions, PREG_SET_ORDER);
-            foreach ($actions as $a) {
-                $options['on' . ucfirst(strtolower($a[1]))] = strtoupper(preg_replace('/\s+/', ' ', $a[2]));
-            }
-            $foreignKeys[] = new ForeignKeyConstraint(
-                $columns($fk[7]),
-                $fk[8] . $fk[9] . $fk[10],
-                $columns($fk[11]),
-                ($fk[1] . $fk[2] . $fk[3]) ?: null,
-                $options
-            );
+        }
+        if (!$foreignKeys && !$droppedForeignKeys && !$changes && !$addedColumns && !$removedColumns
+            && !preg_grep('/\bFOREIGN\s+KEY\b/i', $unsupported)
+        ) {
+            return null;
+        }
+        if ($unsupported) {
+            throw new \RuntimeException('Unsupported ALTER TABLE clause on SQLite: ' . implode(', ', $unsupported));
         }
 
         $enforced = (bool) $this->fetchOne('PRAGMA foreign_keys');
@@ -395,13 +548,121 @@ REGEX;
         foreach (array_diff_key($fromTable->getIndexes(), $table->getIndexes()) as $name => $index) {
             $fromTable->dropIndex($name);
         }
+        // DBAL ignores the indexes of UNIQUE constraints (sqlite_autoindex_*),
+        // so the rebuild would lose them; recreate them as unique indexes.
+        $platform = $this->getDatabasePlatform();
+        $nothingToDrop = [];
+        foreach ($this->fetchFirstColumn("SELECT name FROM pragma_index_list(?) WHERE origin = 'u'", [$tableName]) as $autoindex) {
+            $uniqueColumns = $this->fetchFirstColumn('SELECT name FROM pragma_index_info(?) ORDER BY seqno', [$autoindex]);
+            $name = $this->generateIndexName($tableName, implode('_', $uniqueColumns), true);
+            $fromTable->addUniqueIndex($uniqueColumns, $name);
+            $nothingToDrop[] = $platform->getDropIndexSQL($fromTable->getIndex($name), $tableName);
+        }
         $diff = new TableDiff($tableName, [], [], [], [], [], [], $fromTable);
         $diff->addedForeignKeys = $foreignKeys;
         $diff->removedForeignKeys = $droppedForeignKeys;
-        $statements = $this->getDatabasePlatform()->getAlterTableSQL($diff);
+        foreach ($addedColumns as $column) {
+            $diff->addedColumns[$column->getName()] = $column;
+        }
+        foreach (array_merge($removedColumns, array_column($changes, 0)) as $name) {
+            if (!$fromTable->hasColumn($name)) {
+                throw new \RuntimeException("Unknown column $name in table $tableName.");
+            }
+        }
+        foreach ($removedColumns as $name) {
+            $diff->removedColumns[strtolower($name)] = $fromTable->getColumn($name);
+        }
+        foreach ($changes as [$oldName, $name, $definition]) {
+            $column = $this->parseColumnDefinition($name, $definition);
+            $fromColumn = $fromTable->getColumn($oldName);
+            $diff->changedColumns[strtolower($oldName)] = new ColumnDiff($oldName, $column, (new Comparator())->diffColumn($fromColumn, $column), $fromColumn);
+        }
+        $statements = array_values(array_diff($platform->getAlterTableSQL($diff), $nothingToDrop));
+        $statements = array_merge($indexesBefore, $statements, $indexesAfter);
         return $enforced
             ? array_merge(['PRAGMA foreign_keys = OFF'], $statements, ['PRAGMA foreign_keys = ON'])
             : $statements;
+    }
+
+    /**
+     * Build the DBAL column of a MySQL column definition, such as
+     * "VARCHAR(190) COLLATE 'utf8mb4_unicode_ci' NOT NULL AFTER `id`".
+     * SQLite has no charsets, so CHARACTER SET and COLLATE are ignored, as are
+     * AFTER and FIRST: the rebuild moves changed columns to the end.
+     *
+     * MySQL fills a new NOT NULL column without default with the implicit
+     * default of its type; SQLite needs it as an actual default.
+     */
+    private function parseColumnDefinition(string $name, string $definition, bool $isNew = false): Column
+    {
+        if (!preg_match('/^(\w+)\s*(?:\(\s*(\d+)\s*(?:,\s*(\d+)\s*)?\))?(?:\s+(?:UNSIGNED|SIGNED|ZEROFILL)\b)*(.*)$/is', trim($definition), $m)) {
+            throw new \RuntimeException("Unsupported column definition on SQLite: $definition");
+        }
+        [, $mysqlType, $length, $scale, $rest] = $m;
+        $mysqlType = strtolower($mysqlType);
+        $types = [
+            'boolean' => ['bool', 'boolean'],
+            'smallint' => ['tinyint', 'smallint'],
+            'integer' => ['mediumint', 'int', 'integer', 'year'],
+            'bigint' => ['bigint'],
+            'string' => ['char', 'varchar'],
+            'text' => ['tinytext', 'text', 'mediumtext', 'longtext'],
+            'json' => ['json'],
+            'date' => ['date'],
+            'datetime' => ['datetime', 'timestamp'],
+            'time' => ['time'],
+            'decimal' => ['decimal', 'dec', 'numeric'],
+            'float' => ['float', 'double', 'real'],
+            'binary' => ['binary', 'varbinary'],
+            'blob' => ['tinyblob', 'blob', 'mediumblob', 'longblob'],
+        ];
+        $type = $mysqlType === 'tinyint' && $length === '1' ? 'boolean' : null;
+        foreach ($types as $dbalType => $mysqlTypes) {
+            $type = $type ?? (in_array($mysqlType, $mysqlTypes, true) ? $dbalType : null);
+        }
+        if ($type === null) {
+            throw new \RuntimeException("Unsupported column type on SQLite: $definition");
+        }
+        $options = ['notnull' => false, 'fixed' => $mysqlType === 'char'];
+        if ($length !== '') {
+            $options += $type === 'decimal' ? ['precision' => (int) $length, 'scale' => (int) $scale] : ['length' => (int) $length];
+        }
+        $literal = '\'(?:[^\']|\'\')*\'|"(?:[^"]|"")*"';
+        $unquote = function (string $value): string {
+            return str_replace($value[0] . $value[0], $value[0], substr($value, 1, -1));
+        };
+        while (($rest = ltrim($rest)) !== '') {
+            if (preg_match('/^NOT\s+NULL\b/i', $rest, $o)) {
+                $options['notnull'] = true;
+            } elseif (preg_match('/^NULL\b/i', $rest, $o)) {
+                $options['notnull'] = false;
+            } elseif (preg_match('/^DEFAULT\s+(?:(' . $literal . ')|([-+]?\d+(?:\.\d+)?)|(NULL|TRUE|FALSE|CURRENT_TIMESTAMP)(?:\s*\(\s*\d*\s*\))?)/i', $rest, $o)) {
+                $keyword = strtoupper($o[3] ?? '');
+                $options['default'] = $o[1] !== '' ? $unquote($o[1])
+                    : ($o[2] !== '' ? $o[2] : ['NULL' => null, 'TRUE' => '1', 'FALSE' => '0', 'CURRENT_TIMESTAMP' => 'CURRENT_TIMESTAMP'][$keyword]);
+            } elseif (preg_match('/^AUTO_INCREMENT\b/i', $rest, $o)) {
+                $options['autoincrement'] = true;
+            } elseif (preg_match('/^COMMENT\s+(' . $literal . ')/i', $rest, $o)) {
+                $comment = $unquote($o[1]);
+                // DBAL adds the type comment itself.
+                if (preg_match('/^\(DC2Type:(\w+)\)$/', $comment, $hint) && Type::hasType($hint[1])) {
+                    $type = $hint[1];
+                } else {
+                    $options['comment'] = $comment;
+                }
+            } elseif (!preg_match('/^(?:(?:COLLATE|CHARACTER\s+SET|CHARSET)\s*=?\s*(?:' . $literal . '|`\w+`|\w+)|AFTER\s+(?:`[^`]+`|"[^"]+"|\w+)|FIRST\b)/i', $rest, $o)) {
+                throw new \RuntimeException("Unsupported column definition on SQLite: $definition");
+            }
+            $rest = substr($rest, strlen($o[0]));
+        }
+        if ($isNew && $options['notnull'] && !isset($options['default']) && empty($options['autoincrement'])) {
+            if (in_array($type, ['boolean', 'smallint', 'integer', 'bigint', 'decimal', 'float'], true)) {
+                $options['default'] = '0';
+            } elseif (in_array($type, ['string', 'text', 'json'], true)) {
+                $options['default'] = '';
+            }
+        }
+        return new Column($name, Type::getType($type), $options);
     }
 
     private function translateShowIndex(string $table, ?string $where): string
@@ -512,18 +773,8 @@ SQL;
 
         // Find the body between the outermost parentheses.
         $openParen = strpos($sql, '(');
-        preg_match_all('/' . self::SQL_PROTECTED . '|[()]/s', $sql, $tokens, PREG_OFFSET_CAPTURE);
-        $depth = 0;
-        $closeParen = null;
-        foreach ($tokens[0] as [$token, $offset]) {
-            if ($token === '(') {
-                $depth++;
-            } elseif ($token === ')' && --$depth === 0) {
-                $closeParen = $offset;
-                break;
-            }
-        }
-        if ($openParen === false || $closeParen === null) {
+        $closeParen = $openParen === false ? null : $this->closingParenthesis($sql, $openParen);
+        if ($closeParen === null) {
             return [$sql];
         }
         $body = substr($sql, $openParen + 1, $closeParen - $openParen - 1);
@@ -865,6 +1116,28 @@ SQL;
             $timestamp = $datetime === null ? false : strtotime((string) $datetime);
             return $timestamp === false ? null : date('Y-m-t', $timestamp);
         }, 1);
+        // Target of DATE_ADD() and DATE_SUB() (see translateDateArithmetic()).
+        $create('mysql_date_add', function ($datetime, $amount, $unit) {
+            if ($datetime === null || !is_numeric($amount)
+                || !preg_match('/^\d{4}-\d{2}-\d{2}(?:[ T]\d{2}:\d{2}:\d{2})?/', (string) $datetime, $m)
+            ) {
+                return null;
+            }
+            $date = new \DateTimeImmutable($m[0], new \DateTimeZone('UTC'));
+            $amount = (int) round($amount);
+            $months = ['MONTH' => 1, 'QUARTER' => 3, 'YEAR' => 12][$unit] ?? 0;
+            if ($months) {
+                // MySQL keeps the day within the target month.
+                $target = $date->modify('first day of this month')->modify(($amount * $months) . ' months');
+                $date = $target->setDate((int) $target->format('Y'), (int) $target->format('n'), min((int) $date->format('j'), (int) $target->format('t')));
+            } else {
+                $date = $unit === 'WEEK' ? $date->modify(($amount * 7) . ' days') : $date->modify("$amount $unit");
+            }
+            // A date stays a date unless a time unit is added.
+            return strlen($m[0]) === 10 && in_array($unit, ['DAY', 'WEEK', 'MONTH', 'QUARTER', 'YEAR'], true)
+                ? $date->format('Y-m-d')
+                : $date->format('Y-m-d H:i:s');
+        }, 3);
         $create('str_to_date', function ($value, $format) {
             if ($value === null || $format === null) {
                 return null;

@@ -88,6 +88,49 @@ class SqliteCompatConnectionTest extends TestCase
         ];
     }
 
+    /** @dataProvider updateJoinQueries */
+    public function testUpdateWithJoinUpdatesOnlyTargetRows($sql, $params, $expected)
+    {
+        $this->connection->exec('CREATE TABLE resource (id INT PRIMARY KEY, title TEXT)');
+        $this->connection->exec('CREATE TABLE value (id INT PRIMARY KEY, resource_id INT, text TEXT)');
+        $this->connection->exec("INSERT INTO resource VALUES (1, 'T1'), (3, 'T3')");
+        $this->connection->exec("INSERT INTO value VALUES (1, 1, 'a'), (2, 1, 'b'), (3, 2, 'b'), (4, 3, 'c')");
+        $this->connection->executeStatement($sql, $params);
+        $this->assertSame($expected, $this->connection->fetchAllKeyValue('SELECT id, text FROM value ORDER BY id'));
+        $this->assertSame(['T1', 'T3'], $this->connection->fetchFirstColumn('SELECT title FROM resource ORDER BY id'));
+    }
+
+    public function updateJoinQueries()
+    {
+        return [
+            'aliases and qualified target' => ['UPDATE `value` v INNER JOIN `resource` r ON r.id = v.resource_id SET v.text = r.title WHERE v.text = ?', ['b'], [1 => 'a', 2 => 'T1', 3 => 'b', 4 => 'c']],
+            'orphans with left join' => ['UPDATE value LEFT JOIN resource ON resource.id = value.resource_id SET text = NULL WHERE resource.id IS NULL;', [], [1 => 'a', 2 => 'b', 3 => null, 4 => 'c']],
+            'unqualified columns and several assignments' => ["UPDATE value JOIN resource ON (value.resource_id = resource.id) SET text = title || ',' || text, resource_id = 0 WHERE text <> :text", ['text' => 'a'], [1 => 'a', 2 => 'T1,b', 3 => 'b', 4 => 'T3,c']],
+            'parameters in join and where' => ["UPDATE value JOIN resource ON resource.id = value.resource_id AND resource.title = ? SET text = 'x' WHERE value.id > ?", ['T1', 1], [1 => 'a', 2 => 'x', 3 => 'b', 4 => 'c']],
+        ];
+    }
+
+    public function testLockingReadsAndSessionSettingsWithoutSqliteEquivalent()
+    {
+        // Lockout, Deduplicate, ChaoticumSeminario.
+        $this->connection->exec("INSERT INTO setting VALUES ('foo', 'bar')");
+        $this->assertSame(['foo'], $this->connection->fetchFirstColumn('SELECT id FROM setting WHERE id IN (?) FOR UPDATE', ['foo']));
+        $this->assertSame(['foo'], $this->connection->fetchFirstColumn('SELECT id FROM setting LOCK IN SHARE MODE;'));
+        $this->assertSame("'x FOR UPDATE'", $this->connection->fetchOne("SELECT '''x FOR UPDATE'''"));
+        foreach (['SET SESSION group_concat_max_len = 1000000;', "SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO'", 'SET time_zone = "+00:00"'] as $sql) {
+            $this->connection->executeQuery($sql);
+        }
+    }
+
+    public function testDateArithmeticWithNowAndParameters()
+    {
+        // Lock Edit, Two-Factor Authentication: expire rows older than a duration.
+        $this->connection->exec('CREATE TABLE content_lock (id INT PRIMARY KEY, created DATETIME)');
+        $this->connection->executeStatement("INSERT INTO content_lock VALUES (1, DATE_SUB(NOW(), INTERVAL 2 HOUR)), (2, NOW())");
+        $this->connection->executeStatement('DELETE FROM content_lock WHERE created < DATE_SUB(NOW(), INTERVAL :duration SECOND)', ['duration' => 3600]);
+        $this->assertSame(['2'], array_map('strval', $this->connection->fetchFirstColumn('SELECT id FROM content_lock')));
+    }
+
     /** @dataProvider executionMethods */
     public function testCompoundStatementsKeepAllOperations($method)
     {
@@ -306,7 +349,12 @@ class SqliteCompatConnectionTest extends TestCase
     {
         return [
             ['SET arbitrary_variable=1'],
-            ['ALTER TABLE setting ADD CONSTRAINT fk FOREIGN KEY (id) REFERENCES setting(id), ADD COLUMN extra TEXT'],
+            ["SET time_zone = 'Europe/Madrid'"],
+            ['ALTER TABLE setting ADD CONSTRAINT fk FOREIGN KEY (id) REFERENCES setting(id), RENAME TO other'],
+            ['ALTER TABLE setting MODIFY `value` GEOMETRY NOT NULL'],
+            ['ALTER TABLE setting ADD `modified` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'],
+            ['UPDATE setting s JOIN setting t ON t.id = s.id SET t.value = s.value'],
+            ['UPDATE setting s JOIN setting t ON t.id = ? SET s.value = ?'],
             ['CREATE TABLE example (text TEXT, FULLTEXT KEY search (text))'],
         ];
     }
@@ -538,6 +586,85 @@ class SqliteCompatConnectionTest extends TestCase
         $this->connection->exec('ALTER TABLE child DROP INDEX idx_missing');
     }
 
+    public function testAlterTableChangesColumnsByRebuildingTheTable()
+    {
+        // Common, Bulk Import, Contribute: renames, new definitions and new
+        // columns in one statement, with MySQL-only column options.
+        $this->createForeignKeyFixture();
+        $this->connection->exec("ALTER TABLE child CHANGE `label` `title` varchar(190) COLLATE 'utf8mb4_unicode_ci' NOT NULL DEFAULT 'none' AFTER `owner_id`, MODIFY COLUMN setting_id VARCHAR(190) NOT NULL, ADD `note` LONGTEXT NOT NULL COMMENT '(DC2Type:json)', ADD INDEX idx_title (title)");
+
+        $this->assertSame([[7, 'foo', 1, 'default', '']], $this->connection->fetchAllNumeric('SELECT id, setting_id, owner_id, title, note FROM child'));
+        $this->assertSame(1, (int) $this->connection->fetchOne('PRAGMA foreign_keys'));
+        $indexes = array_map(function (array $row): string {
+            return $row['Key_name'] . '.' . $row['Column_name'];
+        }, $this->connection->fetchAllAssociative("SHOW INDEX FROM child WHERE Column_name IN ('title', 'owner_id')"));
+        $this->assertSame(['idx_title.title', 'UNIQ_child_label_owner.title', 'UNIQ_child_label_owner.owner_id'], $indexes);
+        $this->connection->exec('INSERT INTO child (id, setting_id, owner_id) VALUES (8, \'foo\', 1)');
+        $this->assertSame('none', $this->connection->fetchOne('SELECT title FROM child WHERE id = 8'));
+        foreach (['INSERT INTO child (setting_id, owner_id) VALUES (NULL, 1)', "INSERT INTO child (setting_id, owner_id) VALUES ('foo', 99)"] as $sql) {
+            try {
+                $this->connection->exec($sql);
+                $this->fail('Constraint not enforced: ' . $sql);
+            } catch (\Doctrine\DBAL\Exception $e) {
+                $this->assertStringContainsString('constraint failed', $e->getMessage());
+            }
+        }
+    }
+
+    public function testAlterTableModifiesDefaultsAutoIncrementAndDropsColumns()
+    {
+        $this->connection->exec('CREATE TABLE search_page (id INT NOT NULL, name VARCHAR(190), created DATETIME, PRIMARY KEY(id))');
+        $this->connection->exec("INSERT INTO search_page VALUES (1, 'a', '2024-01-01 00:00:00')");
+        $this->connection->exec('ALTER TABLE search_page MODIFY id INT AUTO_INCREMENT NOT NULL');
+        $this->connection->exec('ALTER TABLE `search_page` CHANGE `created` `created` datetime NOT NULL DEFAULT NOW() AFTER `name`;');
+        $this->connection->exec('ALTER TABLE search_page DROP COLUMN name');
+        $this->connection->exec('INSERT INTO search_page DEFAULT VALUES');
+
+        $this->assertSame(['id', 'created'], $this->connection->fetchFirstColumn('SELECT name FROM pragma_table_info(\'search_page\')'));
+        $rows = $this->connection->fetchAllAssociative('SELECT id, created FROM search_page ORDER BY id');
+        $this->assertSame(['1', '2024-01-01 00:00:00'], [(string) $rows[0]['id'], $rows[0]['created']]);
+        $this->assertSame(2, (int) $rows[1]['id']);
+        $this->assertMatchesRegularExpression('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $rows[1]['created']);
+    }
+
+    /** @dataProvider uniqueConstraintRebuilds */
+    public function testAlterTableKeepsUniqueConstraints($alter)
+    {
+        // Core tables such as asset and value declare inline UNIQUE constraints.
+        $this->connection->exec('CREATE TABLE asset (id INTEGER PRIMARY KEY, owner_id INT, storage_id VARCHAR(190) NOT NULL, extension VARCHAR(255), UNIQUE (storage_id), UNIQUE (owner_id, extension))');
+        $this->connection->exec("INSERT INTO asset VALUES (1, 1, 'a', 'jpg')");
+        $this->connection->exec($alter);
+        foreach (["INSERT INTO asset VALUES (2, 2, 'a', 'png')", "INSERT INTO asset VALUES (3, 1, 'b', 'jpg')"] as $sql) {
+            try {
+                $this->connection->exec($sql);
+                $this->fail('Unique constraint lost: ' . $sql);
+            } catch (\Doctrine\DBAL\Exception $e) {
+                $this->assertStringContainsString('UNIQUE constraint failed', $e->getMessage());
+            }
+        }
+    }
+
+    public function uniqueConstraintRebuilds()
+    {
+        return [
+            'column change' => ["ALTER TABLE asset CHANGE extension extension VARCHAR(190) COLLATE 'utf8mb4_unicode_ci' NULL AFTER storage_id"],
+            'foreign key' => ['ALTER TABLE asset ADD CONSTRAINT fk_asset_owner FOREIGN KEY (owner_id) REFERENCES asset (id)'],
+        ];
+    }
+
+    public function testAlterTableAddsNotNullColumnsWithTheImplicitMysqlDefault()
+    {
+        $this->connection->exec("INSERT INTO setting VALUES ('foo', 'bar')");
+        $this->connection->exec('ALTER TABLE setting ADD `is_new` TINYINT(1) NOT NULL AFTER `id`, ADD COLUMN `label` VARCHAR(190) NOT NULL');
+        $this->assertSame([['id' => 'foo', 'value' => 'bar', 'is_new' => 0, 'label' => '']], $this->connection->fetchAllAssociative('SELECT * FROM setting'));
+    }
+
+    public function testAlterTableChangeUnknownColumnFailsExplicitly()
+    {
+        $this->expectExceptionMessage('Unknown column missing in table setting.');
+        $this->connection->exec('ALTER TABLE setting CHANGE missing other TEXT');
+    }
+
     private function createForeignKeyFixture(): void
     {
         $this->connection->exec('PRAGMA foreign_keys = ON');
@@ -631,6 +758,15 @@ class SqliteCompatConnectionTest extends TestCase
             'sha2' => ["SELECT SHA2('omeka', 256)", hash('sha256', 'omeka')],
             'json_unquote string' => ['SELECT JSON_UNQUOTE(\'"a\\"b"\')', 'a"b'],
             'json_unquote other' => ["SELECT JSON_UNQUOTE('[1]')", '[1]'],
+            'date_sub seconds' => ["SELECT DATE_SUB('2024-03-01 00:00:10', INTERVAL 20 SECOND)", '2024-02-29 23:59:50'],
+            'date_add month keeps the day in the month' => ["SELECT DATE_ADD('2024-01-31', INTERVAL 1 MONTH)", '2024-02-29'],
+            'date_add hour to a date' => ["SELECT DATE_ADD('2024-01-31', INTERVAL 1 HOUR)", '2024-01-31 01:00:00'],
+            'date_sub week' => ["SELECT date_sub('2024-03-07', interval 1 week)", '2024-02-29'],
+            'adddate days' => ["SELECT ADDDATE('2024-02-28', 1)", '2024-02-29'],
+            'subdate quarter' => ["SELECT SUBDATE('2024-05-31', INTERVAL 1 QUARTER)", '2024-02-29'],
+            'nested date arithmetic' => ["SELECT DATE_ADD(DATE_SUB('2024-03-01', INTERVAL 1 DAY), INTERVAL 1 YEAR)", '2025-02-28'],
+            'date_add null' => ['SELECT DATE_ADD(NULL, INTERVAL 1 DAY)', null],
+            'date arithmetic in literal text' => ["SELECT 'DATE_SUB(x, INTERVAL 1 DAY)'", 'DATE_SUB(x, INTERVAL 1 DAY)'],
         ];
     }
 

@@ -185,6 +185,14 @@ REGEX;
             return ["SELECT name AS Tables_in_main$type FROM sqlite_master WHERE type='table' AND name NOT GLOB 'sqlite_*'$filter ORDER BY name"];
         }
 
+        if (preg_match('/^SHOW\s+TABLE\s+STATUS(?:\s+(?:FROM|IN)\s+\S+)?(?:\s+LIKE\s+(.+)|\s+WHERE\s+(.+))?$/is', $trimmed, $m)) {
+            $status = "SELECT * FROM (SELECT name AS Name, 'SQLite' AS Engine, NULL AS Version, NULL AS Row_format, NULL AS Rows,"
+                . ' NULL AS Avg_row_length, NULL AS Data_length, NULL AS Max_data_length, NULL AS Index_length, NULL AS Data_free,'
+                . ' NULL AS Auto_increment, NULL AS Create_time, NULL AS Update_time, NULL AS Check_time, NULL AS Collation,'
+                . " NULL AS Checksum, '' AS Create_options, '' AS Comment FROM sqlite_master WHERE type = 'table' AND name NOT GLOB 'sqlite_*')";
+            return [$status . (isset($m[2]) ? " WHERE $m[2]" : (isset($m[1]) && $m[1] !== '' ? " WHERE Name LIKE $m[1]" : '')) . ' ORDER BY Name'];
+        }
+
         // No server variables: modules then take their portable code path.
         if (preg_match('/^SHOW\s+(?:(?:GLOBAL|SESSION)\s+)?VARIABLES\b/i', $trimmed)) {
             return ['SELECT NULL AS Variable_name, NULL AS Value WHERE 0'];
@@ -382,9 +390,11 @@ REGEX;
     }
 
     /**
-     * Replace information_schema.TABLES with the tables and views of the
-     * database. Sizes and row counts are unknown (NULL); the schema is the
-     * name returned by DATABASE().
+     * Replace the information_schema tables that modules read with views of
+     * the SQLite catalog: TABLES, COLUMNS, STATISTICS, TABLE_CONSTRAINTS and
+     * KEY_COLUMN_USAGE (primary and named foreign keys), and empty ROUTINES
+     * and PLUGINS. Sizes, row counts and collations are unknown (NULL). The
+     * schema is the name returned by DATABASE().
      */
     private function translateInformationSchema(string $sql): string
     {
@@ -392,12 +402,46 @@ REGEX;
             return $sql;
         }
         $schema = $this->quote($this->getDatabase() ?? 'main');
-        $tables = "(SELECT 'def' AS TABLE_CATALOG, $schema AS TABLE_SCHEMA, name AS TABLE_NAME,"
-            . " CASE type WHEN 'view' THEN 'VIEW' ELSE 'BASE TABLE' END AS TABLE_TYPE, NULL AS ENGINE,"
-            . ' NULL AS TABLE_ROWS, NULL AS DATA_LENGTH, NULL AS INDEX_LENGTH, NULL AS TABLE_COLLATION'
-            . " FROM sqlite_master WHERE type IN ('table', 'view') AND name NOT GLOB 'sqlite_*')";
+        // Primary keys, then foreign keys named in CREATE TABLE.
+        $keys = "SELECT 'PRIMARY' AS name, 'PRIMARY KEY' AS type, m.name AS table_name, p.name AS column_name, p.pk AS position, NULL AS ref_table, NULL AS ref_column"
+            . " FROM sqlite_master AS m JOIN pragma_table_info(m.name) AS p ON p.pk > 0 WHERE m.type = 'table' AND m.name NOT GLOB 'sqlite_*'"
+            . " UNION ALL SELECT json_extract(k.value, '$.name'), 'FOREIGN KEY', m.name, json_extract(k.value, '$.column'), json_extract(k.value, '$.position'),"
+            . " json_extract(k.value, '$.ref_table'), json_extract(k.value, '$.ref_column')"
+            . " FROM sqlite_master AS m JOIN json_each(mysql_foreign_keys(m.sql)) AS k WHERE m.type = 'table'";
+        // See translateShowIndex() for the MySQL index names.
+        $indexName = "CASE WHEN il.origin = 'pk' THEN 'PRIMARY'"
+            . " WHEN substr(il.name, 1, length(m.name) + 1) = m.name || '_' COLLATE NOCASE"
+            . ' AND NOT EXISTS (SELECT 1 FROM pragma_index_info(il.name) WHERE name = il.name)'
+            . ' THEN substr(il.name, length(m.name) + 2) ELSE il.name END';
+        $views = [
+            'TABLES' => "SELECT 'def' AS TABLE_CATALOG, $schema AS TABLE_SCHEMA, name AS TABLE_NAME,"
+                . " CASE type WHEN 'view' THEN 'VIEW' ELSE 'BASE TABLE' END AS TABLE_TYPE, NULL AS ENGINE,"
+                . ' NULL AS TABLE_ROWS, NULL AS DATA_LENGTH, NULL AS INDEX_LENGTH, NULL AS TABLE_COLLATION'
+                . " FROM sqlite_master WHERE type IN ('table', 'view') AND name NOT GLOB 'sqlite_*'",
+            'COLUMNS' => "SELECT 'def' AS TABLE_CATALOG, $schema AS TABLE_SCHEMA, m.name AS TABLE_NAME, c.name AS COLUMN_NAME,"
+                . " c.cid + 1 AS ORDINAL_POSITION, c.dflt_value AS COLUMN_DEFAULT, CASE WHEN c.\"notnull\" OR c.pk THEN 'NO' ELSE 'YES' END AS IS_NULLABLE,"
+                . " lower(CASE WHEN instr(c.type, '(') THEN substr(c.type, 1, instr(c.type, '(') - 1) ELSE c.type END) AS DATA_TYPE,"
+                . " lower(c.type) AS COLUMN_TYPE, CASE WHEN c.pk THEN 'PRI' ELSE '' END AS COLUMN_KEY, '' AS EXTRA,"
+                . ' NULL AS CHARACTER_SET_NAME, NULL AS COLLATION_NAME, NULL AS CHARACTER_MAXIMUM_LENGTH'
+                . " FROM sqlite_master AS m JOIN pragma_table_xinfo(m.name) AS c WHERE m.type IN ('table', 'view') AND m.name NOT GLOB 'sqlite_*'",
+            'STATISTICS' => "SELECT 'def' AS TABLE_CATALOG, $schema AS TABLE_SCHEMA, m.name AS TABLE_NAME, 1 - il.\"unique\" AS NON_UNIQUE,"
+                . " $schema AS INDEX_SCHEMA, $indexName AS INDEX_NAME, ix.seqno + 1 AS SEQ_IN_INDEX, ix.name AS COLUMN_NAME,"
+                . " 'A' AS COLLATION, NULL AS CARDINALITY, NULL AS SUB_PART, 'BTREE' AS INDEX_TYPE"
+                . " FROM sqlite_master AS m JOIN pragma_index_list(m.name) AS il JOIN pragma_index_info(il.name) AS ix"
+                . " WHERE m.type = 'table' AND m.name NOT GLOB 'sqlite_*'",
+            'TABLE_CONSTRAINTS' => "SELECT DISTINCT 'def' AS CONSTRAINT_CATALOG, $schema AS CONSTRAINT_SCHEMA, name AS CONSTRAINT_NAME,"
+                . " $schema AS TABLE_SCHEMA, table_name AS TABLE_NAME, type AS CONSTRAINT_TYPE FROM ($keys)",
+            'KEY_COLUMN_USAGE' => "SELECT 'def' AS CONSTRAINT_CATALOG, $schema AS CONSTRAINT_SCHEMA, name AS CONSTRAINT_NAME,"
+                . " 'def' AS TABLE_CATALOG, $schema AS TABLE_SCHEMA, table_name AS TABLE_NAME, column_name AS COLUMN_NAME, position AS ORDINAL_POSITION,"
+                . " CASE WHEN ref_table IS NULL THEN NULL ELSE $schema END AS REFERENCED_TABLE_SCHEMA, ref_table AS REFERENCED_TABLE_NAME,"
+                . " ref_column AS REFERENCED_COLUMN_NAME FROM ($keys)",
+            'ROUTINES' => 'SELECT NULL AS ROUTINE_SCHEMA, NULL AS ROUTINE_NAME, NULL AS ROUTINE_TYPE WHERE 0',
+            'PLUGINS' => 'SELECT NULL AS PLUGIN_NAME, NULL AS PLUGIN_STATUS WHERE 0',
+        ];
         // Quoted identifiers are matched before the protected text is skipped.
-        return preg_replace('/`?\binformation_schema`?\s*\.\s*`?TABLES\b`?|(?:' . self::SQL_PROTECTED . ')(*SKIP)(*F)/i', $tables, $sql);
+        return preg_replace_callback('/`?\binformation_schema`?\s*\.\s*`?(' . implode('|', array_keys($views)) . ')\b`?|(?:' . self::SQL_PROTECTED . ')(*SKIP)(*F)/i', function (array $m) use ($views): string {
+            return '(' . $views[strtoupper($m[1])] . ')';
+        }, $sql);
     }
 
     /**
@@ -733,6 +777,11 @@ REGEX;
         if ($enforced && $this->isTransactionActive()) {
             throw new \RuntimeException('SQLite cannot rebuild a table to change its foreign keys inside a transaction while foreign keys are enforced.');
         }
+        // CREATE TABLE keeps MySQL's JSON column type, unknown to the platform.
+        $platform = $this->getDatabasePlatform();
+        if (!$platform->hasDoctrineTypeMappingFor('json')) {
+            $platform->registerDoctrineTypeMapping('json', 'json');
+        }
         // DBAL 2 reports no foreign key support for SQLite, so listTableDetails()
         // omits the existing keys; add them or the rebuild would drop them.
         $schemaManager = $this->getSchemaManager();
@@ -750,7 +799,6 @@ REGEX;
         }
         // DBAL ignores the indexes of UNIQUE constraints (sqlite_autoindex_*),
         // so the rebuild would lose them; recreate them as unique indexes.
-        $platform = $this->getDatabasePlatform();
         $nothingToDrop = [];
         foreach ($this->fetchFirstColumn("SELECT name FROM pragma_index_list(?) WHERE origin = 'u'", [$tableName]) as $autoindex) {
             $uniqueColumns = $this->fetchFirstColumn('SELECT name FROM pragma_index_info(?) ORDER BY seqno', [$autoindex]);
@@ -1354,6 +1402,24 @@ SQL;
         $create('version', function () use ($version) {
             return $version;
         }, 0);
+        // Named foreign keys of a CREATE TABLE statement, one entry per column
+        // (see translateInformationSchema()).
+        $create('mysql_foreign_keys', function ($createTable) {
+            $id = '(?:`([^`]+)`|"([^"]+)"|\[([^\]]+)\]|(\w+))';
+            preg_match_all('/\bCONSTRAINT\s+' . $id . '\s+FOREIGN\s+KEY\s*\(([^)]*)\)\s*REFERENCES\s+' . $id . '\s*\(([^)]*)\)/i', (string) $createTable, $matches, PREG_SET_ORDER);
+            $unquote = function (string $name): string {
+                return trim($name, " \t\n\r`\"[]");
+            };
+            $keys = [];
+            foreach ($matches as $m) {
+                $references = array_map($unquote, explode(',', $m[10]));
+                foreach (array_map($unquote, explode(',', $m[5])) as $i => $column) {
+                    $keys[] = ['name' => $m[1] . $m[2] . $m[3] . $m[4], 'column' => $column, 'position' => $i + 1,
+                        'ref_table' => $m[6] . $m[7] . $m[8] . $m[9], 'ref_column' => $references[$i] ?? null];
+                }
+            }
+            return json_encode($keys);
+        }, 1);
         $database = $this->getDatabase() ?? 'main';
         $create('database', function () use ($database) {
             return $database;

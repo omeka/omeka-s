@@ -231,6 +231,27 @@ class SqliteCompatConnectionTest extends TestCase
         $this->assertSame(['x', 'y'], $this->connection->fetchFirstColumn("SELECT input.s FROM JSON_TABLE(:input_json, '$[*]' COLUMNS(s LONGTEXT PATH '$')) input", ['input_json' => '["x","y"]']));
     }
 
+    public function testInformationSchemaDescribesColumnsIndexesAndKeys()
+    {
+        $this->createForeignKeyFixture();
+        $this->connection->exec('ALTER TABLE child ADD CONSTRAINT FK_child_setting FOREIGN KEY (setting_id) REFERENCES setting (id) ON DELETE CASCADE');
+        // TwoFactorTotp: add a foreign key only when it does not exist yet.
+        $exists = 'SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = ? AND CONSTRAINT_NAME = ?';
+        $this->assertSame([1, 0], [(int) $this->connection->fetchOne($exists, ['child', 'FK_child_setting']), (int) $this->connection->fetchOne($exists, ['child', 'FK_missing'])]);
+        // Search: find the name of the foreign key of a column.
+        $this->assertSame([['FK_child_setting', 'setting', 'id']], $this->connection->fetchAllNumeric('SELECT constraint_name, referenced_table_name, referenced_column_name FROM information_schema.key_column_usage WHERE table_schema = DATABASE() AND table_name = ? AND column_name = ? AND referenced_table_name IS NOT NULL', ['child', 'setting_id']));
+        $this->assertSame([['PRIMARY', 'PRIMARY KEY'], ['fk_owner', 'FOREIGN KEY']], $this->connection->fetchAllNumeric("SELECT CONSTRAINT_NAME, CONSTRAINT_TYPE FROM information_schema.TABLE_CONSTRAINTS WHERE TABLE_NAME = 'owner' OR (TABLE_NAME = 'child' AND CONSTRAINT_NAME <> 'FK_child_setting' AND CONSTRAINT_TYPE = 'FOREIGN KEY') ORDER BY CONSTRAINT_TYPE DESC"));
+        // Upgrade scripts: check that a column exists.
+        $this->assertSame([['varchar', 'NO', '\'default\'']], $this->connection->fetchAllNumeric("SELECT DATA_TYPE, IS_NULLABLE, COLUMN_DEFAULT FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'child' AND COLUMN_NAME = 'label'"));
+        $this->assertSame([['UNIQ_child_label_owner', 1, 'label'], ['UNIQ_child_label_owner', 2, 'owner_id']], $this->connection->fetchAllNumeric("SELECT INDEX_NAME, SEQ_IN_INDEX, COLUMN_NAME FROM information_schema.STATISTICS WHERE TABLE_NAME = 'child' AND NON_UNIQUE = 0 AND INDEX_NAME <> 'PRIMARY' ORDER BY SEQ_IN_INDEX"));
+        $this->assertSame([], $this->connection->fetchAllNumeric('SELECT ROUTINE_NAME FROM information_schema.ROUTINES WHERE ROUTINE_SCHEMA = ?', ['main']));
+        // IIIF Search Carousel, Mroonga Search: engine of a table.
+        $status = $this->connection->fetchAllAssociative('SHOW TABLE STATUS LIKE :t', ['t' => 'child']);
+        $this->assertSame([['child', 'SQLite']], array_map(function (array $row) {
+            return [$row['Name'], $row['Engine']];
+        }, $status));
+    }
+
     public function testBulkEditTrimFallsBackToTrimFrom()
     {
         // Bulk Edit TrimValues: no server version, so TRIM(… FROM …) is used,
@@ -785,6 +806,15 @@ class SqliteCompatConnectionTest extends TestCase
         $this->connection->exec("INSERT INTO setting VALUES ('foo', 'bar')");
         $this->connection->exec('ALTER TABLE setting ADD `is_new` TINYINT(1) NOT NULL AFTER `id`, ADD COLUMN `label` VARCHAR(190) NOT NULL');
         $this->assertSame([['id' => 'foo', 'value' => 'bar', 'is_new' => 0, 'label' => '']], $this->connection->fetchAllAssociative('SELECT * FROM setting'));
+    }
+
+    public function testAlterTableRebuildsTablesWithJsonColumns()
+    {
+        // TwoFactorTotp declares a native JSON column, then adds a foreign key.
+        $this->connection->exec('CREATE TABLE enrollment (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, recovery_codes JSON DEFAULT NULL, PRIMARY KEY(id))');
+        $this->connection->exec('INSERT INTO enrollment (user_id, recovery_codes) VALUES (1, \'["a"]\')');
+        $this->connection->exec('ALTER TABLE enrollment ADD CONSTRAINT fk_enrollment_user FOREIGN KEY (user_id) REFERENCES enrollment (id)');
+        $this->assertSame('["a"]', $this->connection->fetchOne('SELECT recovery_codes FROM enrollment'));
     }
 
     public function testAlterTableChangeUnknownColumnFailsExplicitly()

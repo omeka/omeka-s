@@ -193,6 +193,44 @@ class SqliteCompatConnectionTest extends TestCase
         $this->assertSame('information_schema.tables', $this->connection->fetchOne("SELECT 'information_schema.tables'"));
     }
 
+    public function testJsonSearchAndRemoveRemoveADataTypeFromTemplates()
+    {
+        // Table: uninstall removes its data type from resource templates.
+        $this->connection->exec('CREATE TABLE resource_template_property (id INT PRIMARY KEY, data_type TEXT)');
+        $this->connection->exec('INSERT INTO resource_template_property VALUES (1, \'["literal","table:1","uri"]\'), (2, \'["literal"]\')');
+        $this->connection->executeStatement(<<<'SQL'
+            UPDATE resource_template_property
+            SET data_type = JSON_REMOVE(data_type, JSON_UNQUOTE(JSON_SEARCH(data_type, 'one', ?)))
+            WHERE JSON_SEARCH(data_type, 'one', ?) IS NOT NULL
+            SQL, ['table:1', 'table:1']);
+        $this->assertSame(['["literal","uri"]', '["literal"]'], $this->connection->fetchFirstColumn('SELECT data_type FROM resource_template_property ORDER BY id'));
+        $this->assertSame('["$[0]", "$[1].b.c"]', $this->connection->fetchOne("SELECT JSON_SEARCH('[\"ab\",{\"b\":{\"c\":\"axb\"}}]', 'all', 'a%b')"));
+        $this->assertSame('"$.\"a b\""', $this->connection->fetchOne("SELECT JSON_SEARCH('{\"a b\":\"x_y\"}', 'one', 'x!_y', '!')"));
+        $this->assertNull($this->connection->fetchOne("SELECT JSON_SEARCH('[\"a\"]', 'one', 'A')"));
+    }
+
+    public function testJsonTableWithFlatColumns()
+    {
+        // UniqueProperties: pairs of values and properties passed as JSON.
+        $this->connection->exec('CREATE TABLE value (id INT PRIMARY KEY, property_id INT, value TEXT)');
+        $this->connection->exec("INSERT INTO value VALUES (1, 1, 'a'), (2, 2, 'a'), (3, 1, 'b')");
+        $sql = <<<'SQL'
+            SELECT value.id FROM value WHERE EXISTS (
+                SELECT 1
+                FROM JSON_TABLE(
+                    :json_pairs,
+                    "$[*]" COLUMNS (
+                        value_prop VARCHAR(255) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' PATH "$.value",
+                        property_id INT PATH "$.property_id"
+                    )
+                ) derived
+                WHERE derived.value_prop = value.value AND derived.property_id = value.property_id
+            ) ORDER BY value.id
+            SQL;
+        $this->assertSame([1, 3], array_map('intval', $this->connection->fetchFirstColumn($sql, ['json_pairs' => '[{"value":"a","property_id":1},{"value":"b","property_id":1}]'])));
+        $this->assertSame(['x', 'y'], $this->connection->fetchFirstColumn("SELECT input.s FROM JSON_TABLE(:input_json, '$[*]' COLUMNS(s LONGTEXT PATH '$')) input", ['input_json' => '["x","y"]']));
+    }
+
     public function testBulkEditTrimFallsBackToTrimFrom()
     {
         // Bulk Edit TrimValues: no server version, so TRIM(… FROM …) is used,

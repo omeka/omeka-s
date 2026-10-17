@@ -163,6 +163,7 @@ REGEX;
         $sql = $this->translateMatch($sql);
         $sql = $this->translateTrimFrom($sql);
         $sql = $this->translateInformationSchema($sql);
+        $sql = $this->translateJsonTable($sql);
         $sql = preg_replace('/^(\s*CREATE\s+)FULLTEXT\s+(INDEX\b)/i', '$1$2', $sql);
         $sql = preg_replace('/^(\s*)INSERT\s+IGNORE\b/i', '$1INSERT OR IGNORE', $sql);
         $sql = $this->translateUpsert($sql);
@@ -347,6 +348,36 @@ REGEX;
             }
             $trim = ['LEADING' => 'ltrim', 'TRAILING' => 'rtrim'][strtoupper($head[1])] ?? 'trim';
             return "$trim(" . trim(substr($arguments, $at['FROM'] + 4)) . ", '" . str_replace("'", "''", $characters) . "')";
+        });
+    }
+
+    /**
+     * Translate JSON_TABLE(doc, 'path[*]' COLUMNS (name type PATH 'path', …))
+     * into a subquery on json_each(). Only flat column lists are supported:
+     * NESTED PATH, FOR ORDINALITY and ON EMPTY/ON ERROR are left as is.
+     * Column types, charsets and collations are ignored.
+     */
+    private function translateJsonTable(string $sql): string
+    {
+        return $this->replaceCalls($sql, 'JSON_TABLE', function (string $function, string $arguments): ?string {
+            $at = $this->topLevelKeywords($arguments, 'COLUMNS');
+            $literal = '\'(?:[^\']|\'\')*\'|"(?:[^"]|"")*"';
+            if (!isset($at['COLUMNS'])
+                || !preg_match('/^(.+),\s*(' . $literal . ')\s*$/s', substr($arguments, 0, $at['COLUMNS']), $head)
+                || !preg_match('/^\s*COLUMNS\s*\((.*)\)\s*$/is', substr($arguments, $at['COLUMNS']), $list)
+                || !preg_match('/^(\$.*?)\[\*\]$/s', substr($head[2], 1, -1), $root)
+            ) {
+                return null;
+            }
+            $columns = [];
+            foreach ($this->splitSql($list[1], ',') as $column) {
+                if (!preg_match('/^[`"]?(\w+)[`"]?\s+.*?\bPATH\s+(' . $literal . ')$/is', $column, $c) || preg_match('/\b(?:NESTED|ORDINALITY|ON\s+(?:EMPTY|ERROR))\b/i', $column)) {
+                    return null;
+                }
+                $path = substr($c[2], 1, -1);
+                $columns[] = ($path === '$' ? '__json_table.value' : "json_extract(__json_table.value, '" . str_replace("'", "''", $path) . "')") . " AS `$c[1]`";
+            }
+            return '(SELECT ' . implode(', ', $columns) . " FROM json_each($head[1], '" . str_replace("'", "''", $root[1]) . "') AS __json_table)";
         });
     }
 
@@ -1395,6 +1426,40 @@ SQL;
             }
             return hash('sha' . $length, (string) $value);
         }, 2);
+        // Paths of the strings matching a LIKE pattern, as MySQL encodes them.
+        $create('json_search', function ($document, $mode, $search, $escape = null, $path = null) {
+            $data = json_decode((string) $document, true);
+            if ($document === null || $search === null || json_last_error() !== JSON_ERROR_NONE) {
+                return null;
+            }
+            $escape = $escape === null || $escape === '' ? '\\' : (string) $escape;
+            $pattern = '/^' . preg_replace_callback('/' . preg_quote($escape, '/') . '(.)|(%)|(_)|(.)/su', function ($m) {
+                return isset($m[4]) ? preg_quote($m[4], '/') : (isset($m[3]) ? '.' : (isset($m[2]) && $m[2] !== '' ? '.*' : preg_quote($m[1], '/')));
+            }, (string) $search) . '$/su';
+            $found = [];
+            $walk = function ($node, string $at) use (&$walk, &$found, $pattern): void {
+                if (is_array($node)) {
+                    $isList = array_keys($node) === range(0, count($node) - 1);
+                    foreach ($node as $key => $child) {
+                        $walk($child, $at . ($isList ? "[$key]" : (preg_match('/^[A-Za-z_]\w*$/', (string) $key) ? ".$key" : '.' . json_encode((string) $key))));
+                    }
+                } elseif (is_string($node) && preg_match($pattern, $node)) {
+                    $found[] = $at;
+                }
+            };
+            $walk($data, '$');
+            if ($path !== null) {
+                $found = array_values(array_filter($found, function ($p) use ($path) {
+                    return strpos($p, (string) $path) === 0;
+                }));
+            }
+            if (!$found) {
+                return null;
+            }
+            return strtolower((string) $mode) === 'all' && count($found) > 1
+                ? '[' . implode(', ', array_map('json_encode', $found)) . ']'
+                : json_encode($found[0]);
+        }, -1);
         $create('json_unquote', function ($value) {
             if ($value === null) {
                 return null;

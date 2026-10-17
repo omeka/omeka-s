@@ -31,6 +31,63 @@ class SqliteCompatConnectionTest extends TestCase
         $this->assertSame('"first"', $this->connection->fetchOne('SELECT `value` FROM `setting` WHERE `id` = ?', ['foo']));
     }
 
+    public function testOnDuplicateKeyUpdateUpsertsWithValuesAndParameters()
+    {
+        $sql = 'INSERT INTO `setting` (`id`, `value`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`);';
+        $this->connection->executeStatement($sql, ['foo', 'first']);
+        $this->connection->executeStatement($sql, ['foo', 'second']);
+        $this->assertSame([['id' => 'foo', 'value' => 'second']], $this->connection->fetchAllAssociative('SELECT * FROM setting'));
+    }
+
+    public function testOnDuplicateKeyUpdateKeepsExpressionsOnTheExistingRow()
+    {
+        // Page Hits, Advanced Search: counters, sometimes with a qualified target column.
+        $this->connection->exec('CREATE TABLE hits (id INT PRIMARY KEY, label TEXT UNIQUE, hits INT NOT NULL DEFAULT 1)');
+        foreach ([1, 2, 3] as $i) {
+            $this->connection->exec("INSERT INTO hits (id, label) VALUES (7, 'home') ON DUPLICATE KEY UPDATE `hits`.`hits` = `hits`.`hits` + 1");
+        }
+        // Any unique key triggers the update, as in MySQL.
+        $this->connection->executeStatement('INSERT INTO hits (id, label) VALUES (:id, :label) ON DUPLICATE KEY UPDATE hits = hits + 10', ['id' => 8, 'label' => 'home']);
+        $this->assertSame([['id' => 7, 'label' => 'home', 'hits' => 13]], $this->connection->fetchAllAssociative('SELECT * FROM hits'));
+    }
+
+    public function testOnDuplicateKeyUpdateFromSelect()
+    {
+        $this->connection->exec("INSERT INTO setting VALUES ('foo', 'old')");
+        $this->connection->exec('CREATE TABLE source (id TEXT, value TEXT)');
+        $this->connection->exec("INSERT INTO source VALUES ('foo', 'new'), ('bar', 'added')");
+        $this->connection->exec('INSERT INTO setting (id, value) SELECT s.id, s.value FROM source s JOIN source t ON t.id = s.id ON DUPLICATE KEY UPDATE value = VALUES(value)');
+        $this->assertSame(['bar' => 'added', 'foo' => 'new'], $this->connection->fetchAllKeyValue('SELECT id, value FROM setting ORDER BY id'));
+    }
+
+    public function testOnDuplicateKeyUpdateTextInStringsIsKept()
+    {
+        $this->connection->exec("INSERT INTO setting VALUES ('ON DUPLICATE KEY UPDATE', 'VALUES(x)')");
+        $this->assertSame('VALUES(x)', $this->connection->fetchOne("SELECT value FROM setting WHERE id = 'ON DUPLICATE KEY UPDATE'"));
+    }
+
+    /** @dataProvider deleteJoinQueries */
+    public function testDeleteWithJoinDeletesOnlyTargetRows($sql, $params, $expected)
+    {
+        $this->connection->exec('CREATE TABLE resource (id INT PRIMARY KEY)');
+        $this->connection->exec('CREATE TABLE value (id INT PRIMARY KEY, resource_id INT, text TEXT)');
+        $this->connection->exec('INSERT INTO resource VALUES (1)');
+        $this->connection->exec("INSERT INTO value VALUES (1, 1, 'a'), (2, 1, 'a'), (3, 2, 'b'), (4, 1, 'c')");
+        $this->connection->executeStatement($sql, $params);
+        $this->assertSame($expected, array_map('intval', $this->connection->fetchFirstColumn('SELECT id FROM value ORDER BY id')));
+        $this->assertSame(1, (int) $this->connection->fetchOne('SELECT COUNT(*) FROM resource'));
+    }
+
+    public function deleteJoinQueries()
+    {
+        return [
+            'orphans with left join' => ['DELETE `value` FROM `value` LEFT JOIN `resource` ON `resource`.`id` = `value`.`resource_id` WHERE `resource`.`id` IS NULL', [], [1, 2, 4]],
+            'duplicates with self join and aliases' => ['DELETE v1 FROM `value` v1 JOIN `value` AS v2 ON v1.text = v2.text AND v1.resource_id = v2.resource_id WHERE v1.id > v2.id', [], [1, 3, 4]],
+            'quoted alias with AS' => ['DELETE `t1` FROM `value` as `t1` INNER JOIN resource r ON r.id = t1.resource_id WHERE t1.text = ?;', ['c'], [1, 2, 3]],
+            'single table with a parameter' => ['DELETE `value` FROM `value` WHERE `text` = :text', ['text' => 'a'], [3, 4]],
+        ];
+    }
+
     /** @dataProvider executionMethods */
     public function testCompoundStatementsKeepAllOperations($method)
     {

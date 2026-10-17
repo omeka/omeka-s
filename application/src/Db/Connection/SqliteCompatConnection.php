@@ -155,6 +155,8 @@ REGEX;
 
         $sql = $this->translateFunctions($sql);
         $sql = preg_replace('/^(\s*)INSERT\s+IGNORE\b/i', '$1INSERT OR IGNORE', $sql);
+        $sql = $this->translateUpsert($sql);
+        $sql = $this->translateDeleteJoin($sql);
         $trimmed = trim($sql, " \t\n\r\0\x0B;");
 
         preg_match('/^\w+/', $trimmed, $keyword);
@@ -213,6 +215,60 @@ REGEX;
         }
 
         return [$sql];
+    }
+
+    /**
+     * Translate INSERT … ON DUPLICATE KEY UPDATE into an SQLite upsert.
+     *
+     * Without a conflict target, ON CONFLICT DO UPDATE fires on any unique
+     * key, as in MySQL. VALUES(col) becomes excluded.col and assigned columns
+     * lose their table qualifier. An INSERT … SELECT gets its SELECT wrapped
+     * and a WHERE clause, which SQLite requires to parse the upsert.
+     * Expressions referencing tables of the SELECT are not supported, as
+     * SQLite only exposes the target and excluded rows.
+     */
+    private function translateUpsert(string $sql): string
+    {
+        if (stripos($sql, 'DUPLICATE') === false
+            || !preg_match('/(?:' . self::SQL_PROTECTED . ')(*SKIP)(*F)|\bON\s+DUPLICATE\s+KEY\s+UPDATE\b/is', $sql, $m, PREG_OFFSET_CAPTURE)
+        ) {
+            return $sql;
+        }
+        $insert = rtrim(substr($sql, 0, $m[0][1]));
+        $update = rtrim(substr($sql, $m[0][1] + strlen($m[0][0])), " \t\n\r;");
+        $update = preg_replace('/(?:' . self::SQL_PROTECTED . ')(*SKIP)(*F)|\bVALUES\s*\(\s*([`"]?\w+[`"]?)\s*\)/is', 'excluded.$1', $update);
+        $assignments = array_map(function (string $assignment): string {
+            return preg_replace('/^\s*[`"]?\w+[`"]?\s*\.\s*([`"]?\w+[`"]?\s*=)/', '$1', $assignment);
+        }, $this->splitSql($update, ','));
+        if (preg_match('/^(\s*INSERT\s+(?:OR\s+\w+\s+)?INTO\s+[`"]?\w+[`"]?\s*(?:\([^()]*\))?\s*)(SELECT\b.*)$/is', $insert, $select)) {
+            $insert = $select[1] . 'SELECT * FROM (' . $select[2] . ') WHERE true';
+        }
+        return $insert . ' ON CONFLICT DO UPDATE SET ' . implode(', ', array_map('trim', $assignments));
+    }
+
+    /**
+     * Translate MySQL's multiple-table DELETE target FROM … JOIN … into a
+     * DELETE of the target rows selected by the same FROM clause. Deleting
+     * from several tables at once is not supported.
+     */
+    private function translateDeleteJoin(string $sql): string
+    {
+        if (!preg_match('/^(\s*)DELETE\s+(?!FROM\b)[`"]?(\w+)[`"]?\s+FROM\s+(.+?)[\s;]*$/is', $sql, $m)) {
+            return $sql;
+        }
+        [, $indent, $target, $from] = $m;
+        $table = $target;
+        $keywords = ['ON', 'USING', 'WHERE', 'JOIN', 'INNER', 'LEFT', 'RIGHT', 'CROSS', 'NATURAL', 'STRAIGHT_JOIN', 'ORDER', 'LIMIT'];
+        // Skip strings and comments, not quoted identifiers.
+        preg_match_all('/(?:\'(?:[^\']|\'\')*\'|--[^\r\n]*|\/\*.*?\*\/)(*SKIP)(*F)|(?:^|\bJOIN\s+|,\s*)[`"]?(\w+)[`"]?(?:\s+(?:AS\s+)?[`"]?(\w+)[`"]?)?/is', $from, $refs, PREG_SET_ORDER);
+        foreach ($refs as $ref) {
+            $alias = isset($ref[2]) && !in_array(strtoupper($ref[2]), $keywords, true) ? $ref[2] : null;
+            if ($alias !== null && strcasecmp($alias, $target) === 0) {
+                $table = $ref[1];
+                break;
+            }
+        }
+        return "{$indent}DELETE FROM `{$table}` WHERE rowid IN (SELECT `{$target}`.rowid FROM {$from})";
     }
 
     /**

@@ -366,6 +366,44 @@ class SqliteCompatConnectionTest extends TestCase
         $this->assertCount(1, $this->connection->fetchAllAssociative('PRAGMA foreign_key_list(child)'));
     }
 
+    public function testAlterTableDropsForeignKeyByRebuildingTheTable()
+    {
+        $this->createForeignKeyFixture();
+        $this->connection->exec('ALTER TABLE child ADD CONSTRAINT `FK_child_setting` FOREIGN KEY (setting_id) REFERENCES setting (id) ON DELETE CASCADE');
+        $this->connection->exec('ALTER TABLE `child` DROP FOREIGN KEY `FK_child_setting`;');
+
+        $this->assertSame(['owner'], $this->connection->fetchFirstColumn("SELECT \"table\" FROM pragma_foreign_key_list('child')"));
+        $this->assertSame(1, (int) $this->connection->fetchOne('PRAGMA foreign_keys'));
+        $this->assertEqualsCanonicalizing(['child_IDX_child_setting', 'child_UNIQ_child_label_owner'], $this->connection->fetchFirstColumn('SELECT name FROM pragma_index_list(\'child\')'));
+        // The dropped key no longer cascades.
+        $this->connection->exec("DELETE FROM setting WHERE id = 'foo'");
+        $this->assertSame(1, (int) $this->connection->fetchOne('SELECT COUNT(*) FROM child'));
+    }
+
+    public function testUninstallScriptsDropForeignKeysBeforeTables()
+    {
+        // Doctrine uninstall scripts drop the foreign keys, then the tables.
+        $this->createForeignKeyFixture();
+        $this->connection->exec('ALTER TABLE child DROP FOREIGN KEY fk_owner; DROP TABLE child; DROP TABLE owner;');
+        $this->assertNotContains('child', $this->connection->getSchemaManager()->listTableNames());
+        $this->assertSame(1, (int) $this->connection->fetchOne('PRAGMA foreign_keys'));
+    }
+
+    public function testAlterTableReplacesForeignKeyInOneStatement()
+    {
+        $this->createForeignKeyFixture();
+        $this->connection->exec('ALTER TABLE child DROP FOREIGN KEY fk_owner, ADD CONSTRAINT fk_owner FOREIGN KEY (owner_id) REFERENCES owner (id) ON DELETE CASCADE');
+        $this->assertSame(['CASCADE'], $this->connection->fetchFirstColumn("SELECT on_delete FROM pragma_foreign_key_list('child')"));
+    }
+
+    public function testAlterTableDropUnknownForeignKeyFailsExplicitly()
+    {
+        $this->createForeignKeyFixture();
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('FK_missing');
+        $this->connection->exec('ALTER TABLE child DROP FOREIGN KEY FK_missing');
+    }
+
     private function createForeignKeyFixture(): void
     {
         $this->connection->exec('PRAGMA foreign_keys = ON');

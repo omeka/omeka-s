@@ -204,17 +204,18 @@ REGEX;
             return $this->translateCreateTable($trimmed);
         }
 
-        if (preg_match('/^ALTER\s+TABLE\s+.+\s+ADD\s+(?:CONSTRAINT\s+.+\s+)?FOREIGN\s+KEY/is', $trimmed)) {
-            return $this->translateAddForeignKeys($trimmed);
+        if (preg_match('/^ALTER\s+TABLE\s+.+\s+(?:ADD\s+(?:CONSTRAINT\s+.+\s+)?|DROP\s+)FOREIGN\s+KEY/is', $trimmed)) {
+            return $this->translateAlterForeignKeys($trimmed);
         }
 
         return [$sql];
     }
 
     /**
-     * Translate ALTER TABLE … ADD [CONSTRAINT name] FOREIGN KEY clauses.
+     * Translate ALTER TABLE … ADD [CONSTRAINT name] FOREIGN KEY and
+     * DROP FOREIGN KEY name clauses.
      *
-     * SQLite cannot add a foreign key to an existing table, so the table is
+     * SQLite cannot add or drop a foreign key of an existing table, so the table is
      * rebuilt by DBAL (copy to a temporary table, recreate with the new keys,
      * copy back, recreate indexes). Enforcement is switched off during the
      * rebuild so dropping the old table never cascades into child tables,
@@ -223,7 +224,7 @@ REGEX;
      *
      * @return string[]
      */
-    private function translateAddForeignKeys(string $sql): array
+    private function translateAlterForeignKeys(string $sql): array
     {
         $id = '(?:`([^`]+)`|"([^"]+)"|(\w+))';
         $unquote = function (string $name): string {
@@ -238,9 +239,14 @@ REGEX;
         }
         $tableName = $m[1] . $m[2] . $m[3];
         $foreignKeys = [];
+        $droppedForeignKeys = [];
         foreach ($this->splitSql($m[4], ',') as $clause) {
+            if (preg_match('/^DROP\s+FOREIGN\s+KEY\s+' . $id . '$/is', trim($clause), $drop)) {
+                $droppedForeignKeys[] = implode('', array_slice($drop, 1));
+                continue;
+            }
             if (!preg_match('/^ADD\s+(?:CONSTRAINT\s+' . $id . '\s+)?FOREIGN\s+KEY\s*(?:' . $id . '\s*)?\(([^)]+)\)\s*REFERENCES\s+' . $id . '\s*\(([^)]+)\)((?:\s+ON\s+(?:DELETE|UPDATE)\s+' . $action . ')*)$/is', trim($clause), $fk)) {
-                throw new \RuntimeException('SQLite can only rebuild a table for ALTER TABLE statements that add foreign keys: ' . $sql);
+                throw new \RuntimeException('SQLite can only rebuild a table for ALTER TABLE statements that add or drop foreign keys: ' . $sql);
             }
             $options = [];
             preg_match_all('/ON\s+(DELETE|UPDATE)\s+' . $action . '/i', $fk[12], $actions, PREG_SET_ORDER);
@@ -258,19 +264,26 @@ REGEX;
 
         $enforced = (bool) $this->fetchOne('PRAGMA foreign_keys');
         if ($enforced && $this->isTransactionActive()) {
-            throw new \RuntimeException('SQLite cannot rebuild a table to add a foreign key inside a transaction while foreign keys are enforced.');
+            throw new \RuntimeException('SQLite cannot rebuild a table to change its foreign keys inside a transaction while foreign keys are enforced.');
         }
         // DBAL 2 reports no foreign key support for SQLite, so listTableDetails()
         // omits the existing keys; add them or the rebuild would drop them.
         $schemaManager = $this->getSchemaManager();
         $table = $schemaManager->listTableDetails($tableName);
         $fromTable = new Table($tableName, $table->getColumns(), $table->getIndexes(), $schemaManager->listTableForeignKeys($tableName), 0, $table->getOptions());
+        foreach ($droppedForeignKeys as $name) {
+            // MySQL refuses an unknown key; DBAL would silently keep the table as is.
+            if (!$fromTable->hasForeignKey($name)) {
+                throw new \RuntimeException("Cannot drop foreign key $name: it does not exist on table $tableName.");
+            }
+        }
         // Table adds implicit indexes for foreign keys; they do not exist here.
         foreach (array_diff_key($fromTable->getIndexes(), $table->getIndexes()) as $name => $index) {
             $fromTable->dropIndex($name);
         }
         $diff = new TableDiff($tableName, [], [], [], [], [], [], $fromTable);
         $diff->addedForeignKeys = $foreignKeys;
+        $diff->removedForeignKeys = $droppedForeignKeys;
         $statements = $this->getDatabasePlatform()->getAlterTableSQL($diff);
         return $enforced
             ? array_merge(['PRAGMA foreign_keys = OFF'], $statements, ['PRAGMA foreign_keys = ON'])

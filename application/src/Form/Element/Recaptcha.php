@@ -7,6 +7,9 @@ use Laminas\InputFilter\InputProviderInterface;
 
 /**
  * A reCAPTCHA form element used to verify whether a user is human.
+ *
+ * @deprecated Use Omeka\Form\Element\Captcha, which uses the CAPTCHA provider
+ *     selected in the global settings.
  */
 class Recaptcha extends Element implements InputProviderInterface
 {
@@ -122,7 +125,7 @@ class Recaptcha extends Element implements InputProviderInterface
     public function isValid($value)
     {
         $response = $this->client
-            ->setUri('https://www.google.com/recaptcha/api/siteverify')
+            ->setUri('https://www.recaptcha.net/recaptcha/api/siteverify')
             ->setMethod('POST')
             ->setParameterPost([
                 'response' => $value,

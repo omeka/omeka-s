@@ -4,6 +4,9 @@ namespace Omeka\Form\View\Helper;
 use Laminas\Form\View\Helper\AbstractHelper;
 use Laminas\Form\ElementInterface;
 
+/**
+ * @deprecated Use Omeka\Form\Element\Captcha, rendered by formOmekaCaptcha.
+ */
 class FormRecaptcha extends AbstractHelper
 {
     public function __invoke(ElementInterface $element)
@@ -18,7 +21,7 @@ class FormRecaptcha extends AbstractHelper
             $view->assetUrl('js/recaptcha.js', 'Omeka')
         );
         $view->headScript()->appendFile(
-            'https://www.google.com/recaptcha/api.js?onload=recaptchaCallback&render=explicit',
+            'https://www.recaptcha.net/recaptcha/api.js?onload=recaptchaCallback&render=explicit',
             'text/javascript',
             ['async' => true, 'defer' => true]
         );

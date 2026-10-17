@@ -3,6 +3,9 @@ namespace Omeka\Db\Connection;
 
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Schema\TableDiff;
 
 /**
  * A DBAL Connection wrapper that transparently translates MySQL-specific SQL
@@ -28,13 +31,13 @@ REGEX;
 
     public function exec($sql): int
     {
-        $statements = $this->translateSql($sql);
-        if ($statements === null) {
-            return 0;
-        }
+        // Translate each statement only after the previous ones ran, as some
+        // translations read the current schema (e.g. foreign key rebuilds).
         $result = 0;
-        foreach ($statements as $stmt) {
-            $result = parent::exec($stmt);
+        foreach ($this->splitStatements($sql) as $part) {
+            foreach ($this->translateSql($part) ?? [] as $stmt) {
+                $result = parent::exec($stmt);
+            }
         }
         return $result;
     }
@@ -85,17 +88,44 @@ REGEX;
      */
     private function execLeading(string $sql, bool $hasParams = false): ?string
     {
-        $statements = $this->translateSql($sql);
-        if ($statements === null) {
-            return null;
+        $error = 'SQLite compatibility cannot execute multiple statements with parameters.';
+        $parts = $this->splitStatements($sql);
+        if ($hasParams && count($parts) > 1) {
+            throw new \RuntimeException($error);
+        }
+        $statements = [];
+        foreach ($parts as $part) {
+            foreach ($statements as $stmt) {
+                parent::exec($stmt);
+            }
+            $statements = $this->translateSql($part) ?? [];
         }
         if ($hasParams && count($statements) > 1) {
-            throw new \RuntimeException('SQLite compatibility cannot execute multiple statements with parameters.');
+            throw new \RuntimeException($error);
         }
-        for ($i = 0, $last = count($statements) - 1; $i < $last; $i++) {
-            parent::exec($statements[$i]);
+        $last = array_pop($statements);
+        foreach ($statements as $stmt) {
+            parent::exec($stmt);
         }
-        return $statements[$last];
+        return $last;
+    }
+
+    /**
+     * Remove comments and split SQL into statements, keeping trigger bodies.
+     *
+     * @return string[]
+     */
+    private function splitStatements(string $sql): array
+    {
+        // Remove comments without touching quoted values or identifiers.
+        $sql = preg_replace_callback('/' . self::SQL_PROTECTED . '/s', function (array $m): string {
+            return str_starts_with($m[0], '--') || str_starts_with($m[0], '/*') ? ' ' : $m[0];
+        }, $sql);
+        // Trigger bodies contain semicolons that belong to one SQLite statement.
+        if (preg_match('/^CREATE\s+(?:(?:TEMP|TEMPORARY)\s+)?TRIGGER\b/i', trim($sql))) {
+            return [$sql];
+        }
+        return $this->splitSql($sql, ';');
     }
 
     /**
@@ -110,26 +140,18 @@ REGEX;
      */
     protected function translateSql(string $sql): ?array
     {
-        // Remove comments without touching quoted values or identifiers.
-        $sql = preg_replace_callback('/' . self::SQL_PROTECTED . '/s', function (array $m): string {
-            return str_starts_with($m[0], '--') || str_starts_with($m[0], '/*') ? ' ' : $m[0];
-        }, $sql);
-        $trimmed = trim($sql, " \t\n\r\0\x0B;");
-
-        // Trigger bodies contain semicolons that belong to one SQLite statement.
-        if (!preg_match('/^CREATE\s+(?:(?:TEMP|TEMPORARY)\s+)?TRIGGER\b/i', $trimmed)) {
-            $parts = $this->splitSql($sql, ';');
-            if (count($parts) > 1) {
-                $result = [];
-                foreach ($parts as $part) {
-                    $translated = $this->translateSql($part);
-                    if ($translated !== null) {
-                        array_push($result, ...$translated);
-                    }
+        $parts = $this->splitStatements($sql);
+        if (count($parts) > 1) {
+            $result = [];
+            foreach ($parts as $part) {
+                $translated = $this->translateSql($part);
+                if ($translated !== null) {
+                    array_push($result, ...$translated);
                 }
-                return $result ?: null;
             }
+            return $result ?: null;
         }
+        $sql = $parts[0] ?? '';
 
         $sql = $this->translateFunctions($sql);
         $sql = preg_replace('/^(\s*)INSERT\s+IGNORE\b/i', '$1INSERT OR IGNORE', $sql);
@@ -182,12 +204,77 @@ REGEX;
             return $this->translateCreateTable($trimmed);
         }
 
-        // Rebuilding arbitrary module tables needs an explicit migration.
         if (preg_match('/^ALTER\s+TABLE\s+.+\s+ADD\s+(?:CONSTRAINT\s+.+\s+)?FOREIGN\s+KEY/is', $trimmed)) {
-            throw new \RuntimeException('SQLite cannot add a foreign key with ALTER TABLE; define it in CREATE TABLE or rebuild the table in a migration.');
+            return $this->translateAddForeignKeys($trimmed);
         }
 
         return [$sql];
+    }
+
+    /**
+     * Translate ALTER TABLE … ADD [CONSTRAINT name] FOREIGN KEY clauses.
+     *
+     * SQLite cannot add a foreign key to an existing table, so the table is
+     * rebuilt by DBAL (copy to a temporary table, recreate with the new keys,
+     * copy back, recreate indexes). Enforcement is switched off during the
+     * rebuild so dropping the old table never cascades into child tables,
+     * then restored. PRAGMA foreign_keys is a no-op inside a transaction, so
+     * a rebuild with enforcement on inside a transaction is refused.
+     *
+     * @return string[]
+     */
+    private function translateAddForeignKeys(string $sql): array
+    {
+        $id = '(?:`([^`]+)`|"([^"]+)"|(\w+))';
+        $unquote = function (string $name): string {
+            return trim($name, " \t\n\r`\"");
+        };
+        $columns = function (string $list) use ($unquote): array {
+            return array_map($unquote, explode(',', $list));
+        };
+        $action = '(CASCADE|SET\s+NULL|SET\s+DEFAULT|RESTRICT|NO\s+ACTION)';
+        if (!preg_match('/^ALTER\s+TABLE\s+' . $id . '\s+(.+)$/is', $sql, $m)) {
+            throw new \RuntimeException('Unsupported ALTER TABLE foreign key statement on SQLite: ' . $sql);
+        }
+        $tableName = $m[1] . $m[2] . $m[3];
+        $foreignKeys = [];
+        foreach ($this->splitSql($m[4], ',') as $clause) {
+            if (!preg_match('/^ADD\s+(?:CONSTRAINT\s+' . $id . '\s+)?FOREIGN\s+KEY\s*(?:' . $id . '\s*)?\(([^)]+)\)\s*REFERENCES\s+' . $id . '\s*\(([^)]+)\)((?:\s+ON\s+(?:DELETE|UPDATE)\s+' . $action . ')*)$/is', trim($clause), $fk)) {
+                throw new \RuntimeException('SQLite can only rebuild a table for ALTER TABLE statements that add foreign keys: ' . $sql);
+            }
+            $options = [];
+            preg_match_all('/ON\s+(DELETE|UPDATE)\s+' . $action . '/i', $fk[12], $actions, PREG_SET_ORDER);
+            foreach ($actions as $a) {
+                $options['on' . ucfirst(strtolower($a[1]))] = strtoupper(preg_replace('/\s+/', ' ', $a[2]));
+            }
+            $foreignKeys[] = new ForeignKeyConstraint(
+                $columns($fk[7]),
+                $fk[8] . $fk[9] . $fk[10],
+                $columns($fk[11]),
+                ($fk[1] . $fk[2] . $fk[3]) ?: null,
+                $options
+            );
+        }
+
+        $enforced = (bool) $this->fetchOne('PRAGMA foreign_keys');
+        if ($enforced && $this->isTransactionActive()) {
+            throw new \RuntimeException('SQLite cannot rebuild a table to add a foreign key inside a transaction while foreign keys are enforced.');
+        }
+        // DBAL 2 reports no foreign key support for SQLite, so listTableDetails()
+        // omits the existing keys; add them or the rebuild would drop them.
+        $schemaManager = $this->getSchemaManager();
+        $table = $schemaManager->listTableDetails($tableName);
+        $fromTable = new Table($tableName, $table->getColumns(), $table->getIndexes(), $schemaManager->listTableForeignKeys($tableName), 0, $table->getOptions());
+        // Table adds implicit indexes for foreign keys; they do not exist here.
+        foreach (array_diff_key($fromTable->getIndexes(), $table->getIndexes()) as $name => $index) {
+            $fromTable->dropIndex($name);
+        }
+        $diff = new TableDiff($tableName, [], [], [], [], [], [], $fromTable);
+        $diff->addedForeignKeys = $foreignKeys;
+        $statements = $this->getDatabasePlatform()->getAlterTableSQL($diff);
+        return $enforced
+            ? array_merge(['PRAGMA foreign_keys = OFF'], $statements, ['PRAGMA foreign_keys = ON'])
+            : $statements;
     }
 
     private function translateShowIndex(string $table, ?string $where): string

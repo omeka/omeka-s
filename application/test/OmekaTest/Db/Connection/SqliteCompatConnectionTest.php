@@ -249,7 +249,7 @@ class SqliteCompatConnectionTest extends TestCase
     {
         return [
             ['SET arbitrary_variable=1'],
-            ['ALTER TABLE setting ADD CONSTRAINT fk FOREIGN KEY (id) REFERENCES setting(id)'],
+            ['ALTER TABLE setting ADD CONSTRAINT fk FOREIGN KEY (id) REFERENCES setting(id), ADD COLUMN extra TEXT'],
             ['CREATE TABLE example (text TEXT, FULLTEXT KEY search (text))'],
         ];
     }
@@ -275,6 +275,105 @@ class SqliteCompatConnectionTest extends TestCase
         $this->connection->exec("DELETE FROM setting WHERE id='foo'");
         $this->assertSame(0, (int) $this->connection->fetchOne('SELECT COUNT(*) FROM child'));
         $this->assertSame([], $this->connection->fetchAllAssociative('PRAGMA foreign_key_check'));
+    }
+
+    /** @dataProvider alterForeignKeyQueries */
+    public function testAlterTableAddsForeignKeysByRebuildingTheTable($sql, $expected)
+    {
+        $this->createForeignKeyFixture();
+        $this->connection->exec($sql);
+
+        $foreignKeys = [];
+        foreach ($this->connection->fetchAllAssociative('PRAGMA foreign_key_list(child)') as $fk) {
+            $foreignKeys[] = [$fk['table'], $fk['from'], $fk['to'], $fk['on_delete']];
+        }
+        sort($foreignKeys);
+        $this->assertSame($expected, $foreignKeys);
+        $this->assertSame(1, (int) $this->connection->fetchOne('PRAGMA foreign_keys'));
+        $this->assertSame([], $this->connection->fetchAllAssociative('PRAGMA foreign_key_check'));
+        // Rows, defaults, indexes and AUTOINCREMENT survive the rebuild.
+        $this->assertSame([['id' => 7, 'setting_id' => 'foo', 'owner_id' => 1, 'label' => 'default']], $this->connection->fetchAllAssociative('SELECT id, setting_id, owner_id, label FROM child'));
+        $this->assertEqualsCanonicalizing(['child_IDX_child_setting', 'child_UNIQ_child_label_owner'], $this->connection->fetchFirstColumn('SELECT name FROM pragma_index_list(\'child\')'));
+        $this->assertStringContainsString('AUTOINCREMENT', $this->connection->fetchOne("SELECT sql FROM sqlite_master WHERE name='child'"));
+        $this->connection->exec("DELETE FROM child; INSERT INTO child (setting_id, owner_id) VALUES ('foo', 1)");
+        $this->assertSame(8, (int) $this->connection->fetchOne('SELECT id FROM child'));
+    }
+
+    public function alterForeignKeyQueries()
+    {
+        return [
+            'unnamed' => [
+                'ALTER TABLE child ADD FOREIGN KEY (setting_id) REFERENCES setting (id)',
+                [['owner', 'owner_id', 'id', 'NO ACTION'], ['setting', 'setting_id', 'id', 'NO ACTION']],
+            ],
+            'named doctrine' => [
+                'ALTER TABLE `child` ADD CONSTRAINT `FK_22B35429EE35BD72` FOREIGN KEY (`setting_id`) REFERENCES `setting` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;',
+                [['owner', 'owner_id', 'id', 'NO ACTION'], ['setting', 'setting_id', 'id', 'CASCADE']],
+            ],
+            'several in one statement' => [
+                'ALTER TABLE child ADD CONSTRAINT FK_1 FOREIGN KEY (setting_id) REFERENCES setting (id) ON DELETE SET NULL, ADD CONSTRAINT "FK_2" FOREIGN KEY ("owner_id", "label") REFERENCES "owner" ("id", "name") ON DELETE CASCADE',
+                [['owner', 'label', 'name', 'CASCADE'], ['owner', 'owner_id', 'id', 'CASCADE'], ['owner', 'owner_id', 'id', 'NO ACTION'], ['setting', 'setting_id', 'id', 'SET NULL']],
+            ],
+        ];
+    }
+
+    public function testAlterTableForeignKeyCascadesAndDoesNotCascadeDuringRebuild()
+    {
+        $this->createForeignKeyFixture();
+        // A grandchild that cascades from child must not lose rows when child is rebuilt.
+        $this->connection->exec('CREATE TABLE grandchild (id INT PRIMARY KEY, child_id INT, CONSTRAINT fk_gc FOREIGN KEY (child_id) REFERENCES child (id) ON DELETE CASCADE)');
+        $this->connection->exec('INSERT INTO grandchild VALUES (1, 7)');
+
+        $this->connection->exec('ALTER TABLE child ADD CONSTRAINT FK_child_setting FOREIGN KEY (setting_id) REFERENCES setting (id) ON DELETE CASCADE');
+
+        $this->assertSame(1, (int) $this->connection->fetchOne('SELECT COUNT(*) FROM grandchild'));
+        $this->connection->exec("DELETE FROM setting WHERE id = 'foo'");
+        $this->assertSame(0, (int) $this->connection->fetchOne('SELECT COUNT(*) FROM child'));
+        $this->assertSame(0, (int) $this->connection->fetchOne('SELECT COUNT(*) FROM grandchild'));
+    }
+
+    /** @dataProvider executionMethods */
+    public function testInstallScriptsCreateTablesBeforeAddingForeignKeys($method)
+    {
+        // Doctrine install scripts create every table, then add the foreign keys.
+        $this->connection->exec('PRAGMA foreign_keys = ON');
+        $this->connection->$method("CREATE TABLE child (id INT AUTO_INCREMENT NOT NULL, setting_id VARCHAR(190) DEFAULT NULL, INDEX IDX_child (setting_id), PRIMARY KEY(id));\nALTER TABLE child ADD CONSTRAINT FK_child FOREIGN KEY (setting_id) REFERENCES setting (id) ON DELETE CASCADE;\n");
+        $this->assertCount(1, $this->connection->fetchAllAssociative('PRAGMA foreign_key_list(child)'));
+        $this->assertSame(1, (int) $this->connection->fetchOne('PRAGMA foreign_keys'));
+    }
+
+    public function testAlterTableForeignKeyKeepsDisabledEnforcement()
+    {
+        $this->createForeignKeyFixture();
+        $this->connection->exec('PRAGMA foreign_keys = OFF');
+        $this->connection->exec('ALTER TABLE child ADD FOREIGN KEY (setting_id) REFERENCES setting (id)');
+        $this->assertSame(0, (int) $this->connection->fetchOne('PRAGMA foreign_keys'));
+        $this->assertCount(2, $this->connection->fetchAllAssociative('PRAGMA foreign_key_list(child)'));
+    }
+
+    public function testAlterTableForeignKeyInTransactionWithEnforcementFailsExplicitly()
+    {
+        $this->createForeignKeyFixture();
+        $this->connection->beginTransaction();
+        try {
+            $this->connection->exec('ALTER TABLE child ADD FOREIGN KEY (setting_id) REFERENCES setting (id)');
+            $this->fail('Rebuilding a table with enforced foreign keys inside a transaction could cascade.');
+        } catch (\RuntimeException $e) {
+            $this->assertStringContainsString('transaction', $e->getMessage());
+        } finally {
+            $this->connection->rollBack();
+        }
+        $this->assertCount(1, $this->connection->fetchAllAssociative('PRAGMA foreign_key_list(child)'));
+    }
+
+    private function createForeignKeyFixture(): void
+    {
+        $this->connection->exec('PRAGMA foreign_keys = ON');
+        $this->connection->exec('CREATE TABLE owner (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(190) DEFAULT NULL, UNIQUE INDEX UNIQ_owner (id, name), PRIMARY KEY(id))');
+        $this->connection->exec('CREATE TABLE child (id INT AUTO_INCREMENT NOT NULL, setting_id VARCHAR(190) DEFAULT NULL, owner_id INT NOT NULL, label VARCHAR(190) DEFAULT \'default\' NOT NULL, INDEX IDX_child_setting (setting_id), UNIQUE INDEX UNIQ_child_label_owner (label, owner_id), PRIMARY KEY(id), CONSTRAINT fk_owner FOREIGN KEY (owner_id) REFERENCES owner (id))');
+        $this->connection->exec("INSERT INTO setting VALUES ('foo', 'bar')");
+        $this->connection->exec("INSERT INTO owner (id, name) VALUES (1, 'default')");
+        $this->connection->exec("INSERT INTO child (id, setting_id, owner_id) VALUES (7, 'foo', 1)");
     }
 
     public function testCoreSchemaInstallsWithForeignKeys()

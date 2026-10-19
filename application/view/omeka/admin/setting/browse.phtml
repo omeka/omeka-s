@@ -1,6 +1,7 @@
 <?php
 $translate = $this->plugin('translate');
 $this->htmlElement('body')->appendAttribute('class', 'settings');
+$this->headScript()->appendFile($this->assetUrl('js/setting-form.js', 'Omeka'));
 $form->prepare();
 ?>
 

@@ -19,7 +19,7 @@ class IIIFFactory implements FactoryInterface
         $constraints = array_column($config['thumbnails']['types'] ?? [], 'constraint');
         $maxConstraint = $constraints ? max($constraints) : 800;
         return new IIIF(
-            $services->get('Omeka\HttpClient'),
+            $services->get('Omeka\HttpClientNoPrivate'),
             $services->get('Omeka\File\Downloader'),
             $maxConstraint
         );

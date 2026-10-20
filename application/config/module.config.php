@@ -268,6 +268,7 @@ return [
             'Omeka\ViewApiJsonStrategy' => Service\ViewApiJsonStrategyFactory::class,
             'Omeka\ViewApiJsonRenderer' => Service\ViewApiJsonRendererFactory::class,
             'Omeka\HttpClient' => Service\HttpClientFactory::class,
+            'Omeka\HttpClientNoPrivate' => Service\HttpClientNoPrivateFactory::class,
             'Omeka\Mailer' => Service\MailerFactory::class,
             'Omeka\HtmlPurifier' => Service\HtmlPurifierFactory::class,
             'Omeka\BlockLayoutManager' => Service\BlockLayoutManagerFactory::class,
@@ -327,6 +328,7 @@ return [
         'shared' => [
             'Omeka\Paginator' => false,
             'Omeka\HttpClient' => false,
+            'Omeka\HttpClientNoPrivate' => false,
         ],
     ],
     'controllers' => [

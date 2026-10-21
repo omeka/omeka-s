@@ -7,6 +7,7 @@ return [
     'http_client' => [
         'sslcapath' => null,
         'sslcafile' => null,
+        'curloptions' => [],
     ],
     'cli' => [
         'phpcli_path' => null,

@@ -74,8 +74,9 @@ class Status
     public function getRouteMatch()
     {
         // Attempt to get the route match from the MVC event.
+        // There is no route in cli (background jobs) because no http request.
         $routeMatch = $this->serviceLocator->get('Application')->getMvcEvent()->getRouteMatch();
-        if (!$routeMatch) {
+        if (!$routeMatch && PHP_SAPI !== 'cli') {
             // If the match hasn't already been set, calculate it here.
             $router = $this->serviceLocator->get('Router');
             $request = $this->serviceLocator->get('Request');

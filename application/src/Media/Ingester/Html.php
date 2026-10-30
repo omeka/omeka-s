@@ -44,12 +44,9 @@ class Html implements MutableIngesterInterface
     public function ingest(Media $media, Request $request, ErrorStore $errorStore)
     {
         $data = $request->getContent();
-        if (isset($data['html'])) {
-            $html = $data['html'];
-            $html = $this->purifier->purify($html);
-            $data['html'] = $html;
-            $media->setData($data);
-        }
+        $html = $data['html'] ?? '';
+        $html = $this->purifier->purify($html);
+        $media->setData(['html' => $html]);
     }
 
     public function update(Media $media, Request $request, ErrorStore $errorStore)

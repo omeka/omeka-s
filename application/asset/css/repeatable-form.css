@@ -1,0 +1,48 @@
+.repeatable-form-element .repeatable-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.repeatable-form-element .repeatable-rows > li {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid #dfdfdf;
+}
+
+.repeatable-form-element .repeatable-fields {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.25em 0.5em;
+    align-items: center;
+    flex: 1 1 auto;
+}
+
+.repeatable-form-element .repeatable-fields label {
+    display: contents;
+}
+
+.repeatable-form-element .repeatable-fields label input,
+.repeatable-form-element .repeatable-fields label select,
+.repeatable-form-element .repeatable-fields label textarea {
+    width: auto;
+    margin: 0;
+}
+
+.repeatable-form-element .sortable-handle {
+    align-self: center;
+    cursor: grab;
+}
+
+.repeatable-form-element .sortable-handle:active {
+    cursor: grabbing;
+}
+
+.repeatable-form-element .repeatable-add {
+    margin-top: 0.5em;
+}

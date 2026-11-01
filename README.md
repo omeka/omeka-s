@@ -33,6 +33,42 @@ Omeka S is a LAMP (Linux, Apache, MySQL, PHP) application. See [the manual](http
 
 You can find Omeka-specific code under `application/`.
 
+### Experimental SQLite support
+
+This branch supports fresh SQLite installations with `pdo_sqlite`; see
+`config/database.ini.dist` for configuration. The compatibility connection
+translates a subset of MySQL SQL, not the entire dialect.
+
+MySQL table-level `COLLATE` options are removed even when their names are quoted.
+`SHOW INDEX`, `SHOW INDEXES` and `SHOW KEYS` support `FROM`/`IN` and `WHERE`
+filters, including the index checks used by Common and Easy Admin. Metadata
+includes primary keys, uniqueness, column order and sort direction. Index names
+are the physical SQLite names (translated inline indexes are prefixed by their
+table); cardinality and prefix lengths are unavailable and returned as `NULL`.
+This does not emulate MySQL collation rules or port other database maintenance
+commands used by these modules.
+
+Module compatibility still requires testing installation, queries, upgrades and
+uninstallation. Unsupported `SET` statements, adding foreign keys with `ALTER
+TABLE`, and MySQL `FULLTEXT` indexes raise errors rather than being silently
+ignored. Foreign keys must be defined in `CREATE TABLE` or added through an
+explicit SQLite migration. Prepared queries support one translated statement;
+parameterized batches are rejected before executing any statements.
+
+Ordered DQL `GROUP_CONCAT`, including property-value sorting, requires SQLite 3.44
+or later. `DISTINCT` with a custom
+separator is unsupported. Core fulltext search uses substring matching and sorts
+by ID instead of relevance. MySQL keeps its original natural-language search.
+MySQL collations, unsigned ranges and all date formatting semantics are not
+emulated. Historical core migrations containing MySQL-specific SQL have not been
+ported; this support does not establish an upgrade path for older SQLite schemas.
+
+Run the isolated SQLite regression tests without an application database:
+
+```sh
+vendor/bin/phpunit --no-configuration --bootstrap bootstrap.php application/test/OmekaTest/Db/Connection
+```
+
 ## Updating
 
 *Make a backup copy of your entire site and its database!*

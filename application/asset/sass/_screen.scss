@@ -2683,7 +2683,9 @@ fieldset.section > legend {
     .add-values {
         margin: $spacing-small 0 #{-(.5 * $spacing-small)};
         display: flex;
-        gap: $spacing-small;
+        gap: 0 $spacing-medium;
+        flex-wrap: wrap;
+        align-items: center;
     }
 
     .add-values button {
@@ -2703,8 +2705,14 @@ fieldset.section > legend {
         width: auto;
     }
 
+    .data-type-label-value {
+        flex: 2;
+        line-height: $base-line-height;
+    }
+
     .data-type-label-content {
         font-weight: bold;
+        line-height: $base-line-height;
     }
 
     .inputs label.data-type-label select {

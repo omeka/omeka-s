@@ -207,9 +207,9 @@
             var typeButton = $(this);
             var field = typeButton.closest('.resource-property');
             if (typeButton.parent().hasClass('single-selector')) {
-                var value = makeNewValue(field.data('property-term'), field.data('data-types'));
+                var value = makeNewValue(field.data('property-term'), field.attr('data-data-types'));
             } else {
-                var typeSelect = typeButton.prev();
+                var typeSelect = typeButton.prev('label').find('select');
                 var value = makeNewValue(field.data('property-term'), typeSelect.val());
             }
             field.find('.values').append(value);
@@ -753,7 +753,7 @@
     var rewritePropertyField = function(templateProperty) {
         var properties = $('div#properties');
         var propertyId = templateProperty['o:property']['o:id'];
-        var dataTypes = templateProperty['o:data_type'] && templateProperty['o:data_type'].length
+        var dataTypes = templateProperty['o:data_type'] && (templateProperty['o:data_type'].length > 0)
             ? templateProperty['o:data_type']
             : ['literal', 'resource', 'uri'];
 
@@ -762,6 +762,7 @@
             field = makeNewField(propertyId, dataTypes);
         }
         field.data('template-property', templateProperty);
+        field.attr('data-data-types', dataTypes);
 
         var originalLabel = field.find('.field-label');
         var originalDescription = field.find('.field-description');
@@ -806,11 +807,9 @@
             multipleSelector.show();
         } else if (templateProperty['o:data_type'].length === 1) {
             var dataType = templateProperty['o:data_type'][0];
-            var dataTypeLabel = $('.template.value[data-data-type="' + dataType + '"]').data('data-type-label');
             defaultSelector.hide();
             multipleSelector.hide();
             singleSelector.find('button.add-value').data('type', dataType);
-            singleSelector.find('.data-type-label-content').after(dataTypeLabel);
             singleSelector.show();
         } else {
             multipleSelector.hide();

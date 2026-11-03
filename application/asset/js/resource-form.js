@@ -10,6 +10,7 @@
         const vaAddButton = $('#value-annotation-add');
         const vaSetButton = $('#value-annotation-set');
         const vaTemplates = vaContainer.data('valueAnnotationTemplates');
+        $('form.resource-form').on('o:before-form-unload', setValuesJson);
         // Make a value annotation jQuery/DOM object.
         const makeValueAnnotation = function(dataTypeName, value) {
             const valueAnnotation = $($.parseHTML(vaTemplates[dataTypeName]));
@@ -379,7 +380,7 @@
                 alert(errors.join("\n"));
             }
 
-            $('#values-json').val(JSON.stringify(collectValues()));
+            setValuesJson();
         });
 
         // Handle tabbed navigation in sidebar.
@@ -560,6 +561,10 @@
             }
         });
         return values;
+    };
+
+    var setValuesJson = function () {
+        $('#values-json').val(JSON.stringify(collectValues()));
     };
 
     var collectValueAnnotationValues = function (vaContainer) {
@@ -946,6 +951,7 @@
 
         var applyTemplateClass = $('body').hasClass('add');
         $.when(applyResourceTemplate(applyTemplateClass)).done(function () {
+            setValuesJson();
             $('#properties').closest('form').trigger('o:form-loaded');
         });
 

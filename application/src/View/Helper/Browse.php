@@ -40,7 +40,7 @@ class Browse extends AbstractHelper
         $view = $this->getView();
         $context = $view->status()->isAdminRequest() ? 'admin' : 'public';
         if (is_string($resourceTypeOrSortConfig)) {
-            $sortConfig = $this->getBrowseService()->getSortConfig($context, $resourceTypeOrSortConfig);
+            $sortConfig = $this->getBrowseService()->getSortConfig($context, $resourceTypeOrSortConfig, true);
         } elseif (is_array($resourceTypeOrSortConfig)) {
             $sortConfig = $resourceTypeOrSortConfig;
         } else {
@@ -54,7 +54,7 @@ class Browse extends AbstractHelper
         $isFulltextSearch = (isset($query['fulltext_search']) && '' !== trim($query['fulltext_search']));
         if ($isFulltextSearch) {
             // Add "Relevance" to sort_by if this is a fulltext search.
-            $sortConfig[''] = 'Relevance'; // @translate
+            $sortConfig[''] = $view->translate('Relevance');
         }
         $args = [
             'sortConfig' => $sortConfig,

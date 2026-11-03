@@ -84,8 +84,11 @@ class Browse
      *   '<sort_by_param_1>' => '<Sort by label 1>',
      *   '<sort_by_param_2' => '<Sort by label 2>',
      * ]
+     *
+     * Set $translate to translate labels for direct rendering. Leave it false
+     * when passing the configuration to a form helper that translates labels.
      */
-    public function getSortConfig(string $context, string $resourceType): array
+    public function getSortConfig(string $context, string $resourceType, bool $translate = false): array
     {
         $browseHelper = $this->getViewHelperManager()->get('browse');
         $translateHelper = $this->getViewHelperManager()->get('translate');
@@ -100,13 +103,15 @@ class Browse
             if (!$sortBy) {
                 continue; // This column cannot be sorted.
             }
-            $sortConfig[$sortBy] = $browseHelper->getHeader($columnData);
+            $label = $browseHelper->getHeader($columnData);
+            $hasCustomHeader = isset($columnData['header']) && '' !== trim($columnData['header']);
+            $sortConfig[$sortBy] = $translate && !$hasCustomHeader ? $translateHelper($label) : $label;
         }
         // Include default sorts that are not configured.
         $sortDefaults = $this->sortDefaults[$context][$resourceType] ?? [];
         foreach ($sortDefaults as $sortBy => $label) {
             if (!isset($sortConfig[$sortBy])) {
-                $sortConfig[$sortBy] = $label;
+                $sortConfig[$sortBy] = $translate ? $translateHelper($label) : $label;
             }
         }
         // Include any other sorts added by the sort-config event.
@@ -122,7 +127,10 @@ class Browse
         $browseConfig = $this->getBrowseConfig($context, $resourceType);
         if (!isset($sortConfig[$browseConfig['sort_by']])) {
             $customLabel = 'Custom (%s)'; // @translate
-            $sortConfig[$browseConfig['sort_by']] = sprintf($customLabel, $browseConfig['sort_by']);
+            $sortConfig[$browseConfig['sort_by']] = sprintf(
+                $translate ? $translateHelper($customLabel) : $customLabel,
+                $browseConfig['sort_by']
+            );
         }
         natsort($sortConfig);
         return $sortConfig;

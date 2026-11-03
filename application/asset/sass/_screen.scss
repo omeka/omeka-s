@@ -2061,6 +2061,8 @@ fieldset.section > legend {
     display: inline-block;
     font-family: "Source Code Pro", monospace;
     font-size: .75 * $base-font-size;
+    word-break: break-all;
+    line-height: 1.5;
 }
 
 .value .input-body a.value-language {
@@ -2315,6 +2317,106 @@ fieldset.section > legend {
         & > ul {
             margin: $spacing-small -10px (-$spacing-small);
             border-radius: 0 0 3px 3px;
+        }
+    }
+
+    .inputs {
+        line-height: 1.5 * $spacing-large;
+        width: 70%;
+
+        &:only-child {
+            width: 100%;
+        }
+
+        p:only-child {
+            margin: 0;
+        }
+
+        label,
+        select,
+        textarea,
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="url"],
+        input[type="date"],
+        input[type="datetime-local"] {
+            width: 100%;
+            min-height: (1.5 * $spacing-large);
+            margin: $spacing-small 0;
+
+            &:only-child {
+                margin: 0;
+            }
+        }
+
+        textarea {
+            resize: vertical;
+            line-height: 1.5;
+            background-color: #fff;
+            min-width: 0;
+        }
+
+        label {
+            padding: $spacing-small 0;
+            margin: 0 $spacing-large 0 0;
+        }
+
+        .button,
+        button,
+        input[type="submit"] {
+            margin: $spacing-small 0;
+            line-height: $base-line-height;
+        }
+
+        input:focus,
+        textarea:focus {
+            position: relative;
+            z-index: 2;
+        }
+    }
+
+    @container (width < 500px) {
+        .field-meta,
+        .inputs {
+            width: 100%;
+        }
+
+        .field-actions {
+            position: absolute;
+            top: 1.5 * $spacing-small;
+            right: gutter(10);
+            z-index: 1;
+            width: 50%;
+
+            a {
+                float: right;
+                display: block;
+
+                &.button {
+                    margin-left: .5em !important;
+                }
+
+            }
+        }
+
+        .field-meta label,
+        .field-description p {
+            line-height: $base-line-height;
+            margin-bottom: $spacing-small;
+        }
+
+        .field-meta label {
+            padding: 0;
+        }
+
+        .field-meta .field-label,
+        .field-meta .field-term {
+            margin-bottom: $spacing-small;
+        }
+
+        .unset .field-meta {
+            width: 100%;
         }
     }
 
@@ -2587,62 +2689,6 @@ fieldset.section > legend {
         display: block;
     }
 
-    .inputs {
-        line-height: 1.5 * $spacing-large;
-        width: 70%;
-
-        &:only-child {
-            width: 100%;
-        }
-
-        p:only-child {
-            margin: 0;
-        }
-
-        label,
-        select,
-        textarea,
-        input[type="text"],
-        input[type="password"],
-        input[type="email"],
-        input[type="url"],
-        input[type="date"],
-        input[type="datetime-local"] {
-            width: 100%;
-            min-height: (1.5 * $spacing-large);
-            margin: $spacing-small 0;
-
-            &:only-child {
-                margin: 0;
-            }
-        }
-
-        textarea {
-            resize: vertical;
-            line-height: 1.5;
-            background-color: #fff;
-            min-width: 0;
-        }
-
-        label {
-            padding: $spacing-small 0;
-            margin: 0 $spacing-large 0 0;
-        }
-
-        .button,
-        button,
-        input[type="submit"] {
-            margin: $spacing-small 0;
-            line-height: $base-line-height;
-        }
-
-        input:focus,
-        textarea:focus {
-            position: relative;
-            z-index: 2;
-        }
-    }
-
     #resource-values .inputs div.value {
         display: flex;
         align-items: stretch;
@@ -2683,7 +2729,7 @@ fieldset.section > legend {
     .add-values {
         margin: $spacing-small 0 #{-(.5 * $spacing-small)};
         display: flex;
-        gap: 0 $spacing-medium;
+        gap: 0 $spacing-small;
         flex-wrap: wrap;
         align-items: center;
     }
@@ -2867,7 +2913,7 @@ fieldset.section > legend {
         padding: 0 $spacing-small;
         line-height: $base-line-height;
         min-height: 0;
-        margin-right: .5 * $spacing-small;
+        margin: 0;
 
         &:before {
             margin-right: $spacing-small;
@@ -2928,6 +2974,13 @@ fieldset.section > legend {
 
     .selected-resource .media a:after {
         content: fa-content($fa-var-image);
+    }
+
+    .resource-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: $spacing-small;
+        padding: $spacing-small;
     }
 
     [data-data-type="literal"] .sortable-handle ~ .input-body {

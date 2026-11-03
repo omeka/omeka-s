@@ -449,43 +449,6 @@ fieldset.section.mobile-active > legend:after{
     display: inline-block;
 }
 
-.field-meta,
-.inputs {
-    width: 100%;
-}
-
-.field-actions {
-    position: absolute;
-    top: 1.5 * $spacing-small;
-    right: gutter(10);
-    z-index: 1;
-    width: 50%;
-
-    a {
-        float: right;
-        display: block;
-
-        &.button {
-            margin-left: .5em !important;
-        }
-
-    }
-}
-
-.field-meta label,
-.field-description p {
-    line-height: $base-line-height;
-    margin-bottom: $spacing-small;
-}
-
-.field-meta label {
-    font-weight: bold;
-}
-
-
-.unset .field-meta {
-    width: 100%;
-}
 /* @end */
 
 /* @group ----- Show views ----- */

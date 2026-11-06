@@ -1,0 +1,20 @@
+{
+    "name": "test/omeka-s-module-test-addon-override",
+    "type": "omeka-s-module",
+    "description": "Test module to verify modules/ takes precedence over composer-addons/modules/",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Test Author",
+            "email": "test@example.org"
+        }
+    ],
+    "keywords": ["Omeka S", "module", "test"],
+    "extra": {
+        "installer-name": "TestAddonOverride",
+        "label": "Test Addon Override (Composer version)"
+    },
+    "require": {
+        "omeka/omeka-s": "^4.0"
+    }
+}

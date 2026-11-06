@@ -3777,14 +3777,15 @@
         },
         {
             "name": "omeka/composer-addon-installer",
-            "version": "2.0",
+            "version": "3.0",
             "dist": {
                 "type": "path",
                 "url": "application/data/composer-addon-installer",
-                "reference": "7397409eb65cbdf0000ad73a1c0cc38bae53fff1"
+                "reference": "82f262c0558d4379c2418e8cd4d5b39212ffb364"
             },
             "require": {
-                "composer-plugin-api": "^2.0"
+                "composer-plugin-api": "^2.0",
+                "php": ">=8.1"
             },
             "type": "composer-plugin",
             "extra": {
@@ -3798,6 +3799,7 @@
             "license": [
                 "GPL-3.0"
             ],
+            "description": "Composer plugin to install Omeka S modules and themes into composer-addons/modules/ and composer-addons/themes/.",
             "transport-options": {
                 "relative": true
             }

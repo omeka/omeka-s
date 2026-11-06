@@ -106,6 +106,10 @@ class IndexController extends AbstractActionController
     public function editAction()
     {
         $site = $this->currentSite();
+        if (!$site->userIsAllowed('update')) {
+            throw new Exception\PermissionDeniedException('User does not have permission to edit site settings');
+        }
+
         $form = $this->getForm(SiteForm::class);
         $form->setAttribute('action', $this->url()->fromRoute(null, [], true));
         $settingsForm = $this->getForm(SiteSettingsForm::class);
@@ -250,6 +254,10 @@ class IndexController extends AbstractActionController
     public function resourcesAction()
     {
         $site = $this->currentSite();
+        if (!$site->userIsAllowed('update')) {
+            throw new Exception\PermissionDeniedException('User does not have permission to edit site resources');
+        }
+
         $form = $this->getForm(SiteResourcesForm::class)->setAttribute('id', 'site-form');
 
         if ($this->getRequest()->isPost()) {
@@ -306,9 +314,7 @@ class IndexController extends AbstractActionController
     {
         $site = $this->currentSite();
         if (!$site->userIsAllowed('update')) {
-            throw new Exception\PermissionDeniedException(
-                'User does not have permission to edit site theme settings'
-            );
+            throw new Exception\PermissionDeniedException('User does not have permission to edit site user permissions');
         }
         $form = $this->getForm(Form::class)->setAttribute('id', 'site-form');
 
@@ -344,9 +350,7 @@ class IndexController extends AbstractActionController
     {
         $site = $this->currentSite();
         if (!$site->userIsAllowed('update')) {
-            throw new Exception\PermissionDeniedException(
-                'User does not have permission to edit site theme settings'
-            );
+            throw new Exception\PermissionDeniedException('User does not have permission to edit site theme');
         }
         $form = $this->getForm(Form::class)->setAttribute('id', 'site-theme-form');
         if ($this->getRequest()->isPost()) {
@@ -376,9 +380,7 @@ class IndexController extends AbstractActionController
         $site = $this->currentSite();
 
         if (!$site->userIsAllowed('update')) {
-            throw new Exception\PermissionDeniedException(
-                'User does not have permission to edit site theme settings'
-            );
+            throw new Exception\PermissionDeniedException('User does not have permission to edit site theme settings');
         }
 
         $theme = $this->themes->getTheme($site->theme());

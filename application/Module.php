@@ -14,7 +14,6 @@ use Omeka\Module\AbstractModule;
 use Laminas\EventManager\Event as LaminasEvent;
 use Laminas\EventManager\SharedEventManagerInterface;
 use Laminas\Form\Element;
-use Laminas\Json\Json;
 use Laminas\View\Renderer\PhpRenderer;
 
 /**
@@ -848,11 +847,6 @@ class Module extends AbstractModule
             $output = $args['jsonLd'];
         }
 
-        if (null !== $model->getOption('pretty_print')) {
-            // Pretty print the JSON.
-            $output = Json::prettyPrint($output);
-        }
-
         $jsonpCallback = (string) $model->getOption('callback');
         if (!empty($jsonpCallback)) {
             // Wrap the JSON in a JSONP callback. Normally this would be done
@@ -884,7 +878,7 @@ class Module extends AbstractModule
 
         $serializeRdf = function ($jsonLd) use ($format) {
             $graph = new Graph;
-            $graph->parse(Json::encode($jsonLd), 'jsonld');
+            $graph->parse(json_encode($jsonLd), 'jsonld');
             return $graph->serialise($format);
         };
 
@@ -897,7 +891,7 @@ class Module extends AbstractModule
                 $eventManager->trigger('api.context', null, $args);
                 $context = $args['context'];
             }
-            $jsonLd = Json::decode(Json::encode($representation), true);
+            $jsonLd = json_decode(json_encode($representation), true);
             $jsonLd['@context'] = $context;
             return $jsonLd;
         };

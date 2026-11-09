@@ -252,7 +252,7 @@ class UserController extends AbstractActionController
 
                 if ($keyPersisted) {
                     $message = new Message(
-                        'API key successfully created.<br><br>Here is your key ID and credential for access to the API. WARNING: "key_credential" will be unretrievable after you navigate away from this page.<br><br><code>key_identity=%1$s</code><br><code>key_credential=%2$s</code>', // @translate
+                        'API key successfully created.<br><br>Here is your key ID and credential for access to the API. WARNING: "key_credential" will be unretrievable after you navigate away from this page.<br><br><code>key_identity=%1$s</code><br><code>key_credential=%2$s</code><br><br>The credentials can be passed with the headers <code>X-Omeka-Key-Identity</code> and <code>X-Omeka-Key-Credential</code> (recommended) or as url arguments.', // @translate
                         $keyId, $keyCredential
                     );
                     $message->setEscapeHtml(false);

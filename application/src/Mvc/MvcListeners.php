@@ -283,7 +283,7 @@ class MvcListeners extends AbstractListenerAggregate
      *
      * The key may be passed via the headers "X-Omeka-Key-Identity" and
      * "X-Omeka-Key-Credential" (recommended) or via the query parameters
-     * "key_identity" and "key_credential".
+     * "key_identity" and "key_credential" (prioritary for compatibility).
      *
      * @param MvcEvent $event
      */
@@ -298,11 +298,11 @@ class MvcListeners extends AbstractListenerAggregate
         $request = $event->getRequest();
 
         // Don't mix the sources of the identity and of the credential.
-        $identity = $this->getRequestHeaderValue($request, 'X-Omeka-Key-Identity');
-        $credential = $this->getRequestHeaderValue($request, 'X-Omeka-Key-Credential');
+        $identity = $request->getQuery('key_identity');
+        $credential = $request->getQuery('key_credential');
         if (is_null($identity) && is_null($credential)) {
-            $identity = $request->getQuery('key_identity');
-            $credential = $request->getQuery('key_credential');
+            $identity = $this->getRequestHeaderValue($request, 'X-Omeka-Key-Identity');
+            $credential = $this->getRequestHeaderValue($request, 'X-Omeka-Key-Credential');
         }
 
         if (is_null($identity) || is_null($credential)) {

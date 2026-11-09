@@ -12,6 +12,11 @@ class ValueAnnotation extends Resource
      */
     protected $id;
 
+    /**
+     * @OneToOne(targetEntity="Value", mappedBy="valueAnnotation")
+     */
+    protected $value;
+
     public function getResourceName()
     {
         return 'value_annotations';
@@ -20,5 +25,10 @@ class ValueAnnotation extends Resource
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getValue()
+    {
+        return $this->value;
     }
 }

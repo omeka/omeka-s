@@ -318,7 +318,7 @@ class MvcListeners extends AbstractListenerAggregate
     }
 
     /**
-     * Get the value of a single request header, if any.
+     * Get the last value of a request header, if any.
      *
      * @param \Laminas\Stdlib\RequestInterface $request
      * @param string $name
@@ -329,10 +329,19 @@ class MvcListeners extends AbstractListenerAggregate
         if (!$request instanceof HttpRequest) {
             return null;
         }
+
         $header = $request->getHeaders()->get($name);
-        return $header instanceof HeaderInterface
-            ? $header->getFieldValue()
-            : null;
+        if (!$header) {
+            return null;
+        }
+
+        if (!$header instanceof HeaderInterface) {
+            $headers = iterator_to_array($header);
+            $header = end($headers);
+        }
+        $values = explode(',', $header->getFieldValue());
+
+        return trim(end($values));
     }
 
     /**

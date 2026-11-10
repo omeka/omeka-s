@@ -249,6 +249,7 @@ return [
         'thumbnailer_options' => [
             'imagemagick_dir' => null,
             'page' => 0,
+            'autoOrient' => true,
         ],
     ],
     'service_manager' => [

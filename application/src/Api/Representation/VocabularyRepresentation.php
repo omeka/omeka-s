@@ -15,16 +15,14 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
 
     public function getJsonLd()
     {
-        $owner = null;
-        if ($this->owner()) {
-            $owner = $this->owner()->getReference();
-        }
+        $owner = $this->owner();
+
         return [
             'o:namespace_uri' => $this->namespaceUri(),
             'o:prefix' => $this->prefix(),
             'o:label' => $this->label(),
             'o:comment' => $this->comment(),
-            'o:owner' => $owner,
+            'o:owner' => $owner ? $owner->getReference()->jsonSerialize() : null,
         ];
     }
 

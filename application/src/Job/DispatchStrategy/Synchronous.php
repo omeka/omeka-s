@@ -53,8 +53,8 @@ class Synchronous implements StrategyInterface
     public function handleFatalError(Job $job, EntityManager $entityManager)
     {
         $lastError = error_get_last();
-        $errors = [E_ERROR, E_USER_ERROR, E_RECOVERABLE_ERROR];
-        if ($lastError && in_array($lastError['type'], $errors)) {
+        $fatals = E_ERROR | E_PARSE | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR | E_RECOVERABLE_ERROR;
+        if ($lastError && ($lastError['type'] & $fatals)) {
             $job->setStatus(Job::STATUS_ERROR);
             $job->addLog(sprintf("Fatal error: %s\nin %s on line %s",
                 $lastError['message'],

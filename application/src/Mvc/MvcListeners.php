@@ -10,6 +10,8 @@ use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\I18n\Translator\TranslatorInterface as TranslatorInterface;
 use Laminas\Mvc\Application as LaminasApplication;
+use Laminas\Http\Header\HeaderInterface;
+use Laminas\Http\Request as HttpRequest;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Permissions\Acl\Exception as AclException;
 use Laminas\Session\Config\SessionConfig;
@@ -152,7 +154,7 @@ class MvcListeners extends AbstractListenerAggregate
     /**
      * Set the default locale.
      *
-     * Note that we only set a defualt locale when the intl extension is loaded
+     * Note that we only set a default locale when the intl extension is loaded
      * and when the locale isn't "debug". The "debug" locale is a special case
      * used by Omeka to detect translated strings on the page wihout switching
      * to another language. Otherwise there will be a "Found unconstructed
@@ -279,6 +281,10 @@ class MvcListeners extends AbstractListenerAggregate
     /**
      * Authorize the current user against an API key.
      *
+     * The key may be passed via the headers "X-Omeka-Key-Identity" and
+     * "X-Omeka-Key-Credential" (recommended) or via the query parameters
+     * "key_identity" and "key_credential" (prioritary for compatibility).
+     *
      * @param MvcEvent $event
      */
     public function authenticateApiKey(MvcEvent $event)
@@ -289,8 +295,15 @@ class MvcListeners extends AbstractListenerAggregate
             return;
         }
 
-        $identity = $event->getRequest()->getQuery('key_identity');
-        $credential = $event->getRequest()->getQuery('key_credential');
+        $request = $event->getRequest();
+
+        // Don't mix the sources of the identity and of the credential.
+        $identity = $request->getQuery('key_identity');
+        $credential = $request->getQuery('key_credential');
+        if (is_null($identity) && is_null($credential)) {
+            $identity = $this->getRequestHeaderValue($request, 'X-Omeka-Key-Identity');
+            $credential = $this->getRequestHeaderValue($request, 'X-Omeka-Key-Credential');
+        }
 
         if (is_null($identity) || is_null($credential)) {
             // No identity/credential key to authenticate against.
@@ -302,6 +315,33 @@ class MvcListeners extends AbstractListenerAggregate
         $auth->getAdapter()->setIdentity($identity);
         $auth->getAdapter()->setCredential($credential);
         $auth->authenticate();
+    }
+
+    /**
+     * Get the last value of a request header, if any.
+     *
+     * @param \Laminas\Stdlib\RequestInterface $request
+     * @param string $name
+     * @return string|null
+     */
+    protected function getRequestHeaderValue($request, $name)
+    {
+        if (!$request instanceof HttpRequest) {
+            return null;
+        }
+
+        $header = $request->getHeaders()->get($name);
+        if (!$header) {
+            return null;
+        }
+
+        if (!$header instanceof HeaderInterface) {
+            $headers = iterator_to_array($header);
+            $header = end($headers);
+        }
+        $values = explode(',', $header->getFieldValue());
+
+        return trim(end($values));
     }
 
     /**

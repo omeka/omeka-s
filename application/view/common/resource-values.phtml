@@ -58,7 +58,7 @@ foreach ($values as $term => $propertyData):
         ?>
         <dd class="<?php echo implode(' ', $class); ?>" lang="<?php echo $escape($valueLang); ?>">
             <?php if ($showLocale && $valueLang): ?>
-            <span class="language"><?php echo $valueLang; ?></span>
+            <span class="language"><?php echo $escape($valueLang); ?></span>
             <?php endif; ?>
             <span class="value-content"><?php echo $filterLocale ? $value->asHtml($lang) : $value->asHtml(); ?></span>
             <?php if (!$value->isPublic()): ?>

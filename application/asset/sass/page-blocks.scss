@@ -324,6 +324,28 @@
         font-size: 1.25rem;
         margin-bottom: .25rem;
     }
+
+    // Site titles may be rendered as headings. The default-size modifier keeps
+    // the established title type, while "Use heading size" lets the theme's
+    // heading type through. Margins stay zero so the list keeps its spacing.
+    .site-entry-heading {
+        margin: 0;
+    }
+
+    .site-entry-heading--default-size {
+        color: inherit;
+        font-family: inherit;
+        font-size: inherit;
+        font-style: inherit;
+        font-weight: inherit;
+        letter-spacing: inherit;
+        line-height: inherit;
+        text-transform: inherit;
+    }
+
+    .site-entry-heading:not(.site-entry-heading--default-size) .site-link {
+        font-size: inherit;
+    }
     
     .site-summary {
         margin: 0 0 .25rem .0;

@@ -1,13 +1,18 @@
 <?php
 $thumbnail = $showThumbnail ? $site->thumbnail() : null;
 $summary = $showSummary ? $site->summary() : null;
+$headingLevel = is_string($headingLevel ?? null) && preg_match('/^h[1-6]\z/', $headingLevel) ? $headingLevel : null;
+$useHeadingSize = $useHeadingSize ?? false;
+$headingClass = $useHeadingSize ? 'site-entry-heading' : 'site-entry-heading site-entry-heading--default-size';
+$title = $this->hyperlink($site->title(), $site->siteUrl(), ['class' => 'site-link']);
+$titleMarkup = $headingLevel ? sprintf('<%1$s class="%2$s">%3$s</%1$s>', $headingLevel, $headingClass, $title) : $title;
 ?>
 <div class="site">
     <?php if ($thumbnail): ?>
     <div class="site-thumbnail"><?php echo $this->thumbnail($thumbnail, 'square', ['class' => 'site-thumbnail-image']); ?></div>
     <?php endif; ?>
     <div class="site-text">
-        <?php echo $this->hyperlink($site->title(), $site->siteUrl(), ['class' => 'site-link']); ?>
+        <?php echo $titleMarkup; ?>
         <?php if ($summary): ?>
         <p class="site-summary"><?php echo nl2br($this->escapeHtml($summary)); ?></p>
         <?php endif; ?>

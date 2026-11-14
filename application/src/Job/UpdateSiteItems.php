@@ -3,6 +3,7 @@ namespace Omeka\Job;
 
 use Doctrine\DBAL\Connection;
 use Omeka\Job\Exception\InvalidArgumentException;
+use Omeka\Service\ConnectionFactory;
 
 /**
  * Update item assignments for one or more site.
@@ -94,7 +95,8 @@ class UpdateSiteItems extends AbstractJob
                     $bindValues[] = $siteId;
                 }
                 // Note the use of IGNORE here to prevent duplicate-key errors.
-                $sql = sprintf('INSERT IGNORE INTO item_site (item_id, site_id) VALUES %s', implode(',', $values));
+                $insertKeyword = ConnectionFactory::isSqlite($conn) ? 'INSERT OR IGNORE' : 'INSERT IGNORE';
+                $sql = sprintf('%s INTO item_site (item_id, site_id) VALUES %s', $insertKeyword, implode(',', $values));
                 $stmt = $conn->prepare($sql);
                 foreach ($bindValues as $position => $value) {
                     $stmt->bindValue($position + 1, $value);

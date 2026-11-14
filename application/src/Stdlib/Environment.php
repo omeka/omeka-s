@@ -2,6 +2,7 @@
 namespace Omeka\Stdlib;
 
 use Omeka\Module;
+use Omeka\Service\ConnectionFactory;
 use Omeka\Settings\Settings;
 use Doctrine\DBAL\Connection;
 
@@ -25,11 +26,11 @@ class Environment
     const MARIADB_MINIMUM_VERSION = '10.2.6';
 
     /**
-     * The required PHP extensions
+     * The required PHP extensions (base, without DB-specific)
      *
      * (Note: the json extension is also required but must be checked separately)
      */
-    const PHP_REQUIRED_EXTENSIONS = ['fileinfo', 'mbstring', 'PDO', 'pdo_mysql', 'xml'];
+    const PHP_REQUIRED_EXTENSIONS = ['fileinfo', 'mbstring', 'PDO', 'xml'];
 
     /**
      * @var array Environment error messages
@@ -44,6 +45,7 @@ class Environment
     {
         $codeVersion = Module::VERSION;
         $dbVersion = $settings->get('version');
+        $isSqlite = ConnectionFactory::isSqlite($connection);
 
         // The Message class used in other error messages requires
         // \JsonSerializable, so we have to check for it before anything else
@@ -79,32 +81,41 @@ class Environment
                 );
             }
         }
+        // Check for the appropriate DB extension
+        $requiredDbExtension = $isSqlite ? 'pdo_sqlite' : 'pdo_mysql';
+        if (!extension_loaded($requiredDbExtension)) {
+            $this->errorMessages[] = new Message(
+                'Omeka requires the PHP extension %s, but it is not loaded.', // @translate
+                $requiredDbExtension
+            );
+        }
         try {
             $connection->connect();
         } catch (\Exception $e) {
             $this->errorMessages[] = new Message($e->getMessage());
-            // Error establishing a connection, no need to check MySQL version.
             return;
         }
-        // MariaDB includes a fake 5.5.5- leading version in many cases to the
-        // client handshake, which is what you get if you ask PDO for the server
-        // version. The VERSION() function doesn't include that junk.
-        $mysqlVersion = $connection->fetchColumn('SELECT VERSION()');
-        if (strpos($mysqlVersion, 'MariaDB') === false) {
-            if (!version_compare($mysqlVersion, self::MYSQL_MINIMUM_VERSION, '>=')) {
-                $this->errorMessages[] = new Message(
-                    'The installed MySQL version (%1$s) is too low. Omeka requires at least version %2$s.', // @translate
-                    $mysqlVersion,
-                    self::MYSQL_MINIMUM_VERSION
-                );
-            }
-        } else {
-            if (!version_compare($mysqlVersion, self::MARIADB_MINIMUM_VERSION, '>=')) {
-                $this->errorMessages[] = new Message(
-                    'The installed MariaDB version (%1$s) is too low. Omeka requires at least version %2$s.', // @translate
-                    $mysqlVersion,
-                    self::MARIADB_MINIMUM_VERSION
-                );
+        if (!$isSqlite) {
+            // MariaDB includes a fake 5.5.5- leading version in many cases to the
+            // client handshake, which is what you get if you ask PDO for the server
+            // version. The VERSION() function doesn't include that junk.
+            $mysqlVersion = $connection->fetchColumn('SELECT VERSION()');
+            if (strpos($mysqlVersion, 'MariaDB') === false) {
+                if (!version_compare($mysqlVersion, self::MYSQL_MINIMUM_VERSION, '>=')) {
+                    $this->errorMessages[] = new Message(
+                        'The installed MySQL version (%1$s) is too low. Omeka requires at least version %2$s.', // @translate
+                        $mysqlVersion,
+                        self::MYSQL_MINIMUM_VERSION
+                    );
+                }
+            } else {
+                if (!version_compare($mysqlVersion, self::MARIADB_MINIMUM_VERSION, '>=')) {
+                    $this->errorMessages[] = new Message(
+                        'The installed MariaDB version (%1$s) is too low. Omeka requires at least version %2$s.', // @translate
+                        $mysqlVersion,
+                        self::MARIADB_MINIMUM_VERSION
+                    );
+                }
             }
         }
     }

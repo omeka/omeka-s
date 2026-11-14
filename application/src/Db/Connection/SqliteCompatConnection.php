@@ -1310,7 +1310,7 @@ SQL;
             }
             $allNumeric = !in_array(false, array_map('is_numeric', $args), true);
             return $allNumeric
-                ? max(array_map(function ($v) { return $v + 0; }, $args))
+                ? max(array_map(fn ($v) => $v + 0, $args))
                 : max(array_map('strval', $args));
         }, -1);
         $create('least', function (...$args) {
@@ -1321,7 +1321,7 @@ SQL;
             }
             $allNumeric = !in_array(false, array_map('is_numeric', $args), true);
             return $allNumeric
-                ? min(array_map(function ($v) { return $v + 0; }, $args))
+                ? min(array_map(fn ($v) => $v + 0, $args))
                 : min(array_map('strval', $args));
         }, -1);
         $create('regexp', function ($pattern, $value) {

@@ -33,4 +33,14 @@ class RdfImporterTest extends DbTestCase
         $members = $this->rdfImporter->getMembers($strategy, $namespaceUri, $options);
         $this->assertNotNull($members);
     }
+
+    public function testGetMembersReadsTypedLiteralsAsText()
+    {
+        $members = $this->rdfImporter->getMembers('file', 'http://example.org/typed#', [
+            'format' => 'turtle',
+            'file' => __DIR__ . '/_files/typed-literals.ttl',
+        ]);
+        $this->assertSame(['Number' => ['label' => '1', 'comment' => '2020-01-01']], $members['classes']);
+        $this->assertSame(['flag' => ['label' => 'false', 'comment' => 'true']], $members['properties']);
+    }
 }

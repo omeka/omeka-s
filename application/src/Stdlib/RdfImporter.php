@@ -379,7 +379,9 @@ class RdfImporter
     {
         $label = $resource->get($labelProperty, 'literal', $lang) ?: $resource->get($labelProperty, 'literal');
         if ($label) {
-            $value = $label->getValue();
+            // The literal's text: a typed literal's value is a number, a
+            // boolean, or a date.
+            $value = (string) $label;
             if ('' !== $value) {
                 return $value;
             }
@@ -402,7 +404,7 @@ class RdfImporter
     {
         $comment = $resource->get($commentProperty, 'literal', $lang) ?: $resource->get($commentProperty, 'literal');
         if ($comment) {
-            return $comment->getValue();
+            return (string) $comment;
         }
     }
 }

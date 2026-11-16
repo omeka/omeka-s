@@ -200,8 +200,13 @@ class VocabularyController extends AbstractActionController
             $form = $this->getForm(VocabularyUpdateForm::class);
             $form->setData($data);
             if ($form->isValid()) {
-                $this->rdfImporter->update($this->params('id'), json_decode($data['diff'], true));
-                $this->messenger()->addSuccess('Changes to the vocabulary successfully made'); // @translate
+                $diff = json_decode($data['diff'], true);
+                if ($this->isValidDiff($diff)) {
+                    $this->rdfImporter->update($this->params('id'), $diff);
+                    $this->messenger()->addSuccess('Changes to the vocabulary successfully made'); // @translate
+                } else {
+                    $this->messenger()->addError('Invalid changes to the vocabulary'); // @translate
+                }
             } else {
                 $this->messenger()->addFormErrors($form);
             }
@@ -267,5 +272,49 @@ class VocabularyController extends AbstractActionController
         $view->setVariable('resourceClasses', $classResponse->getContent());
         $view->setVariable('vocabulary', $vocabResponse->getContent());
         return $view;
+    }
+
+    /**
+     * Check that a diff posted from the review screen has the shape the
+     * importer's update takes, with labels and comments the database takes.
+     *
+     * @param mixed $diff
+     * @return bool
+     */
+    protected function isValidDiff($diff)
+    {
+        $isLabel = function ($value) {
+            return is_string($value) && '' !== $value && mb_strlen($value) <= 255;
+        };
+        $isComment = function ($value) {
+            return null === $value || is_string($value);
+        };
+        if (!is_array($diff)) {
+            return false;
+        }
+        foreach (['classes', 'properties'] as $members) {
+            foreach (['new', 'label', 'comment'] as $change) {
+                if (!isset($diff[$members][$change]) || !is_array($diff[$members][$change])) {
+                    return false;
+                }
+                foreach ($diff[$members][$change] as $localName => $values) {
+                    if ('' === (string) $localName || !is_array($values) || !array_key_exists(1, $values)) {
+                        return false;
+                    }
+                    // A new term is [label, comment], a change [from, to].
+                    if ('new' === $change) {
+                        $isValid = $isLabel($values[0] ?? null) && $isComment($values[1]);
+                    } elseif ('label' === $change) {
+                        $isValid = $isLabel($values[1]);
+                    } else {
+                        $isValid = $isComment($values[1]);
+                    }
+                    if (!$isValid) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 }

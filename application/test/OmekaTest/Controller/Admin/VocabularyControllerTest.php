@@ -7,6 +7,7 @@ use Omeka\Entity\User;
 use Omeka\Entity\Vocabulary;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\VocabularyUpdateForm;
+use Omeka\Mvc\Controller\Plugin\Messenger;
 use Omeka\Permissions\Exception\PermissionDeniedException;
 use Omeka\Stdlib\RdfImporter;
 use Omeka\Test\AbstractHttpControllerTestCase;
@@ -164,6 +165,18 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             'classes' => ['new' => [], 'label' => [], 'comment' => []],
             'properties' => ['new' => [], 'label' => [$localName => [$from, $to]], 'comment' => []],
         ]);
+    }
+
+    /**
+     * The messages of a type the last request left for the next page.
+     *
+     * @param int $type A Messenger constant
+     * @return string[]
+     */
+    protected function messages($type)
+    {
+        $messages = $this->getApplicationServiceLocator()->get('ControllerPluginManager')->get('messenger')->get();
+        return array_map('strval', $messages[$type] ?? []);
     }
 
     /**
@@ -329,6 +342,101 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         ] + $this->csrfField(VocabularyUpdateForm::class));
         $this->assertSame(302, $status);
         $this->assertSame('Changed', $this->propertyLabel('review:name'));
+    }
+
+    public function invalidDiffs()
+    {
+        $none = ['new' => [], 'label' => [], 'comment' => []];
+        $diff = function (array $properties) use ($none) {
+            return json_encode(['classes' => $none, 'properties' => $properties + $none]);
+        };
+        return [
+            'not JSON' => ['{'],
+            'no classes' => [json_encode(['properties' => $none])],
+            'changes not a list' => [$diff(['label' => 'Changed'])],
+            'empty local name' => [$diff(['label' => ['' => ['Name', 'Changed']]])],
+            'change not a pair' => [$diff(['label' => ['name' => 'Changed']])],
+            'empty label' => [$diff(['label' => ['name' => ['Name', '']]])],
+            'label too long' => [$diff(['label' => ['name' => ['Name', str_repeat('a', 256)]]])],
+            'label not text' => [$diff(['label' => ['name' => ['Name', ['Changed']]]])],
+            'comment not text' => [$diff(['comment' => ['name' => ['A name.', 5]]])],
+            'new term without a label' => [$diff(['new' => ['added' => [null, 'Added.']]])],
+            'new term without a comment' => [$diff(['new' => ['added' => ['Added']]])],
+        ];
+    }
+
+    /**
+     * @dataProvider invalidDiffs
+     */
+    public function testAcceptRefusesInvalidDiff($diff)
+    {
+        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/update', $this->vocabularyId), [
+            'diff' => $diff,
+        ] + $this->csrfField(VocabularyUpdateForm::class));
+        $this->assertSame(302, $status);
+        $this->assertSame(['Invalid changes to the vocabulary'], $this->messages(Messenger::ERROR));
+        $this->assertSame('<i>stored property label</i>', $this->propertyLabel('review:name'));
+        $this->assertSame(1, $this->api()->search('properties', ['vocabulary_id' => $this->vocabularyId])->getTotalResults());
+    }
+
+    public function testAcceptTakesLabelOf255Characters()
+    {
+        $label = str_repeat('a', 255);
+        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/update', $this->vocabularyId), [
+            'diff' => $this->labelDiff('name', '<i>stored property label</i>', $label),
+        ] + $this->csrfField(VocabularyUpdateForm::class));
+        $this->assertSame(302, $status);
+        $this->assertSame($label, $this->propertyLabel('review:name'));
+    }
+
+    public function testAcceptSkipsTermsThatNoLongerExist()
+    {
+        // Changes to terms deleted since the review, beside one that's still
+        // there.
+        $diff = json_encode([
+            'classes' => [
+                'new' => [],
+                'label' => ['Gone' => ['Gone', 'Changed']],
+                'comment' => ['Gone' => [null, 'Changed.']],
+            ],
+            'properties' => [
+                'new' => [],
+                'label' => ['gone' => ['Gone', 'Changed'], 'name' => ['<i>stored property label</i>', 'Changed']],
+                'comment' => ['gone' => [null, 'Changed.']],
+            ],
+        ]);
+        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/update', $this->vocabularyId), [
+            'diff' => $diff,
+        ] + $this->csrfField(VocabularyUpdateForm::class));
+        $this->assertSame(302, $status);
+        $this->assertSame(['Changes to the vocabulary successfully made'], $this->messages(Messenger::SUCCESS));
+        $this->assertSame('Changed', $this->propertyLabel('review:name'));
+    }
+
+    public function testAcceptSkipsNewTermsThatAlreadyExist()
+    {
+        // Accepted twice, as from a review page gone back to: its new terms
+        // are already in Omeka, beside one that isn't.
+        $diff = json_encode([
+            'classes' => [
+                'new' => ['Thing' => ['Thing again', null]],
+                'label' => [],
+                'comment' => [],
+            ],
+            'properties' => [
+                'new' => ['name' => ['Name again', null], 'added' => ['Added', null]],
+                'label' => [],
+                'comment' => [],
+            ],
+        ]);
+        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/update', $this->vocabularyId), [
+            'diff' => $diff,
+        ] + $this->csrfField(VocabularyUpdateForm::class));
+        $this->assertSame(302, $status);
+        $this->assertSame(['Changes to the vocabulary successfully made'], $this->messages(Messenger::SUCCESS));
+        $this->assertSame('<i>stored property label</i>', $this->propertyLabel('review:name'));
+        $this->assertSame('Added', $this->propertyLabel('review:added'));
+        $this->assertSame(1, $this->api()->search('resource_classes', ['vocabulary_id' => $this->vocabularyId])->getTotalResults());
     }
 
     public function testDeleteRefusedForPermanentVocabulary()

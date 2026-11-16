@@ -182,6 +182,9 @@ class RdfImporter
     /**
      * Update a vocabulary given a diff.
      *
+     * A change to a term that no longer exists, or a new term that already
+     * exists, is skipped.
+     *
      * @param int $vocabId
      * @param array $diff
      */
@@ -193,6 +196,9 @@ class RdfImporter
         $propertyRepo = $em->getRepository('Omeka\Entity\Property');
 
         foreach ($diff['properties']['new'] as $localName => $info) {
+            if ($propertyRepo->findOneBy(['vocabulary' => $vocabulary, 'localName' => $localName])) {
+                continue;
+            }
             $property = new Property;
             $property->setVocabulary($vocabulary);
             $property->setLocalName($localName);
@@ -205,17 +211,24 @@ class RdfImporter
                 'vocabulary' => $vocabulary,
                 'localName' => $localName,
             ]);
-            $property->setLabel($change[1]);
+            if ($property) {
+                $property->setLabel($change[1]);
+            }
         }
         foreach ($diff['properties']['comment'] as $localName => $change) {
             $property = $propertyRepo->findOneBy([
                 'vocabulary' => $vocabulary,
                 'localName' => $localName,
             ]);
-            $property->setComment($change[1]);
+            if ($property) {
+                $property->setComment($change[1]);
+            }
         }
 
         foreach ($diff['classes']['new'] as $localName => $info) {
+            if ($classRepo->findOneBy(['vocabulary' => $vocabulary, 'localName' => $localName])) {
+                continue;
+            }
             $class = new ResourceClass;
             $class->setVocabulary($vocabulary);
             $class->setLocalName($localName);
@@ -228,14 +241,18 @@ class RdfImporter
                 'vocabulary' => $vocabulary,
                 'localName' => $localName,
             ]);
-            $class->setLabel($change[1]);
+            if ($class) {
+                $class->setLabel($change[1]);
+            }
         }
         foreach ($diff['classes']['comment'] as $localName => $change) {
             $class = $classRepo->findOneBy([
                 'vocabulary' => $vocabulary,
                 'localName' => $localName,
             ]);
-            $class->setComment($change[1]);
+            if ($class) {
+                $class->setComment($change[1]);
+            }
         }
 
         $em->flush();

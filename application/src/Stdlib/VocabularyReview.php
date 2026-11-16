@@ -97,8 +97,9 @@ class VocabularyReview
      *   - source_label: (optional) A name for the file's side of the
      *     changes, such as where it came from. By default, "the file".
      * @return string The review page's URL
-     * @throws ValidationException When the file can't be read, or has
-     *   terms too long to store
+     * @throws ValidationException When the file can't be read, has no
+     *   terms in the namespace URI (with the one its terms use, where
+     *   there is one), or has terms too long to store
      */
     public function start($vocabularyId, $filePath, array $readingOptions = [], array $reviewOptions = [])
     {
@@ -359,8 +360,14 @@ class VocabularyReview
         if (null !== $path) {
             try {
                 $review['reading'] = $this->getStartingReading($vocabulary, $review, $readingOptions);
-                // A file that can't be read, or has terms too long to store,
-                // is refused now rather than on the review page.
+                // A file that can't be read, has no terms in the namespace,
+                // or has terms too long to store, is refused now rather than
+                // reviewed. Without terms in the namespace, every term would
+                // seem dropped from the file.
+                $this->rdfImporter->checkNamespaceUri('file', $this->getNamespaceUri($review), [
+                    'file' => $path,
+                    'format' => $review['reading']['format'] ?? 'guess',
+                ]);
                 $this->getDiff($review, $review['reading']);
             } catch (\Exception $e) {
                 unlink($path);

@@ -235,18 +235,9 @@ class RdfImporter
         }
 
         if (!$members['classes'] && !$members['properties']) {
-            $exception = new ValidationException('No classes or properties found. Are you sure you used the correct namespace URI?'); // @translate
             // Read the file again, which only an import that fails needs,
             // for the namespace its terms use.
-            $graph = $this->getGraph($strategy, $vocab['o:namespace_uri'], $options);
-            $suggestion = $this->suggestNamespaceUri($graph, $vocab['o:namespace_uri']);
-            if (null !== $suggestion) {
-                $exception->getErrorStore()->addError('o:namespace_uri', new Message(
-                    'The file\'s classes and properties use the namespace URI "%s".', // @translate
-                    $suggestion
-                ));
-            }
-            throw $exception;
+            throw $this->getNoMembersException($this->getGraph($strategy, $vocab['o:namespace_uri'], $options), $vocab['o:namespace_uri']);
         }
         $this->checkTermLengths($members);
 
@@ -254,6 +245,26 @@ class RdfImporter
             // How the file was read, to read a later version the same way.
             'o:import_options' => array_intersect_key($options, array_flip(self::READING_OPTIONS)),
         ]));
+    }
+
+    /**
+     * Refuse a vocabulary file with no classes or properties in a
+     * namespace, as when it's the file of another vocabulary, or uses
+     * another form of the namespace URI. The refusal suggests the namespace
+     * URI its terms do use.
+     *
+     * @see self::getMembers()
+     * @param string $strategy
+     * @param string $namespaceUri
+     * @param array $options As for getMembers()
+     * @throws ValidationException
+     */
+    public function checkNamespaceUri($strategy, $namespaceUri, array $options = [])
+    {
+        $graph = $this->getGraph($strategy, $namespaceUri, $options);
+        if (!$this->hasMembers($graph, $namespaceUri)) {
+            throw $this->getNoMembersException($graph, $namespaceUri);
+        }
     }
 
     /**
@@ -785,6 +796,27 @@ class RdfImporter
             ));
         }
         throw $exception;
+    }
+
+    /**
+     * Get the refusal of a file with no classes or properties in a
+     * namespace, with the namespace URI its terms use, if any.
+     *
+     * @param RdfGraph $graph
+     * @param string $namespaceUri
+     * @return ValidationException
+     */
+    protected function getNoMembersException(RdfGraph $graph, $namespaceUri)
+    {
+        $exception = new ValidationException('No classes or properties found. Are you sure you used the correct namespace URI?'); // @translate
+        $suggestion = $this->suggestNamespaceUri($graph, $namespaceUri);
+        if (null !== $suggestion) {
+            $exception->getErrorStore()->addError('o:namespace_uri', new Message(
+                'The file\'s classes and properties use the namespace URI "%s".', // @translate
+                $suggestion
+            ));
+        }
+        return $exception;
     }
 
     /**

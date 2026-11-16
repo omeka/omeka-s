@@ -701,6 +701,19 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame('Review', $this->vocabulary()->label());
     }
 
+    public function testUpdateRefusesAFileWithoutTermsInTheNamespace()
+    {
+        // The vocabulary's terms in another namespace, as another
+        // vocabulary's file would have them.
+        $this->serveFile('moved-name.ttl');
+        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/update', $this->vocabularyId), $this->updateWithUrl());
+        $this->assertSame(200, $status);
+        $this->assertTemplateName('omeka/admin/vocabulary/update');
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        $this->assertStringContainsString('No classes or properties found. Are you sure you used the correct namespace URI?', $page);
+        $this->assertStringContainsString('The file\'s classes and properties use the namespace URI "http://example.org/moved#".', $page);
+    }
+
     public function testUpdateWithTermsTooLongToStoreNamesThem()
     {
         $this->serveFile('long-label.ttl');

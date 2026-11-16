@@ -578,6 +578,24 @@ class RdfImporterTest extends DbTestCase
         $this->assertSame(['name', 'title'], array_keys($diff['properties']['new']));
     }
 
+    public function testCheckNamespaceUri()
+    {
+        $options = ['file' => __DIR__ . '/_files/compare-moved.ttl', 'format' => 'turtle'];
+        // Its own namespace passes.
+        $this->rdfImporter->checkNamespaceUri('file', 'http://example.org/moved#', $options);
+        // Another is refused, with the one its terms use.
+        try {
+            $this->rdfImporter->checkNamespaceUri('file', 'http://example.org/compare#', $options);
+            $this->fail('The file was taken');
+        } catch (ValidationException $e) {
+            $this->assertSame('No classes or properties found. Are you sure you used the correct namespace URI?', $e->getMessage());
+            $this->assertSame(
+                'The file\'s classes and properties use the namespace URI "http://example.org/moved#".',
+                (string) $e->getErrorStore()->getErrors()['o:namespace_uri'][0]
+            );
+        }
+    }
+
     public function namespaceSuggestions()
     {
         $prefixes = <<<'TTL'

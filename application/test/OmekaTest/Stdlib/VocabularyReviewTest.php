@@ -163,10 +163,16 @@ class VocabularyReviewTest extends DbTestCase
 
     public function testAcceptChangesNothingWhenRefused()
     {
-        // Dublin Core's namespace, which the API refuses.
-        $token = $this->start('compare.ttl', ['format' => 'turtle'], [
+        // The namespace of the file's terms, which another vocabulary has
+        // since taken, so the API refuses it.
+        $token = $this->start('compare-moved.ttl', ['format' => 'turtle'], [
             'label' => 'Refused',
-            'namespace_uri' => 'http://purl.org/dc/terms/',
+            'namespace_uri' => 'http://example.org/moved#',
+        ]);
+        $this->api()->create('vocabularies', [
+            'o:namespace_uri' => 'http://example.org/moved#',
+            'o:prefix' => 'moved',
+            'o:label' => 'Moved',
         ]);
         try {
             $this->review->accept($token, $this->review->get($token)['reading']);
@@ -178,6 +184,20 @@ class VocabularyReviewTest extends DbTestCase
         // The review goes on.
         $this->assertNotNull($this->review->get($token));
         $this->review->cancel($token);
+    }
+
+    public function testStartRefusesAFileWithoutTermsInTheNamespace()
+    {
+        $pattern = $this->services->get('Config')['temp_dir'] . '/' . VocabularyReview::FILE_PREFIX . '*';
+        $files = glob($pattern);
+        try {
+            // The vocabulary's terms moved to another namespace in this file.
+            $this->review->start($this->vocabularyId, __DIR__ . '/_files/compare-moved.ttl', ['format' => 'turtle']);
+            $this->fail('The review started');
+        } catch (ValidationException $e) {
+            $this->assertStringContainsString('http://example.org/moved#', (string) $e->getErrorStore()->getErrors()['o:namespace_uri'][0]);
+        }
+        $this->assertSame($files, glob($pattern));
     }
 
     public function testReviewWithoutAFile()

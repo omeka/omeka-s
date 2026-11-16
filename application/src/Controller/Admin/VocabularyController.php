@@ -147,6 +147,12 @@ class VocabularyController extends AbstractActionController
             if ($form->isValid()) {
                 $data = $form->getData();
                 $response = $this->api($form)->update('vocabularies', $this->params('id'), $data['vocabulary-info'], [], ['isPartial' => true]);
+                if (!$response) {
+                    // The API refused the vocabulary's own fields and has put
+                    // its reasons on the form, so show the form again.
+                    $view->setVariable('form', $form);
+                    return $view;
+                }
                 $strategy = null;
                 $options = [
                     'format' => $data['vocabulary-file']['format'],

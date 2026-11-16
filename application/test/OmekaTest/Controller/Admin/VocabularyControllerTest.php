@@ -365,6 +365,64 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame('Renamed', $this->api()->read('vocabularies', $this->vocabularyId)->getContent()->label());
     }
 
+    /**
+     * The edit form's fields, as a browser posts them, with a namespace
+     * Dublin Core already has, which the API refuses.
+     *
+     * @param string $importType
+     * @param string $url
+     * @return array
+     */
+    protected function refusedEdit($importType, $url)
+    {
+        return [
+            'vocabulary-info' => [
+                'o:label' => 'Renamed',
+                'o:comment' => '',
+                'o:namespace_uri' => 'http://purl.org/dc/terms/',
+            ],
+            'vocabulary-file' => [
+                'import_type' => $importType,
+                'url' => $url,
+                'format' => 'turtle',
+            ],
+            'vocabulary-advanced' => [
+                'lang' => '',
+                'label_property' => '',
+                'comment_property' => '',
+            ],
+        ] + $this->csrfField(VocabularyForm::class);
+    }
+
+    public function testEditRefusedByApiShowsFormAgain()
+    {
+        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), $this->refusedEdit('upload', ''), [
+            'vocabulary-file' => [
+                'file' => ['name' => '', 'type' => '', 'tmp_name' => '', 'error' => UPLOAD_ERR_NO_FILE, 'size' => 0],
+            ],
+        ]);
+        $this->assertSame(200, $status);
+        $this->assertTemplateName('omeka/admin/vocabulary/edit');
+        $page = $this->getResponse()->getContent();
+        $this->assertStringContainsString('is already taken.', $page);
+        $this->assertStringNotContainsString('Vocabulary successfully updated', $page);
+        $this->reset(true);
+        $this->signIn();
+        $this->assertSame('Review', $this->api()->read('vocabularies', $this->vocabularyId)->getContent()->label());
+    }
+
+    public function testEditRefusedByApiStopsBeforeReview()
+    {
+        $data = $this->refusedEdit('url', 'http://example.org/review.ttl');
+        $this->reset(true);
+        $this->signIn();
+        $this->readFileForUrl(__DIR__ . '/_files/markup.ttl');
+        $this->dispatch(sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), 'POST', $data);
+        $this->assertResponseStatusCode(200);
+        $this->assertTemplateName('omeka/admin/vocabulary/edit');
+        $this->assertStringContainsString('is already taken.', $this->getResponse()->getContent());
+    }
+
     public function testAcceptRefusedForPermanentVocabulary()
     {
         $dcterms = $this->api()->read('vocabularies', ['prefix' => 'dcterms'])->getContent();

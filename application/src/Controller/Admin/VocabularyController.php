@@ -154,12 +154,18 @@ class VocabularyController extends AbstractActionController
                     'label_property' => $data['vocabulary-advanced']['label_property'],
                     'comment_property' => $data['vocabulary-advanced']['comment_property'],
                 ];
-                if ('upload' === $data['vocabulary-file']['import_type']) {
+                // With no file chosen, or the URL left empty, only the
+                // vocabulary's own fields change. The form has already refused
+                // a file that failed to upload, so an empty temp file name
+                // means none was chosen.
+                $file = $data['vocabulary-file']['file'] ?? [];
+                $url = trim((string) $data['vocabulary-file']['url']);
+                if ('upload' === $data['vocabulary-file']['import_type'] && !empty($file['tmp_name'])) {
                     $strategy = 'file';
-                    $options['file'] = $data['vocabulary-file']['file']['tmp_name'];
-                } elseif ('url' === $data['vocabulary-file']['import_type']) {
+                    $options['file'] = $file['tmp_name'];
+                } elseif ('url' === $data['vocabulary-file']['import_type'] && '' !== $url) {
                     $strategy = 'url';
-                    $options['url'] = $data['vocabulary-file']['url'];
+                    $options['url'] = $url;
                 }
                 if (null === $strategy) {
                     $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate

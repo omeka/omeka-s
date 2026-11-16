@@ -2,10 +2,12 @@
 namespace OmekaTest\Controller\Admin;
 
 use Laminas\Form\Element\Csrf;
+use Laminas\Stdlib\Parameters;
 use Omeka\Api\Exception\NotFoundException;
 use Omeka\Entity\User;
 use Omeka\Entity\Vocabulary;
 use Omeka\Form\ConfirmForm;
+use Omeka\Form\VocabularyForm;
 use Omeka\Form\VocabularyUpdateForm;
 use Omeka\Mvc\Controller\Plugin\Messenger;
 use Omeka\Permissions\Exception\PermissionDeniedException;
@@ -106,12 +108,14 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
      * @param string $method
      * @param string $path
      * @param array $data
+     * @param array $files Uploads, as PHP gives them in $_FILES
      * @return int The response's HTTP status
      */
-    protected function requestAs($email, $method, $path, array $data = [])
+    protected function requestAs($email, $method, $path, array $data = [], array $files = [])
     {
         $this->reset(true);
         $this->signIn($email);
+        $this->getRequest()->setFiles(new Parameters($files));
         try {
             $this->dispatch($path, $method, $data);
         } catch (PermissionDeniedException $e) {
@@ -313,6 +317,49 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->giveVocabularyTo(self::SUPERVISOR);
         $status = $this->requestAs(self::SUPERVISOR, 'GET', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId));
         $this->assertSame(200, $status);
+    }
+
+    public function editsWithoutFile()
+    {
+        return [
+            'upload with no file chosen' => ['upload'],
+            'URL left empty' => ['url'],
+        ];
+    }
+
+    /**
+     * @dataProvider editsWithoutFile
+     */
+    public function testEditWithoutFileSaves($importType)
+    {
+        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), [
+            'vocabulary-info' => [
+                'o:label' => 'Renamed',
+                'o:comment' => '',
+                'o:namespace_uri' => self::NAMESPACE_URI,
+            ],
+            'vocabulary-file' => [
+                'import_type' => $importType,
+                'url' => '',
+                'format' => 'guess',
+            ],
+            'vocabulary-advanced' => [
+                'lang' => '',
+                'label_property' => '',
+                'comment_property' => '',
+            ],
+        ] + $this->csrfField(VocabularyForm::class), [
+            // The file field, as a browser posts it with no file chosen.
+            'vocabulary-file' => [
+                'file' => ['name' => '', 'type' => '', 'tmp_name' => '', 'error' => UPLOAD_ERR_NO_FILE, 'size' => 0],
+            ],
+        ]);
+        $this->assertSame(302, $status);
+        $this->assertSame(['Vocabulary successfully updated'], $this->messages(Messenger::SUCCESS));
+        $this->assertSame([], $this->messages(Messenger::ERROR));
+        $this->reset(true);
+        $this->signIn();
+        $this->assertSame('Renamed', $this->api()->read('vocabularies', $this->vocabularyId)->getContent()->label());
     }
 
     public function testAcceptRefusedForPermanentVocabulary()

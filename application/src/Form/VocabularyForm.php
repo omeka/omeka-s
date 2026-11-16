@@ -178,6 +178,26 @@ class VocabularyForm extends Form
                 'id' => 'label_property',
             ],
         ]);
+        if (!$vocabulary) {
+            // An edit chooses this on review, with the changes it makes in
+            // view.
+            $this->get('vocabulary-advanced')->add([
+                'name' => 'comments',
+                'type' => 'select',
+                'options' => [
+                    'label' => 'Comments', // @translate
+                    'info' => 'Where a term\'s comment is read from. Omeka can use its definition (skos:definition) in place of rdfs:comment. A comment property entered below is used instead.', // @translate
+                    'value_options' => [
+                        'comment' => 'Comment', // @translate
+                        'definition' => 'Definition where there is one, else comment', // @translate
+                    ],
+                ],
+                'attributes' => [
+                    'id' => 'comments',
+                    'value' => 'comment',
+                ],
+            ]);
+        }
         $this->get('vocabulary-advanced')->add([
             'name' => 'comment_property',
             'type' => 'text',
@@ -211,6 +231,12 @@ class VocabularyForm extends Form
             'name' => 'url',
             'required' => false,
         ]);
+        if (!$vocabulary) {
+            $inputFilter->get('vocabulary-advanced')->add([
+                'name' => 'comments',
+                'required' => false,
+            ]);
+        }
         $inputFilter->get('vocabulary-advanced')->add([
             'name' => 'label_property',
             'required' => false,

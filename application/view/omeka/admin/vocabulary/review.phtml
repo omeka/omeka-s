@@ -7,11 +7,7 @@ $sourceLabel = $review['source_label'] ?? $translate('the file');
 
 // The choices made on the page, as its forms send them.
 $lang = (string) $reading['lang'];
-$commentChoices = [
-    'comment' => \Omeka\Stdlib\RdfImporter::COMMENT_PROPERTY,
-    'definition' => \Omeka\Stdlib\RdfImporter::DEFINITION_COMMENT_PROPERTY,
-];
-$comments = array_search($reading['comment_property'] ?? \Omeka\Stdlib\RdfImporter::COMMENT_PROPERTY, $commentChoices, true);
+$comments = array_search($reading['comment_property'] ?? \Omeka\Stdlib\RdfImporter::COMMENT_PROPERTY, \Omeka\Stdlib\RdfImporter::COMMENT_READINGS, true);
 
 // The terms' labels in Omeka, which name them, with their terms beneath.
 $labels = ['classes' => [], 'properties' => []];

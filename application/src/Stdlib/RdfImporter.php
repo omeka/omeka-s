@@ -41,6 +41,14 @@ class RdfImporter
     const DEFINITION_COMMENT_PROPERTY = 'skos:definition|rdfs:comment';
 
     /**
+     * The ways of reading comments that forms offer, by name.
+     */
+    const COMMENT_READINGS = [
+        'comment' => self::COMMENT_PROPERTY,
+        'definition' => self::DEFINITION_COMMENT_PROPERTY,
+    ];
+
+    /**
      * The options that say how a vocabulary file is read, which a vocabulary
      * stores as its import options: see getMembers().
      */

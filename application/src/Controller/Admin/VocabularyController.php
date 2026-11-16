@@ -85,7 +85,11 @@ class VocabularyController extends AbstractActionController
                     'format' => $data['vocabulary-file']['format'],
                     'lang' => $data['vocabulary-advanced']['lang'],
                     'label_property' => $data['vocabulary-advanced']['label_property'],
-                    'comment_property' => $data['vocabulary-advanced']['comment_property'],
+                    // A comment property entered is used in place of the
+                    // Comments choice.
+                    'comment_property' => $data['vocabulary-advanced']['comment_property']
+                        ?? RdfImporter::COMMENT_READINGS[$data['vocabulary-advanced']['comments'] ?? 'comment']
+                        ?? null,
                 ];
                 if ('upload' === $data['vocabulary-file']['import_type']) {
                     $strategy = 'file';
@@ -416,12 +420,8 @@ class VocabularyController extends AbstractActionController
         if (isset($params['lang']) && is_string($params['lang'])) {
             $choices['lang'] = '' === $params['lang'] ? null : $params['lang'];
         }
-        $commentProperties = [
-            'comment' => RdfImporter::COMMENT_PROPERTY,
-            'definition' => RdfImporter::DEFINITION_COMMENT_PROPERTY,
-        ];
-        if (isset($params['comments']) && is_string($params['comments']) && isset($commentProperties[$params['comments']])) {
-            $choices['comment_property'] = $commentProperties[$params['comments']];
+        if (isset($params['comments']) && is_string($params['comments']) && isset(RdfImporter::COMMENT_READINGS[$params['comments']])) {
+            $choices['comment_property'] = RdfImporter::COMMENT_READINGS[$params['comments']];
         }
         return $choices;
     }

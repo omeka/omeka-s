@@ -13,6 +13,7 @@ use Omeka\Form\ConfirmForm;
 use Omeka\Form\VocabularyForm;
 use Omeka\Mvc\Controller\Plugin\Messenger;
 use Omeka\Permissions\Exception\PermissionDeniedException;
+use Omeka\Stdlib\RdfImporter;
 use Omeka\Test\AbstractHttpControllerTestCase;
 
 /**
@@ -432,6 +433,65 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $status = $this->requestAs(self::ADMIN, 'GET', sprintf('/admin/vocabulary/%s/review?review=%s', $this->vocabularyId, $token));
         $this->assertSame(302, $status);
         $this->assertSame(['This review has ended. Edit the vocabulary to review its changes again.'], $this->messages(Messenger::ERROR));
+    }
+
+    public function testCommentsChoiceIsOnTheImportFormOnly()
+    {
+        $this->requestAs(self::ADMIN, 'GET', '/admin/vocabulary/import');
+        $this->assertStringContainsString('<option value="definition">', html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
+        // An edit chooses on review.
+        $this->requestAs(self::ADMIN, 'GET', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId));
+        $this->assertStringNotContainsString('<option value="definition">', html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
+    }
+
+    public function importsWithComments()
+    {
+        return [
+            'the comment, by default' => [[], RdfImporter::COMMENT_PROPERTY, 'Usage note on titles.'],
+            'the definition, chosen' => [['comments' => 'definition'], RdfImporter::DEFINITION_COMMENT_PROPERTY, "The work's title."],
+            'a comment property entered, over the choice' => [['comments' => 'definition', 'comment_property' => 'rdfs:comment'], 'rdfs:comment', 'Usage note on titles.'],
+        ];
+    }
+
+    /**
+     * @dataProvider importsWithComments
+     */
+    public function testImportReadsCommentsAsChosen(array $advanced, $commentProperty, $titleComment)
+    {
+        $this->serveFile('../../../Stdlib/_files/definitions.ttl');
+        try {
+            $status = $this->requestAs(self::ADMIN, 'POST', '/admin/vocabulary/import', [
+                'vocabulary-info' => [
+                    'o:namespace_uri' => 'http://example.org/defs#',
+                    'o:prefix' => 'defs',
+                    'o:label' => 'Definitions',
+                    'o:comment' => '',
+                ],
+                'vocabulary-file' => [
+                    'import_type' => 'url',
+                    'url' => 'http://example.org/defs.ttl',
+                    'format' => 'turtle',
+                ],
+                'vocabulary-advanced' => $advanced + [
+                    'lang' => '',
+                    'label_property' => '',
+                    'comment_property' => '',
+                ],
+            ] + $this->csrfField(VocabularyForm::class));
+            $this->assertSame(302, $status);
+            $this->reset(true);
+            $this->signIn();
+            $vocabulary = $this->api()->read('vocabularies', ['prefix' => 'defs'])->getContent();
+            $this->assertSame($commentProperty, $vocabulary->importOptions()['comment_property']);
+            $title = $this->api()->search('properties', ['term' => 'defs:title'])->getContent()[0];
+            $this->assertSame($titleComment, $title->comment());
+        } finally {
+            $this->reset(true);
+            $this->signIn();
+            foreach ($this->api()->search('vocabularies', ['prefix' => 'defs'])->getContent() as $vocabulary) {
+                $this->api()->delete('vocabularies', $vocabulary->id());
+            }
+        }
     }
 
     public function testEditRefusedForAnothersVocabulary()

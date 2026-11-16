@@ -63,7 +63,8 @@ class RdfImporter
      * @param string $namespaceUri The namespace URI of the vocabulary
      * @param array $options
      *   - format: (optional)  The format of the RDF file. If not given, the RDF
-     *     parser will attempt to guess the format.
+     *     parser will attempt to guess the format, and a guess that fails or
+     *     reads nothing gives way to each format in turn.
      *   - file: (required for "file" strategy) The RDF file path
      *   - url: (required for "url" strategy) The URL of the RDF file.
      *   - label_property: (optional) The RDF property containing the preferred
@@ -90,7 +91,6 @@ class RdfImporter
         }
 
         // Get the full RDF graph from EasyRdf.
-        $graph = new RdfGraph;
         switch ($strategy) {
             case 'file':
                 // Import from a file
@@ -101,22 +101,19 @@ class RdfImporter
                 if (!is_readable($file)) {
                     throw new ValidationException('Could not read vocabulary file.');
                 }
-                try {
-                    $graph->parseFile($file, $options['format'], $namespaceUri);
-                } catch (\EasyRdf\Exception $e) {
-                    throw new ValidationException('Could not parse vocabulary file.');
-                }
+                $graph = $this->readGraph(function (RdfGraph $graph, $format) use ($file, $namespaceUri) {
+                    $graph->parseFile($file, $format, $namespaceUri);
+                }, $options['format'], 'Could not parse vocabulary file.');
                 break;
             case 'url':
                 // Import from a URL.
                 if (!isset($options['url'])) {
                     throw new ValidationException('No URL specified for the URL import strategy.');
                 }
-                try {
-                    $graph->load($options['url'], $options['format']);
-                } catch (\EasyRdf\Exception $e) {
-                    throw new ValidationException('Could not load vocabulary from URL.');
-                }
+                $url = $options['url'];
+                $graph = $this->readGraph(function (RdfGraph $graph, $format) use ($url) {
+                    $graph->load($url, $format);
+                }, $options['format'], 'Could not load vocabulary from URL.');
                 break;
             default:
                 throw new ValidationException('Unsupported import strategy.');
@@ -333,6 +330,53 @@ class RdfImporter
             }
         }
         return $diff;
+    }
+
+    /**
+     * Read RDF into a new graph.
+     *
+     * A guessed format can be wrong without failing: EasyRdf takes a Turtle
+     * file that mentions RDFa near its start for RDFa, which reads nothing.
+     * So when a guess fails or reads nothing, each format a user can choose
+     * is tried, and the first that reads something is used. A format the
+     * user chose is used alone.
+     *
+     * @param callable $read Reads into the graph it's passed, in the format
+     *   it's passed
+     * @param string $format A format, or "guess"
+     * @param string $error The message when nothing can be read
+     * @return RdfGraph
+     */
+    protected function readGraph(callable $read, $format, $error)
+    {
+        $graph = new RdfGraph;
+        try {
+            $read($graph, $format);
+        } catch (\EasyRdf\Http\Exception $e) {
+            // The server refused the request, which another format won't
+            // change.
+            throw new ValidationException($error);
+        } catch (\EasyRdf\Exception $e) {
+            $graph = null;
+        }
+        if ('guess' === $format && (!$graph || !$graph->countTriples())) {
+            foreach (['rdfxml', 'turtle', 'jsonld', 'ntriples'] as $try) {
+                $attempt = new RdfGraph;
+                try {
+                    $read($attempt, $try);
+                } catch (\Throwable $e) {
+                    // A format that can't read the file, however it fails.
+                    continue;
+                }
+                if ($attempt->countTriples()) {
+                    return $attempt;
+                }
+            }
+        }
+        if (!$graph) {
+            throw new ValidationException($error);
+        }
+        return $graph;
     }
 
     /**

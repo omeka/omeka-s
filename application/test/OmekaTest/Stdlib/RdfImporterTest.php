@@ -1,6 +1,9 @@
 <?php
 namespace Omeka\Stdlib;
 
+use EasyRdf\Http;
+use EasyRdf\Http\Client as HttpClient;
+use EasyRdf\Http\Response;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Test\DbTestCase;
 
@@ -19,6 +22,46 @@ class RdfImporterTest extends DbTestCase
         $apiManager = $services->get('Omeka\ApiManager');
         $entityManager = $services->get('Omeka\EntityManager');
         $this->rdfImporter = new RdfImporter($apiManager, $entityManager);
+    }
+
+    public function tearDown(): void
+    {
+        if ($this->httpClient) {
+            Http::setDefaultHttpClient($this->httpClient);
+        }
+        parent::tearDown();
+    }
+
+    /**
+     * EasyRdf's HTTP client, while a test answers its requests.
+     *
+     * @var HttpClient|null
+     */
+    protected $httpClient;
+
+    /**
+     * Answer EasyRdf's requests with a response, in place of a server.
+     *
+     * @param Response $response
+     * @return HttpClient The client answering, which counts the requests in
+     *   $requests
+     */
+    protected function answerRequests(Response $response)
+    {
+        $client = new class extends HttpClient {
+            public $response;
+            public $requests = 0;
+
+            public function request($method = null)
+            {
+                $this->requests++;
+                return $this->response;
+            }
+        };
+        $client->response = $response;
+        $this->httpClient = Http::getDefaultHttpClient();
+        Http::setDefaultHttpClient($client);
+        return $client;
     }
 
     public function testGetMembers()
@@ -72,12 +115,54 @@ class RdfImporterTest extends DbTestCase
     public function testReadingAFileThatMentionsRdfa()
     {
         // Guessing its format, EasyRdf takes the Turtle file for RDFa and
-        // reads nothing from it.
+        // reads nothing from it, so the formats are tried in turn.
         $members = $this->members('rdfa-mention.ttl', 'http://example.org/mention#', ['format' => 'guess']);
-        $this->assertSame(['classes' => [], 'properties' => []], $members);
+        $this->assertSame(['Thing'], array_keys($members['classes']));
         // Read as Turtle, it has its terms.
         $members = $this->members('rdfa-mention.ttl', 'http://example.org/mention#', ['format' => 'turtle']);
         $this->assertSame(['Thing'], array_keys($members['classes']));
+    }
+
+    public function testReadingAUrlWhoseFormatIsMisread()
+    {
+        // A server says the Turtle file is HTML, so EasyRdf reads it as RDFa,
+        // and reads nothing. Asked again for RDF/XML and then Turtle, the
+        // server sends the same file, which reads as Turtle.
+        $client = $this->answerRequests(new Response(200, ['Content-Type' => 'text/html'], file_get_contents(__DIR__ . '/_files/rdfa-mention.ttl')));
+        $members = $this->rdfImporter->getMembers('url', 'http://example.org/mention#', ['url' => 'http://example.org/mention.ttl']);
+        $this->assertSame(['Thing'], array_keys($members['classes']));
+        $this->assertSame(3, $client->requests);
+    }
+
+    public function testReadingAUrlTheServerRefuses()
+    {
+        // Another format wouldn't change the server's answer, so it's asked
+        // once.
+        $client = $this->answerRequests(new Response(404, [], 'Not found'));
+        try {
+            $this->rdfImporter->getMembers('url', 'http://example.org/mention#', ['url' => 'http://example.org/missing.ttl']);
+            $this->fail('The URL was read');
+        } catch (ValidationException $e) {
+            $this->assertSame('Could not load vocabulary from URL.', $e->getMessage());
+        }
+        $this->assertSame(1, $client->requests);
+    }
+
+    public function testReadingInAFormatTheFileIsNotIn()
+    {
+        // A format the user chose isn't second-guessed.
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('Could not parse vocabulary file.');
+        $this->members('rdfa-mention.ttl', 'http://example.org/mention#', ['format' => 'rdfxml']);
+    }
+
+    public function testReadingAnEmptyFile()
+    {
+        // Some formats read an empty file as empty RDF, but none reads
+        // anything from it, so it's an error, as when guessing alone.
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('Could not parse vocabulary file.');
+        $this->members('empty.ttl', 'http://example.org/empty#', ['format' => 'guess']);
     }
 
     public function testImportingWithAnotherFormOfTheNamespace()

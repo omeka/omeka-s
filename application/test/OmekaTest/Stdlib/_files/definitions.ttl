@@ -1,0 +1,19 @@
+# Terms with both a definition and a comment, and one with only a comment.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix defs: <http://example.org/defs#> .
+
+defs:Work a rdfs:Class ;
+    rdfs:label "Work" ;
+    skos:definition "A creative work." ;
+    rdfs:comment "Usage note on works." .
+
+defs:title a rdf:Property ;
+    rdfs:label "Title" ;
+    skos:definition "The work's title." ;
+    rdfs:comment "Usage note on titles." .
+
+defs:note a rdf:Property ;
+    rdfs:label "Note" ;
+    rdfs:comment "A note." .

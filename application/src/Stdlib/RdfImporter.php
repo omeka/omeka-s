@@ -24,6 +24,23 @@ class RdfImporter
     const LABEL_MAX_LENGTH = 255;
 
     /**
+     * Where a term's label is read from by default: the first of these
+     * properties the term has.
+     */
+    const LABEL_PROPERTY = 'skos:prefLabel|rdfs:label|foaf:name|rss:title|dc:title|dc11:title';
+
+    /**
+     * Where a term's comment is read from by default: its comment.
+     */
+    const COMMENT_PROPERTY = 'rdfs:comment';
+
+    /**
+     * Where a term's comment is read from to use its definition where it has
+     * one, else its comment.
+     */
+    const DEFINITION_COMMENT_PROPERTY = 'skos:definition|rdfs:comment';
+
+    /**
      * The options that say how a vocabulary file is read, which a vocabulary
      * stores as its import options: see getMembers().
      */
@@ -105,10 +122,10 @@ class RdfImporter
             $options['format'] = 'guess';
         }
         if (!isset($options['label_property'])) {
-            $options['label_property'] = 'skos:prefLabel|rdfs:label|foaf:name|rss:title|dc:title|dc11:title';
+            $options['label_property'] = self::LABEL_PROPERTY;
         }
         if (!isset($options['comment_property'])) {
-            $options['comment_property'] = 'rdfs:comment';
+            $options['comment_property'] = self::COMMENT_PROPERTY;
         }
         if (!isset($options['lang'])) {
             $options['lang'] = null;
@@ -434,6 +451,132 @@ class RdfImporter
             }
         }
         return $missing;
+    }
+
+    /**
+     * Get the languages of a vocabulary file's labels and comments: the
+     * language tags on those of the classes and properties it would import.
+     *
+     * @see self::getMembers()
+     * @param string $strategy
+     * @param string $namespaceUri
+     * @param array $options As for getMembers()
+     * @return string[] Sorted
+     */
+    public function getLanguages($strategy, $namespaceUri, array $options = [])
+    {
+        return $this->getGraphLanguages(
+            $this->getGraph($strategy, $namespaceUri, $options),
+            $namespaceUri,
+            ($options['label_property'] ?? self::LABEL_PROPERTY) . '|' . ($options['comment_property'] ?? self::COMMENT_PROPERTY)
+        );
+    }
+    /**
+     * Guess how a vocabulary's file was read, for a vocabulary with no stored
+     * reading: the language and the comment property that read a file
+     * closest to what Omeka has.
+     *
+     * The language is the one whose labels match the most of Omeka's, of the
+     * file's languages and none ("First available"). Ties go to the default
+     * language: English, else a regional English, else the first; none wins
+     * only outright. The comment property is the one, of COMMENT_PROPERTY and
+     * DEFINITION_COMMENT_PROPERTY, that would change fewer of Omeka's
+     * comments, COMMENT_PROPERTY on a tie. The file is read once.
+     *
+     * @see self::getMembers()
+     * @param int $vocabularyId
+     * @param string $strategy
+     * @param string $namespaceUri The namespace URI to read the file with
+     * @param array $options As for getMembers(); its language and comment
+     *   property are what's guessed
+     * @return array ['lang' => string|null, 'comment_property' => string]
+     */
+    public function guessReading($vocabularyId, $strategy, $namespaceUri, array $options = [])
+    {
+        $labelProperty = $options['label_property'] ?? self::LABEL_PROPERTY;
+        $graph = $this->getGraph($strategy, $namespaceUri, $options);
+        $stored = $this->getStoredMembers(['vocabulary_id' => (int) $vocabularyId]);
+        $languages = $this->getGraphLanguages($graph, $namespaceUri, $labelProperty);
+
+        // The language: each term's label read in each language, as
+        // getMembers() reads it, against Omeka's.
+        $default = $this->getDefaultLanguage($languages);
+        $lang = $default;
+        $mostMatches = -1;
+        foreach (array_unique(array_merge([$default], $languages, [null])) as $candidate) {
+            $matches = 0;
+            foreach ($stored as $terms) {
+                foreach ($terms as $localName => $term) {
+                    $resource = $graph->resource($namespaceUri . $localName);
+                    $label = $this->getLabel($resource, $labelProperty, $candidate, (string) $localName);
+                    $matches += $this->getComparableText($label) === $this->getComparableText($term['label']) ? 1 : 0;
+                }
+            }
+            if ($matches > $mostMatches) {
+                [$lang, $mostMatches] = [$candidate, $matches];
+            }
+        }
+
+        // The comment property: the comments each would change, in that
+        // language, as getDiff() counts them.
+        $changes = [];
+        foreach ([self::COMMENT_PROPERTY, self::DEFINITION_COMMENT_PROPERTY] as $commentProperty) {
+            $changes[$commentProperty] = 0;
+            foreach (['classes' => $this->classTypes, 'properties' => $this->propertyTypes] as $type => $types) {
+                $members = $this->getMembersOfTypes($graph, $types, $namespaceUri, $labelProperty, $commentProperty, $lang);
+                $changes[$commentProperty] += count($this->calculateDiff($stored[$type], $members)['comment']);
+            }
+        }
+        $commentProperty = $changes[self::DEFINITION_COMMENT_PROPERTY] < $changes[self::COMMENT_PROPERTY]
+            ? self::DEFINITION_COMMENT_PROPERTY
+            : self::COMMENT_PROPERTY;
+
+        return ['lang' => $lang, 'comment_property' => $commentProperty];
+    }
+
+    /**
+     * Get the language tags on the values of a property of the classes and
+     * properties a graph has in a namespace.
+     *
+     * @param RdfGraph $graph
+     * @param string $namespaceUri
+     * @param string $property A property, or alternatives as "a|b"
+     * @return string[] Sorted
+     */
+    protected function getGraphLanguages(RdfGraph $graph, $namespaceUri, $property)
+    {
+        $languages = [];
+        foreach (array_merge($this->classTypes, $this->propertyTypes) as $type) {
+            foreach ($graph->allOfType($type) as $resource) {
+                if ($resource->getUri() !== $namespaceUri . $resource->localName()) {
+                    continue;
+                }
+                foreach ($resource->all($property, 'literal') as $literal) {
+                    if ($literal->getLang()) {
+                        $languages[$literal->getLang()] = true;
+                    }
+                }
+            }
+        }
+        $languages = array_keys($languages);
+        sort($languages);
+        return $languages;
+    }
+
+    /**
+     * Get the language a file's terms are read in by default: English if it
+     * has it, else a regional English such as en-US, else its first
+     * language, else none.
+     *
+     * @param string[] $languages
+     * @return string|null
+     */
+    protected function getDefaultLanguage(array $languages)
+    {
+        if (in_array('en', $languages, true)) {
+            return 'en';
+        }
+        return current(preg_grep('/^en-/i', $languages)) ?: ($languages[0] ?? null);
     }
 
     /**

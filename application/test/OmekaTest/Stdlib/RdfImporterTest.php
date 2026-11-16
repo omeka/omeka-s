@@ -415,6 +415,57 @@ class RdfImporterTest extends DbTestCase
         $this->assertSame(['title' => ['Titre', 'Title']], $diff['properties']['label']);
     }
 
+    public function testGetLanguages()
+    {
+        $languages = $this->rdfImporter->getLanguages('file', 'http://example.org/multi#', [
+            'file' => __DIR__ . '/_files/multilingual.ttl',
+            'format' => 'turtle',
+        ]);
+        $this->assertSame(['en', 'fr'], $languages);
+    }
+
+    /**
+     * Import a file as a vocabulary, read as asked, and guess how it was
+     * read.
+     *
+     * @param string $file A file in _files
+     * @param string $namespaceUri
+     * @param array $reading The reading options to import it with
+     * @return array The guess
+     */
+    protected function guessReading($file, $namespaceUri, array $reading)
+    {
+        $options = ['file' => __DIR__ . '/_files/' . $file, 'format' => 'turtle'];
+        $vocabularyId = $this->rdfImporter->import('file', [
+            'o:namespace_uri' => $namespaceUri,
+            'o:prefix' => 'guessed',
+            'o:label' => 'Guessed',
+        ], $options + $reading)->getContent()->id();
+        return $this->rdfImporter->guessReading($vocabularyId, 'file', $namespaceUri, $options);
+    }
+
+    public function readingGuesses()
+    {
+        $comment = RdfImporter::COMMENT_PROPERTY;
+        $definition = RdfImporter::DEFINITION_COMMENT_PROPERTY;
+        return [
+            'in French' => ['multilingual.ttl', 'http://example.org/multi#', ['lang' => 'fr'], ['lang' => 'fr', 'comment_property' => $comment]],
+            'in English' => ['multilingual.ttl', 'http://example.org/multi#', ['lang' => 'en'], ['lang' => 'en', 'comment_property' => $comment]],
+            // The first available labels are English, which wins the tie.
+            'in the first available' => ['multilingual.ttl', 'http://example.org/multi#', [], ['lang' => 'en', 'comment_property' => $comment]],
+            'definitions' => ['definitions.ttl', 'http://example.org/defs#', ['comment_property' => $definition], ['lang' => null, 'comment_property' => $definition]],
+            'comments' => ['definitions.ttl', 'http://example.org/defs#', ['comment_property' => $comment], ['lang' => null, 'comment_property' => $comment]],
+        ];
+    }
+
+    /**
+     * @dataProvider readingGuesses
+     */
+    public function testGuessReading($file, $namespaceUri, array $reading, array $guess)
+    {
+        $this->assertSame($guess, $this->guessReading($file, $namespaceUri, $reading));
+    }
+
     public function testComparingAFileInAnotherNamespace()
     {
         $vocabularyId = $this->storeComparedVocabulary();

@@ -3631,6 +3631,13 @@ input[type=text].query-form-query {
     margin: 0 0 $spacing-large;
 }
 
+/* Section headings at h3's size: they head parts of one page, and at h2's
+   size they vie with its title. */
+.vocabularies.review #content h2 {
+    font-size: 1.5 * $base-font-size;
+    line-height: $base-line-height;
+}
+
 /* The sections below, as one line of links. */
 .vocabularies.review .review-sections ul {
     display: flex;

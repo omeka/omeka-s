@@ -321,6 +321,26 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame(200, $status);
     }
 
+    public function testEditStartsWithHowTheFileWasRead()
+    {
+        $this->api()->update('vocabularies', $this->vocabularyId, [
+            'o:import_options' => [
+                'format' => 'rdfxml',
+                'lang' => 'fr',
+                'comment_property' => 'skos:definition',
+            ],
+        ], [], ['isPartial' => true]);
+        $status = $this->requestAs(self::ADMIN, 'GET', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId));
+        $this->assertSame(200, $status);
+        // Attribute values as a browser reads them.
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        $this->assertStringContainsString('<option value="rdfxml" selected>', $page);
+        $this->assertMatchesRegularExpression('/<input[^>]* name="vocabulary-advanced\[lang\]"[^>]* value="fr">/', $page);
+        $this->assertMatchesRegularExpression('/<input[^>]* name="vocabulary-advanced\[comment_property\]"[^>]* value="skos:definition">/', $page);
+        // What the stored reading doesn't say is as the form has it.
+        $this->assertMatchesRegularExpression('/<input[^>]* name="vocabulary-file\[import_type\]"[^>]* value="upload" checked>/', $page);
+    }
+
     public function editsWithoutFile()
     {
         return [

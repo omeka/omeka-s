@@ -379,6 +379,42 @@ class RdfImporterTest extends DbTestCase
         ], $missing);
     }
 
+    /**
+     * Import multilingual.ttl in French.
+     *
+     * @return \Omeka\Api\Representation\VocabularyRepresentation
+     */
+    protected function importInFrench()
+    {
+        return $this->rdfImporter->import('file', [
+            'o:namespace_uri' => 'http://example.org/multi#',
+            'o:prefix' => 'multi',
+            'o:label' => 'Multi',
+        ], [
+            'file' => __DIR__ . '/_files/multilingual.ttl',
+            'format' => 'turtle',
+            'lang' => 'fr',
+        ])->getContent();
+    }
+
+    public function testImportStoresHowTheFileWasRead()
+    {
+        // The reading options, not the file's path.
+        $this->assertSame(['format' => 'turtle', 'lang' => 'fr'], $this->importInFrench()->importOptions());
+    }
+
+    public function testComparingReadsTheFileAsTheVocabularysWas()
+    {
+        $this->importInFrench();
+        $options = ['file' => __DIR__ . '/_files/multilingual.ttl'];
+        // Read in French, as it was imported, the file has no changes.
+        $diff = $this->rdfImporter->getDiff('file', 'http://example.org/multi#', $options);
+        $this->assertSame([], $diff['properties']['label']);
+        // Told to read it in English, it has.
+        $diff = $this->rdfImporter->getDiff('file', 'http://example.org/multi#', $options + ['lang' => 'en']);
+        $this->assertSame(['title' => ['Titre', 'Title']], $diff['properties']['label']);
+    }
+
     public function testComparingAFileInAnotherNamespace()
     {
         $vocabularyId = $this->storeComparedVocabulary();

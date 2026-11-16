@@ -127,12 +127,16 @@ class VocabularyController extends AbstractActionController
         if (!$vocabulary->userIsAllowed('update')) {
             throw new Exception\PermissionDeniedException('User does not have permission to edit this vocabulary');
         }
+        // A new file is read as the vocabulary's was, unless changed here.
+        $importOptions = $vocabulary->importOptions() ?? [];
         $data = [
             'vocabulary-info' => [
                 'o:label' => $vocabulary->label(),
                 'o:comment' => $vocabulary->comment(),
                 'o:namespace_uri' => $vocabulary->namespaceUri(),
             ],
+            'vocabulary-file' => array_intersect_key($importOptions, array_flip(['format'])),
+            'vocabulary-advanced' => array_intersect_key($importOptions, array_flip(['lang', 'label_property', 'comment_property'])),
         ];
         $form->setData($data);
         $view = new ViewModel;

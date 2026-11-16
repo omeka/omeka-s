@@ -178,6 +178,8 @@ class RdfImporter
     /**
      * Import an RDF vocabulary, including its classes and properties.
      *
+     * The vocabulary stores the reading options its file was read with.
+     *
      * @see self::getMembers()
      * @param string $strategy
      * @param array $vocab Vocab info supported by the vocabulary entity adapter
@@ -221,7 +223,10 @@ class RdfImporter
         }
         $this->checkTermLengths($members);
 
-        return $this->apiManager->create('vocabularies', array_merge($vocab, $vocabMembers));
+        return $this->apiManager->create('vocabularies', array_merge($vocab, $vocabMembers, [
+            // How the file was read, to read a later version the same way.
+            'o:import_options' => array_intersect_key($options, array_flip(self::READING_OPTIONS)),
+        ]));
     }
 
     /**
@@ -369,10 +374,19 @@ class RdfImporter
      *   - vocabulary_id: (optional) The stored vocabulary to compare with,
      *     whatever its namespace URI. By default it's the one with the
      *     namespace URI given, so a diff can't show a change of namespace.
+     *   A reading option not given is the stored vocabulary's, if it has one.
      * @return array
      */
     public function getDiff($strategy, $namespaceUri, array $options = [])
     {
+        // Read the file as the stored vocabulary's was, where not told how.
+        $vocabulary = $this->apiManager->search('vocabularies', isset($options['vocabulary_id'])
+            ? ['id' => (int) $options['vocabulary_id']]
+            : ['namespace_uri' => $namespaceUri])->getContent()[0] ?? null;
+        if ($vocabulary) {
+            $options += $vocabulary->importOptions() ?? [];
+        }
+
         // Get classes and properties from the database. An id that isn't a
         // number would be ignored, and match every vocabulary's terms.
         $stored = $this->getStoredMembers(isset($options['vocabulary_id'])

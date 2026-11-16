@@ -1,6 +1,11 @@
 <?php
 $translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'vocabularies update');
+$typeLabels = [
+    'label' => $translate('Label'),
+    'comment' => $translate('Comment'),
+];
 $changedProperties = [];
 foreach ($diff['properties']['label'] as $localName => $change) {
     $changedProperties[] = ['label', $localName, $change];
@@ -26,102 +31,102 @@ foreach ($diff['classes']['comment'] as $localName => $change) {
 <?php echo $this->formCollection($form, false); ?>
 <?php echo $this->form()->closeTag(); ?>
 
-<h3>Changed Properties</h3>
+<h3><?php echo $translate('Changed Properties'); ?></h3>
 <?php if ($changedProperties): ?>
 <table class="tablesaw" data-tablesaw-mode="stack">
 <thead>
     <tr>
-        <th>Local name</th>
-        <th>Type</th>
-        <th>From</th>
-        <th>To</th>
+        <th><?php echo $translate('Local name'); ?></th>
+        <th><?php echo $translate('Type'); ?></th>
+        <th><?php echo $translate('From'); ?></th>
+        <th><?php echo $translate('To'); ?></th>
     </tr>
 </thead>
 <tbody>
     <?php foreach ($changedProperties as $changedProperty): ?>
     <tr>
-        <td><?php echo $changedProperty[1]; ?></td>
-        <td><?php echo $changedProperty[0]; ?></td>
-        <td><?php echo $changedProperty[2][0]; ?></td>
-        <td><?php echo $changedProperty[2][1]; ?></td>
+        <td><?php echo $escape($changedProperty[1]); ?></td>
+        <td><?php echo $typeLabels[$changedProperty[0]]; ?></td>
+        <td><?php echo $escape($changedProperty[2][0]); ?></td>
+        <td><?php echo $escape($changedProperty[2][1]); ?></td>
     </tr>
     <?php endforeach; ?>
 </tbody>
 </table>
 <?php else: ?>
-<p>No changed properties found.</p>
+<p><?php echo $translate('No changed properties found.'); ?></p>
 <?php endif; ?>
 
-<h3>Changed Classes</h3>
+<h3><?php echo $translate('Changed Classes'); ?></h3>
 <?php if ($changedClasses): ?>
 <table class="tablesaw" data-tablesaw-mode="stack">
 <thead>
     <tr>
-        <th>Local name</th>
-        <th>Type</th>
-        <th>From</th>
-        <th>To</th>
+        <th><?php echo $translate('Local name'); ?></th>
+        <th><?php echo $translate('Type'); ?></th>
+        <th><?php echo $translate('From'); ?></th>
+        <th><?php echo $translate('To'); ?></th>
     </tr>
 </thead>
 <tbody>
     <?php foreach ($changedClasses as $changedClass): ?>
     <tr>
-        <td><?php echo $changedClass[1]; ?></td>
-        <td><?php echo $changedClass[0]; ?></td>
-        <td><?php echo $changedClass[2][0]; ?></td>
-        <td><?php echo $changedClass[2][1]; ?></td>
+        <td><?php echo $escape($changedClass[1]); ?></td>
+        <td><?php echo $typeLabels[$changedClass[0]]; ?></td>
+        <td><?php echo $escape($changedClass[2][0]); ?></td>
+        <td><?php echo $escape($changedClass[2][1]); ?></td>
     </tr>
     <?php endforeach; ?>
 </tbody>
 </table>
 <?php else: ?>
-<p>No changed classes found.</p>
+<p><?php echo $translate('No changed classes found.'); ?></p>
 <?php endif; ?>
 
-<h3>New Properties</h3>
+<h3><?php echo $translate('New Properties'); ?></h3>
 <?php if ($diff['properties']['new']): ?>
 <table class="tablesaw" data-tablesaw-mode="stack">
 <thead>
     <tr>
-        <th>Local name</th>
-        <th>Label</th>
-        <th>Comment</th>
+        <th><?php echo $translate('Local name'); ?></th>
+        <th><?php echo $translate('Label'); ?></th>
+        <th><?php echo $translate('Comment'); ?></th>
     </tr>
 </thead>
 <tbody>
     <?php foreach ($diff['properties']['new'] as $localName => $info): ?>
     <tr>
-        <td><?php echo $localName; ?></td>
-        <td><?php echo $info[0]; ?></td>
-        <td><?php echo $info[1]; ?></td>
+        <td><?php echo $escape($localName); ?></td>
+        <td><?php echo $escape($info[0]); ?></td>
+        <td><?php echo $escape($info[1]); ?></td>
     </tr>
     <?php endforeach; ?>
 </tbody>
 </table>
 <?php else: ?>
-<p>No new properties found.</p>
+<p><?php echo $translate('No new properties found.'); ?></p>
 <?php endif; ?>
 
-<h3>New Classes</h3>
+<h3><?php echo $translate('New Classes'); ?></h3>
 <?php if ($diff['classes']['new']): ?>
 <table class="tablesaw" data-tablesaw-mode="stack">
 <thead>
     <tr>
-        <th>Local name</th>
-        <th>Label</th>
-        <th>Comment</th>
+        <th><?php echo $translate('Local name'); ?></th>
+        <th><?php echo $translate('Label'); ?></th>
+        <th><?php echo $translate('Comment'); ?></th>
     </tr>
 </thead>
 <tbody>
     <?php foreach ($diff['classes']['new'] as $localName => $info): ?>
     <tr>
-        <td><?php echo $localName; ?></td>
-        <td><?php echo $info[0]; ?></td>
-        <td><?php echo $info[1]; ?></td>
+        <td><?php echo $escape($localName); ?></td>
+        <td><?php echo $escape($info[0]); ?></td>
+        <td><?php echo $escape($info[1]); ?></td>
     </tr>
     <?php endforeach; ?>
 </tbody>
 </table>
 <?php else: ?>
-<p>No new classes found.</p>
+<p><?php echo $translate('No new classes found.'); ?></p>
 <?php endif; ?>

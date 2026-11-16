@@ -1,0 +1,22 @@
+# A vocabulary whose labels and comments are markup, and with a local name
+# that has a character HTML reserves. Its file values must show on the review
+# screen as text.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix review: <http://example.org/review#> .
+
+review:Thing a rdfs:Class ;
+    rdfs:label "<i>file class label</i>" ;
+    rdfs:comment "<i>file class comment</i>" .
+
+review:name a rdf:Property ;
+    rdfs:label "<i>file property label</i>" ;
+    rdfs:comment "<i>file property comment</i>" .
+
+<http://example.org/review#Fish&Chips> a rdfs:Class ;
+    rdfs:label "<i>new class label</i>" ;
+    rdfs:comment "<i>new class comment</i>" .
+
+review:note a rdf:Property ;
+    rdfs:label "<i>new property label</i>" ;
+    rdfs:comment "<i>new property comment</i>" .

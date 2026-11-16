@@ -169,7 +169,7 @@ class VocabularyController extends AbstractActionController
                 }
                 if (null === $strategy) {
                     $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
-                    return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+                    return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
                 }
                 try {
                     $diff = $this->rdfImporter->getDiff($strategy, $vocabulary->namespaceUri(), $options);
@@ -217,7 +217,7 @@ class VocabularyController extends AbstractActionController
                 $this->messenger()->addFormErrors($form);
             }
         }
-        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
     }
 
     public function deleteAction()
@@ -241,7 +241,7 @@ class VocabularyController extends AbstractActionController
                 $this->messenger()->addFormErrors($form);
             }
         }
-        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
     }
 
     public function propertiesAction()

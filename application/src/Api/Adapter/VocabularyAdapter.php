@@ -66,13 +66,13 @@ class VocabularyAdapter extends AbstractEntityAdapter
         if (array_key_exists('o:class', $data)
             && !is_array($data['o:class'])
         ) {
-            $errorStore->addError('o:item_set', 'Classes must be an array'); // @translate
+            $errorStore->addError('o:class', 'Classes must be an array'); // @translate
         }
 
         if (array_key_exists('o:property', $data)
             && !is_array($data['o:property'])
         ) {
-            $errorStore->addError('o:item_set', 'Properties must be an array'); // @translate
+            $errorStore->addError('o:property', 'Properties must be an array'); // @translate
         }
     }
 
@@ -244,7 +244,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
         $uniqueLocalNames = [];
         foreach ($entity->getProperties() as $property) {
             if (in_array($property->getLocalName(), $uniqueLocalNames)) {
-                $errorStore->addError('o:resource_class', new Message(
+                $errorStore->addError('o:property', new Message(
                     'The local name "%s" is already taken.', // @translate
                     $property->getLocalName()
                 ));

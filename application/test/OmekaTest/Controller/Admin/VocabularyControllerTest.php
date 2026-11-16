@@ -304,6 +304,8 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         // What changed, named for people rather than by the diff's keys.
         $this->assertStringContainsString('<td>Label</td>', $page);
         $this->assertStringContainsString('<td>Comment</td>', $page);
+        // Cancel goes to the list of vocabularies, not to one's own page.
+        $this->assertStringContainsString('<a href="/admin/vocabulary" class="button">Cancel</a>', $page);
     }
 
     public function testEditRefusedForAnothersVocabulary()
@@ -355,6 +357,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             ],
         ]);
         $this->assertSame(302, $status);
+        $this->assertRedirectTo('/admin/vocabulary');
         $this->assertSame(['Vocabulary successfully updated'], $this->messages(Messenger::SUCCESS));
         $this->assertSame([], $this->messages(Messenger::ERROR));
         $this->reset(true);
@@ -388,6 +391,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             'diff' => $this->labelDiff('name', '<i>stored property label</i>', 'Changed'),
         ] + $this->csrfField(VocabularyUpdateForm::class));
         $this->assertSame(302, $status);
+        $this->assertRedirectTo('/admin/vocabulary');
         $this->assertSame('Changed', $this->propertyLabel('review:name'));
     }
 
@@ -521,6 +525,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             $this->csrfField(ConfirmForm::class)
         );
         $this->assertSame(302, $status);
+        $this->assertRedirectTo('/admin/vocabulary');
         $this->assertFalse($this->vocabularyExists());
     }
 }

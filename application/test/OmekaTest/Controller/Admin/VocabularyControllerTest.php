@@ -474,6 +474,42 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame(0, $this->api()->search('vocabularies', ['prefix' => 'review2'])->getTotalResults());
     }
 
+    public function testImportTrimsTheNamespace()
+    {
+        $this->serveFile('../../../Stdlib/_files/definitions.ttl');
+        try {
+            $status = $this->requestAs(self::ADMIN, 'POST', '/admin/vocabulary/import', [
+                'vocabulary-info' => [
+                    'o:namespace_uri' => ' http://example.org/defs# ',
+                    'o:prefix' => 'defs',
+                    'o:label' => 'Definitions',
+                    'o:comment' => '',
+                ],
+                'vocabulary-file' => [
+                    'import_type' => 'url',
+                    'url' => 'http://example.org/defs.ttl',
+                    'format' => 'turtle',
+                ],
+                'vocabulary-advanced' => [
+                    'lang' => '',
+                    'label_property' => '',
+                    'comment_property' => '',
+                ],
+            ] + $this->csrfField(VocabularyForm::class));
+            $this->assertSame(302, $status);
+            $this->reset(true);
+            $this->signIn();
+            $this->assertSame(3, $this->api()->search('properties', ['vocabulary_prefix' => 'defs'])->getTotalResults()
+                + $this->api()->search('resource_classes', ['vocabulary_prefix' => 'defs'])->getTotalResults());
+        } finally {
+            $this->reset(true);
+            $this->signIn();
+            foreach ($this->api()->search('vocabularies', ['prefix' => 'defs'])->getContent() as $vocabulary) {
+                $this->api()->delete('vocabularies', $vocabulary->id());
+            }
+        }
+    }
+
     public function importsWithComments()
     {
         return [

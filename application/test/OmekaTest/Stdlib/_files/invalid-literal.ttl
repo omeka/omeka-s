@@ -1,0 +1,8 @@
+# A label typed as a decimal that isn't one, which EasyRdf parses but
+# refuses to read.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix invalid: <http://example.org/invalid#> .
+
+invalid:Thing a rdfs:Class ;
+    rdfs:label "not a number"^^xsd:decimal .

@@ -177,26 +177,26 @@ class RdfImporter
             case 'file':
                 // Import from a file
                 if (!isset($options['file'])) {
-                    throw new ValidationException('No file specified for the file import strategy.');
+                    throw new ValidationException('No file specified for the file import strategy.'); // @translate
                 }
                 $file = $options['file'];
                 if (!is_readable($file)) {
-                    throw new ValidationException('Could not read vocabulary file.');
+                    throw new ValidationException('Could not read vocabulary file.'); // @translate
                 }
                 return $this->readGraph(function (RdfGraph $graph, $format) use ($file, $namespaceUri) {
                     $graph->parseFile($file, $format, $namespaceUri);
-                }, $format, 'Could not parse vocabulary file.');
+                }, $format, 'Could not parse vocabulary file.'); // @translate
             case 'url':
                 // Import from a URL.
                 if (!isset($options['url'])) {
-                    throw new ValidationException('No URL specified for the URL import strategy.');
+                    throw new ValidationException('No URL specified for the URL import strategy.'); // @translate
                 }
                 $url = $options['url'];
                 return $this->readGraph(function (RdfGraph $graph, $format) use ($url) {
                     $graph->load($url, $format);
-                }, $format, 'Could not load vocabulary from URL.');
+                }, $format, 'Could not load vocabulary from URL.'); // @translate
             default:
-                throw new ValidationException('Unsupported import strategy.');
+                throw new ValidationException('Unsupported import strategy.'); // @translate
         }
     }
 
@@ -213,6 +213,8 @@ class RdfImporter
      */
     public function import($strategy, array $vocab, array $options = [])
     {
+        // As the API saves it, so the file is read with the same.
+        $vocab['o:namespace_uri'] = trim((string) $vocab['o:namespace_uri']);
         $members = $this->getMembers($strategy, $vocab['o:namespace_uri'], $options);
 
         // Convert to format that the API understands.
@@ -233,7 +235,7 @@ class RdfImporter
         }
 
         if (!$members['classes'] && !$members['properties']) {
-            $exception = new ValidationException('No classes or properties found. Are you sure you used the correct namespace URI?');
+            $exception = new ValidationException('No classes or properties found. Are you sure you used the correct namespace URI?'); // @translate
             // Read the file again, which only an import that fails needs,
             // for the namespace its terms use.
             $graph = $this->getGraph($strategy, $vocab['o:namespace_uri'], $options);
@@ -558,7 +560,7 @@ class RdfImporter
                 if ($resource->getUri() !== $namespaceUri . $resource->localName()) {
                     continue;
                 }
-                foreach ($resource->all($property, 'literal') as $literal) {
+                foreach ($this->getLiterals($resource, $property) as $literal) {
                     if ($literal->getLang()) {
                         $languages[$literal->getLang()] = true;
                     }
@@ -686,9 +688,9 @@ class RdfImporter
         $graph = new RdfGraph;
         try {
             $read($graph, $format);
-        } catch (\EasyRdf\Http\Exception $e) {
-            // The server refused the request, which another format won't
-            // change.
+        } catch (\EasyRdf\Http\Exception | \InvalidArgumentException $e) {
+            // The server refused the request, or there's no URL to ask,
+            // which another format won't change.
             throw new ValidationException($error);
         } catch (\EasyRdf\Exception $e) {
             $graph = null;
@@ -910,8 +912,8 @@ class RdfImporter
      */
     protected function getText(RdfResource $resource, $property, $lang)
     {
-        $literals = $lang ? $resource->all($property, 'literal', $lang) : [];
-        foreach (array_merge($literals, $resource->all($property, 'literal')) as $literal) {
+        $literals = $lang ? $this->getLiterals($resource, $property, $lang) : [];
+        foreach (array_merge($literals, $this->getLiterals($resource, $property)) as $literal) {
             // The literal's text: a typed literal's value is a number, a
             // boolean, or a date.
             $text = (string) $literal;
@@ -920,5 +922,35 @@ class RdfImporter
             }
         }
         return null;
+    }
+
+    /**
+     * Get an RDF resource's literals for a property, in a language if one is
+     * passed.
+     *
+     * EasyRdf checks a typed literal against its datatype only as it's read,
+     * so a file with one that isn't valid, such as a decimal that isn't a
+     * number, parses but fails here.
+     *
+     * @param RdfResource $resource
+     * @param string $property A property, or alternatives as "a|b"
+     * @param string|null $lang
+     * @return \EasyRdf\Literal[]
+     * @throws ValidationException Naming the term
+     */
+    protected function getLiterals(RdfResource $resource, $property, $lang = null)
+    {
+        try {
+            return $resource->all($property, 'literal', $lang);
+        } catch (\InvalidArgumentException | \UnexpectedValueException $e) {
+            $exception = new ValidationException('A class or property has a label or comment that isn\'t valid for its datatype.'); // @translate
+            // The term, and what EasyRdf found wrong.
+            $exception->getErrorStore()->addError('term', new Message(
+                '%1$s: %2$s',
+                $resource->getUri(),
+                $e->getMessage()
+            ));
+            throw $exception;
+        }
     }
 }

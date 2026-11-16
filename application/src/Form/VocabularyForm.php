@@ -211,6 +211,15 @@ class VocabularyForm extends Form
         ]);
 
         $inputFilter = $this->getInputFilter();
+        // The file is read with the namespace URI before the API saves it,
+        // trimmed, so a stray space would find no classes or properties.
+        $inputFilter->get('vocabulary-info')->add([
+            'name' => 'o:namespace_uri',
+            'required' => true,
+            'filters' => [
+                ['name' => 'StringTrim'],
+            ],
+        ]);
         if (!$vocabulary) {
             $inputFilter->get('vocabulary-info')->add([
                 'name' => 'o:prefix',

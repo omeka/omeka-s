@@ -435,6 +435,40 @@ class RdfImporterTest extends DbTestCase
         ])->getContent();
     }
 
+    public function testReadingAnInvalidTypedLiteralNamesTheTerm()
+    {
+        try {
+            $this->members('invalid-literal.ttl', 'http://example.org/invalid#', ['format' => 'turtle']);
+            $this->fail('The file was read');
+        } catch (ValidationException $e) {
+            $this->assertSame('A class or property has a label or comment that isn\'t valid for its datatype.', $e->getMessage());
+            $detail = (string) $e->getErrorStore()->getErrors()['term'][0];
+            $this->assertStringStartsWith('http://example.org/invalid#Thing: ', $detail);
+        }
+    }
+
+    public function testReadingAnEmptyUrl()
+    {
+        // As a URL that can't be loaded, not EasyRdf's own message.
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('Could not load vocabulary from URL.');
+        $this->rdfImporter->getMembers('url', 'http://example.org/multi#', ['url' => '']);
+    }
+
+    public function testImportTrimsTheNamespace()
+    {
+        $vocabulary = $this->rdfImporter->import('file', [
+            'o:namespace_uri' => " http://example.org/multi#\n",
+            'o:prefix' => 'multi',
+            'o:label' => 'Multi',
+        ], [
+            'file' => __DIR__ . '/_files/multilingual.ttl',
+            'format' => 'turtle',
+        ])->getContent();
+        $this->assertSame('http://example.org/multi#', $vocabulary->namespaceUri());
+        $this->assertSame(3, $vocabulary->propertyCount() + $vocabulary->resourceClassCount());
+    }
+
     public function testImportAcceptsAnotherFormOfANamespaceOmekaHas()
     {
         // Only the import form refuses it; scripts and modules may import it.

@@ -385,6 +385,27 @@ class RdfImporterTest extends DbTestCase
         ], $labels);
     }
 
+    public function testComparingALabelThatIsItsLocalName()
+    {
+        // Imported in German, compared in English.
+        self::getApplication()->getServiceManager()->get('Omeka\ApiManager')->create('vocabularies', [
+            'o:namespace_uri' => 'http://example.org/local#',
+            'o:prefix' => 'local',
+            'o:label' => 'Local names',
+            'o:class' => [['o:local_name' => 'Part', 'o:label' => 'Teil']],
+            'o:property' => [['o:local_name' => 'unlabeled', 'o:label' => 'Unlabeled']],
+        ]);
+        $diff = $this->rdfImporter->getDiff('file', 'http://example.org/local#', [
+            'file' => __DIR__ . '/_files/local-names.ttl',
+            'format' => 'turtle',
+            'lang' => 'en',
+        ]);
+        // The English label is the local name, and a change like any other.
+        $this->assertSame(['Part' => ['Teil', 'Part']], $diff['classes']['label']);
+        // A term with no label keeps Omeka's.
+        $this->assertSame([], $diff['properties']['label']);
+    }
+
     public function testGetMissingTerms()
     {
         $vocabularyId = $this->storeComparedVocabulary();

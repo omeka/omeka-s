@@ -125,6 +125,20 @@ class RdfImporter
      */
     public function getMembers($strategy, $namespaceUri, array $options = [])
     {
+        $options = $this->getReadingOptions($options);
+        return $this->getGraphMembers($this->getGraph($strategy, $namespaceUri, $options), $namespaceUri, $options);
+    }
+
+    /**
+     * Get the options of how a file is read, with the importer's defaults for
+     * those not given.
+     *
+     * @see self::getMembers()
+     * @param array $options
+     * @return array
+     */
+    protected function getReadingOptions(array $options)
+    {
         if (!isset($options['format'])) {
             // EasyRDF should guess the format if none given.
             $options['format'] = 'guess';
@@ -138,9 +152,21 @@ class RdfImporter
         if (!isset($options['lang'])) {
             $options['lang'] = null;
         }
+        return $options;
+    }
 
-        $graph = $this->getGraph($strategy, $namespaceUri, $options);
-
+    /**
+     * Get the classes and properties a graph has in a namespace, read as
+     * the options say.
+     *
+     * @see self::getMembers()
+     * @param RdfGraph $graph
+     * @param string $namespaceUri
+     * @param array $options With defaults: see self::getReadingOptions()
+     * @return array
+     */
+    protected function getGraphMembers(RdfGraph $graph, $namespaceUri, array $options)
+    {
         return [
             'classes' => $this->getMembersOfTypes(
                 $graph,
@@ -431,15 +457,31 @@ class RdfImporter
             : ['vocabulary_namespace_uri' => $namespaceUri]);
 
         // Get classes and properties from the RDF graph.
-        $members = $this->getMembers($strategy, $namespaceUri, $options);
+        $options = $this->getReadingOptions($options);
+        $graph = $this->getGraph($strategy, $namespaceUri, $options);
+        $members = $this->getGraphMembers($graph, $namespaceUri, $options);
         // A term too long for the database can only be new, or have a new
         // label, so refuse it now rather than on accepting the changes.
         $this->checkTermLengths($members);
 
-        return [
+        $diff = [
             'classes' => $this->calculateDiff($stored['classes'], $members['classes']),
             'properties' => $this->calculateDiff($stored['properties'], $members['properties']),
         ];
+        // An update never replaces a label with the local name, which is
+        // only the importer's stand-in where the file has no label: Omeka
+        // keeps its own. The file says which terms have none, as a label
+        // can also be the local name itself, as many classes' are.
+        foreach ($diff as $type => $changes) {
+            foreach ($changes['label'] as $localName => $change) {
+                if ((string) $localName === $change[1]
+                    && null === $this->getText($graph->resource($namespaceUri . $localName), $options['label_property'], $options['lang'])
+                ) {
+                    unset($diff[$type]['label'][$localName]);
+                }
+            }
+        }
+        return $diff;
     }
 
     /**
@@ -626,9 +668,9 @@ class RdfImporter
      * Only gets the diffs that we can process safely: add new members and
      * update existing labels and comments. It doesn't get the diffs we cannot
      * process safely: delete existing members or update existing local names.
-     * Nor does it empty an existing value: a comment the file doesn't have,
-     * or a label it doesn't have, which reads as the local name, keeps the
-     * value Omeka has.
+     * Nor does it empty an existing comment: a comment the file doesn't have
+     * keeps the one Omeka has. (Where the file has no label, getDiff() keeps
+     * Omeka's.)
      *
      * Values that differ only in spacing, or are empty and missing, are the
      * same: see self::getComparableText().
@@ -643,9 +685,7 @@ class RdfImporter
         foreach ($to as $localName => $info) {
             if (array_key_exists($localName, $from)) {
                 // Existing member.
-                if ((string) $localName !== $info['label']
-                    && $this->getComparableText($from[$localName]['label']) !== $this->getComparableText($info['label'])
-                ) {
+                if ($this->getComparableText($from[$localName]['label']) !== $this->getComparableText($info['label'])) {
                     // Updated label.
                     $diff['label'][$localName] = [$from[$localName]['label'], $info['label']];
                 }

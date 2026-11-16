@@ -97,6 +97,8 @@ class VocabularyReview
      *   - source_label: (optional) A name for the file's side of the
      *     changes, such as where it came from. By default, "the file".
      * @return string The review page's URL
+     * @throws ValidationException When the file can't be read, or has
+     *   terms too long to store
      */
     public function start($vocabularyId, $filePath, array $readingOptions = [], array $reviewOptions = [])
     {
@@ -324,6 +326,9 @@ class VocabularyReview
         ];
         try {
             $review['reading'] = $this->getStartingReading($vocabulary, $review, $readingOptions);
+            // A file that can't be read, or has terms too long to store, is
+            // refused now rather than on the review page.
+            $this->getDiff($review, $review['reading']);
         } catch (\Exception $e) {
             unlink($path);
             throw $e;

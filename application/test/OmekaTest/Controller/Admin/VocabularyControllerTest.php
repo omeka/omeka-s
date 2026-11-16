@@ -1,6 +1,9 @@
 <?php
 namespace OmekaTest\Controller\Admin;
 
+use EasyRdf\Http;
+use EasyRdf\Http\Client as HttpClient;
+use EasyRdf\Http\Response;
 use Laminas\Form\Element\Csrf;
 use Laminas\Stdlib\Parameters;
 use Omeka\Api\Exception\NotFoundException;
@@ -8,10 +11,8 @@ use Omeka\Entity\User;
 use Omeka\Entity\Vocabulary;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\VocabularyForm;
-use Omeka\Form\VocabularyUpdateForm;
 use Omeka\Mvc\Controller\Plugin\Messenger;
 use Omeka\Permissions\Exception\PermissionDeniedException;
-use Omeka\Stdlib\RdfImporter;
 use Omeka\Test\AbstractHttpControllerTestCase;
 
 /**
@@ -19,7 +20,7 @@ use Omeka\Test\AbstractHttpControllerTestCase;
  * as a Supervisor.
  *
  * What a request writes is committed, so each test deletes the vocabulary and
- * the user it makes.
+ * the user it makes, and ends the reviews it starts.
  */
 class VocabularyControllerTest extends AbstractHttpControllerTestCase
 {
@@ -33,6 +34,20 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
      * @var int
      */
     protected $vocabularyId;
+
+    /**
+     * EasyRdf's HTTP client, while a test answers its requests.
+     *
+     * @var HttpClient|null
+     */
+    protected $httpClient;
+
+    /**
+     * The tokens of the reviews a test starts.
+     *
+     * @var string[]
+     */
+    protected $tokens = [];
 
     public function setUp(): void
     {
@@ -67,6 +82,14 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
 
     public function tearDown(): void
     {
+        if ($this->httpClient) {
+            Http::setDefaultHttpClient($this->httpClient);
+        }
+        $this->reset(true);
+        $this->signIn();
+        foreach ($this->tokens as $token) {
+            $this->getApplicationServiceLocator()->get('Omeka\VocabularyReview')->cancel($token);
+        }
         if ($this->vocabularyId && $this->vocabularyExists()) {
             $this->api()->delete('vocabularies', $this->vocabularyId);
         }
@@ -155,23 +178,6 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     }
 
     /**
-     * A diff, as the review screen posts it, that changes one property's
-     * label.
-     *
-     * @param string $localName
-     * @param string $from
-     * @param string $to
-     * @return string
-     */
-    protected function labelDiff($localName, $from, $to)
-    {
-        return json_encode([
-            'classes' => ['new' => [], 'label' => [], 'comment' => []],
-            'properties' => ['new' => [], 'label' => [$localName => [$from, $to]], 'comment' => []],
-        ]);
-    }
-
-    /**
      * The messages of a type the last request left for the next page.
      *
      * @param int $type A Messenger constant
@@ -197,6 +203,18 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     }
 
     /**
+     * The tests' vocabulary as Omeka has it now.
+     *
+     * @return \Omeka\Api\Representation\VocabularyRepresentation
+     */
+    protected function vocabulary()
+    {
+        $this->reset(true);
+        $this->signIn();
+        return $this->api()->read('vocabularies', $this->vocabularyId)->getContent();
+    }
+
+    /**
      * Whether a vocabulary is in Omeka now, by default the tests' vocabulary.
      *
      * @param int|null $id
@@ -215,52 +233,36 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     }
 
     /**
-     * Have the next request read a file of the tests' in place of fetching
-     * the URL it's given.
+     * Answer EasyRdf's requests with a file of the tests', in place of the
+     * server at the URL asked for.
      *
-     * @param string $file
+     * @param string $file A file in _files
      */
-    protected function readFileForUrl($file)
+    protected function serveFile($file)
     {
-        $services = $this->getApplicationServiceLocator();
-        $importer = new class($services->get('Omeka\ApiManager'), $services->get('Omeka\EntityManager')) extends RdfImporter {
-            public $file;
+        $client = new class extends HttpClient {
+            public $body;
 
-            public function getMembers($strategy, $namespaceUri, array $options = [])
+            public function request($method = null)
             {
-                $options['file'] = $this->file;
-                return parent::getMembers('file', $namespaceUri, $options);
+                return new Response(200, ['Content-Type' => 'text/turtle'], $this->body);
             }
         };
-        $importer->file = $file;
-        $services->setAllowOverride(true);
-        $services->setService('Omeka\RdfImporter', $importer);
-        $services->setAllowOverride(false);
+        $client->body = file_get_contents(__DIR__ . '/_files/' . $file);
+        $this->httpClient ??= Http::getDefaultHttpClient();
+        Http::setDefaultHttpClient($client);
     }
 
     /**
-     * The hidden CSRF fields of the forms on the last page requested.
+     * The edit form's fields, as a browser posts them, with a URL to read.
      *
+     * @param array $info The vocabulary's own fields that differ
      * @return array
      */
-    protected function csrfFields()
+    protected function editWithUrl(array $info = [])
     {
-        preg_match_all('/<input type="hidden" name="([a-z_]*csrf)" value="([^"]+)"/i', $this->getResponse()->getContent(), $matches);
-        $this->assertNotEmpty($matches[1], 'No CSRF token on the page');
-        return array_combine($matches[1], $matches[2]);
-    }
-
-    public function testReviewShowsValuesAsText()
-    {
-        $path = sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId);
-        $this->dispatch($path);
-        $csrf = $this->csrfFields();
-
-        $this->reset(true);
-        $this->signIn();
-        $this->readFileForUrl(__DIR__ . '/_files/markup.ttl');
-        $this->dispatch($path, 'POST', [
-            'vocabulary-info' => [
+        return [
+            'vocabulary-info' => $info + [
                 'o:label' => 'Review',
                 'o:comment' => '',
                 'o:namespace_uri' => self::NAMESPACE_URI,
@@ -275,11 +277,77 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
                 'label_property' => '',
                 'comment_property' => '',
             ],
-        ] + $csrf);
-        $this->assertResponseStatusCode(200);
-        $this->assertTemplateName('omeka/admin/vocabulary/update');
+        ] + $this->csrfField(VocabularyForm::class);
+    }
 
-        $page = $this->getResponse()->getContent();
+    /**
+     * Start a review of a file of the tests', as a module would.
+     *
+     * @param string $file A file in _files
+     * @param int|null $vocabularyId By default, the tests' vocabulary
+     * @param array $reviewOptions
+     * @return string The review's token
+     */
+    protected function startReview($file, $vocabularyId = null, array $reviewOptions = [])
+    {
+        $this->reset(true);
+        $this->signIn();
+        $url = $this->getApplicationServiceLocator()->get('Omeka\VocabularyReview')->start(
+            $vocabularyId ?? $this->vocabularyId,
+            __DIR__ . '/_files/' . $file,
+            ['format' => 'turtle'],
+            $reviewOptions
+        );
+        return $this->tokens[] = substr($url, strpos($url, '=') + 1);
+    }
+
+    /**
+     * Post to a review's Accept or Cancel.
+     *
+     * @param string $action "accept" or "cancel"
+     * @param string $token
+     * @param string $email
+     * @param int|null $vocabularyId By default, the tests' vocabulary
+     * @return int The response's HTTP status
+     */
+    protected function postReview($action, $token, $email = self::ADMIN, $vocabularyId = null)
+    {
+        return $this->requestAs($email, 'POST', sprintf('/admin/vocabulary/%s/%s', $vocabularyId ?? $this->vocabularyId, $action), [
+            'review' => $token,
+        ] + $this->csrfField(ConfirmForm::class));
+    }
+
+    /**
+     * The review page of a review, as text and attribute values read.
+     *
+     * @param string $token
+     * @param array $query Choices made on it
+     * @return string
+     */
+    protected function reviewPage($token, array $query = [])
+    {
+        $status = $this->requestAs(self::ADMIN, 'GET', sprintf('/admin/vocabulary/%s/review?%s', $this->vocabularyId, http_build_query(['review' => $token] + $query)));
+        $this->assertSame(200, $status);
+        $this->assertTemplateName('omeka/admin/vocabulary/review');
+        return $this->getResponse()->getContent();
+    }
+
+    public function testEditWithAFileStartsAReviewSavingNothing()
+    {
+        $this->serveFile('markup.ttl');
+        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), $this->editWithUrl([
+            'o:label' => 'Renamed',
+        ]));
+        $this->assertSame(302, $status);
+        $location = $this->getResponse()->getHeaders()->get('Location')->getUri();
+        $this->assertMatchesRegularExpression(sprintf('#^/admin/vocabulary/%s/review\?review=[0-9a-f]{32}$#', $this->vocabularyId), $location);
+        $this->tokens[] = substr($location, strpos($location, '=') + 1);
+        $this->assertSame('Review', $this->vocabulary()->label());
+    }
+
+    public function testReviewShowsValuesAsText()
+    {
+        $page = $this->reviewPage($this->startReview('markup.ttl'));
         $values = [
             // Changed terms, from Omeka and from the file.
             '<i>stored class label</i>',
@@ -297,15 +365,73 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             '<i>new property label</i>',
             '<i>new property comment</i>',
         ];
+        // A changed value's words are marked where they differ, which splits
+        // the value.
+        $text = preg_replace('#</?(ins|del)>#', '', $page);
         foreach ($values as $value) {
-            $this->assertTrue(str_contains($page, htmlspecialchars($value)), "Not shown as text: $value");
+            $this->assertTrue(str_contains($text, htmlspecialchars($value)), "Not shown as text: $value");
             $this->assertFalse(str_contains($page, $value), "Shown as markup: $value");
         }
-        // What changed, named for people rather than by the diff's keys.
-        $this->assertStringContainsString('<td>Label</td>', $page);
-        $this->assertStringContainsString('<td>Comment</td>', $page);
-        // Cancel goes to the list of vocabularies, not to one's own page.
-        $this->assertStringContainsString('<a href="/admin/vocabulary" class="button">Cancel</a>', $page);
+    }
+
+    public function testReviewShowsPendingFieldsAndTermsOnlyInOmeka()
+    {
+        // The file is read in the pending namespace.
+        $page = html_entity_decode($this->reviewPage($this->startReview('moved-name.ttl', null, [
+            'label' => 'Renamed',
+            'namespace_uri' => 'http://example.org/moved#',
+        ])), ENT_QUOTES | ENT_HTML5);
+        $this->assertStringContainsString('Its classes and properties get new addresses wherever Omeka publishes them.', $page);
+        $this->assertStringContainsString('http://example.org/moved#', $page);
+        $this->assertStringContainsString('Renamed', $page);
+        $this->assertStringContainsString('Changed property labels (1)', $page);
+        // The file has no class, so Omeka's is listed, as kept.
+        $this->assertStringContainsString('Classes only in Omeka (1)', $page);
+        $this->assertStringContainsString('Accepting keeps them.', $page);
+    }
+
+    public function testChangedChoicesRecompute()
+    {
+        $token = $this->startReview('multilingual-name.ttl');
+        $page = $this->reviewPage($token, ['lang' => 'en']);
+        $this->assertMatchesRegularExpression('#<ins>Name</ins>#', $page);
+        $page = $this->reviewPage($token, ['lang' => 'fr']);
+        $this->assertMatchesRegularExpression('#<ins>Nom</ins>#', $page);
+        $this->assertStringContainsString('<option value="fr" selected>', html_entity_decode($page, ENT_QUOTES | ENT_HTML5));
+    }
+
+    public function testAcceptAppliesNamespaceAndTermsTogether()
+    {
+        $this->serveFile('moved-name.ttl');
+        $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), $this->editWithUrl([
+            'o:namespace_uri' => 'http://example.org/moved#',
+        ]));
+        $location = $this->getResponse()->getHeaders()->get('Location')->getUri();
+        $token = $this->tokens[] = substr($location, strpos($location, '=') + 1);
+
+        $status = $this->postReview('accept', $token);
+        $this->assertSame(302, $status);
+        $this->assertRedirectTo('/admin/vocabulary');
+        $this->assertSame(['Changes to the vocabulary successfully made'], $this->messages(Messenger::SUCCESS));
+        $vocabulary = $this->vocabulary();
+        $this->assertSame('http://example.org/moved#', $vocabulary->namespaceUri());
+        $this->assertSame('Changed', $this->propertyLabel('review:name'));
+        // How the file was read is stored.
+        $this->assertSame('turtle', $this->vocabulary()->importOptions()['format']);
+    }
+
+    public function testCancelChangesNothing()
+    {
+        $token = $this->startReview('changed-name.ttl', null, ['label' => 'Renamed']);
+        $status = $this->postReview('cancel', $token);
+        $this->assertSame(302, $status);
+        $this->assertRedirectTo('/admin/vocabulary');
+        $this->assertSame('Review', $this->vocabulary()->label());
+        $this->assertSame('<i>stored property label</i>', $this->propertyLabel('review:name'));
+        // The review has ended.
+        $status = $this->requestAs(self::ADMIN, 'GET', sprintf('/admin/vocabulary/%s/review?review=%s', $this->vocabularyId, $token));
+        $this->assertSame(302, $status);
+        $this->assertSame(['This review has ended. Edit the vocabulary to review its changes again.'], $this->messages(Messenger::ERROR));
     }
 
     public function testEditRefusedForAnothersVocabulary()
@@ -354,23 +480,10 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
      */
     public function testEditWithoutFileSaves($importType)
     {
-        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), [
-            'vocabulary-info' => [
-                'o:label' => 'Renamed',
-                'o:comment' => '',
-                'o:namespace_uri' => self::NAMESPACE_URI,
-            ],
-            'vocabulary-file' => [
-                'import_type' => $importType,
-                'url' => '',
-                'format' => 'guess',
-            ],
-            'vocabulary-advanced' => [
-                'lang' => '',
-                'label_property' => '',
-                'comment_property' => '',
-            ],
-        ] + $this->csrfField(VocabularyForm::class), [
+        $data = $this->editWithUrl(['o:label' => 'Renamed']);
+        $data['vocabulary-file']['import_type'] = $importType;
+        $data['vocabulary-file']['url'] = '';
+        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), $data, [
             // The file field, as a browser posts it with no file chosen.
             'vocabulary-file' => [
                 'file' => ['name' => '', 'type' => '', 'tmp_name' => '', 'error' => UPLOAD_ERR_NO_FILE, 'size' => 0],
@@ -380,43 +493,15 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertRedirectTo('/admin/vocabulary');
         $this->assertSame(['Vocabulary successfully updated'], $this->messages(Messenger::SUCCESS));
         $this->assertSame([], $this->messages(Messenger::ERROR));
-        $this->reset(true);
-        $this->signIn();
-        $this->assertSame('Renamed', $this->api()->read('vocabularies', $this->vocabularyId)->getContent()->label());
-    }
-
-    /**
-     * The edit form's fields, as a browser posts them, with a namespace
-     * Dublin Core already has, which the API refuses.
-     *
-     * @param string $importType
-     * @param string $url
-     * @return array
-     */
-    protected function refusedEdit($importType, $url)
-    {
-        return [
-            'vocabulary-info' => [
-                'o:label' => 'Renamed',
-                'o:comment' => '',
-                'o:namespace_uri' => 'http://purl.org/dc/terms/',
-            ],
-            'vocabulary-file' => [
-                'import_type' => $importType,
-                'url' => $url,
-                'format' => 'turtle',
-            ],
-            'vocabulary-advanced' => [
-                'lang' => '',
-                'label_property' => '',
-                'comment_property' => '',
-            ],
-        ] + $this->csrfField(VocabularyForm::class);
+        $this->assertSame('Renamed', $this->vocabulary()->label());
     }
 
     public function testEditRefusedByApiShowsFormAgain()
     {
-        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), $this->refusedEdit('upload', ''), [
+        $data = $this->editWithUrl(['o:label' => 'Renamed', 'o:namespace_uri' => 'http://purl.org/dc/terms/']);
+        $data['vocabulary-file']['import_type'] = 'upload';
+        $data['vocabulary-file']['url'] = '';
+        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), $data, [
             'vocabulary-file' => [
                 'file' => ['name' => '', 'type' => '', 'tmp_name' => '', 'error' => UPLOAD_ERR_NO_FILE, 'size' => 0],
             ],
@@ -426,53 +511,51 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $page = $this->getResponse()->getContent();
         $this->assertStringContainsString('is already taken.', $page);
         $this->assertStringNotContainsString('Vocabulary successfully updated', $page);
-        $this->reset(true);
-        $this->signIn();
-        $this->assertSame('Review', $this->api()->read('vocabularies', $this->vocabularyId)->getContent()->label());
+        $this->assertSame('Review', $this->vocabulary()->label());
     }
 
-    public function testEditRefusedByApiStopsBeforeReview()
+    public function testEditWithAFileRefusesATakenNamespaceBeforeReview()
     {
-        $data = $this->refusedEdit('url', 'http://example.org/review.ttl');
-        $this->reset(true);
-        $this->signIn();
-        $this->readFileForUrl(__DIR__ . '/_files/markup.ttl');
-        $this->dispatch(sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), 'POST', $data);
-        $this->assertResponseStatusCode(200);
+        $this->serveFile('changed-name.ttl');
+        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), $this->editWithUrl([
+            'o:namespace_uri' => 'http://purl.org/dc/terms/',
+        ]));
+        $this->assertSame(200, $status);
         $this->assertTemplateName('omeka/admin/vocabulary/edit');
-        $this->assertStringContainsString('is already taken.', $this->getResponse()->getContent());
+        $this->assertStringContainsString('is already taken.', html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
     }
 
     public function testEditWithTermsTooLongToStoreNamesThem()
     {
-        $data = $this->refusedEdit('url', 'http://example.org/review.ttl');
-        $data['vocabulary-info']['o:namespace_uri'] = self::NAMESPACE_URI;
-        $this->reset(true);
-        $this->signIn();
-        $this->readFileForUrl(__DIR__ . '/_files/long-label.ttl');
-        $this->dispatch(sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), 'POST', $data);
-        $this->assertResponseStatusCode(200);
+        $this->serveFile('long-label.ttl');
+        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), $this->editWithUrl());
+        $this->assertSame(200, $status);
         $this->assertTemplateName('omeka/admin/vocabulary/edit');
         $page = $this->getResponse()->getContent();
         $this->assertStringContainsString('Some classes or properties have local names or labels longer than Omeka can store.', $page);
         $this->assertStringContainsString('These classes or properties have labels longer than 255 characters: name', $page);
     }
 
+    public function testReviewRefusedForAnothersVocabulary()
+    {
+        $token = $this->startReview('changed-name.ttl');
+        $status = $this->requestAs(self::SUPERVISOR, 'GET', sprintf('/admin/vocabulary/%s/review?review=%s', $this->vocabularyId, $token));
+        $this->assertSame(403, $status);
+    }
+
     public function testAcceptRefusedForPermanentVocabulary()
     {
         $dcterms = $this->api()->read('vocabularies', ['prefix' => 'dcterms'])->getContent();
-        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/update', $dcterms->id()), [
-            'diff' => $this->labelDiff('title', 'Title', 'Changed'),
-        ] + $this->csrfField(VocabularyUpdateForm::class));
+        $token = $this->startReview('dcterms-title.ttl', $dcterms->id());
+        $status = $this->postReview('accept', $token, self::ADMIN, $dcterms->id());
         $this->assertSame(403, $status);
         $this->assertSame('Title', $this->propertyLabel('dcterms:title'));
     }
 
     public function testAcceptRefusedForAnothersVocabulary()
     {
-        $status = $this->requestAs(self::SUPERVISOR, 'POST', sprintf('/admin/vocabulary/%s/update', $this->vocabularyId), [
-            'diff' => $this->labelDiff('name', '<i>stored property label</i>', 'Changed'),
-        ] + $this->csrfField(VocabularyUpdateForm::class));
+        $token = $this->startReview('changed-name.ttl');
+        $status = $this->postReview('accept', $token, self::SUPERVISOR);
         $this->assertSame(403, $status);
         $this->assertSame('<i>stored property label</i>', $this->propertyLabel('review:name'));
     }
@@ -480,107 +563,11 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     public function testAcceptAppliedForOwnVocabulary()
     {
         $this->giveVocabularyTo(self::SUPERVISOR);
-        $status = $this->requestAs(self::SUPERVISOR, 'POST', sprintf('/admin/vocabulary/%s/update', $this->vocabularyId), [
-            'diff' => $this->labelDiff('name', '<i>stored property label</i>', 'Changed'),
-        ] + $this->csrfField(VocabularyUpdateForm::class));
+        $token = $this->startReview('changed-name.ttl');
+        $status = $this->postReview('accept', $token, self::SUPERVISOR);
         $this->assertSame(302, $status);
         $this->assertRedirectTo('/admin/vocabulary');
         $this->assertSame('Changed', $this->propertyLabel('review:name'));
-    }
-
-    public function invalidDiffs()
-    {
-        $none = ['new' => [], 'label' => [], 'comment' => []];
-        $diff = function (array $properties) use ($none) {
-            return json_encode(['classes' => $none, 'properties' => $properties + $none]);
-        };
-        return [
-            'not JSON' => ['{'],
-            'no classes' => [json_encode(['properties' => $none])],
-            'changes not a list' => [$diff(['label' => 'Changed'])],
-            'empty local name' => [$diff(['label' => ['' => ['Name', 'Changed']]])],
-            'change not a pair' => [$diff(['label' => ['name' => 'Changed']])],
-            'empty label' => [$diff(['label' => ['name' => ['Name', '']]])],
-            'label too long' => [$diff(['label' => ['name' => ['Name', str_repeat('a', 256)]]])],
-            'label not text' => [$diff(['label' => ['name' => ['Name', ['Changed']]]])],
-            'comment not text' => [$diff(['comment' => ['name' => ['A name.', 5]]])],
-            'new term without a label' => [$diff(['new' => ['added' => [null, 'Added.']]])],
-            'new term without a comment' => [$diff(['new' => ['added' => ['Added']]])],
-        ];
-    }
-
-    /**
-     * @dataProvider invalidDiffs
-     */
-    public function testAcceptRefusesInvalidDiff($diff)
-    {
-        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/update', $this->vocabularyId), [
-            'diff' => $diff,
-        ] + $this->csrfField(VocabularyUpdateForm::class));
-        $this->assertSame(302, $status);
-        $this->assertSame(['Invalid changes to the vocabulary'], $this->messages(Messenger::ERROR));
-        $this->assertSame('<i>stored property label</i>', $this->propertyLabel('review:name'));
-        $this->assertSame(1, $this->api()->search('properties', ['vocabulary_id' => $this->vocabularyId])->getTotalResults());
-    }
-
-    public function testAcceptTakesLabelOf255Characters()
-    {
-        $label = str_repeat('a', 255);
-        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/update', $this->vocabularyId), [
-            'diff' => $this->labelDiff('name', '<i>stored property label</i>', $label),
-        ] + $this->csrfField(VocabularyUpdateForm::class));
-        $this->assertSame(302, $status);
-        $this->assertSame($label, $this->propertyLabel('review:name'));
-    }
-
-    public function testAcceptSkipsTermsThatNoLongerExist()
-    {
-        // Changes to terms deleted since the review, beside one that's still
-        // there.
-        $diff = json_encode([
-            'classes' => [
-                'new' => [],
-                'label' => ['Gone' => ['Gone', 'Changed']],
-                'comment' => ['Gone' => [null, 'Changed.']],
-            ],
-            'properties' => [
-                'new' => [],
-                'label' => ['gone' => ['Gone', 'Changed'], 'name' => ['<i>stored property label</i>', 'Changed']],
-                'comment' => ['gone' => [null, 'Changed.']],
-            ],
-        ]);
-        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/update', $this->vocabularyId), [
-            'diff' => $diff,
-        ] + $this->csrfField(VocabularyUpdateForm::class));
-        $this->assertSame(302, $status);
-        $this->assertSame(['Changes to the vocabulary successfully made'], $this->messages(Messenger::SUCCESS));
-        $this->assertSame('Changed', $this->propertyLabel('review:name'));
-    }
-
-    public function testAcceptSkipsNewTermsThatAlreadyExist()
-    {
-        // Accepted twice, as from a review page gone back to: its new terms
-        // are already in Omeka, beside one that isn't.
-        $diff = json_encode([
-            'classes' => [
-                'new' => ['Thing' => ['Thing again', null]],
-                'label' => [],
-                'comment' => [],
-            ],
-            'properties' => [
-                'new' => ['name' => ['Name again', null], 'added' => ['Added', null]],
-                'label' => [],
-                'comment' => [],
-            ],
-        ]);
-        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/update', $this->vocabularyId), [
-            'diff' => $diff,
-        ] + $this->csrfField(VocabularyUpdateForm::class));
-        $this->assertSame(302, $status);
-        $this->assertSame(['Changes to the vocabulary successfully made'], $this->messages(Messenger::SUCCESS));
-        $this->assertSame('<i>stored property label</i>', $this->propertyLabel('review:name'));
-        $this->assertSame('Added', $this->propertyLabel('review:added'));
-        $this->assertSame(1, $this->api()->search('resource_classes', ['vocabulary_id' => $this->vocabularyId])->getTotalResults());
     }
 
     public function testDeleteRefusedForPermanentVocabulary()

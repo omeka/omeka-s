@@ -1,0 +1,251 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'vocabularies review');
+$prefix = $vocabulary->prefix();
+$sourceLabel = $review['source_label'] ?? $translate('the file');
+
+// The choices made on the page, as its forms send them.
+$lang = (string) $reading['lang'];
+$commentChoices = [
+    'comment' => \Omeka\Stdlib\RdfImporter::COMMENT_PROPERTY,
+    'definition' => \Omeka\Stdlib\RdfImporter::DEFINITION_COMMENT_PROPERTY,
+];
+$comments = array_search($reading['comment_property'] ?? \Omeka\Stdlib\RdfImporter::COMMENT_PROPERTY, $commentChoices, true);
+
+// The terms' labels in Omeka, which name them, with their terms beneath.
+$labels = ['classes' => [], 'properties' => []];
+foreach ($vocabulary->resourceClasses() as $class) {
+    $labels['classes'][$class->localName()] = $class->label();
+}
+foreach ($vocabulary->properties() as $property) {
+    $labels['properties'][$property->localName()] = $property->label();
+}
+$term = function ($localName, $label = null) use ($prefix, $escape) {
+    $term = sprintf('<span class="field-term">%s</span>', $escape($prefix . ':' . $localName));
+    return null === $label || '' === $label ? $term : sprintf('<span class="review-term-label">%s</span> %s', $escape($label), $term);
+};
+
+// A value as it would be stored: escaped, with its spacing, and marked when
+// there is none.
+$none = sprintf('<span class="review-none">%s</span>', $translate('None'));
+$value = function ($value) use ($none, $escape) {
+    if (null === $value || '' === $value) {
+        return $none;
+    }
+    return sprintf('<span class="review-value">%s</span>', $escape($value));
+};
+// A changed value, with what differs from the other marked: struck out where
+// removed, underlined where added, so the difference doesn't rest on colour.
+// A line break, which wouldn't otherwise show, is given a sign.
+$marked = function (array $parts, $tag) use ($escape) {
+    $html = '';
+    foreach ($parts as [$text, $differs]) {
+        $text = $escape($text);
+        $html .= $differs
+            ? sprintf('<%1$s>%2$s</%1$s>', $tag, str_replace("\n", '<span class="review-line-break" aria-hidden="true">↵</span>' . "\n", $text))
+            : $text;
+    }
+    return sprintf('<span class="review-value">%s</span>', $html);
+};
+$fromTo = function ($from, $to) use ($value, $marked) {
+    [$from, $to] = [(string) $from, (string) $to];
+    if ('' === $from || '' === $to) {
+        return [$value($from), $value($to)];
+    }
+    [$fromParts, $toParts] = \Omeka\Stdlib\TextDiff::words($from, $to);
+    return [$marked($fromParts, 'del'), $marked($toParts, 'ins')];
+};
+$byTerm = function ($a, $b) {
+    return strnatcasecmp((string) $a, (string) $b);
+};
+// Changed values, by term, each from what, to what.
+$changed = function (array $changes, array $termLabels) use ($term, $fromTo, $byTerm) {
+    uksort($changes, $byTerm);
+    $rows = [];
+    foreach ($changes as $localName => [$from, $to]) {
+        $rows[] = array_merge([$term($localName, $termLabels[$localName] ?? null)], $fromTo($from, $to));
+    }
+    return $rows;
+};
+// Terms with their values, by term.
+$listed = function (array $terms) use ($term, $value, $byTerm) {
+    uksort($terms, $byTerm);
+    $rows = [];
+    foreach ($terms as $localName => $values) {
+        $rows[] = array_merge([$term($localName)], array_map($value, (array) $values));
+    }
+    return $rows;
+};
+
+// The vocabulary's own fields that change, and its namespace URI apart.
+$fieldRows = [];
+if (null !== $review['label']) {
+    $fieldRows[] = array_merge([$escape($translate('Label'))], $fromTo($vocabulary->label(), $review['label']));
+}
+if (null !== $review['comment']) {
+    $fieldRows[] = array_merge([$escape($translate('Comment'))], $fromTo($vocabulary->comment(), $review['comment']));
+}
+$namespaceChanges = null !== $review['namespace_uri'];
+
+// The terms' changes, a section each, labels first, which everyone sees, then
+// new terms, then comments, then the terms only in Omeka, which aren't
+// changes. Properties before classes.
+$sections = [];
+if (null !== $diff) {
+    $kinds = ['properties' => $translate('Property'), 'classes' => $translate('Class')];
+    $sections = [
+        ['id' => 'review-property-labels', 'heading' => $translate('Changed property labels'), 'columns' => [$kinds['properties'], $translate('From'), $translate('To')], 'rows' => $changed($diff['properties']['label'], $labels['properties']), 'class' => 'review-changes'],
+        ['id' => 'review-class-labels', 'heading' => $translate('Changed class labels'), 'columns' => [$kinds['classes'], $translate('From'), $translate('To')], 'rows' => $changed($diff['classes']['label'], $labels['classes']), 'class' => 'review-changes'],
+        ['id' => 'review-new-properties', 'heading' => $translate('New properties'), 'columns' => [$kinds['properties'], $translate('Label'), $translate('Comment')], 'rows' => $listed($diff['properties']['new'])],
+        ['id' => 'review-new-classes', 'heading' => $translate('New classes'), 'columns' => [$kinds['classes'], $translate('Label'), $translate('Comment')], 'rows' => $listed($diff['classes']['new'])],
+        ['id' => 'review-property-comments', 'heading' => $translate('Changed property comments'), 'columns' => [$kinds['properties'], $translate('From'), $translate('To')], 'rows' => $changed($diff['properties']['comment'], $labels['properties']), 'class' => 'review-changes'],
+        ['id' => 'review-class-comments', 'heading' => $translate('Changed class comments'), 'columns' => [$kinds['classes'], $translate('From'), $translate('To')], 'rows' => $changed($diff['classes']['comment'], $labels['classes']), 'class' => 'review-changes'],
+    ];
+    $onlyInOmeka = sprintf($translate('Omeka\'s vocabulary has these and %s doesn\'t. Accepting keeps them.'), $escape($sourceLabel));
+    $sections[] = ['id' => 'review-properties-only-in-omeka', 'heading' => $translate('Properties only in Omeka'), 'columns' => [$kinds['properties'], $translate('Label')], 'rows' => $listed($missing['properties']), 'note' => $onlyInOmeka];
+    $sections[] = ['id' => 'review-classes-only-in-omeka', 'heading' => $translate('Classes only in Omeka'), 'columns' => [$kinds['classes'], $translate('Label')], 'rows' => $listed($missing['classes']), 'note' => $onlyInOmeka];
+}
+$termChanges = 0;
+foreach ($sections as $section) {
+    $termChanges += isset($section['note']) ? 0 : count($section['rows']);
+}
+$sections = array_filter($sections, function ($section) {
+    return (bool) $section['rows'];
+});
+?>
+
+<?php echo $this->pageTitle($vocabulary->label(), 1, $translate('Vocabularies'), $translate('Review changes')); ?>
+
+<?php // Only the actions and hidden inputs, so the form of choices doesn't nest in it. ?>
+<form method="post" action="<?php echo $escape($this->url(null, ['action' => 'accept'], true)); ?>">
+    <div id="page-actions">
+        <button type="submit" class="button" formaction="<?php echo $escape($this->url(null, ['action' => 'cancel'], true)); ?>"><?php echo $translate('Cancel'); ?></button>
+        <?php if (null !== $diff): ?>
+        <button type="submit"><?php echo $translate('Accept changes'); ?></button>
+        <?php endif; ?>
+    </div>
+    <input type="hidden" name="review" value="<?php echo $escape($token); ?>">
+    <input type="hidden" name="lang" value="<?php echo $escape($lang); ?>">
+    <?php if (false !== $comments): ?>
+    <input type="hidden" name="comments" value="<?php echo $escape($comments); ?>">
+    <?php endif; ?>
+    <?php foreach ($form->getElements() as $element): ?>
+    <?php if ($element instanceof \Laminas\Form\Element\Csrf): ?>
+    <?php echo $this->formHidden($element); ?>
+    <?php endif; ?>
+    <?php endforeach; ?>
+</form>
+
+<form method="get" action="<?php echo $escape($this->url(null, [], true)); ?>" class="review-choices">
+    <input type="hidden" name="review" value="<?php echo $escape($token); ?>">
+    <?php if ($languages || '' !== $lang): ?>
+    <div class="field">
+        <div class="field-meta">
+            <label for="review-lang"><?php echo $translate('Preferred language'); ?></label>
+            <div class="field-description"><?php echo $translate('The language to read labels and comments in, where the file has them in several.'); ?></div>
+        </div>
+        <div class="inputs">
+            <select name="lang" id="review-lang">
+                <option value=""<?php echo '' === $lang ? ' selected' : ''; ?>><?php echo $translate('First available'); ?></option>
+                <?php foreach (array_unique(array_merge($languages, '' === $lang ? [] : [$lang])) as $tag): ?>
+                <?php $name = extension_loaded('intl') ? \Locale::getDisplayName($tag) : $tag; ?>
+                <option value="<?php echo $escape($tag); ?>"<?php echo $lang === $tag ? ' selected' : ''; ?>><?php echo $escape($name === $tag ? $tag : sprintf('%s (%s)', $name, $tag)); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    </div>
+    <?php endif; ?>
+    <?php if (false !== $comments): ?>
+    <div class="field">
+        <div class="field-meta">
+            <label for="review-comments"><?php echo $translate('Comments'); ?></label>
+            <div class="field-description"><?php echo $translate('Omeka can use a term\'s definition (skos:definition) as its comment, in place of rdfs:comment.'); ?></div>
+        </div>
+        <div class="inputs">
+            <select name="comments" id="review-comments">
+                <option value="comment"<?php echo 'comment' === $comments ? ' selected' : ''; ?>><?php echo $translate('Comment'); ?></option>
+                <option value="definition"<?php echo 'definition' === $comments ? ' selected' : ''; ?>><?php echo $translate('Definition where there is one, else comment'); ?></option>
+            </select>
+        </div>
+    </div>
+    <?php endif; ?>
+    <div class="review-choices-actions">
+        <button type="submit"><?php echo $translate('Show changes'); ?></button>
+    </div>
+</form>
+
+<?php if (null !== $diff): ?>
+<?php if ($termChanges || $fieldRows || $namespaceChanges): ?>
+<p><?php echo sprintf($translate('Accepting changes the labels and comments below to match %s, and adds any new classes and properties. It removes nothing.'), $escape($sourceLabel)); ?></p>
+<?php else: ?>
+<p><?php echo sprintf($translate('Omeka\'s vocabulary already matches %s.'), $escape($sourceLabel)); ?></p>
+<?php endif; ?>
+<?php endif; ?>
+
+<?php if ($namespaceChanges): ?>
+<h2><?php echo $translate('Namespace URI'); ?></h2>
+<p class="review-namespace">
+    <?php echo $translate('From'); ?> <span class="review-value"><?php echo $escape($vocabulary->namespaceUri()); ?></span><br>
+    <?php echo $translate('To'); ?> <span class="review-value"><?php echo $escape($review['namespace_uri']); ?></span>
+</p>
+<p><?php echo $translate('Its classes and properties get new addresses wherever Omeka publishes them. Nothing is deleted, and values stay with their properties.'); ?></p>
+<?php endif; ?>
+
+<?php if ($fieldRows): ?>
+<h2><?php echo $translate('Vocabulary'); ?></h2>
+<table class="tablesaw review-table review-changes" data-tablesaw-mode="stack">
+    <thead>
+        <tr>
+            <th><?php echo $translate('Field'); ?></th>
+            <th><?php echo $translate('From'); ?></th>
+            <th><?php echo $translate('To'); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($fieldRows as $row): ?>
+        <tr>
+            <?php foreach ($row as $i => $cell): ?>
+            <td<?php echo 0 === $i ? ' role="rowheader"' : ''; ?>><?php echo $cell; ?></td>
+            <?php endforeach; ?>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+<?php endif; ?>
+
+<?php if (count($sections) > 1): ?>
+<nav class="review-sections" aria-label="<?php echo $escape($translate('Sections')); ?>">
+    <ul>
+        <?php foreach ($sections as $section): ?>
+        <li><a href="#<?php echo $section['id']; ?>"><?php echo $escape(sprintf('%s (%s)', $section['heading'], count($section['rows']))); ?></a></li>
+        <?php endforeach; ?>
+    </ul>
+</nav>
+<?php endif; ?>
+
+<?php foreach ($sections as $section): ?>
+<h2 id="<?php echo $section['id']; ?>" tabindex="-1"><?php echo $escape(sprintf('%s (%s)', $section['heading'], count($section['rows']))); ?></h2>
+<?php if (isset($section['note'])): ?>
+<p><?php echo $section['note']; ?></p>
+<?php endif; ?>
+<table class="tablesaw review-table <?php echo $section['class'] ?? ''; ?>" data-tablesaw-mode="stack">
+    <thead>
+        <tr>
+            <?php foreach ($section['columns'] as $column): ?>
+            <th><?php echo $escape($column); ?></th>
+            <?php endforeach; ?>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($section['rows'] as $row): ?>
+        <tr>
+            <?php // The term heads its row, so a screen reader names it with each value. ?>
+            <?php foreach ($row as $i => $cell): ?>
+            <td<?php echo 0 === $i ? ' role="rowheader"' : ''; ?>><?php echo $cell; ?></td>
+            <?php endforeach; ?>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+<?php endforeach; ?>

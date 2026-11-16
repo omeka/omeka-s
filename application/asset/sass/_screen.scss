@@ -3623,33 +3623,68 @@ input[type=text].query-form-query {
 
 /* @end */
 
-/* @group ----- Vocabulary: Update ----- */
+/* @group ----- Vocabulary: Review ----- */
 
-.vocabs.update td {
+/* The button that applies the choices follows them, not in a field, where
+   it would lack contrast on the field's gray. */
+.vocabularies.review .review-choices-actions {
+    margin: 0 0 $spacing-large;
+}
+
+/* The sections below, as one line of links. */
+.vocabularies.review .review-sections ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-small $spacing-medium;
+    margin: 0 0 $spacing-medium;
+    padding: 0;
+    list-style: none;
+}
+
+/* A table of changes gives the values from and to the room: its first
+   column holds only a name. Long comments make tall rows, so each term
+   stays beside the start of its values. */
+.vocabularies.review .review-changes th:first-child {
+    width: 25%;
+}
+
+.vocabularies.review table.tablesaw.review-table td {
     vertical-align: top;
 }
 
-.vocabs.update td:first-of-type,
-.vocabs.update td:nth-of-type(2) {
-    width: 15%;
+/* A term, as its label in Omeka and beneath it its term. */
+.vocabularies.review .review-table .field-term {
+    display: block;
+}
+
+/* Values as they would be stored, line breaks and spacing included. */
+.vocabularies.review .review-value {
+    white-space: pre-wrap;
     word-wrap: break-word;
 }
 
-.vocabs.update td:nth-of-type(3),
-.vocabs.update td:nth-of-type(4) {
-    width: 35%;
+/* What differs within a changed value: struck out where removed,
+   underlined where added, each on a tint, so it shows without colour and
+   a changed space shows at all. */
+.vocabularies.review .review-value del {
+    background-color: #fbe3e3;
+    text-decoration: line-through;
 }
 
-.vocabs.update td:nth-of-type(3):last-child {
-    width: auto;
+.vocabularies.review .review-value ins {
+    background-color: #dff3df;
+    text-decoration: underline;
 }
 
-.vocabs.update td:nth-of-type(3):not(:last-child) {
-    background-color: lighten(red, 45%);
+/* The sign for a line break added or removed. */
+.vocabularies.review .review-line-break {
+    font-family: sans-serif;
 }
 
-.vocabs.update td:nth-of-type(4) {
-    background-color: lighten(green, 65%);
+/* Stands in for a missing value, set apart from real ones. */
+.vocabularies.review .review-none {
+    color: $copy-gray;
+    font-style: italic;
 }
 
 /* @end */

@@ -347,6 +347,44 @@ class RdfImporterTest extends DbTestCase
         ], $diff);
     }
 
+    public function testUpdateSkipsChangesItCannotMake()
+    {
+        $vocabularyId = $this->storeComparedVocabulary();
+        // Accepted from a review read before some terms were deleted and
+        // others added, beside changes it can make.
+        $this->rdfImporter->update($vocabularyId, [
+            'classes' => [
+                'new' => ['Thing' => ['Thing again', null]],
+                'label' => ['Gone' => ['Gone', 'Changed']],
+                'comment' => ['Gone' => [null, 'Changed.']],
+            ],
+            'properties' => [
+                'new' => ['name' => ['Name again', null], 'added' => ['Added', null]],
+                'label' => ['gone' => ['Gone', 'Changed'], 'title' => ['Title', 'Heading']],
+                'comment' => ['gone' => [null, 'Changed.']],
+            ],
+        ]);
+        $api = self::getApplication()->getServiceManager()->get('Omeka\ApiManager');
+        $labels = [];
+        foreach (['resource_classes', 'properties'] as $resource) {
+            foreach ($api->search($resource, ['vocabulary_id' => $vocabularyId])->getContent() as $term) {
+                $labels[$term->localName()] = $term->label();
+            }
+        }
+        ksort($labels);
+        // Existing terms keep their labels where a new term of their name
+        // was skipped; the change and the new term that could be made were.
+        $this->assertSame([
+            'Thing' => 'Thing',
+            'added' => 'Added',
+            'name' => 'Name',
+            'note' => 'Note',
+            'onlyInOmeka' => 'Only in Omeka',
+            'title' => 'Heading',
+            'unlabeled' => 'Unlabeled',
+        ], $labels);
+    }
+
     public function testGetMissingTerms()
     {
         $vocabularyId = $this->storeComparedVocabulary();

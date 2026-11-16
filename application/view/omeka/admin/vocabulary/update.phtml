@@ -14,9 +14,12 @@ $form->prepare();
     <button><?php echo $translate('Review changes'); ?></button>
 </div>
 <p><?php echo $translate('Omeka compares the file with this vocabulary and shows you the changes. Nothing is saved until you accept them, and no class or property is removed.'); ?></p>
-<div class="meta-group">
-    <h4><?php echo $translate('Namespace URI'); ?></h4>
-    <div class="value">
+<?php // The namespace the file's terms are matched in, as a row like the form's. ?>
+<div class="field">
+    <div class="field-meta">
+        <span class="label"><?php echo $translate('Namespace URI'); ?></span>
+    </div>
+    <div class="inputs">
         <?php echo $escape($vocabulary->namespaceUri()); ?>
         (<?php echo $this->hyperlink($translate('Change it on the Edit page'), $this->url(null, ['action' => 'edit'], true)); ?>)
     </div>

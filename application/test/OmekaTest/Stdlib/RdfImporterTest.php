@@ -347,6 +347,38 @@ class RdfImporterTest extends DbTestCase
         ], $diff);
     }
 
+    public function testGetMissingTerms()
+    {
+        $vocabularyId = $this->storeComparedVocabulary();
+        $missing = $this->rdfImporter->getMissingTerms($vocabularyId, 'file', [
+            'file' => __DIR__ . '/_files/compare.ttl',
+            'format' => 'turtle',
+        ]);
+        $this->assertSame([
+            'classes' => [],
+            'properties' => ['onlyInOmeka' => 'Only in Omeka'],
+        ], $missing);
+    }
+
+    public function testGetMissingTermsReadingInAnotherNamespace()
+    {
+        $vocabularyId = $this->storeComparedVocabulary();
+        $missing = $this->rdfImporter->getMissingTerms($vocabularyId, 'file', [
+            'file' => __DIR__ . '/_files/compare-moved.ttl',
+            'format' => 'turtle',
+            'namespace_uri' => 'http://example.org/moved#',
+        ]);
+        // The file has only name and title, in its own namespace.
+        $this->assertSame([
+            'classes' => ['Thing' => 'Thing'],
+            'properties' => [
+                'note' => 'Note',
+                'unlabeled' => 'Unlabeled',
+                'onlyInOmeka' => 'Only in Omeka',
+            ],
+        ], $missing);
+    }
+
     public function testComparingAFileInAnotherNamespace()
     {
         $vocabularyId = $this->storeComparedVocabulary();

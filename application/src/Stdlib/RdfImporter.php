@@ -365,28 +365,7 @@ class RdfImporter
     public function getDiff($strategy, $namespaceUri, array $options = [])
     {
         // Get classes and properties from the database.
-        $classes = $this->apiManager->search(
-            'resource_classes',
-            ['vocabulary_namespace_uri' => $namespaceUri]
-        )->getContent();
-        $dbClasses = [];
-        foreach ($classes as $class) {
-            $dbClasses[$class->localName()] = [
-                'label' => $class->label(),
-                'comment' => $class->comment(),
-            ];
-        }
-        $properties = $this->apiManager->search(
-            'properties',
-            ['vocabulary_namespace_uri' => $namespaceUri]
-        )->getContent();
-        $dbProperties = [];
-        foreach ($properties as $property) {
-            $dbProperties[$property->localName()] = [
-                'label' => $property->label(),
-                'comment' => $property->comment(),
-            ];
-        }
+        $stored = $this->getStoredMembers(['vocabulary_namespace_uri' => $namespaceUri]);
 
         // Get classes and properties from the RDF graph.
         $members = $this->getMembers($strategy, $namespaceUri, $options);
@@ -395,9 +374,61 @@ class RdfImporter
         $this->checkTermLengths($members);
 
         return [
-            'classes' => $this->calculateDiff($dbClasses, $members['classes']),
-            'properties' => $this->calculateDiff($dbProperties, $members['properties']),
+            'classes' => $this->calculateDiff($stored['classes'], $members['classes']),
+            'properties' => $this->calculateDiff($stored['properties'], $members['properties']),
         ];
+    }
+
+    /**
+     * Get the classes and properties a vocabulary has in Omeka that a file
+     * doesn't have.
+     *
+     * An update keeps them, so they're for showing what a file has dropped,
+     * never for applying.
+     *
+     * @see self::getMembers()
+     * @param int $vocabularyId
+     * @param string $strategy
+     * @param array $options As for getMembers(), and:
+     *   - namespace_uri: (optional) The namespace URI to read the file with,
+     *     if not the vocabulary's own
+     * @return array ['classes' => [local name => label, …], 'properties' =>
+     *   [local name => label, …]]
+     */
+    public function getMissingTerms($vocabularyId, $strategy, array $options = [])
+    {
+        $namespaceUri = $options['namespace_uri']
+            ?? $this->apiManager->read('vocabularies', $vocabularyId)->getContent()->namespaceUri();
+        $stored = $this->getStoredMembers(['vocabulary_id' => $vocabularyId]);
+        $members = $this->getMembers($strategy, $namespaceUri, $options);
+        $missing = ['classes' => [], 'properties' => []];
+        foreach (['classes', 'properties'] as $type) {
+            foreach (array_diff_key($stored[$type], $members[$type]) as $localName => $member) {
+                $missing[$type][$localName] = $member['label'];
+            }
+        }
+        return $missing;
+    }
+
+    /**
+     * Get the classes and properties of a vocabulary in Omeka, as
+     * getMembers() gets a file's.
+     *
+     * @param array $query A query for the API, by vocabulary
+     * @return array
+     */
+    protected function getStoredMembers(array $query)
+    {
+        $stored = ['classes' => [], 'properties' => []];
+        foreach (['classes' => 'resource_classes', 'properties' => 'properties'] as $type => $resource) {
+            foreach ($this->apiManager->search($resource, $query)->getContent() as $term) {
+                $stored[$type][$term->localName()] = [
+                    'label' => $term->label(),
+                    'comment' => $term->comment(),
+                ];
+            }
+        }
+        return $stored;
     }
 
     /**

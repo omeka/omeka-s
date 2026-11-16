@@ -7,6 +7,7 @@ use Omeka\Entity\EntityInterface;
 use Omeka\Entity\Vocabulary;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\Message;
+use Omeka\Stdlib\RdfImporter;
 
 class ResourceClassAdapter extends AbstractEntityAdapter
 {
@@ -61,10 +62,10 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         $this->hydrateOwner($request, $entity);
 
         if ($this->shouldHydrate($request, 'o:local_name')) {
-            $entity->setLocalName($request->getValue('o:local_name'));
+            $entity->setLocalName(trim((string) $request->getValue('o:local_name')));
         }
         if ($this->shouldHydrate($request, 'o:label')) {
-            $entity->setLabel($request->getValue('o:label'));
+            $entity->setLabel(trim((string) $request->getValue('o:label')));
         }
         if ($this->shouldHydrate($request, 'o:comment')) {
             $entity->setComment($request->getValue('o:comment'));
@@ -199,14 +200,26 @@ class ResourceClassAdapter extends AbstractEntityAdapter
 
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
     {
-        // Validate local name
-        if (false == $entity->getLocalName()) {
+        // Validate local name. "0" is one.
+        $localName = (string) $entity->getLocalName();
+        if ('' === $localName) {
             $errorStore->addError('o:local_name', 'The local name cannot be empty.'); // @translate
+        } elseif (mb_strlen($localName) > RdfImporter::LOCAL_NAME_MAX_LENGTH) {
+            $errorStore->addError('o:local_name', new Message(
+                'The local name cannot be longer than %s characters.', // @translate
+                RdfImporter::LOCAL_NAME_MAX_LENGTH
+            ));
         }
 
         // Validate label
-        if (false == $entity->getLabel()) {
+        $label = (string) $entity->getLabel();
+        if ('' === $label) {
             $errorStore->addError('o:label', 'The label cannot be empty.'); // @translate
+        } elseif (mb_strlen($label) > RdfImporter::LABEL_MAX_LENGTH) {
+            $errorStore->addError('o:label', new Message(
+                'The label cannot be longer than %s characters.', // @translate
+                RdfImporter::LABEL_MAX_LENGTH
+            ));
         }
 
         // Validate vocabulary

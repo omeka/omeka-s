@@ -298,6 +298,85 @@ class RdfImporterTest extends DbTestCase
         }
     }
 
+    /**
+     * Store the vocabulary the comparison tests compare files with.
+     *
+     * @return int Its id
+     */
+    protected function storeComparedVocabulary()
+    {
+        $api = self::getApplication()->getServiceManager()->get('Omeka\ApiManager');
+        return $api->create('vocabularies', [
+            'o:namespace_uri' => 'http://example.org/compare#',
+            'o:prefix' => 'compare',
+            'o:label' => 'Compare',
+            'o:class' => [
+                ['o:local_name' => 'Thing', 'o:label' => 'Thing', 'o:comment' => 'A thing.'],
+            ],
+            'o:property' => [
+                ['o:local_name' => 'name', 'o:label' => 'Name', 'o:comment' => 'A name.'],
+                ['o:local_name' => 'note', 'o:label' => 'Note', 'o:comment' => ''],
+                ['o:local_name' => 'unlabeled', 'o:label' => 'Unlabeled', 'o:comment' => 'Has a label in Omeka.'],
+                ['o:local_name' => 'title', 'o:label' => 'Title', 'o:comment' => 'The title.'],
+                ['o:local_name' => 'onlyInOmeka', 'o:label' => 'Only in Omeka', 'o:comment' => null],
+            ],
+        ])->getContent()->id();
+    }
+
+    public function testComparingAFile()
+    {
+        $this->storeComparedVocabulary();
+        $diff = $this->rdfImporter->getDiff('file', 'http://example.org/compare#', [
+            'file' => __DIR__ . '/_files/compare.ttl',
+            'format' => 'turtle',
+        ]);
+        $this->assertSame([
+            'classes' => [
+                'new' => [],
+                'label' => [],
+                // Spacing alone.
+                'comment' => ['Thing' => ['A thing.', "A   thing.\n  "]],
+            ],
+            'properties' => [
+                'new' => ['added' => ['Added', 'A new term.']],
+                'label' => [
+                    // Spacing alone.
+                    'name' => ['Name', ' Name  '],
+                    // The local name, as the file has no label.
+                    'unlabeled' => ['Unlabeled', 'unlabeled'],
+                    'title' => ['Title', 'Heading'],
+                ],
+                'comment' => [
+                    // Emptied, as the file has no comment.
+                    'name' => ['A name.', null],
+                    // Empty in Omeka, none in the file.
+                    'note' => ['', null],
+                    'title' => ['The title.', "The work's heading."],
+                ],
+            ],
+        ], $diff);
+    }
+
+    public function testComparingAFileInAnotherNamespace()
+    {
+        $vocabularyId = $this->storeComparedVocabulary();
+        $diff = $this->rdfImporter->getDiff('file', 'http://example.org/moved#', [
+            'file' => __DIR__ . '/_files/compare-moved.ttl',
+            'format' => 'turtle',
+            'vocabulary_id' => $vocabularyId,
+        ]);
+        // Omeka's terms are found by the namespace, which has none, so the
+        // file's terms are all new.
+        $this->assertSame([
+            'classes' => ['new' => [], 'label' => [], 'comment' => []],
+            'properties' => [
+                'new' => ['name' => ['Name', 'A name.'], 'title' => ['Heading', 'The title.']],
+                'label' => [],
+                'comment' => [],
+            ],
+        ], $diff);
+    }
+
     public function namespaceSuggestions()
     {
         $prefixes = <<<'TTL'

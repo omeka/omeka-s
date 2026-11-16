@@ -5,9 +5,19 @@ $this->htmlElement('body')->appendAttribute('class', 'vocabularies review');
 $prefix = $vocabulary->prefix();
 $sourceLabel = $review['source_label'] ?? $translate('the file');
 
-// The choices made on the page, as its forms send them.
-$lang = (string) $reading['lang'];
-$comments = array_search($reading['comment_property'] ?? \Omeka\Stdlib\RdfImporter::COMMENT_PROPERTY, \Omeka\Stdlib\RdfImporter::COMMENT_READINGS, true);
+// The choices made on the page, as its forms send them. A review without a
+// file reads none, so has none.
+$hasFile = null !== $review['file'];
+$lang = (string) ($reading['lang'] ?? '');
+$commentProperty = $reading['comment_property'] ?? \Omeka\Stdlib\RdfImporter::COMMENT_PROPERTY;
+$comments = array_search($commentProperty, \Omeka\Stdlib\RdfImporter::COMMENT_READINGS, true);
+// A label or comment property other than the importer's is entered as one,
+// and a comment property entered takes the Comments choice's place.
+$otherCommentProperty = false === $comments ? $commentProperty : '';
+$comments = $comments ?: 'comment';
+$labelProperty = $reading['label_property'] ?? \Omeka\Stdlib\RdfImporter::LABEL_PROPERTY;
+$otherLabelProperty = \Omeka\Stdlib\RdfImporter::LABEL_PROPERTY === $labelProperty ? '' : $labelProperty;
+$propertiesShown = '' !== $otherLabelProperty || '' !== $otherCommentProperty;
 
 // The terms' labels in Omeka, which name them, with their terms beneath.
 $labels = ['classes' => [], 'properties' => []];
@@ -130,9 +140,12 @@ $changes = null !== $diff && ($termChanges || $fieldRows || $namespaceChanges);
         <?php endif; ?>
     </div>
     <input type="hidden" name="review" value="<?php echo $escape($token); ?>">
+    <?php if ($hasFile): ?>
+    <?php // The reading shown, which Accept applies. ?>
     <input type="hidden" name="lang" value="<?php echo $escape($lang); ?>">
-    <?php if (false !== $comments): ?>
     <input type="hidden" name="comments" value="<?php echo $escape($comments); ?>">
+    <input type="hidden" name="label_property" value="<?php echo $escape($otherLabelProperty); ?>">
+    <input type="hidden" name="comment_property" value="<?php echo $escape($otherCommentProperty); ?>">
     <?php endif; ?>
     <?php foreach ($form->getElements() as $element): ?>
     <?php if ($element instanceof \Laminas\Form\Element\Csrf): ?>
@@ -141,6 +154,7 @@ $changes = null !== $diff && ($termChanges || $fieldRows || $namespaceChanges);
     <?php endforeach; ?>
 </form>
 
+<?php if ($hasFile): ?>
 <form method="get" action="<?php echo $escape($this->url(null, [], true)); ?>" class="review-choices">
     <input type="hidden" name="review" value="<?php echo $escape($token); ?>">
     <?php if ($languages || '' !== $lang): ?>
@@ -160,7 +174,6 @@ $changes = null !== $diff && ($termChanges || $fieldRows || $namespaceChanges);
         </div>
     </div>
     <?php endif; ?>
-    <?php if (false !== $comments): ?>
     <div class="field">
         <div class="field-meta">
             <label for="review-comments"><?php echo $translate('Comments'); ?></label>
@@ -173,11 +186,33 @@ $changes = null !== $diff && ($termChanges || $fieldRows || $namespaceChanges);
             </select>
         </div>
     </div>
-    <?php endif; ?>
+    <?php // Rarely needed, so out of the way unless the reading uses them. ?>
+    <a href="#" class="<?php echo $propertiesShown ? 'collapse' : 'expand'; ?>" aria-expanded="<?php echo $propertiesShown ? 'true' : 'false'; ?>"><?php echo $translate('Label and comment properties'); ?></a>
+    <div class="collapsible">
+        <div class="field">
+            <div class="field-meta">
+                <label for="review-label-property"><?php echo $translate('Label property'); ?></label>
+                <div class="field-description"><?php echo $translate('Enter the label property. This is typically only needed if the vocabulary uses an unconventional property for labels. Please use the full property URI enclosed in angle brackets.'); ?></div>
+            </div>
+            <div class="inputs">
+                <input type="text" name="label_property" id="review-label-property" value="<?php echo $escape($otherLabelProperty); ?>">
+            </div>
+        </div>
+        <div class="field">
+            <div class="field-meta">
+                <label for="review-comment-property"><?php echo $translate('Comment property'); ?></label>
+                <div class="field-description"><?php echo $translate('Enter the comment property, used in place of the Comments choice. This is typically only needed if the vocabulary uses an unconventional property for comments. Please use the full property URI enclosed in angle brackets.'); ?></div>
+            </div>
+            <div class="inputs">
+                <input type="text" name="comment_property" id="review-comment-property" value="<?php echo $escape($otherCommentProperty); ?>">
+            </div>
+        </div>
+    </div>
     <div class="review-choices-actions">
         <button type="submit"><?php echo $translate('Show changes'); ?></button>
     </div>
 </form>
+<?php endif; ?>
 
 <?php if (null !== $diff): ?>
 <?php if ($changes): ?>

@@ -426,8 +426,9 @@ class VocabularyController extends AbstractActionController
 
     /**
      * Get the reading options the admin chose on the review page: its
-     * preferred language ("" for the first available) and where comments
-     * are read from.
+     * preferred language ("" for the first available), where comments are
+     * read from, and any label or comment property entered, which takes the
+     * place of the importer's default ("" for the default).
      *
      * @param array $params The page's query, or the post of its form
      * @return array
@@ -438,8 +439,16 @@ class VocabularyController extends AbstractActionController
         if (isset($params['lang']) && is_string($params['lang'])) {
             $choices['lang'] = '' === $params['lang'] ? null : $params['lang'];
         }
+        if (isset($params['label_property']) && is_string($params['label_property'])) {
+            $choices['label_property'] = '' === trim($params['label_property']) ? null : trim($params['label_property']);
+        }
         if (isset($params['comments']) && is_string($params['comments']) && isset(RdfImporter::COMMENT_READINGS[$params['comments']])) {
             $choices['comment_property'] = RdfImporter::COMMENT_READINGS[$params['comments']];
+        }
+        // A comment property entered is used in place of the Comments
+        // choice, as on the import form.
+        if (isset($params['comment_property']) && is_string($params['comment_property']) && '' !== trim($params['comment_property'])) {
+            $choices['comment_property'] = trim($params['comment_property']);
         }
         return $choices;
     }
@@ -455,7 +464,7 @@ class VocabularyController extends AbstractActionController
     protected function getReviewUrl($vocabulary, $token, array $params)
     {
         $query = ['review' => $token];
-        foreach (['lang', 'comments'] as $key) {
+        foreach (['lang', 'comments', 'label_property', 'comment_property'] as $key) {
             if (isset($params[$key]) && is_string($params[$key])) {
                 $query[$key] = $params[$key];
             }

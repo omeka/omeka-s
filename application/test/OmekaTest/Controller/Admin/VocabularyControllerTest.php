@@ -309,13 +309,14 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
      * @param string $token
      * @param string $email
      * @param int|null $vocabularyId By default, the tests' vocabulary
+     * @param array $choices The reading chosen on the review page
      * @return int The response's HTTP status
      */
-    protected function postReview($action, $token, $email = self::ADMIN, $vocabularyId = null)
+    protected function postReview($action, $token, $email = self::ADMIN, $vocabularyId = null, array $choices = [])
     {
         return $this->requestAs($email, 'POST', sprintf('/admin/vocabulary/%s/%s', $vocabularyId ?? $this->vocabularyId, $action), [
             'review' => $token,
-        ] + $this->csrfField(ConfirmForm::class));
+        ] + $choices + $this->csrfField(ConfirmForm::class));
     }
 
     /**
@@ -407,6 +408,27 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $page = html_entity_decode($this->reviewPage($this->startReview('changed-name.ttl')), ENT_QUOTES | ENT_HTML5);
         $this->assertMatchesRegularExpression('#formaction="[^"]*/cancel">Cancel</button>#', $page);
         $this->assertStringContainsString('Accept changes', $page);
+    }
+
+    public function testLabelPropertyChosenOnReview()
+    {
+        $token = $this->startReview('changed-name.ttl');
+        $page = html_entity_decode($this->reviewPage($token), ENT_QUOTES | ENT_HTML5);
+        $this->assertStringContainsString('Changed property labels (1)', $page);
+        // The property options are out of the way by default.
+        $this->assertStringContainsString('<a href="#" class="expand" aria-expanded="false">Label and comment properties</a>', $page);
+
+        // Labels read from a property the file doesn't have are local names,
+        // which never take the place of Omeka's labels.
+        $page = html_entity_decode($this->reviewPage($token, ['label_property' => 'skos:prefLabel']), ENT_QUOTES | ENT_HTML5);
+        $this->assertStringNotContainsString('Changed property labels', $page);
+        // Shown, as the reading uses it, and carried to Accept.
+        $this->assertStringContainsString('<a href="#" class="collapse" aria-expanded="true">Label and comment properties</a>', $page);
+        $this->assertStringContainsString('<input type="hidden" name="label_property" value="skos:prefLabel">', $page);
+
+        // Accepted, it's the reading stored.
+        $this->postReview('accept', $token, self::ADMIN, null, ['label_property' => 'skos:prefLabel']);
+        $this->assertSame('skos:prefLabel', $this->vocabulary()->importOptions()['label_property']);
     }
 
     public function testChangedChoicesRecompute()

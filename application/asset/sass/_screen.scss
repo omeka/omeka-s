@@ -3638,6 +3638,15 @@ input[type=text].query-form-query {
     line-height: $base-line-height;
 }
 
+/* The reading options rarely needed, shown when asked for. */
+.vocabularies.review .review-choices .collapsible {
+    display: none;
+}
+
+.vocabularies.review .review-choices .collapse + .collapsible {
+    display: block;
+}
+
 /* The sections below, as one line of links. */
 .vocabularies.review .review-sections ul {
     display: flex;

@@ -8,6 +8,7 @@ use Omeka\Form\ResourceTemplateImportForm;
 use Omeka\Form\ResourceTemplateReviewImportForm;
 use Omeka\Mvc\Exception\NotFoundException;
 use Omeka\Stdlib\Message;
+use Omeka\Stdlib\NamespaceUri;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 
@@ -140,6 +141,9 @@ class ResourceTemplateController extends AbstractActionController
             'resource:media',
         ];
 
+        // The vocabulary with the namespace URI, else one with another form
+        // of it, as when a template from one site has https://schema.org/
+        // and this site has http://schema.org/.
         $getVocab = function ($namespaceUri) use (&$vocabs) {
             if (isset($vocabs[$namespaceUri])) {
                 return $vocabs[$namespaceUri];
@@ -147,6 +151,11 @@ class ResourceTemplateController extends AbstractActionController
             $vocab = $this->api()->searchOne('vocabularies', [
                 'namespace_uri' => $namespaceUri,
             ])->getContent();
+            if (!$vocab) {
+                $vocab = $this->api()->searchOne('vocabularies', [
+                    'namespace_uri' => NamespaceUri::getForms($namespaceUri),
+                ])->getContent();
+            }
             if ($vocab) {
                 $vocabs[$namespaceUri] = $vocab;
                 return $vocab;
@@ -158,7 +167,7 @@ class ResourceTemplateController extends AbstractActionController
             if ($vocab = $getVocab($import['o:resource_class']['vocabulary_namespace_uri'])) {
                 $import['o:resource_class']['vocabulary_prefix'] = $vocab->prefix();
                 $class = $this->api()->searchOne('resource_classes', [
-                    'vocabulary_namespace_uri' => $import['o:resource_class']['vocabulary_namespace_uri'],
+                    'vocabulary_id' => $vocab->id(),
                     'local_name' => $import['o:resource_class']['local_name'],
                 ])->getContent();
                 if ($class) {
@@ -172,7 +181,7 @@ class ResourceTemplateController extends AbstractActionController
                 if ($vocab = $getVocab($import[$property]['vocabulary_namespace_uri'])) {
                     $import[$property]['vocabulary_prefix'] = $vocab->prefix();
                     $prop = $this->api()->searchOne('properties', [
-                        'vocabulary_namespace_uri' => $import[$property]['vocabulary_namespace_uri'],
+                        'vocabulary_id' => $vocab->id(),
                         'local_name' => $import[$property]['local_name'],
                     ])->getContent();
                     if ($prop) {
@@ -186,7 +195,7 @@ class ResourceTemplateController extends AbstractActionController
             if ($vocab = $getVocab($property['vocabulary_namespace_uri'])) {
                 $import['o:resource_template_property'][$key]['vocabulary_prefix'] = $vocab->prefix();
                 $prop = $this->api()->searchOne('properties', [
-                    'vocabulary_namespace_uri' => $property['vocabulary_namespace_uri'],
+                    'vocabulary_id' => $vocab->id(),
                     'local_name' => $property['local_name'],
                 ])->getContent();
                 if ($prop) {

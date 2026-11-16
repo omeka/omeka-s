@@ -90,40 +90,40 @@ class MvcListenersTest extends TestCase
     public function apiKeyProvider()
     {
         return [
-            'headers' => [
-                ['X-Omeka-Key-Identity' => 'head_id', 'X-Omeka-Key-Credential' => 'head_cred'],
+            'basic auth header' => [
+                ['Authorization' => 'Basic ' . base64_encode('head_id:head_cred')],
                 [],
                 'head_id', 'head_cred',
             ],
-            'query parameters' => [
-                [],
+            'query parameters take precedence over the header' => [
+                ['Authorization' => 'Basic ' . base64_encode('head_id:head_cred')],
                 ['key_identity' => 'query_id', 'key_credential' => 'query_cred'],
                 'query_id', 'query_cred',
             ],
-            'query parameters take precedence over headers' => [
-                ['X-Omeka-Key-Identity' => 'head_id', 'X-Omeka-Key-Credential' => 'head_cred'],
-                ['key_identity' => 'query_id', 'key_credential' => 'query_cred'],
-                'query_id', 'query_cred',
-            ],
-            'a partial query parameter is not completed with a header' => [
-                ['X-Omeka-Key-Credential' => 'head_cred'],
+            'a partial query parameter is not completed with the header' => [
+                ['Authorization' => 'Basic ' . base64_encode('head_id:head_cred')],
                 ['key_identity' => 'query_id'],
                 null, null,
             ],
-            'a partial header is not completed with a query parameter' => [
-                ['X-Omeka-Key-Identity' => 'head_id'],
-                ['key_credential' => 'query_cred'],
+            'a credential with a colon' => [
+                ['Authorization' => 'Basic ' . base64_encode('head_id:head:cred')],
+                [],
+                'head_id', 'head:cred',
+            ],
+            'another scheme is skipped' => [
+                ['Authorization' => 'Bearer ' . base64_encode('head_id:head_cred')],
+                [],
                 null, null,
             ],
-            'a header repeated with the same value' => [
-                ['X-Omeka-Key-Identity' => 'head_id, head_id', 'X-Omeka-Key-Credential' => 'head_cred'],
+            'a basic value that is not base64' => [
+                ['Authorization' => 'Basic not base64!'],
                 [],
-                'head_id', 'head_cred',
+                null, null,
             ],
-            'a header repeated with different values keeps the last one' => [
-                ['X-Omeka-Key-Identity' => 'first_id, head_id', 'X-Omeka-Key-Credential' => 'head_cred'],
+            'a basic value without a colon' => [
+                ['Authorization' => 'Basic ' . base64_encode('head_id')],
                 [],
-                'head_id', 'head_cred',
+                null, null,
             ],
             'no key' => [
                 [],

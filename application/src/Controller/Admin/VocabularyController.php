@@ -124,6 +124,9 @@ class VocabularyController extends AbstractActionController
         if ($vocabulary->isPermanent()) {
             throw new Exception\PermissionDeniedException('Cannot edit a permanent vocabulary');
         }
+        if (!$vocabulary->userIsAllowed('update')) {
+            throw new Exception\PermissionDeniedException('User does not have permission to edit this vocabulary');
+        }
         $data = [
             'vocabulary-info' => [
                 'o:label' => $vocabulary->label(),
@@ -184,6 +187,15 @@ class VocabularyController extends AbstractActionController
     public function updateAction()
     {
         if ($this->getRequest()->isPost()) {
+            // The importer writes to the vocabulary directly, without the
+            // API's permission checks, so check them here.
+            $vocabulary = $this->api()->read('vocabularies', $this->params('id'))->getContent();
+            if ($vocabulary->isPermanent()) {
+                throw new Exception\PermissionDeniedException('Cannot update a permanent vocabulary');
+            }
+            if (!$vocabulary->userIsAllowed('update')) {
+                throw new Exception\PermissionDeniedException('User does not have permission to update this vocabulary');
+            }
             $data = $this->params()->fromPost();
             $form = $this->getForm(VocabularyUpdateForm::class);
             $form->setData($data);
@@ -200,6 +212,13 @@ class VocabularyController extends AbstractActionController
     public function deleteAction()
     {
         if ($this->getRequest()->isPost()) {
+            $vocabulary = $this->api()->read('vocabularies', $this->params('id'))->getContent();
+            if ($vocabulary->isPermanent()) {
+                throw new Exception\PermissionDeniedException('Cannot delete a permanent vocabulary');
+            }
+            if (!$vocabulary->userIsAllowed('delete')) {
+                throw new Exception\PermissionDeniedException('User does not have permission to delete this vocabulary');
+            }
             $form = $this->getForm(ConfirmForm::class);
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {

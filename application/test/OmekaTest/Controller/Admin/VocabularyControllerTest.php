@@ -1,19 +1,30 @@
 <?php
 namespace OmekaTest\Controller\Admin;
 
+use Laminas\Form\Element\Csrf;
+use Omeka\Api\Exception\NotFoundException;
 use Omeka\Entity\User;
+use Omeka\Entity\Vocabulary;
+use Omeka\Form\ConfirmForm;
+use Omeka\Form\VocabularyUpdateForm;
+use Omeka\Permissions\Exception\PermissionDeniedException;
 use Omeka\Stdlib\RdfImporter;
 use Omeka\Test\AbstractHttpControllerTestCase;
 
 /**
- * Requests to the vocabulary pages, signed in as the test database's admin.
+ * Requests to the vocabulary pages, signed in as the test database's admin or
+ * as a Supervisor.
  *
- * What a request writes is committed, so each test deletes the vocabulary it
- * makes.
+ * What a request writes is committed, so each test deletes the vocabulary and
+ * the user it makes.
  */
 class VocabularyControllerTest extends AbstractHttpControllerTestCase
 {
     const NAMESPACE_URI = 'http://example.org/review#';
+
+    const ADMIN = 'admin@example.com';
+
+    const SUPERVISOR = 'vocabulary-supervisor@example.com';
 
     /**
      * @var int
@@ -23,8 +34,17 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     public function setUp(): void
     {
         parent::setUp();
+        $em = $this->getApplicationServiceLocator()->get('Omeka\EntityManager');
+        $supervisor = new User;
+        $supervisor->setEmail(self::SUPERVISOR);
+        $supervisor->setName('Supervisor');
+        $supervisor->setRole('site_admin');
+        $supervisor->setIsActive(true);
+        $em->persist($supervisor);
+        $em->flush();
+
         $this->signIn();
-        $vocabulary = $this->getApplicationServiceLocator()->get('Omeka\ApiManager')->create('vocabularies', [
+        $vocabulary = $this->api()->create('vocabularies', [
             'o:namespace_uri' => self::NAMESPACE_URI,
             'o:prefix' => 'review',
             'o:label' => 'Review',
@@ -44,23 +64,137 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
 
     public function tearDown(): void
     {
-        if ($this->vocabularyId) {
-            $this->reset(true);
-            $this->signIn();
-            $this->getApplicationServiceLocator()->get('Omeka\ApiManager')->delete('vocabularies', $this->vocabularyId);
+        if ($this->vocabularyId && $this->vocabularyExists()) {
+            $this->api()->delete('vocabularies', $this->vocabularyId);
+        }
+        $em = $this->getApplicationServiceLocator()->get('Omeka\EntityManager');
+        if ($supervisor = $em->getRepository(User::class)->findOneBy(['email' => self::SUPERVISOR])) {
+            $em->remove($supervisor);
+            $em->flush();
         }
         parent::tearDown();
     }
 
     /**
-     * Sign in as the test database's admin.
+     * Sign in as a user of the test database.
+     *
+     * @param string $email
      */
-    protected function signIn()
+    protected function signIn($email = self::ADMIN)
     {
         $services = $this->getApplicationServiceLocator();
-        $admin = $services->get('Omeka\EntityManager')->getRepository(User::class)
-            ->findOneBy(['email' => 'admin@example.com']);
-        $services->get('Omeka\AuthenticationService')->getStorage()->write($admin);
+        $user = $services->get('Omeka\EntityManager')->getRepository(User::class)
+            ->findOneBy(['email' => $email]);
+        $services->get('Omeka\AuthenticationService')->getStorage()->write($user);
+    }
+
+    /**
+     * The API of the application the next request goes to.
+     *
+     * @return \Omeka\Api\Manager
+     */
+    protected function api()
+    {
+        return $this->getApplicationServiceLocator()->get('Omeka\ApiManager');
+    }
+
+    /**
+     * Send a request as a user, keeping the session, as a browser would.
+     *
+     * @param string $email
+     * @param string $method
+     * @param string $path
+     * @param array $data
+     * @return int The response's HTTP status
+     */
+    protected function requestAs($email, $method, $path, array $data = [])
+    {
+        $this->reset(true);
+        $this->signIn($email);
+        try {
+            $this->dispatch($path, $method, $data);
+        } catch (PermissionDeniedException $e) {
+            // The test framework rethrows what Omeka answers with 403.
+        }
+        return $this->getResponse()->getStatusCode();
+    }
+
+    /**
+     * A form's CSRF field, as a page showing the form would give it.
+     *
+     * @param string $formClass
+     * @return array
+     */
+    protected function csrfField($formClass)
+    {
+        $form = $this->getApplicationServiceLocator()->get('FormElementManager')->get($formClass);
+        foreach ($form->getElements() as $element) {
+            if ($element instanceof Csrf) {
+                return [$element->getName() => $element->getValue()];
+            }
+        }
+        $this->fail("No CSRF field in $formClass");
+    }
+
+    /**
+     * Make a user the owner of the tests' vocabulary.
+     *
+     * @param string $email
+     */
+    protected function giveVocabularyTo($email)
+    {
+        $em = $this->getApplicationServiceLocator()->get('Omeka\EntityManager');
+        $em->find(Vocabulary::class, $this->vocabularyId)
+            ->setOwner($em->getRepository(User::class)->findOneBy(['email' => $email]));
+        $em->flush();
+    }
+
+    /**
+     * A diff, as the review screen posts it, that changes one property's
+     * label.
+     *
+     * @param string $localName
+     * @param string $from
+     * @param string $to
+     * @return string
+     */
+    protected function labelDiff($localName, $from, $to)
+    {
+        return json_encode([
+            'classes' => ['new' => [], 'label' => [], 'comment' => []],
+            'properties' => ['new' => [], 'label' => [$localName => [$from, $to]], 'comment' => []],
+        ]);
+    }
+
+    /**
+     * A property's label as Omeka has it now.
+     *
+     * @param string $term
+     * @return string
+     */
+    protected function propertyLabel($term)
+    {
+        $this->reset(true);
+        $this->signIn();
+        return $this->api()->search('properties', ['term' => $term])->getContent()[0]->label();
+    }
+
+    /**
+     * Whether a vocabulary is in Omeka now, by default the tests' vocabulary.
+     *
+     * @param int|null $id
+     * @return bool
+     */
+    protected function vocabularyExists($id = null)
+    {
+        $this->reset(true);
+        $this->signIn();
+        try {
+            $this->api()->read('vocabularies', $id ?? $this->vocabularyId);
+            return true;
+        } catch (NotFoundException $e) {
+            return false;
+        }
     }
 
     /**
@@ -153,5 +287,85 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         // What changed, named for people rather than by the diff's keys.
         $this->assertStringContainsString('<td>Label</td>', $page);
         $this->assertStringContainsString('<td>Comment</td>', $page);
+    }
+
+    public function testEditRefusedForAnothersVocabulary()
+    {
+        $status = $this->requestAs(self::SUPERVISOR, 'GET', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId));
+        $this->assertSame(403, $status);
+    }
+
+    public function testEditOpensForOwnVocabulary()
+    {
+        $this->giveVocabularyTo(self::SUPERVISOR);
+        $status = $this->requestAs(self::SUPERVISOR, 'GET', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId));
+        $this->assertSame(200, $status);
+    }
+
+    public function testAcceptRefusedForPermanentVocabulary()
+    {
+        $dcterms = $this->api()->read('vocabularies', ['prefix' => 'dcterms'])->getContent();
+        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/update', $dcterms->id()), [
+            'diff' => $this->labelDiff('title', 'Title', 'Changed'),
+        ] + $this->csrfField(VocabularyUpdateForm::class));
+        $this->assertSame(403, $status);
+        $this->assertSame('Title', $this->propertyLabel('dcterms:title'));
+    }
+
+    public function testAcceptRefusedForAnothersVocabulary()
+    {
+        $status = $this->requestAs(self::SUPERVISOR, 'POST', sprintf('/admin/vocabulary/%s/update', $this->vocabularyId), [
+            'diff' => $this->labelDiff('name', '<i>stored property label</i>', 'Changed'),
+        ] + $this->csrfField(VocabularyUpdateForm::class));
+        $this->assertSame(403, $status);
+        $this->assertSame('<i>stored property label</i>', $this->propertyLabel('review:name'));
+    }
+
+    public function testAcceptAppliedForOwnVocabulary()
+    {
+        $this->giveVocabularyTo(self::SUPERVISOR);
+        $status = $this->requestAs(self::SUPERVISOR, 'POST', sprintf('/admin/vocabulary/%s/update', $this->vocabularyId), [
+            'diff' => $this->labelDiff('name', '<i>stored property label</i>', 'Changed'),
+        ] + $this->csrfField(VocabularyUpdateForm::class));
+        $this->assertSame(302, $status);
+        $this->assertSame('Changed', $this->propertyLabel('review:name'));
+    }
+
+    public function testDeleteRefusedForPermanentVocabulary()
+    {
+        $dcterms = $this->api()->read('vocabularies', ['prefix' => 'dcterms'])->getContent();
+        $status = $this->requestAs(
+            self::ADMIN,
+            'POST',
+            sprintf('/admin/vocabulary/%s/delete', $dcterms->id()),
+            $this->csrfField(ConfirmForm::class)
+        );
+        $this->assertSame(403, $status);
+        $this->assertTrue($this->vocabularyExists($dcterms->id()));
+    }
+
+    public function testDeleteRefusedForAnothersVocabulary()
+    {
+        $status = $this->requestAs(
+            self::SUPERVISOR,
+            'POST',
+            sprintf('/admin/vocabulary/%s/delete', $this->vocabularyId),
+            $this->csrfField(ConfirmForm::class)
+        );
+        $this->assertSame(403, $status);
+        $this->assertTrue($this->vocabularyExists());
+    }
+
+    public function testDeleteAppliedForOwnVocabulary()
+    {
+        $this->giveVocabularyTo(self::SUPERVISOR);
+        $status = $this->requestAs(
+            self::SUPERVISOR,
+            'POST',
+            sprintf('/admin/vocabulary/%s/delete', $this->vocabularyId),
+            $this->csrfField(ConfirmForm::class)
+        );
+        $this->assertSame(302, $status);
+        $this->assertFalse($this->vocabularyExists());
     }
 }

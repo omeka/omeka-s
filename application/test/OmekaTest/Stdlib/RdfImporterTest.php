@@ -61,10 +61,12 @@ class RdfImporterTest extends DbTestCase
     public function testReadingInALanguageWithEmptyValues()
     {
         $members = $this->members('multilingual.ttl', 'http://example.org/multi#', ['format' => 'turtle', 'lang' => 'fr']);
-        // An empty French label gives the local name, and an empty French
-        // comment an empty comment, though English ones are there.
-        $this->assertSame(['label' => 'CreativeWork', 'comment' => ''], $members['classes']['CreativeWork']);
+        // Empty French values are placeholders, so the English ones are read.
+        $this->assertSame(['label' => 'Work', 'comment' => 'A creative work.'], $members['classes']['CreativeWork']);
         $this->assertSame(['label' => 'Titre', 'comment' => "Le titre de l'oeuvre."], $members['properties']['title']);
+        // With only placeholders, blank or empty, a term has its local name
+        // for a label and no comment.
+        $this->assertSame(['label' => 'subtitle', 'comment' => null], $members['properties']['subtitle']);
     }
 
     public function testReadingAFileThatMentionsRdfa()

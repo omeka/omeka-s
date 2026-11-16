@@ -367,7 +367,8 @@ class RdfImporter
      * Get the label from an RDF resource.
      *
      * Attempts to get the label of the passed language. If one does not exist
-     * it defaults to the first available label, if any.
+     * it defaults to the first available label, if any. Blank labels are
+     * skipped.
      *
      * @param RdfResource $resource
      * @param string $labelProperty
@@ -377,34 +378,50 @@ class RdfImporter
      */
     protected function getLabel(RdfResource $resource, $labelProperty, $lang, $default)
     {
-        $label = $resource->get($labelProperty, 'literal', $lang) ?: $resource->get($labelProperty, 'literal');
-        if ($label) {
-            // The literal's text: a typed literal's value is a number, a
-            // boolean, or a date.
-            $value = (string) $label;
-            if ('' !== $value) {
-                return $value;
-            }
-        }
-        return $default;
+        return $this->getText($resource, $labelProperty, $lang) ?? $default;
     }
 
     /**
      * Get the comment from an RDF resource.
      *
      * Attempts to get the comment of the passed language. If one does not exist
-     * it defaults to the first available comment, if any.
+     * it defaults to the first available comment, if any. Blank comments are
+     * skipped.
      *
      * @param RdfResource $resource
      * @param string $commentProperty
      * @param string $lang
-     * @return string
+     * @return string|null
      */
     protected function getComment(RdfResource $resource, $commentProperty, $lang)
     {
-        $comment = $resource->get($commentProperty, 'literal', $lang) ?: $resource->get($commentProperty, 'literal');
-        if ($comment) {
-            return (string) $comment;
+        return $this->getText($resource, $commentProperty, $lang);
+    }
+
+    /**
+     * Get the text of an RDF resource's first literal for a property that
+     * isn't blank, in the passed language if there is one, else in any.
+     *
+     * Files often leave a blank literal as a placeholder for a translation,
+     * so a blank in the passed language gives way to another language's
+     * text.
+     *
+     * @param RdfResource $resource
+     * @param string $property A property, or alternatives as "a|b"
+     * @param string|null $lang
+     * @return string|null
+     */
+    protected function getText(RdfResource $resource, $property, $lang)
+    {
+        $literals = $lang ? $resource->all($property, 'literal', $lang) : [];
+        foreach (array_merge($literals, $resource->all($property, 'literal')) as $literal) {
+            // The literal's text: a typed literal's value is a number, a
+            // boolean, or a date.
+            $text = (string) $literal;
+            if ('' !== trim($text)) {
+                return $text;
+            }
         }
+        return null;
     }
 }

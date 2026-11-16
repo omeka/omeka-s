@@ -330,18 +330,17 @@ class RdfImporterTest extends DbTestCase
             'file' => __DIR__ . '/_files/compare.ttl',
             'format' => 'turtle',
         ]);
+        // Differences only in spacing, and an empty comment against none,
+        // aren't changes.
         $this->assertSame([
             'classes' => [
                 'new' => [],
                 'label' => [],
-                // Spacing alone.
-                'comment' => ['Thing' => ['A thing.', "A   thing.\n  "]],
+                'comment' => [],
             ],
             'properties' => [
                 'new' => ['added' => ['Added', 'A new term.']],
                 'label' => [
-                    // Spacing alone.
-                    'name' => ['Name', ' Name  '],
                     // The local name, as the file has no label.
                     'unlabeled' => ['Unlabeled', 'unlabeled'],
                     'title' => ['Title', 'Heading'],
@@ -349,8 +348,6 @@ class RdfImporterTest extends DbTestCase
                 'comment' => [
                     // Emptied, as the file has no comment.
                     'name' => ['A name.', null],
-                    // Empty in Omeka, none in the file.
-                    'note' => ['', null],
                     'title' => ['The title.', "The work's heading."],
                 ],
             ],

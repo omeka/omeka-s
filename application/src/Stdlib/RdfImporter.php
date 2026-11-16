@@ -407,6 +407,9 @@ class RdfImporter
      * update existing labels and comments. It doesn't get the diffs we cannot
      * process safely: delete existing members or update existing local names.
      *
+     * Values that differ only in spacing, or are empty and missing, are the
+     * same: see self::getComparableText().
+     *
      * @param array $from
      * @param array $to
      * @return array
@@ -417,11 +420,11 @@ class RdfImporter
         foreach ($to as $localName => $info) {
             if (array_key_exists($localName, $from)) {
                 // Existing member.
-                if ($from[$localName]['label'] !== $info['label']) {
+                if ($this->getComparableText($from[$localName]['label']) !== $this->getComparableText($info['label'])) {
                     // Updated label.
                     $diff['label'][$localName] = [$from[$localName]['label'], $info['label']];
                 }
-                if ($from[$localName]['comment'] !== $info['comment']) {
+                if ($this->getComparableText($from[$localName]['comment']) !== $this->getComparableText($info['comment'])) {
                     // Updated comment.
                     $diff['comment'][$localName] = [$from[$localName]['comment'], $info['comment']];
                 }
@@ -431,6 +434,21 @@ class RdfImporter
             }
         }
         return $diff;
+    }
+
+    /**
+     * Get a label or comment as it's compared: each run of whitespace as one
+     * space, none at either end, and a missing value as an empty one. Omeka's
+     * pages show values that differ only so the same.
+     *
+     * @param string|null $value
+     * @return string
+     */
+    protected function getComparableText($value)
+    {
+        $text = (string) $value;
+        // Text that isn't valid UTF-8 can't be matched as such.
+        return trim(preg_replace('/\s+/u', ' ', $text) ?? preg_replace('/\s+/', ' ', $text));
     }
 
     /**

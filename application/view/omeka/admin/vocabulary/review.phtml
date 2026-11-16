@@ -109,6 +109,7 @@ foreach ($sections as $section) {
 $sections = array_filter($sections, function ($section) {
     return (bool) $section['rows'];
 });
+$changes = null !== $diff && ($termChanges || $fieldRows || $namespaceChanges);
 ?>
 
 <?php echo $this->pageTitle($vocabulary->label(), 1, $translate('Vocabularies'), $translate('Review changes')); ?>
@@ -116,8 +117,9 @@ $sections = array_filter($sections, function ($section) {
 <?php // Only the actions and hidden inputs, so the form of choices doesn't nest in it. ?>
 <form method="post" action="<?php echo $escape($this->url(null, ['action' => 'accept'], true)); ?>">
     <div id="page-actions">
-        <button type="submit" class="button" formaction="<?php echo $escape($this->url(null, ['action' => 'cancel'], true)); ?>"><?php echo $translate('Cancel'); ?></button>
-        <?php if (null !== $diff): ?>
+        <?php // With nothing to change, there's nothing to accept; Back ends the review as Cancel does. ?>
+        <button type="submit" class="button" formaction="<?php echo $escape($this->url(null, ['action' => 'cancel'], true)); ?>"><?php echo (null !== $diff && !$changes) ? $translate('Back') : $translate('Cancel'); ?></button>
+        <?php if ($changes): ?>
         <button type="submit"><?php echo $translate('Accept changes'); ?></button>
         <?php endif; ?>
     </div>
@@ -172,7 +174,7 @@ $sections = array_filter($sections, function ($section) {
 </form>
 
 <?php if (null !== $diff): ?>
-<?php if ($termChanges || $fieldRows || $namespaceChanges): ?>
+<?php if ($changes): ?>
 <p><?php echo sprintf($translate('Accepting changes the labels and comments below to match %s, and adds any new classes and properties. It removes nothing.'), $escape($sourceLabel)); ?></p>
 <?php else: ?>
 <p><?php echo sprintf($translate('Omeka\'s vocabulary already matches %s.'), $escape($sourceLabel)); ?></p>

@@ -391,6 +391,19 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString('Accepting keeps them.', $page);
     }
 
+    public function testReviewWithoutChangesOffersOnlyBack()
+    {
+        $page = html_entity_decode($this->reviewPage($this->startReview('unchanged.ttl')), ENT_QUOTES | ENT_HTML5);
+        $this->assertStringContainsString('Omeka\'s vocabulary already matches the file.', $page);
+        $this->assertMatchesRegularExpression('#<button type="submit" class="button" formaction="[^"]*/cancel">Back</button>#', $page);
+        $this->assertStringNotContainsString('Accept changes', $page);
+
+        // With changes, Cancel and Accept.
+        $page = html_entity_decode($this->reviewPage($this->startReview('changed-name.ttl')), ENT_QUOTES | ENT_HTML5);
+        $this->assertMatchesRegularExpression('#formaction="[^"]*/cancel">Cancel</button>#', $page);
+        $this->assertStringContainsString('Accept changes', $page);
+    }
+
     public function testChangedChoicesRecompute()
     {
         $token = $this->startReview('multilingual-name.ttl');

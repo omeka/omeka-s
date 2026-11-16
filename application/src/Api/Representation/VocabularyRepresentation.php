@@ -150,4 +150,52 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     {
         return count($this->resource->getResourceClasses());
     }
+
+    /**
+     * Get the number of values of this vocabulary's properties, which
+     * deleting it deletes.
+     *
+     * @return int
+     */
+    public function valueCount()
+    {
+        return $this->countByTerm('Omeka\Entity\Value', 'property');
+    }
+
+    /**
+     * Get the number of resource template properties that are this
+     * vocabulary's, which deleting it deletes.
+     *
+     * @return int
+     */
+    public function resourceTemplatePropertyCount()
+    {
+        return $this->countByTerm('Omeka\Entity\ResourceTemplateProperty', 'property');
+    }
+
+    /**
+     * Get the number of resources (items, item sets, and media) whose class
+     * is one of this vocabulary's, which deleting it leaves without one.
+     *
+     * @return int
+     */
+    public function resourceCount()
+    {
+        return $this->countByTerm('Omeka\Entity\Resource', 'resourceClass');
+    }
+
+    /**
+     * Count the entities of a class whose term is one of this vocabulary's.
+     *
+     * @param string $entityClass
+     * @param string $termField The entity's property or resource class
+     * @return int
+     */
+    protected function countByTerm($entityClass, $termField)
+    {
+        return (int) $this->getServiceLocator()->get('Omeka\EntityManager')
+            ->createQuery(sprintf('SELECT COUNT(e.id) FROM %s e JOIN e.%s t WHERE t.vocabulary = :vocabulary', $entityClass, $termField))
+            ->setParameter('vocabulary', $this->id())
+            ->getSingleScalarResult();
+    }
 }

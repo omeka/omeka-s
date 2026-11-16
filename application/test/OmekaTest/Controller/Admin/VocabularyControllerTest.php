@@ -660,6 +660,16 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame('Changed', $this->propertyLabel('review:name'));
     }
 
+    public function testDeleteConfirmationSaysWhatDeletingTakes()
+    {
+        $status = $this->requestAs(self::ADMIN, 'GET', sprintf('/admin/vocabulary/%s/delete-confirm', $this->vocabularyId));
+        $this->assertSame(200, $status);
+        $page = preg_replace('/\s+/', ' ', $this->getResponse()->getContent());
+        foreach (['Values deleted', 'Resource template properties deleted', 'Resources left without a class'] as $count) {
+            $this->assertStringContainsString(sprintf('<h4>%s</h4> <div class="value">0</div>', $count), $page);
+        }
+    }
+
     public function testDeleteRefusedForPermanentVocabulary()
     {
         $dcterms = $this->api()->read('vocabularies', ['prefix' => 'dcterms'])->getContent();

@@ -281,9 +281,9 @@ class MvcListeners extends AbstractListenerAggregate
     /**
      * Authorize the current user against an API key.
      *
-     * The key may be passed via the headers "X-Omeka-Key-Identity" and
-     * "X-Omeka-Key-Credential" (recommended) or via the query parameters
-     * "key_identity" and "key_credential" (prioritary for compatibility).
+     * The key is passed via the header "Authorization: Basic" (recommended) or
+     * via the query parameters "key_identity" and "key_credential", that are
+     * prioritary for compatibility.
      *
      * @param MvcEvent $event
      */
@@ -301,8 +301,7 @@ class MvcListeners extends AbstractListenerAggregate
         $identity = $request->getQuery('key_identity');
         $credential = $request->getQuery('key_credential');
         if (is_null($identity) && is_null($credential)) {
-            $identity = $this->getRequestHeaderValue($request, 'X-Omeka-Key-Identity');
-            $credential = $this->getRequestHeaderValue($request, 'X-Omeka-Key-Credential');
+            [$identity, $credential] = $this->basicAuthApiKey($request);
         }
 
         if (is_null($identity) || is_null($credential)) {
@@ -318,30 +317,38 @@ class MvcListeners extends AbstractListenerAggregate
     }
 
     /**
-     * Get the last value of a request header, if any.
+     * Get the api key passed with the header "Authorization: Basic".
+     *
+     * The key identity is the user and the key credential is the password.
      *
      * @param \Laminas\Stdlib\RequestInterface $request
-     * @param string $name
-     * @return string|null
+     * @return array The key identity and the key credential, that may be null.
      */
-    protected function getRequestHeaderValue($request, $name)
+    protected function basicAuthApiKey($request)
     {
+        $none = [null, null];
         if (!$request instanceof HttpRequest) {
-            return null;
+            return $none;
         }
 
-        $header = $request->getHeaders()->get($name);
-        if (!$header) {
-            return null;
-        }
-
+        // A repeated header returns an iterator, so there is no single key.
+        $header = $request->getHeaders()->get('Authorization');
         if (!$header instanceof HeaderInterface) {
-            $headers = iterator_to_array($header);
-            $header = end($headers);
+            return $none;
         }
-        $values = explode(',', $header->getFieldValue());
 
-        return trim(end($values));
+        // Another scheme may be managed by a module.
+        if (!preg_match('~^\s*Basic\s+(?<credentials>[A-Za-z0-9+/]+={0,2})\s*$~i', $header->getFieldValue(), $matches)) {
+            return $none;
+        }
+
+        // Only the key credential may contain a colon.
+        $credentials = base64_decode($matches['credentials'], true);
+        if ($credentials === false || !str_contains($credentials, ':')) {
+            return $none;
+        }
+
+        return explode(':', $credentials, 2);
     }
 
     /**

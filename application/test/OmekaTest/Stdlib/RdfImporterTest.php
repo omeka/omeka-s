@@ -272,6 +272,32 @@ class RdfImporterTest extends DbTestCase
         $this->assertSame(2, $api->search('properties', ['vocabulary_id' => $vocabularyId])->getTotalResults());
     }
 
+    public function memoryLimits()
+    {
+        return [
+            'lower' => ['128M', '256M'],
+            'lower, in kilobytes' => ['131072K', '256M'],
+            'higher' => ['512M', '512M'],
+            'higher, in gigabytes' => ['1G', '1G'],
+            'none' => ['-1', '-1'],
+        ];
+    }
+
+    /**
+     * @dataProvider memoryLimits
+     */
+    public function testReadingRaisesALowerMemoryLimit($limit, $expected)
+    {
+        $original = ini_get('memory_limit');
+        ini_set('memory_limit', $limit);
+        try {
+            $this->members('multilingual.ttl', 'http://example.org/multi#', ['format' => 'turtle']);
+            $this->assertSame($expected, ini_get('memory_limit'));
+        } finally {
+            ini_set('memory_limit', $original);
+        }
+    }
+
     public function namespaceSuggestions()
     {
         $prefixes = <<<'TTL'

@@ -24,6 +24,12 @@ class RdfImporter
     const LABEL_MAX_LENGTH = 255;
 
     /**
+     * PHP's memory limit while reading a vocabulary file, where it's lower:
+     * a large file can take more than PHP's default.
+     */
+    const MEMORY_LIMIT = '256M';
+
+    /**
      * @var \Omeka\Api\Manager
      */
     protected $apiManager;
@@ -444,6 +450,7 @@ class RdfImporter
      */
     protected function readGraph(callable $read, $format, $error)
     {
+        $this->raiseMemoryLimit();
         $graph = new RdfGraph;
         try {
             $read($graph, $format);
@@ -472,6 +479,31 @@ class RdfImporter
             throw new ValidationException($error);
         }
         return $graph;
+    }
+
+    /**
+     * Raise PHP's memory limit to self::MEMORY_LIMIT where it's lower. A
+     * host that doesn't allow it keeps its limit.
+     */
+    protected function raiseMemoryLimit()
+    {
+        $limit = (string) ini_get('memory_limit');
+        if ('-1' !== $limit && $this->getBytes($limit) < $this->getBytes(self::MEMORY_LIMIT)) {
+            ini_set('memory_limit', self::MEMORY_LIMIT);
+        }
+    }
+
+    /**
+     * Get the bytes in a PHP memory size, such as "128M".
+     *
+     * @param string $size
+     * @return int
+     */
+    protected function getBytes($size)
+    {
+        $size = trim($size);
+        $units = ['k' => 1024, 'm' => 1024 ** 2, 'g' => 1024 ** 3];
+        return (int) $size * ($units[strtolower(substr($size, -1))] ?? 1);
     }
 
     /**

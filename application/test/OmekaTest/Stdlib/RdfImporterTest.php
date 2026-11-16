@@ -331,7 +331,8 @@ class RdfImporterTest extends DbTestCase
             'format' => 'turtle',
         ]);
         // Differences only in spacing, and an empty comment against none,
-        // aren't changes.
+        // aren't changes. Nor is a value the file doesn't have, which would
+        // empty a comment or reduce a label to the local name.
         $this->assertSame([
             'classes' => [
                 'new' => [],
@@ -340,16 +341,8 @@ class RdfImporterTest extends DbTestCase
             ],
             'properties' => [
                 'new' => ['added' => ['Added', 'A new term.']],
-                'label' => [
-                    // The local name, as the file has no label.
-                    'unlabeled' => ['Unlabeled', 'unlabeled'],
-                    'title' => ['Title', 'Heading'],
-                ],
-                'comment' => [
-                    // Emptied, as the file has no comment.
-                    'name' => ['A name.', null],
-                    'title' => ['The title.', "The work's heading."],
-                ],
+                'label' => ['title' => ['Title', 'Heading']],
+                'comment' => ['title' => ['The title.', "The work's heading."]],
             ],
         ], $diff);
     }

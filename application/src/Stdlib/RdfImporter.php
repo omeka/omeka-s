@@ -406,6 +406,9 @@ class RdfImporter
      * Only gets the diffs that we can process safely: add new members and
      * update existing labels and comments. It doesn't get the diffs we cannot
      * process safely: delete existing members or update existing local names.
+     * Nor does it empty an existing value: a comment the file doesn't have,
+     * or a label it doesn't have, which reads as the local name, keeps the
+     * value Omeka has.
      *
      * Values that differ only in spacing, or are empty and missing, are the
      * same: see self::getComparableText().
@@ -420,11 +423,15 @@ class RdfImporter
         foreach ($to as $localName => $info) {
             if (array_key_exists($localName, $from)) {
                 // Existing member.
-                if ($this->getComparableText($from[$localName]['label']) !== $this->getComparableText($info['label'])) {
+                if ((string) $localName !== $info['label']
+                    && $this->getComparableText($from[$localName]['label']) !== $this->getComparableText($info['label'])
+                ) {
                     // Updated label.
                     $diff['label'][$localName] = [$from[$localName]['label'], $info['label']];
                 }
-                if ($this->getComparableText($from[$localName]['comment']) !== $this->getComparableText($info['comment'])) {
+                if ('' !== $this->getComparableText($info['comment'])
+                    && $this->getComparableText($from[$localName]['comment']) !== $this->getComparableText($info['comment'])
+                ) {
                     // Updated comment.
                     $diff['comment'][$localName] = [$from[$localName]['comment'], $info['comment']];
                 }

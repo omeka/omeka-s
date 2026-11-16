@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Stdlib;
 
+use EasyRdf\Graph;
 use EasyRdf\Http;
 use EasyRdf\Http\Client as HttpClient;
 use EasyRdf\Http\Response;
@@ -179,6 +180,66 @@ class RdfImporterTest extends DbTestCase
             $this->fail('The vocabulary was imported');
         } catch (ValidationException $e) {
             $this->assertSame('No classes or properties found. Are you sure you used the correct namespace URI?', $e->getMessage());
+            // And the namespace the file's terms use.
+            $errors = $e->getErrorStore()->getErrors();
+            $this->assertSame(['o:namespace_uri'], array_keys($errors));
+            $this->assertSame(
+                ['The file\'s classes and properties use the namespace URI "http://example.org/multi#".'],
+                array_map('strval', $errors['o:namespace_uri'])
+            );
         }
+    }
+
+    public function namespaceSuggestions()
+    {
+        $prefixes = <<<'TTL'
+            @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+            @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+            @prefix owl: <http://www.w3.org/2002/07/owl#> .
+            @prefix vann: <http://purl.org/vocab/vann/> .
+
+            TTL;
+        // Two terms elsewhere, so the namespace most terms use isn't the one
+        // expected, where a declared or ontology namespace is.
+        $elsewhere = '<http://example.org/elsewhere#a> a rdf:Property . <http://example.org/elsewhere#b> a rdf:Property .';
+        return [
+            'another form of the given one' => [
+                $prefixes . '<http://example.org/ns#Thing> a rdfs:Class .',
+                'https://example.org/ns',
+                'http://example.org/ns#',
+            ],
+            'the one the file declares' => [
+                $prefixes . '<http://example.org/doc> vann:preferredNamespaceUri "http://example.org/declared/" .
+                <http://example.org/declared/Thing> a rdfs:Class . ' . $elsewhere,
+                'http://example.org/given#',
+                'http://example.org/declared/',
+            ],
+            'a form of the ontology\'s URI' => [
+                $prefixes . '<http://example.org/ontology> a owl:Ontology .
+                <http://example.org/ontology#Thing> a owl:Class . ' . $elsewhere,
+                'http://example.org/given#',
+                'http://example.org/ontology#',
+            ],
+            'the one most terms use' => [
+                $prefixes . '<http://example.org/few#a> a rdf:Property . ' . $elsewhere,
+                'http://example.org/given#',
+                'http://example.org/elsewhere#',
+            ],
+            'none, without terms' => [
+                $prefixes . '<http://example.org/doc> rdfs:label "No terms" .',
+                'http://example.org/given#',
+                null,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider namespaceSuggestions
+     */
+    public function testSuggestNamespaceUri($turtle, $namespaceUri, $suggestion)
+    {
+        $graph = new Graph;
+        $graph->parse($turtle, 'turtle');
+        $this->assertSame($suggestion, $this->rdfImporter->suggestNamespaceUri($graph, $namespaceUri));
     }
 }

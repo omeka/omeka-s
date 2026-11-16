@@ -90,34 +90,7 @@ class RdfImporter
             $options['lang'] = null;
         }
 
-        // Get the full RDF graph from EasyRdf.
-        switch ($strategy) {
-            case 'file':
-                // Import from a file
-                if (!isset($options['file'])) {
-                    throw new ValidationException('No file specified for the file import strategy.');
-                }
-                $file = $options['file'];
-                if (!is_readable($file)) {
-                    throw new ValidationException('Could not read vocabulary file.');
-                }
-                $graph = $this->readGraph(function (RdfGraph $graph, $format) use ($file, $namespaceUri) {
-                    $graph->parseFile($file, $format, $namespaceUri);
-                }, $options['format'], 'Could not parse vocabulary file.');
-                break;
-            case 'url':
-                // Import from a URL.
-                if (!isset($options['url'])) {
-                    throw new ValidationException('No URL specified for the URL import strategy.');
-                }
-                $url = $options['url'];
-                $graph = $this->readGraph(function (RdfGraph $graph, $format) use ($url) {
-                    $graph->load($url, $format);
-                }, $options['format'], 'Could not load vocabulary from URL.');
-                break;
-            default:
-                throw new ValidationException('Unsupported import strategy.');
-        }
+        $graph = $this->getGraph($strategy, $namespaceUri, $options);
 
         return [
             'classes' => $this->getMembersOfTypes(
@@ -137,6 +110,45 @@ class RdfImporter
                 $options['lang']
             ),
         ];
+    }
+
+    /**
+     * Get the full RDF graph of a vocabulary file from EasyRdf.
+     *
+     * @see self::getMembers()
+     * @param string $strategy
+     * @param string $namespaceUri The base for the file's relative URIs
+     * @param array $options The file or URL, and the format
+     * @return RdfGraph
+     */
+    protected function getGraph($strategy, $namespaceUri, array $options)
+    {
+        $format = $options['format'] ?? 'guess';
+        switch ($strategy) {
+            case 'file':
+                // Import from a file
+                if (!isset($options['file'])) {
+                    throw new ValidationException('No file specified for the file import strategy.');
+                }
+                $file = $options['file'];
+                if (!is_readable($file)) {
+                    throw new ValidationException('Could not read vocabulary file.');
+                }
+                return $this->readGraph(function (RdfGraph $graph, $format) use ($file, $namespaceUri) {
+                    $graph->parseFile($file, $format, $namespaceUri);
+                }, $format, 'Could not parse vocabulary file.');
+            case 'url':
+                // Import from a URL.
+                if (!isset($options['url'])) {
+                    throw new ValidationException('No URL specified for the URL import strategy.');
+                }
+                $url = $options['url'];
+                return $this->readGraph(function (RdfGraph $graph, $format) use ($url) {
+                    $graph->load($url, $format);
+                }, $format, 'Could not load vocabulary from URL.');
+            default:
+                throw new ValidationException('Unsupported import strategy.');
+        }
     }
 
     /**
@@ -170,10 +182,63 @@ class RdfImporter
         }
 
         if (!$members['classes'] && !$members['properties']) {
-            throw new ValidationException('No classes or properties found. Are you sure you used the correct namespace URI?');
+            $exception = new ValidationException('No classes or properties found. Are you sure you used the correct namespace URI?');
+            // Read the file again, which only an import that fails needs,
+            // for the namespace its terms use.
+            $graph = $this->getGraph($strategy, $vocab['o:namespace_uri'], $options);
+            $suggestion = $this->suggestNamespaceUri($graph, $vocab['o:namespace_uri']);
+            if (null !== $suggestion) {
+                $exception->getErrorStore()->addError('o:namespace_uri', new Message(
+                    'The file\'s classes and properties use the namespace URI "%s".', // @translate
+                    $suggestion
+                ));
+            }
+            throw $exception;
         }
 
         return $this->apiManager->create('vocabularies', array_merge($vocab, $vocabMembers));
+    }
+
+    /**
+     * Suggest the namespace URI of a vocabulary file's classes and
+     * properties, for when they don't use the one given.
+     *
+     * Tries, in order: the other forms of the given namespace URI; the
+     * namespace URI the file declares with vann:preferredNamespaceUri, and
+     * its forms; the URI of its owl:Ontology, and its forms; and then the
+     * namespace URI most of its terms use. A form ends in "#", "/", and uses
+     * http or https.
+     *
+     * @param RdfGraph $graph
+     * @param string $namespaceUri The namespace URI given
+     * @return string|null The first that has classes or properties, if any
+     */
+    public function suggestNamespaceUri(RdfGraph $graph, $namespaceUri)
+    {
+        $vann = 'http://purl.org/vocab/vann/preferredNamespaceUri';
+        $bases = [$namespaceUri];
+        foreach ($graph->resourcesMatching($vann) as $resource) {
+            foreach ($resource->all("<$vann>") as $declared) {
+                $bases[] = (string) $declared;
+            }
+        }
+        foreach ($graph->allOfType('owl:Ontology') as $ontology) {
+            if (!$ontology->isBNode()) {
+                $bases[] = $ontology->getUri();
+            }
+        }
+        foreach ($bases as $base) {
+            foreach ($this->getNamespaceUriForms($base) as $candidate) {
+                if ($candidate !== $namespaceUri && $this->hasMembers($graph, $candidate)) {
+                    return $candidate;
+                }
+            }
+        }
+        $mostUsed = $this->getMostUsedNamespaceUri($graph);
+        if (null !== $mostUsed && $mostUsed !== $namespaceUri && $this->hasMembers($graph, $mostUsed)) {
+            return $mostUsed;
+        }
+        return null;
     }
 
     /**
@@ -377,6 +442,77 @@ class RdfImporter
             throw new ValidationException($error);
         }
         return $graph;
+    }
+
+    /**
+     * Get a namespace URI's forms: itself, then ending in "#" and in "/",
+     * each with http and https.
+     *
+     * @param string $namespaceUri
+     * @return string[]
+     */
+    protected function getNamespaceUriForms($namespaceUri)
+    {
+        $forms = [$namespaceUri];
+        $base = rtrim($namespaceUri, '#/');
+        foreach (['#', '/'] as $end) {
+            $forms[] = $base . $end;
+        }
+        foreach ($forms as $form) {
+            if (0 === strpos($form, 'http://')) {
+                $forms[] = 'https://' . substr($form, 7);
+            } elseif (0 === strpos($form, 'https://')) {
+                $forms[] = 'http://' . substr($form, 8);
+            }
+        }
+        return array_values(array_unique($forms));
+    }
+
+    /**
+     * Check whether a graph has a class or property in a namespace, as
+     * self::getMembersOfTypes() finds them.
+     *
+     * @param RdfGraph $graph
+     * @param string $namespaceUri
+     * @return bool
+     */
+    protected function hasMembers(RdfGraph $graph, $namespaceUri)
+    {
+        foreach (array_merge($this->classTypes, $this->propertyTypes) as $type) {
+            foreach ($graph->allOfType($type) as $resource) {
+                if ($resource->getUri() === $namespaceUri . $resource->localName()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Get the namespace URI most of a graph's classes and properties use:
+     * each one's URI without its local name.
+     *
+     * @param RdfGraph $graph
+     * @return string|null
+     */
+    protected function getMostUsedNamespaceUri(RdfGraph $graph)
+    {
+        $counts = [];
+        foreach (array_merge($this->classTypes, $this->propertyTypes) as $type) {
+            foreach ($graph->allOfType($type) as $resource) {
+                $uri = (string) $resource->getUri();
+                $localName = (string) $resource->localName();
+                // Only http and https URIs: without a base, a file's
+                // relative URIs resolve against its path on the server.
+                if ($resource->isBNode() || '' === $localName || !preg_match('#^https?://#', $uri)) {
+                    continue;
+                }
+                $namespaceUri = substr($uri, 0, -strlen($localName));
+                $counts[$namespaceUri] = ($counts[$namespaceUri] ?? 0) + 1;
+            }
+        }
+        arsort($counts);
+        return key($counts);
     }
 
     /**

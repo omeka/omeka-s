@@ -358,14 +358,20 @@ class RdfImporter
      *
      * @see self::getMembers()
      * @param string $strategy
-     * @param string $namespaceUri
-     * @param array $options
+     * @param string $namespaceUri The namespace URI to read the file with
+     * @param array $options As for getMembers(), and:
+     *   - vocabulary_id: (optional) The stored vocabulary to compare with,
+     *     whatever its namespace URI. By default it's the one with the
+     *     namespace URI given, so a diff can't show a change of namespace.
      * @return array
      */
     public function getDiff($strategy, $namespaceUri, array $options = [])
     {
-        // Get classes and properties from the database.
-        $stored = $this->getStoredMembers(['vocabulary_namespace_uri' => $namespaceUri]);
+        // Get classes and properties from the database. An id that isn't a
+        // number would be ignored, and match every vocabulary's terms.
+        $stored = $this->getStoredMembers(isset($options['vocabulary_id'])
+            ? ['vocabulary_id' => (int) $options['vocabulary_id']]
+            : ['vocabulary_namespace_uri' => $namespaceUri]);
 
         // Get classes and properties from the RDF graph.
         $members = $this->getMembers($strategy, $namespaceUri, $options);
@@ -399,7 +405,7 @@ class RdfImporter
     {
         $namespaceUri = $options['namespace_uri']
             ?? $this->apiManager->read('vocabularies', $vocabularyId)->getContent()->namespaceUri();
-        $stored = $this->getStoredMembers(['vocabulary_id' => $vocabularyId]);
+        $stored = $this->getStoredMembers(['vocabulary_id' => (int) $vocabularyId]);
         $members = $this->getMembers($strategy, $namespaceUri, $options);
         $missing = ['classes' => [], 'properties' => []];
         foreach (['classes', 'properties'] as $type) {

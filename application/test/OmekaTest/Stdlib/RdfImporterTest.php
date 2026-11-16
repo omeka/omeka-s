@@ -387,16 +387,25 @@ class RdfImporterTest extends DbTestCase
             'format' => 'turtle',
             'vocabulary_id' => $vocabularyId,
         ]);
-        // Omeka's terms are found by the namespace, which has none, so the
-        // file's terms are all new.
+        // Omeka's terms are found by the vocabulary, so across the change of
+        // namespace only the real change shows.
         $this->assertSame([
             'classes' => ['new' => [], 'label' => [], 'comment' => []],
             'properties' => [
-                'new' => ['name' => ['Name', 'A name.'], 'title' => ['Heading', 'The title.']],
-                'label' => [],
+                'new' => [],
+                'label' => ['title' => ['Title', 'Heading']],
                 'comment' => [],
             ],
         ], $diff);
+
+        // An id that isn't one matches no vocabulary, not every one, so the
+        // file's terms are new.
+        $diff = $this->rdfImporter->getDiff('file', 'http://example.org/moved#', [
+            'file' => __DIR__ . '/_files/compare-moved.ttl',
+            'format' => 'turtle',
+            'vocabulary_id' => 'not an id',
+        ]);
+        $this->assertSame(['name', 'title'], array_keys($diff['properties']['new']));
     }
 
     public function namespaceSuggestions()

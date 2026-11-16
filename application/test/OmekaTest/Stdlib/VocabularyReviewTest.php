@@ -180,6 +180,32 @@ class VocabularyReviewTest extends DbTestCase
         $this->review->cancel($token);
     }
 
+    public function testReviewWithoutAFile()
+    {
+        $url = $this->review->startWithoutFile($this->vocabularyId, [
+            'label' => 'Moved',
+            'namespace_uri' => 'http://example.org/moved#',
+        ]);
+        $token = $this->tokens[] = substr($url, strpos($url, '=') + 1);
+        $review = $this->review->get($token);
+        $this->assertNull($review['file']);
+        $this->assertSame([], $review['reading']);
+        // Nothing to compare: its changes are the vocabulary's own fields.
+        $none = ['new' => [], 'label' => [], 'comment' => []];
+        $this->assertSame(['classes' => $none, 'properties' => $none], $this->review->getDiff($review, []));
+        $this->assertSame(['classes' => [], 'properties' => []], $this->review->getMissingTerms($review, []));
+
+        $this->review->accept($token, []);
+        $vocabulary = $this->vocabulary();
+        $this->assertSame('Moved', $vocabulary->label());
+        $this->assertSame('http://example.org/moved#', $vocabulary->namespaceUri());
+        // The terms are as they were, and no reading is stored, as no file
+        // was read.
+        $this->assertSame('Title', $this->propertyLabel('title'));
+        $this->assertNull($vocabulary->importOptions());
+        $this->assertNull($this->review->get($token));
+    }
+
     public function testCancelChangesNothingAndEnds()
     {
         $token = $this->start('compare.ttl', ['format' => 'turtle'], ['label' => 'Cancelled']);

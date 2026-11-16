@@ -129,17 +129,33 @@ class VocabularyReview
     }
 
     /**
+     * Start a review of changes to a vocabulary's own fields, with no file:
+     * a change of its namespace URI, which changes every term's URI, with
+     * any change to its label and comment made with it. The review page says
+     * what the change does before it's accepted.
+     *
+     * @see self::start()
+     * @param int $vocabularyId
+     * @param array $reviewOptions As for start()
+     * @return string The review page's URL
+     */
+    public function startWithoutFile($vocabularyId, array $reviewOptions = [])
+    {
+        return $this->begin($vocabularyId, null, [], $reviewOptions);
+    }
+
+    /**
      * Get a review.
      *
      * @param string $token
      * @return array|null The review, or null if there's none by the token, or
-     *   its file has gone: vocabulary_id, file, reading, label, comment,
-     *   namespace_uri, return_url, source_label
+     *   its file has gone: vocabulary_id, file (null for none), reading,
+     *   label, comment, namespace_uri, return_url, source_label
      */
     public function get($token)
     {
         $review = $this->getSession()->offsetGet((string) $token);
-        if (!is_array($review) || !is_readable($review['file'])) {
+        if (!is_array($review) || (null !== $review['file'] && !is_readable($review['file']))) {
             return null;
         }
         return $review;
@@ -182,6 +198,10 @@ class VocabularyReview
      */
     public function getDiff(array $review, array $reading)
     {
+        if (null === $review['file']) {
+            $none = ['new' => [], 'label' => [], 'comment' => []];
+            return ['classes' => $none, 'properties' => $none];
+        }
         return $this->rdfImporter->getDiff('file', $this->getNamespaceUri($review), [
             'file' => $review['file'],
             'vocabulary_id' => $review['vocabulary_id'],
@@ -199,6 +219,9 @@ class VocabularyReview
      */
     public function getMissingTerms(array $review, array $reading)
     {
+        if (null === $review['file']) {
+            return ['classes' => [], 'properties' => []];
+        }
         return $this->rdfImporter->getMissingTerms($review['vocabulary_id'], 'file', [
             'file' => $review['file'],
             'namespace_uri' => $this->getNamespaceUri($review),
@@ -215,6 +238,9 @@ class VocabularyReview
      */
     public function getLanguages(array $review, array $reading)
     {
+        if (null === $review['file']) {
+            return [];
+        }
         return $this->rdfImporter->getLanguages('file', $this->getNamespaceUri($review), [
             'file' => $review['file'],
         ] + $reading);
@@ -244,7 +270,10 @@ class VocabularyReview
             throw new PermissionDeniedException('User does not have permission to update this vocabulary');
         }
         $diff = $this->getDiff($review, $reading);
-        $data = ['o:import_options' => array_intersect_key($reading, array_flip(RdfImporter::READING_OPTIONS))];
+        $data = [];
+        if (null !== $review['file']) {
+            $data['o:import_options'] = array_intersect_key($reading, array_flip(RdfImporter::READING_OPTIONS));
+        }
         foreach (['label' => 'o:label', 'comment' => 'o:comment', 'namespace_uri' => 'o:namespace_uri'] as $field => $key) {
             if (null !== $review[$field]) {
                 $data[$key] = $review[$field];
@@ -288,13 +317,13 @@ class VocabularyReview
      * Start a review, with its file written by a callback.
      *
      * @param int $vocabularyId
-     * @param callable $write Writes the file to the path it's passed,
-     *   returning whether it could
+     * @param callable|null $write Writes the file to the path it's passed,
+     *   returning whether it could; null for a review without a file
      * @param array $readingOptions
      * @param array $reviewOptions
      * @return string The review page's URL
      */
-    protected function begin($vocabularyId, callable $write, array $readingOptions, array $reviewOptions)
+    protected function begin($vocabularyId, ?callable $write, array $readingOptions, array $reviewOptions)
     {
         $vocabulary = $this->apiManager->read('vocabularies', $vocabularyId)->getContent();
         $returnUrl = $reviewOptions['return_url'] ?? null;
@@ -302,17 +331,20 @@ class VocabularyReview
             throw new \InvalidArgumentException('A review\'s return URL must be a local path.');
         }
         $this->removeOldFiles();
-        $path = tempnam($this->tempDir, self::FILE_PREFIX);
-        if (false === $path) {
-            throw new ValidationException('Could not read vocabulary file.'); // @translate
-        }
-        try {
-            if (!$write($path)) {
+        $path = null;
+        if ($write) {
+            $path = tempnam($this->tempDir, self::FILE_PREFIX);
+            if (false === $path) {
                 throw new ValidationException('Could not read vocabulary file.'); // @translate
             }
-        } catch (\Exception $e) {
-            unlink($path);
-            throw $e;
+            try {
+                if (!$write($path)) {
+                    throw new ValidationException('Could not read vocabulary file.'); // @translate
+                }
+            } catch (\Exception $e) {
+                unlink($path);
+                throw $e;
+            }
         }
         $review = [
             'vocabulary_id' => $vocabulary->id(),
@@ -324,14 +356,16 @@ class VocabularyReview
             'return_url' => $returnUrl,
             'source_label' => $reviewOptions['source_label'] ?? null,
         ];
-        try {
-            $review['reading'] = $this->getStartingReading($vocabulary, $review, $readingOptions);
-            // A file that can't be read, or has terms too long to store, is
-            // refused now rather than on the review page.
-            $this->getDiff($review, $review['reading']);
-        } catch (\Exception $e) {
-            unlink($path);
-            throw $e;
+        if (null !== $path) {
+            try {
+                $review['reading'] = $this->getStartingReading($vocabulary, $review, $readingOptions);
+                // A file that can't be read, or has terms too long to store,
+                // is refused now rather than on the review page.
+                $this->getDiff($review, $review['reading']);
+            } catch (\Exception $e) {
+                unlink($path);
+                throw $e;
+            }
         }
         $token = bin2hex(random_bytes(16));
         $this->getSession()->offsetSet($token, $review);
@@ -381,7 +415,7 @@ class VocabularyReview
     {
         $session = $this->getSession();
         $review = $session->offsetGet((string) $token);
-        if (is_array($review) && is_file($review['file'])) {
+        if (is_array($review) && null !== $review['file'] && is_file($review['file'])) {
             unlink($review['file']);
         }
         $session->offsetUnset((string) $token);

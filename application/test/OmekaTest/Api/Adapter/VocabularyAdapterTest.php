@@ -50,6 +50,62 @@ class VocabularyAdapterTest extends DbTestCase
         $this->fail('The vocabulary was created');
     }
 
+    /**
+     * Create a vocabulary.
+     *
+     * @param array $data
+     * @return \Omeka\Api\Representation\VocabularyRepresentation
+     */
+    protected function create(array $data = [])
+    {
+        return $this->services->get('Omeka\ApiManager')->create('vocabularies', $data + [
+            'o:namespace_uri' => 'http://example.org/options#',
+            'o:prefix' => 'options',
+            'o:label' => 'Options',
+        ])->getContent();
+    }
+
+    public function testImportOptionsAreTheImportersReadingOptions()
+    {
+        $vocabulary = $this->create(['o:import_options' => [
+            'lang' => 'fr',
+            'file' => '/tmp/vocabulary.ttl',
+            'comment_property' => 'skos:definition|rdfs:comment',
+            'label_property' => null,
+            'format' => 'turtle',
+        ]]);
+        // The reading options only, in the order given.
+        $this->assertSame([
+            'lang' => 'fr',
+            'comment_property' => 'skos:definition|rdfs:comment',
+            'label_property' => null,
+            'format' => 'turtle',
+        ], $vocabulary->importOptions());
+        // They aren't part of the JSON-LD.
+        $this->assertArrayNotHasKey('o:import_options', $vocabulary->jsonSerialize());
+
+        // An update that doesn't mention them keeps them.
+        $vocabulary = $this->services->get('Omeka\ApiManager')->update('vocabularies', $vocabulary->id(), [
+            'o:label' => 'Renamed',
+        ], [], ['isPartial' => true])->getContent();
+        $this->assertSame('fr', $vocabulary->importOptions()['lang']);
+    }
+
+    public function testVocabularyWithoutImportOptions()
+    {
+        $this->assertNull($this->create()->importOptions());
+        $this->assertNull($this->create([
+            'o:namespace_uri' => 'http://example.org/none#',
+            'o:prefix' => 'none',
+            'o:import_options' => ['file' => '/tmp/vocabulary.ttl'],
+        ])->importOptions());
+    }
+
+    public function testImportOptionsNotInAListAreReportedUnderTheirField()
+    {
+        $this->assertSame(['o:import_options'], $this->errorFields(['o:import_options' => 'fr']));
+    }
+
     public function testTermsNotInAListAreReportedUnderTheirFields()
     {
         $this->assertSame(['o:class', 'o:property'], $this->errorFields([

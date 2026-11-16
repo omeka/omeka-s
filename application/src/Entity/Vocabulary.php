@@ -51,6 +51,14 @@ class Vocabulary extends AbstractEntity
     protected $comment;
 
     /**
+     * How the vocabulary's file was read when it was imported or last
+     * updated: the importer's reading options, such as the language.
+     *
+     * @Column(type="json", nullable=true)
+     */
+    protected $importOptions;
+
+    /**
      * @OneToMany(
      *     targetEntity="ResourceClass",
      *     mappedBy="vocabulary",
@@ -131,6 +139,16 @@ class Vocabulary extends AbstractEntity
     public function getComment()
     {
         return $this->comment;
+    }
+
+    public function setImportOptions(?array $importOptions = null)
+    {
+        $this->importOptions = $importOptions;
+    }
+
+    public function getImportOptions()
+    {
+        return $this->importOptions;
     }
 
     public function getResourceClasses()

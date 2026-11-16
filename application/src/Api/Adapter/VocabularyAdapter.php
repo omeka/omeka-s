@@ -7,6 +7,7 @@ use Omeka\Entity\EntityInterface;
 use Omeka\Entity\Vocabulary;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\Message;
+use Omeka\Stdlib\RdfImporter;
 
 class VocabularyAdapter extends AbstractEntityAdapter
 {
@@ -74,6 +75,12 @@ class VocabularyAdapter extends AbstractEntityAdapter
         ) {
             $errorStore->addError('o:property', 'Properties must be an array'); // @translate
         }
+
+        if (isset($data['o:import_options'])
+            && !is_array($data['o:import_options'])
+        ) {
+            $errorStore->addError('o:import_options', 'Import options must be an array'); // @translate
+        }
     }
 
     public function hydrate(Request $request, EntityInterface $entity,
@@ -92,6 +99,17 @@ class VocabularyAdapter extends AbstractEntityAdapter
         }
         if ($this->shouldHydrate($request, 'o:comment')) {
             $entity->setComment($request->getValue('o:comment'));
+        }
+        if ($this->shouldHydrate($request, 'o:import_options')) {
+            $importOptions = $request->getValue('o:import_options');
+            if (is_array($importOptions)) {
+                // Only the importer's reading options, each text or none.
+                $importOptions = array_intersect_key($importOptions, array_flip(RdfImporter::READING_OPTIONS));
+                foreach ($importOptions as $key => $value) {
+                    $importOptions[$key] = is_scalar($value) ? (string) $value : null;
+                }
+            }
+            $entity->setImportOptions($importOptions ?: null);
         }
 
         if ($this->shouldHydrate($request, 'o:class')) {

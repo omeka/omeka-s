@@ -29,6 +29,20 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     }
 
     /**
+     * Return how the vocabulary's file was read when it was imported or last
+     * updated: the importer's reading options, if known.
+     *
+     * They aren't part of the JSON-LD.
+     *
+     * @see \Omeka\Stdlib\RdfImporter::READING_OPTIONS
+     * @return array|null
+     */
+    public function importOptions()
+    {
+        return $this->resource->getImportOptions();
+    }
+
+    /**
      * Check whether this vocabulary is permanent (cannot be deleted).
      *
      * Dublin Core and Dublin Core Type vocabularies are integral parts of the

@@ -24,6 +24,12 @@ class RdfImporter
     const LABEL_MAX_LENGTH = 255;
 
     /**
+     * The options that say how a vocabulary file is read, which a vocabulary
+     * stores as its import options: see getMembers().
+     */
+    const READING_OPTIONS = ['format', 'lang', 'label_property', 'comment_property'];
+
+    /**
      * PHP's memory limit while reading a vocabulary file, where it's lower:
      * a large file can take more than PHP's default.
      */

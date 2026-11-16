@@ -75,6 +75,8 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         ) {
             $adapter = $this->getAdapter('vocabularies');
             $vocabularyEntity = $adapter->findEntity($data['o:vocabulary']['o:id']);
+            // Adding a class changes its vocabulary.
+            $this->authorize($vocabularyEntity, Request::UPDATE);
             $entity->setVocabulary($vocabularyEntity);
         }
     }

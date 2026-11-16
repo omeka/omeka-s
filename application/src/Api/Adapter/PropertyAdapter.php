@@ -84,6 +84,8 @@ class PropertyAdapter extends AbstractEntityAdapter
         ) {
             $adapter = $this->getAdapter('vocabularies');
             $vocabularyEntity = $adapter->findEntity($data['o:vocabulary']['o:id']);
+            // Adding a property changes its vocabulary.
+            $this->authorize($vocabularyEntity, Request::UPDATE);
             $entity->setVocabulary($vocabularyEntity);
         }
     }

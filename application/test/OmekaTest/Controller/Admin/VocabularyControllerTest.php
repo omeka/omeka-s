@@ -382,8 +382,13 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             'label' => 'Renamed',
             'namespace_uri' => 'http://example.org/moved#',
         ])), ENT_QUOTES | ENT_HTML5);
-        $this->assertStringContainsString('Its classes and properties get new addresses wherever Omeka publishes them.', $page);
-        $this->assertStringContainsString('http://example.org/moved#', $page);
+        $text = preg_replace('/\s+/', ' ', strip_tags($page));
+        $this->assertStringContainsString('Accepting makes the changes below, from the file. It removes nothing.', $text);
+        // The namespace URI is one of the vocabulary's changed fields, with
+        // what it does to the terms, shown on one of them.
+        $this->assertStringContainsString('Namespace URI http://example.org/review# http://example.org/moved#', $text);
+        $this->assertStringContainsString('Every class and property in this vocabulary gets a new URI. For example, http://example.org/review#name becomes http://example.org/moved#name. Nothing is deleted: labels, comments, and the values that use them stay as they are.', $text);
+        $this->assertStringNotContainsString('new addresses', $text);
         $this->assertStringContainsString('Renamed', $page);
         $this->assertStringContainsString('Changed property labels (1)', $page);
         // The file has no class, so Omeka's is listed, as kept.

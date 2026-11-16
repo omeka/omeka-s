@@ -74,7 +74,8 @@ $listed = function (array $terms) use ($term, $value, $byTerm) {
     return $rows;
 };
 
-// The vocabulary's own fields that change, and its namespace URI apart.
+// The vocabulary's own fields that change. A namespace URI is shown whole:
+// as one word, it would be marked as a whole.
 $fieldRows = [];
 if (null !== $review['label']) {
     $fieldRows[] = array_merge([$escape($translate('Label'))], $fromTo($vocabulary->label(), $review['label']));
@@ -83,6 +84,11 @@ if (null !== $review['comment']) {
     $fieldRows[] = array_merge([$escape($translate('Comment'))], $fromTo($vocabulary->comment(), $review['comment']));
 }
 $namespaceChanges = null !== $review['namespace_uri'];
+if ($namespaceChanges) {
+    $fieldRows[] = [$escape($translate('Namespace URI')), $value($vocabulary->namespaceUri()), $value($review['namespace_uri'])];
+    // One of its terms, to show what the change does to each.
+    $exampleTerm = array_key_first($labels['properties']) ?? array_key_first($labels['classes']);
+}
 
 // The terms' changes, a section each, labels first, which everyone sees, then
 // new terms, then comments, then the terms only in Omeka, which aren't
@@ -175,19 +181,10 @@ $changes = null !== $diff && ($termChanges || $fieldRows || $namespaceChanges);
 
 <?php if (null !== $diff): ?>
 <?php if ($changes): ?>
-<p><?php echo sprintf($translate('Accepting changes the labels and comments below to match %s, and adds any new classes and properties. It removes nothing.'), $escape($sourceLabel)); ?></p>
+<p><?php echo sprintf($translate('Accepting makes the changes below, from %s. It removes nothing.'), $escape($sourceLabel)); ?></p>
 <?php else: ?>
 <p><?php echo sprintf($translate('Omeka\'s vocabulary already matches %s.'), $escape($sourceLabel)); ?></p>
 <?php endif; ?>
-<?php endif; ?>
-
-<?php if ($namespaceChanges): ?>
-<h2><?php echo $translate('Namespace URI'); ?></h2>
-<p class="review-namespace">
-    <?php echo $translate('From'); ?> <span class="review-value"><?php echo $escape($vocabulary->namespaceUri()); ?></span><br>
-    <?php echo $translate('To'); ?> <span class="review-value"><?php echo $escape($review['namespace_uri']); ?></span>
-</p>
-<p><?php echo $translate('Its classes and properties get new addresses wherever Omeka publishes them. Nothing is deleted, and values stay with their properties.'); ?></p>
 <?php endif; ?>
 
 <?php if ($fieldRows): ?>
@@ -210,6 +207,19 @@ $changes = null !== $diff && ($termChanges || $fieldRows || $namespaceChanges);
         <?php endforeach; ?>
     </tbody>
 </table>
+<?php if ($namespaceChanges): ?>
+<p>
+    <?php echo $translate('Every class and property in this vocabulary gets a new URI.'); ?>
+    <?php if (null !== $exampleTerm): ?>
+    <?php echo sprintf(
+        $translate('For example, %1$s becomes %2$s.'),
+        sprintf('<span class="review-value">%s</span>', $escape($vocabulary->namespaceUri() . $exampleTerm)),
+        sprintf('<span class="review-value">%s</span>', $escape($review['namespace_uri'] . $exampleTerm))
+    ); ?>
+    <?php endif; ?>
+    <?php echo $translate('Nothing is deleted: labels, comments, and the values that use them stay as they are.'); ?>
+</p>
+<?php endif; ?>
 <?php endif; ?>
 
 <?php if (count($sections) > 1): ?>

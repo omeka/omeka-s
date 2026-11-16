@@ -216,7 +216,11 @@ $changes = null !== $diff && ($termChanges || $fieldRows || $namespaceChanges);
 
 <?php if (null !== $diff): ?>
 <?php if ($changes): ?>
+<?php if ($hasFile): ?>
 <p><?php echo sprintf($translate('Accepting makes the changes below, from %s. It removes nothing.'), $escape($sourceLabel)); ?></p>
+<?php else: ?>
+<p><?php echo $translate('Accepting makes the changes below. It removes nothing.'); ?></p>
+<?php endif; ?>
 <?php else: ?>
 <p><?php echo sprintf($translate('Omeka\'s vocabulary already matches %s.'), $escape($sourceLabel)); ?></p>
 <?php endif; ?>

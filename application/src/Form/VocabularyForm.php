@@ -8,8 +8,15 @@ class VocabularyForm extends Form
 {
     protected $translator;
 
+    /**
+     * - vocabulary: (optional) The vocabulary to edit, or to update from a
+     *   file. Without one, the form imports a vocabulary.
+     * - update_from_file: (optional) With a vocabulary, whether the form
+     *   takes a file to update it from, rather than its own fields
+     */
     protected $options = [
         'vocabulary' => null,
+        'update_from_file' => false,
     ];
 
     public function __construct($name = null, $options = [])
@@ -20,29 +27,108 @@ class VocabularyForm extends Form
     public function init()
     {
         $vocabulary = $this->getOption('vocabulary');
+        // An import has every part; an edit, the vocabulary's own fields; an
+        // update from a file, the file. How the file is read is chosen on
+        // the review of an update, where its changes show.
+        $hasInfo = !$vocabulary || !$this->getOption('update_from_file');
+        $hasFile = !$vocabulary || $this->getOption('update_from_file');
+        $hasAdvanced = !$vocabulary;
         $this->setAttribute('id', 'vocabulary-form');
-        $this->add([
-            'name' => 'vocabulary-info',
-            'type' => 'fieldset',
-            'options' => [
-                'label' => 'Basic info', // @translate
-            ],
-        ]);
-        $this->add([
-            'name' => 'vocabulary-file',
-            'type' => 'fieldset',
-            'options' => [
-                'label' => 'File', // @translate
-            ],
-        ]);
-        $this->add([
-            'name' => 'vocabulary-advanced',
-            'type' => 'fieldset',
-            'options' => [
-                'label' => 'Advanced', // @translate
-            ],
-        ]);
+        if ($hasInfo) {
+            $this->add([
+                'name' => 'vocabulary-info',
+                'type' => 'fieldset',
+                'options' => [
+                    'label' => 'Basic info', // @translate
+                ],
+            ]);
+            $this->addInfoElements($vocabulary);
+        }
+        if ($hasFile) {
+            $this->add([
+                'name' => 'vocabulary-file',
+                'type' => 'fieldset',
+                'options' => [
+                    'label' => 'File', // @translate
+                ],
+            ]);
+            $this->addFileElements();
+        }
+        if ($hasAdvanced) {
+            $this->add([
+                'name' => 'vocabulary-advanced',
+                'type' => 'fieldset',
+                'options' => [
+                    'label' => 'Advanced', // @translate
+                ],
+            ]);
+            $this->addAdvancedElements();
+        }
 
+        $inputFilter = $this->getInputFilter();
+        if ($hasInfo) {
+            // The file is read with the namespace URI before the API saves
+            // it, trimmed, so a stray space would find no classes or
+            // properties.
+            $inputFilter->get('vocabulary-info')->add([
+                'name' => 'o:namespace_uri',
+                'required' => true,
+                'filters' => [
+                    ['name' => 'StringTrim'],
+                ],
+            ]);
+        }
+        if (!$vocabulary) {
+            $inputFilter->get('vocabulary-info')->add([
+                'name' => 'o:prefix',
+                'validators' => [
+                    [
+                        'name' => 'Regex',
+                        'options' => [
+                            'pattern' => Vocabulary::PREFIX_REGEX,
+                            'messages' => [
+                                \Laminas\Validator\Regex::NOT_MATCH => 'The prefix may only contain letters, numbers, hyphens, and underscores.', // @translate
+                            ],
+                        ],
+                    ],
+                ],
+            ]);
+        }
+        if ($hasFile) {
+            $inputFilter->get('vocabulary-file')->add([
+                'name' => 'url',
+                'required' => false,
+            ]);
+        }
+        if ($hasAdvanced) {
+            $inputFilter->get('vocabulary-advanced')->add([
+                'name' => 'comments',
+                'required' => false,
+            ]);
+            $inputFilter->get('vocabulary-advanced')->add([
+                'name' => 'label_property',
+                'required' => false,
+                'filters' => [
+                    ['name' => 'ToNull'],
+                ],
+            ]);
+            $inputFilter->get('vocabulary-advanced')->add([
+                'name' => 'comment_property',
+                'required' => false,
+                'filters' => [
+                    ['name' => 'ToNull'],
+                ],
+            ]);
+        }
+    }
+
+    /**
+     * Add the vocabulary's own fields.
+     *
+     * @param \Omeka\Api\Representation\VocabularyRepresentation|null $vocabulary
+     */
+    protected function addInfoElements($vocabulary)
+    {
         $this->get('vocabulary-info')->add([
             'name' => 'o:label',
             'type' => 'text',
@@ -78,8 +164,6 @@ class VocabularyForm extends Form
                 'id' => 'o:namespace_uri',
                 'placeholder' => $vocabulary ? $vocabulary->namespaceUri() : null,
                 'data-confirm-ends-with' => $this->translator->translate('The namespace URI you entered does not end with a / or #, as is normally expected for namespace URIs. Would you like to save anyway?'),
-                'data-confirm-change' => $this->translator->translate('The namespace URI you entered does not match the saved namespace URI. Would you like to save anyway?'),
-                'data-original-namespace-uri' => $vocabulary ? $vocabulary->namespaceUri() : null,
             ],
         ]);
         if (!$vocabulary) {
@@ -96,6 +180,13 @@ class VocabularyForm extends Form
                 ],
             ]);
         }
+    }
+
+    /**
+     * Add the fields of the file to read.
+     */
+    protected function addFileElements()
+    {
         $this->get('vocabulary-file')->add([
             'name' => 'import_type',
             'type' => 'radio',
@@ -155,6 +246,13 @@ class VocabularyForm extends Form
                 'class' => 'chosen-select',
             ],
         ]);
+    }
+
+    /**
+     * Add the options of how an imported file is read.
+     */
+    protected function addAdvancedElements()
+    {
         $this->get('vocabulary-advanced')->add([
             'name' => 'lang',
             'type' => 'text',
@@ -178,26 +276,22 @@ class VocabularyForm extends Form
                 'id' => 'label_property',
             ],
         ]);
-        if (!$vocabulary) {
-            // An edit chooses this on review, with the changes it makes in
-            // view.
-            $this->get('vocabulary-advanced')->add([
-                'name' => 'comments',
-                'type' => 'select',
-                'options' => [
-                    'label' => 'Comments', // @translate
-                    'info' => 'Where a term\'s comment is read from. Omeka can use its definition (skos:definition) in place of rdfs:comment. A comment property entered below is used instead.', // @translate
-                    'value_options' => [
-                        'comment' => 'Comment', // @translate
-                        'definition' => 'Definition where there is one, else comment', // @translate
-                    ],
+        $this->get('vocabulary-advanced')->add([
+            'name' => 'comments',
+            'type' => 'select',
+            'options' => [
+                'label' => 'Comments', // @translate
+                'info' => 'Where a term\'s comment is read from. Omeka can use its definition (skos:definition) in place of rdfs:comment. A comment property entered below is used instead.', // @translate
+                'value_options' => [
+                    'comment' => 'Comment', // @translate
+                    'definition' => 'Definition where there is one, else comment', // @translate
                 ],
-                'attributes' => [
-                    'id' => 'comments',
-                    'value' => 'comment',
-                ],
-            ]);
-        }
+            ],
+            'attributes' => [
+                'id' => 'comments',
+                'value' => 'comment',
+            ],
+        ]);
         $this->get('vocabulary-advanced')->add([
             'name' => 'comment_property',
             'type' => 'text',
@@ -207,57 +301,6 @@ class VocabularyForm extends Form
             ],
             'attributes' => [
                 'id' => 'comment_property',
-            ],
-        ]);
-
-        $inputFilter = $this->getInputFilter();
-        // The file is read with the namespace URI before the API saves it,
-        // trimmed, so a stray space would find no classes or properties.
-        $inputFilter->get('vocabulary-info')->add([
-            'name' => 'o:namespace_uri',
-            'required' => true,
-            'filters' => [
-                ['name' => 'StringTrim'],
-            ],
-        ]);
-        if (!$vocabulary) {
-            $inputFilter->get('vocabulary-info')->add([
-                'name' => 'o:prefix',
-                'validators' => [
-                    [
-                        'name' => 'Regex',
-                        'options' => [
-                            'pattern' => Vocabulary::PREFIX_REGEX,
-                            'messages' => [
-                                \Laminas\Validator\Regex::NOT_MATCH => 'The prefix may only contain letters, numbers, hyphens, and underscores.', // @translate
-                            ],
-                        ],
-                    ],
-                ],
-            ]);
-        }
-        $inputFilter->get('vocabulary-file')->add([
-            'name' => 'url',
-            'required' => false,
-        ]);
-        if (!$vocabulary) {
-            $inputFilter->get('vocabulary-advanced')->add([
-                'name' => 'comments',
-                'required' => false,
-            ]);
-        }
-        $inputFilter->get('vocabulary-advanced')->add([
-            'name' => 'label_property',
-            'required' => false,
-            'filters' => [
-                ['name' => 'ToNull'],
-            ],
-        ]);
-        $inputFilter->get('vocabulary-advanced')->add([
-            'name' => 'comment_property',
-            'required' => false,
-            'filters' => [
-                ['name' => 'ToNull'],
             ],
         ]);
     }

@@ -255,12 +255,12 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     }
 
     /**
-     * The edit form's fields, as a browser posts them, with a URL to read.
+     * The edit form's fields, as a browser posts them.
      *
      * @param array $info The vocabulary's own fields that differ
      * @return array
      */
-    protected function editWithUrl(array $info = [])
+    protected function edit(array $info = [])
     {
         return [
             'vocabulary-info' => $info + [
@@ -268,15 +268,22 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
                 'o:comment' => '',
                 'o:namespace_uri' => self::NAMESPACE_URI,
             ],
+        ] + $this->csrfField(VocabularyForm::class);
+    }
+
+    /**
+     * The fields of the form to update from a file, as a browser posts them,
+     * with a URL to read.
+     *
+     * @return array
+     */
+    protected function updateWithUrl()
+    {
+        return [
             'vocabulary-file' => [
                 'import_type' => 'url',
                 'url' => 'http://example.org/review.ttl',
                 'format' => 'turtle',
-            ],
-            'vocabulary-advanced' => [
-                'lang' => '',
-                'label_property' => '',
-                'comment_property' => '',
             ],
         ] + $this->csrfField(VocabularyForm::class);
     }
@@ -334,17 +341,88 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         return $this->getResponse()->getContent();
     }
 
-    public function testEditWithAFileStartsAReviewSavingNothing()
+    public function testUpdateFromFileStartsAReviewSavingNothing()
     {
-        $this->serveFile('markup.ttl');
-        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), $this->editWithUrl([
-            'o:label' => 'Renamed',
-        ]));
+        $this->serveFile('changed-name.ttl');
+        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/update', $this->vocabularyId), $this->updateWithUrl());
         $this->assertSame(302, $status);
         $location = $this->getResponse()->getHeaders()->get('Location')->getUri();
         $this->assertMatchesRegularExpression(sprintf('#^/admin/vocabulary/%s/review\?review=[0-9a-f]{32}$#', $this->vocabularyId), $location);
         $this->tokens[] = substr($location, strpos($location, '=') + 1);
+        $this->assertSame('<i>stored property label</i>', $this->propertyLabel('review:name'));
+    }
+
+    public function testUpdateWithoutAFile()
+    {
+        $data = $this->updateWithUrl();
+        $data['vocabulary-file']['url'] = '';
+        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/update', $this->vocabularyId), $data);
+        $this->assertSame(200, $status);
+        $this->assertTemplateName('omeka/admin/vocabulary/update');
+        $this->assertStringContainsString('Choose a file or enter a URL.', $this->getResponse()->getContent());
+    }
+
+    public function testUpdateStartsWithTheStoredFormat()
+    {
+        $this->api()->update('vocabularies', $this->vocabularyId, [
+            'o:import_options' => ['format' => 'rdfxml'],
+        ], [], ['isPartial' => true]);
+        $this->requestAs(self::ADMIN, 'GET', sprintf('/admin/vocabulary/%s/update', $this->vocabularyId));
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        $this->assertStringContainsString('<option value="rdfxml" selected>', $page);
+        // The update form takes only the file: how it's read is chosen on
+        // the review.
+        $this->assertStringNotContainsString('name="vocabulary-info[o:label]"', $page);
+        $this->assertStringNotContainsString('name="vocabulary-advanced[lang]"', $page);
+    }
+
+    public function testEditHasOnlyTheVocabularysOwnFields()
+    {
+        $this->requestAs(self::ADMIN, 'GET', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId));
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        $this->assertStringContainsString('name="vocabulary-info[o:label]"', $page);
+        $this->assertStringNotContainsString('name="vocabulary-file[import_type]"', $page);
+        $this->assertStringNotContainsString('name="vocabulary-advanced[lang]"', $page);
+        $this->assertStringContainsString(sprintf('<a class="button" href="/admin/vocabulary/%s/update">Update from file</a>', $this->vocabularyId), $page);
+    }
+
+    public function testEditSavesLabelAndCommentAtOnce()
+    {
+        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), $this->edit([
+            'o:label' => 'Renamed',
+            'o:comment' => 'A comment.',
+        ]));
+        $this->assertSame(302, $status);
+        $this->assertRedirectTo('/admin/vocabulary');
+        $this->assertSame(['Vocabulary successfully updated'], $this->messages(Messenger::SUCCESS));
+        $vocabulary = $this->vocabulary();
+        $this->assertSame('Renamed', $vocabulary->label());
+        $this->assertSame('A comment.', $vocabulary->comment());
+    }
+
+    public function testEditReviewsANamespaceChange()
+    {
+        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), $this->edit([
+            'o:label' => 'Moved',
+            'o:namespace_uri' => 'http://example.org/moved#',
+        ]));
+        // Nothing saved, and on to its review.
+        $this->assertSame(302, $status);
+        $location = $this->getResponse()->getHeaders()->get('Location')->getUri();
+        $token = $this->tokens[] = substr($location, strpos($location, '=') + 1);
         $this->assertSame('Review', $this->vocabulary()->label());
+
+        $text = preg_replace('/\s+/', ' ', strip_tags(html_entity_decode($this->reviewPage($token), ENT_QUOTES | ENT_HTML5)));
+        $this->assertStringContainsString('Accepting makes the changes below. It removes nothing.', $text);
+        $this->assertStringContainsString('Namespace URI http://example.org/review# http://example.org/moved#', $text);
+        // No file, so no reading to choose.
+        $this->assertStringNotContainsString('Preferred language', $text);
+
+        $this->postReview('accept', $token);
+        $vocabulary = $this->vocabulary();
+        $this->assertSame('Moved', $vocabulary->label());
+        $this->assertSame('http://example.org/moved#', $vocabulary->namespaceUri());
+        $this->assertSame('<i>stored property label</i>', $this->propertyLabel('review:name'));
     }
 
     public function testReviewShowsValuesAsText()
@@ -443,12 +521,8 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
 
     public function testAcceptAppliesNamespaceAndTermsTogether()
     {
-        $this->serveFile('moved-name.ttl');
-        $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), $this->editWithUrl([
-            'o:namespace_uri' => 'http://example.org/moved#',
-        ]));
-        $location = $this->getResponse()->getHeaders()->get('Location')->getUri();
-        $token = $this->tokens[] = substr($location, strpos($location, '=') + 1);
+        // As a module starts it, knowing the file's namespace.
+        $token = $this->startReview('moved-name.ttl', null, ['namespace_uri' => 'http://example.org/moved#']);
 
         $status = $this->postReview('accept', $token);
         $this->assertSame(302, $status);
@@ -613,65 +687,12 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame(200, $status);
     }
 
-    public function testEditStartsWithHowTheFileWasRead()
+    public function testEditRefusesATakenNamespace()
     {
-        $this->api()->update('vocabularies', $this->vocabularyId, [
-            'o:import_options' => [
-                'format' => 'rdfxml',
-                'lang' => 'fr',
-                'comment_property' => 'skos:definition',
-            ],
-        ], [], ['isPartial' => true]);
-        $status = $this->requestAs(self::ADMIN, 'GET', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId));
-        $this->assertSame(200, $status);
-        // Attribute values as a browser reads them.
-        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
-        $this->assertStringContainsString('<option value="rdfxml" selected>', $page);
-        $this->assertMatchesRegularExpression('/<input[^>]* name="vocabulary-advanced\[lang\]"[^>]* value="fr">/', $page);
-        $this->assertMatchesRegularExpression('/<input[^>]* name="vocabulary-advanced\[comment_property\]"[^>]* value="skos:definition">/', $page);
-        // What the stored reading doesn't say is as the form has it.
-        $this->assertMatchesRegularExpression('/<input[^>]* name="vocabulary-file\[import_type\]"[^>]* value="upload" checked>/', $page);
-    }
-
-    public function editsWithoutFile()
-    {
-        return [
-            'upload with no file chosen' => ['upload'],
-            'URL left empty' => ['url'],
-        ];
-    }
-
-    /**
-     * @dataProvider editsWithoutFile
-     */
-    public function testEditWithoutFileSaves($importType)
-    {
-        $data = $this->editWithUrl(['o:label' => 'Renamed']);
-        $data['vocabulary-file']['import_type'] = $importType;
-        $data['vocabulary-file']['url'] = '';
-        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), $data, [
-            // The file field, as a browser posts it with no file chosen.
-            'vocabulary-file' => [
-                'file' => ['name' => '', 'type' => '', 'tmp_name' => '', 'error' => UPLOAD_ERR_NO_FILE, 'size' => 0],
-            ],
-        ]);
-        $this->assertSame(302, $status);
-        $this->assertRedirectTo('/admin/vocabulary');
-        $this->assertSame(['Vocabulary successfully updated'], $this->messages(Messenger::SUCCESS));
-        $this->assertSame([], $this->messages(Messenger::ERROR));
-        $this->assertSame('Renamed', $this->vocabulary()->label());
-    }
-
-    public function testEditRefusedByApiShowsFormAgain()
-    {
-        $data = $this->editWithUrl(['o:label' => 'Renamed', 'o:namespace_uri' => 'http://purl.org/dc/terms/']);
-        $data['vocabulary-file']['import_type'] = 'upload';
-        $data['vocabulary-file']['url'] = '';
-        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), $data, [
-            'vocabulary-file' => [
-                'file' => ['name' => '', 'type' => '', 'tmp_name' => '', 'error' => UPLOAD_ERR_NO_FILE, 'size' => 0],
-            ],
-        ]);
+        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), $this->edit([
+            'o:label' => 'Renamed',
+            'o:namespace_uri' => 'http://purl.org/dc/terms/',
+        ]));
         $this->assertSame(200, $status);
         $this->assertTemplateName('omeka/admin/vocabulary/edit');
         $page = $this->getResponse()->getContent();
@@ -680,26 +701,21 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame('Review', $this->vocabulary()->label());
     }
 
-    public function testEditWithAFileRefusesATakenNamespaceBeforeReview()
-    {
-        $this->serveFile('changed-name.ttl');
-        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), $this->editWithUrl([
-            'o:namespace_uri' => 'http://purl.org/dc/terms/',
-        ]));
-        $this->assertSame(200, $status);
-        $this->assertTemplateName('omeka/admin/vocabulary/edit');
-        $this->assertStringContainsString('is already taken.', html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
-    }
-
-    public function testEditWithTermsTooLongToStoreNamesThem()
+    public function testUpdateWithTermsTooLongToStoreNamesThem()
     {
         $this->serveFile('long-label.ttl');
-        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), $this->editWithUrl());
+        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/update', $this->vocabularyId), $this->updateWithUrl());
         $this->assertSame(200, $status);
-        $this->assertTemplateName('omeka/admin/vocabulary/edit');
+        $this->assertTemplateName('omeka/admin/vocabulary/update');
         $page = $this->getResponse()->getContent();
         $this->assertStringContainsString('Some classes or properties have local names or labels longer than Omeka can store.', $page);
         $this->assertStringContainsString('These classes or properties have labels longer than 255 characters: name', $page);
+    }
+
+    public function testUpdateRefusedForAnothersVocabulary()
+    {
+        $status = $this->requestAs(self::SUPERVISOR, 'GET', sprintf('/admin/vocabulary/%s/update', $this->vocabularyId));
+        $this->assertSame(403, $status);
     }
 
     public function testReviewRefusedForAnothersVocabulary()

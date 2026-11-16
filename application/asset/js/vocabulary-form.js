@@ -26,18 +26,14 @@ $('.import-type-select').on('change', function(e) {
 });
 
 $('#vocabulary-form').on('submit', function(e) {
+    // The form to update from a file has no namespace URI.
     const namespaceUriInput = $('#o\\:namespace_uri');
-    const namespaceUri = namespaceUriInput.val();
-    const originalNamespaceUri = namespaceUriInput.data('originalNamespaceUri');
-
-    // The user must confirm that the namespace URI has changed.
-    if (originalNamespaceUri && (namespaceUri !== originalNamespaceUri)) {
-        if (!window.confirm(namespaceUriInput.data('confirmChange'))) {
-            e.preventDefault();
-        }
+    if (!namespaceUriInput.length) {
+        return;
     }
-
     // The user must confirm that the namespace URI does not end with / or #.
+    // A change of namespace URI is confirmed on the review page.
+    const namespaceUri = namespaceUriInput.val();
     if (!(namespaceUri.endsWith('/') || namespaceUri.endsWith('#'))) {
         if (!window.confirm(namespaceUriInput.data('confirmEndsWith'))) {
             e.preventDefault();

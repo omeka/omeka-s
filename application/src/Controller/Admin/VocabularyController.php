@@ -147,6 +147,11 @@ class VocabularyController extends AbstractActionController
         return $view;
     }
 
+    /**
+     * Edit a vocabulary's own fields. Its label and comment are saved at
+     * once; a change of its namespace URI, which changes every term's URI,
+     * is reviewed first, with any label and comment change made with it.
+     */
     public function editAction()
     {
         $vocabulary = $this->api()->read('vocabularies', $this->params('id'))->getContent();
@@ -157,18 +162,67 @@ class VocabularyController extends AbstractActionController
         if (!$vocabulary->userIsAllowed('update')) {
             throw new Exception\PermissionDeniedException('User does not have permission to edit this vocabulary');
         }
-        // A new file is read as the vocabulary's was, unless changed here.
-        $importOptions = $vocabulary->importOptions() ?? [];
-        $data = [
+        $form->setData([
             'vocabulary-info' => [
                 'o:label' => $vocabulary->label(),
                 'o:comment' => $vocabulary->comment(),
                 'o:namespace_uri' => $vocabulary->namespaceUri(),
             ],
-            'vocabulary-file' => array_intersect_key($importOptions, array_flip(['format'])),
-            'vocabulary-advanced' => array_intersect_key($importOptions, array_flip(['lang', 'label_property', 'comment_property'])),
-        ];
-        $form->setData($data);
+        ]);
+        $view = new ViewModel;
+        $view->setVariable('vocabulary', $vocabulary);
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $form->setData($request->getPost()->toArray());
+            if ($form->isValid()) {
+                $info = $form->getData()['vocabulary-info'];
+                $namespaceUri = trim((string) $info['o:namespace_uri']);
+                if ($namespaceUri === $vocabulary->namespaceUri()) {
+                    // Where the API refuses the vocabulary's own fields, it
+                    // puts its reasons on the form, which is shown again.
+                    $response = $this->api($form)->update('vocabularies', $this->params('id'), $info, [], ['isPartial' => true]);
+                    if ($response) {
+                        $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
+                        return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
+                    }
+                } elseif ($this->isNamespaceUriTaken($namespaceUri, $vocabulary)) {
+                    // As the API would refuse it on accepting the change.
+                    $this->messenger()->addError(new Message(
+                        'The namespace URI "%s" is already taken.', // @translate
+                        $namespaceUri
+                    ));
+                } else {
+                    $pending = ['namespace_uri' => $namespaceUri];
+                    $label = trim((string) $info['o:label']);
+                    if ($label !== $vocabulary->label()) {
+                        $pending['label'] = $label;
+                    }
+                    if ((string) $info['o:comment'] !== (string) $vocabulary->comment()) {
+                        $pending['comment'] = $info['o:comment'];
+                    }
+                    return $this->redirect()->toUrl($this->vocabularyReview->startWithoutFile($vocabulary->id(), $pending));
+                }
+            } else {
+                $this->messenger()->addFormErrors($form);
+            }
+        }
+        $view->setVariable('form', $form);
+        return $view;
+    }
+
+    /**
+     * Update a vocabulary from a newer version of its file: take the file,
+     * and review the changes it makes, which nothing saves until accepted.
+     */
+    public function updateAction()
+    {
+        $vocabulary = $this->getVocabularyToUpdate();
+        $form = $this->getForm(VocabularyForm::class, ['vocabulary' => $vocabulary, 'update_from_file' => true]);
+        // In the format the vocabulary's file was read in, unless changed.
+        $format = $vocabulary->importOptions()['format'] ?? null;
+        if (null !== $format) {
+            $form->setData(['vocabulary-file' => ['format' => $format]]);
+        }
         $view = new ViewModel;
         $view->setVariable('vocabulary', $vocabulary);
         $request = $this->getRequest();
@@ -179,55 +233,23 @@ class VocabularyController extends AbstractActionController
             );
             $form->setData($post);
             if ($form->isValid()) {
-                $data = $form->getData();
-                $info = $data['vocabulary-info'];
-                // With no file chosen, or the URL left empty, only the
-                // vocabulary's own fields change. The form has already refused
-                // a file that failed to upload, so an empty temp file name
-                // means none was chosen.
-                $file = $data['vocabulary-file']['file'] ?? [];
-                $url = trim((string) $data['vocabulary-file']['url']);
-                $upload = 'upload' === $data['vocabulary-file']['import_type'] && !empty($file['tmp_name']);
-                $fetch = 'url' === $data['vocabulary-file']['import_type'] && '' !== $url;
+                $data = $form->getData()['vocabulary-file'];
+                // The form has already refused a file that failed to upload,
+                // so an empty temp file name means none was chosen.
+                $file = $data['file'] ?? [];
+                $url = trim((string) $data['url']);
+                $upload = 'upload' === $data['import_type'] && !empty($file['tmp_name']);
+                $fetch = 'url' === $data['import_type'] && '' !== $url;
                 if (!$upload && !$fetch) {
-                    // Where the API refuses the vocabulary's own fields, it
-                    // puts its reasons on the form, which is shown again.
-                    $response = $this->api($form)->update('vocabularies', $this->params('id'), $info, [], ['isPartial' => true]);
-                    if ($response) {
-                        $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
-                        return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
-                    }
-                } elseif ($this->isNamespaceUriTaken($info['o:namespace_uri'], $vocabulary)) {
-                    // As the API would refuse it on accepting the changes.
-                    $this->messenger()->addError(new Message(
-                        'The namespace URI "%s" is already taken.', // @translate
-                        trim($info['o:namespace_uri'])
-                    ));
+                    $this->messenger()->addError('Choose a file or enter a URL.'); // @translate
                 } else {
-                    // Nothing is saved until the changes are reviewed and
-                    // accepted, the vocabulary's own fields with its terms'.
-                    $reading = [
-                        'format' => $data['vocabulary-file']['format'],
-                        'lang' => $data['vocabulary-advanced']['lang'],
-                        'label_property' => $data['vocabulary-advanced']['label_property'],
-                        'comment_property' => $data['vocabulary-advanced']['comment_property'],
-                    ];
-                    $pending = [];
-                    $label = trim((string) $info['o:label']);
-                    if ($label !== $vocabulary->label()) {
-                        $pending['label'] = $label;
-                    }
-                    if ((string) $info['o:comment'] !== (string) $vocabulary->comment()) {
-                        $pending['comment'] = $info['o:comment'];
-                    }
-                    $namespaceUri = trim((string) $info['o:namespace_uri']);
-                    if ($namespaceUri !== $vocabulary->namespaceUri()) {
-                        $pending['namespace_uri'] = $namespaceUri;
-                    }
+                    // How the file is read starts as the vocabulary's was, and
+                    // is chosen on the review.
+                    $reading = ['format' => $data['format']];
                     try {
                         $reviewUrl = $upload
-                            ? $this->vocabularyReview->start($vocabulary->id(), $file['tmp_name'], $reading, $pending)
-                            : $this->vocabularyReview->startFromUrl($vocabulary->id(), $url, $reading, $pending);
+                            ? $this->vocabularyReview->start($vocabulary->id(), $file['tmp_name'], $reading)
+                            : $this->vocabularyReview->startFromUrl($vocabulary->id(), $url, $reading);
                         return $this->redirect()->toUrl($reviewUrl);
                     } catch (\Exception $e) {
                         $this->messenger()->addErrors($this->getErrors($e));

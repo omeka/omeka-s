@@ -1,0 +1,25 @@
+<?php
+$this->headScript()->appendFile($this->assetUrl('js/vocabulary-form.js', 'Omeka'));
+$this->htmlElement('body')->appendAttribute('class', 'vocabularies update');
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$form->prepare();
+?>
+
+<?php echo $this->pageTitle($vocabulary->label(), 1, $translate('Vocabularies'), $translate('Update from file')); ?>
+
+<?php echo $this->form()->openTag($form); ?>
+<div id="page-actions">
+    <?php echo $this->cancelButton(); ?>
+    <button><?php echo $translate('Review changes'); ?></button>
+</div>
+<p><?php echo $translate('Omeka compares the file with this vocabulary and shows you the changes. Nothing is saved until you accept them, and no class or property is removed.'); ?></p>
+<div class="meta-group">
+    <h4><?php echo $translate('Namespace URI'); ?></h4>
+    <div class="value">
+        <?php echo $escape($vocabulary->namespaceUri()); ?>
+        (<?php echo $this->hyperlink($translate('Change it on the Edit page'), $this->url(null, ['action' => 'edit'], true)); ?>)
+    </div>
+</div>
+<?php echo $this->formCollection($form, false); ?>
+<?php echo $this->form()->closeTag(); ?>

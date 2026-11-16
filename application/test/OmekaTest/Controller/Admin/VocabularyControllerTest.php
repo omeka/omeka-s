@@ -423,6 +423,21 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString('is already taken.', $this->getResponse()->getContent());
     }
 
+    public function testEditWithTermsTooLongToStoreNamesThem()
+    {
+        $data = $this->refusedEdit('url', 'http://example.org/review.ttl');
+        $data['vocabulary-info']['o:namespace_uri'] = self::NAMESPACE_URI;
+        $this->reset(true);
+        $this->signIn();
+        $this->readFileForUrl(__DIR__ . '/_files/long-label.ttl');
+        $this->dispatch(sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), 'POST', $data);
+        $this->assertResponseStatusCode(200);
+        $this->assertTemplateName('omeka/admin/vocabulary/edit');
+        $page = $this->getResponse()->getContent();
+        $this->assertStringContainsString('Some classes or properties have local names or labels longer than Omeka can store.', $page);
+        $this->assertStringContainsString('These classes or properties have labels longer than 255 characters: name', $page);
+    }
+
     public function testAcceptRefusedForPermanentVocabulary()
     {
         $dcterms = $this->api()->read('vocabularies', ['prefix' => 'dcterms'])->getContent();

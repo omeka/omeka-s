@@ -190,6 +190,88 @@ class RdfImporterTest extends DbTestCase
         }
     }
 
+    /**
+     * Check that a request is refused for the terms of long-terms.ttl that
+     * are too long to store, naming those and not the ones at the limits.
+     *
+     * @param callable $request
+     */
+    protected function assertRefusesLongTerms(callable $request)
+    {
+        try {
+            $request();
+            $this->fail('Terms too long to store were accepted');
+        } catch (ValidationException $e) {
+            $this->assertSame('Some classes or properties have local names or labels longer than Omeka can store.', $e->getMessage());
+            $errors = [];
+            foreach ($e->getErrorStore()->getErrors() as $field => $messages) {
+                $errors[$field] = array_map('strval', $messages);
+            }
+            $this->assertSame([
+                'o:local_name' => ['These classes or properties have local names longer than 190 characters: ' . str_repeat('b', 40) . '…'],
+                'o:label' => ['These classes or properties have labels longer than 255 characters: overLimit'],
+            ], $errors);
+        }
+    }
+
+    public function testImportRefusesTermsTooLongToStore()
+    {
+        $this->assertRefusesLongTerms(function () {
+            $this->rdfImporter->import('file', [
+                'o:namespace_uri' => 'http://example.org/long#',
+                'o:prefix' => 'long',
+                'o:label' => 'Long',
+            ], [
+                'file' => __DIR__ . '/_files/long-terms.ttl',
+                'format' => 'turtle',
+            ]);
+        });
+    }
+
+    public function testGetDiffRefusesTermsTooLongToStore()
+    {
+        $this->assertRefusesLongTerms(function () {
+            $this->rdfImporter->getDiff('file', 'http://example.org/long#', [
+                'file' => __DIR__ . '/_files/long-terms.ttl',
+                'format' => 'turtle',
+            ]);
+        });
+    }
+
+    public function testUpdateRefusesTermsTooLongToStore()
+    {
+        $vocabularyId = $this->rdfImporter->import('file', [
+            'o:namespace_uri' => 'http://example.org/multi#',
+            'o:prefix' => 'multi',
+            'o:label' => 'Multi',
+        ], [
+            'file' => __DIR__ . '/_files/multilingual.ttl',
+            'format' => 'turtle',
+        ])->getContent()->id();
+        // The same terms as long-terms.ttl, as new terms and a new label.
+        $this->assertRefusesLongTerms(function () use ($vocabularyId) {
+            $this->rdfImporter->update($vocabularyId, [
+                'classes' => [
+                    'new' => [
+                        str_repeat('a', 190) => ['Local name at the limit', null],
+                        str_repeat('b', 191) => ['Local name over the limit', null],
+                    ],
+                    'label' => [],
+                    'comment' => [],
+                ],
+                'properties' => [
+                    'new' => ['atLimit' => [str_repeat('x', 255), null]],
+                    'label' => ['overLimit' => ['Over the limit', str_repeat('y', 256)]],
+                    'comment' => [],
+                ],
+            ]);
+        });
+        // Nothing was written, not even the terms at the limits.
+        $api = self::getApplication()->getServiceManager()->get('Omeka\ApiManager');
+        $this->assertSame(1, $api->search('resource_classes', ['vocabulary_id' => $vocabularyId])->getTotalResults());
+        $this->assertSame(2, $api->search('properties', ['vocabulary_id' => $vocabularyId])->getTotalResults());
+    }
+
     public function namespaceSuggestions()
     {
         $prefixes = <<<'TTL'

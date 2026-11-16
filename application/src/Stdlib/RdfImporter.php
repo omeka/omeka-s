@@ -12,6 +12,18 @@ use Omeka\Entity\ResourceClass;
 class RdfImporter
 {
     /**
+     * The longest local name a property or resource class can have, in
+     * characters, as its database column allows.
+     */
+    const LOCAL_NAME_MAX_LENGTH = 190;
+
+    /**
+     * The longest label a property or resource class can have, in
+     * characters, as its database column allows.
+     */
+    const LABEL_MAX_LENGTH = 255;
+
+    /**
      * @var \Omeka\Api\Manager
      */
     protected $apiManager;
@@ -195,6 +207,7 @@ class RdfImporter
             }
             throw $exception;
         }
+        $this->checkTermLengths($members);
 
         return $this->apiManager->create('vocabularies', array_merge($vocab, $vocabMembers));
     }
@@ -249,9 +262,23 @@ class RdfImporter
      *
      * @param int $vocabId
      * @param array $diff
+     * @throws ValidationException When a local name or label is longer than
+     *   the database can store, before anything is written
      */
     public function update($vocabId, array $diff)
     {
+        // Refuse what the database can't store before writing anything.
+        $written = ['classes' => [], 'properties' => []];
+        foreach (['classes', 'properties'] as $type) {
+            foreach ($diff[$type]['new'] as $localName => $info) {
+                $written[$type][$localName] = ['label' => $info[0]];
+            }
+            foreach ($diff[$type]['label'] as $localName => $change) {
+                $written[$type][$localName] = ['label' => $change[1]];
+            }
+        }
+        $this->checkTermLengths($written);
+
         $em = $this->entityManager;
         $vocabulary = $em->find('Omeka\Entity\Vocabulary', $vocabId);
         $classRepo = $em->getRepository('Omeka\Entity\ResourceClass');
@@ -357,6 +384,9 @@ class RdfImporter
 
         // Get classes and properties from the RDF graph.
         $members = $this->getMembers($strategy, $namespaceUri, $options);
+        // A term too long for the database can only be new, or have a new
+        // label, so refuse it now rather than on accepting the changes.
+        $this->checkTermLengths($members);
 
         return [
             'classes' => $this->calculateDiff($dbClasses, $members['classes']),
@@ -442,6 +472,53 @@ class RdfImporter
             throw new ValidationException($error);
         }
         return $graph;
+    }
+
+    /**
+     * Refuse classes and properties whose local names or labels are longer
+     * than the database can store, naming them.
+     *
+     * @param array $members Classes and properties, as getMembers() returns
+     *   them: local names keyed to their labels and comments
+     * @throws ValidationException
+     */
+    protected function checkTermLengths(array $members)
+    {
+        $longLocalNames = [];
+        $longLabels = [];
+        foreach (['classes', 'properties'] as $type) {
+            foreach ($members[$type] ?? [] as $localName => $member) {
+                $localName = (string) $localName;
+                // A local name too long to store is too long to read whole.
+                $name = $localName;
+                if (mb_strlen($localName) > self::LOCAL_NAME_MAX_LENGTH) {
+                    $name = mb_substr($localName, 0, 40) . '…';
+                    $longLocalNames[] = $name;
+                }
+                if (mb_strlen((string) $member['label']) > self::LABEL_MAX_LENGTH) {
+                    $longLabels[] = $name;
+                }
+            }
+        }
+        if (!$longLocalNames && !$longLabels) {
+            return;
+        }
+        $exception = new ValidationException('Some classes or properties have local names or labels longer than Omeka can store.'); // @translate
+        if ($longLocalNames) {
+            $exception->getErrorStore()->addError('o:local_name', new Message(
+                'These classes or properties have local names longer than %1$s characters: %2$s', // @translate
+                self::LOCAL_NAME_MAX_LENGTH,
+                implode(', ', $longLocalNames)
+            ));
+        }
+        if ($longLabels) {
+            $exception->getErrorStore()->addError('o:label', new Message(
+                'These classes or properties have labels longer than %1$s characters: %2$s', // @translate
+                self::LABEL_MAX_LENGTH,
+                implode(', ', $longLabels)
+            ));
+        }
+        throw $exception;
     }
 
     /**

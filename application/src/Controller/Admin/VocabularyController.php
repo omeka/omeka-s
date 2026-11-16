@@ -186,7 +186,12 @@ class VocabularyController extends AbstractActionController
                     $view->setVariable('diff', $diff);
                     $view->setTemplate('omeka/admin/vocabulary/update');
                 } catch (\Exception $e) {
-                    $this->messenger()->addError($e->getMessage());
+                    $messages = [$e->getMessage()];
+                    // The importer names the terms at fault in an error store.
+                    if (method_exists($e, 'getErrorStore')) {
+                        $messages[] = $e->getErrorStore()->getErrors();
+                    }
+                    $this->messenger()->addErrors($messages);
                 }
             } else {
                 $this->messenger()->addFormErrors($form);
@@ -288,7 +293,8 @@ class VocabularyController extends AbstractActionController
 
     /**
      * Check that a diff posted from the review screen has the shape the
-     * importer's update takes, with labels and comments the database takes.
+     * importer's update takes, with local names, labels, and comments the
+     * database takes.
      *
      * @param mixed $diff
      * @return bool
@@ -296,7 +302,7 @@ class VocabularyController extends AbstractActionController
     protected function isValidDiff($diff)
     {
         $isLabel = function ($value) {
-            return is_string($value) && '' !== $value && mb_strlen($value) <= 255;
+            return is_string($value) && '' !== $value && mb_strlen($value) <= RdfImporter::LABEL_MAX_LENGTH;
         };
         $isComment = function ($value) {
             return null === $value || is_string($value);
@@ -310,7 +316,11 @@ class VocabularyController extends AbstractActionController
                     return false;
                 }
                 foreach ($diff[$members][$change] as $localName => $values) {
-                    if ('' === (string) $localName || !is_array($values) || !array_key_exists(1, $values)) {
+                    if ('' === (string) $localName
+                        || mb_strlen((string) $localName) > RdfImporter::LOCAL_NAME_MAX_LENGTH
+                        || !is_array($values)
+                        || !array_key_exists(1, $values)
+                    ) {
                         return false;
                     }
                     // A new term is [label, comment], a change [from, to].

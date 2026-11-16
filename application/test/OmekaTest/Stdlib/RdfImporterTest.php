@@ -435,6 +435,17 @@ class RdfImporterTest extends DbTestCase
         ])->getContent();
     }
 
+    public function testImportAcceptsAnotherFormOfANamespaceOmekaHas()
+    {
+        // Only the import form refuses it; scripts and modules may import it.
+        self::getApplication()->getServiceManager()->get('Omeka\ApiManager')->create('vocabularies', [
+            'o:namespace_uri' => 'https://example.org/multi#',
+            'o:prefix' => 'multihttps',
+            'o:label' => 'Multi over https',
+        ]);
+        $this->assertSame('http://example.org/multi#', $this->importInFrench()->namespaceUri());
+    }
+
     public function testImportStoresHowTheFileWasRead()
     {
         // The reading options, not the file's path.

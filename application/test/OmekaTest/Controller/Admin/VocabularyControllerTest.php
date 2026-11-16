@@ -444,6 +444,36 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringNotContainsString('<option value="definition">', html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
     }
 
+    public function testImportRefusesAnotherFormOfANamespaceOmekaHas()
+    {
+        $this->serveFile('markup.ttl');
+        $status = $this->requestAs(self::ADMIN, 'POST', '/admin/vocabulary/import', [
+            'vocabulary-info' => [
+                'o:namespace_uri' => 'https://example.org/review',
+                'o:prefix' => 'review2',
+                'o:label' => 'Review again',
+                'o:comment' => '',
+            ],
+            'vocabulary-file' => [
+                'import_type' => 'url',
+                'url' => 'http://example.org/review.ttl',
+                'format' => 'turtle',
+            ],
+            'vocabulary-advanced' => [
+                'lang' => '',
+                'label_property' => '',
+                'comment_property' => '',
+            ],
+        ] + $this->csrfField(VocabularyForm::class));
+        $this->assertSame(200, $status);
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        $this->assertStringContainsString('Omeka already has this vocabulary, as "Review" with the namespace URI "http://example.org/review#". To update it, edit it.', strip_tags($page));
+        $this->assertStringContainsString(sprintf('<a href="/admin/vocabulary/%s/edit">edit it</a>', $this->vocabularyId), $page);
+        $this->reset(true);
+        $this->signIn();
+        $this->assertSame(0, $this->api()->search('vocabularies', ['prefix' => 'review2'])->getTotalResults());
+    }
+
     public function importsWithComments()
     {
         return [

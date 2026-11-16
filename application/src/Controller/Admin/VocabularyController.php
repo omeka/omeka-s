@@ -7,6 +7,7 @@ use Omeka\Form\VocabularyForm;
 use Omeka\Mvc\Exception;
 use Omeka\Stdlib\RdfImporter;
 use Omeka\Stdlib\Message;
+use Omeka\Stdlib\NamespaceUri;
 use Omeka\Stdlib\VocabularyReview;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
@@ -80,6 +81,23 @@ class VocabularyController extends AbstractActionController
             $form->setData($post);
             if ($form->isValid()) {
                 $data = $form->getData();
+                // A vocabulary Omeka has in another form of the namespace is
+                // updated by editing it: imported, its terms would be twice.
+                $other = $this->getVocabularyInAnotherForm(trim((string) $data['vocabulary-info']['o:namespace_uri']));
+                if ($other) {
+                    $message = new Message(
+                        'Omeka already has this vocabulary, as "%1$s" with the namespace URI "%2$s". To update it, %3$sedit it%4$s.', // @translate
+                        htmlspecialchars($other->label()),
+                        htmlspecialchars($other->namespaceUri()),
+                        sprintf('<a href="%s">', htmlspecialchars($this->url()->fromRoute('admin/id', ['controller' => 'vocabulary', 'id' => $other->id(), 'action' => 'edit']))),
+                        '</a>'
+                    );
+                    $message->setEscapeHtml(false);
+                    $this->messenger()->addError($message);
+                    $view = new ViewModel;
+                    $view->setVariable('form', $form);
+                    return $view;
+                }
                 $strategy = null;
                 $options = [
                     'format' => $data['vocabulary-file']['format'],
@@ -447,6 +465,24 @@ class VocabularyController extends AbstractActionController
             'id' => $vocabulary->id(),
             'action' => 'review',
         ], ['query' => $query]);
+    }
+
+    /**
+     * Get a vocabulary whose namespace URI is another form of one, ending in
+     * "#", "/", or neither, with http or https.
+     *
+     * @param string $namespaceUri
+     * @return \Omeka\Api\Representation\VocabularyRepresentation|null
+     */
+    protected function getVocabularyInAnotherForm($namespaceUri)
+    {
+        $vocabularies = $this->api()->search('vocabularies', ['namespace_uri' => NamespaceUri::getForms($namespaceUri)])->getContent();
+        foreach ($vocabularies as $vocabulary) {
+            if ($vocabulary->namespaceUri() !== $namespaceUri) {
+                return $vocabulary;
+            }
+        }
+        return null;
     }
 
     /**

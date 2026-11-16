@@ -261,8 +261,7 @@ class RdfImporter
      * Tries, in order: the other forms of the given namespace URI; the
      * namespace URI the file declares with vann:preferredNamespaceUri, and
      * its forms; the URI of its owl:Ontology, and its forms; and then the
-     * namespace URI most of its terms use. A form ends in "#", "/", and uses
-     * http or https.
+     * namespace URI most of its terms use. See NamespaceUri::getForms().
      *
      * @param RdfGraph $graph
      * @param string $namespaceUri The namespace URI given
@@ -283,7 +282,7 @@ class RdfImporter
             }
         }
         foreach ($bases as $base) {
-            foreach ($this->getNamespaceUriForms($base) as $candidate) {
+            foreach (NamespaceUri::getForms($base) as $candidate) {
                 if ($candidate !== $namespaceUri && $this->hasMembers($graph, $candidate)) {
                     return $candidate;
                 }
@@ -784,30 +783,6 @@ class RdfImporter
             ));
         }
         throw $exception;
-    }
-
-    /**
-     * Get a namespace URI's forms: itself, then ending in "#" and in "/",
-     * each with http and https.
-     *
-     * @param string $namespaceUri
-     * @return string[]
-     */
-    protected function getNamespaceUriForms($namespaceUri)
-    {
-        $forms = [$namespaceUri];
-        $base = rtrim($namespaceUri, '#/');
-        foreach (['#', '/'] as $end) {
-            $forms[] = $base . $end;
-        }
-        foreach ($forms as $form) {
-            if (0 === strpos($form, 'http://')) {
-                $forms[] = 'https://' . substr($form, 7);
-            } elseif (0 === strpos($form, 'https://')) {
-                $forms[] = 'http://' . substr($form, 8);
-            }
-        }
-        return array_values(array_unique($forms));
     }
 
     /**

@@ -642,6 +642,20 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString('<option value="fr" selected>', html_entity_decode($page, ENT_QUOTES | ENT_HTML5));
     }
 
+    public function testAnotherCommentPropertyChosenOnReview()
+    {
+        $token = $this->startReview('changed-name.ttl');
+        // Chosen, it's read, and shown as chosen, with Accept carrying it.
+        $page = html_entity_decode($this->reviewPage($token, ['comments' => 'other', 'comment_property' => 'skos:definition']), ENT_QUOTES | ENT_HTML5);
+        $this->assertStringContainsString('<option value="other" selected>Another property…</option>', $page);
+        $this->assertStringContainsString('<input type="text" name="comment_property" id="review-comment-property" value="skos:definition">', $page);
+        $this->assertStringContainsString('<input type="hidden" name="comment_property" value="skos:definition">', $page);
+        // Entered but not chosen, it isn't.
+        $page = html_entity_decode($this->reviewPage($token, ['comments' => 'definition', 'comment_property' => 'skos:definition']), ENT_QUOTES | ENT_HTML5);
+        $this->assertStringContainsString('<option value="definition" selected>', $page);
+        $this->assertStringContainsString('<input type="text" name="comment_property" id="review-comment-property" value="">', $page);
+    }
+
     public function testAcceptAppliesNamespaceAndTermsTogether()
     {
         // As a module starts it, knowing the file's namespace.
@@ -768,6 +782,8 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertMatchesRegularExpression('#<option value="en" selected>[^<]*</option>#', $page);
         $this->assertMatchesRegularExpression('#<option value="fr">[^<]*</option>#', $page);
         $this->assertStringContainsString('<option value="definition">', $page);
+        // Another property's field, after the choice, which shows it.
+        $this->assertMatchesRegularExpression('#<select name="vocabulary-advanced\[comments\]" id="comments" data-other-property="\#comment_property">.*?<option value="other">Another property…</option>.*?name="vocabulary-advanced\[comment_property\]".*?name="vocabulary-advanced\[label_property\]"#s', $page);
         $this->assertStringNotContainsString('name="vocabulary-file[import_type]"', $page);
     }
 
@@ -834,7 +850,8 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         return [
             'the comment, by default' => [[], RdfImporter::COMMENT_PROPERTY, 'Usage note on titles.'],
             'the definition, chosen' => [['comments' => 'definition'], RdfImporter::DEFINITION_COMMENT_PROPERTY, "The work's title."],
-            'a comment property entered, over the choice' => [['comments' => 'definition', 'comment_property' => 'rdfs:comment'], 'rdfs:comment', 'Usage note on titles.'],
+            'another property, chosen' => [['comments' => 'other', 'comment_property' => 'skos:definition'], 'skos:definition', "The work's title."],
+            'another property, entered but not chosen' => [['comments' => 'comment', 'comment_property' => 'skos:definition'], RdfImporter::COMMENT_PROPERTY, 'Usage note on titles.'],
         ];
     }
 

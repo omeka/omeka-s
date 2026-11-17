@@ -210,11 +210,7 @@ class VocabularyController extends AbstractActionController
                         'format' => $format,
                         'lang' => '' === (string) $advanced['lang'] ? null : $advanced['lang'],
                         'label_property' => $advanced['label_property'],
-                        // A comment property entered is used in place of the
-                        // Comments choice.
-                        'comment_property' => $advanced['comment_property']
-                            ?? RdfImporter::COMMENT_READINGS[$advanced['comments'] ?? 'comment']
-                            ?? null,
+                        'comment_property' => $this->getChosenCommentProperty($advanced),
                     ];
                     try {
                         $response = $this->rdfImporter->import('file', $data['vocabulary-info'], $options);
@@ -586,8 +582,8 @@ class VocabularyController extends AbstractActionController
     /**
      * Get the reading options the admin chose on the review page: its
      * preferred language ("" for the first available), where comments are
-     * read from, and any label or comment property entered, which takes the
-     * place of the importer's default ("" for the default).
+     * read from, and any label property entered, which takes the place of
+     * the importer's default ("" for the default).
      *
      * @param array $params The page's query, or the post of its form
      * @return array
@@ -601,15 +597,32 @@ class VocabularyController extends AbstractActionController
         if (isset($params['label_property']) && is_string($params['label_property'])) {
             $choices['label_property'] = '' === trim($params['label_property']) ? null : trim($params['label_property']);
         }
-        if (isset($params['comments']) && is_string($params['comments']) && isset(RdfImporter::COMMENT_READINGS[$params['comments']])) {
-            $choices['comment_property'] = RdfImporter::COMMENT_READINGS[$params['comments']];
-        }
-        // A comment property entered is used in place of the Comments
-        // choice, as on the import form.
-        if (isset($params['comment_property']) && is_string($params['comment_property']) && '' !== trim($params['comment_property'])) {
-            $choices['comment_property'] = trim($params['comment_property']);
+        $commentProperty = $this->getChosenCommentProperty($params);
+        if (null !== $commentProperty) {
+            $choices['comment_property'] = $commentProperty;
         }
         return $choices;
+    }
+
+    /**
+     * Get the property comments are read from, as chosen: a reading offered
+     * (see RdfImporter::COMMENT_READINGS), or "other", the comment property
+     * entered, or the default where none is.
+     *
+     * @param array $params With "comments" and "comment_property"
+     * @return string|null Null where nothing was chosen
+     */
+    protected function getChosenCommentProperty(array $params)
+    {
+        $comments = $params['comments'] ?? null;
+        if (!is_string($comments)) {
+            return null;
+        }
+        if ('other' === $comments) {
+            $property = is_string($params['comment_property'] ?? null) ? trim($params['comment_property']) : '';
+            return '' === $property ? RdfImporter::COMMENT_PROPERTY : $property;
+        }
+        return RdfImporter::COMMENT_READINGS[$comments] ?? null;
     }
 
     /**

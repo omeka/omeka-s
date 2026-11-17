@@ -301,20 +301,35 @@ class VocabularyForm extends Form
                 'id' => 'lang',
             ],
         ]);
+        // Where comments are read from, with the property to read them from
+        // for another, which the script shows only then.
         $this->get('vocabulary-advanced')->add([
             'name' => 'comments',
             'type' => 'select',
             'options' => [
                 'label' => 'Comments', // @translate
-                'info' => 'Where each term\'s comment is read from: its comment (rdfs:comment), or its definition (skos:definition) where it has one.', // @translate
+                'info' => 'Where each term\'s comment is read from: its comment (rdfs:comment), its definition (skos:definition) where it has one, or another property.', // @translate
                 'value_options' => [
                     'comment' => 'Comment', // @translate
                     'definition' => 'Definition where there is one, else comment', // @translate
+                    'other' => 'Another property…', // @translate
                 ],
             ],
             'attributes' => [
                 'id' => 'comments',
                 'value' => 'comment',
+                'data-other-property' => '#comment_property',
+            ],
+        ]);
+        $this->get('vocabulary-advanced')->add([
+            'name' => 'comment_property',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Comment property', // @translate
+                'info' => 'Enter the property each term\'s comment is read from. Please use the full property URI enclosed in angle brackets.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'comment_property',
             ],
         ]);
         $this->get('vocabulary-advanced')->add([
@@ -326,17 +341,6 @@ class VocabularyForm extends Form
             ],
             'attributes' => [
                 'id' => 'label_property',
-            ],
-        ]);
-        $this->get('vocabulary-advanced')->add([
-            'name' => 'comment_property',
-            'type' => 'text',
-            'options' => [
-                'label' => 'Comment property', // @translate
-                'info' => 'Enter the comment property, used in place of the Comments choice. This is typically only needed if the vocabulary uses an unconventional property for comments. Please use the full property URI enclosed in angle brackets.', // @translate
-            ],
-            'attributes' => [
-                'id' => 'comment_property',
             ],
         ]);
     }

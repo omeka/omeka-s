@@ -25,6 +25,18 @@ $('.import-type-select').on('change', function(e) {
     }
 });
 
+// Where comments are read from: the property to read them from is shown only
+// for another.
+$('[data-other-property]').each(function() {
+    const choice = $(this);
+    const field = $(choice.data('otherProperty')).closest('.field');
+    const toggle = function() {
+        field.toggle('other' === choice.val());
+    };
+    toggle();
+    choice.on('change', toggle);
+});
+
 $('#vocabulary-form').on('submit', function(e) {
     // Only the import and Change namespace forms have a namespace URI.
     const namespaceUriInput = $('#o\\:namespace_uri');

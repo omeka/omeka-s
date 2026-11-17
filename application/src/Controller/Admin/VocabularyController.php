@@ -95,7 +95,7 @@ class VocabularyController extends AbstractActionController
      */
     public function importAction()
     {
-        $form = $this->getForm(VocabularyForm::class, ['mode' => 'import_file']);
+        $form = $this->getForm(VocabularyForm::class, ['mode' => 'file']);
         $source = $this->getRequest()->isPost() ? $this->getPostedFileSource($form) : null;
         if ($source) {
             $token = null;
@@ -106,7 +106,7 @@ class VocabularyController extends AbstractActionController
                 // Refuse a file that can't be read, or has no terms, now.
                 $this->getImportDetails($token, $source['format']);
                 return $this->redirect()->toRoute('admin/default', ['controller' => 'vocabulary', 'action' => 'import-details'], [
-                    'query' => ['file' => $token, 'format' => $source['format']],
+                    'query' => ['file_token' => $token, 'format' => $source['format']],
                 ]);
             } catch (\Exception $e) {
                 if (null !== $token) {
@@ -127,7 +127,7 @@ class VocabularyController extends AbstractActionController
      */
     public function importDetailsAction()
     {
-        $token = (string) $this->params()->fromQuery('file');
+        $token = (string) $this->params()->fromQuery('file_token');
         $format = (string) $this->params()->fromQuery('format');
         if (!in_array($format, ['guess', 'jsonld', 'ntriples', 'rdfxml', 'turtle'], true)) {
             $format = 'guess';
@@ -274,7 +274,7 @@ class VocabularyController extends AbstractActionController
     public function updateAction()
     {
         $vocabulary = $this->getVocabularyToUpdate();
-        $form = $this->getForm(VocabularyForm::class, ['vocabulary' => $vocabulary, 'mode' => 'update_from_file']);
+        $form = $this->getForm(VocabularyForm::class, ['vocabulary' => $vocabulary, 'mode' => 'file']);
         $format = $vocabulary->importOptions()['format'] ?? null;
         if (null !== $format) {
             $form->setData(['vocabulary-file' => ['format' => $format]]);
@@ -347,7 +347,7 @@ class VocabularyController extends AbstractActionController
     /**
      * Accept a review's changes.
      */
-    public function acceptAction()
+    public function acceptReviewAction()
     {
         $vocabulary = $this->getVocabularyToUpdate();
         $post = $this->params()->fromPost();
@@ -376,7 +376,7 @@ class VocabularyController extends AbstractActionController
     /**
      * Cancel a review, changing nothing.
      */
-    public function cancelAction()
+    public function cancelReviewAction()
     {
         $vocabulary = $this->getVocabularyToUpdate();
         $post = $this->params()->fromPost();

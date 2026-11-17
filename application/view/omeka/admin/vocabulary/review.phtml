@@ -101,10 +101,10 @@ $changes = null !== $diff && ($termChanges || $namespaceChanges);
 <?php echo $this->pageTitle($vocabulary->label(), 1, $translate('Vocabularies'), $translate('Review changes')); ?>
 
 <?php // Only the actions and hidden inputs, so the form of choices doesn't nest in it. ?>
-<form method="post" action="<?php echo $escape($this->url(null, ['action' => 'accept'], true)); ?>">
+<form method="post" action="<?php echo $escape($this->url(null, ['action' => 'accept-review'], true)); ?>">
     <div id="page-actions">
         <?php // With nothing to change, there's nothing to accept; Back ends the review as Cancel does. ?>
-        <button type="submit" class="button" formaction="<?php echo $escape($this->url(null, ['action' => 'cancel'], true)); ?>"><?php echo (null !== $diff && !$changes) ? $translate('Back') : $translate('Cancel'); ?></button>
+        <button type="submit" class="button" formaction="<?php echo $escape($this->url(null, ['action' => 'cancel-review'], true)); ?>"><?php echo (null !== $diff && !$changes) ? $translate('Back') : $translate('Cancel'); ?></button>
         <?php if ($changes): ?>
         <button type="submit"><?php echo $translate('Accept changes'); ?></button>
         <?php endif; ?>

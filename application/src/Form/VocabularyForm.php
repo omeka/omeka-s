@@ -10,9 +10,9 @@ class VocabularyForm extends Form
 
     /**
      * - vocabulary: (optional) The vocabulary to change, if any.
-     * - mode: (optional) With a vocabulary, "edit" (the default) or
-     *   "update_from_file"; without one, an import's "import_file" (the
-     *   default) or "import_details".
+     * - mode: (optional) "edit", a vocabulary's own fields (the default
+     *   with a vocabulary); "file", the file to import or update from (the
+     *   default without one); or "import_details", an import's second step.
      * - languages: (optional) For "import_details", the file's languages
      */
     protected $options = [
@@ -29,10 +29,10 @@ class VocabularyForm extends Form
     public function init()
     {
         $vocabulary = $this->getOption('vocabulary');
-        $mode = $this->getOption('mode') ?? ($vocabulary ? 'edit' : 'import_file');
+        $mode = $this->getOption('mode') ?? ($vocabulary ? 'edit' : 'file');
         $hasInfo = in_array($mode, ['edit', 'import_details'], true);
         $hasPrefix = 'import_details' === $mode;
-        $hasFile = in_array($mode, ['update_from_file', 'import_file'], true);
+        $hasFile = 'file' === $mode;
         $hasAdvanced = 'import_details' === $mode;
         $this->setAttribute('id', 'vocabulary-form');
         if ($hasInfo) {

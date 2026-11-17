@@ -337,7 +337,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     /**
      * Post to a review's Accept or Cancel.
      *
-     * @param string $action "accept" or "cancel"
+     * @param string $action "accept-review" or "cancel-review"
      * @param string $token
      * @param string $email
      * @param int|null $vocabularyId By default, the tests' vocabulary
@@ -601,12 +601,12 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     {
         $page = html_entity_decode($this->reviewPage($this->startReview('unchanged.ttl')), ENT_QUOTES | ENT_HTML5);
         $this->assertStringContainsString('This vocabulary already matches the file.', $page);
-        $this->assertMatchesRegularExpression('#<button type="submit" class="button" formaction="[^"]*/cancel">Back</button>#', $page);
+        $this->assertMatchesRegularExpression('#<button type="submit" class="button" formaction="[^"]*/cancel-review">Back</button>#', $page);
         $this->assertStringNotContainsString('Accept changes', $page);
 
         // With changes, Cancel and Accept.
         $page = html_entity_decode($this->reviewPage($this->startReview('changed-name.ttl')), ENT_QUOTES | ENT_HTML5);
-        $this->assertMatchesRegularExpression('#formaction="[^"]*/cancel">Cancel</button>#', $page);
+        $this->assertMatchesRegularExpression('#formaction="[^"]*/cancel-review">Cancel</button>#', $page);
         $this->assertStringContainsString('Accept changes', $page);
     }
 
@@ -630,7 +630,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString('<input type="hidden" name="label_property" value="skos:prefLabel">', $page);
 
         // Accepted, it's stored in the import options.
-        $this->postReview('accept', $token, self::ADMIN, null, ['label_property' => 'skos:prefLabel']);
+        $this->postReview('accept-review', $token, self::ADMIN, null, ['label_property' => 'skos:prefLabel']);
         $this->assertSame('skos:prefLabel', $this->vocabulary()->importOptions()['label_property']);
     }
 
@@ -675,7 +675,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         // As a module starts it, knowing the file's namespace.
         $token = $this->startReview('moved-name.ttl', null, ['new_namespace_uri' => 'http://example.org/moved#']);
 
-        $status = $this->postReview('accept', $token);
+        $status = $this->postReview('accept-review', $token);
         $this->assertSame(302, $status);
         $this->assertRedirectTo(sprintf('/admin/vocabulary/%s', $this->vocabularyId));
         $this->assertSame(['Changes to the vocabulary successfully made'], $this->messages(Messenger::SUCCESS));
@@ -689,7 +689,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     public function testCancelChangesNothing()
     {
         $token = $this->startReview('changed-name.ttl');
-        $status = $this->postReview('cancel', $token);
+        $status = $this->postReview('cancel-review', $token);
         $this->assertSame(302, $status);
         $this->assertRedirectTo(sprintf('/admin/vocabulary/%s', $this->vocabularyId));
         $this->assertSame('Review', $this->vocabulary()->label());
@@ -720,7 +720,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         ] + $this->csrfField(VocabularyForm::class));
         if (302 === $status) {
             parse_str((string) parse_url($this->getResponse()->getHeaders()->get('Location')->getUri(), PHP_URL_QUERY), $query);
-            $this->importFiles[] = $query['file'] ?? '';
+            $this->importFiles[] = $query['file_token'] ?? '';
         }
         return $status;
     }
@@ -995,7 +995,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
 
     public function testImportDetailsOfAnImportThatHasEnded()
     {
-        $status = $this->requestAs(self::ADMIN, 'GET', '/admin/vocabulary/import-details?file=unknown&format=turtle');
+        $status = $this->requestAs(self::ADMIN, 'GET', '/admin/vocabulary/import-details?file_token=unknown&format=turtle');
         $this->assertSame(302, $status);
         $this->assertRedirectTo('/admin/vocabulary/import');
         $this->assertSame(['This import has ended. Choose the file again.'], $this->messages(Messenger::ERROR));
@@ -1124,7 +1124,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     {
         $dcterms = $this->api()->read('vocabularies', ['prefix' => 'dcterms'])->getContent();
         $token = $this->startReview('dcterms-title.ttl', $dcterms->id());
-        $status = $this->postReview('accept', $token, self::ADMIN, $dcterms->id());
+        $status = $this->postReview('accept-review', $token, self::ADMIN, $dcterms->id());
         $this->assertSame(403, $status);
         $this->assertSame('Title', $this->propertyLabel('dcterms:title'));
     }
@@ -1132,7 +1132,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     public function testAcceptRefusedForAnothersVocabulary()
     {
         $token = $this->startReview('changed-name.ttl');
-        $status = $this->postReview('accept', $token, self::SUPERVISOR);
+        $status = $this->postReview('accept-review', $token, self::SUPERVISOR);
         $this->assertSame(403, $status);
         $this->assertSame('<i>stored property label</i>', $this->propertyLabel('review:name'));
     }
@@ -1141,7 +1141,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     {
         $this->giveVocabularyTo(self::SUPERVISOR);
         $token = $this->startReview('changed-name.ttl');
-        $status = $this->postReview('accept', $token, self::SUPERVISOR);
+        $status = $this->postReview('accept-review', $token, self::SUPERVISOR);
         $this->assertSame(302, $status);
         $this->assertRedirectTo(sprintf('/admin/vocabulary/%s', $this->vocabularyId));
         $this->assertSame('Changed', $this->propertyLabel('review:name'));

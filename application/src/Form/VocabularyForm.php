@@ -255,11 +255,9 @@ class VocabularyForm extends Form
                     'jsonld' => 'JSON-LD (.jsonld)', // @translate
                     'ntriples' => 'N-Triples (.nt)', // @translate
                     'rdfxml' => 'RDF/XML (.rdf)', // @translate
-                    'turtle' => 'Turtle (.ttl)', // @translate
-                    [
-                        'value' => 'turtle',
-                        'label' => 'Notation3 (.n3)', // @translate
-                    ],
+                    // One option: EasyRdf reads Notation3 as Turtle, and two
+                    // options of one value would both show as chosen.
+                    'turtle' => 'Turtle or Notation3 (.ttl, .n3)', // @translate
                 ],
             ],
             'attributes' => [

@@ -445,6 +445,19 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString(sprintf('<a class="button" href="/admin/vocabulary/%s">Cancel</a>', $this->vocabularyId), $page);
     }
 
+    public function testUpdateShowsATurtleFormatAsOneChoice()
+    {
+        // Turtle and Notation3 are read alike, so they're one option, which
+        // alone shows as chosen.
+        $this->api()->update('vocabularies', $this->vocabularyId, [
+            'o:import_options' => ['format' => 'turtle'],
+        ], [], ['isPartial' => true]);
+        $this->requestAs(self::ADMIN, 'GET', sprintf('/admin/vocabulary/%s/update', $this->vocabularyId));
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        $this->assertSame(1, substr_count($page, ' selected>'));
+        $this->assertStringContainsString('<option value="turtle" selected>Turtle or Notation3 (.ttl, .n3)</option>', $page);
+    }
+
     public function testEditHasOnlyTheVocabularysOwnFields()
     {
         $this->requestAs(self::ADMIN, 'GET', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId));

@@ -270,7 +270,9 @@ class RdfImporter
     {
         // As the API saves it, so the file is read with the same.
         $vocab['o:namespace_uri'] = trim((string) $vocab['o:namespace_uri']);
-        $members = $this->getMembers($strategy, $vocab['o:namespace_uri'], $options);
+        $reading = $this->getReadingOptions($options);
+        $graph = $this->getGraph($strategy, $vocab['o:namespace_uri'], $reading);
+        $members = $this->getGraphMembers($graph, $vocab['o:namespace_uri'], $reading);
 
         // Convert to format that the API understands.
         $vocabMembers = ['o:class' => [], 'o:property' => []];
@@ -290,9 +292,7 @@ class RdfImporter
         }
 
         if (!$members['classes'] && !$members['properties']) {
-            // Read the file again, which only an import that fails needs,
-            // for the namespace its terms use.
-            throw $this->getNoMembersException($this->getGraph($strategy, $vocab['o:namespace_uri'], $options), $vocab['o:namespace_uri']);
+            throw $this->getNoMembersException($graph, $vocab['o:namespace_uri']);
         }
         $this->checkTermLengths($members);
 
@@ -317,7 +317,7 @@ class RdfImporter
     public function checkNamespaceUri($strategy, $namespaceUri, array $options = [])
     {
         $graph = $this->getGraph($strategy, $namespaceUri, $options);
-        if (!$this->hasMembers($graph, $namespaceUri)) {
+        if (!array_sum($this->countMembers($graph, $namespaceUri))) {
             throw $this->getNoMembersException($graph, $namespaceUri);
         }
     }
@@ -513,11 +513,10 @@ class RdfImporter
             $options += $vocabulary->importOptions() ?? [];
         }
 
-        // Get classes and properties from the database. An id that isn't a
-        // number would be ignored, and match every vocabulary's terms.
-        $stored = $this->getStoredMembers(isset($options['vocabulary_id'])
-            ? ['vocabulary_id' => (int) $options['vocabulary_id']]
-            : ['vocabulary_namespace_uri' => $namespaceUri]);
+        // Get classes and properties from the database.
+        $stored = $vocabulary
+            ? $this->getStoredMembers(['vocabulary_id' => $vocabulary->id()])
+            : ['classes' => [], 'properties' => []];
 
         // Get classes and properties from the RDF graph.
         $options = $this->getReadingOptions($options);
@@ -930,26 +929,6 @@ class RdfImporter
     }
 
     /**
-     * Check whether a graph has a class or property in a namespace, as
-     * self::getMembersOfTypes() finds them.
-     *
-     * @param RdfGraph $graph
-     * @param string $namespaceUri
-     * @return bool
-     */
-    protected function hasMembers(RdfGraph $graph, $namespaceUri)
-    {
-        foreach (array_merge($this->classTypes, $this->propertyTypes) as $type) {
-            foreach ($graph->allOfType($type) as $resource) {
-                if ($resource->getUri() === $namespaceUri . $resource->localName()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
      * Count the classes and properties a graph has in a namespace, as
      * self::getMembersOfTypes() finds them, each once however many of the
      * types it has.
@@ -1038,7 +1017,7 @@ class RdfImporter
             }
         }
         $mostUsed = $this->getMostUsedNamespaceUri($graph);
-        if (null !== $mostUsed && $mostUsed !== $except && $this->hasMembers($graph, $mostUsed)) {
+        if (null !== $mostUsed && $mostUsed !== $except && array_sum($this->countMembers($graph, $mostUsed))) {
             // Terms named relative to the file are read in their place, and
             // their namespace URI is to be given.
             return [$mostUsed, 0 === strpos($mostUsed, self::RELATIVE_BASE) ? 'relative' : 'terms'];

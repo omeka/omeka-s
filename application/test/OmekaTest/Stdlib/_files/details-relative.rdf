@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- A vocabulary that names its terms relative to itself, with rdf:ID and
+     no xml:base, as files made by xsd2owl do: their namespace is the one the
+     file is read with. -->
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:dcterms="http://purl.org/dc/terms/">
+  <owl:Ontology rdf:about="">
+    <dcterms:title xml:lang="en">Relative vocabulary</dcterms:title>
+  </owl:Ontology>
+  <owl:Class rdf:ID="Thing"/>
+  <owl:DatatypeProperty rdf:ID="name"/>
+</rdf:RDF>

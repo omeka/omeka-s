@@ -1,0 +1,28 @@
+# A vocabulary that declares its namespace, prefix, title and description,
+# in English and French, beside a vocabulary it reuses, whose prefix isn't
+# its own. One class has two class types.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix declared: <http://example.org/declared#> .
+
+<http://example.org/declared> a owl:Ontology ;
+    vann:preferredNamespaceUri "http://example.org/declared#" ;
+    vann:preferredNamespacePrefix "decl" ;
+    dcterms:title "Declared vocabulary"@en, "Vocabulaire déclaré"@fr ;
+    dcterms:description """First paragraph.
+
+
+Second paragraph."""@en, "A changelog."@en, "Une description."@fr .
+
+<http://example.org/reused> a owl:Ontology ;
+    vann:preferredNamespacePrefix "reused" .
+
+declared:Thing a rdfs:Class, owl:Class ;
+    rdfs:label "Thing"@en, "Chose"@fr .
+
+declared:name a rdf:Property ;
+    rdfs:label "name"@en ;
+    rdfs:comment "Ein Name."@de .

@@ -7,6 +7,7 @@ use EasyRdf\Resource as RdfResource;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Api\Manager as ApiManager;
 use Omeka\Entity\Property;
+use Omeka\Entity\Vocabulary;
 use Omeka\Entity\ResourceClass;
 
 class RdfImporter
@@ -59,6 +60,14 @@ class RdfImporter
      * a large file can take more than PHP's default.
      */
     const MEMORY_LIMIT = '256M';
+
+    /**
+     * The base a file is read against when its namespace URI isn't known, so
+     * terms it names relative to itself, as with rdf:ID and no xml:base, can
+     * be told apart. The .invalid domain is reserved, so no vocabulary uses
+     * it.
+     */
+    const RELATIVE_BASE = 'http://relative.invalid/';
 
     /**
      * @var \Omeka\Api\Manager
@@ -350,6 +359,59 @@ class RdfImporter
             return $mostUsed;
         }
         return null;
+    }
+
+    /**
+     * Get what a vocabulary file says of the vocabulary it holds, for an
+     * import to start from.
+     *
+     * The namespace URI is the one the file declares
+     * (vann:preferredNamespaceUri), else its owl:Ontology's URI, or another
+     * form of either (see NamespaceUri::getForms()) with more classes and
+     * properties; else the one most of its classes and properties use. The
+     * prefix is the one it declares for that namespace, if Omeka can take
+     * it. The label and comment are its own title and description, in the
+     * language asked for if it has one, else English, else its first. A file
+     * that names its terms relative to itself has no namespace URI until one
+     * is given to read it with, so it has none here.
+     *
+     * @param string $strategy "file" or "url"
+     * @param array $options The file or URL, and the format; and lang: the
+     *   language to prefer for the label and comment
+     * @return array
+     *   - namespace_uri: null for a file that names its terms relative to
+     *     itself
+     *   - namespace_source: where the namespace URI was found: "declared",
+     *     "ontology", "variant" (another form of either), "terms", or
+     *     "relative"
+     *   - prefix, label, comment: null where the file says nothing
+     *   - languages: of its classes' and properties' labels and comments
+     *   - classes, properties: how many it has in the namespace
+     * @throws ValidationException When the file can't be read, or has no
+     *   classes or properties
+     */
+    public function getVocabularyDetails($strategy, array $options = [])
+    {
+        $graph = $this->getGraph($strategy, self::RELATIVE_BASE, $options);
+        [$namespaceUri, $source] = $this->findNamespaceUri($graph);
+        if (null === $namespaceUri) {
+            throw new ValidationException('No classes or properties found in this file.'); // @translate
+        }
+        $lang = $options['lang'] ?? null;
+        $counts = $this->countMembers($graph, $namespaceUri);
+        return [
+            'namespace_uri' => 'relative' === $source ? null : $namespaceUri,
+            'namespace_source' => $source,
+            'prefix' => $this->getDeclaredPrefix($graph, $namespaceUri),
+            'label' => $this->getVocabularyText($graph, $namespaceUri, 'dcterms:title|dc11:title|rdfs:label', $lang, false),
+            // A note only where there's no description: some element sets
+            // describe themselves in skos:note.
+            'comment' => $this->getVocabularyText($graph, $namespaceUri, 'dcterms:description|dc11:description|rdfs:comment|skos:definition', $lang, true)
+                ?? $this->getVocabularyText($graph, $namespaceUri, 'skos:note', $lang, true),
+            'languages' => $this->getGraphLanguages($graph, $namespaceUri, self::LABEL_PROPERTY . '|' . self::COMMENT_PROPERTY),
+            'classes' => $counts['classes'],
+            'properties' => $counts['properties'],
+        ];
     }
 
     /**
@@ -895,6 +957,247 @@ class RdfImporter
             }
         }
         return false;
+    }
+
+    /**
+     * Count the classes and properties a graph has in a namespace, as
+     * self::getMembersOfTypes() finds them, each once however many of the
+     * types it has.
+     *
+     * @param RdfGraph $graph
+     * @param string $namespaceUri
+     * @return array classes, properties
+     */
+    protected function countMembers(RdfGraph $graph, $namespaceUri)
+    {
+        $counts = [];
+        foreach (['classes' => $this->classTypes, 'properties' => $this->propertyTypes] as $kind => $types) {
+            $uris = [];
+            foreach ($types as $type) {
+                foreach ($graph->allOfType($type) as $resource) {
+                    if ($resource->getUri() === $namespaceUri . $resource->localName()) {
+                        $uris[$resource->getUri()] = true;
+                    }
+                }
+            }
+            $counts[$kind] = count($uris);
+        }
+        return $counts;
+    }
+
+    /**
+     * Find the namespace URI of a file's vocabulary, and where it was found.
+     *
+     * @see self::getVocabularyDetails()
+     * @param RdfGraph $graph
+     * @return array [namespace URI, source], or [null, null] when the file
+     *   has no classes or properties. For terms named relative to the file,
+     *   the URI is where they were read, under self::RELATIVE_BASE.
+     */
+    protected function findNamespaceUri(RdfGraph $graph)
+    {
+        $vann = 'http://purl.org/vocab/vann/preferredNamespaceUri';
+        $bases = [];
+        foreach ($graph->resourcesMatching($vann) as $resource) {
+            foreach ($resource->all("<$vann>") as $declared) {
+                $bases[] = [trim((string) $declared), 'declared'];
+            }
+        }
+        foreach ($graph->allOfType('owl:Ontology') as $ontology) {
+            // Not one named relative to the file, as with rdf:about="".
+            if (!$ontology->isBNode() && preg_match('#^https?://#', $ontology->getUri())
+                && 0 !== strpos($ontology->getUri(), self::RELATIVE_BASE)
+            ) {
+                $bases[] = [$ontology->getUri(), 'ontology'];
+            }
+        }
+        // The first that has classes or properties, in whichever of its
+        // forms has the most.
+        foreach ($bases as [$base, $source]) {
+            $best = null;
+            $bestCount = 0;
+            foreach (NamespaceUri::getForms($base) as $form) {
+                $count = array_sum($this->countMembers($graph, $form));
+                if ($count > $bestCount) {
+                    [$best, $bestCount] = [$form, $count];
+                }
+            }
+            if (null !== $best) {
+                return [$best, $best === $base ? $source : 'variant'];
+            }
+        }
+        $mostUsed = $this->getMostUsedNamespaceUri($graph);
+        if (null !== $mostUsed && $this->hasMembers($graph, $mostUsed)) {
+            // Terms named relative to the file are read in their place, and
+            // their namespace URI is to be given.
+            return [$mostUsed, 0 === strpos($mostUsed, self::RELATIVE_BASE) ? 'relative' : 'terms'];
+        }
+        return [null, null];
+    }
+
+    /**
+     * Get the prefix a file declares for its vocabulary
+     * (vann:preferredNamespacePrefix), on its ontology record or its
+     * namespace, if Omeka can take it as one. A file that also describes
+     * vocabularies it reuses may declare their prefixes on their records, so
+     * no other resource is read.
+     *
+     * @param RdfGraph $graph
+     * @param string $namespaceUri
+     * @return string|null
+     */
+    protected function getDeclaredPrefix(RdfGraph $graph, $namespaceUri)
+    {
+        $subjects = $this->getOwnOntologies($graph, $namespaceUri);
+        $subjects[] = $graph->resource($namespaceUri);
+        $subjects[] = $graph->resource(rtrim($namespaceUri, '#/'));
+        foreach ($subjects as $subject) {
+            try {
+                $prefix = trim((string) $subject->get('<http://purl.org/vocab/vann/preferredNamespacePrefix>'));
+            } catch (\Throwable $e) {
+                continue;
+            }
+            if ('' !== $prefix) {
+                return preg_match(Vocabulary::PREFIX_REGEX, $prefix) ? $prefix : null;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get a file's ontology records for a namespace.
+     *
+     * @param RdfGraph $graph
+     * @param string $namespaceUri
+     * @return RdfResource[]
+     */
+    protected function getOwnOntologies(RdfGraph $graph, $namespaceUri)
+    {
+        $base = rtrim($namespaceUri, '#/');
+        $own = [];
+        foreach ($graph->allOfType('owl:Ontology') as $ontology) {
+            if (rtrim((string) $ontology->getUri(), '#/') === $base) {
+                $own[] = $ontology;
+            }
+        }
+        return $own;
+    }
+
+    /**
+     * Get the records a file may describe its vocabulary in, in the order
+     * they're read: its ontology records for the namespace, or else its only
+     * one, which many files give another URI; then the namespace resource,
+     * with and without its closing # or /, as OAI-ORE describes itself; then
+     * the record most of its terms name with rdfs:isDefinedBy, as element
+     * sets from the Open Metadata Registry do.
+     *
+     * @param RdfGraph $graph
+     * @param string $namespaceUri
+     * @return RdfResource[]
+     */
+    protected function getVocabularyRecords(RdfGraph $graph, $namespaceUri)
+    {
+        $records = $this->getOwnOntologies($graph, $namespaceUri);
+        if (!$records) {
+            $all = $graph->allOfType('owl:Ontology');
+            $records = 1 === count($all) ? $all : [];
+        }
+        $records[] = $graph->resource($namespaceUri);
+        $records[] = $graph->resource(rtrim($namespaceUri, '#/'));
+        $counts = [];
+        foreach ($graph->resources() as $resource) {
+            if ($resource->isBNode() || 0 !== strpos($resource->getUri(), $namespaceUri)) {
+                continue;
+            }
+            foreach ($resource->allResources('rdfs:isDefinedBy') as $record) {
+                if (!$record->isBNode()) {
+                    $counts[$record->getUri()] = ($counts[$record->getUri()] ?? 0) + 1;
+                }
+            }
+        }
+        if ($counts) {
+            arsort($counts);
+            $records[] = $graph->resource(array_key_first($counts));
+        }
+        return $records;
+    }
+
+    /**
+     * Get a file's own text for its vocabulary, such as its title or
+     * description, from the first of its records that has it: in the
+     * language asked for if there's one, else English, else the first
+     * language a property has, taking those values and any without a
+     * language. A title is one line, from one value; a description keeps its
+     * paragraphs, and all its values, each a paragraph, as a description and
+     * a changelog may be.
+     *
+     * @param RdfGraph $graph
+     * @param string $namespaceUri
+     * @param string $properties Alternatives, as "a|b"
+     * @param string|null $lang
+     * @param bool $paragraphs
+     * @return string|null
+     */
+    protected function getVocabularyText(RdfGraph $graph, $namespaceUri, $properties, $lang, $paragraphs)
+    {
+        foreach ($this->getVocabularyRecords($graph, $namespaceUri) as $record) {
+            try {
+                $values = $this->getVocabularyValues($record, $properties, $lang);
+            } catch (\Throwable $e) {
+                // A value its datatype refuses, which isn't needed here.
+                continue;
+            }
+            $texts = [];
+            foreach ($values as $value) {
+                $text = trim(str_replace(["\r\n", "\r"], "\n", (string) $value));
+                if ('' === $text || !mb_check_encoding($text, 'UTF-8')) {
+                    continue;
+                }
+                if (!$paragraphs) {
+                    return preg_replace('/\s+/u', ' ', $text);
+                }
+                $texts[] = preg_replace("/\n\s*\n\s*/u", "\n\n", $text);
+            }
+            if ($texts) {
+                return implode("\n\n", $texts);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get a record's values for the first of some properties that has them
+     * in a language: the one asked for, then English, then any.
+     *
+     * @param RdfResource $record
+     * @param string $properties Alternatives, as "a|b"
+     * @param string|null $lang
+     * @return \EasyRdf\Literal[]
+     */
+    protected function getVocabularyValues(RdfResource $record, $properties, $lang)
+    {
+        foreach (array_unique(array_filter([$lang, 'en'])) as $language) {
+            foreach (explode('|', $properties) as $property) {
+                $values = array_filter($record->all($property, 'literal'), function ($value) use ($language) {
+                    return in_array((string) $value->getLang(), [$language, ''], true);
+                });
+                if (array_filter($values, function ($value) use ($language) {
+                    return $language === $value->getLang();
+                })) {
+                    return array_values($values);
+                }
+            }
+        }
+        foreach (explode('|', $properties) as $property) {
+            $values = $record->all($property, 'literal');
+            if ($values) {
+                $first = (string) $values[0]->getLang();
+                return array_values(array_filter($values, function ($value) use ($first) {
+                    return in_array((string) $value->getLang(), [$first, ''], true);
+                }));
+            }
+        }
+        return [];
     }
 
     /**

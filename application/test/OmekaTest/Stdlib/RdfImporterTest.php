@@ -322,6 +322,86 @@ class RdfImporterTest extends DbTestCase
         }
     }
 
+    /**
+     * What a file of the tests' says of its vocabulary.
+     *
+     * @param string $file A file in _files
+     * @param array $options
+     * @return array
+     */
+    protected function details($file, array $options = [])
+    {
+        return $this->rdfImporter->getVocabularyDetails('file', ['file' => __DIR__ . '/_files/' . $file, 'format' => 'turtle'] + $options);
+    }
+
+    public function testVocabularyDetailsAsDeclared()
+    {
+        $details = $this->details('details-declared.ttl');
+        $this->assertSame('http://example.org/declared#', $details['namespace_uri']);
+        $this->assertSame('declared', $details['namespace_source']);
+        // Its own prefix, not the one of a vocabulary it reuses.
+        $this->assertSame('decl', $details['prefix']);
+        // In English by default, its description's values and paragraphs
+        // each a paragraph.
+        $this->assertSame('Declared vocabulary', $details['label']);
+        $this->assertSame("First paragraph.\n\nSecond paragraph.\n\nA changelog.", $details['comment']);
+        $this->assertSame(['de', 'en', 'fr'], $details['languages']);
+        // A class with two class types is one class.
+        $this->assertSame(1, $details['classes']);
+        $this->assertSame(1, $details['properties']);
+
+        // In another language asked for.
+        $details = $this->details('details-declared.ttl', ['lang' => 'fr']);
+        $this->assertSame('Vocabulaire déclaré', $details['label']);
+        $this->assertSame('Une description.', $details['comment']);
+    }
+
+    public function testVocabularyDetailsInAnotherFormOfTheDeclaredNamespace()
+    {
+        $details = $this->details('details-variant.ttl');
+        $this->assertSame('http://example.org/variant#', $details['namespace_uri']);
+        $this->assertSame('variant', $details['namespace_source']);
+        // A prefix Omeka can't take is left for the admin to give.
+        $this->assertNull($details['prefix']);
+        $this->assertNull($details['label']);
+        // A note, where there's no description.
+        $this->assertSame('Described in a note.', $details['comment']);
+    }
+
+    public function testVocabularyDetailsFromItsTermsAlone()
+    {
+        $details = $this->details('details-terms.ttl');
+        $this->assertSame('http://example.org/terms#', $details['namespace_uri']);
+        $this->assertSame('terms', $details['namespace_source']);
+        $this->assertNull($details['prefix']);
+        // From the record its terms name.
+        $this->assertSame('Terms by their record', $details['label']);
+        $this->assertSame(1, $details['classes']);
+        $this->assertSame(2, $details['properties']);
+    }
+
+    public function testVocabularyDetailsOfAFileNamingItsTermsRelativeToItself()
+    {
+        $details = $this->rdfImporter->getVocabularyDetails('file', ['file' => __DIR__ . '/_files/details-relative.rdf', 'format' => 'rdfxml']);
+        // Its namespace URI is to be given.
+        $this->assertNull($details['namespace_uri']);
+        $this->assertSame('relative', $details['namespace_source']);
+        $this->assertSame('Relative vocabulary', $details['label']);
+        $this->assertSame(1, $details['classes']);
+        $this->assertSame(1, $details['properties']);
+        // Read with one, its terms are in it.
+        $members = $this->rdfImporter->getMembers('file', 'http://example.org/relative#', ['file' => __DIR__ . '/_files/details-relative.rdf', 'format' => 'rdfxml']);
+        $this->assertSame(['Thing'], array_keys($members['classes']));
+        $this->assertSame(['name'], array_keys($members['properties']));
+    }
+
+    public function testVocabularyDetailsOfAFileWithoutTerms()
+    {
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('No classes or properties found in this file.');
+        $this->details('empty.ttl');
+    }
+
     public function memoryLimits()
     {
         return [

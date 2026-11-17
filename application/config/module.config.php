@@ -278,6 +278,7 @@ return [
             'Omeka\Paginator' => Service\PaginatorFactory::class,
             'Omeka\RdfImporter' => Service\RdfImporterFactory::class,
             'Omeka\VocabularyReview' => Service\VocabularyReviewFactory::class,
+            'Omeka\VocabularyFileStore' => Service\VocabularyFileStoreFactory::class,
             'Omeka\Site\ThemeManager' => Service\ThemeManagerFactory::class,
             'Omeka\Site\NavigationLinkManager' => Service\NavigationLinkManagerFactory::class,
             'Omeka\Site\NavigationTranslator' => Service\SiteNavigationTranslatorFactory::class,

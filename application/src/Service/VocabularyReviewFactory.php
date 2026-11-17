@@ -16,10 +16,10 @@ class VocabularyReviewFactory implements FactoryInterface
     {
         return new VocabularyReview(
             $serviceLocator->get('Omeka\RdfImporter'),
+            $serviceLocator->get('Omeka\VocabularyFileStore'),
             $serviceLocator->get('Omeka\ApiManager'),
             $serviceLocator->get('Omeka\EntityManager'),
-            $serviceLocator->get('Router'),
-            $serviceLocator->get('Config')['temp_dir']
+            $serviceLocator->get('Router')
         );
     }
 }

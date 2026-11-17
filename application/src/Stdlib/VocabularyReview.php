@@ -2,8 +2,6 @@
 namespace Omeka\Stdlib;
 
 use Doctrine\ORM\EntityManager;
-use EasyRdf\Http;
-use EasyRdf\Http\Client as HttpClient;
 use Laminas\Router\RouteStackInterface;
 use Laminas\Session\Container;
 use Omeka\Api\Exception\ValidationException;
@@ -14,8 +12,8 @@ use Omeka\Permissions\Exception\PermissionDeniedException;
  * Reviews of the changes a file would make to a vocabulary, kept on the
  * server until they're accepted or cancelled.
  *
- * A review holds a copy of the file in Omeka's temporary directory, how the
- * file is read, and any pending change to the vocabulary's namespace URI.
+ * A review holds its file, kept on the server (see VocabularyFileStore), how
+ * the file is read, and any pending change to the vocabulary's namespace URI.
  * It's kept in the session under a token the review page's URL carries, so
  * the browser never holds the changes, and every look at them reads the same
  * file.
@@ -23,26 +21,14 @@ use Omeka\Permissions\Exception\PermissionDeniedException;
 class VocabularyReview
 {
     /**
-     * The start of the names of reviews' files in the temporary directory.
-     */
-    const FILE_PREFIX = 'omeka-vocabulary-review-';
-
-    /**
-     * How long a review's file is kept, in seconds, after which it's removed
-     * the next time a review starts.
-     */
-    const MAX_AGE = 86400;
-
-    /**
-     * How many redirects fetching a file by URL follows, as EasyRdf's client
-     * does by default.
-     */
-    const MAX_REDIRECTS = 5;
-
-    /**
      * @var RdfImporter
      */
     protected $rdfImporter;
+
+    /**
+     * @var VocabularyFileStore
+     */
+    protected $fileStore;
 
     /**
      * @var ApiManager
@@ -60,30 +46,25 @@ class VocabularyReview
     protected $router;
 
     /**
-     * @var string
-     */
-    protected $tempDir;
-
-    /**
      * @var Container
      */
     protected $session;
 
     /**
      * @param RdfImporter $rdfImporter
+     * @param VocabularyFileStore $fileStore
      * @param ApiManager $apiManager
      * @param EntityManager $entityManager
      * @param RouteStackInterface $router
-     * @param string $tempDir
      */
-    public function __construct(RdfImporter $rdfImporter, ApiManager $apiManager,
-        EntityManager $entityManager, RouteStackInterface $router, $tempDir
+    public function __construct(RdfImporter $rdfImporter, VocabularyFileStore $fileStore,
+        ApiManager $apiManager, EntityManager $entityManager, RouteStackInterface $router
     ) {
         $this->rdfImporter = $rdfImporter;
+        $this->fileStore = $fileStore;
         $this->apiManager = $apiManager;
         $this->entityManager = $entityManager;
         $this->router = $router;
-        $this->tempDir = $tempDir;
     }
 
     /**
@@ -109,12 +90,8 @@ class VocabularyReview
      */
     public function start($vocabularyId, $filePath, array $readingOptions = [], array $reviewOptions = [])
     {
-        if (!is_readable($filePath)) {
-            throw new ValidationException('Could not read vocabulary file.'); // @translate
-        }
-        return $this->begin($vocabularyId, function ($path) use ($filePath) {
-            return copy($filePath, $path);
-        }, $readingOptions, $reviewOptions);
+        $this->checkReturnUrl($reviewOptions);
+        return $this->begin($vocabularyId, $this->fileStore->keep($filePath), $readingOptions, $reviewOptions);
     }
 
     /**
@@ -130,9 +107,8 @@ class VocabularyReview
      */
     public function startFromUrl($vocabularyId, $url, array $readingOptions = [], array $reviewOptions = [])
     {
-        return $this->begin($vocabularyId, function ($path) use ($url) {
-            return false !== file_put_contents($path, $this->fetch($url));
-        }, $readingOptions, $reviewOptions);
+        $this->checkReturnUrl($reviewOptions);
+        return $this->begin($vocabularyId, $this->fileStore->keepFromUrl($url), $readingOptions, $reviewOptions);
     }
 
     /**
@@ -146,10 +122,11 @@ class VocabularyReview
     public function get($token)
     {
         $review = $this->getSession()->offsetGet((string) $token);
-        if (!is_array($review) || !is_readable($review['file'])) {
+        $file = is_array($review) ? $this->fileStore->getPath($review['file_token']) : null;
+        if (null === $file) {
             return null;
         }
-        return $review;
+        return ['file' => $file] + $review;
     }
 
     /**
@@ -297,44 +274,30 @@ class VocabularyReview
     }
 
     /**
-     * Start a review, with its file written by a callback.
+     * Start a review of a kept file.
      *
      * @param int $vocabularyId
-     * @param callable $write Writes the file to the path it's passed,
-     *   returning whether it could
+     * @param string $fileToken The file's token in the file store, whose file
+     *   the review then has, and removes when it ends
      * @param array $readingOptions
      * @param array $reviewOptions
      * @return string The review page's URL
      */
-    protected function begin($vocabularyId, callable $write, array $readingOptions, array $reviewOptions)
+    protected function begin($vocabularyId, $fileToken, array $readingOptions, array $reviewOptions)
     {
-        $vocabulary = $this->apiManager->read('vocabularies', $vocabularyId)->getContent();
-        $returnUrl = $reviewOptions['return_url'] ?? null;
-        if (null !== $returnUrl && !$this->isLocalPath($returnUrl)) {
-            throw new \InvalidArgumentException('A review\'s return URL must be a local path.');
-        }
-        $this->removeOldFiles();
-        $path = tempnam($this->tempDir, self::FILE_PREFIX);
-        if (false === $path) {
-            throw new ValidationException('Could not read vocabulary file.'); // @translate
-        }
-        try {
-            if (!$write($path)) {
-                throw new ValidationException('Could not read vocabulary file.'); // @translate
-            }
-        } catch (\Exception $e) {
-            unlink($path);
-            throw $e;
-        }
+        $path = $this->fileStore->getPath($fileToken);
         $review = [
-            'vocabulary_id' => $vocabulary->id(),
+            'vocabulary_id' => null,
             'file' => $path,
+            'file_token' => $fileToken,
             'reading' => [],
             'namespace_uri' => $reviewOptions['namespace_uri'] ?? null,
-            'return_url' => $returnUrl,
+            'return_url' => $reviewOptions['return_url'] ?? null,
             'source_label' => $reviewOptions['source_label'] ?? null,
         ];
         try {
+            $vocabulary = $this->apiManager->read('vocabularies', $vocabularyId)->getContent();
+            $review['vocabulary_id'] = $vocabulary->id();
             $review['reading'] = $this->getStartingReading($vocabulary, $review, $readingOptions);
             // A file that can't be read, has no terms in the namespace, or
             // has terms too long to store, is refused now rather than
@@ -346,9 +309,11 @@ class VocabularyReview
             ]);
             $this->getDiff($review, $review['reading']);
         } catch (\Exception $e) {
-            unlink($path);
+            $this->fileStore->remove($fileToken);
             throw $e;
         }
+        // The file's path is the store's to keep, and get() asks it.
+        unset($review['file']);
         $token = bin2hex(random_bytes(16));
         $this->getSession()->offsetSet($token, $review);
         return $this->router->assemble(
@@ -397,57 +362,25 @@ class VocabularyReview
     {
         $session = $this->getSession();
         $review = $session->offsetGet((string) $token);
-        if (is_array($review) && is_file($review['file'])) {
-            unlink($review['file']);
+        if (is_array($review)) {
+            $this->fileStore->remove($review['file_token']);
         }
         $session->offsetUnset((string) $token);
     }
 
     /**
-     * Remove reviews' files older than self::MAX_AGE, from reviews that
-     * were never accepted or cancelled.
-     */
-    protected function removeOldFiles()
-    {
-        foreach (glob($this->tempDir . '/' . self::FILE_PREFIX . '*') ?: [] as $path) {
-            if (is_file($path) && filemtime($path) < time() - self::MAX_AGE) {
-                @unlink($path);
-            }
-        }
-    }
-
-    /**
-     * Fetch the file at a URL with EasyRdf's HTTP client, asking for the
-     * formats the importer reads, as EasyRdf does when it loads a URL.
+     * Check that a review's return URL, if it has one, is a path on this
+     * site, before its file is kept.
      *
-     * @param string $url
-     * @return string
+     * @param array $reviewOptions
+     * @throws \InvalidArgumentException
      */
-    protected function fetch($url)
+    protected function checkReturnUrl(array $reviewOptions)
     {
-        $accept = 'application/ld+json,application/rdf+xml;q=0.9,text/turtle;q=0.8,application/n-triples;q=0.7';
-        $client = Http::getDefaultHttpClient();
-        $client->resetParameters(true);
-        $client->setUri($url);
-        // Follow redirects, as from purl.org or http to https. EasyRdf's
-        // Graph::load() turns the shared client's following off, since it
-        // follows them itself, and the setting outlasts it.
-        if ($client instanceof HttpClient) {
-            $client->setConfig(['maxredirects' => self::MAX_REDIRECTS]);
-            $client->setHeaders('Accept', $accept);
-        } else {
-            $client->setOptions(['maxredirects' => self::MAX_REDIRECTS]);
-            $client->setHeaders(['Accept' => $accept]);
+        $returnUrl = $reviewOptions['return_url'] ?? null;
+        if (null !== $returnUrl && !$this->isLocalPath($returnUrl)) {
+            throw new \InvalidArgumentException('A review\'s return URL must be a local path.');
         }
-        try {
-            $response = $client->request('GET');
-        } catch (\Exception $e) {
-            throw new ValidationException('Could not load vocabulary from URL.'); // @translate
-        }
-        if (!$response->isSuccessful()) {
-            throw new ValidationException('Could not load vocabulary from URL.'); // @translate
-        }
-        return $response->getBody();
     }
 
     /**

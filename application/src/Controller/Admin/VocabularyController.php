@@ -113,6 +113,7 @@ class VocabularyController extends AbstractActionController
                 if (!$source) {
                     $this->messenger()->addError('Choose a file or enter a URL.'); // @translate
                 } else {
+                    $this->forgetEndedImports();
                     $token = null;
                     try {
                         $token = isset($source['file'])
@@ -181,17 +182,11 @@ class VocabularyController extends AbstractActionController
         // The namespace URI found may be another vocabulary's, as when a
         // file redeclares terms it reuses, so it's said, for the admin to
         // update that one instead or give the file's own.
-        $other = null === $details['namespace_uri'] ? null : $this->getVocabularyWithNamespace($details['namespace_uri']);
-        if (!$request->isPost() && $other) {
-            $message = new Message(
-                !$other->isPermanent() && $other->userIsAllowed('update')
-                    ? 'Omeka already has a vocabulary with the namespace URI this file appears to use, "%1$s": %2$s. If the file is that vocabulary, update it from its page instead. If not, enter the file\'s own namespace URI below.' // @translate
-                    : 'Omeka already has a vocabulary with the namespace URI this file appears to use, "%1$s": %2$s. If the file is a different vocabulary, enter its own namespace URI below.', // @translate
-                htmlspecialchars($other->namespaceUri()),
-                sprintf('<a href="%s">%s</a>', htmlspecialchars($other->url()), htmlspecialchars($other->label()))
-            );
-            $message->setEscapeHtml(false);
-            $this->messenger()->addWarning($message);
+        if (!$request->isPost() && null !== $details['namespace_uri']) {
+            $other = $this->getVocabularyWithNamespace($details['namespace_uri']);
+            if ($other) {
+                $this->messenger()->addWarning($this->getAlreadyHasMessage($other, true));
+            }
         }
         if ($request->isPost()) {
             // The form posts to the page's own URL, query and all.
@@ -215,8 +210,7 @@ class VocabularyController extends AbstractActionController
                     try {
                         $response = $this->rdfImporter->import('file', $data['vocabulary-info'], $options);
                         $this->fileStore->remove($token);
-                        $session = new Container('OmekaVocabularyImport');
-                        unset($session[$token . ':' . $format]);
+                        $this->getImportSession()->offsetUnset($token . ':' . $format);
                         $message = new Message(
                             'Vocabulary successfully imported. %s', // @translate
                             sprintf(
@@ -685,7 +679,7 @@ class VocabularyController extends AbstractActionController
     {
         // Read once an import, at its first step: the details step shows
         // them, and posts back to itself.
-        $session = new Container('OmekaVocabularyImport');
+        $session = $this->getImportSession();
         $key = $token . ':' . $format;
         if (!isset($session[$key])) {
             $session[$key] = $this->rdfImporter->getVocabularyDetails('file', [
@@ -695,6 +689,31 @@ class VocabularyController extends AbstractActionController
             ]);
         }
         return $session[$key];
+    }
+
+    /**
+     * Get the session container imports' details are kept in, by their
+     * file's token and format.
+     *
+     * @return Container
+     */
+    protected function getImportSession()
+    {
+        return new Container('OmekaVocabularyImport');
+    }
+
+    /**
+     * Forget the details of imports whose kept file has gone: cancelled,
+     * and cleared out after a day.
+     */
+    protected function forgetEndedImports()
+    {
+        $session = $this->getImportSession();
+        foreach (array_keys($session->getArrayCopy()) as $key) {
+            if (null === $this->fileStore->getPath(strtok($key, ':'))) {
+                $session->offsetUnset($key);
+            }
+        }
     }
 
     /**
@@ -759,17 +778,32 @@ class VocabularyController extends AbstractActionController
      * saying how to update it only to someone who may.
      *
      * @param \Omeka\Api\Representation\VocabularyRepresentation $vocabulary
+     * @param bool $found Whether its namespace URI is the one found in the
+     *   file, which may be wrong and can be corrected, rather than given
      * @return Message
      */
-    protected function getAlreadyHasMessage($vocabulary)
+    protected function getAlreadyHasMessage($vocabulary, $found = false)
     {
-        $message = new Message(
-            !$vocabulary->isPermanent() && $vocabulary->userIsAllowed('update')
-                ? 'Omeka already has this vocabulary, as "%1$s" with the namespace URI "%2$s". To update it, use Update classes and properties on its page.' // @translate
-                : 'Omeka already has this vocabulary, as "%1$s" with the namespace URI "%2$s".', // @translate
-            sprintf('<a href="%s">%s</a>', htmlspecialchars($vocabulary->url()), htmlspecialchars($vocabulary->label())),
-            htmlspecialchars($vocabulary->namespaceUri())
-        );
+        $mayUpdate = !$vocabulary->isPermanent() && $vocabulary->userIsAllowed('update');
+        $link = sprintf('<a href="%s">%s</a>', htmlspecialchars($vocabulary->url()), htmlspecialchars($vocabulary->label()));
+        $namespaceUri = htmlspecialchars($vocabulary->namespaceUri());
+        if ($found) {
+            $message = new Message(
+                $mayUpdate
+                    ? 'Omeka already has a vocabulary with the namespace URI this file appears to use, "%1$s": %2$s. If the file is that vocabulary, update it from its page instead. If not, enter the file\'s own namespace URI below.' // @translate
+                    : 'Omeka already has a vocabulary with the namespace URI this file appears to use, "%1$s": %2$s. If the file is a different vocabulary, enter its own namespace URI below.', // @translate
+                $namespaceUri,
+                $link
+            );
+        } else {
+            $message = new Message(
+                $mayUpdate
+                    ? 'Omeka already has this vocabulary, as "%1$s" with the namespace URI "%2$s". To update it, use Update classes and properties on its page.' // @translate
+                    : 'Omeka already has this vocabulary, as "%1$s" with the namespace URI "%2$s".', // @translate
+                $link,
+                $namespaceUri
+            );
+        }
         $message->setEscapeHtml(false);
         return $message;
     }

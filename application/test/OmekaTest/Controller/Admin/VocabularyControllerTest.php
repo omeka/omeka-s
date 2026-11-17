@@ -829,6 +829,19 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString('value="Declared vocabulary"', html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
     }
 
+    public function testImportDetailsOfEndedImportsAreForgottenWhenOneStarts()
+    {
+        $this->startImport('../../../Stdlib/_files/details-declared.ttl');
+        parse_str((string) parse_url($this->importDetailsUrl(), PHP_URL_QUERY), $query);
+        $ended = $query['file'] . ':' . $query['format'];
+        $session = new \Laminas\Session\Container('OmekaVocabularyImport');
+        $this->assertArrayHasKey($ended, $session->getArrayCopy());
+        // Its file gone, as when it's cancelled and cleared out.
+        $this->getApplicationServiceLocator()->get('Omeka\VocabularyFileStore')->remove($query['file']);
+        $this->startImport('../../../Stdlib/_files/details-declared.ttl');
+        $this->assertArrayNotHasKey($ended, (new \Laminas\Session\Container('OmekaVocabularyImport'))->getArrayCopy());
+    }
+
     public function testImportFromTheFileLandsOnTheVocabularysPage()
     {
         $tempDir = $this->getApplicationServiceLocator()->get('Config')['temp_dir'];

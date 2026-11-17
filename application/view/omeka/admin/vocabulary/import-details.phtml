@@ -13,12 +13,9 @@ $form->prepare();
     <?php echo $this->hyperlink($translate('Cancel'), $this->url('admin/default', ['controller' => 'vocabulary', 'action' => 'browse']), ['class' => 'button']); ?>
     <button><?php echo $translate('Import'); ?></button>
 </div>
-<p>
-    <?php echo $translate('These start as the file gives them. Check them, then import.'); ?>
-    <?php echo sprintf($translate('Classes found: %1$s. Properties found: %2$s.'), $details['classes'], $details['properties']); ?>
-</p>
+<p><?php echo $translate('The fields below are filled in from the file. Check them, then import.'); ?></p>
 <?php if (null === $details['namespace_uri']): ?>
-<p><?php echo $translate('The file names its classes and properties relative to itself, so it doesn\'t give their namespace URI. Enter it below.'); ?></p>
+<p><?php echo $translate('The file doesn\'t say which namespace URI its classes and properties are in. Enter it below.'); ?></p>
 <?php endif; ?>
 <?php echo $this->formCollection($form, false); ?>
 <?php echo $this->form()->closeTag(); ?>

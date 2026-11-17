@@ -103,7 +103,7 @@ if (null !== $diff) {
         ['id' => 'review-property-comments', 'heading' => $translate('Changed property comments'), 'columns' => [$kinds['properties'], $translate('From'), $translate('To')], 'rows' => $changed($diff['properties']['comment'], $labels['properties']), 'class' => 'review-changes'],
         ['id' => 'review-class-comments', 'heading' => $translate('Changed class comments'), 'columns' => [$kinds['classes'], $translate('From'), $translate('To')], 'rows' => $changed($diff['classes']['comment'], $labels['classes']), 'class' => 'review-changes'],
     ];
-    $onlyInOmeka = sprintf($translate('Omeka\'s vocabulary has these and %s doesn\'t. Accepting keeps them.'), $escape($sourceLabel));
+    $onlyInOmeka = sprintf($translate('This vocabulary has these, and %s doesn\'t. Accepting keeps them.'), $escape($sourceLabel));
     $sections[] = ['id' => 'review-properties-only-in-omeka', 'heading' => $translate('Properties only in Omeka'), 'columns' => [$kinds['properties'], $translate('Label')], 'rows' => $listed($missing['properties']), 'note' => $onlyInOmeka];
     $sections[] = ['id' => 'review-classes-only-in-omeka', 'heading' => $translate('Classes only in Omeka'), 'columns' => [$kinds['classes'], $translate('Label')], 'rows' => $listed($missing['classes']), 'note' => $onlyInOmeka];
 }
@@ -169,7 +169,7 @@ $changes = null !== $diff && ($termChanges || $fieldRows || $namespaceChanges);
             <label for="review-comments"><?php echo $translate('Comments'); ?></label>
             <a href="#" class="expand" aria-expanded="false" aria-controls="review-comments-description" aria-label="<?php echo $escape($translate('Expand')); ?>"></a>
             <div class="collapsible" id="review-comments-description">
-                <div class="field-description"><?php echo $translate('Omeka can use a term\'s definition (skos:definition) as its comment, in place of rdfs:comment.'); ?></div>
+                <div class="field-description"><?php echo $translate('Where each term\'s comment is read from: its comment (rdfs:comment), or its definition (skos:definition) where it has one.'); ?></div>
             </div>
         </div>
         <div class="inputs">
@@ -212,7 +212,7 @@ $changes = null !== $diff && ($termChanges || $fieldRows || $namespaceChanges);
 <?php if ($changes): ?>
 <p><?php echo sprintf($translate('Accepting makes the changes below, from %s. It removes nothing.'), $escape($sourceLabel)); ?></p>
 <?php else: ?>
-<p><?php echo sprintf($translate('Omeka\'s vocabulary already matches %s.'), $escape($sourceLabel)); ?></p>
+<p><?php echo sprintf($translate('This vocabulary already matches %s.'), $escape($sourceLabel)); ?></p>
 <?php endif; ?>
 <?php endif; ?>
 

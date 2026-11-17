@@ -599,7 +599,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     public function testReviewWithoutChangesOffersOnlyBack()
     {
         $page = html_entity_decode($this->reviewPage($this->startReview('unchanged.ttl')), ENT_QUOTES | ENT_HTML5);
-        $this->assertStringContainsString('Omeka\'s vocabulary already matches the file.', $page);
+        $this->assertStringContainsString('This vocabulary already matches the file.', $page);
         $this->assertMatchesRegularExpression('#<button type="submit" class="button" formaction="[^"]*/cancel">Back</button>#', $page);
         $this->assertStringNotContainsString('Accept changes', $page);
 
@@ -763,7 +763,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString('value="Declared vocabulary"', $page);
         $this->assertStringContainsString('value="http://example.org/declared#"', $page);
         $this->assertStringContainsString('value="decl"', $page);
-        $this->assertStringContainsString('Classes found: 1. Properties found: 1.', $page);
+        $this->assertStringContainsString('The fields below are filled in from the file. Check them, then import.', $page);
         // Its languages to choose from, English by default.
         $this->assertMatchesRegularExpression('#<option value="en" selected>[^<]*</option>#', $page);
         $this->assertMatchesRegularExpression('#<option value="fr">[^<]*</option>#', $page);
@@ -908,7 +908,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             $url = $this->importDetailsUrl();
             $this->requestAs(self::ADMIN, 'GET', $url);
             $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
-            $this->assertStringContainsString("The file names its classes and properties relative to itself, so it doesn't give their namespace URI. Enter it below.", $page);
+            $this->assertStringContainsString("The file doesn't say which namespace URI its classes and properties are in. Enter it below.", $page);
             $this->assertStringContainsString('name="vocabulary-info[o:namespace_uri]" required id="o:namespace_uri" data-confirm-ends-with="', $page);
             $this->assertStringContainsString('value=""', $page);
             $this->assertSame(302, $this->finishImport($url, [

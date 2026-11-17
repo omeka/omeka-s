@@ -306,7 +306,7 @@ class VocabularyForm extends Form
             'type' => 'select',
             'options' => [
                 'label' => 'Comments', // @translate
-                'info' => 'Omeka can use a term\'s definition (skos:definition) as its comment, in place of rdfs:comment.', // @translate
+                'info' => 'Where each term\'s comment is read from: its comment (rdfs:comment), or its definition (skos:definition) where it has one.', // @translate
                 'value_options' => [
                     'comment' => 'Comment', // @translate
                     'definition' => 'Definition where there is one, else comment', // @translate

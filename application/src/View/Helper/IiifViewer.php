@@ -25,7 +25,7 @@ class IiifViewer extends AbstractHelper
         $title = $options['title'] ?? null;
         $src = $view->url('iiif-viewer', [], ['force_canonical' => true, 'query' => $query]);
         return sprintf(
-            '<iframe style="width: %s; height: %s;" aria-label="%s" src="%s"></iframe>',
+            '<iframe loading="lazy" style="width: %s; height: %s;" aria-label="%s" src="%s"></iframe>',
             $width,
             $height,
             $view->escapeHtml($title),

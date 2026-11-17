@@ -656,6 +656,18 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString('<input type="text" name="comment_property" id="review-comment-property" value="">', $page);
     }
 
+    public function testAnotherCommentPropertyLeftBlankKeepsTheReviewsReading()
+    {
+        $this->api()->update('vocabularies', $this->vocabularyId, [
+            'o:import_options' => ['format' => 'turtle', 'comment_property' => RdfImporter::DEFINITION_COMMENT_PROPERTY],
+        ], [], ['isPartial' => true]);
+        $token = $this->startReview('changed-name.ttl');
+        $page = html_entity_decode($this->reviewPage($token, ['comments' => 'other', 'comment_property' => ' ']), ENT_QUOTES | ENT_HTML5);
+        $this->assertStringContainsString('<option value="definition" selected>', $page);
+        $this->assertStringContainsString('<input type="hidden" name="comment_property" value="">', $page);
+        $this->assertStringContainsString('<input type="hidden" name="comments" value="definition">', $page);
+    }
+
     public function testAcceptAppliesNamespaceAndTermsTogether()
     {
         // As a module starts it, knowing the file's namespace.

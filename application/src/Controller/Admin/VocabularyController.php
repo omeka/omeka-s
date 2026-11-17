@@ -607,7 +607,8 @@ class VocabularyController extends AbstractActionController
     /**
      * Get the property comments are read from, as chosen: a reading offered
      * (see RdfImporter::COMMENT_READINGS), or "other", the comment property
-     * entered, or the default where none is.
+     * entered. Another with none entered is no choice, so a review keeps its
+     * reading, and an import reads as by default.
      *
      * @param array $params With "comments" and "comment_property"
      * @return string|null Null where nothing was chosen
@@ -620,7 +621,7 @@ class VocabularyController extends AbstractActionController
         }
         if ('other' === $comments) {
             $property = is_string($params['comment_property'] ?? null) ? trim($params['comment_property']) : '';
-            return '' === $property ? RdfImporter::COMMENT_PROPERTY : $property;
+            return '' === $property ? null : $property;
         }
         return RdfImporter::COMMENT_READINGS[$comments] ?? null;
     }

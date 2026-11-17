@@ -997,17 +997,52 @@ class RdfImporter
                 if (!$paragraphs) {
                     return preg_replace('/\s+/u', ' ', $text);
                 }
-                // Keep its line breaks, which may be meant, but not the
-                // indentation of a wrapped line, as in "First line,\n    and
-                // the next.", and not more than one blank line in a row.
-                $text = preg_replace('/[ \t]*\n[ \t]*/u', "\n", $text);
-                $texts[] = preg_replace("/\n\n+/u", "\n\n", $text);
+                $texts[] = $this->getUnindentedText($text);
             }
             if ($texts) {
                 return implode("\n\n", $texts);
             }
         }
         return null;
+    }
+
+    /**
+     * Get a description without the indentation a file adds when it wraps
+     * a value over several lines, keeping its line breaks and any
+     * indentation of its own.
+     *
+     * Only the indentation every line after the first shares is removed.
+     * "First line,\n    and the next." comes out as "First line,\nand the
+     * next.", while "Rules:\n1. A rule,\n   wrapped." keeps its hanging
+     * indent, as "1." starts at the margin. Spaces at the ends of lines go,
+     * and blank lines come down to one in a row.
+     *
+     * @param string $text Trimmed, with "\n" line breaks
+     * @return string
+     */
+    protected function getUnindentedText($text)
+    {
+        // Without the spaces at their ends, so a line of only spaces is
+        // blank.
+        $lines = preg_split('/[^\S\n]*\n/u', $text);
+        $shared = null;
+        foreach (array_slice($lines, 1) as $line) {
+            if ('' === $line) {
+                continue;
+            }
+            preg_match('/^[ \t]*/', $line, $match);
+            $shared ??= $match[0];
+            // Shortened to what this line's indentation starts with too.
+            while (0 !== strpos($match[0], $shared)) {
+                $shared = substr($shared, 0, -1);
+            }
+        }
+        foreach ($lines as $i => $line) {
+            if ($i && '' !== $line) {
+                $lines[$i] = substr($line, strlen((string) $shared));
+            }
+        }
+        return preg_replace("/\n\n+/", "\n\n", implode("\n", $lines));
     }
 
     /**

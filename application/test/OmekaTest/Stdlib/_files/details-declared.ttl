@@ -1,8 +1,9 @@
 # A vocabulary that declares its namespace, prefix, title and description,
 # in English and French, beside a vocabulary it reuses, whose prefix isn't
-# its own. Its description has a wrapped, indented line and blank lines
-# with spaces and tabs. One class has two class types, and one property a
-# definition in a language nothing else has.
+# its own. Its description has a wrapped, indented value with blank lines
+# of spaces and tabs, and one with a hanging indent of its own. One class
+# has two class types, and one property a definition in a language nothing
+# else has.
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -19,7 +20,10 @@
         wrapped and indented.
     	
 	
-Second paragraph."""@en, "A changelog."@en, "Une description."@fr .
+        Second paragraph."""@en, "A changelog."@en, """Rules:
+1. A rule,
+   with a hanging indent.
+2. Another."""@en, "Une description."@fr .
 
 <http://example.org/reused> a owl:Ontology ;
     vann:preferredNamespacePrefix "reused" .

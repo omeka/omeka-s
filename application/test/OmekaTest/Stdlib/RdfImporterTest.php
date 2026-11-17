@@ -333,6 +333,19 @@ class RdfImporterTest extends DbTestCase
         return $this->rdfImporter->getVocabularyDetails('file', ['file' => __DIR__ . '/_files/' . $file, 'format' => 'turtle'] + $options);
     }
 
+    public function testReadingAnotherGraphFreesTheLastOne()
+    {
+        // As an import's details and then the import itself read one file,
+        // with different bases, so the second read can't reuse the first.
+        $options = ['file' => __DIR__ . '/_files/details-declared.ttl', 'format' => 'turtle'];
+        $details = $this->rdfImporter->getVocabularyDetails('file', $options);
+        $lastFileGraph = new \ReflectionProperty($this->rdfImporter, 'lastFileGraph');
+        $lastFileGraph->setAccessible(true);
+        $first = \WeakReference::create($lastFileGraph->getValue($this->rdfImporter)[1]);
+        $this->rdfImporter->getMembers('file', $details['namespace_uri'], $options);
+        $this->assertNull($first->get());
+    }
+
     public function testVocabularyDetailsAsDeclared()
     {
         $details = $this->details('details-declared.ttl');

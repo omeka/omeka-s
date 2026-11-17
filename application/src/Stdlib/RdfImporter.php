@@ -213,6 +213,14 @@ class RdfImporter
                 if ($this->lastFileGraph && $this->lastFileGraph[0] === $key) {
                     return $this->lastFileGraph[1];
                 }
+                // Free the last graph before reading another, so the two
+                // aren't in memory at once: an import's details and then the
+                // import itself read one file twice, with different bases,
+                // and a large file's graph can take most of the memory limit.
+                // An EasyRdf graph refers to itself, so it's freed only when
+                // cycles are collected.
+                $this->lastFileGraph = null;
+                gc_collect_cycles();
                 $graph = $this->readGraph(function (RdfGraph $graph, $format) use ($file, $namespaceUri) {
                     $graph->parseFile($file, $format, $namespaceUri);
                 }, $format, 'Could not parse vocabulary file.'); // @translate

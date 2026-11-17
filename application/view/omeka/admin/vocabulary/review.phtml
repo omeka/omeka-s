@@ -84,11 +84,7 @@ $listed = function (array $terms) use ($term, $value, $byTerm) {
 
 // A pending namespace URI, the vocabulary's own field that changes. It's
 // shown whole: as one word, it would be marked as a whole.
-$fieldRows = [];
 $namespaceChanges = null !== $review['namespace_uri'];
-if ($namespaceChanges) {
-    $fieldRows[] = [$escape($translate('Namespace URI')), $value($vocabulary->namespaceUri()), $value($review['namespace_uri'])];
-}
 
 // The terms' changes, a section each, labels first, which everyone sees, then
 // new terms, then comments, then the terms only in Omeka, which aren't
@@ -115,7 +111,7 @@ foreach ($sections as $section) {
 $sections = array_filter($sections, function ($section) {
     return (bool) $section['rows'];
 });
-$changes = null !== $diff && ($termChanges || $fieldRows || $namespaceChanges);
+$changes = null !== $diff && ($termChanges || $namespaceChanges);
 ?>
 
 <?php echo $this->pageTitle($vocabulary->label(), 1, $translate('Vocabularies'), $translate('Review changes')); ?>
@@ -219,7 +215,7 @@ $changes = null !== $diff && ($termChanges || $fieldRows || $namespaceChanges);
 <?php endif; ?>
 <?php endif; ?>
 
-<?php if ($fieldRows): ?>
+<?php if ($namespaceChanges): ?>
 <h2><?php echo $translate('Vocabulary'); ?></h2>
 <table class="tablesaw review-table review-changes" data-tablesaw-mode="stack">
     <thead>
@@ -230,18 +226,14 @@ $changes = null !== $diff && ($termChanges || $fieldRows || $namespaceChanges);
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($fieldRows as $row): ?>
         <tr>
-            <?php foreach ($row as $i => $cell): ?>
-            <td<?php echo 0 === $i ? ' role="rowheader"' : ''; ?>><?php echo $cell; ?></td>
-            <?php endforeach; ?>
+            <td role="rowheader"><?php echo $escape($translate('Namespace URI')); ?></td>
+            <td><?php echo $value($vocabulary->namespaceUri()); ?></td>
+            <td><?php echo $value($review['namespace_uri']); ?></td>
         </tr>
-        <?php endforeach; ?>
     </tbody>
 </table>
-<?php if ($namespaceChanges): ?>
 <p><?php echo $translate('Changing the namespace changes the URI of every class and property in this vocabulary. Nothing is deleted.'); ?></p>
-<?php endif; ?>
 <?php endif; ?>
 
 <?php if (count($sections) > 1): ?>

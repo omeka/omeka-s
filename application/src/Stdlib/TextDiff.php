@@ -64,20 +64,17 @@ class TextDiff
             ? []
             : self::shared(array_slice($wordsA, $start, $lengthA), array_slice($wordsB, $start, $lengthB));
         // Each text's words by the word of the other they match.
-        $matchA = $matchB = [];
+        $matchA = [];
         for ($i = 0; $i < $start; $i++) {
             $matchA[$i] = $i;
-            $matchB[$i] = $i;
         }
         foreach ($pairs as $i => $j) {
             $matchA[$start + $i] = $start + $j;
-            $matchB[$start + $j] = $start + $i;
         }
         for ($i = 1; $i <= $end; $i++) {
             $matchA[count($a) - $i] = count($b) - $i;
-            $matchB[count($b) - $i] = count($a) - $i;
         }
-        return [$a, $b, $matchA, $matchB];
+        return [$a, $b, $matchA, array_flip($matchA)];
     }
 
     /**
@@ -162,16 +159,12 @@ class TextDiff
     }
 
     /**
-     * Parts with their empty ones dropped and neighbors of the same kind
-     * joined.
+     * Parts with neighbors of the same kind joined.
      */
     protected static function joined(array $marked)
     {
         $parts = [];
         foreach ($marked as [$text, $kind]) {
-            if ($text === '') {
-                continue;
-            }
             $last = count($parts) - 1;
             if ($last >= 0 && $parts[$last][1] === $kind) {
                 $parts[$last][0] .= $text;

@@ -100,40 +100,25 @@ class VocabularyController extends AbstractActionController
     public function importAction()
     {
         $form = $this->getForm(VocabularyForm::class, ['mode' => 'import_file']);
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $post = array_merge_recursive(
-                $request->getPost()->toArray(),
-                $request->getFiles()->toArray()
-            );
-            $form->setData($post);
-            if ($form->isValid()) {
-                $data = $form->getData()['vocabulary-file'];
-                $source = $this->getFileSource($data);
-                if (!$source) {
-                    $this->messenger()->addError('Choose a file or enter a URL.'); // @translate
-                } else {
-                    $this->forgetEndedImports();
-                    $token = null;
-                    try {
-                        $token = isset($source['file'])
-                            ? $this->fileStore->keep($source['file'])
-                            : $this->fileStore->keepFromUrl($source['url']);
-                        // A file that can't be read, or has no classes or
-                        // properties, is refused now.
-                        $this->getImportDetails($token, $data['format']);
-                        return $this->redirect()->toRoute('admin/default', ['controller' => 'vocabulary', 'action' => 'import-details'], [
-                            'query' => ['file' => $token, 'format' => $data['format']],
-                        ]);
-                    } catch (\Exception $e) {
-                        if (null !== $token) {
-                            $this->fileStore->remove($token);
-                        }
-                        $this->messenger()->addErrors($this->getErrors($e));
-                    }
+        $source = $this->getRequest()->isPost() ? $this->getPostedFileSource($form) : null;
+        if ($source) {
+            $this->forgetEndedImports();
+            $token = null;
+            try {
+                $token = isset($source['file'])
+                    ? $this->fileStore->keep($source['file'])
+                    : $this->fileStore->keepFromUrl($source['url']);
+                // A file that can't be read, or has no classes or
+                // properties, is refused now.
+                $this->getImportDetails($token, $source['format']);
+                return $this->redirect()->toRoute('admin/default', ['controller' => 'vocabulary', 'action' => 'import-details'], [
+                    'query' => ['file' => $token, 'format' => $source['format']],
+                ]);
+            } catch (\Exception $e) {
+                if (null !== $token) {
+                    $this->fileStore->remove($token);
                 }
-            } else {
-                $this->messenger()->addFormErrors($form);
+                $this->messenger()->addErrors($this->getErrors($e));
             }
         }
         $view = new ViewModel;
@@ -344,46 +329,31 @@ class VocabularyController extends AbstractActionController
         }
         $view = new ViewModel;
         $view->setVariable('vocabulary', $vocabulary);
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $post = array_merge_recursive(
-                $request->getPost()->toArray(),
-                $request->getFiles()->toArray()
-            );
-            $form->setData($post);
-            if ($form->isValid()) {
-                $data = $form->getData()['vocabulary-file'];
-                $source = $this->getFileSource($data);
-                if (!$source) {
-                    $this->messenger()->addError('Choose a file or enter a URL.'); // @translate
+        $source = $this->getRequest()->isPost() ? $this->getPostedFileSource($form) : null;
+        if ($source) {
+            // How the file is read starts as the vocabulary's was, and is
+            // chosen on the review.
+            $reading = ['format' => $source['format']];
+            try {
+                $reviewUrl = isset($source['file'])
+                    ? $this->vocabularyReview->start($vocabulary->id(), $source['file'], $reading)
+                    : $this->vocabularyReview->startFromUrl($vocabulary->id(), $source['url'], $reading);
+                return $this->redirect()->toUrl($reviewUrl);
+            } catch (\Exception $e) {
+                $namespaceUri = $this->getFileNamespaceUri($e);
+                if (null === $namespaceUri) {
+                    $this->messenger()->addErrors($this->getErrors($e));
                 } else {
-                    // How the file is read starts as the vocabulary's was, and
-                    // is chosen on the review.
-                    $reading = ['format' => $data['format']];
-                    try {
-                        $reviewUrl = isset($source['file'])
-                            ? $this->vocabularyReview->start($vocabulary->id(), $source['file'], $reading)
-                            : $this->vocabularyReview->startFromUrl($vocabulary->id(), $source['url'], $reading);
-                        return $this->redirect()->toUrl($reviewUrl);
-                    } catch (\Exception $e) {
-                        $namespaceUri = $this->getFileNamespaceUri($e);
-                        if (null === $namespaceUri) {
-                            $this->messenger()->addErrors($this->getErrors($e));
-                        } else {
-                            // The file's terms are in another namespace: say
-                            // which, beside the vocabulary's, as they may
-                            // differ by a character, and how to move it.
-                            $message = new Message(
-                                'None of this file\'s classes or properties are in this vocabulary\'s namespace, "%1$s". They use "%2$s". If the vocabulary has moved, change its namespace, then update it again.', // @translate
-                                $vocabulary->namespaceUri(),
-                                $namespaceUri
-                            );
-                            $this->messenger()->addError($message);
-                        }
-                    }
+                    // The file's terms are in another namespace: say which,
+                    // beside the vocabulary's, as they may differ by a
+                    // character, and how to move it.
+                    $message = new Message(
+                        'None of this file\'s classes or properties are in this vocabulary\'s namespace, "%1$s". They use "%2$s". If the vocabulary has moved, change its namespace, then update it again.', // @translate
+                        $vocabulary->namespaceUri(),
+                        $namespaceUri
+                    );
+                    $this->messenger()->addError($message);
                 }
-            } else {
-                $this->messenger()->addFormErrors($form);
             }
         }
         $view->setVariable('form', $form);
@@ -410,7 +380,6 @@ class VocabularyController extends AbstractActionController
         $view->setVariable('token', $token);
         $view->setVariable('reading', $reading);
         $view->setVariable('form', $this->getForm(ConfirmForm::class));
-        $view->setVariable('returnUrl', $this->vocabularyReview->getReturnUrl($review));
         try {
             $view->setVariable('diff', $this->vocabularyReview->getDiff($review, $reading));
             $view->setVariable('missing', $this->vocabularyReview->getMissingTerms($review, $reading));
@@ -644,24 +613,37 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get the file a form's file fields choose: an upload, or a URL.
+     * Get the file a posted form's file fields choose, an upload or a URL,
+     * with its format. Where the form is refused, or chooses none, it says
+     * why.
      *
-     * @param array $data The form's file fieldset, as validated
-     * @return array|null ['file' => the upload's path] or ['url' => URL], or
-     *   null where none was chosen
+     * @param VocabularyForm $form
+     * @return array|null ['file' => the upload's path] or ['url' => URL],
+     *   with 'format'; or null
      */
-    protected function getFileSource(array $data)
+    protected function getPostedFileSource(VocabularyForm $form)
     {
+        $request = $this->getRequest();
+        $form->setData(array_merge_recursive(
+            $request->getPost()->toArray(),
+            $request->getFiles()->toArray()
+        ));
+        if (!$form->isValid()) {
+            $this->messenger()->addFormErrors($form);
+            return null;
+        }
+        $data = $form->getData()['vocabulary-file'];
         // The form has already refused a file that failed to upload, so an
         // empty temp file name means none was chosen.
         $file = $data['file'] ?? [];
         $url = trim((string) ($data['url'] ?? ''));
         if ('upload' === $data['import_type'] && !empty($file['tmp_name'])) {
-            return ['file' => $file['tmp_name']];
+            return ['file' => $file['tmp_name'], 'format' => $data['format']];
         }
         if ('url' === $data['import_type'] && '' !== $url) {
-            return ['url' => $url];
+            return ['url' => $url, 'format' => $data['format']];
         }
+        $this->messenger()->addError('Choose a file or enter a URL.'); // @translate
         return null;
     }
 
@@ -769,8 +751,7 @@ class VocabularyController extends AbstractActionController
      */
     protected function getVocabularyWithNamespace($namespaceUri)
     {
-        $vocabularies = $this->api()->search('vocabularies', ['namespace_uri' => NamespaceUri::getForms($namespaceUri)])->getContent();
-        return $vocabularies[0] ?? null;
+        return $this->api()->searchOne('vocabularies', ['namespace_uri' => NamespaceUri::getForms($namespaceUri)])->getContent();
     }
 
     /**
@@ -813,17 +794,15 @@ class VocabularyController extends AbstractActionController
      * "#", "/", or neither, with http or https.
      *
      * @param string $namespaceUri
-     * @param \Omeka\Api\Representation\VocabularyRepresentation|null $except
-     *   A vocabulary not to count, such as one whose namespace URI changes
+     * @param \Omeka\Api\Representation\VocabularyRepresentation $except
+     *   A vocabulary not to count, the one whose namespace URI changes
      * @return \Omeka\Api\Representation\VocabularyRepresentation|null
      */
-    protected function getVocabularyInAnotherForm($namespaceUri, $except = null)
+    protected function getVocabularyInAnotherForm($namespaceUri, $except)
     {
         $vocabularies = $this->api()->search('vocabularies', ['namespace_uri' => NamespaceUri::getForms($namespaceUri)])->getContent();
         foreach ($vocabularies as $vocabulary) {
-            if ($vocabulary->namespaceUri() !== $namespaceUri
-                && (!$except || $vocabulary->id() !== $except->id())
-            ) {
+            if ($vocabulary->namespaceUri() !== $namespaceUri && $vocabulary->id() !== $except->id()) {
                 return $vocabulary;
             }
         }

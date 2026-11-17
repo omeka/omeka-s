@@ -27,13 +27,15 @@ $this->htmlElement('body')->appendAttribute('class', 'vocabs browse');
             <?php echo $this->browse()->renderHeaderCell($translate('Prefix'), 'prefix'); ?>
             <?php echo $this->browse()->renderHeaderCell($translate('Classes'), 'resource_class_count'); ?>
             <?php echo $this->browse()->renderHeaderCell($translate('Properties'), 'property_count'); ?>
+            <?php // Who may change it: a Supervisor, only their own. Omeka's own have none. ?>
+            <?php echo $this->browse()->renderHeaderCell($translate('Owner'), 'owner_name'); ?>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($vocabularies as $vocabulary): ?>
         <tr>
             <td>
-                <?php echo $escape($translate($vocabulary->label())); ?>
+                <?php echo $this->hyperlink($translate($vocabulary->label()), $vocabulary->url()); ?>
                 <ul class="actions">
                     <?php $this->trigger('view.browse.actions', ['resource' => $vocabulary]); ?>
                     <?php if (!$vocabulary->isPermanent()): ?>
@@ -61,6 +63,7 @@ $this->htmlElement('body')->appendAttribute('class', 'vocabs browse');
             <td><?php echo $escape($translate($vocabulary->prefix())); ?></td>
             <td><?php echo $this->hyperlink($vocabulary->resourceClassCount(), $this->url('admin/id', ['action' => 'classes', 'id' => $vocabulary->id()], true)); ?></td>
             <td><?php echo $this->hyperlink($vocabulary->propertyCount(), $this->url('admin/id', ['action' => 'properties', 'id' => $vocabulary->id()], true)); ?></td>
+            <td><?php echo ($owner = $vocabulary->owner()) ? $this->hyperlink($owner->name(), $owner->url()) : $translate('[No owner]'); ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

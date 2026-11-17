@@ -104,6 +104,21 @@ class VocabularyAdapterTest extends DbTestCase
         $this->assertSame(0, $api->search('vocabularies', ['namespace_uri' => []])->getTotalResults());
     }
 
+    public function testSortByOwnerName()
+    {
+        // Omeka's own have no owner, so the admin's comes last going up
+        // and first going down.
+        $vocabulary = $this->create();
+        $api = $this->services->get('Omeka\ApiManager');
+        $ids = function ($order) use ($api) {
+            return $api->search('vocabularies', ['sort_by' => 'owner_name', 'sort_order' => $order], ['returnScalar' => 'id'])->getContent();
+        };
+        $ascending = $ids('asc');
+        $descending = $ids('desc');
+        $this->assertSame($vocabulary->id(), (int) end($ascending));
+        $this->assertSame($vocabulary->id(), (int) reset($descending));
+    }
+
     public function testVocabularyWithoutImportOptions()
     {
         $this->assertNull($this->create()->importOptions());

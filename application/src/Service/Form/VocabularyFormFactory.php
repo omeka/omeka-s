@@ -12,7 +12,7 @@ class VocabularyFormFactory implements FactoryInterface
         $form = new VocabularyForm;
         $form->setTranslator($services->get('MvcTranslator'));
         $form->setOption('vocabulary', $options['vocabulary'] ?? null);
-        $form->setOption('update_from_file', $options['update_from_file'] ?? false);
+        $form->setOption('mode', $options['mode'] ?? 'edit');
         return $form;
     }
 }

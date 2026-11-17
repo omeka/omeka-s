@@ -1,5 +1,4 @@
 <?php
-$this->headScript()->appendFile($this->assetUrl('js/vocabulary-form.js', 'Omeka'));
 $this->htmlElement('body')->appendAttribute('class', 'edit vocabularies');
 $translate = $this->plugin('translate');
 $form->prepare();
@@ -10,20 +9,26 @@ $form->prepare();
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
     <?php $this->trigger('view.edit.page_actions', ['resource' => $vocabulary]); ?>
-    <?php echo $this->hyperlink($translate('Update from file'), $this->url(null, ['action' => 'update'], true), ['class' => 'button']); ?>
+    <?php // The other changes, as on the vocabulary's page, since Edit also opens from the list. ?>
+    <?php echo $this->partial('omeka/admin/vocabulary/more-actions', ['vocabulary' => $vocabulary]); ?>
     <a href="#" class="delete button"><?php echo $translate('Delete'); ?></a>
+    <?php // One page back, as core's Cancel goes: Edit opens from the vocabulary's page or the list. ?>
     <?php echo $this->cancelButton(); ?>
     <button><?php echo $translate('Save'); ?></button>
 </div>
 <?php $this->trigger('view.edit.form.before', ['form' => $form]); ?>
 <?php echo $this->formRow($form->get('csrf')); ?>
-<p><?php echo sprintf(
-    $translate('To update this vocabulary\'s classes and properties from a newer version of its file, use %s.'),
-    $this->hyperlink($translate('Update from file'), $this->url(null, ['action' => 'update'], true))
-); ?></p>
 <?php echo $this->formCollection($form->get('vocabulary-info')); ?>
 <?php $this->trigger('view.edit.form.after', ['form' => $form]); ?>
 <?php echo $this->form()->closeTag(); ?>
-<?php echo $this->deleteConfirm($vocabulary, 'vocabulary'); ?>
+<?php // Deleting takes every value of its properties, so the confirmation says how much, as the delete-confirm sidebar does. ?>
+<div id="delete" class="sidebar">
+    <?php echo $this->hyperlink('', '#', ['class' => 'sidebar-close o-icon-close', 'title' => $translate('Close')]); ?>
+    <?php echo $this->partial('common/delete-confirm-details', [
+        'resource' => $vocabulary,
+        'resourceLabel' => 'vocabulary', // @translate
+        'partialPath' => 'omeka/admin/vocabulary/delete-confirm-details',
+    ]); ?>
+</div>
 
 <?php $this->trigger('view.edit.after'); ?>

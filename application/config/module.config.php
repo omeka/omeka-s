@@ -771,6 +771,7 @@ return [
                 'prefix' => 'Prefix', // @translate
                 'resource_class_count' => 'Resource class count', // @translate
                 'property_count' => 'Property count', // @translate
+                'owner_name' => 'Owner', // @translate
                 'id' => 'ID', // @translate
             ],
             'resource_classes' => [

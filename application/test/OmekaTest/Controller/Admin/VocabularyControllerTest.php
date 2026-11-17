@@ -266,9 +266,22 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             'vocabulary-info' => $info + [
                 'o:label' => 'Review',
                 'o:comment' => '',
-                'o:namespace_uri' => self::NAMESPACE_URI,
             ],
         ] + $this->csrfField(VocabularyForm::class);
+    }
+
+    /**
+     * Post the form to change the tests' vocabulary's namespace URI.
+     *
+     * @param string $namespaceUri
+     * @param string $email
+     * @return int The response's HTTP status
+     */
+    protected function changeNamespace($namespaceUri, $email = self::ADMIN)
+    {
+        return $this->requestAs($email, 'POST', sprintf('/admin/vocabulary/%s/change-namespace', $this->vocabularyId), [
+            'vocabulary-info' => ['o:namespace_uri' => $namespaceUri],
+        ] + $this->csrfField(VocabularyForm::class));
     }
 
     /**
@@ -341,6 +354,61 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         return $this->getResponse()->getContent();
     }
 
+    public function testShowPage()
+    {
+        $status = $this->requestAs(self::ADMIN, 'GET', sprintf('/admin/vocabulary/%s', $this->vocabularyId));
+        $this->assertSame(200, $status);
+        $this->assertTemplateName('omeka/admin/vocabulary/show');
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        $text = preg_replace('/\s+/', ' ', strip_tags($page));
+        $this->assertStringContainsString('Prefix review Namespace URI http://example.org/review# Classes 1 Properties 1', $text);
+        // The pages that change it, for one the user may change: the rarer
+        // ones in the More actions menu.
+        $this->assertStringContainsString(sprintf('<a class="button" href="/admin/vocabulary/%s/edit">Edit vocabulary</a>', $this->vocabularyId), $page);
+        $this->assertMatchesRegularExpression(sprintf(
+            '#<div class="page-action-menu">\s*<a href="\#" class="button expand" aria-expanded="false">More actions</a>\s*<ul class="collapsible">\s*<li><a href="/admin/vocabulary/%1$s/change-namespace">Change namespace</a></li>\s*<li><a href="/admin/vocabulary/%1$s/update">Update classes and properties</a></li>#',
+            $this->vocabularyId
+        ), $page);
+        $this->assertStringContainsString(sprintf('<a href="/admin/vocabulary/%s/properties">1</a>', $this->vocabularyId), $page);
+    }
+
+    public function testShowPageOffersNoChangesToAVocabularyTheUserMayNotChange()
+    {
+        // Another's, for a Supervisor.
+        $this->requestAs(self::SUPERVISOR, 'GET', sprintf('/admin/vocabulary/%s', $this->vocabularyId));
+        $this->assertSame(200, $this->getResponse()->getStatusCode());
+        $this->assertStringNotContainsString('Edit vocabulary', $this->getResponse()->getContent());
+
+        // A permanent one, for anyone.
+        $this->reset(true);
+        $this->signIn();
+        $dcterms = $this->api()->search('vocabularies', ['prefix' => 'dcterms'])->getContent()[0];
+        $this->requestAs(self::ADMIN, 'GET', sprintf('/admin/vocabulary/%s', $dcterms->id()));
+        $this->assertSame(200, $this->getResponse()->getStatusCode());
+        $page = $this->getResponse()->getContent();
+        $this->assertStringContainsString('http://purl.org/dc/terms/', $page);
+        $this->assertStringNotContainsString('Edit vocabulary', $page);
+        $this->assertStringNotContainsString('Change namespace', $page);
+    }
+
+    public function testBrowseLinksToEachVocabularysPage()
+    {
+        $this->requestAs(self::ADMIN, 'GET', '/admin/vocabulary');
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        $this->assertStringContainsString(sprintf('<a href="/admin/vocabulary/%s">Review</a>', $this->vocabularyId), $page);
+    }
+
+    public function testBrowseShowsEachVocabularysOwner()
+    {
+        $this->requestAs(self::ADMIN, 'GET', '/admin/vocabulary');
+        $page = preg_replace('/\s+/', ' ', html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
+        $this->assertStringContainsString('?sort_by=owner_name', $page);
+        // The tests' vocabulary, which the admin made; Omeka's own have none.
+        $admin = $this->vocabulary()->owner();
+        $this->assertMatchesRegularExpression(sprintf('#<a href="/admin/vocabulary/%s">Review</a>.*?<td><a href="/admin/user/%s">%s</a></td>#', $this->vocabularyId, $admin->id(), preg_quote($admin->name(), '#')), $page);
+        $this->assertMatchesRegularExpression('#>Dublin Core</a>.*?<td>\[No owner\]</td>#', $page);
+    }
+
     public function testUpdateFromFileStartsAReviewSavingNothing()
     {
         $this->serveFile('changed-name.ttl');
@@ -374,6 +442,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         // the review.
         $this->assertStringNotContainsString('name="vocabulary-info[o:label]"', $page);
         $this->assertStringNotContainsString('name="vocabulary-advanced[lang]"', $page);
+        $this->assertStringContainsString(sprintf('<a class="button" href="/admin/vocabulary/%s">Cancel</a>', $this->vocabularyId), $page);
     }
 
     public function testEditHasOnlyTheVocabularysOwnFields()
@@ -381,9 +450,17 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->requestAs(self::ADMIN, 'GET', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId));
         $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
         $this->assertStringContainsString('name="vocabulary-info[o:label]"', $page);
+        $this->assertStringNotContainsString('name="vocabulary-info[o:namespace_uri]"', $page);
         $this->assertStringNotContainsString('name="vocabulary-file[import_type]"', $page);
         $this->assertStringNotContainsString('name="vocabulary-advanced[lang]"', $page);
-        $this->assertStringContainsString(sprintf('<a class="button" href="/admin/vocabulary/%s/update">Update from file</a>', $this->vocabularyId), $page);
+        // Core's Cancel, one page back: Edit opens from the vocabulary's page
+        // or the list.
+        $this->assertStringContainsString('<a class="cancel button" href="#">Cancel</a>', $page);
+        // The other changes, as on the vocabulary's page.
+        $this->assertMatchesRegularExpression(sprintf(
+            '#<a href="\#" class="button expand" aria-expanded="false">More actions</a>\s*<ul class="collapsible">\s*<li><a href="/admin/vocabulary/%1$s/change-namespace">Change namespace</a></li>\s*<li><a href="/admin/vocabulary/%1$s/update">Update classes and properties</a></li>#',
+            $this->vocabularyId
+        ), $page);
     }
 
     public function testEditSavesLabelAndCommentAtOnce()
@@ -393,36 +470,58 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             'o:comment' => 'A comment.',
         ]));
         $this->assertSame(302, $status);
-        $this->assertRedirectTo('/admin/vocabulary');
+        $this->assertRedirectTo(sprintf('/admin/vocabulary/%s', $this->vocabularyId));
         $this->assertSame(['Vocabulary successfully updated'], $this->messages(Messenger::SUCCESS));
         $vocabulary = $this->vocabulary();
         $this->assertSame('Renamed', $vocabulary->label());
         $this->assertSame('A comment.', $vocabulary->comment());
     }
 
-    public function testEditReviewsANamespaceChange()
+    public function testEditLeavesTheNamespace()
     {
         $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), $this->edit([
-            'o:label' => 'Moved',
+            'o:label' => 'Renamed',
             'o:namespace_uri' => 'http://example.org/moved#',
         ]));
-        // Nothing saved, and on to its review.
         $this->assertSame(302, $status);
-        $location = $this->getResponse()->getHeaders()->get('Location')->getUri();
-        $token = $this->tokens[] = substr($location, strpos($location, '=') + 1);
-        $this->assertSame('Review', $this->vocabulary()->label());
-
-        $text = preg_replace('/\s+/', ' ', strip_tags(html_entity_decode($this->reviewPage($token), ENT_QUOTES | ENT_HTML5)));
-        $this->assertStringContainsString('Accepting makes the changes below. It removes nothing.', $text);
-        $this->assertStringContainsString('Namespace URI http://example.org/review# http://example.org/moved#', $text);
-        // No file, so no reading to choose.
-        $this->assertStringNotContainsString('Preferred language', $text);
-
-        $this->postReview('accept', $token);
         $vocabulary = $this->vocabulary();
-        $this->assertSame('Moved', $vocabulary->label());
+        $this->assertSame('Renamed', $vocabulary->label());
+        $this->assertSame(self::NAMESPACE_URI, $vocabulary->namespaceUri());
+    }
+
+    public function testChangeNamespacePage()
+    {
+        $this->requestAs(self::ADMIN, 'GET', sprintf('/admin/vocabulary/%s/change-namespace', $this->vocabularyId));
+        $this->assertTemplateName('omeka/admin/vocabulary/change-namespace');
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        $text = preg_replace('/\s+/', ' ', strip_tags($page));
+        $this->assertStringContainsString('Changing the namespace changes the URI of every class and property in this vocabulary. Nothing is deleted.', $text);
+        $this->assertStringContainsString('Current namespace URI http://example.org/review#', $text);
+        // The field starts with the vocabulary's own namespace URI, to edit.
+        $this->assertStringContainsString('name="vocabulary-info[o:namespace_uri]"', $page);
+        $this->assertStringContainsString('value="http://example.org/review#"', $page);
+        $this->assertStringNotContainsString('name="vocabulary-info[o:label]"', $page);
+        $this->assertStringContainsString(sprintf('<a class="button" href="/admin/vocabulary/%s">Cancel</a>', $this->vocabularyId), $page);
+    }
+
+    public function testChangeNamespace()
+    {
+        $status = $this->changeNamespace(' http://example.org/moved# ');
+        $this->assertSame(302, $status);
+        $this->assertRedirectTo(sprintf('/admin/vocabulary/%s', $this->vocabularyId));
+        $this->assertSame(['Namespace successfully changed'], $this->messages(Messenger::SUCCESS));
+        $vocabulary = $this->vocabulary();
         $this->assertSame('http://example.org/moved#', $vocabulary->namespaceUri());
+        $this->assertSame('Review', $vocabulary->label());
         $this->assertSame('<i>stored property label</i>', $this->propertyLabel('review:name'));
+    }
+
+    public function testChangeNamespaceRefusesItsOwn()
+    {
+        $status = $this->changeNamespace(self::NAMESPACE_URI);
+        $this->assertSame(200, $status);
+        $this->assertTemplateName('omeka/admin/vocabulary/change-namespace');
+        $this->assertStringContainsString('The vocabulary already has this namespace URI.', $this->getResponse()->getContent());
     }
 
     public function testReviewShowsValuesAsText()
@@ -454,21 +553,19 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         }
     }
 
-    public function testReviewShowsPendingFieldsAndTermsOnlyInOmeka()
+    public function testReviewShowsAPendingNamespaceAndTermsOnlyInOmeka()
     {
         // The file is read in the pending namespace.
         $page = html_entity_decode($this->reviewPage($this->startReview('moved-name.ttl', null, [
-            'label' => 'Renamed',
             'namespace_uri' => 'http://example.org/moved#',
         ])), ENT_QUOTES | ENT_HTML5);
         $text = preg_replace('/\s+/', ' ', strip_tags($page));
         $this->assertStringContainsString('Accepting makes the changes below, from the file. It removes nothing.', $text);
         // The namespace URI is one of the vocabulary's changed fields, with
-        // what it does to the terms, shown on one of them.
+        // what it does to the terms.
         $this->assertStringContainsString('Namespace URI http://example.org/review# http://example.org/moved#', $text);
-        $this->assertStringContainsString('Every class and property in this vocabulary gets a new URI. For example, http://example.org/review#name becomes http://example.org/moved#name. Nothing is deleted: labels, comments, and the values that use them stay as they are.', $text);
+        $this->assertStringContainsString('Changing the namespace changes the URI of every class and property in this vocabulary. Nothing is deleted.', $text);
         $this->assertStringNotContainsString('new addresses', $text);
-        $this->assertStringContainsString('Renamed', $page);
         $this->assertStringContainsString('Changed property labels (1)', $page);
         // The file has no class, so Omeka's is listed, as kept.
         $this->assertStringContainsString('Classes only in Omeka (1)', $page);
@@ -493,15 +590,17 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $token = $this->startReview('changed-name.ttl');
         $page = html_entity_decode($this->reviewPage($token), ENT_QUOTES | ENT_HTML5);
         $this->assertStringContainsString('Changed property labels (1)', $page);
-        // The property options are out of the way by default.
-        $this->assertStringContainsString('<a href="#" class="expand" aria-expanded="false">Label and comment properties</a>', $page);
+        // Every choice is a row, its description folded behind its label.
+        $this->assertStringContainsString('<input type="text" name="label_property" id="review-label-property" value="">', $page);
+        $this->assertStringContainsString('<a href="#" class="expand" aria-expanded="false" aria-controls="review-label-property-description" aria-label="Expand"></a>', $page);
+        $this->assertStringNotContainsString('Label and comment properties', $page);
 
         // Labels read from a property the file doesn't have are local names,
         // which never take the place of Omeka's labels.
         $page = html_entity_decode($this->reviewPage($token, ['label_property' => 'skos:prefLabel']), ENT_QUOTES | ENT_HTML5);
         $this->assertStringNotContainsString('Changed property labels', $page);
-        // Shown, as the reading uses it, and carried to Accept.
-        $this->assertStringContainsString('<a href="#" class="collapse" aria-expanded="true">Label and comment properties</a>', $page);
+        // Shown in its field, as the reading uses it, and carried to Accept.
+        $this->assertStringContainsString('<input type="text" name="label_property" id="review-label-property" value="skos:prefLabel">', $page);
         $this->assertStringContainsString('<input type="hidden" name="label_property" value="skos:prefLabel">', $page);
 
         // Accepted, it's the reading stored.
@@ -526,7 +625,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
 
         $status = $this->postReview('accept', $token);
         $this->assertSame(302, $status);
-        $this->assertRedirectTo('/admin/vocabulary');
+        $this->assertRedirectTo(sprintf('/admin/vocabulary/%s', $this->vocabularyId));
         $this->assertSame(['Changes to the vocabulary successfully made'], $this->messages(Messenger::SUCCESS));
         $vocabulary = $this->vocabulary();
         $this->assertSame('http://example.org/moved#', $vocabulary->namespaceUri());
@@ -537,16 +636,17 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
 
     public function testCancelChangesNothing()
     {
-        $token = $this->startReview('changed-name.ttl', null, ['label' => 'Renamed']);
+        $token = $this->startReview('changed-name.ttl');
         $status = $this->postReview('cancel', $token);
         $this->assertSame(302, $status);
-        $this->assertRedirectTo('/admin/vocabulary');
+        $this->assertRedirectTo(sprintf('/admin/vocabulary/%s', $this->vocabularyId));
         $this->assertSame('Review', $this->vocabulary()->label());
         $this->assertSame('<i>stored property label</i>', $this->propertyLabel('review:name'));
-        // The review has ended.
+        // The review has ended, and its page says so on the vocabulary's.
         $status = $this->requestAs(self::ADMIN, 'GET', sprintf('/admin/vocabulary/%s/review?review=%s', $this->vocabularyId, $token));
         $this->assertSame(302, $status);
-        $this->assertSame(['This review has ended. Edit the vocabulary to review its changes again.'], $this->messages(Messenger::ERROR));
+        $this->assertRedirectTo(sprintf('/admin/vocabulary/%s', $this->vocabularyId));
+        $this->assertSame(['This review has ended. Update the vocabulary\'s classes and properties to review its changes again.'], $this->messages(Messenger::ERROR));
     }
 
     public function testCommentsChoiceIsOnTheImportFormOnly()
@@ -611,8 +711,12 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
                 ],
             ] + $this->csrfField(VocabularyForm::class));
             $this->assertSame(302, $status);
+            $location = $this->getResponse()->getHeaders()->get('Location')->getUri();
             $this->reset(true);
             $this->signIn();
+            // To the new vocabulary's page.
+            $vocabulary = $this->api()->search('vocabularies', ['prefix' => 'defs'])->getContent()[0];
+            $this->assertSame(sprintf('/admin/vocabulary/%s', $vocabulary->id()), $location);
             $this->assertSame(3, $this->api()->search('properties', ['vocabulary_prefix' => 'defs'])->getTotalResults()
                 + $this->api()->search('resource_classes', ['vocabulary_prefix' => 'defs'])->getTotalResults());
         } finally {
@@ -687,18 +791,29 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame(200, $status);
     }
 
-    public function testEditRefusesATakenNamespace()
+    public function testChangeNamespaceRefusesATakenOne()
     {
-        $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), $this->edit([
-            'o:label' => 'Renamed',
-            'o:namespace_uri' => 'http://purl.org/dc/terms/',
-        ]));
+        $status = $this->changeNamespace('http://purl.org/dc/terms/');
         $this->assertSame(200, $status);
-        $this->assertTemplateName('omeka/admin/vocabulary/edit');
-        $page = $this->getResponse()->getContent();
-        $this->assertStringContainsString('is already taken.', $page);
-        $this->assertStringNotContainsString('Vocabulary successfully updated', $page);
-        $this->assertSame('Review', $this->vocabulary()->label());
+        $this->assertTemplateName('omeka/admin/vocabulary/change-namespace');
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        $this->assertStringContainsString('The namespace URI "http://purl.org/dc/terms/" is already taken.', $page);
+        $this->assertStringNotContainsString('Namespace successfully changed', $page);
+        $this->assertSame(self::NAMESPACE_URI, $this->vocabulary()->namespaceUri());
+    }
+
+    public function testChangeNamespaceRefusedForAnothersVocabulary()
+    {
+        $status = $this->changeNamespace('http://example.org/moved#', self::SUPERVISOR);
+        $this->assertSame(403, $status);
+        $this->assertSame(self::NAMESPACE_URI, $this->vocabulary()->namespaceUri());
+    }
+
+    public function testChangeNamespaceAppliedForOwnVocabulary()
+    {
+        $this->giveVocabularyTo(self::SUPERVISOR);
+        $this->changeNamespace('http://example.org/moved#', self::SUPERVISOR);
+        $this->assertSame('http://example.org/moved#', $this->vocabulary()->namespaceUri());
     }
 
     public function testUpdateRefusesAFileWithoutTermsInTheNamespace()
@@ -710,8 +825,9 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame(200, $status);
         $this->assertTemplateName('omeka/admin/vocabulary/update');
         $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
-        $this->assertStringContainsString('No classes or properties found. Are you sure you used the correct namespace URI?', $page);
-        $this->assertStringContainsString('The file\'s classes and properties use the namespace URI "http://example.org/moved#".', $page);
+        // Both namespaces, and how to move the vocabulary.
+        $this->assertStringContainsString('None of this file\'s classes or properties are in this vocabulary\'s namespace, "http://example.org/review#". They use "http://example.org/moved#". If the vocabulary has moved, change its namespace, then update it again.', $page);
+        $this->assertStringNotContainsString('Are you sure you used the correct namespace URI?', $page);
     }
 
     public function testUpdateWithTermsTooLongToStoreNamesThem()
@@ -761,8 +877,18 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $token = $this->startReview('changed-name.ttl');
         $status = $this->postReview('accept', $token, self::SUPERVISOR);
         $this->assertSame(302, $status);
-        $this->assertRedirectTo('/admin/vocabulary');
+        $this->assertRedirectTo(sprintf('/admin/vocabulary/%s', $this->vocabularyId));
         $this->assertSame('Changed', $this->propertyLabel('review:name'));
+    }
+
+    public function testEditDeleteConfirmationSaysWhatDeletingTakes()
+    {
+        $this->requestAs(self::ADMIN, 'GET', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId));
+        $page = preg_replace('/\s+/', ' ', html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
+        $this->assertStringContainsString(sprintf('action="/admin/vocabulary/%s/delete"', $this->vocabularyId), $page);
+        foreach (['Values deleted', 'Resource template properties deleted', 'Resources left without a class'] as $count) {
+            $this->assertStringContainsString(sprintf('<h4>%s</h4> <div class="value">0</div>', $count), $page);
+        }
     }
 
     public function testDeleteConfirmationSaysWhatDeletingTakes()

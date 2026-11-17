@@ -5,9 +5,7 @@ $this->htmlElement('body')->appendAttribute('class', 'vocabularies review');
 $prefix = $vocabulary->prefix();
 $sourceLabel = $review['source_label'] ?? $translate('the file');
 
-// The choices made on the page, as its forms send them. A review without a
-// file reads none, so has none.
-$hasFile = null !== $review['file'];
+// The choices made on the page, as its forms send them.
 $lang = (string) ($reading['lang'] ?? '');
 $commentProperty = $reading['comment_property'] ?? \Omeka\Stdlib\RdfImporter::COMMENT_PROPERTY;
 $comments = array_search($commentProperty, \Omeka\Stdlib\RdfImporter::COMMENT_READINGS, true);
@@ -17,7 +15,6 @@ $otherCommentProperty = false === $comments ? $commentProperty : '';
 $comments = $comments ?: 'comment';
 $labelProperty = $reading['label_property'] ?? \Omeka\Stdlib\RdfImporter::LABEL_PROPERTY;
 $otherLabelProperty = \Omeka\Stdlib\RdfImporter::LABEL_PROPERTY === $labelProperty ? '' : $labelProperty;
-$propertiesShown = '' !== $otherLabelProperty || '' !== $otherCommentProperty;
 
 // The terms' labels in Omeka, which name them, with their terms beneath.
 $labels = ['classes' => [], 'properties' => []];
@@ -84,20 +81,12 @@ $listed = function (array $terms) use ($term, $value, $byTerm) {
     return $rows;
 };
 
-// The vocabulary's own fields that change. A namespace URI is shown whole:
-// as one word, it would be marked as a whole.
+// A pending namespace URI, the vocabulary's own field that changes. It's
+// shown whole: as one word, it would be marked as a whole.
 $fieldRows = [];
-if (null !== $review['label']) {
-    $fieldRows[] = array_merge([$escape($translate('Label'))], $fromTo($vocabulary->label(), $review['label']));
-}
-if (null !== $review['comment']) {
-    $fieldRows[] = array_merge([$escape($translate('Comment'))], $fromTo($vocabulary->comment(), $review['comment']));
-}
 $namespaceChanges = null !== $review['namespace_uri'];
 if ($namespaceChanges) {
     $fieldRows[] = [$escape($translate('Namespace URI')), $value($vocabulary->namespaceUri()), $value($review['namespace_uri'])];
-    // One of its terms, to show what the change does to each.
-    $exampleTerm = array_key_first($labels['properties']) ?? array_key_first($labels['classes']);
 }
 
 // The terms' changes, a section each, labels first, which everyone sees, then
@@ -140,13 +129,11 @@ $changes = null !== $diff && ($termChanges || $fieldRows || $namespaceChanges);
         <?php endif; ?>
     </div>
     <input type="hidden" name="review" value="<?php echo $escape($token); ?>">
-    <?php if ($hasFile): ?>
     <?php // The reading shown, which Accept applies. ?>
     <input type="hidden" name="lang" value="<?php echo $escape($lang); ?>">
     <input type="hidden" name="comments" value="<?php echo $escape($comments); ?>">
     <input type="hidden" name="label_property" value="<?php echo $escape($otherLabelProperty); ?>">
     <input type="hidden" name="comment_property" value="<?php echo $escape($otherCommentProperty); ?>">
-    <?php endif; ?>
     <?php foreach ($form->getElements() as $element): ?>
     <?php if ($element instanceof \Laminas\Form\Element\Csrf): ?>
     <?php echo $this->formHidden($element); ?>
@@ -154,14 +141,17 @@ $changes = null !== $diff && ($termChanges || $fieldRows || $namespaceChanges);
     <?php endforeach; ?>
 </form>
 
-<?php if ($hasFile): ?>
+<?php // The choices, as rows like core's form rows, each description folded behind its label's arrow. ?>
 <form method="get" action="<?php echo $escape($this->url(null, [], true)); ?>" class="review-choices">
     <input type="hidden" name="review" value="<?php echo $escape($token); ?>">
     <?php if ($languages || '' !== $lang): ?>
     <div class="field">
         <div class="field-meta">
             <label for="review-lang"><?php echo $translate('Preferred language'); ?></label>
-            <div class="field-description"><?php echo $translate('The language to read labels and comments in, where the file has them in several.'); ?></div>
+            <a href="#" class="expand" aria-expanded="false" aria-controls="review-lang-description" aria-label="<?php echo $escape($translate('Expand')); ?>"></a>
+            <div class="collapsible" id="review-lang-description">
+                <div class="field-description"><?php echo $translate('The language to read labels and comments in, where the file has them in several.'); ?></div>
+            </div>
         </div>
         <div class="inputs">
             <select name="lang" id="review-lang">
@@ -177,7 +167,10 @@ $changes = null !== $diff && ($termChanges || $fieldRows || $namespaceChanges);
     <div class="field">
         <div class="field-meta">
             <label for="review-comments"><?php echo $translate('Comments'); ?></label>
-            <div class="field-description"><?php echo $translate('Omeka can use a term\'s definition (skos:definition) as its comment, in place of rdfs:comment.'); ?></div>
+            <a href="#" class="expand" aria-expanded="false" aria-controls="review-comments-description" aria-label="<?php echo $escape($translate('Expand')); ?>"></a>
+            <div class="collapsible" id="review-comments-description">
+                <div class="field-description"><?php echo $translate('Omeka can use a term\'s definition (skos:definition) as its comment, in place of rdfs:comment.'); ?></div>
+            </div>
         </div>
         <div class="inputs">
             <select name="comments" id="review-comments">
@@ -186,41 +179,38 @@ $changes = null !== $diff && ($termChanges || $fieldRows || $namespaceChanges);
             </select>
         </div>
     </div>
-    <?php // Rarely needed, so out of the way unless the reading uses them. ?>
-    <a href="#" class="<?php echo $propertiesShown ? 'collapse' : 'expand'; ?>" aria-expanded="<?php echo $propertiesShown ? 'true' : 'false'; ?>"><?php echo $translate('Label and comment properties'); ?></a>
-    <div class="collapsible">
-        <div class="field">
-            <div class="field-meta">
-                <label for="review-label-property"><?php echo $translate('Label property'); ?></label>
+    <div class="field">
+        <div class="field-meta">
+            <label for="review-label-property"><?php echo $translate('Label property'); ?></label>
+            <a href="#" class="expand" aria-expanded="false" aria-controls="review-label-property-description" aria-label="<?php echo $escape($translate('Expand')); ?>"></a>
+            <div class="collapsible" id="review-label-property-description">
                 <div class="field-description"><?php echo $translate('Enter the label property. This is typically only needed if the vocabulary uses an unconventional property for labels. Please use the full property URI enclosed in angle brackets.'); ?></div>
             </div>
-            <div class="inputs">
-                <input type="text" name="label_property" id="review-label-property" value="<?php echo $escape($otherLabelProperty); ?>">
-            </div>
         </div>
-        <div class="field">
-            <div class="field-meta">
-                <label for="review-comment-property"><?php echo $translate('Comment property'); ?></label>
+        <div class="inputs">
+            <input type="text" name="label_property" id="review-label-property" value="<?php echo $escape($otherLabelProperty); ?>">
+        </div>
+    </div>
+    <div class="field">
+        <div class="field-meta">
+            <label for="review-comment-property"><?php echo $translate('Comment property'); ?></label>
+            <a href="#" class="expand" aria-expanded="false" aria-controls="review-comment-property-description" aria-label="<?php echo $escape($translate('Expand')); ?>"></a>
+            <div class="collapsible" id="review-comment-property-description">
                 <div class="field-description"><?php echo $translate('Enter the comment property, used in place of the Comments choice. This is typically only needed if the vocabulary uses an unconventional property for comments. Please use the full property URI enclosed in angle brackets.'); ?></div>
             </div>
-            <div class="inputs">
-                <input type="text" name="comment_property" id="review-comment-property" value="<?php echo $escape($otherCommentProperty); ?>">
-            </div>
+        </div>
+        <div class="inputs">
+            <input type="text" name="comment_property" id="review-comment-property" value="<?php echo $escape($otherCommentProperty); ?>">
         </div>
     </div>
     <div class="review-choices-actions">
         <button type="submit"><?php echo $translate('Show changes'); ?></button>
     </div>
 </form>
-<?php endif; ?>
 
 <?php if (null !== $diff): ?>
 <?php if ($changes): ?>
-<?php if ($hasFile): ?>
 <p><?php echo sprintf($translate('Accepting makes the changes below, from %s. It removes nothing.'), $escape($sourceLabel)); ?></p>
-<?php else: ?>
-<p><?php echo $translate('Accepting makes the changes below. It removes nothing.'); ?></p>
-<?php endif; ?>
 <?php else: ?>
 <p><?php echo sprintf($translate('Omeka\'s vocabulary already matches %s.'), $escape($sourceLabel)); ?></p>
 <?php endif; ?>
@@ -247,17 +237,7 @@ $changes = null !== $diff && ($termChanges || $fieldRows || $namespaceChanges);
     </tbody>
 </table>
 <?php if ($namespaceChanges): ?>
-<p>
-    <?php echo $translate('Every class and property in this vocabulary gets a new URI.'); ?>
-    <?php if (null !== $exampleTerm): ?>
-    <?php echo sprintf(
-        $translate('For example, %1$s becomes %2$s.'),
-        sprintf('<span class="review-value">%s</span>', $escape($vocabulary->namespaceUri() . $exampleTerm)),
-        sprintf('<span class="review-value">%s</span>', $escape($review['namespace_uri'] . $exampleTerm))
-    ); ?>
-    <?php endif; ?>
-    <?php echo $translate('Nothing is deleted: labels, comments, and the values that use them stay as they are.'); ?>
-</p>
+<p><?php echo $translate('Changing the namespace changes the URI of every class and property in this vocabulary. Nothing is deleted.'); ?></p>
 <?php endif; ?>
 <?php endif; ?>
 

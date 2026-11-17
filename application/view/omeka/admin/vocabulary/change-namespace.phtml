@@ -1,0 +1,27 @@
+<?php
+$this->headScript()->appendFile($this->assetUrl('js/vocabulary-form.js', 'Omeka'));
+$this->htmlElement('body')->appendAttribute('class', 'vocabularies change-namespace');
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$form->prepare();
+?>
+
+<?php echo $this->pageTitle($vocabulary->label(), 1, $translate('Vocabularies'), $translate('Change namespace')); ?>
+
+<?php echo $this->form()->openTag($form); ?>
+<div id="page-actions">
+    <?php // To the vocabulary's page, rather than one page back, which may be a page this one sent the admin to. ?>
+    <?php echo $this->hyperlink($translate('Cancel'), $vocabulary->url(), ['class' => 'button']); ?>
+    <button><?php echo $translate('Change namespace'); ?></button>
+</div>
+<p><?php echo $translate('Changing the namespace changes the URI of every class and property in this vocabulary. Nothing is deleted.'); ?></p>
+<div class="field">
+    <div class="field-meta">
+        <span class="label"><?php echo $translate('Current namespace URI'); ?></span>
+    </div>
+    <div class="inputs">
+        <?php echo $escape($vocabulary->namespaceUri()); ?>
+    </div>
+</div>
+<?php echo $this->formCollection($form, false); ?>
+<?php echo $this->form()->closeTag(); ?>

@@ -144,14 +144,12 @@ class VocabularyReviewTest extends DbTestCase
     public function testAcceptAppliesEverythingAndEnds()
     {
         $token = $this->start('compare-moved.ttl', ['format' => 'turtle'], [
-            'label' => 'Moved',
             'namespace_uri' => 'http://example.org/moved#',
         ]);
         $file = $this->review->get($token)['file'];
         $this->review->accept($token, $this->review->getReading($this->review->get($token), ['lang' => 'en']));
 
         $vocabulary = $this->vocabulary();
-        $this->assertSame('Moved', $vocabulary->label());
         $this->assertSame('http://example.org/moved#', $vocabulary->namespaceUri());
         $this->assertSame('en', $vocabulary->importOptions()['lang']);
         // The term changes, found across the change of namespace.
@@ -166,7 +164,6 @@ class VocabularyReviewTest extends DbTestCase
         // The namespace of the file's terms, which another vocabulary has
         // since taken, so the API refuses it.
         $token = $this->start('compare-moved.ttl', ['format' => 'turtle'], [
-            'label' => 'Refused',
             'namespace_uri' => 'http://example.org/moved#',
         ]);
         $this->api()->create('vocabularies', [
@@ -179,7 +176,7 @@ class VocabularyReviewTest extends DbTestCase
             $this->fail('The review was accepted');
         } catch (ValidationException $e) {
         }
-        $this->assertSame('Compare', $this->vocabulary()->label());
+        $this->assertSame(self::NAMESPACE_URI, $this->vocabulary()->namespaceUri());
         $this->assertSame('Title', $this->propertyLabel('title'));
         // The review goes on.
         $this->assertNotNull($this->review->get($token));
@@ -200,40 +197,13 @@ class VocabularyReviewTest extends DbTestCase
         $this->assertSame($files, glob($pattern));
     }
 
-    public function testReviewWithoutAFile()
-    {
-        $url = $this->review->startWithoutFile($this->vocabularyId, [
-            'label' => 'Moved',
-            'namespace_uri' => 'http://example.org/moved#',
-        ]);
-        $token = $this->tokens[] = substr($url, strpos($url, '=') + 1);
-        $review = $this->review->get($token);
-        $this->assertNull($review['file']);
-        $this->assertSame([], $review['reading']);
-        // Nothing to compare: its changes are the vocabulary's own fields.
-        $none = ['new' => [], 'label' => [], 'comment' => []];
-        $this->assertSame(['classes' => $none, 'properties' => $none], $this->review->getDiff($review, []));
-        $this->assertSame(['classes' => [], 'properties' => []], $this->review->getMissingTerms($review, []));
-
-        $this->review->accept($token, []);
-        $vocabulary = $this->vocabulary();
-        $this->assertSame('Moved', $vocabulary->label());
-        $this->assertSame('http://example.org/moved#', $vocabulary->namespaceUri());
-        // The terms are as they were, and no reading is stored, as no file
-        // was read.
-        $this->assertSame('Title', $this->propertyLabel('title'));
-        $this->assertNull($vocabulary->importOptions());
-        $this->assertNull($this->review->get($token));
-    }
-
     public function testCancelChangesNothingAndEnds()
     {
-        $token = $this->start('compare.ttl', ['format' => 'turtle'], ['label' => 'Cancelled']);
+        $token = $this->start('compare.ttl', ['format' => 'turtle']);
         $file = $this->review->get($token)['file'];
         $this->review->cancel($token);
         $this->assertNull($this->review->get($token));
         $this->assertFileDoesNotExist($file);
-        $this->assertSame('Compare', $this->vocabulary()->label());
         $this->assertSame('Title', $this->propertyLabel('title'));
     }
 
@@ -241,6 +211,11 @@ class VocabularyReviewTest extends DbTestCase
     {
         $token = $this->start('compare.ttl', ['format' => 'turtle'], ['return_url' => '/admin/vocabulary-library?page=2']);
         $this->assertSame('/admin/vocabulary-library?page=2', $this->review->getReturnUrl($this->review->get($token)));
+        $this->review->cancel($token);
+        // By default, the vocabulary's page; without a review, the
+        // vocabularies.
+        $token = $this->start('compare.ttl', ['format' => 'turtle']);
+        $this->assertSame(sprintf('/admin/vocabulary/%s', $this->vocabularyId), $this->review->getReturnUrl($this->review->get($token)));
         $this->review->cancel($token);
         $this->assertSame('/admin/vocabulary', $this->review->getReturnUrl());
 

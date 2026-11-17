@@ -1,0 +1,43 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'vocabularies show');
+?>
+
+<?php echo $this->pageTitle($translate($vocabulary->label()), 1, $translate('Vocabularies')); ?>
+
+<div id="page-actions">
+    <?php $this->trigger('view.show.page_actions', ['resource' => $vocabulary]); ?>
+    <?php // The pages that change it, each of which comes back here: the rarer ones in a menu, so the title has room. ?>
+    <?php if (!$vocabulary->isPermanent() && $vocabulary->userIsAllowed('update')): ?>
+    <?php echo $this->partial('omeka/admin/vocabulary/more-actions', ['vocabulary' => $vocabulary]); ?>
+    <?php echo $this->hyperlink($translate('Edit vocabulary'), $vocabulary->url('edit'), ['class' => 'button']); ?>
+    <?php endif; ?>
+</div>
+
+<?php $this->trigger('view.show.before'); ?>
+<dl>
+<?php if ('' !== (string) $vocabulary->comment()): ?>
+<div class="property">
+    <dt><?php echo $translate('Comment'); ?></dt>
+    <dd class="value"><?php echo $escape($translate($vocabulary->comment())); ?></dd>
+</div>
+<?php endif; ?>
+<div class="property">
+    <dt><?php echo $translate('Prefix'); ?></dt>
+    <dd class="value"><?php echo $escape($vocabulary->prefix()); ?></dd>
+</div>
+<div class="property">
+    <dt><?php echo $translate('Namespace URI'); ?></dt>
+    <dd class="value"><?php echo $escape($vocabulary->namespaceUri()); ?></dd>
+</div>
+<div class="property">
+    <dt><?php echo $translate('Classes'); ?></dt>
+    <dd class="value"><?php echo $this->hyperlink($vocabulary->resourceClassCount(), $vocabulary->url('classes')); ?></dd>
+</div>
+<div class="property">
+    <dt><?php echo $translate('Properties'); ?></dt>
+    <dd class="value"><?php echo $this->hyperlink($vocabulary->propertyCount(), $vocabulary->url('properties')); ?></dd>
+</div>
+</dl>
+<?php $this->trigger('view.show.after'); ?>

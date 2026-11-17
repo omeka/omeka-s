@@ -6,11 +6,12 @@ $escape = $this->plugin('escapeHtml');
 $form->prepare();
 ?>
 
-<?php echo $this->pageTitle($vocabulary->label(), 1, $translate('Vocabularies'), $translate('Update from file')); ?>
+<?php echo $this->pageTitle($vocabulary->label(), 1, $translate('Vocabularies'), $translate('Update classes and properties')); ?>
 
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
-    <?php echo $this->cancelButton(); ?>
+    <?php // To the vocabulary's page, rather than one page back, which may be a page this one sent the admin to. ?>
+    <?php echo $this->hyperlink($translate('Cancel'), $vocabulary->url(), ['class' => 'button']); ?>
     <button><?php echo $translate('Review changes'); ?></button>
 </div>
 <p><?php echo $translate('Omeka compares the file with this vocabulary and shows you the changes. Nothing is saved until you accept them, and no class or property is removed.'); ?></p>
@@ -21,7 +22,6 @@ $form->prepare();
     </div>
     <div class="inputs">
         <?php echo $escape($vocabulary->namespaceUri()); ?>
-        (<?php echo $this->hyperlink($translate('Change it on the Edit page'), $this->url(null, ['action' => 'edit'], true)); ?>)
     </div>
 </div>
 <?php echo $this->formCollection($form, false); ?>

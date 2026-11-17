@@ -55,6 +55,10 @@ class VocabularyAdapter extends AbstractEntityAdapter
                 $this->sortByCount($qb, $query, 'properties');
             } elseif ('resource_class_count' == $query['sort_by']) {
                 $this->sortByCount($qb, $query, 'resourceClasses');
+            } elseif ('owner_name' == $query['sort_by']) {
+                $ownerAlias = $qb->createAlias();
+                $qb->leftJoin('omeka_root.owner', $ownerAlias)
+                    ->addOrderBy("$ownerAlias.name", $query['sort_order']);
             } else {
                 parent::sortQuery($qb, $query);
             }

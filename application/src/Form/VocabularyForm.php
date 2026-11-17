@@ -9,14 +9,16 @@ class VocabularyForm extends Form
     protected $translator;
 
     /**
-     * - vocabulary: (optional) The vocabulary to edit, or to update from a
-     *   file. Without one, the form imports a vocabulary.
-     * - update_from_file: (optional) With a vocabulary, whether the form
-     *   takes a file to update it from, rather than its own fields
+     * - vocabulary: (optional) The vocabulary to change. Without one, the
+     *   form imports a vocabulary.
+     * - mode: (optional) With a vocabulary, what the form changes: "edit"
+     *   (the default), its label and comment; "change_namespace", its
+     *   namespace URI; or "update_from_file", its classes and properties,
+     *   from a file
      */
     protected $options = [
         'vocabulary' => null,
-        'update_from_file' => false,
+        'mode' => 'edit',
     ];
 
     public function __construct($name = null, $options = [])
@@ -27,11 +29,14 @@ class VocabularyForm extends Form
     public function init()
     {
         $vocabulary = $this->getOption('vocabulary');
-        // An import has every part; an edit, the vocabulary's own fields; an
-        // update from a file, the file. How the file is read is chosen on
-        // the review of an update, where its changes show.
-        $hasInfo = !$vocabulary || !$this->getOption('update_from_file');
-        $hasFile = !$vocabulary || $this->getOption('update_from_file');
+        $mode = $vocabulary ? $this->getOption('mode') : null;
+        // An import has every part; each change to a vocabulary, its own.
+        // How the file is read is chosen on the review of an update, where
+        // its changes show.
+        $hasLabel = !$vocabulary || 'edit' === $mode;
+        $hasNamespace = !$vocabulary || 'change_namespace' === $mode;
+        $hasInfo = $hasLabel || $hasNamespace;
+        $hasFile = !$vocabulary || 'update_from_file' === $mode;
         $hasAdvanced = !$vocabulary;
         $this->setAttribute('id', 'vocabulary-form');
         if ($hasInfo) {
@@ -42,7 +47,7 @@ class VocabularyForm extends Form
                     'label' => 'Basic info', // @translate
                 ],
             ]);
-            $this->addInfoElements($vocabulary);
+            $this->addInfoElements($vocabulary, $hasLabel, $hasNamespace);
         }
         if ($hasFile) {
             $this->add([
@@ -66,7 +71,7 @@ class VocabularyForm extends Form
         }
 
         $inputFilter = $this->getInputFilter();
-        if ($hasInfo) {
+        if ($hasNamespace) {
             // The file is read with the namespace URI before the API saves
             // it, trimmed, so a stray space would find no classes or
             // properties.
@@ -126,8 +131,52 @@ class VocabularyForm extends Form
      * Add the vocabulary's own fields.
      *
      * @param \Omeka\Api\Representation\VocabularyRepresentation|null $vocabulary
+     * @param bool $hasLabel Whether to add its label and comment
+     * @param bool $hasNamespace Whether to add its namespace URI
      */
-    protected function addInfoElements($vocabulary)
+    protected function addInfoElements($vocabulary, $hasLabel, $hasNamespace)
+    {
+        if ($hasLabel) {
+            $this->addLabelElements();
+        }
+        if ($hasNamespace) {
+            $this->get('vocabulary-info')->add([
+                'name' => 'o:namespace_uri',
+                'type' => 'text',
+                'options' => [
+                    // A vocabulary's own is shown above the field for its new one.
+                    'label' => $vocabulary
+                        ? 'New namespace URI' // @translate
+                        : 'Namespace URI', // @translate
+                    'info' => 'Enter the unique namespace URI used to identify the classes and properties of the vocabulary.', // @translate
+                ],
+                'attributes' => [
+                    'required' => true,
+                    'id' => 'o:namespace_uri',
+                    'data-confirm-ends-with' => $this->translator->translate('The namespace URI you entered does not end with a / or #, as is normally expected for namespace URIs. Would you like to save anyway?'),
+                ],
+            ]);
+        }
+        if (!$vocabulary) {
+            $this->get('vocabulary-info')->add([
+                'name' => 'o:prefix',
+                'type' => 'text',
+                'options' => [
+                    'label' => 'Namespace prefix', // @translate
+                    'info' => 'Enter a concise vocabulary identifier used as a shorthand for the namespace URI.', // @translate
+                ],
+                'attributes' => [
+                    'required' => true,
+                    'id' => 'o:prefix',
+                ],
+            ]);
+        }
+    }
+
+    /**
+     * Add the vocabulary's label and comment.
+     */
+    protected function addLabelElements()
     {
         $this->get('vocabulary-info')->add([
             'name' => 'o:label',
@@ -152,34 +201,6 @@ class VocabularyForm extends Form
                 'id' => 'o:comment',
             ],
         ]);
-        $this->get('vocabulary-info')->add([
-            'name' => 'o:namespace_uri',
-            'type' => 'text',
-            'options' => [
-                'label' => 'Namespace URI', // @translate
-                'info' => 'Enter the unique namespace URI used to identify the classes and properties of the vocabulary.', // @translate
-            ],
-            'attributes' => [
-                'required' => true,
-                'id' => 'o:namespace_uri',
-                'placeholder' => $vocabulary ? $vocabulary->namespaceUri() : null,
-                'data-confirm-ends-with' => $this->translator->translate('The namespace URI you entered does not end with a / or #, as is normally expected for namespace URIs. Would you like to save anyway?'),
-            ],
-        ]);
-        if (!$vocabulary) {
-            $this->get('vocabulary-info')->add([
-                'name' => 'o:prefix',
-                'type' => 'text',
-                'options' => [
-                    'label' => 'Namespace prefix', // @translate
-                    'info' => 'Enter a concise vocabulary identifier used as a shorthand for the namespace URI.', // @translate
-                ],
-                'attributes' => [
-                    'required' => true,
-                    'id' => 'o:prefix',
-                ],
-            ]);
-        }
     }
 
     /**

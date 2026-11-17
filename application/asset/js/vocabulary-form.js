@@ -26,13 +26,12 @@ $('.import-type-select').on('change', function(e) {
 });
 
 $('#vocabulary-form').on('submit', function(e) {
-    // The form to update from a file has no namespace URI.
+    // Only the import and Change namespace forms have a namespace URI.
     const namespaceUriInput = $('#o\\:namespace_uri');
     if (!namespaceUriInput.length) {
         return;
     }
     // The user must confirm that the namespace URI does not end with / or #.
-    // A change of namespace URI is confirmed on the review page.
     const namespaceUri = namespaceUriInput.val();
     if (!(namespaceUri.endsWith('/') || namespaceUri.endsWith('#'))) {
         if (!window.confirm(namespaceUriInput.data('confirmEndsWith'))) {

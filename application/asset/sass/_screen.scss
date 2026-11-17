@@ -3626,9 +3626,9 @@ input[type=text].query-form-query {
 /* @group ----- Vocabulary: Review ----- */
 
 /* The button that applies the choices follows them, not in a field, where
-   it would lack contrast on the field's gray. */
+   it would lack contrast on the field's gray, and set off from them. */
 .vocabularies.review .review-choices-actions {
-    margin: 0 0 $spacing-large;
+    margin: $spacing-medium 0 $spacing-large;
 }
 
 /* Section headings at h3's size: they head parts of one page, and at h2's
@@ -3636,15 +3636,6 @@ input[type=text].query-form-query {
 .vocabularies.review #content h2 {
     font-size: 1.5 * $base-font-size;
     line-height: $base-line-height;
-}
-
-/* The reading options rarely needed, shown when asked for. */
-.vocabularies.review .review-choices .collapsible {
-    display: none;
-}
-
-.vocabularies.review .review-choices .collapse + .collapsible {
-    display: block;
 }
 
 /* The sections below, as one line of links. */

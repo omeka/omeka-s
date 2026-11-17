@@ -45,6 +45,18 @@ class VocabularyController extends AbstractActionController
         return $view;
     }
 
+    /**
+     * Show a vocabulary: its own fields, its classes and properties, and the
+     * pages that change it, where the user may change it. Each of those
+     * pages comes back here, whether it's done or cancelled.
+     */
+    public function showAction()
+    {
+        $view = new ViewModel;
+        $view->setVariable('vocabulary', $this->api()->read('vocabularies', $this->params('id'))->getContent());
+        return $view;
+    }
+
     public function showDetailsAction()
     {
         $response = $this->api()->read('vocabularies', $this->params('id'));
@@ -124,7 +136,8 @@ class VocabularyController extends AbstractActionController
                     );
                     $message->setEscapeHtml(false);
                     $this->messenger()->addSuccess($message);
-                    return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+                    // To the new vocabulary's page, which shows what came in.
+                    return $this->redirect()->toUrl($response->getContent()->url());
                 } catch (\Exception $e) {
                     $messages = [];
                     if ($e->getMessage()) {
@@ -148,9 +161,9 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Edit a vocabulary's own fields. Its label and comment are saved at
-     * once; a change of its namespace URI, which changes every term's URI,
-     * is reviewed first, with any label and comment change made with it.
+     * Edit a vocabulary's label and comment. Its namespace URI is changed on
+     * a page of its own, and its classes and properties are updated from a
+     * file on another.
      */
     public function editAction()
     {
@@ -166,6 +179,40 @@ class VocabularyController extends AbstractActionController
             'vocabulary-info' => [
                 'o:label' => $vocabulary->label(),
                 'o:comment' => $vocabulary->comment(),
+            ],
+        ]);
+        $view = new ViewModel;
+        $view->setVariable('vocabulary', $vocabulary);
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $form->setData($request->getPost()->toArray());
+            if ($form->isValid()) {
+                // Where the API refuses the vocabulary's own fields, it puts
+                // its reasons on the form, which is shown again.
+                $response = $this->api($form)->update('vocabularies', $this->params('id'), $form->getData()['vocabulary-info'], [], ['isPartial' => true]);
+                if ($response) {
+                    $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
+                    return $this->redirect()->toUrl($response->getContent()->url());
+                }
+            } else {
+                $this->messenger()->addFormErrors($form);
+            }
+        }
+        $view->setVariable('form', $form);
+        return $view;
+    }
+
+    /**
+     * Change a vocabulary's namespace URI, which changes the URI of every one
+     * of its classes and properties. The field starts with the vocabulary's
+     * own, to edit.
+     */
+    public function changeNamespaceAction()
+    {
+        $vocabulary = $this->getVocabularyToUpdate();
+        $form = $this->getForm(VocabularyForm::class, ['vocabulary' => $vocabulary, 'mode' => 'change_namespace']);
+        $form->setData([
+            'vocabulary-info' => [
                 'o:namespace_uri' => $vocabulary->namespaceUri(),
             ],
         ]);
@@ -175,32 +222,18 @@ class VocabularyController extends AbstractActionController
         if ($request->isPost()) {
             $form->setData($request->getPost()->toArray());
             if ($form->isValid()) {
-                $info = $form->getData()['vocabulary-info'];
-                $namespaceUri = trim((string) $info['o:namespace_uri']);
+                $namespaceUri = $form->getData()['vocabulary-info']['o:namespace_uri'];
                 if ($namespaceUri === $vocabulary->namespaceUri()) {
-                    // Where the API refuses the vocabulary's own fields, it
-                    // puts its reasons on the form, which is shown again.
-                    $response = $this->api($form)->update('vocabularies', $this->params('id'), $info, [], ['isPartial' => true]);
-                    if ($response) {
-                        $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
-                        return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
-                    }
-                } elseif ($this->isNamespaceUriTaken($namespaceUri, $vocabulary)) {
-                    // As the API would refuse it on accepting the change.
-                    $this->messenger()->addError(new Message(
-                        'The namespace URI "%s" is already taken.', // @translate
-                        $namespaceUri
-                    ));
+                    $this->messenger()->addError('The vocabulary already has this namespace URI.'); // @translate
                 } else {
-                    $pending = ['namespace_uri' => $namespaceUri];
-                    $label = trim((string) $info['o:label']);
-                    if ($label !== $vocabulary->label()) {
-                        $pending['label'] = $label;
+                    // Where the API refuses it, as one another vocabulary
+                    // has, it puts its reasons on the form, which is shown
+                    // again.
+                    $response = $this->api($form)->update('vocabularies', $vocabulary->id(), ['o:namespace_uri' => $namespaceUri], [], ['isPartial' => true]);
+                    if ($response) {
+                        $this->messenger()->addSuccess('Namespace successfully changed'); // @translate
+                        return $this->redirect()->toUrl($vocabulary->url());
                     }
-                    if ((string) $info['o:comment'] !== (string) $vocabulary->comment()) {
-                        $pending['comment'] = $info['o:comment'];
-                    }
-                    return $this->redirect()->toUrl($this->vocabularyReview->startWithoutFile($vocabulary->id(), $pending));
                 }
             } else {
                 $this->messenger()->addFormErrors($form);
@@ -217,7 +250,7 @@ class VocabularyController extends AbstractActionController
     public function updateAction()
     {
         $vocabulary = $this->getVocabularyToUpdate();
-        $form = $this->getForm(VocabularyForm::class, ['vocabulary' => $vocabulary, 'update_from_file' => true]);
+        $form = $this->getForm(VocabularyForm::class, ['vocabulary' => $vocabulary, 'mode' => 'update_from_file']);
         // In the format the vocabulary's file was read in, unless changed.
         $format = $vocabulary->importOptions()['format'] ?? null;
         if (null !== $format) {
@@ -252,7 +285,20 @@ class VocabularyController extends AbstractActionController
                             : $this->vocabularyReview->startFromUrl($vocabulary->id(), $url, $reading);
                         return $this->redirect()->toUrl($reviewUrl);
                     } catch (\Exception $e) {
-                        $this->messenger()->addErrors($this->getErrors($e));
+                        $namespaceUri = $this->getFileNamespaceUri($e);
+                        if (null === $namespaceUri) {
+                            $this->messenger()->addErrors($this->getErrors($e));
+                        } else {
+                            // The file's terms are in another namespace: say
+                            // which, beside the vocabulary's, as they may
+                            // differ by a character, and how to move it.
+                            $message = new Message(
+                                'None of this file\'s classes or properties are in this vocabulary\'s namespace, "%1$s". They use "%2$s". If the vocabulary has moved, change its namespace, then update it again.', // @translate
+                                $vocabulary->namespaceUri(),
+                                $namespaceUri
+                            );
+                            $this->messenger()->addError($message);
+                        }
                     }
                 }
             } else {
@@ -273,7 +319,7 @@ class VocabularyController extends AbstractActionController
         $token = (string) $this->params()->fromQuery('review');
         $review = $this->getReview($token, $vocabulary);
         if (!$review) {
-            return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
+            return $this->redirect()->toUrl($vocabulary->url());
         }
         $reading = $this->vocabularyReview->getReading($review, $this->getChoices($this->params()->fromQuery()));
 
@@ -309,7 +355,7 @@ class VocabularyController extends AbstractActionController
         $token = (string) ($post['review'] ?? '');
         $review = $this->getRequest()->isPost() ? $this->getReview($token, $vocabulary) : null;
         if (!$review) {
-            return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
+            return $this->redirect()->toUrl($vocabulary->url());
         }
         $choices = $this->getChoices($post);
         $form = $this->getForm(ConfirmForm::class);
@@ -339,7 +385,7 @@ class VocabularyController extends AbstractActionController
         $token = (string) ($post['review'] ?? '');
         $review = $this->getRequest()->isPost() ? $this->getReview($token, $vocabulary) : null;
         if (!$review) {
-            return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
+            return $this->redirect()->toUrl($vocabulary->url());
         }
         $form = $this->getForm(ConfirmForm::class);
         $form->setData($post);
@@ -440,7 +486,7 @@ class VocabularyController extends AbstractActionController
     {
         $review = $this->vocabularyReview->get($token);
         if (!$review || $review['vocabulary_id'] !== $vocabulary->id()) {
-            $this->messenger()->addError('This review has ended. Edit the vocabulary to review its changes again.'); // @translate
+            $this->messenger()->addError('This review has ended. Update the vocabulary\'s classes and properties to review its changes again.'); // @translate
             return null;
         }
         return $review;
@@ -517,19 +563,25 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Check whether another vocabulary has a namespace URI.
+     * Get the namespace URI a file's classes and properties use, where the
+     * importer refused the file for having none in the vocabulary's. It's
+     * the one argument of the importer's message under o:namespace_uri.
      *
-     * @param string $namespaceUri
-     * @param \Omeka\Api\Representation\VocabularyRepresentation $vocabulary
-     * @return bool
+     * @see RdfImporter::checkNamespaceUri()
+     * @param \Exception $e
+     * @return string|null
      */
-    protected function isNamespaceUriTaken($namespaceUri, $vocabulary)
+    protected function getFileNamespaceUri(\Exception $e)
     {
-        $namespaceUri = trim((string) $namespaceUri);
-        if ($namespaceUri === $vocabulary->namespaceUri()) {
-            return false;
+        if (!$e instanceof ValidationException) {
+            return null;
         }
-        return (bool) $this->api()->search('vocabularies', ['namespace_uri' => $namespaceUri])->getTotalResults();
+        foreach ($e->getErrorStore()->getErrors()['o:namespace_uri'] ?? [] as $message) {
+            if ($message instanceof Message && $message->hasArgs()) {
+                return (string) $message->getArgs()[0];
+            }
+        }
+        return null;
     }
 
     /**

@@ -863,23 +863,37 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame($files, glob($tempDir . '/' . VocabularyFileStore::FILE_PREFIX . '*'));
     }
 
-    public function testImportOfAVocabularyOmekaHasIsRefusedAtTheStart()
+    public function testImportOfAVocabularyOmekaHasWarnsThenRefuses()
     {
         // Its terms are in the tests' vocabulary's namespace.
-        $this->assertSame(200, $this->startImport('markup.ttl'));
+        $this->assertSame(302, $this->startImport('markup.ttl'));
+        $url = $this->importDetailsUrl();
+        // Said on the details, where a namespace found wrong can be corrected.
+        $this->requestAs(self::ADMIN, 'GET', $url);
         $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
-        $this->assertStringContainsString('Omeka already has this vocabulary, as "Review" with the namespace URI "http://example.org/review#". To update it, use Update classes and properties on its page.', strip_tags($page));
-        // Its name links to its page.
+        $this->assertStringContainsString('Omeka already has a vocabulary with the namespace URI this file appears to use, "http://example.org/review#": Review. If the file is that vocabulary, update it from its page instead. If not, enter the file\'s own namespace URI below.', strip_tags($page));
         $this->assertStringContainsString(sprintf('<a href="/admin/vocabulary/%s">Review</a>', $this->vocabularyId), $page);
+        // Refused if it's kept.
+        try {
+            $this->assertSame(200, $this->finishImport($url, [
+                'o:label' => 'Review again',
+                'o:namespace_uri' => 'http://example.org/review#',
+                'o:prefix' => 'review2',
+            ]));
+            $this->assertStringContainsString('Omeka already has this vocabulary, as "Review" with the namespace URI "http://example.org/review#". To update it, use Update classes and properties on its page.', strip_tags(html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5)));
+        } finally {
+            $this->deleteImported('review2');
+        }
     }
 
-    public function testImportOfAVocabularyTheUserMayNotUpdateSaysOnlyThatOmekaHasIt()
+    public function testImportDetailsWarnOfAVocabularyTheUserMayNotUpdate()
     {
-        // Dublin Core, which no one may update.
-        $this->assertSame(200, $this->startImport('dcterms-title.ttl'));
+        // A file whose terms are Dublin Core's, which no one may update.
+        $this->assertSame(302, $this->startImport('dcterms-title.ttl'));
+        $this->requestAs(self::ADMIN, 'GET', $this->importDetailsUrl());
         $text = strip_tags(html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
-        $this->assertStringContainsString('Omeka already has this vocabulary, as "Dublin Core" with the namespace URI "http://purl.org/dc/terms/".', $text);
-        $this->assertStringNotContainsString('To update it', $text);
+        $this->assertStringContainsString('Omeka already has a vocabulary with the namespace URI this file appears to use, "http://purl.org/dc/terms/": Dublin Core. If the file is a different vocabulary, enter its own namespace URI below.', $text);
+        $this->assertStringNotContainsString('update it from its page', $text);
     }
 
     public function testImportRefusesAnotherFormOfANamespaceOmekaHas()

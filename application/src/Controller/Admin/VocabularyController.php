@@ -92,7 +92,9 @@ class VocabularyController extends AbstractActionController
 
     /**
      * Import a vocabulary, first step: take its file, read what it says of
-     * itself, and go on to the details, with the file kept.
+     * itself, and go on to the details, with the file kept. A vocabulary
+     * Omeka has is caught on the details, where a namespace URI found wrong
+     * can be corrected.
      */
     public function importAction()
     {
@@ -115,19 +117,12 @@ class VocabularyController extends AbstractActionController
                         $token = isset($source['file'])
                             ? $this->fileStore->keep($source['file'])
                             : $this->fileStore->keepFromUrl($source['url']);
-                        $details = $this->getImportDetails($token, $data['format']);
-                        // A vocabulary Omeka has, in any form of the
-                        // namespace, is updated from its page: imported, its
-                        // terms would be twice.
-                        $other = null === $details['namespace_uri'] ? null : $this->getVocabularyWithNamespace($details['namespace_uri']);
-                        if ($other) {
-                            $this->fileStore->remove($token);
-                            $this->messenger()->addError($this->getAlreadyHasMessage($other));
-                        } else {
-                            return $this->redirect()->toRoute('admin/default', ['controller' => 'vocabulary', 'action' => 'import-details'], [
-                                'query' => ['file' => $token, 'format' => $data['format']],
-                            ]);
-                        }
+                        // A file that can't be read, or has no classes or
+                        // properties, is refused now.
+                        $this->getImportDetails($token, $data['format']);
+                        return $this->redirect()->toRoute('admin/default', ['controller' => 'vocabulary', 'action' => 'import-details'], [
+                            'query' => ['file' => $token, 'format' => $data['format']],
+                        ]);
                     } catch (\Exception $e) {
                         if (null !== $token) {
                             $this->fileStore->remove($token);
@@ -182,11 +177,28 @@ class VocabularyController extends AbstractActionController
             ],
         ]);
         $request = $this->getRequest();
+        // The namespace URI found may be another vocabulary's, as when a
+        // file redeclares terms it reuses, so it's said, for the admin to
+        // update that one instead or give the file's own.
+        $other = null === $details['namespace_uri'] ? null : $this->getVocabularyWithNamespace($details['namespace_uri']);
+        if (!$request->isPost() && $other) {
+            $message = new Message(
+                !$other->isPermanent() && $other->userIsAllowed('update')
+                    ? 'Omeka already has a vocabulary with the namespace URI this file appears to use, "%1$s": %2$s. If the file is that vocabulary, update it from its page instead. If not, enter the file\'s own namespace URI below.' // @translate
+                    : 'Omeka already has a vocabulary with the namespace URI this file appears to use, "%1$s": %2$s. If the file is a different vocabulary, enter its own namespace URI below.', // @translate
+                htmlspecialchars($other->namespaceUri()),
+                sprintf('<a href="%s">%s</a>', htmlspecialchars($other->url()), htmlspecialchars($other->label()))
+            );
+            $message->setEscapeHtml(false);
+            $this->messenger()->addWarning($message);
+        }
         if ($request->isPost()) {
             // The form posts to the page's own URL, query and all.
             $form->setData($request->getPost()->toArray());
             if ($form->isValid()) {
                 $data = $form->getData();
+                // A vocabulary Omeka has, in any form of the namespace, is
+                // updated from its page: imported, its terms would be twice.
                 $other = $this->getVocabularyWithNamespace($data['vocabulary-info']['o:namespace_uri']);
                 if ($other) {
                     $this->messenger()->addError($this->getAlreadyHasMessage($other));

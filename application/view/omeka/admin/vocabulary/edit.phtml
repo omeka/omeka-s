@@ -10,13 +10,13 @@ $form->prepare();
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
     <?php $this->trigger('view.edit.page_actions', ['resource' => $vocabulary]); ?>
-    <?php // Its confirmation loads when asked for, as from the list: its counts take a while on a large installation. ?>
+    <?php // The delete confirmation loads on click, as from the list: its counts take a while on a large installation. ?>
     <?php echo $this->hyperlink($translate('Delete'), '#', [
         'class' => 'delete button sidebar-content',
         'data-sidebar-selector' => '#delete',
         'data-sidebar-content-url' => $vocabulary->url('delete-confirm'),
     ]); ?>
-    <?php // One page back, as core's Cancel goes: Edit opens from the vocabulary's page or the list. ?>
+    <?php // Core's Cancel goes one page back, which suits Edit: it opens from the vocabulary's page or the list. ?>
     <?php echo $this->cancelButton(); ?>
     <button><?php echo $translate('Save'); ?></button>
 </div>
@@ -25,7 +25,7 @@ $form->prepare();
 <?php echo $this->formCollection($form->get('vocabulary-info')); ?>
 <?php $this->trigger('view.edit.form.after', ['form' => $form]); ?>
 <?php echo $this->form()->closeTag(); ?>
-<?php // Deleting takes every value of its properties, so the confirmation, loaded into this, says how much. ?>
+<?php // The sidebar the delete confirmation loads into. Deleting removes every value of the vocabulary's properties, so it gives the counts. ?>
 <div id="delete" class="sidebar">
     <?php echo $this->hyperlink('', '#', ['class' => 'sidebar-close o-icon-close', 'title' => $translate('Close')]); ?>
     <div class="sidebar-content"></div>

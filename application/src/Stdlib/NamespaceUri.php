@@ -2,8 +2,9 @@
 namespace Omeka\Stdlib;
 
 /**
- * The forms of a namespace URI, which are one vocabulary: ending in "#", "/",
- * or neither, with http or https.
+ * The forms of a namespace URI that name the same vocabulary: ending in "#",
+ * "/", or neither, with http or https. For example, http://schema.org/ and
+ * https://schema.org/ are forms of one namespace URI.
  */
 class NamespaceUri
 {

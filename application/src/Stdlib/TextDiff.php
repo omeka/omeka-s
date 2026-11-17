@@ -8,14 +8,16 @@ namespace Omeka\Stdlib;
 class TextDiff
 {
     /**
-     * The most words of each text's middle that are matched up. Past this,
-     * the middles differ as a whole, so long texts can't hold up the page.
+     * The most words matched one by one in each text's middle, the part
+     * between what the two share at their start and end. A longer middle is
+     * marked changed as a whole, so long texts can't hold up the page.
      */
     const MAX_WORDS = 600;
 
     /**
      * Two texts, each as the parts it shares with the other and the parts it
-     * doesn't. A change in spacing alone shows as that.
+     * doesn't. Where only the space between two shared words differs, just
+     * that space is marked.
      *
      * @param string $from
      * @param string $to
@@ -141,7 +143,8 @@ class TextDiff
                 $marked[] = [$word, !$matched];
             }
             if ($space !== '') {
-                // Space a text starts with has no word to differ with it.
+                // Unmatched space at a text's start (its word is empty) is a
+                // change of its own.
                 $marked[] = [$space, $matched
                     ? $space !== $others[$match[$i]][1]
                     : $word === '' || (isset($units[$i + 1]) && !isset($match[$i + 1]))];

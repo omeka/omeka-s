@@ -24,7 +24,8 @@ class VocabularyFileStore
     const MAX_AGE = 86400;
 
     /**
-     * How many redirects fetching a URL follows, as EasyRdf's client does.
+     * How many redirects fetching a URL follows: 5, as EasyRdf's HTTP client
+     * follows by default.
      */
     const MAX_REDIRECTS = 5;
 
@@ -141,7 +142,8 @@ class VocabularyFileStore
     }
 
     /**
-     * Fetch the file at a URL with EasyRdf's HTTP client, as EasyRdf does.
+     * Fetch the file at a URL with EasyRdf's HTTP client, asking for RDF
+     * formats, as EasyRdf does when it loads a URL.
      *
      * @param string $url
      * @return string

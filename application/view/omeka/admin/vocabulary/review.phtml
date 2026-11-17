@@ -9,7 +9,8 @@ $sourceLabel = $review['source_label'] ?? $translate('the file');
 $lang = (string) ($reading['lang'] ?? '');
 $commentProperty = $reading['comment_property'] ?? \Omeka\Stdlib\RdfImporter::COMMENT_PROPERTY;
 $comments = array_search($commentProperty, \Omeka\Stdlib\RdfImporter::COMMENT_READINGS, true);
-// Properties other than those offered were entered.
+// A comment property the Comments field doesn't offer, or a label property
+// other than the default, was entered by hand, so its box is filled in.
 $otherCommentProperty = false === $comments ? $commentProperty : '';
 $comments = $comments ?: 'other';
 $labelProperty = $reading['label_property'] ?? \Omeka\Stdlib\RdfImporter::LABEL_PROPERTY;
@@ -75,7 +76,8 @@ $listed = function (array $terms) use ($term, $value, $byTerm) {
     return $rows;
 };
 
-// A pending namespace URI, shown whole.
+// Whether the review also changes the namespace URI, shown whole rather
+// than marked word by word.
 $namespaceChanges = null !== $review['namespace_uri'];
 
 // Labels first, which everyone sees, then new terms, comments, and the terms
@@ -117,7 +119,7 @@ $changes = null !== $diff && ($termChanges || $namespaceChanges);
         <?php endif; ?>
     </div>
     <input type="hidden" name="review" value="<?php echo $escape($token); ?>">
-    <?php // The reading shown, which Accept applies. ?>
+    <?php // The reading options the changes below were read with, which Accept applies. ?>
     <input type="hidden" name="lang" value="<?php echo $escape($lang); ?>">
     <input type="hidden" name="comments" value="<?php echo $escape($comments); ?>">
     <input type="hidden" name="label_property" value="<?php echo $escape($otherLabelProperty); ?>">

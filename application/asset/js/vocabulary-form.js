@@ -25,8 +25,8 @@ $('.import-type-select').on('change', function(e) {
     }
 });
 
-// Where comments are read from: the property to read them from is shown only
-// for another.
+// The Comments field: the comment property is shown only when "Another
+// property…" is chosen.
 $('[data-other-property]').each(function() {
     const choice = $(this);
     const field = $(choice.data('otherProperty')).closest('.field');
@@ -38,7 +38,7 @@ $('[data-other-property]').each(function() {
 });
 
 $('#vocabulary-form').on('submit', function(e) {
-    // Only the import and Edit forms have a namespace URI.
+    // Only the import details and Edit forms have a namespace URI.
     const namespaceUriInput = $('#o\\:namespace_uri');
     if (!namespaceUriInput.length) {
         return;

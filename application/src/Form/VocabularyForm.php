@@ -147,7 +147,8 @@ class VocabularyForm extends Form
                 'required' => true,
                 'id' => 'o:namespace_uri',
                 'data-confirm-ends-with' => $this->translator->translate('The namespace URI you entered does not end with a / or #, as is normally expected for namespace URIs. Would you like to save anyway?'),
-                // Unchanged, the script doesn't ask about it.
+                // vocabulary-form.js skips its "doesn't end with / or #"
+                // prompt for this namespace URI, unchanged.
                 'data-saved-namespace-uri' => $vocabulary ? $vocabulary->namespaceUri() : null,
             ],
         ]);
@@ -285,7 +286,8 @@ class VocabularyForm extends Form
                 'id' => 'lang',
             ],
         ]);
-        // The comment property is shown only for another.
+        // vocabulary-form.js shows the comment property only when
+        // "Another property…" is chosen.
         $this->get('vocabulary-advanced')->add([
             'name' => 'comments',
             'type' => 'select',

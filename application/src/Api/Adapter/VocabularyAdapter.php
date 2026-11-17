@@ -107,7 +107,8 @@ class VocabularyAdapter extends AbstractEntityAdapter
         if ($this->shouldHydrate($request, 'o:import_options')) {
             $importOptions = $request->getValue('o:import_options');
             if (is_array($importOptions)) {
-                // Only the importer's reading options, each text or none.
+                // Keep only the reading options (RdfImporter::READING_OPTIONS),
+                // each as text or null.
                 $importOptions = array_intersect_key($importOptions, array_flip(RdfImporter::READING_OPTIONS));
                 foreach ($importOptions as $key => $value) {
                     $importOptions[$key] = is_scalar($value) ? (string) $value : null;
@@ -194,7 +195,8 @@ class VocabularyAdapter extends AbstractEntityAdapter
         }
         if (isset($query['namespace_uri'])) {
             if (is_array($query['namespace_uri'])) {
-                // Any of them, as the forms NamespaceUri::getForms() gives.
+                // Any of them, such as NamespaceUri::getForms() gives; an empty
+                // list matches nothing.
                 $namespaceUris = array_values(array_filter(array_map('strval', $query['namespace_uri']), 'strlen'));
                 $qb->andWhere($namespaceUris
                     ? $qb->expr()->in('omeka_root.namespaceUri', $qb->createNamedParameter($namespaceUris))

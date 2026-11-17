@@ -3625,8 +3625,8 @@ input[type=text].query-form-query {
 
 /* @group ----- Vocabulary: Review ----- */
 
-/* The button that applies the choices follows them, not in a field, where
-   it would lack contrast on the field's gray, and set off from them. */
+/* "Show changes" sits below the choices, outside a field, whose gray would
+   wash it out, with space to set it off from them. */
 .vocabularies.review .review-choices-actions {
     margin: $spacing-medium 0 $spacing-large;
 }
@@ -3638,7 +3638,7 @@ input[type=text].query-form-query {
     line-height: $base-line-height;
 }
 
-/* The sections below, as one line of links. */
+/* The links to the sections below, in a wrapping row, not a list. */
 .vocabularies.review .review-sections ul {
     display: flex;
     flex-wrap: wrap;
@@ -3648,18 +3648,19 @@ input[type=text].query-form-query {
     list-style: none;
 }
 
-/* A table of changes gives the values from and to the room: its first
-   column holds only a name. Long comments make tall rows, so each term
-   stays beside the start of its values. */
+/* In a table of changes, the first column holds only the term, so it's
+   kept narrow, leaving room for the values from and to. */
 .vocabularies.review .review-changes th:first-child {
     width: 25%;
 }
 
+/* Long comments make tall rows: align to the top, so each term stays
+   beside the start of its values. */
 .vocabularies.review table.tablesaw.review-table td {
     vertical-align: top;
 }
 
-/* A term, as its label in Omeka and beneath it its term. */
+/* The prefixed term (dcterms:title) on its own line, under its label. */
 .vocabularies.review .review-table .field-term {
     display: block;
 }

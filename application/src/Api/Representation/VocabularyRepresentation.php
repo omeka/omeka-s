@@ -183,7 +183,8 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      * Count the entities of a class whose term is one of this vocabulary's.
      *
      * @param string $entityClass
-     * @param string $termField The entity's property or resource class
+     * @param string $termField The entity's field that holds its term:
+     *   "property" or "resourceClass"
      * @return int
      */
     protected function countByTerm($entityClass, $termField)

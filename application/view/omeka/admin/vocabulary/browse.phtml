@@ -27,7 +27,7 @@ $this->htmlElement('body')->appendAttribute('class', 'vocabs browse');
             <?php echo $this->browse()->renderHeaderCell($translate('Prefix'), 'prefix'); ?>
             <?php echo $this->browse()->renderHeaderCell($translate('Classes'), 'resource_class_count'); ?>
             <?php echo $this->browse()->renderHeaderCell($translate('Properties'), 'property_count'); ?>
-            <?php // Who may change it: a Supervisor, only their own. Omeka's own have none. ?>
+            <?php // Who may change it: a Supervisor can change only their own vocabularies. Those installed with Omeka have no owner. ?>
             <?php echo $this->browse()->renderHeaderCell($translate('Owner'), 'owner_name'); ?>
         </tr>
     </thead>

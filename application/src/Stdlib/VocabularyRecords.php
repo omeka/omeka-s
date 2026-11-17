@@ -6,15 +6,18 @@ use EasyRdf\Resource as RdfResource;
 use Omeka\Entity\Vocabulary;
 
 /**
- * What a vocabulary file says of its own vocabulary, read from the records
- * that describe it: its prefix, title, and description.
+ * What a vocabulary file says of its own vocabulary, its prefix, title, and
+ * description, read from its "records": the resources that describe it, such
+ * as an owl:Ontology, the namespace URI itself, or the resource its terms name
+ * with rdfs:isDefinedBy.
  */
 class VocabularyRecords
 {
     /**
-     * Get the prefix a file declares for its vocabulary, if Omeka can take
-     * it. Only its own records are read, as a file may declare the prefixes
-     * of vocabularies it reuses.
+     * Get the prefix a file declares for its vocabulary
+     * (vann:preferredNamespacePrefix), if it's a valid Omeka prefix. Only this
+     * namespace's records are read, as a file may declare prefixes for
+     * vocabularies it reuses.
      *
      * @param RdfGraph $graph
      * @param string $namespaceUri
@@ -40,14 +43,14 @@ class VocabularyRecords
 
     /**
      * Get a file's text for its vocabulary, such as its title, from the first
-     * of its records that has it. A title is one line; a description keeps
-     * its paragraphs, and all its values.
+     * of its records that has it.
      *
      * @param RdfGraph $graph
      * @param string $namespaceUri
      * @param string $properties Alternatives, as "a|b"
      * @param string|null $lang
-     * @param bool $paragraphs
+     * @param bool $paragraphs True for a description, keeping its paragraphs
+     *   and all its values; false for a title, one value on one line
      * @return string|null
      */
     public static function getText(RdfGraph $graph, $namespaceUri, $properties, $lang, $paragraphs)
@@ -78,9 +81,10 @@ class VocabularyRecords
 
     /**
      * Get the records a file may describe its vocabulary in, in the order
-     * they're read: its ontology records, or its only one; the namespace
-     * resource, with and without its closing # or /; and the record most of
-     * its terms name with rdfs:isDefinedBy.
+     * they're read: its owl:Ontology resources for the namespace, else its
+     * only owl:Ontology if it has just one; the namespace URI as a resource,
+     * with and without its closing # or /; and the resource most of its
+     * terms name with rdfs:isDefinedBy.
      *
      * @param RdfGraph $graph
      * @param string $namespaceUri

@@ -9,9 +9,9 @@ use Omeka\Api\Manager as ApiManager;
 use Omeka\Permissions\Exception\PermissionDeniedException;
 
 /**
- * Reviews of the changes a file would make to a vocabulary, kept in the
- * session, with their files kept in the file store, until they're accepted
- * or cancelled.
+ * Reviews of the changes a file would make to a vocabulary, held in the
+ * session, with their files in the file store, until they're accepted or
+ * cancelled.
  */
 class VocabularyReview
 {
@@ -59,18 +59,20 @@ class VocabularyReview
      * Start a review of the changes a file would make to a vocabulary.
      *
      * @param int $vocabularyId
-     * @param string $filePath The file, which is copied, so it can go
-     * @param array $readingOptions How to read the file, as the importer's
-     *   options: format, lang, label_property, comment_property. Those not
-     *   given, or empty, are the vocabulary's stored reading, else a guess at
-     *   how it was read.
+     * @param string $filePath The file, copied into the file store, so the
+     *   caller may then delete it
+     * @param array $readingOptions The reading options: format, lang,
+     *   label_property, comment_property. Those not given, or empty, come from
+     *   the vocabulary's import options, else from a guess
+     *   (RdfImporter::guessReading()).
      * @param array $reviewOptions
      *   - namespace_uri: (optional) A pending namespace URI for the
      *     vocabulary, the one the file's terms use, accepted with the changes
      *   - return_url: (optional) Where Accept and Cancel go: a local path,
      *     such as "/admin/vocabulary". By default, the vocabulary's page.
-     *   - source_label: (optional) A name for the file's side of the
-     *     changes, such as where it came from. By default, "the file".
+     *   - source_label: (optional) What the review page calls the file, as
+     *     in "Accepting makes the changes below, from %s". By default, "the
+     *     file".
      * @return string The review page's URL
      * @throws ValidationException When the file can't be read, has no terms
      *   in the namespace, or has terms too long to store
@@ -101,8 +103,8 @@ class VocabularyReview
      * Get a review.
      *
      * @param string $token
-     * @return array|null vocabulary_id, file, reading, namespace_uri,
-     *   return_url, source_label
+     * @return array|null vocabulary_id, file, file_token, reading,
+     *   namespace_uri, return_url, source_label
      */
     public function get($token)
     {
@@ -140,7 +142,8 @@ class VocabularyReview
     }
 
     /**
-     * Get the changes a review's file would make, read as given.
+     * Get the changes a review's file would make, read with the given reading
+     * options.
      *
      * @see RdfImporter::getDiff()
      * @param array $review
@@ -188,12 +191,14 @@ class VocabularyReview
 
     /**
      * Accept a review's changes, with any pending namespace URI and the
-     * reading, all or none, and end it.
+     * reading options, in one transaction, and end the review.
      *
      * @param string $token
      * @param array $reading
-     * @throws ValidationException When nothing was changed, and the review
-     *   goes on
+     * @throws ValidationException When the review has ended, or the changes
+     *   are refused; nothing is changed, and an open review stays open
+     * @throws PermissionDeniedException When the user may not change the
+     *   vocabulary
      */
     public function accept($token, array $reading)
     {
@@ -253,7 +258,7 @@ class VocabularyReview
     }
 
     /**
-     * Start a review of a kept file.
+     * Start a review of a file in the file store.
      *
      * @param int $vocabularyId
      * @param string $fileToken The file's token in the file store
@@ -358,7 +363,9 @@ class VocabularyReview
     }
 
     /**
-     * Check that a URL is a local path.
+     * Check that a URL is a path on this host: one leading /, not followed by
+     * another / or a \ (which browsers take for another host), and no \ or
+     * space.
      *
      * @param string $url
      * @return bool

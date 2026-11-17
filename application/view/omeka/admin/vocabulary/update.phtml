@@ -10,7 +10,7 @@ $form->prepare();
 
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
-    <?php // To the vocabulary's page, rather than one page back, which may be a page this one sent the admin to. ?>
+    <?php // To the vocabulary's page, not one page back, which may be the review this page led to. ?>
     <?php echo $this->hyperlink($translate('Cancel'), $vocabulary->url(), ['class' => 'button']); ?>
     <button><?php echo $translate('Review changes'); ?></button>
 </div>

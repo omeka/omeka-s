@@ -55,7 +55,7 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Show a vocabulary, the page its other pages come back to.
+     * Show a vocabulary. The pages that change it come back here.
      */
     public function showAction()
     {
@@ -89,8 +89,8 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Import a vocabulary, first step: keep its file and go on to its
-     * details.
+     * Import a vocabulary, first step: store the chosen file in the file
+     * store, and go on to the details step.
      */
     public function importAction()
     {
@@ -120,8 +120,9 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Import a vocabulary, second step: its fields and how its file is read,
-     * starting as the file says. The query gives the file's token and format.
+     * Import a vocabulary, second step: its fields and reading options,
+     * filled in from the file. The query gives the file's token in the file
+     * store, and its format.
      */
     public function importDetailsAction()
     {
@@ -168,8 +169,8 @@ class VocabularyController extends AbstractActionController
             $form->setData($request->getPost()->toArray());
             if ($form->isValid()) {
                 $data = $form->getData();
-                // Imported again, in any form of its namespace, a
-                // vocabulary's terms would be twice.
+                // Refuse a vocabulary Omeka already has under any form of
+                // this namespace URI: importing it would duplicate its terms.
                 $other = $this->getVocabularyWithNamespace($data['vocabulary-info']['o:namespace_uri']);
                 if ($other) {
                     $this->messenger()->addError($this->getAlreadyHasMessage($other));
@@ -237,8 +238,9 @@ class VocabularyController extends AbstractActionController
             $form->setData($request->getPost()->toArray());
             if ($form->isValid()) {
                 $info = $form->getData()['vocabulary-info'];
-                // Refuse another form of another vocabulary's namespace URI,
-                // as an import does.
+                // Refuse another vocabulary's namespace URI in a different
+                // form, such as https://schema.org/ where it has
+                // http://schema.org/. The API refuses an exact match itself.
                 $other = $info['o:namespace_uri'] === $vocabulary->namespaceUri()
                     ? null
                     : $this->getVocabularyInAnotherForm($info['o:namespace_uri'], $vocabulary);
@@ -291,7 +293,8 @@ class VocabularyController extends AbstractActionController
                 if (null === $namespaceUri) {
                     $this->messenger()->addErrors($this->getErrors($e));
                 } else {
-                    // Both namespaces, which may differ by a character.
+                    // Name both namespace URIs: they may differ only by a #
+                    // or / that's easy to miss.
                     $message = new Message(
                         'None of this file\'s classes or properties are in this vocabulary\'s namespace, "%1$s". They use "%2$s". If the vocabulary has moved, change its namespace, then update it again.', // @translate
                         $vocabulary->namespaceUri(),
@@ -306,7 +309,8 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Show the changes a review's file would make, read as the admin chooses.
+     * Show the changes a review's file would make, read with the reading
+     * options chosen on the page.
      */
     public function reviewAction()
     {
@@ -329,7 +333,8 @@ class VocabularyController extends AbstractActionController
             $view->setVariable('missing', $this->vocabularyReview->getMissingTerms($review, $reading));
             $view->setVariable('languages', $this->vocabularyReview->getLanguages($review, $reading));
         } catch (\Exception $e) {
-            // Read another way, the file may fail; the choices stay to change.
+            // The chosen reading options may make the file unreadable: say
+            // why, and keep the choices to change.
             $this->messenger()->addErrors($this->getErrors($e));
             $view->setVariable('diff', null);
             $view->setVariable('missing', null);
@@ -507,8 +512,9 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get the comment property chosen: a reading offered, or another entered.
-     * Another with none entered is no choice.
+     * Get the comment property chosen: one the Comments field offers, or the
+     * one entered under "Another property…". Another with none entered is no
+     * choice.
      *
      * @param array $params With "comments" and "comment_property"
      * @return string|null
@@ -567,7 +573,8 @@ class VocabularyController extends AbstractActionController
             return null;
         }
         $data = $form->getData()['vocabulary-file'];
-        // The form has refused a failed upload, so no temp name means none.
+        // The form has refused a failed upload, so an empty temp name means
+        // no file was chosen.
         $file = $data['file'] ?? [];
         $url = trim((string) ($data['url'] ?? ''));
         if ('upload' === $data['import_type'] && !empty($file['tmp_name'])) {
@@ -581,7 +588,7 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get what a kept file says of its vocabulary.
+     * Get what a file in the file store says of its vocabulary.
      *
      * @see RdfImporter::getVocabularyDetails()
      * @param string $token
@@ -599,7 +606,7 @@ class VocabularyController extends AbstractActionController
 
     /**
      * Get the default language to read a file's terms in: the installation's,
-     * else English, else the first available ("").
+     * else English, else "", the "First available" option.
      *
      * @param string[] $languages The file's languages
      * @return string
@@ -608,8 +615,8 @@ class VocabularyController extends AbstractActionController
     {
         $locale = $this->getLocaleLanguage();
         $primary = strtok($locale, '-');
-        // Each as its tag (en-us) or language (en), before another region
-        // (en-GB).
+        // For each language wanted: its exact tag (en-us), then the language
+        // alone (en), then the language in any region (en-GB).
         foreach (array_unique([$primary, 'en']) as $wanted) {
             $tags = $wanted === $primary ? array_unique([$locale, $primary]) : [$wanted];
             foreach ($tags as $tag) {
@@ -653,8 +660,8 @@ class VocabularyController extends AbstractActionController
      * Get the message that Omeka already has a vocabulary being imported.
      *
      * @param \Omeka\Api\Representation\VocabularyRepresentation $vocabulary
-     * @param bool $found Whether its namespace URI is the one found in the
-     *   file, rather than given
+     * @param bool $found Whether its namespace URI was read from the file,
+     *   rather than entered by the admin
      * @return Message
      */
     protected function getAlreadyHasMessage($vocabulary, $found = false)
@@ -684,7 +691,8 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get a vocabulary whose namespace URI is another form of one.
+     * Get a vocabulary, other than $except, whose namespace URI is a
+     * different form of this one. An exact match isn't returned.
      *
      * @param string $namespaceUri
      * @param \Omeka\Api\Representation\VocabularyRepresentation $except
@@ -702,7 +710,9 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get the namespace URI the importer found a refused file's terms use.
+     * Where the importer refused a file for having no terms in the
+     * namespace, get the namespace URI its terms do use: the one argument of
+     * its o:namespace_uri message.
      *
      * @see RdfImporter::checkNamespaceUri()
      * @param \Exception $e

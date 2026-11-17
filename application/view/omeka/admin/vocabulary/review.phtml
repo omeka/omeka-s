@@ -6,18 +6,16 @@ $this->htmlElement('body')->appendAttribute('class', 'vocabularies review');
 $prefix = $vocabulary->prefix();
 $sourceLabel = $review['source_label'] ?? $translate('the file');
 
-// The choices made on the page, as its forms send them.
 $lang = (string) ($reading['lang'] ?? '');
 $commentProperty = $reading['comment_property'] ?? \Omeka\Stdlib\RdfImporter::COMMENT_PROPERTY;
 $comments = array_search($commentProperty, \Omeka\Stdlib\RdfImporter::COMMENT_READINGS, true);
-// A comment property other than the readings offered is another, entered;
-// a label property other than the importer's is entered too.
+// Properties other than those offered were entered.
 $otherCommentProperty = false === $comments ? $commentProperty : '';
 $comments = $comments ?: 'other';
 $labelProperty = $reading['label_property'] ?? \Omeka\Stdlib\RdfImporter::LABEL_PROPERTY;
 $otherLabelProperty = \Omeka\Stdlib\RdfImporter::LABEL_PROPERTY === $labelProperty ? '' : $labelProperty;
 
-// The terms' labels in Omeka, which name them, with their terms beneath.
+// Omeka's labels, which name the terms.
 $labels = ['classes' => [], 'properties' => []];
 foreach ($vocabulary->resourceClasses() as $class) {
     $labels['classes'][$class->localName()] = $class->label();
@@ -30,8 +28,6 @@ $term = function ($localName, $label = null) use ($prefix, $escape) {
     return null === $label || '' === $label ? $term : sprintf('<span class="review-term-label">%s</span> %s', $escape($label), $term);
 };
 
-// A value as it would be stored: escaped, with its spacing, and marked when
-// there is none.
 $none = sprintf('<span class="review-none">%s</span>', $translate('None'));
 $value = function ($value) use ($none, $escape) {
     if (null === $value || '' === $value) {
@@ -39,9 +35,8 @@ $value = function ($value) use ($none, $escape) {
     }
     return sprintf('<span class="review-value">%s</span>', $escape($value));
 };
-// A changed value, with what differs from the other marked: struck out where
-// removed, underlined where added, so the difference doesn't rest on color.
-// A line break, which wouldn't otherwise show, is given a sign.
+// What differs is struck out or underlined, not only colored, and a line
+// break gets a sign.
 $marked = function (array $parts, $tag) use ($escape) {
     $html = '';
     foreach ($parts as [$text, $differs]) {
@@ -63,7 +58,6 @@ $fromTo = function ($from, $to) use ($value, $marked) {
 $byTerm = function ($a, $b) {
     return strnatcasecmp((string) $a, (string) $b);
 };
-// Changed values, by term, each from what, to what.
 $changed = function (array $changes, array $termLabels) use ($term, $fromTo, $byTerm) {
     uksort($changes, $byTerm);
     $rows = [];
@@ -72,7 +66,6 @@ $changed = function (array $changes, array $termLabels) use ($term, $fromTo, $by
     }
     return $rows;
 };
-// Terms with their values, by term.
 $listed = function (array $terms) use ($term, $value, $byTerm) {
     uksort($terms, $byTerm);
     $rows = [];
@@ -82,13 +75,11 @@ $listed = function (array $terms) use ($term, $value, $byTerm) {
     return $rows;
 };
 
-// A pending namespace URI, the vocabulary's own field that changes. It's
-// shown whole: as one word, it would be marked as a whole.
+// A pending namespace URI, shown whole.
 $namespaceChanges = null !== $review['namespace_uri'];
 
-// The terms' changes, a section each, labels first, which everyone sees, then
-// new terms, then comments, then the terms only in Omeka, which aren't
-// changes. Properties before classes.
+// Labels first, which everyone sees, then new terms, comments, and the terms
+// only in Omeka, which aren't changes.
 $sections = [];
 if (null !== $diff) {
     $kinds = ['properties' => $translate('Property'), 'classes' => $translate('Class')];
@@ -138,7 +129,7 @@ $changes = null !== $diff && ($termChanges || $namespaceChanges);
     <?php endforeach; ?>
 </form>
 
-<?php // The choices, as rows like core's form rows, each description folded behind its label's arrow. ?>
+<?php // The choices, as rows like core's form rows. ?>
 <form method="get" action="<?php echo $escape($this->url(null, [], true)); ?>" class="review-choices">
     <input type="hidden" name="review" value="<?php echo $escape($token); ?>">
     <?php if ($languages || '' !== $lang): ?>
@@ -170,7 +161,6 @@ $changes = null !== $diff && ($termChanges || $namespaceChanges);
             </div>
         </div>
         <div class="inputs">
-            <?php // The property to read them from, after, is shown only for another. ?>
             <select name="comments" id="review-comments" data-other-property="#review-comment-property">
                 <option value="comment"<?php echo 'comment' === $comments ? ' selected' : ''; ?>><?php echo $translate('Comment, else definition'); ?></option>
                 <option value="definition"<?php echo 'definition' === $comments ? ' selected' : ''; ?>><?php echo $translate('Definition, else comment'); ?></option>

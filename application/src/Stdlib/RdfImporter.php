@@ -13,38 +13,34 @@ use Omeka\Entity\ResourceClass;
 class RdfImporter
 {
     /**
-     * The longest local name a property or resource class can have, in
-     * characters, as its database column allows.
+     * The longest local name the database can store, in characters.
      */
     const LOCAL_NAME_MAX_LENGTH = 190;
 
     /**
-     * The longest label a property or resource class can have, in
-     * characters, as its database column allows.
+     * The longest label the database can store, in characters.
      */
     const LABEL_MAX_LENGTH = 255;
 
     /**
-     * Where a term's label is read from by default: the first of these
-     * properties the term has.
+     * The default label property.
      */
     const LABEL_PROPERTY = 'skos:prefLabel|rdfs:label|foaf:name|rss:title|dc:title|dc11:title';
 
     /**
-     * Where a term's comment is read from by default: its comment, else its
-     * definition or description, so a term that has only those isn't left
-     * without one.
+     * The default comment property: a term's comment, else its definition or
+     * description.
      */
     const COMMENT_PROPERTY = 'rdfs:comment|skos:definition|dcterms:description|dc11:description';
 
     /**
-     * Where a term's comment is read from to use its definition or
-     * description where it has one, else its comment.
+     * A comment property that reads a term's definition or description
+     * first.
      */
     const DEFINITION_COMMENT_PROPERTY = 'skos:definition|dcterms:description|dc11:description|rdfs:comment';
 
     /**
-     * The ways of reading comments that forms offer, by name.
+     * The comment readings forms offer, by name.
      */
     const COMMENT_READINGS = [
         'comment' => self::COMMENT_PROPERTY,
@@ -52,22 +48,19 @@ class RdfImporter
     ];
 
     /**
-     * The options that say how a vocabulary file is read, which a vocabulary
-     * stores as its import options: see getMembers().
+     * The options that say how a file is read, which a vocabulary stores.
      */
     const READING_OPTIONS = ['format', 'lang', 'label_property', 'comment_property'];
 
     /**
-     * PHP's memory limit while reading a vocabulary file, where it's lower:
-     * a large file can take more than PHP's default.
+     * PHP's memory limit while reading a file, where it's lower.
      */
     const MEMORY_LIMIT = '256M';
 
     /**
      * The base a file is read against when its namespace URI isn't known, so
-     * terms it names relative to itself, as with rdf:ID and no xml:base, can
-     * be told apart. The .invalid domain is reserved, so no vocabulary uses
-     * it.
+     * terms named relative to the file can be told apart. The .invalid domain
+     * is reserved.
      */
     const RELATIVE_BASE = 'http://relative.invalid/';
 
@@ -82,9 +75,7 @@ class RdfImporter
     protected $entityManager;
 
     /**
-     * The last file read and its graph: [key, graph], where the key is the
-     * file as read. A review reads its file for its changes, its terms only
-     * in Omeka, and its languages, so this parses it once a request.
+     * The last file read, [key, graph], so a request parses it once.
      *
      * @var array|null
      */
@@ -132,14 +123,13 @@ class RdfImporter
      * @param string $namespaceUri The namespace URI of the vocabulary
      * @param array $options
      *   - format: (optional)  The format of the RDF file. If not given, the RDF
-     *     parser will attempt to guess the format, and a guess that fails or
-     *     reads nothing gives way to each format in turn.
+     *     parser will attempt to guess the format.
      *   - file: (required for "file" strategy) The RDF file path
      *   - url: (required for "url" strategy) The URL of the RDF file.
      *   - label_property: (optional) The RDF property containing the preferred
      *     property label (defaults to "skos:prefLabel|rdfs:label|foaf:name|rss:title|dc:title|dc11:title")
      *   - comment_property: (optional) The RDF property containing the preferred
-     *     property comment (defaults to "rdfs:comment")
+     *     property comment (defaults to self::COMMENT_PROPERTY)
      *   - lang: (optional) The preferred language of labels and comments
      * @return array
      */
@@ -150,10 +140,8 @@ class RdfImporter
     }
 
     /**
-     * Get the options of how a file is read, with the importer's defaults for
-     * those not given.
+     * Get reading options, with defaults for those not given.
      *
-     * @see self::getMembers()
      * @param array $options
      * @return array
      */
@@ -176,13 +164,11 @@ class RdfImporter
     }
 
     /**
-     * Get the classes and properties a graph has in a namespace, read as
-     * the options say.
+     * Get the classes and properties a graph has in a namespace.
      *
-     * @see self::getMembers()
      * @param RdfGraph $graph
      * @param string $namespaceUri
-     * @param array $options With defaults: see self::getReadingOptions()
+     * @param array $options Reading options, with defaults
      * @return array
      */
     protected function getGraphMembers(RdfGraph $graph, $namespaceUri, array $options)
@@ -210,7 +196,6 @@ class RdfImporter
     /**
      * Get the full RDF graph of a vocabulary file from EasyRdf.
      *
-     * @see self::getMembers()
      * @param string $strategy
      * @param string $namespaceUri The base for the file's relative URIs
      * @param array $options The file or URL, and the format
@@ -229,8 +214,6 @@ class RdfImporter
                 if (!is_readable($file)) {
                     throw new ValidationException('Could not read vocabulary file.'); // @translate
                 }
-                // The same file, unchanged, read the same way, is the same
-                // graph.
                 clearstatcache(true, $file);
                 $key = implode("\0", [$file, filemtime($file), filesize($file), $format, $namespaceUri]);
                 if ($this->lastFileGraph && $this->lastFileGraph[0] === $key) {
@@ -258,8 +241,6 @@ class RdfImporter
     /**
      * Import an RDF vocabulary, including its classes and properties.
      *
-     * The vocabulary stores the reading options its file was read with.
-     *
      * @see self::getMembers()
      * @param string $strategy
      * @param array $vocab Vocab info supported by the vocabulary entity adapter
@@ -268,7 +249,7 @@ class RdfImporter
      */
     public function import($strategy, array $vocab, array $options = [])
     {
-        // As the API saves it, so the file is read with the same.
+        // Trimmed as the API saves it, so the file is read with the same.
         $vocab['o:namespace_uri'] = trim((string) $vocab['o:namespace_uri']);
         $reading = $this->getReadingOptions($options);
         $graph = $this->getGraph($strategy, $vocab['o:namespace_uri'], $reading);
@@ -297,18 +278,14 @@ class RdfImporter
         $this->checkTermLengths($members);
 
         return $this->apiManager->create('vocabularies', array_merge($vocab, $vocabMembers, [
-            // How the file was read, to read a later version the same way.
             'o:import_options' => array_intersect_key($options, array_flip(self::READING_OPTIONS)),
         ]));
     }
 
     /**
-     * Refuse a vocabulary file with no classes or properties in a
-     * namespace, as when it's the file of another vocabulary, or uses
-     * another form of the namespace URI. The refusal suggests the namespace
-     * URI its terms do use.
+     * Refuse a file with no classes or properties in a namespace, suggesting
+     * the namespace URI its terms use.
      *
-     * @see self::getMembers()
      * @param string $strategy
      * @param string $namespaceUri
      * @param array $options As for getMembers()
@@ -323,17 +300,13 @@ class RdfImporter
     }
 
     /**
-     * Suggest the namespace URI of a vocabulary file's classes and
-     * properties, for when they don't use the one given.
+     * Suggest the namespace URI of a file's classes and properties, for when
+     * they don't use the one given.
      *
-     * Tries, in order: the other forms of the given namespace URI; the
-     * namespace URIs the file declares, and their forms; the URIs of its
-     * ontology records, and their forms; and then the namespace URI most of
-     * its terms use. See self::findNamespaceUri().
-     *
+     * @see self::findNamespaceUri()
      * @param RdfGraph $graph
      * @param string $namespaceUri The namespace URI given
-     * @return string|null One that has classes or properties, if any
+     * @return string|null
      */
     public function suggestNamespaceUri(RdfGraph $graph, $namespaceUri)
     {
@@ -341,18 +314,8 @@ class RdfImporter
     }
 
     /**
-     * Get what a vocabulary file says of the vocabulary it holds, for an
-     * import to start from.
-     *
-     * The namespace URI is the one the file declares
-     * (vann:preferredNamespaceUri), else its owl:Ontology's URI, or another
-     * form of either (see NamespaceUri::getForms()) with more classes and
-     * properties; else the one most of its classes and properties use. The
-     * prefix is the one it declares for that namespace, if Omeka can take
-     * it. The label and comment are its own title and description, in the
-     * language asked for if it has one, else English, else its first. A file
-     * that names its terms relative to itself has no namespace URI until one
-     * is given to read it with, so it has none here.
+     * Get what a vocabulary file says of its vocabulary, for an import to
+     * start from.
      *
      * @param string $strategy "file" or "url"
      * @param array $options The file or URL, and the format; and lang: the
@@ -360,12 +323,10 @@ class RdfImporter
      * @return array
      *   - namespace_uri: null for a file that names its terms relative to
      *     itself
-     *   - namespace_source: where the namespace URI was found: "declared",
-     *     "ontology", "variant" (another form of either), "terms", or
-     *     "relative"
+     *   - namespace_source: "declared", "ontology", "variant" (another form
+     *     of either), "terms", or "relative"
      *   - prefix, label, comment: null where the file says nothing
-     *   - languages: of the labels, comments, and definitions of all the
-     *     classes and properties it has, in any namespace
+     *   - languages: of all its classes and properties
      *   - classes, properties: how many it has in the namespace
      * @throws ValidationException When the file can't be read, or has no
      *   classes or properties
@@ -384,13 +345,11 @@ class RdfImporter
             'namespace_source' => $source,
             'prefix' => $this->getDeclaredPrefix($graph, $namespaceUri),
             'label' => $this->getVocabularyText($graph, $namespaceUri, 'dcterms:title|dc11:title|rdfs:label', $lang, false),
-            // A note only where there's no description: some element sets
-            // describe themselves in skos:note.
+            // Some element sets describe themselves only in skos:note.
             'comment' => $this->getVocabularyText($graph, $namespaceUri, 'dcterms:description|dc11:description|rdfs:comment|skos:definition', $lang, true)
                 ?? $this->getVocabularyText($graph, $namespaceUri, 'skos:note', $lang, true),
-            // Of every class and property, definitions included: the
-            // namespace URI found may be corrected, and a file may translate
-            // only its definitions.
+            // Of every class and property, as the namespace URI found may be
+            // corrected.
             'languages' => $this->getGraphLanguages($graph, null, self::LABEL_PROPERTY . '|' . self::COMMENT_PROPERTY),
             'classes' => $counts['classes'],
             'properties' => $counts['properties'],
@@ -405,8 +364,7 @@ class RdfImporter
      *
      * @param int $vocabId
      * @param array $diff
-     * @throws ValidationException When a local name or label is longer than
-     *   the database can store, before anything is written
+     * @throws ValidationException When a term is too long to store
      */
     public function update($vocabId, array $diff)
     {
@@ -426,8 +384,6 @@ class RdfImporter
         $vocabulary = $em->find('Omeka\Entity\Vocabulary', $vocabId);
         foreach (['properties' => Property::class, 'classes' => ResourceClass::class] as $type => $entityClass) {
             $changes = $diff[$type];
-            // The terms the diff names that the vocabulary has, by local
-            // name, found at once.
             $terms = [];
             $localNames = array_map('strval', array_keys($changes['new'] + $changes['label'] + $changes['comment']));
             if ($localNames) {
@@ -466,16 +422,13 @@ class RdfImporter
      * @see self::getMembers()
      * @param string $strategy
      * @param string $namespaceUri The namespace URI to read the file with
-     * @param array $options As for getMembers(), and:
-     *   - vocabulary_id: (optional) The stored vocabulary to compare with,
-     *     whatever its namespace URI. By default it's the one with the
-     *     namespace URI given, so a diff can't show a change of namespace.
-     *   A reading option not given is the stored vocabulary's, if it has one.
+     * @param array $options As for getMembers(), defaulting to the stored
+     *   vocabulary's reading, and vocabulary_id: (optional) the stored
+     *   vocabulary to compare with, else the one with the namespace URI
      * @return array
      */
     public function getDiff($strategy, $namespaceUri, array $options = [])
     {
-        // Read the file as the stored vocabulary's was, where not told how.
         $vocabulary = $this->apiManager->search('vocabularies', isset($options['vocabulary_id'])
             ? ['id' => (int) $options['vocabulary_id']]
             : ['namespace_uri' => $namespaceUri])->getContent()[0] ?? null;
@@ -492,18 +445,15 @@ class RdfImporter
         $options = $this->getReadingOptions($options);
         $graph = $this->getGraph($strategy, $namespaceUri, $options);
         $members = $this->getGraphMembers($graph, $namespaceUri, $options);
-        // A term too long for the database can only be new, or have a new
-        // label, so refuse it now rather than on accepting the changes.
         $this->checkTermLengths($members);
 
         $diff = [
             'classes' => $this->calculateDiff($stored['classes'], $members['classes']),
             'properties' => $this->calculateDiff($stored['properties'], $members['properties']),
         ];
-        // An update never replaces a label with the local name, which is
-        // only the importer's stand-in where the file has no label: Omeka
-        // keeps its own. The file says which terms have none, as a label
-        // can also be the local name itself, as many classes' are.
+        // The local name is only the importer's stand-in for a missing label,
+        // so it never replaces Omeka's. A label can also be the local name
+        // itself, so the file says which terms have none.
         foreach ($diff as $type => $changes) {
             foreach ($changes['label'] as $localName => $change) {
                 if ((string) $localName === $change[1]
@@ -517,20 +467,14 @@ class RdfImporter
     }
 
     /**
-     * Get the classes and properties a vocabulary has in Omeka that a file
-     * doesn't have.
+     * Get the classes and properties a vocabulary has that a file doesn't,
+     * which an update keeps.
      *
-     * An update keeps them, so they're for showing what a file has dropped,
-     * never for applying.
-     *
-     * @see self::getMembers()
      * @param int $vocabularyId
      * @param string $strategy
-     * @param array $options As for getMembers(), and:
-     *   - namespace_uri: (optional) The namespace URI to read the file with,
-     *     if not the vocabulary's own
-     * @return array ['classes' => [local name => label, …], 'properties' =>
-     *   [local name => label, …]]
+     * @param array $options As for getMembers(), and namespace_uri:
+     *   (optional) the namespace URI to read the file with
+     * @return array Labels by local name, under classes and properties
      */
     public function getMissingTerms($vocabularyId, $strategy, array $options = [])
     {
@@ -548,10 +492,9 @@ class RdfImporter
     }
 
     /**
-     * Get the languages of a vocabulary file's labels and comments: the
-     * language tags on those of the classes and properties it would import.
+     * Get the languages of the labels and comments of a file's classes and
+     * properties in a namespace.
      *
-     * @see self::getMembers()
      * @param string $strategy
      * @param string $namespaceUri
      * @param array $options As for getMembers()
@@ -567,22 +510,13 @@ class RdfImporter
     }
     /**
      * Guess how a vocabulary's file was read, for a vocabulary with no stored
-     * reading: the language and the comment property that read a file
-     * closest to what Omeka has.
+     * reading: the language whose labels match the most of Omeka's, and the
+     * comment property that would change fewer of its comments.
      *
-     * The language is the one whose labels match the most of Omeka's, of the
-     * file's languages and none ("First available"). Ties go to the default
-     * language: English, else a regional English, else the first; none wins
-     * only outright. The comment property is the one, of COMMENT_PROPERTY and
-     * DEFINITION_COMMENT_PROPERTY, that would change fewer of Omeka's
-     * comments, COMMENT_PROPERTY on a tie. The file is read once.
-     *
-     * @see self::getMembers()
      * @param int $vocabularyId
      * @param string $strategy
      * @param string $namespaceUri The namespace URI to read the file with
-     * @param array $options As for getMembers(); its language and comment
-     *   property are what's guessed
+     * @param array $options As for getMembers()
      * @return array ['lang' => string|null, 'comment_property' => string]
      */
     public function guessReading($vocabularyId, $strategy, $namespaceUri, array $options = [])
@@ -592,8 +526,8 @@ class RdfImporter
         $stored = $this->getStoredMembers(['vocabulary_id' => (int) $vocabularyId]);
         $languages = $this->getGraphLanguages($graph, $namespaceUri, $labelProperty);
 
-        // The language: each term's label read in each language, as
-        // getMembers() reads it, against Omeka's.
+        // Ties go to the default language; none ("First available") wins only
+        // outright.
         $default = $this->getDefaultLanguage($languages);
         $lang = $default;
         $mostMatches = -1;
@@ -611,8 +545,6 @@ class RdfImporter
             }
         }
 
-        // The comment property: the comments each would change, in that
-        // language, as getDiff() counts them.
         $changes = [];
         foreach ([self::COMMENT_PROPERTY, self::DEFINITION_COMMENT_PROPERTY] as $commentProperty) {
             $changes[$commentProperty] = 0;
@@ -629,11 +561,11 @@ class RdfImporter
     }
 
     /**
-     * Get the language tags on the values of a property of the classes and
-     * properties a graph has in a namespace, or in any.
+     * Get the languages of a property's values on a graph's classes and
+     * properties in a namespace, or in any.
      *
      * @param RdfGraph $graph
-     * @param string|null $namespaceUri Null for every class and property
+     * @param string|null $namespaceUri Null for any
      * @param string $property A property, or alternatives as "a|b"
      * @return string[] Sorted
      */
@@ -648,8 +580,7 @@ class RdfImporter
                 try {
                     $literals = $this->getLiterals($resource, $property);
                 } catch (ValidationException $e) {
-                    // A value its datatype refuses, which reading the term
-                    // reports; its language isn't needed here.
+                    // Reading the term reports it.
                     continue;
                 }
                 foreach ($literals as $literal) {
@@ -665,9 +596,8 @@ class RdfImporter
     }
 
     /**
-     * Get the language a file's terms are read in by default: English if it
-     * has it, else a regional English such as en-US, else its first
-     * language, else none.
+     * Get the default language of a file's terms: English, else a regional
+     * English, else the first.
      *
      * @param string[] $languages
      * @return string|null
@@ -681,8 +611,7 @@ class RdfImporter
     }
 
     /**
-     * Get the classes and properties of a vocabulary in Omeka, as
-     * getMembers() gets a file's.
+     * Get the classes and properties of a vocabulary in Omeka.
      *
      * @param array $query A query for the API, by vocabulary
      * @return array
@@ -707,12 +636,7 @@ class RdfImporter
      * Only gets the diffs that we can process safely: add new members and
      * update existing labels and comments. It doesn't get the diffs we cannot
      * process safely: delete existing members or update existing local names.
-     * Nor does it empty an existing comment: a comment the file doesn't have
-     * keeps the one Omeka has. (Where the file has no label, getDiff() keeps
-     * Omeka's.)
-     *
-     * Values that differ only in spacing, or are empty and missing, are the
-     * same: see self::getComparableText().
+     * Nor does it empty an existing comment.
      *
      * @param array $from
      * @param array $to
@@ -743,9 +667,8 @@ class RdfImporter
     }
 
     /**
-     * Get a label or comment as it's compared: each run of whitespace as one
-     * space, none at either end, and a missing value as an empty one. Omeka's
-     * pages show values that differ only so the same.
+     * Get a label or comment as it's compared: spacing collapsed, and a
+     * missing value empty.
      *
      * @param string|null $value
      * @return string
@@ -762,9 +685,8 @@ class RdfImporter
      *
      * A guessed format can be wrong without failing: EasyRdf takes a Turtle
      * file that mentions RDFa near its start for RDFa, which reads nothing.
-     * So when a guess fails or reads nothing, each format a user can choose
-     * is tried, and the first that reads something is used. A format the
-     * user chose is used alone.
+     * So a guess that fails or reads nothing gives way to each format in
+     * turn.
      *
      * @param callable $read Reads into the graph it's passed, in the format
      *   it's passed
@@ -779,8 +701,7 @@ class RdfImporter
         try {
             $read($graph, $format);
         } catch (\EasyRdf\Http\Exception | \InvalidArgumentException $e) {
-            // The server refused the request, or there's no URL to ask,
-            // which another format won't change.
+            // Another format won't change these.
             throw new ValidationException($error);
         } catch (\EasyRdf\Exception $e) {
             $graph = null;
@@ -791,7 +712,6 @@ class RdfImporter
                 try {
                     $read($attempt, $try);
                 } catch (\Throwable $e) {
-                    // A format that can't read the file, however it fails.
                     continue;
                 }
                 if ($attempt->countTriples()) {
@@ -806,8 +726,8 @@ class RdfImporter
     }
 
     /**
-     * Raise PHP's memory limit to self::MEMORY_LIMIT where it's lower. A
-     * host that doesn't allow it keeps its limit.
+     * Raise PHP's memory limit to self::MEMORY_LIMIT where it's lower and the
+     * host allows it.
      */
     protected function raiseMemoryLimit()
     {
@@ -831,11 +751,11 @@ class RdfImporter
     }
 
     /**
-     * Refuse classes and properties whose local names or labels are longer
-     * than the database can store, naming them.
+     * Refuse classes and properties whose local names or labels are too long
+     * to store, naming them.
      *
      * @param array $members Classes and properties, as getMembers() returns
-     *   them: local names keyed to their labels and comments
+     *   them
      * @throws ValidationException
      */
     protected function checkTermLengths(array $members)
@@ -845,7 +765,6 @@ class RdfImporter
         foreach (['classes', 'properties'] as $type) {
             foreach ($members[$type] ?? [] as $localName => $member) {
                 $localName = (string) $localName;
-                // A local name too long to store is too long to read whole.
                 $name = $localName;
                 if (mb_strlen($localName) > self::LOCAL_NAME_MAX_LENGTH) {
                     $name = mb_substr($localName, 0, 40) . '…';
@@ -878,8 +797,7 @@ class RdfImporter
     }
 
     /**
-     * Get the refusal of a file with no classes or properties in a
-     * namespace, with the namespace URI its terms use, if any.
+     * Get the refusal of a file with no classes or properties in a namespace.
      *
      * @param RdfGraph $graph
      * @param string $namespaceUri
@@ -899,9 +817,7 @@ class RdfImporter
     }
 
     /**
-     * Count the classes and properties a graph has in a namespace, as
-     * self::getMembersOfTypes() finds them, each once however many of the
-     * types it has.
+     * Count the classes and properties a graph has in a namespace, each once.
      *
      * @param RdfGraph $graph
      * @param string $namespaceUri
@@ -927,21 +843,14 @@ class RdfImporter
     /**
      * Find the namespace URI of a file's vocabulary, and where it was found.
      *
-     * Tries groups of namespace URIs in turn: the other forms of one given,
-     * if any; those the file declares (vann:preferredNamespaceUri); and the
-     * URIs of its ontology records. From the first group with classes or
-     * properties, it takes the namespace URI, or other form of one (see
-     * NamespaceUri::getForms()), with the most: a file may also declare the
-     * namespace URIs of vocabularies it reuses, and redeclare a few of their
-     * terms. Else it takes the namespace URI most of the file's classes and
-     * properties use.
+     * Tries groups in turn: the other forms of one given; those the file
+     * declares; and its ontology records' URIs. From the first group with
+     * terms, it takes the form with the most, as a file may also declare the
+     * vocabularies it reuses. Else it takes the one most terms use.
      *
-     * @see self::getVocabularyDetails()
      * @param RdfGraph $graph
      * @param string|null $except A namespace URI given, which isn't found
-     * @return array [namespace URI, source], or [null, null] when the file
-     *   has no classes or properties. For terms named relative to the file,
-     *   the URI is where they were read, under self::RELATIVE_BASE.
+     * @return array [namespace URI, source], or [null, null]
      */
     protected function findNamespaceUri(RdfGraph $graph, $except = null)
     {
@@ -988,19 +897,15 @@ class RdfImporter
         }
         $mostUsed = $this->getMostUsedNamespaceUri($graph);
         if (null !== $mostUsed && $mostUsed !== $except && array_sum($this->countMembers($graph, $mostUsed))) {
-            // Terms named relative to the file are read in their place, and
-            // their namespace URI is to be given.
             return [$mostUsed, 0 === strpos($mostUsed, self::RELATIVE_BASE) ? 'relative' : 'terms'];
         }
         return [null, null];
     }
 
     /**
-     * Get the prefix a file declares for its vocabulary
-     * (vann:preferredNamespacePrefix), on its ontology record or its
-     * namespace, if Omeka can take it as one. A file that also describes
-     * vocabularies it reuses may declare their prefixes on their records, so
-     * no other resource is read.
+     * Get the prefix a file declares for its vocabulary, if Omeka can take
+     * it. Only its own records are read, as a file may declare the prefixes
+     * of vocabularies it reuses.
      *
      * @param RdfGraph $graph
      * @param string $namespaceUri
@@ -1045,11 +950,9 @@ class RdfImporter
 
     /**
      * Get the records a file may describe its vocabulary in, in the order
-     * they're read: its ontology records for the namespace, or else its only
-     * one, which many files give another URI; then the namespace resource,
-     * with and without its closing # or /, as OAI-ORE describes itself; then
-     * the record most of its terms name with rdfs:isDefinedBy, as element
-     * sets from the Open Metadata Registry do.
+     * they're read: its ontology records, or its only one; the namespace
+     * resource, with and without its closing # or /; and the record most of
+     * its terms name with rdfs:isDefinedBy.
      *
      * @param RdfGraph $graph
      * @param string $namespaceUri
@@ -1083,13 +986,9 @@ class RdfImporter
     }
 
     /**
-     * Get a file's own text for its vocabulary, such as its title or
-     * description, from the first of its records that has it: in the
-     * language asked for if there's one, else English, else the first
-     * language a property has, taking those values and any without a
-     * language. A title is one line, from one value; a description keeps its
-     * paragraphs, and all its values, each a paragraph, as a description and
-     * a changelog may be.
+     * Get a file's text for its vocabulary, such as its title, from the first
+     * of its records that has it. A title is one line; a description keeps
+     * its paragraphs, and all its values.
      *
      * @param RdfGraph $graph
      * @param string $namespaceUri
@@ -1104,7 +1003,6 @@ class RdfImporter
             try {
                 $values = $this->getVocabularyValues($record, $properties, $lang);
             } catch (\Throwable $e) {
-                // A value its datatype refuses, which isn't needed here.
                 continue;
             }
             $texts = [];
@@ -1161,8 +1059,7 @@ class RdfImporter
     }
 
     /**
-     * Get the namespace URI most of a graph's classes and properties use:
-     * each one's URI without its local name.
+     * Get the namespace URI most of a graph's classes and properties use.
      *
      * @param RdfGraph $graph
      * @return string|null
@@ -1174,8 +1071,8 @@ class RdfImporter
             foreach ($graph->allOfType($type) as $resource) {
                 $uri = (string) $resource->getUri();
                 $localName = (string) $resource->localName();
-                // Only http and https URIs: without a base, a file's
-                // relative URIs resolve against its path on the server.
+                // Without a base, a file's relative URIs resolve against its
+                // path on the server.
                 if ($resource->isBNode() || '' === $localName || !preg_match('#^https?://#', $uri)) {
                     continue;
                 }
@@ -1219,9 +1116,8 @@ class RdfImporter
      * Get the label from an RDF resource.
      *
      * Attempts to get the label of the passed language. If one does not exist
-     * it defaults to the first available label, if any. Blank labels are
-     * skipped. A label is trimmed, as the API trims one, so it's checked
-     * and stored the same whether a term is imported or updated.
+     * it defaults to the first available label, if any. It's trimmed, as the
+     * API trims one.
      *
      * @param RdfResource $resource
      * @param string $labelProperty
@@ -1239,8 +1135,7 @@ class RdfImporter
      * Get the comment from an RDF resource.
      *
      * Attempts to get the comment of the passed language. If one does not exist
-     * it defaults to the first available comment, if any. Blank comments are
-     * skipped.
+     * it defaults to the first available comment, if any.
      *
      * @param RdfResource $resource
      * @param string $commentProperty
@@ -1253,12 +1148,9 @@ class RdfImporter
     }
 
     /**
-     * Get the text of an RDF resource's first literal for a property that
-     * isn't blank, in the passed language if there is one, else in any.
-     *
-     * Files often leave a blank literal as a placeholder for a translation,
-     * so a blank in the passed language gives way to another language's
-     * text.
+     * Get the text of a resource's first literal for a property that isn't
+     * blank, in the passed language if there is one, else in any. Files often
+     * leave a blank literal as a placeholder for a translation.
      *
      * @param RdfResource $resource
      * @param string $property A property, or alternatives as "a|b"
@@ -1269,8 +1161,7 @@ class RdfImporter
     {
         $literals = $lang ? $this->getLiterals($resource, $property, $lang) : [];
         foreach (array_merge($literals, $this->getLiterals($resource, $property)) as $literal) {
-            // The literal's text: a typed literal's value is a number, a
-            // boolean, or a date.
+            // A typed literal's value may be a number, a boolean, or a date.
             $text = (string) $literal;
             if ('' !== trim($text)) {
                 return $text;
@@ -1280,12 +1171,8 @@ class RdfImporter
     }
 
     /**
-     * Get an RDF resource's literals for a property, in a language if one is
-     * passed.
-     *
-     * EasyRdf checks a typed literal against its datatype only as it's read,
-     * so a file with one that isn't valid, such as a decimal that isn't a
-     * number, parses but fails here.
+     * Get a resource's literals for a property, in a language if one is
+     * passed. EasyRdf checks a typed literal against its datatype only here.
      *
      * @param RdfResource $resource
      * @param string $property A property, or alternatives as "a|b"
@@ -1299,7 +1186,6 @@ class RdfImporter
             return $resource->all($property, 'literal', $lang);
         } catch (\InvalidArgumentException | \UnexpectedValueException $e) {
             $exception = new ValidationException('A class or property has a label or comment that isn\'t valid for its datatype.'); // @translate
-            // The term, and what EasyRdf found wrong.
             $exception->getErrorStore()->addError('term', new Message(
                 '%1$s: %2$s',
                 $resource->getUri(),

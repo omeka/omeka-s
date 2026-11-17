@@ -7,19 +7,14 @@ use Laminas\Session\Container;
 use Omeka\Api\Exception\ValidationException;
 
 /**
- * Vocabulary files kept on the server between requests, so a file uploaded
- * or fetched once is read again without being asked for, as a review of an
- * update reads its file on every look at the changes.
- *
- * A kept file is a copy in Omeka's temporary directory, known by a token
- * kept in the session, so only the session that kept it can read or remove
- * it. Files older than self::MAX_AGE, from reviews and imports never
- * finished, are removed the next time a file is kept.
+ * Vocabulary files kept in the temporary directory between requests, under
+ * tokens kept in the session. Files older than self::MAX_AGE are removed the
+ * next time a file is kept.
  */
 class VocabularyFileStore
 {
     /**
-     * The start of the names of kept files in the temporary directory.
+     * The start of kept files' names.
      */
     const FILE_PREFIX = 'omeka-vocabulary-file-';
 
@@ -29,8 +24,7 @@ class VocabularyFileStore
     const MAX_AGE = 86400;
 
     /**
-     * How many redirects fetching a file by URL follows, as EasyRdf's client
-     * does by default.
+     * How many redirects fetching a URL follows, as EasyRdf's client does.
      */
     const MAX_REDIRECTS = 5;
 
@@ -44,16 +38,13 @@ class VocabularyFileStore
      */
     protected $session;
 
-    /**
-     * @param string $tempDir
-     */
     public function __construct($tempDir)
     {
         $this->tempDir = $tempDir;
     }
 
     /**
-     * Keep a copy of a file, such as an upload, which can then go.
+     * Keep a copy of a file.
      *
      * @param string $filePath
      * @return string The kept file's token
@@ -70,7 +61,7 @@ class VocabularyFileStore
     }
 
     /**
-     * Keep the file at a URL, fetched once, as EasyRdf would fetch it.
+     * Keep the file at a URL.
      *
      * @param string $url
      * @return string The kept file's token
@@ -87,8 +78,7 @@ class VocabularyFileStore
      * Get the path of a kept file.
      *
      * @param string $token
-     * @return string|null Null if this session kept no file by the token, or
-     *   it has gone
+     * @return string|null
      */
     public function getPath($token)
     {
@@ -151,8 +141,7 @@ class VocabularyFileStore
     }
 
     /**
-     * Fetch the file at a URL with EasyRdf's HTTP client, asking for the
-     * formats the importer reads, as EasyRdf does when it loads a URL.
+     * Fetch the file at a URL with EasyRdf's HTTP client, as EasyRdf does.
      *
      * @param string $url
      * @return string
@@ -185,8 +174,7 @@ class VocabularyFileStore
     }
 
     /**
-     * Get the session container the kept files' tokens are in, starting it
-     * only when a file is kept or asked for.
+     * Get the session container, starting it only when needed.
      *
      * @return Container
      */

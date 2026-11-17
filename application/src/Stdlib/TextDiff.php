@@ -2,25 +2,20 @@
 namespace Omeka\Stdlib;
 
 /**
- * What differs between two texts, word by word, for the vocabulary review page
- * to mark within a label or comment that changed: most changes are a few words
- * in a text otherwise the same.
+ * What differs between two texts, word by word, for the vocabulary review
+ * page.
  */
 class TextDiff
 {
     /**
-     * The most words of each text, between what the two share at their start
-     * and end, that are matched up. Past this the texts' middles are taken
-     * as changed altogether, so that two very long texts with little in
-     * common can't hold up the page. Few comments are this long.
+     * The most words of each text's middle that are matched up. Past this,
+     * the middles differ as a whole, so long texts can't hold up the page.
      */
     const MAX_WORDS = 600;
 
     /**
      * Two texts, each as the parts it shares with the other and the parts it
-     * doesn't. Words are matched whatever space is around them, and the
-     * space between two words both texts have is a part of its own where it
-     * differs, so a change in spacing alone shows as that and no more.
+     * doesn't. A change in spacing alone shows as that.
      *
      * @param string $from
      * @param string $to
@@ -46,8 +41,7 @@ class TextDiff
         $b = self::units($to);
         $wordsA = array_column($a, 0);
         $wordsB = array_column($b, 0);
-        // What the texts share at their start and end is the same without
-        // looking further, which leaves most changes a few words to match.
+        // What the texts share at their start and end needn't be matched.
         $start = 0;
         while (isset($wordsA[$start], $wordsB[$start]) && $wordsA[$start] === $wordsB[$start]) {
             $start++;
@@ -135,10 +129,8 @@ class TextDiff
     }
 
     /**
-     * A text's parts, given which of the other's words its own match. The
-     * space after a word differs where the word is matched and the space
-     * isn't the same, or where the word and the next both differ, so a run
-     * of changed words is one part and not a part for each.
+     * A text's parts, given which of the other's words its own match. A run
+     * of changed words, with the space between them, is one part.
      */
     protected static function parts(array $units, array $others, array $match)
     {

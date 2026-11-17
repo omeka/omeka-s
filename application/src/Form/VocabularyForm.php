@@ -10,14 +10,10 @@ class VocabularyForm extends Form
 
     /**
      * - vocabulary: (optional) The vocabulary to change, if any.
-     * - mode: (optional) What the form is for. With a vocabulary: "edit"
-     *   (the default), its label, comment, and namespace URI; or
-     *   "update_from_file", the file to update its classes and properties
-     *   from. Without one, an import's steps: "import_file" (the default),
-     *   the file; then "import_details", the vocabulary's own fields and how
-     *   its file is read.
-     * - languages: (optional) For "import_details", the file's languages,
-     *   which the preferred language is one of
+     * - mode: (optional) With a vocabulary, "edit" (the default) or
+     *   "update_from_file"; without one, an import's "import_file" (the
+     *   default) or "import_details".
+     * - languages: (optional) For "import_details", the file's languages
      */
     protected $options = [
         'vocabulary' => null,
@@ -34,8 +30,6 @@ class VocabularyForm extends Form
     {
         $vocabulary = $this->getOption('vocabulary');
         $mode = $this->getOption('mode') ?? ($vocabulary ? 'edit' : 'import_file');
-        // Each step has its own part. How an update's file is read is chosen
-        // on its review, where its changes show.
         $hasInfo = in_array($mode, ['edit', 'import_details'], true);
         $hasPrefix = 'import_details' === $mode;
         $hasFile = in_array($mode, ['update_from_file', 'import_file'], true);
@@ -74,9 +68,7 @@ class VocabularyForm extends Form
 
         $inputFilter = $this->getInputFilter();
         if ($hasInfo) {
-            // The file is read with the namespace URI before the API saves
-            // it, trimmed, so a stray space would find no classes or
-            // properties.
+            // Trimmed before the file is read with it, as the API trims it.
             $inputFilter->get('vocabulary-info')->add([
                 'name' => 'o:namespace_uri',
                 'required' => true,
@@ -155,7 +147,7 @@ class VocabularyForm extends Form
                 'required' => true,
                 'id' => 'o:namespace_uri',
                 'data-confirm-ends-with' => $this->translator->translate('The namespace URI you entered does not end with a / or #, as is normally expected for namespace URIs. Would you like to save anyway?'),
-                // A vocabulary's own, which saving unchanged doesn't ask about.
+                // Unchanged, the script doesn't ask about it.
                 'data-saved-namespace-uri' => $vocabulary ? $vocabulary->namespaceUri() : null,
             ],
         ]);
@@ -270,8 +262,7 @@ class VocabularyForm extends Form
     }
 
     /**
-     * Add the options of how an imported file is read, as a review of an
-     * update offers them.
+     * Add the options of how an imported file is read.
      *
      * @param string[] $languages The file's languages
      */
@@ -294,8 +285,7 @@ class VocabularyForm extends Form
                 'id' => 'lang',
             ],
         ]);
-        // Where comments are read from, with the property to read them from
-        // for another, which the script shows only then.
+        // The comment property is shown only for another.
         $this->get('vocabulary-advanced')->add([
             'name' => 'comments',
             'type' => 'select',

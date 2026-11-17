@@ -2,10 +2,8 @@
 namespace Omeka\Stdlib;
 
 /**
- * The forms a vocabulary's namespace URI is written in: ending in "#", "/",
- * or neither, with http or https. A vocabulary that moved from http to
- * https, or is written with a closing "/" in one place and without it in
- * another, is the same vocabulary in each form.
+ * The forms of a namespace URI, which are one vocabulary: ending in "#", "/",
+ * or neither, with http or https.
  */
 class NamespaceUri
 {

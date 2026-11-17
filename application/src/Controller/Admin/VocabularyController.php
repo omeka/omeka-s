@@ -55,9 +55,7 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Show a vocabulary: its own fields, its classes and properties, and the
-     * pages that change it, where the user may change it. Each of those
-     * pages comes back here, whether it's done or cancelled.
+     * Show a vocabulary, the page its other pages come back to.
      */
     public function showAction()
     {
@@ -91,10 +89,8 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Import a vocabulary, first step: take its file, read what it says of
-     * itself, and go on to the details, with the file kept. A vocabulary
-     * Omeka has is caught on the details, where a namespace URI found wrong
-     * can be corrected.
+     * Import a vocabulary, first step: keep its file and go on to its
+     * details.
      */
     public function importAction()
     {
@@ -106,8 +102,7 @@ class VocabularyController extends AbstractActionController
                 $token = isset($source['file'])
                     ? $this->fileStore->keep($source['file'])
                     : $this->fileStore->keepFromUrl($source['url']);
-                // A file that can't be read, or has no classes or
-                // properties, is refused now.
+                // Refuse a file that can't be read, or has no terms, now.
                 $this->getImportDetails($token, $source['format']);
                 return $this->redirect()->toRoute('admin/default', ['controller' => 'vocabulary', 'action' => 'import-details'], [
                     'query' => ['file' => $token, 'format' => $source['format']],
@@ -125,9 +120,8 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Import a vocabulary, second step: its own fields and how its file is
-     * read, starting as the file says, then import it from the kept file.
-     * The query gives the file's token and format.
+     * Import a vocabulary, second step: its fields and how its file is read,
+     * starting as the file says. The query gives the file's token and format.
      */
     public function importDetailsAction()
     {
@@ -163,8 +157,7 @@ class VocabularyController extends AbstractActionController
         ]);
         $request = $this->getRequest();
         // The namespace URI found may be another vocabulary's, as when a
-        // file redeclares terms it reuses, so it's said, for the admin to
-        // update that one instead or give the file's own.
+        // file redeclares terms it reuses.
         if (!$request->isPost() && null !== $details['namespace_uri']) {
             $other = $this->getVocabularyWithNamespace($details['namespace_uri']);
             if ($other) {
@@ -172,12 +165,11 @@ class VocabularyController extends AbstractActionController
             }
         }
         if ($request->isPost()) {
-            // The form posts to the page's own URL, query and all.
             $form->setData($request->getPost()->toArray());
             if ($form->isValid()) {
                 $data = $form->getData();
-                // A vocabulary Omeka has, in any form of the namespace, is
-                // updated from its page: imported, its terms would be twice.
+                // Imported again, in any form of its namespace, a
+                // vocabulary's terms would be twice.
                 $other = $this->getVocabularyWithNamespace($data['vocabulary-info']['o:namespace_uri']);
                 if ($other) {
                     $this->messenger()->addError($this->getAlreadyHasMessage($other));
@@ -203,10 +195,8 @@ class VocabularyController extends AbstractActionController
                         );
                         $message->setEscapeHtml(false);
                         $this->messenger()->addSuccess($message);
-                        // To the new vocabulary's page, which shows what came in.
                         return $this->redirect()->toUrl($response->getContent()->url());
                     } catch (\Exception $e) {
-                        // The file is kept, to try again.
                         $this->messenger()->addErrors($this->getErrors($e));
                     }
                 }
@@ -221,10 +211,7 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Edit a vocabulary's label, comment, and namespace URI. Changing its
-     * namespace URI changes the URI of every one of its classes and
-     * properties. Its classes and properties are updated from a file on a
-     * page of their own.
+     * Edit a vocabulary's label, comment, and namespace URI.
      */
     public function editAction()
     {
@@ -250,9 +237,8 @@ class VocabularyController extends AbstractActionController
             $form->setData($request->getPost()->toArray());
             if ($form->isValid()) {
                 $info = $form->getData()['vocabulary-info'];
-                // A new namespace URI that's another form of another
-                // vocabulary's is refused, as an import is: their terms
-                // would be twice.
+                // Refuse another form of another vocabulary's namespace URI,
+                // as an import does.
                 $other = $info['o:namespace_uri'] === $vocabulary->namespaceUri()
                     ? null
                     : $this->getVocabularyInAnotherForm($info['o:namespace_uri'], $vocabulary);
@@ -263,9 +249,7 @@ class VocabularyController extends AbstractActionController
                         $other->namespaceUri()
                     ));
                 } else {
-                    // Where the API refuses the vocabulary's own fields, as a
-                    // namespace URI another vocabulary has, it puts its
-                    // reasons on the form, which is shown again.
+                    // The API puts its refusals on the form.
                     $response = $this->api($form)->update('vocabularies', $this->params('id'), $info, [], ['isPartial' => true]);
                     if ($response) {
                         $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
@@ -281,14 +265,13 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Update a vocabulary from a newer version of its file: take the file,
-     * and review the changes it makes, which nothing saves until accepted.
+     * Update a vocabulary from a newer version of its file, by way of a
+     * review.
      */
     public function updateAction()
     {
         $vocabulary = $this->getVocabularyToUpdate();
         $form = $this->getForm(VocabularyForm::class, ['vocabulary' => $vocabulary, 'mode' => 'update_from_file']);
-        // In the format the vocabulary's file was read in, unless changed.
         $format = $vocabulary->importOptions()['format'] ?? null;
         if (null !== $format) {
             $form->setData(['vocabulary-file' => ['format' => $format]]);
@@ -297,8 +280,6 @@ class VocabularyController extends AbstractActionController
         $view->setVariable('vocabulary', $vocabulary);
         $source = $this->getRequest()->isPost() ? $this->getPostedFileSource($form) : null;
         if ($source) {
-            // How the file is read starts as the vocabulary's was, and is
-            // chosen on the review.
             $reading = ['format' => $source['format']];
             try {
                 $reviewUrl = isset($source['file'])
@@ -310,9 +291,7 @@ class VocabularyController extends AbstractActionController
                 if (null === $namespaceUri) {
                     $this->messenger()->addErrors($this->getErrors($e));
                 } else {
-                    // The file's terms are in another namespace: say which,
-                    // beside the vocabulary's, as they may differ by a
-                    // character, and how to move it.
+                    // Both namespaces, which may differ by a character.
                     $message = new Message(
                         'None of this file\'s classes or properties are in this vocabulary\'s namespace, "%1$s". They use "%2$s". If the vocabulary has moved, change its namespace, then update it again.', // @translate
                         $vocabulary->namespaceUri(),
@@ -327,8 +306,7 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Show the changes a review's file would make, read as the admin
-     * chooses, for them to accept or cancel.
+     * Show the changes a review's file would make, read as the admin chooses.
      */
     public function reviewAction()
     {
@@ -351,8 +329,7 @@ class VocabularyController extends AbstractActionController
             $view->setVariable('missing', $this->vocabularyReview->getMissingTerms($review, $reading));
             $view->setVariable('languages', $this->vocabularyReview->getLanguages($review, $reading));
         } catch (\Exception $e) {
-            // Read another way, the file may not do; say why, and leave the
-            // choices to change.
+            // Read another way, the file may fail; the choices stay to change.
             $this->messenger()->addErrors($this->getErrors($e));
             $view->setVariable('diff', null);
             $view->setVariable('missing', null);
@@ -362,7 +339,7 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Accept a review's changes, read as chosen on the review page.
+     * Accept a review's changes.
      */
     public function acceptAction()
     {
@@ -383,7 +360,6 @@ class VocabularyController extends AbstractActionController
         try {
             $this->vocabularyReview->accept($token, $this->vocabularyReview->getReading($review, $choices));
         } catch (ValidationException $e) {
-            // Nothing was changed, and the review goes on.
             $this->messenger()->addErrors($this->getErrors($e));
             return $this->redirect()->toUrl($this->getReviewUrl($vocabulary, $token, $post));
         }
@@ -475,7 +451,7 @@ class VocabularyController extends AbstractActionController
 
     /**
      * Get the vocabulary of the request, refusing one the user may not
-     * change: a permanent one, or another's.
+     * change.
      *
      * @return \Omeka\Api\Representation\VocabularyRepresentation
      */
@@ -492,7 +468,7 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get a review of the vocabulary, saying why where there's none.
+     * Get a review of the vocabulary, or say it has ended.
      *
      * @param string $token
      * @param \Omeka\Api\Representation\VocabularyRepresentation $vocabulary
@@ -509,12 +485,9 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get the reading options the admin chose on the review page: its
-     * preferred language ("" for the first available), where comments are
-     * read from, and any label property entered, which takes the place of
-     * the importer's default ("" for the default).
+     * Get the reading options chosen on the review page.
      *
-     * @param array $params The page's query, or the post of its form
+     * @param array $params The page's query, or its form's post
      * @return array
      */
     protected function getChoices(array $params)
@@ -534,13 +507,11 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get the property comments are read from, as chosen: a reading offered
-     * (see RdfImporter::COMMENT_READINGS), or "other", the comment property
-     * entered. Another with none entered is no choice, so a review keeps its
-     * reading, and an import reads as by default.
+     * Get the comment property chosen: a reading offered, or another entered.
+     * Another with none entered is no choice.
      *
      * @param array $params With "comments" and "comment_property"
-     * @return string|null Null where nothing was chosen
+     * @return string|null
      */
     protected function getChosenCommentProperty(array $params)
     {
@@ -579,13 +550,10 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get the file a posted form's file fields choose, an upload or a URL,
-     * with its format. Where the form is refused, or chooses none, it says
-     * why.
+     * Get the file a posted form chooses, saying why where there's none.
      *
      * @param VocabularyForm $form
-     * @return array|null ['file' => the upload's path] or ['url' => URL],
-     *   with 'format'; or null
+     * @return array|null file (an upload's path) or url, and format
      */
     protected function getPostedFileSource(VocabularyForm $form)
     {
@@ -599,8 +567,7 @@ class VocabularyController extends AbstractActionController
             return null;
         }
         $data = $form->getData()['vocabulary-file'];
-        // The form has already refused a file that failed to upload, so an
-        // empty temp file name means none was chosen.
+        // The form has refused a failed upload, so no temp name means none.
         $file = $data['file'] ?? [];
         $url = trim((string) ($data['url'] ?? ''));
         if ('upload' === $data['import_type'] && !empty($file['tmp_name'])) {
@@ -614,11 +581,10 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get what a kept file says of its vocabulary, its title and description
-     * read in the installation's language where it has them.
+     * Get what a kept file says of its vocabulary.
      *
      * @see RdfImporter::getVocabularyDetails()
-     * @param string $token The file's token in the file store
+     * @param string $token
      * @param string $format
      * @return array
      */
@@ -632,9 +598,8 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get the language a file's terms are read in by default: the
-     * installation's language if the file has it, in any region, else
-     * English, else the first available ("").
+     * Get the default language to read a file's terms in: the installation's,
+     * else English, else the first available ("").
      *
      * @param string[] $languages The file's languages
      * @return string
@@ -643,9 +608,8 @@ class VocabularyController extends AbstractActionController
     {
         $locale = $this->getLocaleLanguage();
         $primary = strtok($locale, '-');
-        // The installation's language, then English: each as its tag, as
-        // en-us, or the language, as en, before the language in another
-        // region, as en-GB.
+        // Each as its tag (en-us) or language (en), before another region
+        // (en-GB).
         foreach (array_unique([$primary, 'en']) as $wanted) {
             $tags = $wanted === $primary ? array_unique([$locale, $primary]) : [$wanted];
             foreach ($tags as $tag) {
@@ -665,8 +629,7 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get the installation's language as a language tag, such as "fr" or
-     * "en-us".
+     * Get the installation's language as a tag, such as "en-us".
      *
      * @return string
      */
@@ -676,8 +639,7 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get a vocabulary whose namespace URI is a namespace URI, or another
-     * form of it.
+     * Get a vocabulary with a namespace URI, in any form.
      *
      * @param string $namespaceUri
      * @return \Omeka\Api\Representation\VocabularyRepresentation|null
@@ -688,12 +650,11 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get the message that Omeka already has a vocabulary being imported,
-     * saying how to update it only to someone who may.
+     * Get the message that Omeka already has a vocabulary being imported.
      *
      * @param \Omeka\Api\Representation\VocabularyRepresentation $vocabulary
      * @param bool $found Whether its namespace URI is the one found in the
-     *   file, which may be wrong and can be corrected, rather than given
+     *   file, rather than given
      * @return Message
      */
     protected function getAlreadyHasMessage($vocabulary, $found = false)
@@ -723,12 +684,10 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get a vocabulary whose namespace URI is another form of one, ending in
-     * "#", "/", or neither, with http or https.
+     * Get a vocabulary whose namespace URI is another form of one.
      *
      * @param string $namespaceUri
      * @param \Omeka\Api\Representation\VocabularyRepresentation $except
-     *   A vocabulary not to count, the one whose namespace URI changes
      * @return \Omeka\Api\Representation\VocabularyRepresentation|null
      */
     protected function getVocabularyInAnotherForm($namespaceUri, $except)
@@ -743,9 +702,7 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get the namespace URI a file's classes and properties use, where the
-     * importer refused the file for having none in the vocabulary's. It's
-     * the one argument of the importer's message under o:namespace_uri.
+     * Get the namespace URI the importer found a refused file's terms use.
      *
      * @see RdfImporter::checkNamespaceUri()
      * @param \Exception $e
@@ -765,9 +722,8 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get the messages of an exception, with those in its error store, where
-     * the importer names the terms at fault; or, where it has neither, that
-     * something went wrong, so the admin isn't left with nothing said.
+     * Get the messages of an exception, with those in its error store, or
+     * else that something went wrong.
      *
      * @param \Exception $e
      * @return array

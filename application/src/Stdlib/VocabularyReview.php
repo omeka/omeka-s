@@ -9,14 +9,9 @@ use Omeka\Api\Manager as ApiManager;
 use Omeka\Permissions\Exception\PermissionDeniedException;
 
 /**
- * Reviews of the changes a file would make to a vocabulary, kept on the
- * server until they're accepted or cancelled.
- *
- * A review holds its file, kept on the server (see VocabularyFileStore), how
- * the file is read, and any pending change to the vocabulary's namespace URI.
- * It's kept in the session under a token the review page's URL carries, so
- * the browser never holds the changes, and every look at them reads the same
- * file.
+ * Reviews of the changes a file would make to a vocabulary, kept in the
+ * session, with their files kept in the file store, until they're accepted
+ * or cancelled.
  */
 class VocabularyReview
 {
@@ -50,13 +45,6 @@ class VocabularyReview
      */
     protected $session;
 
-    /**
-     * @param RdfImporter $rdfImporter
-     * @param VocabularyFileStore $fileStore
-     * @param ApiManager $apiManager
-     * @param EntityManager $entityManager
-     * @param RouteStackInterface $router
-     */
     public function __construct(RdfImporter $rdfImporter, VocabularyFileStore $fileStore,
         ApiManager $apiManager, EntityManager $entityManager, RouteStackInterface $router
     ) {
@@ -84,9 +72,8 @@ class VocabularyReview
      *   - source_label: (optional) A name for the file's side of the
      *     changes, such as where it came from. By default, "the file".
      * @return string The review page's URL
-     * @throws ValidationException When the file can't be read, has no
-     *   terms in the namespace URI (with the one its terms use, where
-     *   there is one), or has terms too long to store
+     * @throws ValidationException When the file can't be read, has no terms
+     *   in the namespace, or has terms too long to store
      */
     public function start($vocabularyId, $filePath, array $readingOptions = [], array $reviewOptions = [])
     {
@@ -95,8 +82,7 @@ class VocabularyReview
     }
 
     /**
-     * Start a review of the changes the file at a URL would make to a
-     * vocabulary. The file is fetched once, as EasyRdf would fetch it.
+     * Start a review of the file at a URL, fetched once.
      *
      * @see self::start()
      * @param int $vocabularyId
@@ -115,8 +101,7 @@ class VocabularyReview
      * Get a review.
      *
      * @param string $token
-     * @return array|null The review, or null if there's none by the token, or
-     *   its file has gone: vocabulary_id, file, reading, namespace_uri,
+     * @return array|null vocabulary_id, file, reading, namespace_uri,
      *   return_url, source_label
      */
     public function get($token)
@@ -130,12 +115,10 @@ class VocabularyReview
     }
 
     /**
-     * Get the reading options of a review, with any the admin chose in place
-     * of its own.
+     * Get a review's reading options, with any the admin chose.
      *
      * @param array $review
-     * @param array $choices Reading options, such as lang and
-     *   comment_property; others are ignored
+     * @param array $choices Reading options; others are ignored
      * @return array
      */
     public function getReading(array $review, array $choices = [])
@@ -174,7 +157,7 @@ class VocabularyReview
 
     /**
      * Get the classes and properties the vocabulary has that a review's file
-     * doesn't, read as given.
+     * doesn't.
      *
      * @see RdfImporter::getMissingTerms()
      * @param array $review
@@ -205,15 +188,13 @@ class VocabularyReview
     }
 
     /**
-     * Accept a review's changes, read as given: the vocabulary's pending
-     * namespace URI, its terms' changes, and how its file was read, together
-     * or not at all. The review ends.
+     * Accept a review's changes, with any pending namespace URI and the
+     * reading, all or none, and end it.
      *
      * @param string $token
      * @param array $reading
-     * @throws ValidationException When the API refuses the pending
-     *   namespace URI, or a term is too long to store; nothing is changed,
-     *   and the review goes on
+     * @throws ValidationException When nothing was changed, and the review
+     *   goes on
      */
     public function accept($token, array $reading)
     {
@@ -256,8 +237,7 @@ class VocabularyReview
     }
 
     /**
-     * Get where a review's Accept and Cancel go: its return URL, else the
-     * vocabulary's page; without a review, the vocabularies.
+     * Get where a review's Accept and Cancel go.
      *
      * @param array|null $review
      * @return string
@@ -277,8 +257,7 @@ class VocabularyReview
      * Start a review of a kept file.
      *
      * @param int $vocabularyId
-     * @param string $fileToken The file's token in the file store, whose file
-     *   the review then has, and removes when it ends
+     * @param string $fileToken The file's token in the file store
      * @param array $readingOptions
      * @param array $reviewOptions
      * @return string The review page's URL
@@ -299,10 +278,8 @@ class VocabularyReview
             $vocabulary = $this->apiManager->read('vocabularies', $vocabularyId)->getContent();
             $review['vocabulary_id'] = $vocabulary->id();
             $review['reading'] = $this->getStartingReading($vocabulary, $review, $readingOptions);
-            // A file that can't be read, has no terms in the namespace, or
-            // has terms too long to store, is refused now rather than
-            // reviewed. Without terms in the namespace, every term would seem
-            // dropped from the file.
+            // Without terms in the namespace, every term would seem dropped
+            // from the file.
             $this->rdfImporter->checkNamespaceUri('file', $this->getNamespaceUri($review), [
                 'file' => $path,
                 'format' => $review['reading']['format'] ?? 'guess',
@@ -312,7 +289,6 @@ class VocabularyReview
             $this->fileStore->remove($fileToken);
             throw $e;
         }
-        // The file's path is the store's to keep, and get() asks it.
         unset($review['file']);
         $token = bin2hex(random_bytes(16));
         $this->getSession()->offsetSet($token, $review);
@@ -323,8 +299,8 @@ class VocabularyReview
     }
 
     /**
-     * Get how a review starts reading its file: as asked, else as the
-     * vocabulary's file was read, else as it's guessed to have been read.
+     * Get how a review starts reading its file: as asked, else as stored,
+     * else as guessed.
      *
      * @param \Omeka\Api\Representation\VocabularyRepresentation $vocabulary
      * @param array $review
@@ -369,8 +345,7 @@ class VocabularyReview
     }
 
     /**
-     * Check that a review's return URL, if it has one, is a path on this
-     * site, before its file is kept.
+     * Check that a review's return URL, if any, is a path on this site.
      *
      * @param array $reviewOptions
      * @throws \InvalidArgumentException
@@ -384,8 +359,7 @@ class VocabularyReview
     }
 
     /**
-     * Check that a URL is a path on this site: it starts with one "/", and
-     * has no scheme, host, or backslash.
+     * Check that a URL is a path on this site.
      *
      * @param string $url
      * @return bool
@@ -396,8 +370,7 @@ class VocabularyReview
     }
 
     /**
-     * Get the session container the reviews are kept in, starting it only
-     * when a review needs it.
+     * Get the session container, starting it only when needed.
      *
      * @return Container
      */

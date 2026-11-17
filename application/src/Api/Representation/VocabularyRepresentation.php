@@ -29,10 +29,8 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     }
 
     /**
-     * Return how the vocabulary's file was read when it was imported or last
-     * updated: the importer's reading options, if known.
-     *
-     * They aren't part of the JSON-LD.
+     * Return the reading options the vocabulary's file was read with, if
+     * known. They aren't part of the JSON-LD.
      *
      * @see \Omeka\Stdlib\RdfImporter::READING_OPTIONS
      * @return array|null
@@ -152,8 +150,7 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     }
 
     /**
-     * Get the number of values of this vocabulary's properties, which
-     * deleting it deletes.
+     * Get the number of values of this vocabulary's properties.
      *
      * @return int
      */
@@ -163,8 +160,7 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     }
 
     /**
-     * Get the number of resource template properties that are this
-     * vocabulary's, which deleting it deletes.
+     * Get the number of resource template properties of this vocabulary.
      *
      * @return int
      */
@@ -174,8 +170,7 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     }
 
     /**
-     * Get the number of resources (items, item sets, and media) whose class
-     * is one of this vocabulary's, which deleting it leaves without one.
+     * Get the number of resources whose class is one of this vocabulary's.
      *
      * @return int
      */

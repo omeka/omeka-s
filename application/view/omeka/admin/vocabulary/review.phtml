@@ -123,6 +123,7 @@ $changes = null !== $diff && ($termChanges || $namespaceChanges);
 </form>
 
 <?php // The choices, as rows like core's form rows. ?>
+<p><?php echo $translate('Choose how the file is read, then show the changes.'); ?></p>
 <form method="get" action="<?php echo $escape($this->url(null, [], true)); ?>" class="review-choices">
     <input type="hidden" name="review" value="<?php echo $escape($token); ?>">
     <?php if ($languages || '' !== $lang): ?>
@@ -147,7 +148,7 @@ $changes = null !== $diff && ($termChanges || $namespaceChanges);
     <?php endif; ?>
     <div class="field">
         <div class="field-meta">
-            <label for="review-comments"><?php echo $translate('Comments'); ?></label>
+            <label for="review-comments"><?php echo $translate('Comments from'); ?></label>
             <a href="#" class="expand" aria-expanded="false" aria-controls="review-comments-description" aria-label="<?php echo $escape($translate('Expand')); ?>"></a>
             <div class="collapsible" id="review-comments-description">
                 <div class="field-description"><?php echo $translate('A term\'s comment is read from its comment (rdfs:comment) or its definition (skos:definition, dcterms:description, or dc11:description), whichever it has. Choose which comes first for a term that has both, or another property.'); ?></div>

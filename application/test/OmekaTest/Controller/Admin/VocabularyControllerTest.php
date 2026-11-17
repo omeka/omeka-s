@@ -652,6 +652,8 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $token = $this->startReview('changed-name.ttl');
         // Chosen, it's read, and shown as chosen, with Accept carrying it.
         $page = html_entity_decode($this->reviewPage($token, ['comments' => 'other', 'comment_property' => 'skos:definition']), ENT_QUOTES | ENT_HTML5);
+        $this->assertStringContainsString('<p>Choose how the file is read, then show the changes.</p>', $page);
+        $this->assertStringContainsString('<label for="review-comments">Comments from</label>', $page);
         $this->assertStringContainsString('<option value="other" selected>Another property…</option>', $page);
         $this->assertStringContainsString('<input type="text" name="comment_property" id="review-comment-property" value="skos:definition">', $page);
         $this->assertStringContainsString('<input type="hidden" name="comment_property" value="skos:definition">', $page);
@@ -795,6 +797,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString('value="http://example.org/declared#"', $page);
         $this->assertStringContainsString('value="decl"', $page);
         $this->assertStringContainsString('The fields below are filled in from the file. Check them, then import.', $page);
+        $this->assertStringNotContainsString("The file doesn't give a namespace prefix", $page);
         // Its languages to choose from, English by default.
         $this->assertMatchesRegularExpression('#<option value="en" selected>[^<]*</option>#', $page);
         $this->assertMatchesRegularExpression('#<option value="fr">[^<]*</option>#', $page);
@@ -979,6 +982,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             $this->requestAs(self::ADMIN, 'GET', $url);
             $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
             $this->assertStringContainsString("The file doesn't say which namespace URI its classes and properties are in. Enter it below.", $page);
+            $this->assertStringContainsString("The file doesn't give a namespace prefix for this vocabulary. Enter one below. It can't be changed later.", $page);
             $this->assertStringContainsString('name="vocabulary-info[o:namespace_uri]" required id="o:namespace_uri" data-confirm-ends-with="', $page);
             $this->assertStringContainsString('value=""', $page);
             $this->assertSame(302, $this->finishImport($url, [

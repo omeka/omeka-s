@@ -292,7 +292,7 @@ class VocabularyForm extends Form
             'name' => 'comments',
             'type' => 'select',
             'options' => [
-                'label' => 'Comments', // @translate
+                'label' => 'Comments from', // @translate
                 'info' => 'A term\'s comment is read from its comment (rdfs:comment) or its definition (skos:definition, dcterms:description, or dc11:description), whichever it has. Choose which comes first for a term that has both, or another property.', // @translate
                 'value_options' => [
                     'comment' => 'Comment, else definition', // @translate

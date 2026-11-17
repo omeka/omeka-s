@@ -17,5 +17,8 @@ $form->prepare();
 <?php if (null === $details['namespace_uri']): ?>
 <p><?php echo $translate('The file doesn\'t say which namespace URI its classes and properties are in. Enter it below.'); ?></p>
 <?php endif; ?>
+<?php if (null === $details['prefix']): ?>
+<p><?php echo $translate('The file doesn\'t give a namespace prefix for this vocabulary. Enter one below. It can\'t be changed later.'); ?></p>
+<?php endif; ?>
 <?php echo $this->formCollection($form, false); ?>
 <?php echo $this->form()->closeTag(); ?>

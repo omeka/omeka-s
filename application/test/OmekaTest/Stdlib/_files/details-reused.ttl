@@ -8,7 +8,8 @@
 @prefix own: <http://example.org/own#> .
 
 <http://purl.org/dc/terms/> vann:preferredNamespaceUri "http://purl.org/dc/terms/" .
-dcterms:title a rdf:Property .
+dcterms:title a rdf:Property ;
+    rdfs:label "Titolo"@it .
 
 <http://example.org/own> a owl:Ontology ;
     vann:preferredNamespaceUri "http://example.org/own#" .

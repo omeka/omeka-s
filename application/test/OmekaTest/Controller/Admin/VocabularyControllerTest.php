@@ -771,6 +771,36 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringNotContainsString('name="vocabulary-file[import_type]"', $page);
     }
 
+    public function testImportDetailsStartInTheInstallationsLanguage()
+    {
+        $settings = $this->getApplicationServiceLocator()->get('Omeka\Settings');
+        $original = $settings->get('locale');
+        try {
+            // The tag itself or its language, before a language in a
+            // region; else English.
+            foreach (['en_US' => 'en', 'fr' => 'fr-CA', 'de' => 'en'] as $locale => $expected) {
+                $settings->set('locale', $locale);
+                $this->startImport('../../../Stdlib/_files/details-regional.ttl');
+                $this->requestAs(self::ADMIN, 'GET', $this->importDetailsUrl());
+                $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+                $this->assertMatchesRegularExpression(sprintf('#<option value="%s" selected>#', preg_quote($expected, '#')), $page, "For the locale $locale");
+            }
+        } finally {
+            $this->getApplicationServiceLocator()->get('Omeka\Settings')->set('locale', $original);
+        }
+    }
+
+    public function testImportDetailsAreReadOnceAtTheStart()
+    {
+        $this->startImport('../../../Stdlib/_files/details-declared.ttl');
+        $url = $this->importDetailsUrl();
+        // The kept file, emptied once the first step has read it.
+        parse_str((string) parse_url($url, PHP_URL_QUERY), $query);
+        file_put_contents($this->getApplicationServiceLocator()->get('Omeka\VocabularyFileStore')->getPath($query['file']), '');
+        $this->requestAs(self::ADMIN, 'GET', $url);
+        $this->assertStringContainsString('value="Declared vocabulary"', html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
+    }
+
     public function testImportFromTheFileLandsOnTheVocabularysPage()
     {
         $tempDir = $this->getApplicationServiceLocator()->get('Config')['temp_dir'];

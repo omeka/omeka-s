@@ -362,7 +362,8 @@ class RdfImporter
      *     "ontology", "variant" (another form of either), "terms", or
      *     "relative"
      *   - prefix, label, comment: null where the file says nothing
-     *   - languages: of its classes' and properties' labels and comments
+     *   - languages: of the labels, comments, and definitions of all the
+     *     classes and properties it has, in any namespace
      *   - classes, properties: how many it has in the namespace
      * @throws ValidationException When the file can't be read, or has no
      *   classes or properties
@@ -385,7 +386,10 @@ class RdfImporter
             // describe themselves in skos:note.
             'comment' => $this->getVocabularyText($graph, $namespaceUri, 'dcterms:description|dc11:description|rdfs:comment|skos:definition', $lang, true)
                 ?? $this->getVocabularyText($graph, $namespaceUri, 'skos:note', $lang, true),
-            'languages' => $this->getGraphLanguages($graph, $namespaceUri, self::LABEL_PROPERTY . '|' . self::COMMENT_PROPERTY),
+            // Of every class and property, definitions included: the
+            // namespace URI found may be corrected, and a file may translate
+            // only its definitions.
+            'languages' => $this->getGraphLanguages($graph, null, self::LABEL_PROPERTY . '|' . self::COMMENT_PROPERTY . '|skos:definition'),
             'classes' => $counts['classes'],
             'properties' => $counts['properties'],
         ];
@@ -655,10 +659,10 @@ class RdfImporter
 
     /**
      * Get the language tags on the values of a property of the classes and
-     * properties a graph has in a namespace.
+     * properties a graph has in a namespace, or in any.
      *
      * @param RdfGraph $graph
-     * @param string $namespaceUri
+     * @param string|null $namespaceUri Null for every class and property
      * @param string $property A property, or alternatives as "a|b"
      * @return string[] Sorted
      */
@@ -667,10 +671,17 @@ class RdfImporter
         $languages = [];
         foreach (array_merge($this->classTypes, $this->propertyTypes) as $type) {
             foreach ($graph->allOfType($type) as $resource) {
-                if ($resource->getUri() !== $namespaceUri . $resource->localName()) {
+                if (null !== $namespaceUri && $resource->getUri() !== $namespaceUri . $resource->localName()) {
                     continue;
                 }
-                foreach ($this->getLiterals($resource, $property) as $literal) {
+                try {
+                    $literals = $this->getLiterals($resource, $property);
+                } catch (ValidationException $e) {
+                    // A value its datatype refuses, which reading the term
+                    // reports; its language isn't needed here.
+                    continue;
+                }
+                foreach ($literals as $literal) {
                     if ($literal->getLang()) {
                         $languages[$literal->getLang()] = true;
                     }

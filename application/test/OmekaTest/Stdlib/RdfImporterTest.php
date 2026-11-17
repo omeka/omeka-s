@@ -345,7 +345,8 @@ class RdfImporterTest extends DbTestCase
         // each a paragraph.
         $this->assertSame('Declared vocabulary', $details['label']);
         $this->assertSame("First paragraph.\n\nSecond paragraph.\n\nA changelog.", $details['comment']);
-        $this->assertSame(['de', 'en', 'fr'], $details['languages']);
+        // Its definitions' languages too.
+        $this->assertSame(['de', 'en', 'es', 'fr'], $details['languages']);
         // A class with two class types is one class.
         $this->assertSame(1, $details['classes']);
         $this->assertSame(1, $details['properties']);
@@ -365,6 +366,9 @@ class RdfImporterTest extends DbTestCase
         $this->assertSame('declared', $details['namespace_source']);
         $this->assertSame(1, $details['classes']);
         $this->assertSame(2, $details['properties']);
+        // The languages of every class and property, as the namespace URI
+        // found may be corrected.
+        $this->assertSame(['it'], $details['languages']);
     }
 
     public function testVocabularyDetailsInAnotherFormOfTheDeclaredNamespace()

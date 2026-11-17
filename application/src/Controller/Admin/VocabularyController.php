@@ -11,6 +11,7 @@ use Omeka\Stdlib\NamespaceUri;
 use Omeka\Stdlib\VocabularyFileStore;
 use Omeka\Stdlib\VocabularyReview;
 use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\Session\Container;
 use Laminas\View\Model\ViewModel;
 
 class VocabularyController extends AbstractActionController
@@ -218,6 +219,8 @@ class VocabularyController extends AbstractActionController
                     try {
                         $response = $this->rdfImporter->import('file', $data['vocabulary-info'], $options);
                         $this->fileStore->remove($token);
+                        $session = new Container('OmekaVocabularyImport');
+                        unset($session[$token . ':' . $format]);
                         $message = new Message(
                             'Vocabulary successfully imported. %s', // @translate
                             sprintf(
@@ -656,7 +659,8 @@ class VocabularyController extends AbstractActionController
 
     /**
      * Get what a kept file says of its vocabulary, its title and description
-     * read in the installation's language where it has them.
+     * read in the installation's language where it has them; read once, and
+     * kept in the session for the import.
      *
      * @see RdfImporter::getVocabularyDetails()
      * @param string $token The file's token in the file store
@@ -665,17 +669,24 @@ class VocabularyController extends AbstractActionController
      */
     protected function getImportDetails($token, $format)
     {
-        return $this->rdfImporter->getVocabularyDetails('file', [
-            'file' => $this->fileStore->getPath($token),
-            'format' => $format,
-            'lang' => strtok($this->getLocaleLanguage(), '-') ?: null,
-        ]);
+        // Read once an import, at its first step: the details step shows
+        // them, and posts back to itself.
+        $session = new Container('OmekaVocabularyImport');
+        $key = $token . ':' . $format;
+        if (!isset($session[$key])) {
+            $session[$key] = $this->rdfImporter->getVocabularyDetails('file', [
+                'file' => $this->fileStore->getPath($token),
+                'format' => $format,
+                'lang' => strtok($this->getLocaleLanguage(), '-') ?: null,
+            ]);
+        }
+        return $session[$key];
     }
 
     /**
      * Get the language a file's terms are read in by default: the
-     * installation's language if the file has it, else English, else the
-     * first available ("").
+     * installation's language if the file has it, in any region, else
+     * English, else the first available ("").
      *
      * @param string[] $languages The file's languages
      * @return string
@@ -684,15 +695,20 @@ class VocabularyController extends AbstractActionController
     {
         $locale = $this->getLocaleLanguage();
         $primary = strtok($locale, '-');
-        // The tag itself, then its language in any region, as fr-CA for fr.
-        foreach (array_unique(array_filter([$locale, $primary, 'en'])) as $wanted) {
-            foreach ($languages as $language) {
-                if (strtolower($language) === $wanted) {
-                    return $language;
+        // The installation's language, then English: each as its tag, as
+        // en-us, or the language, as en, before the language in another
+        // region, as en-GB.
+        foreach (array_unique([$primary, 'en']) as $wanted) {
+            $tags = $wanted === $primary ? array_unique([$locale, $primary]) : [$wanted];
+            foreach ($tags as $tag) {
+                foreach ($languages as $language) {
+                    if (strtolower($language) === $tag) {
+                        return $language;
+                    }
                 }
             }
             foreach ($languages as $language) {
-                if (0 === strpos(strtolower($language), strtok($wanted, '-') . '-')) {
+                if (0 === strpos(strtolower($language), $wanted . '-')) {
                     return $language;
                 }
             }

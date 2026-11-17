@@ -1,0 +1,24 @@
+<?php
+$this->headScript()->appendFile($this->assetUrl('js/vocabulary-form.js', 'Omeka'));
+$this->htmlElement('body')->appendAttribute('class', 'vocabularies import-details');
+$translate = $this->plugin('translate');
+$form->prepare();
+?>
+
+<?php echo $this->pageTitle($translate('New vocabulary'), 1, $translate('Vocabularies'), $translate('Details')); ?>
+
+<?php echo $this->form()->openTag($form); ?>
+<div id="page-actions">
+    <?php // To the list the import started from; the kept file is cleared out later. ?>
+    <?php echo $this->hyperlink($translate('Cancel'), $this->url('admin/default', ['controller' => 'vocabulary', 'action' => 'browse']), ['class' => 'button']); ?>
+    <button><?php echo $translate('Import'); ?></button>
+</div>
+<p>
+    <?php echo $translate('These start as the file gives them. Check them, then import.'); ?>
+    <?php echo sprintf($translate('Classes found: %1$s. Properties found: %2$s.'), $details['classes'], $details['properties']); ?>
+</p>
+<?php if (null === $details['namespace_uri']): ?>
+<p><?php echo $translate('The file names its classes and properties relative to itself, so it doesn\'t give their namespace URI. Enter it below.'); ?></p>
+<?php endif; ?>
+<?php echo $this->formCollection($form, false); ?>
+<?php echo $this->form()->closeTag(); ?>

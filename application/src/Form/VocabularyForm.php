@@ -9,16 +9,20 @@ class VocabularyForm extends Form
     protected $translator;
 
     /**
-     * - vocabulary: (optional) The vocabulary to change. Without one, the
-     *   form imports a vocabulary.
-     * - mode: (optional) With a vocabulary, what the form changes: "edit"
+     * - vocabulary: (optional) The vocabulary to change, if any.
+     * - mode: (optional) What the form is for. With a vocabulary: "edit"
      *   (the default), its label and comment; "change_namespace", its
-     *   namespace URI; or "update_from_file", its classes and properties,
-     *   from a file
+     *   namespace URI; or "update_from_file", the file to update its classes
+     *   and properties from. Without one, an import's steps: "import_file"
+     *   (the default), the file; then "import_details", the vocabulary's own
+     *   fields and how its file is read.
+     * - languages: (optional) For "import_details", the file's languages,
+     *   which the preferred language is one of
      */
     protected $options = [
         'vocabulary' => null,
-        'mode' => 'edit',
+        'mode' => null,
+        'languages' => [],
     ];
 
     public function __construct($name = null, $options = [])
@@ -29,15 +33,15 @@ class VocabularyForm extends Form
     public function init()
     {
         $vocabulary = $this->getOption('vocabulary');
-        $mode = $vocabulary ? $this->getOption('mode') : null;
-        // An import has every part; each change to a vocabulary, its own.
-        // How the file is read is chosen on the review of an update, where
-        // its changes show.
-        $hasLabel = !$vocabulary || 'edit' === $mode;
-        $hasNamespace = !$vocabulary || 'change_namespace' === $mode;
+        $mode = $this->getOption('mode') ?? ($vocabulary ? 'edit' : 'import_file');
+        // Each step has its own part. How an update's file is read is chosen
+        // on its review, where its changes show.
+        $hasLabel = in_array($mode, ['edit', 'import_details'], true);
+        $hasNamespace = in_array($mode, ['change_namespace', 'import_details'], true);
+        $hasPrefix = 'import_details' === $mode;
         $hasInfo = $hasLabel || $hasNamespace;
-        $hasFile = !$vocabulary || 'update_from_file' === $mode;
-        $hasAdvanced = !$vocabulary;
+        $hasFile = in_array($mode, ['update_from_file', 'import_file'], true);
+        $hasAdvanced = 'import_details' === $mode;
         $this->setAttribute('id', 'vocabulary-form');
         if ($hasInfo) {
             $this->add([
@@ -47,7 +51,7 @@ class VocabularyForm extends Form
                     'label' => 'Basic info', // @translate
                 ],
             ]);
-            $this->addInfoElements($vocabulary, $hasLabel, $hasNamespace);
+            $this->addInfoElements($vocabulary, $hasLabel, $hasNamespace, $hasPrefix);
         }
         if ($hasFile) {
             $this->add([
@@ -67,7 +71,7 @@ class VocabularyForm extends Form
                     'label' => 'Advanced', // @translate
                 ],
             ]);
-            $this->addAdvancedElements();
+            $this->addAdvancedElements($this->getOption('languages'));
         }
 
         $inputFilter = $this->getInputFilter();
@@ -83,7 +87,7 @@ class VocabularyForm extends Form
                 ],
             ]);
         }
-        if (!$vocabulary) {
+        if ($hasPrefix) {
             $inputFilter->get('vocabulary-info')->add([
                 'name' => 'o:prefix',
                 'validators' => [
@@ -106,6 +110,10 @@ class VocabularyForm extends Form
             ]);
         }
         if ($hasAdvanced) {
+            $inputFilter->get('vocabulary-advanced')->add([
+                'name' => 'lang',
+                'required' => false,
+            ]);
             $inputFilter->get('vocabulary-advanced')->add([
                 'name' => 'comments',
                 'required' => false,
@@ -133,8 +141,9 @@ class VocabularyForm extends Form
      * @param \Omeka\Api\Representation\VocabularyRepresentation|null $vocabulary
      * @param bool $hasLabel Whether to add its label and comment
      * @param bool $hasNamespace Whether to add its namespace URI
+     * @param bool $hasPrefix Whether to add its prefix
      */
-    protected function addInfoElements($vocabulary, $hasLabel, $hasNamespace)
+    protected function addInfoElements($vocabulary, $hasLabel, $hasNamespace, $hasPrefix)
     {
         if ($hasLabel) {
             $this->addLabelElements();
@@ -157,7 +166,7 @@ class VocabularyForm extends Form
                 ],
             ]);
         }
-        if (!$vocabulary) {
+        if ($hasPrefix) {
             $this->get('vocabulary-info')->add([
                 'name' => 'o:prefix',
                 'type' => 'text',
@@ -268,20 +277,44 @@ class VocabularyForm extends Form
     }
 
     /**
-     * Add the options of how an imported file is read.
+     * Add the options of how an imported file is read, as a review of an
+     * update offers them.
+     *
+     * @param string[] $languages The file's languages
      */
-    protected function addAdvancedElements()
+    protected function addAdvancedElements(array $languages)
     {
+        $languageOptions = ['' => 'First available']; // @translate
+        foreach ($languages as $tag) {
+            $name = extension_loaded('intl') ? \Locale::getDisplayName($tag) : $tag;
+            $languageOptions[$tag] = $name === $tag ? $tag : sprintf('%s (%s)', $name, $tag);
+        }
         $this->get('vocabulary-advanced')->add([
             'name' => 'lang',
-            'type' => 'text',
+            'type' => 'select',
             'options' => [
                 'label' => 'Preferred language', // @translate
-                'info' => 'Enter the preferred language of the labels and comments using an <a target="_blank" href="https://www.w3.org/International/articles/language-tags/">IETF language tag</a>. Defaults to the first available.', // @translate
-                'escape_info' => false,
+                'info' => 'The language to read labels and comments in, where the file has them in several.', // @translate
+                'value_options' => $languageOptions,
             ],
             'attributes' => [
                 'id' => 'lang',
+            ],
+        ]);
+        $this->get('vocabulary-advanced')->add([
+            'name' => 'comments',
+            'type' => 'select',
+            'options' => [
+                'label' => 'Comments', // @translate
+                'info' => 'Omeka can use a term\'s definition (skos:definition) as its comment, in place of rdfs:comment.', // @translate
+                'value_options' => [
+                    'comment' => 'Comment', // @translate
+                    'definition' => 'Definition where there is one, else comment', // @translate
+                ],
+            ],
+            'attributes' => [
+                'id' => 'comments',
+                'value' => 'comment',
             ],
         ]);
         $this->get('vocabulary-advanced')->add([
@@ -296,27 +329,11 @@ class VocabularyForm extends Form
             ],
         ]);
         $this->get('vocabulary-advanced')->add([
-            'name' => 'comments',
-            'type' => 'select',
-            'options' => [
-                'label' => 'Comments', // @translate
-                'info' => 'Where a term\'s comment is read from. Omeka can use its definition (skos:definition) in place of rdfs:comment. A comment property entered below is used instead.', // @translate
-                'value_options' => [
-                    'comment' => 'Comment', // @translate
-                    'definition' => 'Definition where there is one, else comment', // @translate
-                ],
-            ],
-            'attributes' => [
-                'id' => 'comments',
-                'value' => 'comment',
-            ],
-        ]);
-        $this->get('vocabulary-advanced')->add([
             'name' => 'comment_property',
             'type' => 'text',
             'options' => [
                 'label' => 'Comment property', // @translate
-                'info' => 'Enter the comment property. This is typically only needed if the vocabulary uses an unconventional property for comments. Please use the full property URI enclosed in angle brackets.', // @translate
+                'info' => 'Enter the comment property, used in place of the Comments choice. This is typically only needed if the vocabulary uses an unconventional property for comments. Please use the full property URI enclosed in angle brackets.', // @translate
             ],
             'attributes' => [
                 'id' => 'comment_property',

@@ -14,6 +14,7 @@ use Omeka\Form\VocabularyForm;
 use Omeka\Mvc\Controller\Plugin\Messenger;
 use Omeka\Permissions\Exception\PermissionDeniedException;
 use Omeka\Stdlib\RdfImporter;
+use Omeka\Stdlib\VocabularyFileStore;
 use Omeka\Test\AbstractHttpControllerTestCase;
 
 /**
@@ -49,6 +50,13 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
      * @var string[]
      */
     protected $tokens = [];
+
+    /**
+     * The tokens of the files a test's imports keep.
+     *
+     * @var string[]
+     */
+    protected $importFiles = [];
 
     public function setUp(): void
     {
@@ -90,6 +98,9 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->signIn();
         foreach ($this->tokens as $token) {
             $this->getApplicationServiceLocator()->get('Omeka\VocabularyReview')->cancel($token);
+        }
+        foreach ($this->importFiles as $token) {
+            $this->getApplicationServiceLocator()->get('Omeka\VocabularyFileStore')->remove($token);
         }
         if ($this->vocabularyId && $this->vocabularyExists()) {
             $this->api()->delete('vocabularies', $this->vocabularyId);
@@ -662,111 +673,129 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame(['This review has ended. Update the vocabulary\'s classes and properties to review its changes again.'], $this->messages(Messenger::ERROR));
     }
 
-    public function testCommentsChoiceIsOnTheImportFormOnly()
+    /**
+     * Post a file of the tests' to the first step of an import, by URL.
+     *
+     * @param string $file A file in _files, or a path from there
+     * @param string $format
+     * @return int The response's HTTP status
+     */
+    protected function startImport($file, $format = 'turtle')
     {
-        $this->requestAs(self::ADMIN, 'GET', '/admin/vocabulary/import');
-        $this->assertStringContainsString('<option value="definition">', html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
-        // An edit chooses on review.
-        $this->requestAs(self::ADMIN, 'GET', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId));
-        $this->assertStringNotContainsString('<option value="definition">', html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
-    }
-
-    public function testImportRefusesAnotherFormOfANamespaceOmekaHas()
-    {
-        $this->serveFile('markup.ttl');
+        $this->serveFile($file);
         $status = $this->requestAs(self::ADMIN, 'POST', '/admin/vocabulary/import', [
-            'vocabulary-info' => [
-                'o:namespace_uri' => 'https://example.org/review',
-                'o:prefix' => 'review2',
-                'o:label' => 'Review again',
-                'o:comment' => '',
-            ],
             'vocabulary-file' => [
                 'import_type' => 'url',
-                'url' => 'http://example.org/review.ttl',
-                'format' => 'turtle',
+                'url' => 'http://example.org/vocabulary',
+                'format' => $format,
             ],
-            'vocabulary-advanced' => [
+        ] + $this->csrfField(VocabularyForm::class));
+        if (302 === $status) {
+            parse_str((string) parse_url($this->getResponse()->getHeaders()->get('Location')->getUri(), PHP_URL_QUERY), $query);
+            $this->importFiles[] = $query['file'] ?? '';
+        }
+        return $status;
+    }
+
+    /**
+     * The URL of the details step an import went on to.
+     *
+     * @return string
+     */
+    protected function importDetailsUrl()
+    {
+        return $this->getResponse()->getHeaders()->get('Location')->getUri();
+    }
+
+    /**
+     * Post the details step of an import.
+     *
+     * @param string $url
+     * @param array $info The vocabulary's own fields
+     * @param array $advanced How its file is read
+     * @return int The response's HTTP status
+     */
+    protected function finishImport($url, array $info, array $advanced = [])
+    {
+        return $this->requestAs(self::ADMIN, 'POST', $url, [
+            'vocabulary-info' => $info + ['o:comment' => ''],
+            'vocabulary-advanced' => $advanced + [
                 'lang' => '',
+                'comments' => 'comment',
                 'label_property' => '',
                 'comment_property' => '',
             ],
         ] + $this->csrfField(VocabularyForm::class));
-        $this->assertSame(200, $status);
-        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
-        $this->assertStringContainsString('Omeka already has this vocabulary, as "Review" with the namespace URI "http://example.org/review#". To update it, use Update classes and properties on its page.', strip_tags($page));
-        // Its name links to its page.
-        $this->assertStringContainsString(sprintf('<a href="/admin/vocabulary/%s">Review</a>', $this->vocabularyId), $page);
+    }
+
+    /**
+     * Delete the vocabularies with a prefix, as a test that imports one ends.
+     *
+     * @param string $prefix
+     */
+    protected function deleteImported($prefix)
+    {
         $this->reset(true);
         $this->signIn();
-        $this->assertSame(0, $this->api()->search('vocabularies', ['prefix' => 'review2'])->getTotalResults());
+        foreach ($this->api()->search('vocabularies', ['prefix' => $prefix])->getContent() as $vocabulary) {
+            $this->api()->delete('vocabularies', $vocabulary->id());
+        }
     }
 
-    public function testImportOfAVocabularyTheUserMayNotUpdateSaysOnlyThatOmekaHasIt()
+    public function testImportTakesOnlyTheFileFirst()
     {
-        // Dublin Core, which no one may update, in another form.
-        $this->serveFile('markup.ttl');
-        $status = $this->requestAs(self::ADMIN, 'POST', '/admin/vocabulary/import', [
-            'vocabulary-info' => [
-                'o:namespace_uri' => 'https://purl.org/dc/terms/',
-                'o:prefix' => 'dcterms2',
-                'o:label' => 'Dublin Core again',
-                'o:comment' => '',
-            ],
-            'vocabulary-file' => [
-                'import_type' => 'url',
-                'url' => 'http://example.org/review.ttl',
-                'format' => 'turtle',
-            ],
-            'vocabulary-advanced' => [
-                'lang' => '',
-                'label_property' => '',
-                'comment_property' => '',
-            ],
-        ] + $this->csrfField(VocabularyForm::class));
-        $this->assertSame(200, $status);
-        $text = strip_tags(html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
-        $this->assertStringContainsString('Omeka already has this vocabulary, as "Dublin Core" with the namespace URI "http://purl.org/dc/terms/".', $text);
-        $this->assertStringNotContainsString('To update it', $text);
+        $this->requestAs(self::ADMIN, 'GET', '/admin/vocabulary/import');
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        $this->assertStringContainsString('name="vocabulary-file[import_type]"', $page);
+        $this->assertStringNotContainsString('name="vocabulary-info[o:label]"', $page);
+        $this->assertStringNotContainsString('name="vocabulary-advanced[comments]"', $page);
     }
 
-    public function testImportTrimsTheNamespace()
+    public function testImportReadsTheFileThenShowsItsDetails()
     {
-        $this->serveFile('../../../Stdlib/_files/definitions.ttl');
+        $this->assertSame(302, $this->startImport('../../../Stdlib/_files/details-declared.ttl'));
+        $url = $this->importDetailsUrl();
+        $this->assertStringStartsWith('/admin/vocabulary/import-details?', $url);
+        $this->requestAs(self::ADMIN, 'GET', $url);
+        $this->assertTemplateName('omeka/admin/vocabulary/import-details');
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        // As the file gives them.
+        $this->assertStringContainsString('value="Declared vocabulary"', $page);
+        $this->assertStringContainsString('value="http://example.org/declared#"', $page);
+        $this->assertStringContainsString('value="decl"', $page);
+        $this->assertStringContainsString('Classes found: 1. Properties found: 1.', $page);
+        // Its languages to choose from, English by default.
+        $this->assertMatchesRegularExpression('#<option value="en" selected>[^<]*</option>#', $page);
+        $this->assertMatchesRegularExpression('#<option value="fr">[^<]*</option>#', $page);
+        $this->assertStringContainsString('<option value="definition">', $page);
+        $this->assertStringNotContainsString('name="vocabulary-file[import_type]"', $page);
+    }
+
+    public function testImportFromTheFileLandsOnTheVocabularysPage()
+    {
+        $tempDir = $this->getApplicationServiceLocator()->get('Config')['temp_dir'];
+        $files = glob($tempDir . '/' . VocabularyFileStore::FILE_PREFIX . '*');
         try {
-            $status = $this->requestAs(self::ADMIN, 'POST', '/admin/vocabulary/import', [
-                'vocabulary-info' => [
-                    'o:namespace_uri' => ' http://example.org/defs# ',
-                    'o:prefix' => 'defs',
-                    'o:label' => 'Definitions',
-                    'o:comment' => '',
-                ],
-                'vocabulary-file' => [
-                    'import_type' => 'url',
-                    'url' => 'http://example.org/defs.ttl',
-                    'format' => 'turtle',
-                ],
-                'vocabulary-advanced' => [
-                    'lang' => '',
-                    'label_property' => '',
-                    'comment_property' => '',
-                ],
-            ] + $this->csrfField(VocabularyForm::class));
+            $this->assertSame(302, $this->startImport('../../../Stdlib/_files/definitions.ttl'));
+            $status = $this->finishImport($this->importDetailsUrl(), [
+                'o:label' => 'Definitions',
+                // Trimmed, as the file is read with it.
+                'o:namespace_uri' => ' http://example.org/defs# ',
+                'o:prefix' => 'defs',
+            ]);
             $this->assertSame(302, $status);
             $location = $this->getResponse()->getHeaders()->get('Location')->getUri();
+            $this->assertStringContainsString('Vocabulary successfully imported.', implode(' ', $this->messages(Messenger::SUCCESS)));
             $this->reset(true);
             $this->signIn();
-            // To the new vocabulary's page.
-            $vocabulary = $this->api()->search('vocabularies', ['prefix' => 'defs'])->getContent()[0];
+            $vocabulary = $this->api()->read('vocabularies', ['prefix' => 'defs'])->getContent();
             $this->assertSame(sprintf('/admin/vocabulary/%s', $vocabulary->id()), $location);
-            $this->assertSame(3, $this->api()->search('properties', ['vocabulary_prefix' => 'defs'])->getTotalResults()
-                + $this->api()->search('resource_classes', ['vocabulary_prefix' => 'defs'])->getTotalResults());
+            $this->assertSame('http://example.org/defs#', $vocabulary->namespaceUri());
+            $this->assertSame(3, $vocabulary->propertyCount() + $vocabulary->resourceClassCount());
+            // The kept file is gone.
+            $this->assertSame($files, glob($tempDir . '/' . VocabularyFileStore::FILE_PREFIX . '*'));
         } finally {
-            $this->reset(true);
-            $this->signIn();
-            foreach ($this->api()->search('vocabularies', ['prefix' => 'defs'])->getContent() as $vocabulary) {
-                $this->api()->delete('vocabularies', $vocabulary->id());
-            }
+            $this->deleteImported('defs');
         }
     }
 
@@ -784,26 +813,13 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
      */
     public function testImportReadsCommentsAsChosen(array $advanced, $commentProperty, $titleComment)
     {
-        $this->serveFile('../../../Stdlib/_files/definitions.ttl');
         try {
-            $status = $this->requestAs(self::ADMIN, 'POST', '/admin/vocabulary/import', [
-                'vocabulary-info' => [
-                    'o:namespace_uri' => 'http://example.org/defs#',
-                    'o:prefix' => 'defs',
-                    'o:label' => 'Definitions',
-                    'o:comment' => '',
-                ],
-                'vocabulary-file' => [
-                    'import_type' => 'url',
-                    'url' => 'http://example.org/defs.ttl',
-                    'format' => 'turtle',
-                ],
-                'vocabulary-advanced' => $advanced + [
-                    'lang' => '',
-                    'label_property' => '',
-                    'comment_property' => '',
-                ],
-            ] + $this->csrfField(VocabularyForm::class));
+            $this->startImport('../../../Stdlib/_files/definitions.ttl');
+            $status = $this->finishImport($this->importDetailsUrl(), [
+                'o:label' => 'Definitions',
+                'o:namespace_uri' => 'http://example.org/defs#',
+                'o:prefix' => 'defs',
+            ], $advanced);
             $this->assertSame(302, $status);
             $this->reset(true);
             $this->signIn();
@@ -812,12 +828,110 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             $title = $this->api()->search('properties', ['term' => 'defs:title'])->getContent()[0];
             $this->assertSame($titleComment, $title->comment());
         } finally {
+            $this->deleteImported('defs');
+        }
+    }
+
+    public function testARefusedImportKeepsItsFileToTryAgain()
+    {
+        try {
+            $this->startImport('../../../Stdlib/_files/definitions.ttl');
+            $url = $this->importDetailsUrl();
+            // A prefix another vocabulary has.
+            $this->assertSame(200, $this->finishImport($url, [
+                'o:label' => 'Definitions',
+                'o:namespace_uri' => 'http://example.org/defs#',
+                'o:prefix' => 'dcterms',
+            ]));
+            $this->assertStringContainsString('The prefix "dcterms" is already taken.', html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
+            $this->assertSame(302, $this->finishImport($url, [
+                'o:label' => 'Definitions',
+                'o:namespace_uri' => 'http://example.org/defs#',
+                'o:prefix' => 'defs',
+            ]));
+        } finally {
+            $this->deleteImported('defs');
+        }
+    }
+
+    public function testImportOfAFileWithoutTermsIsRefusedAtTheStart()
+    {
+        $tempDir = $this->getApplicationServiceLocator()->get('Config')['temp_dir'];
+        $files = glob($tempDir . '/' . VocabularyFileStore::FILE_PREFIX . '*');
+        $this->assertSame(200, $this->startImport('../../../Stdlib/_files/empty.ttl'));
+        $this->assertStringContainsString('No classes or properties found in this file.', $this->getResponse()->getContent());
+        $this->assertSame($files, glob($tempDir . '/' . VocabularyFileStore::FILE_PREFIX . '*'));
+    }
+
+    public function testImportOfAVocabularyOmekaHasIsRefusedAtTheStart()
+    {
+        // Its terms are in the tests' vocabulary's namespace.
+        $this->assertSame(200, $this->startImport('markup.ttl'));
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        $this->assertStringContainsString('Omeka already has this vocabulary, as "Review" with the namespace URI "http://example.org/review#". To update it, use Update classes and properties on its page.', strip_tags($page));
+        // Its name links to its page.
+        $this->assertStringContainsString(sprintf('<a href="/admin/vocabulary/%s">Review</a>', $this->vocabularyId), $page);
+    }
+
+    public function testImportOfAVocabularyTheUserMayNotUpdateSaysOnlyThatOmekaHasIt()
+    {
+        // Dublin Core, which no one may update.
+        $this->assertSame(200, $this->startImport('dcterms-title.ttl'));
+        $text = strip_tags(html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
+        $this->assertStringContainsString('Omeka already has this vocabulary, as "Dublin Core" with the namespace URI "http://purl.org/dc/terms/".', $text);
+        $this->assertStringNotContainsString('To update it', $text);
+    }
+
+    public function testImportRefusesAnotherFormOfANamespaceOmekaHas()
+    {
+        try {
+            $this->startImport('../../../Stdlib/_files/definitions.ttl');
+            // Edited to another form of the tests' vocabulary's.
+            $this->assertSame(200, $this->finishImport($this->importDetailsUrl(), [
+                'o:label' => 'Review again',
+                'o:namespace_uri' => 'https://example.org/review',
+                'o:prefix' => 'review2',
+            ]));
+            $this->assertStringContainsString('Omeka already has this vocabulary, as "Review"', strip_tags(html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5)));
             $this->reset(true);
             $this->signIn();
-            foreach ($this->api()->search('vocabularies', ['prefix' => 'defs'])->getContent() as $vocabulary) {
-                $this->api()->delete('vocabularies', $vocabulary->id());
-            }
+            $this->assertSame(0, $this->api()->search('vocabularies', ['prefix' => 'review2'])->getTotalResults());
+        } finally {
+            $this->deleteImported('review2');
         }
+    }
+
+    public function testImportOfAFileNamingItsTermsRelativeToItselfAsksForTheNamespace()
+    {
+        try {
+            $this->assertSame(302, $this->startImport('../../../Stdlib/_files/details-relative.rdf', 'rdfxml'));
+            $url = $this->importDetailsUrl();
+            $this->requestAs(self::ADMIN, 'GET', $url);
+            $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+            $this->assertStringContainsString("The file names its classes and properties relative to itself, so it doesn't give their namespace URI. Enter it below.", $page);
+            $this->assertStringContainsString('name="vocabulary-info[o:namespace_uri]" required id="o:namespace_uri" data-confirm-ends-with="', $page);
+            $this->assertStringContainsString('value=""', $page);
+            $this->assertSame(302, $this->finishImport($url, [
+                'o:label' => 'Relative vocabulary',
+                'o:namespace_uri' => 'http://example.org/relative#',
+                'o:prefix' => 'relative',
+            ]));
+            $this->reset(true);
+            $this->signIn();
+            $vocabulary = $this->api()->read('vocabularies', ['prefix' => 'relative'])->getContent();
+            $this->assertSame(1, $vocabulary->resourceClassCount());
+            $this->assertSame(1, $vocabulary->propertyCount());
+        } finally {
+            $this->deleteImported('relative');
+        }
+    }
+
+    public function testImportDetailsOfAnImportThatHasEnded()
+    {
+        $status = $this->requestAs(self::ADMIN, 'GET', '/admin/vocabulary/import-details?file=unknown&format=turtle');
+        $this->assertSame(302, $status);
+        $this->assertRedirectTo('/admin/vocabulary/import');
+        $this->assertSame(['This import has ended. Choose the file again.'], $this->messages(Messenger::ERROR));
     }
 
     public function testEditRefusedForAnothersVocabulary()

@@ -8,6 +8,7 @@ use Omeka\Mvc\Exception;
 use Omeka\Stdlib\RdfImporter;
 use Omeka\Stdlib\Message;
 use Omeka\Stdlib\NamespaceUri;
+use Omeka\Stdlib\VocabularyFileStore;
 use Omeka\Stdlib\VocabularyReview;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
@@ -25,13 +26,21 @@ class VocabularyController extends AbstractActionController
     protected $vocabularyReview;
 
     /**
+     * @var VocabularyFileStore
+     */
+    protected $fileStore;
+
+    /**
      * @param RdfImporter $rdfImporter
      * @param VocabularyReview $vocabularyReview
+     * @param VocabularyFileStore $fileStore
      */
-    public function __construct(RdfImporter $rdfImporter, VocabularyReview $vocabularyReview)
-    {
+    public function __construct(RdfImporter $rdfImporter, VocabularyReview $vocabularyReview,
+        VocabularyFileStore $fileStore
+    ) {
         $this->rdfImporter = $rdfImporter;
         $this->vocabularyReview = $vocabularyReview;
+        $this->fileStore = $fileStore;
     }
 
     public function browseAction()
@@ -81,9 +90,13 @@ class VocabularyController extends AbstractActionController
         return $view;
     }
 
+    /**
+     * Import a vocabulary, first step: take its file, read what it says of
+     * itself, and go on to the details, with the file kept.
+     */
     public function importAction()
     {
-        $form = $this->getForm(VocabularyForm::class);
+        $form = $this->getForm(VocabularyForm::class, ['mode' => 'import_file']);
         $request = $this->getRequest();
         if ($request->isPost()) {
             $post = array_merge_recursive(
@@ -92,65 +105,35 @@ class VocabularyController extends AbstractActionController
             );
             $form->setData($post);
             if ($form->isValid()) {
-                $data = $form->getData();
-                // A vocabulary Omeka has in another form of the namespace is
-                // updated from its page: imported, its terms would be twice.
-                $other = $this->getVocabularyInAnotherForm(trim((string) $data['vocabulary-info']['o:namespace_uri']));
-                if ($other) {
-                    // How to update it, only to someone who may.
-                    $message = new Message(
-                        !$other->isPermanent() && $other->userIsAllowed('update')
-                            ? 'Omeka already has this vocabulary, as "%1$s" with the namespace URI "%2$s". To update it, use Update classes and properties on its page.' // @translate
-                            : 'Omeka already has this vocabulary, as "%1$s" with the namespace URI "%2$s".', // @translate
-                        sprintf('<a href="%s">%s</a>', htmlspecialchars($other->url()), htmlspecialchars($other->label())),
-                        htmlspecialchars($other->namespaceUri())
-                    );
-                    $message->setEscapeHtml(false);
-                    $this->messenger()->addError($message);
-                    $view = new ViewModel;
-                    $view->setVariable('form', $form);
-                    return $view;
-                }
-                $strategy = null;
-                $options = [
-                    'format' => $data['vocabulary-file']['format'],
-                    'lang' => $data['vocabulary-advanced']['lang'],
-                    'label_property' => $data['vocabulary-advanced']['label_property'],
-                    // A comment property entered is used in place of the
-                    // Comments choice.
-                    'comment_property' => $data['vocabulary-advanced']['comment_property']
-                        ?? RdfImporter::COMMENT_READINGS[$data['vocabulary-advanced']['comments'] ?? 'comment']
-                        ?? null,
-                ];
-                if ('upload' === $data['vocabulary-file']['import_type']) {
-                    $strategy = 'file';
-                    $options['file'] = $data['vocabulary-file']['file']['tmp_name'];
-                } elseif ('url' === $data['vocabulary-file']['import_type']) {
-                    $strategy = 'url';
-                    $options['url'] = $data['vocabulary-file']['url'];
-                }
-                try {
-                    $response = $this->rdfImporter->import($strategy, $data['vocabulary-info'], $options);
-                    $message = new Message(
-                        'Vocabulary successfully imported. %s', // @translate
-                        sprintf('<a href="%s">%s</a>', htmlspecialchars($this->url()->fromRoute(null, [], true)), $this->translate('Import another vocabulary?'))
-                    );
-                    $message->setEscapeHtml(false);
-                    $this->messenger()->addSuccess($message);
-                    // To the new vocabulary's page, which shows what came in.
-                    return $this->redirect()->toUrl($response->getContent()->url());
-                } catch (\Exception $e) {
-                    $messages = [];
-                    if ($e->getMessage()) {
-                        $messages[] = $e->getMessage();
-                    }
-                    // Messages may be thrown from the API via the importer.
-                    if (method_exists($e, 'getErrorStore')) {
-                        foreach ($e->getErrorStore()->getErrors() as $message) {
-                            $messages[] = $message;
+                $data = $form->getData()['vocabulary-file'];
+                $source = $this->getFileSource($data);
+                if (!$source) {
+                    $this->messenger()->addError('Choose a file or enter a URL.'); // @translate
+                } else {
+                    $token = null;
+                    try {
+                        $token = isset($source['file'])
+                            ? $this->fileStore->keep($source['file'])
+                            : $this->fileStore->keepFromUrl($source['url']);
+                        $details = $this->getImportDetails($token, $data['format']);
+                        // A vocabulary Omeka has, in any form of the
+                        // namespace, is updated from its page: imported, its
+                        // terms would be twice.
+                        $other = null === $details['namespace_uri'] ? null : $this->getVocabularyWithNamespace($details['namespace_uri']);
+                        if ($other) {
+                            $this->fileStore->remove($token);
+                            $this->messenger()->addError($this->getAlreadyHasMessage($other));
+                        } else {
+                            return $this->redirect()->toRoute('admin/default', ['controller' => 'vocabulary', 'action' => 'import-details'], [
+                                'query' => ['file' => $token, 'format' => $data['format']],
+                            ]);
                         }
+                    } catch (\Exception $e) {
+                        if (null !== $token) {
+                            $this->fileStore->remove($token);
+                        }
+                        $this->messenger()->addErrors($this->getErrors($e));
                     }
-                    $this->messenger()->addErrors($messages);
                 }
             } else {
                 $this->messenger()->addFormErrors($form);
@@ -158,6 +141,95 @@ class VocabularyController extends AbstractActionController
         }
         $view = new ViewModel;
         $view->setVariable('form', $form);
+        return $view;
+    }
+
+    /**
+     * Import a vocabulary, second step: its own fields and how its file is
+     * read, starting as the file says, then import it from the kept file.
+     * The query gives the file's token and format.
+     */
+    public function importDetailsAction()
+    {
+        $token = (string) $this->params()->fromQuery('file');
+        $format = (string) $this->params()->fromQuery('format');
+        if (!in_array($format, ['guess', 'jsonld', 'ntriples', 'rdfxml', 'turtle'], true)) {
+            $format = 'guess';
+        }
+        $path = $this->fileStore->getPath($token);
+        if (null === $path) {
+            $this->messenger()->addError('This import has ended. Choose the file again.'); // @translate
+            return $this->redirect()->toRoute('admin/default', ['controller' => 'vocabulary', 'action' => 'import']);
+        }
+        try {
+            $details = $this->getImportDetails($token, $format);
+        } catch (\Exception $e) {
+            $this->fileStore->remove($token);
+            $this->messenger()->addErrors($this->getErrors($e));
+            return $this->redirect()->toRoute('admin/default', ['controller' => 'vocabulary', 'action' => 'import']);
+        }
+        $form = $this->getForm(VocabularyForm::class, ['mode' => 'import_details', 'languages' => $details['languages']]);
+        $form->setData([
+            'vocabulary-info' => [
+                'o:label' => $details['label'],
+                'o:comment' => $details['comment'],
+                'o:namespace_uri' => $details['namespace_uri'],
+                'o:prefix' => $details['prefix'],
+            ],
+            'vocabulary-advanced' => [
+                'lang' => $this->getDefaultLanguage($details['languages']),
+                'comments' => 'comment',
+            ],
+        ]);
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            // The form posts to the page's own URL, query and all.
+            $form->setData($request->getPost()->toArray());
+            if ($form->isValid()) {
+                $data = $form->getData();
+                $other = $this->getVocabularyWithNamespace($data['vocabulary-info']['o:namespace_uri']);
+                if ($other) {
+                    $this->messenger()->addError($this->getAlreadyHasMessage($other));
+                } else {
+                    $advanced = $data['vocabulary-advanced'];
+                    $options = [
+                        'file' => $path,
+                        'format' => $format,
+                        'lang' => '' === (string) $advanced['lang'] ? null : $advanced['lang'],
+                        'label_property' => $advanced['label_property'],
+                        // A comment property entered is used in place of the
+                        // Comments choice.
+                        'comment_property' => $advanced['comment_property']
+                            ?? RdfImporter::COMMENT_READINGS[$advanced['comments'] ?? 'comment']
+                            ?? null,
+                    ];
+                    try {
+                        $response = $this->rdfImporter->import('file', $data['vocabulary-info'], $options);
+                        $this->fileStore->remove($token);
+                        $message = new Message(
+                            'Vocabulary successfully imported. %s', // @translate
+                            sprintf(
+                                '<a href="%s">%s</a>',
+                                htmlspecialchars($this->url()->fromRoute('admin/default', ['controller' => 'vocabulary', 'action' => 'import'])),
+                                $this->translate('Import another vocabulary?')
+                            )
+                        );
+                        $message->setEscapeHtml(false);
+                        $this->messenger()->addSuccess($message);
+                        // To the new vocabulary's page, which shows what came in.
+                        return $this->redirect()->toUrl($response->getContent()->url());
+                    } catch (\Exception $e) {
+                        // The file is kept, to try again.
+                        $this->messenger()->addErrors($this->getErrors($e));
+                    }
+                }
+            } else {
+                $this->messenger()->addFormErrors($form);
+            }
+        }
+        $view = new ViewModel;
+        $view->setVariable('form', $form);
+        $view->setVariable('details', $details);
         return $view;
     }
 
@@ -276,22 +348,17 @@ class VocabularyController extends AbstractActionController
             $form->setData($post);
             if ($form->isValid()) {
                 $data = $form->getData()['vocabulary-file'];
-                // The form has already refused a file that failed to upload,
-                // so an empty temp file name means none was chosen.
-                $file = $data['file'] ?? [];
-                $url = trim((string) $data['url']);
-                $upload = 'upload' === $data['import_type'] && !empty($file['tmp_name']);
-                $fetch = 'url' === $data['import_type'] && '' !== $url;
-                if (!$upload && !$fetch) {
+                $source = $this->getFileSource($data);
+                if (!$source) {
                     $this->messenger()->addError('Choose a file or enter a URL.'); // @translate
                 } else {
                     // How the file is read starts as the vocabulary's was, and
                     // is chosen on the review.
                     $reading = ['format' => $data['format']];
                     try {
-                        $reviewUrl = $upload
-                            ? $this->vocabularyReview->start($vocabulary->id(), $file['tmp_name'], $reading)
-                            : $this->vocabularyReview->startFromUrl($vocabulary->id(), $url, $reading);
+                        $reviewUrl = isset($source['file'])
+                            ? $this->vocabularyReview->start($vocabulary->id(), $source['file'], $reading)
+                            : $this->vocabularyReview->startFromUrl($vocabulary->id(), $source['url'], $reading);
                         return $this->redirect()->toUrl($reviewUrl);
                     } catch (\Exception $e) {
                         $namespaceUri = $this->getFileNamespaceUri($e);
@@ -551,6 +618,118 @@ class VocabularyController extends AbstractActionController
             'id' => $vocabulary->id(),
             'action' => 'review',
         ], ['query' => $query]);
+    }
+
+    /**
+     * Get the file a form's file fields choose: an upload, or a URL.
+     *
+     * @param array $data The form's file fieldset, as validated
+     * @return array|null ['file' => the upload's path] or ['url' => URL], or
+     *   null where none was chosen
+     */
+    protected function getFileSource(array $data)
+    {
+        // The form has already refused a file that failed to upload, so an
+        // empty temp file name means none was chosen.
+        $file = $data['file'] ?? [];
+        $url = trim((string) ($data['url'] ?? ''));
+        if ('upload' === $data['import_type'] && !empty($file['tmp_name'])) {
+            return ['file' => $file['tmp_name']];
+        }
+        if ('url' === $data['import_type'] && '' !== $url) {
+            return ['url' => $url];
+        }
+        return null;
+    }
+
+    /**
+     * Get what a kept file says of its vocabulary, its title and description
+     * read in the installation's language where it has them.
+     *
+     * @see RdfImporter::getVocabularyDetails()
+     * @param string $token The file's token in the file store
+     * @param string $format
+     * @return array
+     */
+    protected function getImportDetails($token, $format)
+    {
+        return $this->rdfImporter->getVocabularyDetails('file', [
+            'file' => $this->fileStore->getPath($token),
+            'format' => $format,
+            'lang' => strtok($this->getLocaleLanguage(), '-') ?: null,
+        ]);
+    }
+
+    /**
+     * Get the language a file's terms are read in by default: the
+     * installation's language if the file has it, else English, else the
+     * first available ("").
+     *
+     * @param string[] $languages The file's languages
+     * @return string
+     */
+    protected function getDefaultLanguage(array $languages)
+    {
+        $locale = $this->getLocaleLanguage();
+        $primary = strtok($locale, '-');
+        // The tag itself, then its language in any region, as fr-CA for fr.
+        foreach (array_unique(array_filter([$locale, $primary, 'en'])) as $wanted) {
+            foreach ($languages as $language) {
+                if (strtolower($language) === $wanted) {
+                    return $language;
+                }
+            }
+            foreach ($languages as $language) {
+                if (0 === strpos(strtolower($language), strtok($wanted, '-') . '-')) {
+                    return $language;
+                }
+            }
+        }
+        return '';
+    }
+
+    /**
+     * Get the installation's language as a language tag, such as "fr" or
+     * "en-us".
+     *
+     * @return string
+     */
+    protected function getLocaleLanguage()
+    {
+        return strtolower(str_replace('_', '-', (string) ($this->settings()->get('locale') ?: 'en')));
+    }
+
+    /**
+     * Get a vocabulary whose namespace URI is a namespace URI, or another
+     * form of it.
+     *
+     * @param string $namespaceUri
+     * @return \Omeka\Api\Representation\VocabularyRepresentation|null
+     */
+    protected function getVocabularyWithNamespace($namespaceUri)
+    {
+        $vocabularies = $this->api()->search('vocabularies', ['namespace_uri' => NamespaceUri::getForms($namespaceUri)])->getContent();
+        return $vocabularies[0] ?? null;
+    }
+
+    /**
+     * Get the message that Omeka already has a vocabulary being imported,
+     * saying how to update it only to someone who may.
+     *
+     * @param \Omeka\Api\Representation\VocabularyRepresentation $vocabulary
+     * @return Message
+     */
+    protected function getAlreadyHasMessage($vocabulary)
+    {
+        $message = new Message(
+            !$vocabulary->isPermanent() && $vocabulary->userIsAllowed('update')
+                ? 'Omeka already has this vocabulary, as "%1$s" with the namespace URI "%2$s". To update it, use Update classes and properties on its page.' // @translate
+                : 'Omeka already has this vocabulary, as "%1$s" with the namespace URI "%2$s".', // @translate
+            sprintf('<a href="%s">%s</a>', htmlspecialchars($vocabulary->url()), htmlspecialchars($vocabulary->label())),
+            htmlspecialchars($vocabulary->namespaceUri())
+        );
+        $message->setEscapeHtml(false);
+        return $message;
     }
 
     /**

@@ -16,6 +16,10 @@ class Vocabulary extends AbstractEntity
     const PREFIX_REGEX = '/^[a-z0-9_-]+$/i';
     /** Regex for a valid JSON-LD term in prefix:localName form. */
     const TERM_REGEX = '/^[a-z0-9_-]+:[a-z0-9_-]+$/i';
+    /** The longest local name a class or property can have, in characters. */
+    const LOCAL_NAME_MAX_LENGTH = 190;
+    /** The longest label a class or property can have, in characters. */
+    const LABEL_MAX_LENGTH = 255;
 
     /**
      * @Id

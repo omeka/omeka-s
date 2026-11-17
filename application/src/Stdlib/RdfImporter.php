@@ -13,16 +13,6 @@ use Omeka\Entity\ResourceClass;
 class RdfImporter
 {
     /**
-     * The longest local name the database can store, in characters.
-     */
-    const LOCAL_NAME_MAX_LENGTH = 190;
-
-    /**
-     * The longest label the database can store, in characters.
-     */
-    const LABEL_MAX_LENGTH = 255;
-
-    /**
      * The default label property.
      */
     const LABEL_PROPERTY = 'skos:prefLabel|rdfs:label|foaf:name|rss:title|dc:title|dc11:title';
@@ -766,11 +756,11 @@ class RdfImporter
             foreach ($members[$type] ?? [] as $localName => $member) {
                 $localName = (string) $localName;
                 $name = $localName;
-                if (mb_strlen($localName) > self::LOCAL_NAME_MAX_LENGTH) {
+                if (mb_strlen($localName) > Vocabulary::LOCAL_NAME_MAX_LENGTH) {
                     $name = mb_substr($localName, 0, 40) . '…';
                     $longLocalNames[] = $name;
                 }
-                if (mb_strlen((string) $member['label']) > self::LABEL_MAX_LENGTH) {
+                if (mb_strlen((string) $member['label']) > Vocabulary::LABEL_MAX_LENGTH) {
                     $longLabels[] = $name;
                 }
             }
@@ -782,14 +772,14 @@ class RdfImporter
         if ($longLocalNames) {
             $exception->getErrorStore()->addError('o:local_name', new Message(
                 'These classes or properties have local names longer than %1$s characters: %2$s', // @translate
-                self::LOCAL_NAME_MAX_LENGTH,
+                Vocabulary::LOCAL_NAME_MAX_LENGTH,
                 implode(', ', $longLocalNames)
             ));
         }
         if ($longLabels) {
             $exception->getErrorStore()->addError('o:label', new Message(
                 'These classes or properties have labels longer than %1$s characters: %2$s', // @translate
-                self::LABEL_MAX_LENGTH,
+                Vocabulary::LABEL_MAX_LENGTH,
                 implode(', ', $longLabels)
             ));
         }

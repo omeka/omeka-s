@@ -7,7 +7,6 @@ use Omeka\Entity\EntityInterface;
 use Omeka\Entity\Vocabulary;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\Message;
-use Omeka\Stdlib\RdfImporter;
 
 class PropertyAdapter extends AbstractEntityAdapter
 {
@@ -213,10 +212,10 @@ class PropertyAdapter extends AbstractEntityAdapter
         $localName = (string) $entity->getLocalName();
         if ('' === $localName) {
             $errorStore->addError('o:local_name', 'The local name cannot be empty.'); // @translate
-        } elseif (mb_strlen($localName) > RdfImporter::LOCAL_NAME_MAX_LENGTH) {
+        } elseif (mb_strlen($localName) > Vocabulary::LOCAL_NAME_MAX_LENGTH) {
             $errorStore->addError('o:local_name', new Message(
                 'The local name cannot be longer than %s characters.', // @translate
-                RdfImporter::LOCAL_NAME_MAX_LENGTH
+                Vocabulary::LOCAL_NAME_MAX_LENGTH
             ));
         }
 
@@ -224,10 +223,10 @@ class PropertyAdapter extends AbstractEntityAdapter
         $label = (string) $entity->getLabel();
         if ('' === $label) {
             $errorStore->addError('o:label', 'The label cannot be empty.'); // @translate
-        } elseif (mb_strlen($label) > RdfImporter::LABEL_MAX_LENGTH) {
+        } elseif (mb_strlen($label) > Vocabulary::LABEL_MAX_LENGTH) {
             $errorStore->addError('o:label', new Message(
                 'The label cannot be longer than %s characters.', // @translate
-                RdfImporter::LABEL_MAX_LENGTH
+                Vocabulary::LABEL_MAX_LENGTH
             ));
         }
 

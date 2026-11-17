@@ -29,10 +29,10 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     }
 
     /**
-     * Return the reading options the vocabulary's file was read with, if
+     * Return the import options the vocabulary's file was read with, if
      * known. They aren't part of the JSON-LD.
      *
-     * @see \Omeka\Stdlib\RdfImporter::READING_OPTIONS
+     * @see \Omeka\Stdlib\RdfImporter::IMPORT_OPTIONS
      * @return array|null
      */
     public function importOptions()

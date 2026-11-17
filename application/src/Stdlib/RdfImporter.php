@@ -32,17 +32,17 @@ class RdfImporter
     /**
      * The comment properties the Comments field offers, by option value.
      */
-    const COMMENT_READINGS = [
+    const COMMENT_PROPERTY_CHOICES = [
         'comment' => self::COMMENT_PROPERTY,
         'definition' => self::DEFINITION_COMMENT_PROPERTY,
     ];
 
     /**
-     * How a file is read: its format, language, and label and comment
-     * properties. A vocabulary stores these as its import options, so an
-     * update reads the next version of its file the same way.
+     * The import options: how a file is read, as its format, language, and
+     * label and comment properties. A vocabulary stores them, so an update
+     * reads the next version of its file the same way.
      */
-    const READING_OPTIONS = ['format', 'lang', 'label_property', 'comment_property'];
+    const IMPORT_OPTIONS = ['format', 'lang', 'label_property', 'comment_property'];
 
     /**
      * The memory limit to raise PHP's to while reading a file, if PHP's is
@@ -129,17 +129,17 @@ class RdfImporter
      */
     public function getMembers($strategy, $namespaceUri, array $options = [])
     {
-        $options = $this->getReadingOptions($options);
+        $options = $this->addDefaultImportOptions($options);
         return $this->getGraphMembers($this->getGraph($strategy, $namespaceUri, $options), $namespaceUri, $options);
     }
 
     /**
-     * Get reading options, with defaults for those not given.
+     * Get import options, with defaults for those not given.
      *
      * @param array $options
      * @return array
      */
-    protected function getReadingOptions(array $options)
+    protected function addDefaultImportOptions(array $options)
     {
         if (!isset($options['format'])) {
             // EasyRDF should guess the format if none given.
@@ -162,7 +162,7 @@ class RdfImporter
      *
      * @param RdfGraph $graph
      * @param string $namespaceUri
-     * @param array $options Reading options, with defaults
+     * @param array $options Import options, with defaults
      * @return array
      */
     protected function getGraphMembers(RdfGraph $graph, $namespaceUri, array $options)
@@ -246,9 +246,9 @@ class RdfImporter
         // Trim it as the API will when saving, so the file is read with the
         // namespace URI that gets stored.
         $vocab['o:namespace_uri'] = trim((string) $vocab['o:namespace_uri']);
-        $reading = $this->getReadingOptions($options);
-        $graph = $this->getGraph($strategy, $vocab['o:namespace_uri'], $reading);
-        $members = $this->getGraphMembers($graph, $vocab['o:namespace_uri'], $reading);
+        $withDefaults = $this->addDefaultImportOptions($options);
+        $graph = $this->getGraph($strategy, $vocab['o:namespace_uri'], $withDefaults);
+        $members = $this->getGraphMembers($graph, $vocab['o:namespace_uri'], $withDefaults);
 
         // Convert to format that the API understands.
         $vocabMembers = ['o:class' => [], 'o:property' => []];
@@ -273,7 +273,7 @@ class RdfImporter
         $this->checkTermLengths($members);
 
         return $this->apiManager->create('vocabularies', array_merge($vocab, $vocabMembers, [
-            'o:import_options' => array_intersect_key($options, array_flip(self::READING_OPTIONS)),
+            'o:import_options' => array_intersect_key($options, array_flip(self::IMPORT_OPTIONS)),
         ]));
     }
 
@@ -427,7 +427,7 @@ class RdfImporter
             : ['classes' => [], 'properties' => []];
 
         // Get classes and properties from the RDF graph.
-        $options = $this->getReadingOptions($options);
+        $options = $this->addDefaultImportOptions($options);
         $graph = $this->getGraph($strategy, $namespaceUri, $options);
         $members = $this->getGraphMembers($graph, $namespaceUri, $options);
         $this->checkTermLengths($members);
@@ -493,9 +493,9 @@ class RdfImporter
         );
     }
     /**
-     * Guess the reading options of a vocabulary with no stored import
-     * options: the language whose labels match the most of Omeka's, and the
-     * comment property that would change fewer of its comments.
+     * Guess the import options of a vocabulary with none stored: the
+     * language whose labels match the most of Omeka's, and the comment
+     * property that would change fewer of its comments.
      *
      * @param int $vocabularyId
      * @param string $strategy
@@ -503,7 +503,7 @@ class RdfImporter
      * @param array $options As for getMembers()
      * @return array ['lang' => string|null, 'comment_property' => string]
      */
-    public function guessReading($vocabularyId, $strategy, $namespaceUri, array $options = [])
+    public function guessImportOptions($vocabularyId, $strategy, $namespaceUri, array $options = [])
     {
         $labelProperty = $options['label_property'] ?? self::LABEL_PROPERTY;
         $graph = $this->getGraph($strategy, $namespaceUri, $options);

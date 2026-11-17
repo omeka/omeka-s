@@ -93,9 +93,9 @@ class VocabularyReviewTest extends DbTestCase
      *
      * @return string The review's token
      */
-    protected function start($file = 'compare.ttl', array $readingOptions = ['format' => 'turtle'], array $reviewOptions = [])
+    protected function start($file = 'compare.ttl', array $importOptions = ['format' => 'turtle'], array $reviewOptions = [])
     {
-        $url = $this->review->start($this->vocabularyId, dirname(__DIR__) . '/Stdlib/_files/' . $file, $readingOptions, $reviewOptions);
+        $url = $this->review->start($this->vocabularyId, dirname(__DIR__) . '/Stdlib/_files/' . $file, $importOptions, $reviewOptions);
         $this->assertMatchesRegularExpression(sprintf('#^/admin/vocabulary/%s/review\?review=[0-9a-f]{32}$#', $this->vocabularyId), $url);
         return $this->tokens[] = substr($url, strpos($url, '=') + 1);
     }
@@ -123,23 +123,24 @@ class VocabularyReviewTest extends DbTestCase
         $this->review->cancel(substr($url, strpos($url, '=') + 1));
     }
 
-    public function testStartingReading()
+    public function testStartingImportOptions()
     {
-        // With no stored reading, a guess, of the language and comments.
+        // With no stored import options, a guess, of the language and
+        // comments.
         $review = $this->review->get($this->start());
-        $this->assertSame(['format' => 'turtle', 'lang' => null, 'comment_property' => RdfImporter::COMMENT_PROPERTY], $review['reading']);
+        $this->assertSame(['format' => 'turtle', 'lang' => null, 'comment_property' => RdfImporter::COMMENT_PROPERTY], $review['import_options']);
 
-        // The stored reading, where options given are empty, as an
+        // The stored import options, where those given are empty, as an
         // unchanged form posts them.
         $this->api()->update('vocabularies', $this->vocabularyId, [
             'o:import_options' => ['lang' => 'fr', 'comment_property' => RdfImporter::DEFINITION_COMMENT_PROPERTY],
         ], [], ['isPartial' => true]);
         $review = $this->review->get($this->start('compare.ttl', ['format' => 'turtle', 'lang' => '', 'comment_property' => null]));
-        $this->assertSame(['format' => 'turtle', 'lang' => 'fr', 'comment_property' => RdfImporter::DEFINITION_COMMENT_PROPERTY], $review['reading']);
+        $this->assertSame(['format' => 'turtle', 'lang' => 'fr', 'comment_property' => RdfImporter::DEFINITION_COMMENT_PROPERTY], $review['import_options']);
 
         // An option given, over the stored one.
         $review = $this->review->get($this->start('compare.ttl', ['format' => 'turtle', 'lang' => 'en']));
-        $this->assertSame('en', $review['reading']['lang']);
+        $this->assertSame('en', $review['import_options']['lang']);
     }
 
     public function testAcceptAppliesEverythingAndEnds()
@@ -148,7 +149,7 @@ class VocabularyReviewTest extends DbTestCase
             'namespace_uri' => 'http://example.org/moved#',
         ]);
         $file = $this->review->get($token)['file'];
-        $this->review->accept($token, $this->review->getReading($this->review->get($token), ['lang' => 'en']));
+        $this->review->accept($token, $this->review->getImportOptions($this->review->get($token), ['lang' => 'en']));
 
         $vocabulary = $this->vocabulary();
         $this->assertSame('http://example.org/moved#', $vocabulary->namespaceUri());
@@ -173,7 +174,7 @@ class VocabularyReviewTest extends DbTestCase
             'o:label' => 'Moved',
         ]);
         try {
-            $this->review->accept($token, $this->review->get($token)['reading']);
+            $this->review->accept($token, $this->review->get($token)['import_options']);
             $this->fail('The review was accepted');
         } catch (ValidationException $e) {
         }
@@ -271,8 +272,8 @@ class VocabularyReviewTest extends DbTestCase
         $url = $this->review->startFromUrl($this->vocabularyId, 'http://example.org/compare.ttl', ['format' => 'turtle']);
         $token = substr($url, strpos($url, '=') + 1);
         $review = $this->review->get($token);
-        $this->review->getDiff($review, $review['reading']);
-        $this->review->getDiff($review, $review['reading']);
+        $this->review->getDiff($review, $review['import_options']);
+        $this->review->getDiff($review, $review['import_options']);
         $this->assertSame(1, $client->requests);
         $this->review->cancel($token);
     }

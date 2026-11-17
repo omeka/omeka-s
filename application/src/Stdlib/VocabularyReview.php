@@ -61,10 +61,10 @@ class VocabularyReview
      * @param int $vocabularyId
      * @param string $filePath The file, copied into the file store, so the
      *   caller may then delete it
-     * @param array $readingOptions The reading options: format, lang,
+     * @param array $importOptions The import options: format, lang,
      *   label_property, comment_property. Those not given, or empty, come from
      *   the vocabulary's import options, else from a guess
-     *   (RdfImporter::guessReading()).
+     *   (RdfImporter::guessImportOptions()).
      * @param array $reviewOptions
      *   - namespace_uri: (optional) A pending namespace URI for the
      *     vocabulary, the one the file's terms use, accepted with the changes
@@ -77,10 +77,10 @@ class VocabularyReview
      * @throws ValidationException When the file can't be read, has no terms
      *   in the namespace, or has terms too long to store
      */
-    public function start($vocabularyId, $filePath, array $readingOptions = [], array $reviewOptions = [])
+    public function start($vocabularyId, $filePath, array $importOptions = [], array $reviewOptions = [])
     {
         $this->checkReturnUrl($reviewOptions);
-        return $this->begin($vocabularyId, $this->fileStore->keep($filePath), $readingOptions, $reviewOptions);
+        return $this->begin($vocabularyId, $this->fileStore->keep($filePath), $importOptions, $reviewOptions);
     }
 
     /**
@@ -89,21 +89,21 @@ class VocabularyReview
      * @see self::start()
      * @param int $vocabularyId
      * @param string $url
-     * @param array $readingOptions
+     * @param array $importOptions
      * @param array $reviewOptions
      * @return string The review page's URL
      */
-    public function startFromUrl($vocabularyId, $url, array $readingOptions = [], array $reviewOptions = [])
+    public function startFromUrl($vocabularyId, $url, array $importOptions = [], array $reviewOptions = [])
     {
         $this->checkReturnUrl($reviewOptions);
-        return $this->begin($vocabularyId, $this->fileStore->keepFromUrl($url), $readingOptions, $reviewOptions);
+        return $this->begin($vocabularyId, $this->fileStore->keepFromUrl($url), $importOptions, $reviewOptions);
     }
 
     /**
      * Get a review.
      *
      * @param string $token
-     * @return array|null vocabulary_id, file, file_token, reading,
+     * @return array|null vocabulary_id, file, file_token, import_options,
      *   namespace_uri, return_url, source_label
      */
     public function get($token)
@@ -117,15 +117,15 @@ class VocabularyReview
     }
 
     /**
-     * Get a review's reading options, with any the admin chose.
+     * Get a review's import options, with any the admin chose.
      *
      * @param array $review
-     * @param array $choices Reading options; others are ignored
+     * @param array $choices Import options; others are ignored
      * @return array
      */
-    public function getReading(array $review, array $choices = [])
+    public function getImportOptions(array $review, array $choices = [])
     {
-        return array_intersect_key($choices, array_flip(RdfImporter::READING_OPTIONS)) + $review['reading'];
+        return array_intersect_key($choices, array_flip(RdfImporter::IMPORT_OPTIONS)) + $review['import_options'];
     }
 
     /**
@@ -142,20 +142,20 @@ class VocabularyReview
     }
 
     /**
-     * Get the changes a review's file would make, read with the given reading
+     * Get the changes a review's file would make, read with the given import
      * options.
      *
      * @see RdfImporter::getDiff()
      * @param array $review
-     * @param array $reading
+     * @param array $importOptions
      * @return array
      */
-    public function getDiff(array $review, array $reading)
+    public function getDiff(array $review, array $importOptions)
     {
         return $this->rdfImporter->getDiff('file', $this->getNamespaceUri($review), [
             'file' => $review['file'],
             'vocabulary_id' => $review['vocabulary_id'],
-        ] + $reading);
+        ] + $importOptions);
     }
 
     /**
@@ -164,14 +164,14 @@ class VocabularyReview
      *
      * @see RdfImporter::getMissingTerms()
      * @param array $review
-     * @param array $reading
+     * @param array $importOptions
      * @return array
      */
-    public function getMissingTerms(array $review, array $reading)
+    public function getMissingTerms(array $review, array $importOptions)
     {
         return $this->rdfImporter->getMissingTerms($review['vocabulary_id'], 'file', $this->getNamespaceUri($review), [
             'file' => $review['file'],
-        ] + $reading);
+        ] + $importOptions);
     }
 
     /**
@@ -179,28 +179,28 @@ class VocabularyReview
      *
      * @see RdfImporter::getLanguages()
      * @param array $review
-     * @param array $reading
+     * @param array $importOptions
      * @return string[]
      */
-    public function getLanguages(array $review, array $reading)
+    public function getLanguages(array $review, array $importOptions)
     {
         return $this->rdfImporter->getLanguages('file', $this->getNamespaceUri($review), [
             'file' => $review['file'],
-        ] + $reading);
+        ] + $importOptions);
     }
 
     /**
      * Accept a review's changes, with any pending namespace URI and the
-     * reading options, in one transaction, and end the review.
+     * import options, in one transaction, and end the review.
      *
      * @param string $token
-     * @param array $reading
+     * @param array $importOptions
      * @throws ValidationException When the review has ended, or the changes
      *   are refused; nothing is changed, and an open review stays open
      * @throws PermissionDeniedException When the user may not change the
      *   vocabulary
      */
-    public function accept($token, array $reading)
+    public function accept($token, array $importOptions)
     {
         $review = $this->get($token);
         if (!$review) {
@@ -212,8 +212,8 @@ class VocabularyReview
         if ($vocabulary->isPermanent() || !$vocabulary->userIsAllowed('update')) {
             throw new PermissionDeniedException('User does not have permission to update this vocabulary');
         }
-        $diff = $this->getDiff($review, $reading);
-        $data = ['o:import_options' => array_intersect_key($reading, array_flip(RdfImporter::READING_OPTIONS))];
+        $diff = $this->getDiff($review, $importOptions);
+        $data = ['o:import_options' => array_intersect_key($importOptions, array_flip(RdfImporter::IMPORT_OPTIONS))];
         if (null !== $review['namespace_uri']) {
             $data['o:namespace_uri'] = $review['namespace_uri'];
         }
@@ -262,18 +262,18 @@ class VocabularyReview
      *
      * @param int $vocabularyId
      * @param string $fileToken The file's token in the file store
-     * @param array $readingOptions
+     * @param array $importOptions
      * @param array $reviewOptions
      * @return string The review page's URL
      */
-    protected function begin($vocabularyId, $fileToken, array $readingOptions, array $reviewOptions)
+    protected function begin($vocabularyId, $fileToken, array $importOptions, array $reviewOptions)
     {
         $path = $this->fileStore->getPath($fileToken);
         $review = [
             'vocabulary_id' => null,
             'file' => $path,
             'file_token' => $fileToken,
-            'reading' => [],
+            'import_options' => [],
             'namespace_uri' => $reviewOptions['namespace_uri'] ?? null,
             'return_url' => $reviewOptions['return_url'] ?? null,
             'source_label' => $reviewOptions['source_label'] ?? null,
@@ -281,14 +281,14 @@ class VocabularyReview
         try {
             $vocabulary = $this->apiManager->read('vocabularies', $vocabularyId)->getContent();
             $review['vocabulary_id'] = $vocabulary->id();
-            $review['reading'] = $this->getStartingReading($vocabulary, $review, $readingOptions);
+            $review['import_options'] = $this->getStartingImportOptions($vocabulary, $review, $importOptions);
             // Without terms in the namespace, every term would seem dropped
             // from the file.
             $this->rdfImporter->checkNamespaceUri('file', $this->getNamespaceUri($review), [
                 'file' => $path,
-                'format' => $review['reading']['format'] ?? 'guess',
+                'format' => $review['import_options']['format'] ?? 'guess',
             ]);
-            $this->getDiff($review, $review['reading']);
+            $this->getDiff($review, $review['import_options']);
         } catch (\Exception $e) {
             $this->fileStore->remove($fileToken);
             throw $e;
@@ -303,34 +303,34 @@ class VocabularyReview
     }
 
     /**
-     * Get how a review starts reading its file: as asked, else as stored,
+     * Get the import options a review starts with: as given, else as stored,
      * else as guessed.
      *
      * @param \Omeka\Api\Representation\VocabularyRepresentation $vocabulary
      * @param array $review
-     * @param array $readingOptions
+     * @param array $importOptions
      * @return array
      */
-    protected function getStartingReading($vocabulary, array $review, array $readingOptions)
+    protected function getStartingImportOptions($vocabulary, array $review, array $given)
     {
         // An empty option, as an unchanged form posts one, isn't a choice.
-        $reading = array_filter(
-            array_intersect_key($readingOptions, array_flip(RdfImporter::READING_OPTIONS)),
+        $importOptions = array_filter(
+            array_intersect_key($given, array_flip(RdfImporter::IMPORT_OPTIONS)),
             function ($value) {
                 return null !== $value && '' !== $value;
             }
         );
         $stored = $vocabulary->importOptions();
         if (null !== $stored) {
-            return $reading + $stored;
+            return $importOptions + $stored;
         }
-        if (!isset($reading['lang']) || !isset($reading['comment_property'])) {
-            $guess = $this->rdfImporter->guessReading($vocabulary->id(), 'file', $this->getNamespaceUri($review), [
+        if (!isset($importOptions['lang']) || !isset($importOptions['comment_property'])) {
+            $guess = $this->rdfImporter->guessImportOptions($vocabulary->id(), 'file', $this->getNamespaceUri($review), [
                 'file' => $review['file'],
-            ] + $reading);
-            $reading += $guess;
+            ] + $importOptions);
+            $importOptions += $guess;
         }
-        return $reading;
+        return $importOptions;
     }
 
     /**

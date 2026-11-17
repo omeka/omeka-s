@@ -6,14 +6,14 @@ $this->htmlElement('body')->appendAttribute('class', 'vocabularies review');
 $prefix = $vocabulary->prefix();
 $sourceLabel = $review['source_label'] ?? $translate('the file');
 
-$lang = (string) ($reading['lang'] ?? '');
-$commentProperty = $reading['comment_property'] ?? \Omeka\Stdlib\RdfImporter::COMMENT_PROPERTY;
-$comments = array_search($commentProperty, \Omeka\Stdlib\RdfImporter::COMMENT_READINGS, true);
+$lang = (string) ($importOptions['lang'] ?? '');
+$commentProperty = $importOptions['comment_property'] ?? \Omeka\Stdlib\RdfImporter::COMMENT_PROPERTY;
+$comments = array_search($commentProperty, \Omeka\Stdlib\RdfImporter::COMMENT_PROPERTY_CHOICES, true);
 // A comment property the Comments field doesn't offer, or a label property
 // other than the default, was entered by hand, so its box is filled in.
 $otherCommentProperty = false === $comments ? $commentProperty : '';
 $comments = $comments ?: 'other';
-$labelProperty = $reading['label_property'] ?? \Omeka\Stdlib\RdfImporter::LABEL_PROPERTY;
+$labelProperty = $importOptions['label_property'] ?? \Omeka\Stdlib\RdfImporter::LABEL_PROPERTY;
 $otherLabelProperty = \Omeka\Stdlib\RdfImporter::LABEL_PROPERTY === $labelProperty ? '' : $labelProperty;
 
 // Omeka's labels, which name the terms.
@@ -119,7 +119,7 @@ $changes = null !== $diff && ($termChanges || $namespaceChanges);
         <?php endif; ?>
     </div>
     <input type="hidden" name="review" value="<?php echo $escape($token); ?>">
-    <?php // The reading options the changes below were read with, which Accept applies. ?>
+    <?php // The import options the changes below were read with, which Accept applies. ?>
     <input type="hidden" name="lang" value="<?php echo $escape($lang); ?>">
     <input type="hidden" name="comments" value="<?php echo $escape($comments); ?>">
     <input type="hidden" name="label_property" value="<?php echo $escape($otherLabelProperty); ?>">

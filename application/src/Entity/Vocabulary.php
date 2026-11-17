@@ -55,7 +55,7 @@ class Vocabulary extends AbstractEntity
     protected $comment;
 
     /**
-     * The reading options the vocabulary's file was read with.
+     * The import options the vocabulary's file was read with.
      *
      * @Column(type="json", nullable=true)
      */

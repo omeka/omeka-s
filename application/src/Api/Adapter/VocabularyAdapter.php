@@ -107,9 +107,9 @@ class VocabularyAdapter extends AbstractEntityAdapter
         if ($this->shouldHydrate($request, 'o:import_options')) {
             $importOptions = $request->getValue('o:import_options');
             if (is_array($importOptions)) {
-                // Keep only the reading options (RdfImporter::READING_OPTIONS),
-                // each as text or null.
-                $importOptions = array_intersect_key($importOptions, array_flip(RdfImporter::READING_OPTIONS));
+                // Keep only the keys in RdfImporter::IMPORT_OPTIONS, each as
+                // text or null.
+                $importOptions = array_intersect_key($importOptions, array_flip(RdfImporter::IMPORT_OPTIONS));
                 foreach ($importOptions as $key => $value) {
                     $importOptions[$key] = is_scalar($value) ? (string) $value : null;
                 }

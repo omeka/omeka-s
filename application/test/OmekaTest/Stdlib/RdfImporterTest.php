@@ -93,7 +93,7 @@ class RdfImporterTest extends DbTestCase
      *
      * @param string $file A file in _files
      * @param string $namespaceUri
-     * @param array $options The importer's reading options
+     * @param array $options The import options
      * @return array
      */
     protected function members($file, $namespaceUri, array $options = [])
@@ -305,7 +305,7 @@ class RdfImporterTest extends DbTestCase
         try {
             $options = ['file' => $file, 'format' => 'turtle'];
             // As a review reads its file for its changes, its terms only in
-            // Omeka, and its languages, in any reading.
+            // Omeka, and its languages, with any import options.
             $importer->getMembers('file', 'http://example.org/multi#', $options + ['lang' => 'fr']);
             $importer->getLanguages('file', 'http://example.org/multi#', $options);
             $importer->checkNamespaceUri('file', 'http://example.org/multi#', $options);
@@ -673,7 +673,7 @@ class RdfImporterTest extends DbTestCase
 
     public function testImportStoresHowTheFileWasRead()
     {
-        // The reading options, not the file's path.
+        // The import options, not the file's path.
         $this->assertSame(['format' => 'turtle', 'lang' => 'fr'], $this->importInFrench()->importOptions());
     }
 
@@ -704,21 +704,21 @@ class RdfImporterTest extends DbTestCase
      *
      * @param string $file A file in _files
      * @param string $namespaceUri
-     * @param array $reading The reading options to import it with
+     * @param array $importOptions The import options to import it with
      * @return array The guess
      */
-    protected function guessReading($file, $namespaceUri, array $reading)
+    protected function guessImportOptions($file, $namespaceUri, array $importOptions)
     {
         $options = ['file' => __DIR__ . '/_files/' . $file, 'format' => 'turtle'];
         $vocabularyId = $this->rdfImporter->import('file', [
             'o:namespace_uri' => $namespaceUri,
             'o:prefix' => 'guessed',
             'o:label' => 'Guessed',
-        ], $options + $reading)->getContent()->id();
-        return $this->rdfImporter->guessReading($vocabularyId, 'file', $namespaceUri, $options);
+        ], $options + $importOptions)->getContent()->id();
+        return $this->rdfImporter->guessImportOptions($vocabularyId, 'file', $namespaceUri, $options);
     }
 
-    public function readingGuesses()
+    public function importOptionsGuesses()
     {
         $comment = RdfImporter::COMMENT_PROPERTY;
         $definition = RdfImporter::DEFINITION_COMMENT_PROPERTY;
@@ -733,11 +733,11 @@ class RdfImporterTest extends DbTestCase
     }
 
     /**
-     * @dataProvider readingGuesses
+     * @dataProvider importOptionsGuesses
      */
-    public function testGuessReading($file, $namespaceUri, array $reading, array $guess)
+    public function testGuessImportOptions($file, $namespaceUri, array $importOptions, array $guess)
     {
-        $this->assertSame($guess, $this->guessReading($file, $namespaceUri, $reading));
+        $this->assertSame($guess, $this->guessImportOptions($file, $namespaceUri, $importOptions));
     }
 
     public function testComparingAFileInAnotherNamespace()

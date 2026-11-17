@@ -120,7 +120,7 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Import a vocabulary, second step: its fields and reading options,
+     * Import a vocabulary, second step: its fields and import options,
      * filled in from the file. The query gives the file's token in the file
      * store, and its format.
      */
@@ -282,11 +282,11 @@ class VocabularyController extends AbstractActionController
         $view->setVariable('vocabulary', $vocabulary);
         $source = $this->getRequest()->isPost() ? $this->getPostedFileSource($form) : null;
         if ($source) {
-            $reading = ['format' => $source['format']];
+            $importOptions = ['format' => $source['format']];
             try {
                 $reviewUrl = isset($source['file'])
-                    ? $this->vocabularyReview->start($vocabulary->id(), $source['file'], $reading)
-                    : $this->vocabularyReview->startFromUrl($vocabulary->id(), $source['url'], $reading);
+                    ? $this->vocabularyReview->start($vocabulary->id(), $source['file'], $importOptions)
+                    : $this->vocabularyReview->startFromUrl($vocabulary->id(), $source['url'], $importOptions);
                 return $this->redirect()->toUrl($reviewUrl);
             } catch (\Exception $e) {
                 $namespaceUri = $this->getFileNamespaceUri($e);
@@ -309,7 +309,7 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Show the changes a review's file would make, read with the reading
+     * Show the changes a review's file would make, read with the import
      * options chosen on the page.
      */
     public function reviewAction()
@@ -320,20 +320,20 @@ class VocabularyController extends AbstractActionController
         if (!$review) {
             return $this->redirect()->toUrl($vocabulary->url());
         }
-        $reading = $this->vocabularyReview->getReading($review, $this->getChoices($this->params()->fromQuery()));
+        $importOptions = $this->vocabularyReview->getImportOptions($review, $this->getChoices($this->params()->fromQuery()));
 
         $view = new ViewModel;
         $view->setVariable('vocabulary', $vocabulary);
         $view->setVariable('review', $review);
         $view->setVariable('token', $token);
-        $view->setVariable('reading', $reading);
+        $view->setVariable('importOptions', $importOptions);
         $view->setVariable('form', $this->getForm(ConfirmForm::class));
         try {
-            $view->setVariable('diff', $this->vocabularyReview->getDiff($review, $reading));
-            $view->setVariable('missing', $this->vocabularyReview->getMissingTerms($review, $reading));
-            $view->setVariable('languages', $this->vocabularyReview->getLanguages($review, $reading));
+            $view->setVariable('diff', $this->vocabularyReview->getDiff($review, $importOptions));
+            $view->setVariable('missing', $this->vocabularyReview->getMissingTerms($review, $importOptions));
+            $view->setVariable('languages', $this->vocabularyReview->getLanguages($review, $importOptions));
         } catch (\Exception $e) {
-            // The chosen reading options may make the file unreadable: say
+            // The chosen import options may make the file unreadable: say
             // why, and keep the choices to change.
             $this->messenger()->addErrors($this->getErrors($e));
             $view->setVariable('diff', null);
@@ -363,7 +363,7 @@ class VocabularyController extends AbstractActionController
             return $this->redirect()->toUrl($this->getReviewUrl($vocabulary, $token, $post));
         }
         try {
-            $this->vocabularyReview->accept($token, $this->vocabularyReview->getReading($review, $choices));
+            $this->vocabularyReview->accept($token, $this->vocabularyReview->getImportOptions($review, $choices));
         } catch (ValidationException $e) {
             $this->messenger()->addErrors($this->getErrors($e));
             return $this->redirect()->toUrl($this->getReviewUrl($vocabulary, $token, $post));
@@ -490,7 +490,7 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get the reading options chosen on the review page.
+     * Get the import options chosen on the review page.
      *
      * @param array $params The page's query, or its form's post
      * @return array
@@ -529,7 +529,7 @@ class VocabularyController extends AbstractActionController
             $property = is_string($params['comment_property'] ?? null) ? trim($params['comment_property']) : '';
             return '' === $property ? null : $property;
         }
-        return RdfImporter::COMMENT_READINGS[$comments] ?? null;
+        return RdfImporter::COMMENT_PROPERTY_CHOICES[$comments] ?? null;
     }
 
     /**

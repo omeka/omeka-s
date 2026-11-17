@@ -341,7 +341,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
      * @param string $token
      * @param string $email
      * @param int|null $vocabularyId By default, the tests' vocabulary
-     * @param array $choices The reading chosen on the review page
+     * @param array $choices The import options chosen on the review page
      * @return int The response's HTTP status
      */
     protected function postReview($action, $token, $email = self::ADMIN, $vocabularyId = null, array $choices = [])
@@ -624,11 +624,12 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         // which never take the place of Omeka's labels.
         $page = html_entity_decode($this->reviewPage($token, ['label_property' => 'skos:prefLabel']), ENT_QUOTES | ENT_HTML5);
         $this->assertStringNotContainsString('Changed property labels', $page);
-        // Shown in its field, as the reading uses it, and carried to Accept.
+        // Shown in its field, as the import options use it, and carried to
+        // Accept.
         $this->assertStringContainsString('<input type="text" name="label_property" id="review-label-property" value="skos:prefLabel">', $page);
         $this->assertStringContainsString('<input type="hidden" name="label_property" value="skos:prefLabel">', $page);
 
-        // Accepted, it's the reading stored.
+        // Accepted, it's stored in the import options.
         $this->postReview('accept', $token, self::ADMIN, null, ['label_property' => 'skos:prefLabel']);
         $this->assertSame('skos:prefLabel', $this->vocabulary()->importOptions()['label_property']);
     }
@@ -657,7 +658,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString('<input type="text" name="comment_property" id="review-comment-property" value="">', $page);
     }
 
-    public function testAnotherCommentPropertyLeftBlankKeepsTheReviewsReading()
+    public function testAnotherCommentPropertyLeftBlankKeepsTheReviewsImportOptions()
     {
         $this->api()->update('vocabularies', $this->vocabularyId, [
             'o:import_options' => ['format' => 'turtle', 'comment_property' => RdfImporter::DEFINITION_COMMENT_PROPERTY],

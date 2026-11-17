@@ -146,7 +146,7 @@ class VocabularyReviewTest extends DbTestCase
     public function testAcceptAppliesEverythingAndEnds()
     {
         $token = $this->start('compare-moved.ttl', ['format' => 'turtle'], [
-            'namespace_uri' => 'http://example.org/moved#',
+            'new_namespace_uri' => 'http://example.org/moved#',
         ]);
         $file = $this->review->get($token)['file'];
         $this->review->accept($token, $this->review->getImportOptions($this->review->get($token), ['lang' => 'en']));
@@ -166,7 +166,7 @@ class VocabularyReviewTest extends DbTestCase
         // The namespace of the file's terms, which another vocabulary has
         // since taken, so the API refuses it.
         $token = $this->start('compare-moved.ttl', ['format' => 'turtle'], [
-            'namespace_uri' => 'http://example.org/moved#',
+            'new_namespace_uri' => 'http://example.org/moved#',
         ]);
         $this->api()->create('vocabularies', [
             'o:namespace_uri' => 'http://example.org/moved#',
@@ -211,15 +211,13 @@ class VocabularyReviewTest extends DbTestCase
 
     public function testReturnUrl()
     {
-        $token = $this->start('compare.ttl', ['format' => 'turtle'], ['return_url' => '/admin/vocabulary-library?page=2']);
-        $this->assertSame('/admin/vocabulary-library?page=2', $this->review->getReturnUrl($this->review->get($token)));
+        $token = $this->start('compare.ttl', ['format' => 'turtle'], ['return_url' => '/admin/item?page=2']);
+        $this->assertSame('/admin/item?page=2', $this->review->getReturnUrl($this->review->get($token)));
         $this->review->cancel($token);
-        // By default, the vocabulary's page; without a review, the
-        // vocabularies.
+        // By default, the vocabulary's page.
         $token = $this->start('compare.ttl', ['format' => 'turtle']);
         $this->assertSame(sprintf('/admin/vocabulary/%s', $this->vocabularyId), $this->review->getReturnUrl($this->review->get($token)));
         $this->review->cancel($token);
-        $this->assertSame('/admin/vocabulary', $this->review->getReturnUrl());
 
         foreach (['https://example.com/admin', '//example.com/admin', '/\\example.com', 'admin/vocabulary'] as $returnUrl) {
             try {

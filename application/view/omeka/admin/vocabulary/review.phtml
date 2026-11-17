@@ -69,7 +69,7 @@ $listed = function (array $terms) use ($term, $value, $byTerm) {
 
 // Whether the review also changes the namespace URI, shown whole rather
 // than marked word by word.
-$namespaceChanges = null !== $review['namespace_uri'];
+$namespaceChanges = null !== $review['new_namespace_uri'];
 
 // Labels first, which everyone sees, then new terms, comments, and the terms
 // only in Omeka, which aren't changes.
@@ -212,7 +212,7 @@ $changes = null !== $diff && ($termChanges || $namespaceChanges);
         <tr>
             <td role="rowheader"><?php echo $escape($translate('Namespace URI')); ?></td>
             <td><?php echo $value($vocabulary->namespaceUri()); ?></td>
-            <td><?php echo $value($review['namespace_uri']); ?></td>
+            <td><?php echo $value($review['new_namespace_uri']); ?></td>
         </tr>
     </tbody>
 </table>

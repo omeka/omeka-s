@@ -66,7 +66,7 @@ class VocabularyReview
      *   the vocabulary's import options, else from a guess
      *   (RdfImporter::guessImportOptions()).
      * @param array $reviewOptions
-     *   - namespace_uri: (optional) A pending namespace URI for the
+     *   - new_namespace_uri: (optional) A new namespace URI for the
      *     vocabulary, the one the file's terms use, accepted with the changes
      *   - return_url: (optional) Where Accept and Cancel go: a local path,
      *     such as "/admin/vocabulary". By default, the vocabulary's page.
@@ -104,7 +104,7 @@ class VocabularyReview
      *
      * @param string $token
      * @return array|null vocabulary_id, file, file_token, import_options,
-     *   namespace_uri, return_url, source_label
+     *   new_namespace_uri, return_url, source_label
      */
     public function get($token)
     {
@@ -129,15 +129,15 @@ class VocabularyReview
     }
 
     /**
-     * Get the namespace URI a review reads its file with: the pending one,
-     * else the vocabulary's.
+     * Get the namespace URI a review reads its file with: the new one, if
+     * any, else the vocabulary's.
      *
      * @param array $review
      * @return string
      */
-    public function getNamespaceUri(array $review)
+    protected function getNamespaceUri(array $review)
     {
-        return $review['namespace_uri']
+        return $review['new_namespace_uri']
             ?? $this->apiManager->read('vocabularies', $review['vocabulary_id'])->getContent()->namespaceUri();
     }
 
@@ -190,7 +190,7 @@ class VocabularyReview
     }
 
     /**
-     * Accept a review's changes, with any pending namespace URI and the
+     * Accept a review's changes, with any new namespace URI and the
      * import options, in one transaction, and end the review.
      *
      * @param string $token
@@ -214,8 +214,8 @@ class VocabularyReview
         }
         $diff = $this->getDiff($review, $importOptions);
         $data = ['o:import_options' => array_intersect_key($importOptions, array_flip(RdfImporter::IMPORT_OPTIONS))];
-        if (null !== $review['namespace_uri']) {
-            $data['o:namespace_uri'] = $review['namespace_uri'];
+        if (null !== $review['new_namespace_uri']) {
+            $data['o:namespace_uri'] = $review['new_namespace_uri'];
         }
         $connection = $this->entityManager->getConnection();
         $connection->beginTransaction();
@@ -243,14 +243,11 @@ class VocabularyReview
     /**
      * Get where a review's Accept and Cancel go.
      *
-     * @param array|null $review
+     * @param array $review
      * @return string
      */
-    public function getReturnUrl(?array $review = null)
+    public function getReturnUrl(array $review)
     {
-        if (null === $review) {
-            return $this->router->assemble(['controller' => 'vocabulary'], ['name' => 'admin/default']);
-        }
         return $review['return_url'] ?? $this->router->assemble(
             ['controller' => 'vocabulary', 'id' => $review['vocabulary_id']],
             ['name' => 'admin/id']
@@ -274,7 +271,7 @@ class VocabularyReview
             'file' => $path,
             'file_token' => $fileToken,
             'import_options' => [],
-            'namespace_uri' => $reviewOptions['namespace_uri'] ?? null,
+            'new_namespace_uri' => $reviewOptions['new_namespace_uri'] ?? null,
             'return_url' => $reviewOptions['return_url'] ?? null,
             'source_label' => $reviewOptions['source_label'] ?? null,
         ];

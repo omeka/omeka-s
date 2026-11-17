@@ -582,7 +582,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     {
         // The file is read in the pending namespace.
         $page = html_entity_decode($this->reviewPage($this->startReview('moved-name.ttl', null, [
-            'namespace_uri' => 'http://example.org/moved#',
+            'new_namespace_uri' => 'http://example.org/moved#',
         ])), ENT_QUOTES | ENT_HTML5);
         $text = preg_replace('/\s+/', ' ', strip_tags($page));
         $this->assertStringContainsString('Accepting makes the changes below, from the file. It removes nothing.', $text);
@@ -673,7 +673,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     public function testAcceptAppliesNamespaceAndTermsTogether()
     {
         // As a module starts it, knowing the file's namespace.
-        $token = $this->startReview('moved-name.ttl', null, ['namespace_uri' => 'http://example.org/moved#']);
+        $token = $this->startReview('moved-name.ttl', null, ['new_namespace_uri' => 'http://example.org/moved#']);
 
         $status = $this->postReview('accept', $token);
         $this->assertSame(302, $status);

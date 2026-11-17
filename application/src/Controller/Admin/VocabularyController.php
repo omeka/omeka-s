@@ -3,11 +3,11 @@ namespace Omeka\Controller\Admin;
 
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Form\ConfirmForm;
+use Omeka\Entity\Vocabulary;
 use Omeka\Form\VocabularyForm;
 use Omeka\Mvc\Exception;
 use Omeka\Stdlib\RdfImporter;
 use Omeka\Stdlib\Message;
-use Omeka\Stdlib\NamespaceUri;
 use Omeka\Stdlib\VocabularyFileStore;
 use Omeka\Stdlib\VocabularyReview;
 use Laminas\Mvc\Controller\AbstractActionController;
@@ -654,7 +654,7 @@ class VocabularyController extends AbstractActionController
      */
     protected function getVocabularyWithNamespace($namespaceUri)
     {
-        return $this->api()->searchOne('vocabularies', ['namespace_uri' => NamespaceUri::getForms($namespaceUri)])->getContent();
+        return $this->api()->searchOne('vocabularies', ['namespace_uri' => Vocabulary::getNamespaceUriForms($namespaceUri)])->getContent();
     }
 
     /**
@@ -701,7 +701,7 @@ class VocabularyController extends AbstractActionController
      */
     protected function getVocabularyInAnotherForm($namespaceUri, $except)
     {
-        $vocabularies = $this->api()->search('vocabularies', ['namespace_uri' => NamespaceUri::getForms($namespaceUri)])->getContent();
+        $vocabularies = $this->api()->search('vocabularies', ['namespace_uri' => Vocabulary::getNamespaceUriForms($namespaceUri)])->getContent();
         foreach ($vocabularies as $vocabulary) {
             if ($vocabulary->namespaceUri() !== $namespaceUri && $vocabulary->id() !== $except->id()) {
                 return $vocabulary;

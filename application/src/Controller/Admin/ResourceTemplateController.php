@@ -2,13 +2,13 @@
 namespace Omeka\Controller\Admin;
 
 use Omeka\DataType\Manager as DataTypeManager;
+use Omeka\Entity\Vocabulary;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\ResourceTemplateForm;
 use Omeka\Form\ResourceTemplateImportForm;
 use Omeka\Form\ResourceTemplateReviewImportForm;
 use Omeka\Mvc\Exception\NotFoundException;
 use Omeka\Stdlib\Message;
-use Omeka\Stdlib\NamespaceUri;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 
@@ -153,7 +153,7 @@ class ResourceTemplateController extends AbstractActionController
             ])->getContent();
             if (!$vocab) {
                 $vocab = $this->api()->searchOne('vocabularies', [
-                    'namespace_uri' => NamespaceUri::getForms($namespaceUri),
+                    'namespace_uri' => Vocabulary::getNamespaceUriForms($namespaceUri),
                 ])->getContent();
             }
             if ($vocab) {

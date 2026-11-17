@@ -867,7 +867,7 @@ class RdfImporter
             $bestCount = 0;
             $bestIsBase = false;
             foreach ($bases as $base) {
-                foreach (NamespaceUri::getForms($base) as $form) {
+                foreach (Vocabulary::getNamespaceUriForms($base) as $form) {
                     if ($form === $except) {
                         continue;
                     }

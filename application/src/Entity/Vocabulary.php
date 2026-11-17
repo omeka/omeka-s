@@ -163,4 +163,28 @@ class Vocabulary extends AbstractEntity
     {
         return $this->properties;
     }
+
+    /**
+     * Get the forms of a namespace URI that name the same vocabulary: itself,
+     * then ending in "#", "/", and neither, each with http and https. For
+     * example, http://schema.org/ and https://schema.org/ are forms of one
+     * namespace URI.
+     *
+     * @param string $namespaceUri
+     * @return string[]
+     */
+    public static function getNamespaceUriForms($namespaceUri)
+    {
+        $namespaceUri = (string) $namespaceUri;
+        $base = rtrim($namespaceUri, '#/');
+        $forms = [$namespaceUri, $base . '#', $base . '/', $base];
+        foreach ($forms as $form) {
+            if (0 === strpos($form, 'http://')) {
+                $forms[] = 'https://' . substr($form, 7);
+            } elseif (0 === strpos($form, 'https://')) {
+                $forms[] = 'http://' . substr($form, 8);
+            }
+        }
+        return array_values(array_unique($forms));
+    }
 }

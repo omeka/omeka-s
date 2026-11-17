@@ -60,6 +60,29 @@ class VocabularyTest extends TestCase
         $this->assertEquals($label, $this->vocabulary->getLabel());
     }
 
+    public function testGetNamespaceUriForms()
+    {
+        $this->assertSame([
+            'http://example.org/ns#',
+            'http://example.org/ns/',
+            'http://example.org/ns',
+            'https://example.org/ns#',
+            'https://example.org/ns/',
+            'https://example.org/ns',
+        ], Vocabulary::getNamespaceUriForms('http://example.org/ns#'));
+    }
+
+    public function testGetNamespaceUriFormsStartsWithTheOneGiven()
+    {
+        $this->assertSame('https://example.org/ns', Vocabulary::getNamespaceUriForms('https://example.org/ns')[0]);
+        $this->assertCount(6, Vocabulary::getNamespaceUriForms('https://example.org/ns'));
+    }
+
+    public function testGetNamespaceUriFormsOfAnotherScheme()
+    {
+        $this->assertSame(['urn:example:', 'urn:example:#', 'urn:example:/'], Vocabulary::getNamespaceUriForms('urn:example:'));
+    }
+
     public function testSetComment()
     {
         $comment = 'test-comment';

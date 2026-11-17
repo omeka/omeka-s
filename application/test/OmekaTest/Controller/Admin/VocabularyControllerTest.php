@@ -952,14 +952,16 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame('Changed', $this->propertyLabel('review:name'));
     }
 
-    public function testEditDeleteConfirmationSaysWhatDeletingTakes()
+    public function testEditDeleteLoadsItsConfirmationWhenAsked()
     {
         $this->requestAs(self::ADMIN, 'GET', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId));
-        $page = preg_replace('/\s+/', ' ', html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
-        $this->assertStringContainsString(sprintf('action="/admin/vocabulary/%s/delete"', $this->vocabularyId), $page);
-        foreach (['Values deleted', 'Resource template properties deleted', 'Resources left without a class'] as $count) {
-            $this->assertStringContainsString(sprintf('<h4>%s</h4> <div class="value">0</div>', $count), $page);
-        }
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        // The confirmation, which says what deleting takes, loads into the
+        // sidebar from the page the list's sidebar uses.
+        $this->assertStringContainsString(sprintf('<a class="delete button sidebar-content" data-sidebar-selector="#delete" data-sidebar-content-url="/admin/vocabulary/%s/delete-confirm" href="#">Delete</a>', $this->vocabularyId), $page);
+        $this->assertStringContainsString('<div id="delete" class="sidebar">', $page);
+        // Its counts aren't taken with the page.
+        $this->assertStringNotContainsString('Values deleted', $page);
     }
 
     public function testDeleteConfirmationSaysWhatDeletingTakes()

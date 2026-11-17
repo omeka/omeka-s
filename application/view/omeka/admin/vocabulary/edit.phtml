@@ -11,7 +11,12 @@ $form->prepare();
     <?php $this->trigger('view.edit.page_actions', ['resource' => $vocabulary]); ?>
     <?php // The other changes, as on the vocabulary's page, since Edit also opens from the list. ?>
     <?php echo $this->partial('omeka/admin/vocabulary/more-actions', ['vocabulary' => $vocabulary]); ?>
-    <a href="#" class="delete button"><?php echo $translate('Delete'); ?></a>
+    <?php // Its confirmation loads when asked for, as from the list: its counts take a while on a large site. ?>
+    <?php echo $this->hyperlink($translate('Delete'), '#', [
+        'class' => 'delete button sidebar-content',
+        'data-sidebar-selector' => '#delete',
+        'data-sidebar-content-url' => $vocabulary->url('delete-confirm'),
+    ]); ?>
     <?php // One page back, as core's Cancel goes: Edit opens from the vocabulary's page or the list. ?>
     <?php echo $this->cancelButton(); ?>
     <button><?php echo $translate('Save'); ?></button>
@@ -21,14 +26,10 @@ $form->prepare();
 <?php echo $this->formCollection($form->get('vocabulary-info')); ?>
 <?php $this->trigger('view.edit.form.after', ['form' => $form]); ?>
 <?php echo $this->form()->closeTag(); ?>
-<?php // Deleting takes every value of its properties, so the confirmation says how much, as the delete-confirm sidebar does. ?>
+<?php // Deleting takes every value of its properties, so the confirmation, loaded into this, says how much. ?>
 <div id="delete" class="sidebar">
     <?php echo $this->hyperlink('', '#', ['class' => 'sidebar-close o-icon-close', 'title' => $translate('Close')]); ?>
-    <?php echo $this->partial('common/delete-confirm-details', [
-        'resource' => $vocabulary,
-        'resourceLabel' => 'vocabulary', // @translate
-        'partialPath' => 'omeka/admin/vocabulary/delete-confirm-details',
-    ]); ?>
+    <div class="sidebar-content"></div>
 </div>
 
 <?php $this->trigger('view.edit.after'); ?>

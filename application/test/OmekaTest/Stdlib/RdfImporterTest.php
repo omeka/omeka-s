@@ -356,6 +356,17 @@ class RdfImporterTest extends DbTestCase
         $this->assertSame('Une description.', $details['comment']);
     }
 
+    public function testVocabularyDetailsOfAFileThatAlsoDeclaresAReusedVocabulary()
+    {
+        // Its own namespace, which has the most terms, though the other's
+        // is declared first.
+        $details = $this->details('details-reused.ttl');
+        $this->assertSame('http://example.org/own#', $details['namespace_uri']);
+        $this->assertSame('declared', $details['namespace_source']);
+        $this->assertSame(1, $details['classes']);
+        $this->assertSame(2, $details['properties']);
+    }
+
     public function testVocabularyDetailsInAnotherFormOfTheDeclaredNamespace()
     {
         $details = $this->details('details-variant.ttl');

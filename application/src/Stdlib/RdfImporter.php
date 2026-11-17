@@ -325,40 +325,17 @@ class RdfImporter
      * properties, for when they don't use the one given.
      *
      * Tries, in order: the other forms of the given namespace URI; the
-     * namespace URI the file declares with vann:preferredNamespaceUri, and
-     * its forms; the URI of its owl:Ontology, and its forms; and then the
-     * namespace URI most of its terms use. See NamespaceUri::getForms().
+     * namespace URIs the file declares, and their forms; the URIs of its
+     * ontology records, and their forms; and then the namespace URI most of
+     * its terms use. See self::findNamespaceUri().
      *
      * @param RdfGraph $graph
      * @param string $namespaceUri The namespace URI given
-     * @return string|null The first that has classes or properties, if any
+     * @return string|null One that has classes or properties, if any
      */
     public function suggestNamespaceUri(RdfGraph $graph, $namespaceUri)
     {
-        $vann = 'http://purl.org/vocab/vann/preferredNamespaceUri';
-        $bases = [$namespaceUri];
-        foreach ($graph->resourcesMatching($vann) as $resource) {
-            foreach ($resource->all("<$vann>") as $declared) {
-                $bases[] = (string) $declared;
-            }
-        }
-        foreach ($graph->allOfType('owl:Ontology') as $ontology) {
-            if (!$ontology->isBNode()) {
-                $bases[] = $ontology->getUri();
-            }
-        }
-        foreach ($bases as $base) {
-            foreach (NamespaceUri::getForms($base) as $candidate) {
-                if ($candidate !== $namespaceUri && $this->hasMembers($graph, $candidate)) {
-                    return $candidate;
-                }
-            }
-        }
-        $mostUsed = $this->getMostUsedNamespaceUri($graph);
-        if (null !== $mostUsed && $mostUsed !== $namespaceUri && $this->hasMembers($graph, $mostUsed)) {
-            return $mostUsed;
-        }
-        return null;
+        return $this->findNamespaceUri($graph, $namespaceUri)[0];
     }
 
     /**
@@ -988,46 +965,67 @@ class RdfImporter
     /**
      * Find the namespace URI of a file's vocabulary, and where it was found.
      *
+     * Tries groups of namespace URIs in turn: the other forms of one given,
+     * if any; those the file declares (vann:preferredNamespaceUri); and the
+     * URIs of its ontology records. From the first group with classes or
+     * properties, it takes the namespace URI, or other form of one (see
+     * NamespaceUri::getForms()), with the most: a file may also declare the
+     * namespace URIs of vocabularies it reuses, and redeclare a few of their
+     * terms. Else it takes the namespace URI most of the file's classes and
+     * properties use.
+     *
      * @see self::getVocabularyDetails()
      * @param RdfGraph $graph
+     * @param string|null $except A namespace URI given, which isn't found
      * @return array [namespace URI, source], or [null, null] when the file
      *   has no classes or properties. For terms named relative to the file,
      *   the URI is where they were read, under self::RELATIVE_BASE.
      */
-    protected function findNamespaceUri(RdfGraph $graph)
+    protected function findNamespaceUri(RdfGraph $graph, $except = null)
     {
+        $groups = [];
+        if (null !== $except) {
+            $groups[] = ['variant', [$except]];
+        }
+        $declared = [];
         $vann = 'http://purl.org/vocab/vann/preferredNamespaceUri';
-        $bases = [];
         foreach ($graph->resourcesMatching($vann) as $resource) {
-            foreach ($resource->all("<$vann>") as $declared) {
-                $bases[] = [trim((string) $declared), 'declared'];
+            foreach ($resource->all("<$vann>") as $value) {
+                $declared[] = trim((string) $value);
             }
         }
+        $groups[] = ['declared', $declared];
+        $ontologies = [];
         foreach ($graph->allOfType('owl:Ontology') as $ontology) {
             // Not one named relative to the file, as with rdf:about="".
             if (!$ontology->isBNode() && preg_match('#^https?://#', $ontology->getUri())
                 && 0 !== strpos($ontology->getUri(), self::RELATIVE_BASE)
             ) {
-                $bases[] = [$ontology->getUri(), 'ontology'];
+                $ontologies[] = $ontology->getUri();
             }
         }
-        // The first that has classes or properties, in whichever of its
-        // forms has the most.
-        foreach ($bases as [$base, $source]) {
+        $groups[] = ['ontology', $ontologies];
+        foreach ($groups as [$source, $bases]) {
             $best = null;
             $bestCount = 0;
-            foreach (NamespaceUri::getForms($base) as $form) {
-                $count = array_sum($this->countMembers($graph, $form));
-                if ($count > $bestCount) {
-                    [$best, $bestCount] = [$form, $count];
+            $bestIsBase = false;
+            foreach ($bases as $base) {
+                foreach (NamespaceUri::getForms($base) as $form) {
+                    if ($form === $except) {
+                        continue;
+                    }
+                    $count = array_sum($this->countMembers($graph, $form));
+                    if ($count > $bestCount) {
+                        [$best, $bestCount, $bestIsBase] = [$form, $count, $form === $base];
+                    }
                 }
             }
             if (null !== $best) {
-                return [$best, $best === $base ? $source : 'variant'];
+                return [$best, $bestIsBase ? $source : 'variant'];
             }
         }
         $mostUsed = $this->getMostUsedNamespaceUri($graph);
-        if (null !== $mostUsed && $this->hasMembers($graph, $mostUsed)) {
+        if (null !== $mostUsed && $mostUsed !== $except && $this->hasMembers($graph, $mostUsed)) {
             // Terms named relative to the file are read in their place, and
             // their namespace URI is to be given.
             return [$mostUsed, 0 === strpos($mostUsed, self::RELATIVE_BASE) ? 'relative' : 'terms'];

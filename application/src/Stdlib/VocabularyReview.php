@@ -162,15 +162,16 @@ class VocabularyReview
      * Get the classes and properties the vocabulary has that a review's file
      * doesn't.
      *
-     * @see RdfImporter::getMissingTerms()
+     * @see RdfImporter::getMembersNotInFile()
      * @param array $review
      * @param array $importOptions
      * @return array
      */
-    public function getMissingTerms(array $review, array $importOptions)
+    public function getMembersNotInFile(array $review, array $importOptions)
     {
-        return $this->rdfImporter->getMissingTerms($review['vocabulary_id'], 'file', $this->getNamespaceUri($review), [
+        return $this->rdfImporter->getMembersNotInFile('file', $this->getNamespaceUri($review), [
             'file' => $review['file'],
+            'vocabulary_id' => $review['vocabulary_id'],
         ] + $importOptions);
     }
 
@@ -281,7 +282,7 @@ class VocabularyReview
             $review['import_options'] = $this->getStartingImportOptions($vocabulary, $review, $importOptions);
             // Without terms in the namespace, every term would seem dropped
             // from the file.
-            $this->rdfImporter->checkNamespaceUri('file', $this->getNamespaceUri($review), [
+            $this->rdfImporter->checkHasMembers('file', $this->getNamespaceUri($review), [
                 'file' => $path,
                 'format' => $review['import_options']['format'] ?? 'guess',
             ]);
@@ -322,8 +323,9 @@ class VocabularyReview
             return $importOptions + $stored;
         }
         if (!isset($importOptions['lang']) || !isset($importOptions['comment_property'])) {
-            $guess = $this->rdfImporter->guessImportOptions($vocabulary->id(), 'file', $this->getNamespaceUri($review), [
+            $guess = $this->rdfImporter->guessImportOptions('file', $this->getNamespaceUri($review), [
                 'file' => $review['file'],
+                'vocabulary_id' => $vocabulary->id(),
             ] + $importOptions);
             $importOptions += $guess;
         }

@@ -286,7 +286,7 @@ class RdfImporter
      * @param array $options As for getMembers()
      * @throws ValidationException
      */
-    public function checkNamespaceUri($strategy, $namespaceUri, array $options = [])
+    public function checkHasMembers($strategy, $namespaceUri, array $options = [])
     {
         $graph = $this->getGraph($strategy, $namespaceUri, $options);
         if (!array_sum($this->countMembers($graph, $namespaceUri))) {
@@ -306,12 +306,11 @@ class RdfImporter
      *     itself
      *   - namespace_source: where it was found: "declared"
      *     (vann:preferredNamespaceUri), "ontology" (an owl:Ontology's URI),
-     *     "variant" (another form of either), "terms" (the namespace most of
-     *     its terms use), or "relative" (none: its terms are named relative
-     *     to the file)
+     *     "other_form" (another form of either), "terms" (the namespace most
+     *     of its terms use), or "relative" (none: its terms are named
+     *     relative to the file)
      *   - prefix, label, comment: null where the file says nothing
      *   - languages: of all its classes and properties
-     *   - classes, properties: how many it has in the namespace
      * @throws ValidationException When the file can't be read, or has no
      *   classes or properties
      */
@@ -323,7 +322,6 @@ class RdfImporter
             throw new ValidationException('No classes or properties found in this file.'); // @translate
         }
         $lang = $options['lang'] ?? null;
-        $counts = $this->countMembers($graph, $namespaceUri);
         return [
             'namespace_uri' => 'relative' === $source ? null : $namespaceUri,
             'namespace_source' => $source,
@@ -333,8 +331,6 @@ class RdfImporter
             // From every class and property, in any namespace, since the
             // admin may correct the namespace URI found.
             'languages' => $this->getGraphLanguages($graph, null, self::LABEL_PROPERTY . '|' . self::COMMENT_PROPERTY),
-            'classes' => $counts['classes'],
-            'properties' => $counts['properties'],
         ];
     }
 
@@ -412,9 +408,7 @@ class RdfImporter
      */
     public function getDiff($strategy, $namespaceUri, array $options = [])
     {
-        $vocabulary = $this->apiManager->search('vocabularies', isset($options['vocabulary_id'])
-            ? ['id' => (int) $options['vocabulary_id']]
-            : ['namespace_uri' => $namespaceUri])->getContent()[0] ?? null;
+        $vocabulary = $this->getStoredVocabulary($namespaceUri, $options);
         if ($vocabulary) {
             $options += $vocabulary->importOptions() ?? [];
         }
@@ -451,26 +445,29 @@ class RdfImporter
     }
 
     /**
-     * Get the classes and properties a vocabulary has that a file doesn't,
-     * which an update keeps.
+     * Get the classes and properties a stored vocabulary has that a file
+     * doesn't, which an update keeps.
      *
-     * @param int $vocabularyId
      * @param string $strategy
      * @param string $namespaceUri The namespace URI to read the file with
-     * @param array $options As for getMembers()
+     * @param array $options As for getMembers(), and vocabulary_id:
+     *   (optional) the stored vocabulary, else the one with the namespace URI
      * @return array Labels by local name, under classes and properties
      */
-    public function getMissingTerms($vocabularyId, $strategy, $namespaceUri, array $options = [])
+    public function getMembersNotInFile($strategy, $namespaceUri, array $options = [])
     {
-        $stored = $this->getStoredMembers(['vocabulary_id' => (int) $vocabularyId]);
+        $vocabulary = $this->getStoredVocabulary($namespaceUri, $options);
+        $stored = $vocabulary
+            ? $this->getStoredMembers(['vocabulary_id' => $vocabulary->id()])
+            : ['classes' => [], 'properties' => []];
         $members = $this->getMembers($strategy, $namespaceUri, $options);
-        $missing = ['classes' => [], 'properties' => []];
+        $notInFile = ['classes' => [], 'properties' => []];
         foreach (['classes', 'properties'] as $type) {
             foreach (array_diff_key($stored[$type], $members[$type]) as $localName => $member) {
-                $missing[$type][$localName] = $member['label'];
+                $notInFile[$type][$localName] = $member['label'];
             }
         }
-        return $missing;
+        return $notInFile;
     }
 
     /**
@@ -495,17 +492,20 @@ class RdfImporter
      * language whose labels match the most of Omeka's, and the comment
      * property that would change fewer of its comments.
      *
-     * @param int $vocabularyId
      * @param string $strategy
      * @param string $namespaceUri The namespace URI to read the file with
-     * @param array $options As for getMembers()
+     * @param array $options As for getMembers(), and vocabulary_id:
+     *   (optional) the stored vocabulary, else the one with the namespace URI
      * @return array ['lang' => string|null, 'comment_property' => string]
      */
-    public function guessImportOptions($vocabularyId, $strategy, $namespaceUri, array $options = [])
+    public function guessImportOptions($strategy, $namespaceUri, array $options = [])
     {
         $labelProperty = $options['label_property'] ?? self::LABEL_PROPERTY;
         $graph = $this->getGraph($strategy, $namespaceUri, $options);
-        $stored = $this->getStoredMembers(['vocabulary_id' => (int) $vocabularyId]);
+        $vocabulary = $this->getStoredVocabulary($namespaceUri, $options);
+        $stored = $vocabulary
+            ? $this->getStoredMembers(['vocabulary_id' => $vocabulary->id()])
+            : ['classes' => [], 'properties' => []];
         $languages = $this->getGraphLanguages($graph, $namespaceUri, $labelProperty);
 
         // Ties go to the default language; none ("First available") wins only
@@ -590,6 +590,21 @@ class RdfImporter
             return 'en';
         }
         return current(preg_grep('/^en-/i', $languages)) ?: ($languages[0] ?? null);
+    }
+
+    /**
+     * Get the stored vocabulary a file is compared with: the one the
+     * vocabulary_id option names, else the one with the namespace URI.
+     *
+     * @param string $namespaceUri
+     * @param array $options
+     * @return \Omeka\Api\Representation\VocabularyRepresentation|null
+     */
+    protected function getStoredVocabulary($namespaceUri, array $options)
+    {
+        return $this->apiManager->search('vocabularies', isset($options['vocabulary_id'])
+            ? ['id' => (int) $options['vocabulary_id']]
+            : ['namespace_uri' => $namespaceUri])->getContent()[0] ?? null;
     }
 
     /**
@@ -842,7 +857,7 @@ class RdfImporter
     {
         $groups = [];
         if (null !== $except) {
-            $groups[] = ['variant', [$except]];
+            $groups[] = ['other_form', [$except]];
         }
         $declared = [];
         $vann = 'http://purl.org/vocab/vann/preferredNamespaceUri';
@@ -878,7 +893,7 @@ class RdfImporter
                 }
             }
             if (null !== $best) {
-                return [$best, $bestIsBase ? $source : 'variant'];
+                return [$best, $bestIsBase ? $source : 'other_form'];
             }
         }
         $mostUsed = $this->getMostUsedNamespaceUri($graph);

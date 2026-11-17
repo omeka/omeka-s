@@ -331,14 +331,14 @@ class VocabularyController extends AbstractActionController
         $view->setVariable('form', $this->getForm(ConfirmForm::class));
         try {
             $view->setVariable('diff', $this->vocabularyReview->getDiff($review, $importOptions));
-            $view->setVariable('missing', $this->vocabularyReview->getMissingTerms($review, $importOptions));
+            $view->setVariable('notInFile', $this->vocabularyReview->getMembersNotInFile($review, $importOptions));
             $view->setVariable('languages', $this->vocabularyReview->getLanguages($review, $importOptions));
         } catch (\Exception $e) {
             // The chosen import options may make the file unreadable: say
             // why, and keep the choices to change.
             $this->messenger()->addErrors($this->getErrors($e));
             $view->setVariable('diff', null);
-            $view->setVariable('missing', null);
+            $view->setVariable('notInFile', null);
             $view->setVariable('languages', []);
         }
         return $view;
@@ -715,7 +715,7 @@ class VocabularyController extends AbstractActionController
      * namespace, get the namespace URI its terms do use: the one argument of
      * its o:namespace_uri message.
      *
-     * @see RdfImporter::checkNamespaceUri()
+     * @see RdfImporter::checkHasMembers()
      * @param \Exception $e
      * @return string|null
      */

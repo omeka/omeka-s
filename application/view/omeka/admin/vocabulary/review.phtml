@@ -85,8 +85,8 @@ if (null !== $diff) {
         ['id' => 'review-class-comments', 'heading' => $translate('Changed class comments'), 'columns' => [$kinds['classes'], $translate('From'), $translate('To')], 'rows' => $changed($diff['classes']['comment'], $labels['classes']), 'class' => 'review-changes'],
     ];
     $onlyInOmeka = sprintf($translate('This vocabulary has these, and %s doesn\'t. Accepting keeps them.'), $escape($sourceLabel));
-    $sections[] = ['id' => 'review-properties-only-in-omeka', 'heading' => $translate('Properties only in Omeka'), 'columns' => [$kinds['properties'], $translate('Label')], 'rows' => $listed($missing['properties']), 'note' => $onlyInOmeka];
-    $sections[] = ['id' => 'review-classes-only-in-omeka', 'heading' => $translate('Classes only in Omeka'), 'columns' => [$kinds['classes'], $translate('Label')], 'rows' => $listed($missing['classes']), 'note' => $onlyInOmeka];
+    $sections[] = ['id' => 'review-properties-only-in-omeka', 'heading' => $translate('Properties only in Omeka'), 'columns' => [$kinds['properties'], $translate('Label')], 'rows' => $listed($notInFile['properties']), 'note' => $onlyInOmeka];
+    $sections[] = ['id' => 'review-classes-only-in-omeka', 'heading' => $translate('Classes only in Omeka'), 'columns' => [$kinds['classes'], $translate('Label')], 'rows' => $listed($notInFile['classes']), 'note' => $onlyInOmeka];
 }
 $termChanges = 0;
 foreach ($sections as $section) {

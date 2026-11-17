@@ -308,7 +308,7 @@ class RdfImporterTest extends DbTestCase
             // Omeka, and its languages, with any import options.
             $importer->getMembers('file', 'http://example.org/multi#', $options + ['lang' => 'fr']);
             $importer->getLanguages('file', 'http://example.org/multi#', $options);
-            $importer->checkNamespaceUri('file', 'http://example.org/multi#', $options);
+            $importer->checkHasMembers('file', 'http://example.org/multi#', $options);
             $this->assertSame(1, $importer->reads);
             // Read another way, or changed, it's read again.
             $importer->getMembers('file', 'http://example.org/multi#', ['format' => 'guess'] + $options);
@@ -346,9 +346,6 @@ class RdfImporterTest extends DbTestCase
         $this->assertSame("First paragraph.\n\nSecond paragraph.\n\nA changelog.", $details['comment']);
         // Its definitions' languages too.
         $this->assertSame(['de', 'en', 'es', 'fr'], $details['languages']);
-        // A class with two class types is one class.
-        $this->assertSame(1, $details['classes']);
-        $this->assertSame(1, $details['properties']);
 
         // In another language asked for.
         $details = $this->details('details-declared.ttl', ['lang' => 'fr']);
@@ -369,8 +366,6 @@ class RdfImporterTest extends DbTestCase
         $details = $this->details('details-reused.ttl');
         $this->assertSame('http://example.org/own#', $details['namespace_uri']);
         $this->assertSame('declared', $details['namespace_source']);
-        $this->assertSame(1, $details['classes']);
-        $this->assertSame(2, $details['properties']);
         // The languages of every class and property, as the namespace URI
         // found may be corrected.
         $this->assertSame(['it'], $details['languages']);
@@ -380,7 +375,7 @@ class RdfImporterTest extends DbTestCase
     {
         $details = $this->details('details-variant.ttl');
         $this->assertSame('http://example.org/variant#', $details['namespace_uri']);
-        $this->assertSame('variant', $details['namespace_source']);
+        $this->assertSame('other_form', $details['namespace_source']);
         // A prefix Omeka can't take is left for the admin to give.
         $this->assertNull($details['prefix']);
         $this->assertNull($details['label']);
@@ -396,8 +391,6 @@ class RdfImporterTest extends DbTestCase
         $this->assertNull($details['prefix']);
         // From the record its terms name.
         $this->assertSame('Terms by their record', $details['label']);
-        $this->assertSame(1, $details['classes']);
-        $this->assertSame(2, $details['properties']);
     }
 
     public function testVocabularyDetailsOfAFileNamingItsTermsRelativeToItself()
@@ -407,8 +400,6 @@ class RdfImporterTest extends DbTestCase
         $this->assertNull($details['namespace_uri']);
         $this->assertSame('relative', $details['namespace_source']);
         $this->assertSame('Relative vocabulary', $details['label']);
-        $this->assertSame(1, $details['classes']);
-        $this->assertSame(1, $details['properties']);
         // Read with one, its terms are in it.
         $members = $this->rdfImporter->getMembers('file', 'http://example.org/relative#', ['file' => __DIR__ . '/_files/details-relative.rdf', 'format' => 'rdfxml']);
         $this->assertSame(['Thing'], array_keys($members['classes']));
@@ -583,25 +574,27 @@ class RdfImporterTest extends DbTestCase
         $this->assertSame([], $diff['properties']['label']);
     }
 
-    public function testGetMissingTerms()
+    public function testGetMembersNotInFile()
     {
         $vocabularyId = $this->storeComparedVocabulary();
-        $missing = $this->rdfImporter->getMissingTerms($vocabularyId, 'file', 'http://example.org/compare#', [
+        $notInFile = $this->rdfImporter->getMembersNotInFile('file', 'http://example.org/compare#', [
             'file' => __DIR__ . '/_files/compare.ttl',
             'format' => 'turtle',
+            'vocabulary_id' => $vocabularyId,
         ]);
         $this->assertSame([
             'classes' => [],
             'properties' => ['onlyInOmeka' => 'Only in Omeka'],
-        ], $missing);
+        ], $notInFile);
     }
 
-    public function testGetMissingTermsReadingInAnotherNamespace()
+    public function testGetMembersNotInFileReadingInAnotherNamespace()
     {
         $vocabularyId = $this->storeComparedVocabulary();
-        $missing = $this->rdfImporter->getMissingTerms($vocabularyId, 'file', 'http://example.org/moved#', [
+        $notInFile = $this->rdfImporter->getMembersNotInFile('file', 'http://example.org/moved#', [
             'file' => __DIR__ . '/_files/compare-moved.ttl',
             'format' => 'turtle',
+            'vocabulary_id' => $vocabularyId,
         ]);
         // The file has only name and title, in its own namespace.
         $this->assertSame([
@@ -611,7 +604,7 @@ class RdfImporterTest extends DbTestCase
                 'unlabeled' => 'Unlabeled',
                 'onlyInOmeka' => 'Only in Omeka',
             ],
-        ], $missing);
+        ], $notInFile);
     }
 
     /**
@@ -721,7 +714,7 @@ class RdfImporterTest extends DbTestCase
             'o:prefix' => 'guessed',
             'o:label' => 'Guessed',
         ], $options + $importOptions)->getContent()->id();
-        return $this->rdfImporter->guessImportOptions($vocabularyId, 'file', $namespaceUri, $options);
+        return $this->rdfImporter->guessImportOptions('file', $namespaceUri, ['vocabulary_id' => $vocabularyId] + $options);
     }
 
     public function importOptionsGuesses()
@@ -779,10 +772,10 @@ class RdfImporterTest extends DbTestCase
     {
         $options = ['file' => __DIR__ . '/_files/compare-moved.ttl', 'format' => 'turtle'];
         // Its own namespace passes.
-        $this->rdfImporter->checkNamespaceUri('file', 'http://example.org/moved#', $options);
+        $this->rdfImporter->checkHasMembers('file', 'http://example.org/moved#', $options);
         // Another is refused, with the one its terms use.
         try {
-            $this->rdfImporter->checkNamespaceUri('file', 'http://example.org/compare#', $options);
+            $this->rdfImporter->checkHasMembers('file', 'http://example.org/compare#', $options);
             $this->fail('The file was taken');
         } catch (ValidationException $e) {
             $this->assertSame('No classes or properties found. Are you sure you used the correct namespace URI?', $e->getMessage());
@@ -844,7 +837,7 @@ class RdfImporterTest extends DbTestCase
         $file = tempnam(sys_get_temp_dir(), 'omeka-test-');
         file_put_contents($file, $turtle);
         try {
-            $this->rdfImporter->checkNamespaceUri('file', $namespaceUri, ['file' => $file, 'format' => 'turtle']);
+            $this->rdfImporter->checkHasMembers('file', $namespaceUri, ['file' => $file, 'format' => 'turtle']);
             $this->fail('A file without terms in the namespace was taken');
         } catch (ValidationException $e) {
             $messages = $e->getErrorStore()->getErrors()['o:namespace_uri'] ?? [];

@@ -7,4 +7,16 @@ $translate = $this->plugin('translate');
     <h4><?php echo $translate('Namespace URI:'); ?></h4>
     <div class="value"><?php echo $this->escapeHtml($resource->namespaceUri()); ?></div>
 </div>
+<div class="meta-group">
+    <h4><?php echo $translate('Values'); ?></h4>
+    <div class="value"><?php echo $resource->valueCount(); ?></div>
+</div>
+<div class="meta-group">
+    <h4><?php echo $translate('Resource template properties'); ?></h4>
+    <div class="value"><?php echo $resource->resourceTemplatePropertyCount(); ?></div>
+</div>
+<div class="meta-group">
+    <h4><?php echo $translate('Resources with its classes'); ?></h4>
+    <div class="value"><?php echo $resource->resourceCount(); ?></div>
+</div>
 <?php $this->trigger('view.details', ['entity' => $resource]); ?>

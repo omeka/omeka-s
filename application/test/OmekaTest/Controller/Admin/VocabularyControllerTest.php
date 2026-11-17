@@ -1155,16 +1155,21 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString(sprintf('<a class="delete button sidebar-content" data-sidebar-selector="#delete" data-sidebar-content-url="/admin/vocabulary/%s/delete-confirm" href="#">Delete</a>', $this->vocabularyId), $page);
         $this->assertStringContainsString('<div id="delete" class="sidebar">', $page);
         // Its counts aren't taken with the page.
-        $this->assertStringNotContainsString('Values deleted', $page);
+        $this->assertStringNotContainsString('<h4>Values</h4>', $page);
     }
 
-    public function testDeleteConfirmationSaysWhatDeletingTakes()
+    public function testDetailsAndDeleteConfirmationSayHowMuchUsesIt()
     {
-        $status = $this->requestAs(self::ADMIN, 'GET', sprintf('/admin/vocabulary/%s/delete-confirm', $this->vocabularyId));
-        $this->assertSame(200, $status);
-        $page = preg_replace('/\s+/', ' ', $this->getResponse()->getContent());
-        foreach (['Values deleted', 'Resource template properties deleted', 'Resources left without a class'] as $count) {
-            $this->assertStringContainsString(sprintf('<h4>%s</h4> <div class="value">0</div>', $count), $page);
+        // The details of any vocabulary, Omeka's own included, and the
+        // confirmation of deleting one, which shows its details.
+        $dcterms = $this->api()->read('vocabularies', ['prefix' => 'dcterms'])->getContent();
+        foreach ([sprintf('/admin/vocabulary/%s/show-details', $dcterms->id()), sprintf('/admin/vocabulary/%s/delete-confirm', $this->vocabularyId)] as $path) {
+            $status = $this->requestAs(self::ADMIN, 'GET', $path);
+            $this->assertSame(200, $status, $path);
+            $page = preg_replace('/\s+/', ' ', $this->getResponse()->getContent());
+            foreach (['Values', 'Resource template properties', 'Resources with its classes'] as $count) {
+                $this->assertMatchesRegularExpression(sprintf('#<h4>%s</h4> <div class="value">\d+</div>#', $count), $page, $path);
+            }
         }
     }
 

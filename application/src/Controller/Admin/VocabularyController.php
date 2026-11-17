@@ -84,7 +84,7 @@ class VocabularyController extends AbstractActionController
         $view->setTemplate('common/delete-confirm-details');
         $view->setVariable('resource', $vocabulary);
         $view->setVariable('resourceLabel', 'vocabulary'); // @translate
-        $view->setVariable('partialPath', 'omeka/admin/vocabulary/delete-confirm-details');
+        $view->setVariable('partialPath', 'omeka/admin/vocabulary/show-details');
         return $view;
     }
 

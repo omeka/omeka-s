@@ -813,7 +813,8 @@ class VocabularyController extends AbstractActionController
      */
     protected function getErrors(\Exception $e)
     {
-        $errors = [$e->getMessage()];
+        // An API refusal has no message of its own, only its reasons.
+        $errors = '' === (string) $e->getMessage() ? [] : [$e->getMessage()];
         if (method_exists($e, 'getErrorStore')) {
             $errors[] = $e->getErrorStore()->getErrors();
         }

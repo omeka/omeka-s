@@ -873,7 +873,10 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
                 'o:namespace_uri' => 'http://example.org/defs#',
                 'o:prefix' => 'dcterms',
             ]));
-            $this->assertStringContainsString('The prefix "dcterms" is already taken.', html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
+            $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+            $this->assertStringContainsString('The prefix "dcterms" is already taken.', $page);
+            // The API's refusal has no message of its own to show.
+            $this->assertStringNotContainsString('<li class="error"></li>', $page);
             $this->assertSame(302, $this->finishImport($url, [
                 'o:label' => 'Definitions',
                 'o:namespace_uri' => 'http://example.org/defs#',

@@ -374,6 +374,8 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
         $text = preg_replace('/\s+/', ' ', strip_tags($page));
         $this->assertStringContainsString('Prefix review Namespace URI http://example.org/review# Classes 1 Properties 1', $text);
+        // How much uses it, as in the Details sidebar.
+        $this->assertStringContainsString('Properties 1 Values 0 Resource template properties 0 Resources with its classes 0', $text);
         // The pages that change it, for one the user may change.
         $this->assertStringContainsString(sprintf('<a class="button" href="/admin/vocabulary/%s/update">Update classes and properties</a>', $this->vocabularyId), $page);
         $this->assertStringContainsString(sprintf('<a class="button" href="/admin/vocabulary/%s/edit">Edit vocabulary</a>', $this->vocabularyId), $page);
@@ -517,7 +519,8 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $status = $this->changeNamespace(' http://example.org/moved# ');
         $this->assertSame(302, $status);
         $this->assertRedirectTo(sprintf('/admin/vocabulary/%s', $this->vocabularyId));
-        $this->assertSame(['Vocabulary successfully updated'], $this->messages(Messenger::SUCCESS));
+        // With the next step, updating from the file at the new namespace.
+        $this->assertSame([sprintf('Vocabulary successfully updated. <a href="/admin/vocabulary/%s/update">Update its classes and properties?</a>', $this->vocabularyId)], $this->messages(Messenger::SUCCESS));
         $vocabulary = $this->vocabulary();
         $this->assertSame('http://example.org/moved#', $vocabulary->namespaceUri());
         $this->assertSame('Review', $vocabulary->label());
@@ -1092,7 +1095,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertTemplateName('omeka/admin/vocabulary/update');
         $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
         // Both namespaces, and how to move the vocabulary.
-        $this->assertStringContainsString('None of this file\'s classes or properties are in this vocabulary\'s namespace, "http://example.org/review#". They use "http://example.org/moved#". If the vocabulary has moved, change its namespace, then update it again.', $page);
+        $this->assertStringContainsString(sprintf('None of this file\'s classes or properties are in this vocabulary\'s namespace, "http://example.org/review#". They use "http://example.org/moved#". If the vocabulary has moved, <a href="/admin/vocabulary/%s/edit">change its namespace</a>, then update it again.', $this->vocabularyId), $page);
         $this->assertStringNotContainsString('Are you sure you used the correct namespace URI?', $page);
     }
 

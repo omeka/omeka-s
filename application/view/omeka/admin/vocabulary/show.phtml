@@ -42,5 +42,18 @@ $this->htmlElement('body')->appendAttribute('class', 'vocabularies show');
     <dt><?php echo $translate('Properties'); ?></dt>
     <dd class="value"><?php echo $this->hyperlink($vocabulary->propertyCount(), $vocabulary->url('properties')); ?></dd>
 </div>
+<?php // How much uses it, as in the Details sidebar on the list. ?>
+<div class="property">
+    <dt><?php echo $translate('Values'); ?></dt>
+    <dd class="value"><?php echo $vocabulary->valueCount(); ?></dd>
+</div>
+<div class="property">
+    <dt><?php echo $translate('Resource template properties'); ?></dt>
+    <dd class="value"><?php echo $vocabulary->resourceTemplatePropertyCount(); ?></dd>
+</div>
+<div class="property">
+    <dt><?php echo $translate('Resources with its classes'); ?></dt>
+    <dd class="value"><?php echo $vocabulary->resourceWithClassCount(); ?></dd>
+</div>
 </dl>
 <?php $this->trigger('view.show.after'); ?>

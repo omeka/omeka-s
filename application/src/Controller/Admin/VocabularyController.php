@@ -239,12 +239,13 @@ class VocabularyController extends AbstractActionController
             $form->setData($request->getPost()->toArray());
             if ($form->isValid()) {
                 $info = $form->getData()['vocabulary-info'];
+                // Compared before the update, which changes what
+                // $vocabulary reads.
+                $moved = $info['o:namespace_uri'] !== $vocabulary->namespaceUri();
                 // Refuse another vocabulary's namespace URI in a different
                 // form, such as https://schema.org/ where it has
                 // http://schema.org/. The API refuses an exact match itself.
-                $other = $info['o:namespace_uri'] === $vocabulary->namespaceUri()
-                    ? null
-                    : $this->getVocabularyInAnotherForm($info['o:namespace_uri'], $vocabulary);
+                $other = $moved ? $this->getVocabularyInAnotherForm($info['o:namespace_uri'], $vocabulary) : null;
                 if ($other) {
                     $this->messenger()->addError(new Message(
                         'Another vocabulary, "%1$s", has this namespace URI in another form: "%2$s".', // @translate
@@ -255,7 +256,22 @@ class VocabularyController extends AbstractActionController
                     // The API puts its refusals on the form.
                     $response = $this->api($form)->update('vocabularies', $this->params('id'), $info, [], ['isPartial' => true]);
                     if ($response) {
-                        $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
+                        if (!$moved) {
+                            $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
+                        } else {
+                            // A vocabulary that has moved is usually updated
+                            // from its file at the new namespace next.
+                            $message = new Message(
+                                'Vocabulary successfully updated. %s', // @translate
+                                sprintf(
+                                    '<a href="%s">%s</a>',
+                                    htmlspecialchars($vocabulary->url('update')),
+                                    $this->translate('Update its classes and properties?')
+                                )
+                            );
+                            $message->setEscapeHtml(false);
+                            $this->messenger()->addSuccess($message);
+                        }
                         return $this->redirect()->toUrl($response->getContent()->url());
                     }
                 }
@@ -295,12 +311,16 @@ class VocabularyController extends AbstractActionController
                     $this->messenger()->addErrors($this->getErrors($e));
                 } else {
                     // Name both namespace URIs: they may differ only by a #
-                    // or / that's easy to miss.
+                    // or / that's easy to miss. "change its namespace" links
+                    // to Edit, where the namespace is changed.
                     $message = new Message(
-                        'None of this file\'s classes or properties are in this vocabulary\'s namespace, "%1$s". They use "%2$s". If the vocabulary has moved, change its namespace, then update it again.', // @translate
-                        $vocabulary->namespaceUri(),
-                        $namespaceUri
+                        'None of this file\'s classes or properties are in this vocabulary\'s namespace, "%1$s". They use "%2$s". If the vocabulary has moved, %3$schange its namespace%4$s, then update it again.', // @translate
+                        htmlspecialchars($vocabulary->namespaceUri()),
+                        htmlspecialchars($namespaceUri),
+                        sprintf('<a href="%s">', htmlspecialchars($vocabulary->url('edit'))),
+                        '</a>'
                     );
+                    $message->setEscapeHtml(false);
                     $this->messenger()->addError($message);
                 }
             }

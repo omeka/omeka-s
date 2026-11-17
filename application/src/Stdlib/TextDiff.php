@@ -162,7 +162,7 @@ class TextDiff
     }
 
     /**
-     * Parts with their empty ones dropped and neighbours of the same kind
+     * Parts with their empty ones dropped and neighbors of the same kind
      * joined.
      */
     protected static function joined(array $marked)

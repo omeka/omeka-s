@@ -39,7 +39,7 @@ $value = function ($value) use ($none, $escape) {
     return sprintf('<span class="review-value">%s</span>', $escape($value));
 };
 // A changed value, with what differs from the other marked: struck out where
-// removed, underlined where added, so the difference doesn't rest on colour.
+// removed, underlined where added, so the difference doesn't rest on color.
 // A line break, which wouldn't otherwise show, is given a sign.
 $marked = function (array $parts, $tag) use ($escape) {
     $html = '';

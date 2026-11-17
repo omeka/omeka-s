@@ -81,8 +81,8 @@ class VocabularyAdapterTest extends DbTestCase
             'label_property' => null,
             'format' => 'turtle',
         ], $vocabulary->importOptions());
-        // They aren't part of the JSON-LD.
-        $this->assertArrayNotHasKey('o:import_options', $vocabulary->jsonSerialize());
+        // They're in the JSON-LD, as the API takes them.
+        $this->assertSame($vocabulary->importOptions(), $vocabulary->jsonSerialize()['o:import_options']);
 
         // An update that doesn't mention them keeps them.
         $vocabulary = $this->services->get('Omeka\ApiManager')->update('vocabularies', $vocabulary->id(), [

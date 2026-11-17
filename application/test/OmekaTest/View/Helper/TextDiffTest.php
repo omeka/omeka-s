@@ -8,6 +8,20 @@ use Omeka\Test\TestCase;
 class TextDiffTest extends TestCase
 {
     /**
+     * Two texts' parts, from the helper's protected method.
+     */
+    protected static function words($from, $to)
+    {
+        $textDiff = new class extends TextDiff {
+            public function partsOf($from, $to)
+            {
+                return $this->words($from, $to);
+            }
+        };
+        return $textDiff->partsOf($from, $to);
+    }
+
+    /**
      * Two texts' parts as text, with what differs in brackets.
      */
     protected static function marked($from, $to)
@@ -16,7 +30,7 @@ class TextDiffTest extends TestCase
             return implode('', array_map(function ($part) {
                 return $part[1] ? '[' . $part[0] . ']' : $part[0];
             }, $parts));
-        }, (new TextDiff)->words($from, $to));
+        }, self::words($from, $to));
     }
 
     /**
@@ -62,7 +76,7 @@ class TextDiffTest extends TestCase
     public function testAPartsTextIsTheTextWhateverDiffers()
     {
         foreach ([['', ''], ['', 'new'], ['old', ''], ["  a\tb \n", "a b"], ["Caf\xe9 au lait", 'Café au lait']] as [$from, $to]) {
-            [$fromParts, $toParts] = (new TextDiff)->words($from, $to);
+            [$fromParts, $toParts] = self::words($from, $to);
             $this->assertSame($from, implode('', array_column($fromParts, 0)));
             $this->assertSame($to, implode('', array_column($toParts, 0)));
         }
@@ -84,7 +98,7 @@ class TextDiffTest extends TestCase
     {
         $words = range(1, TextDiff::MAX_WORDS - 1);
         $start = microtime(true);
-        (new TextDiff)->words(implode(' ', $words), implode(' ', array_reverse($words)));
+        self::words(implode(' ', $words), implode(' ', array_reverse($words)));
         $this->assertLessThan(2, microtime(true) - $start);
     }
 

@@ -25,12 +25,13 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
             'o:label' => $this->label(),
             'o:comment' => $this->comment(),
             'o:owner' => $owner,
+            'o:import_options' => $this->importOptions(),
         ];
     }
 
     /**
      * Return the import options the vocabulary's file was read with, if
-     * known. They aren't part of the JSON-LD.
+     * known.
      *
      * @see \Omeka\Stdlib\RdfImporter::IMPORT_OPTIONS
      * @return array|null
@@ -174,7 +175,7 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      *
      * @return int
      */
-    public function resourceCount()
+    public function resourceWithClassCount()
     {
         return $this->countByTerm('Omeka\Entity\Resource', 'resourceClass');
     }

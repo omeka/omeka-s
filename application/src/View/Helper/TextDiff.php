@@ -42,7 +42,7 @@ class TextDiff extends AbstractHelper
      * @return array [parts of $from, parts of $to], each part [text, whether
      *   it differs]; a text's parts, joined, are the text
      */
-    public function words($from, $to)
+    protected function words($from, $to)
     {
         [$a, $b, $matchA, $matchB] = $this->aligned($from, $to);
         return [$this->parts($a, $b, $matchA), $this->parts($b, $a, $matchB)];

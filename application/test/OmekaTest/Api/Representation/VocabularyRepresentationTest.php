@@ -69,6 +69,6 @@ class VocabularyRepresentationTest extends DbTestCase
     protected function counts($vocabularyId)
     {
         $vocabulary = $this->api->read('vocabularies', $vocabularyId)->getContent();
-        return [$vocabulary->valueCount(), $vocabulary->resourceTemplatePropertyCount(), $vocabulary->resourceCount()];
+        return [$vocabulary->valueCount(), $vocabulary->resourceTemplatePropertyCount(), $vocabulary->resourceWithClassCount()];
     }
 }

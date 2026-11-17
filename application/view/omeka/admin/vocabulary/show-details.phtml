@@ -19,6 +19,6 @@ $deleting = !empty($this->deleting);
 </div>
 <div class="meta-group">
     <h4><?php echo $deleting ? $translate('Resources left without a class') : $translate('Resources with its classes'); ?></h4>
-    <div class="value"><?php echo $resource->resourceCount(); ?></div>
+    <div class="value"><?php echo $resource->resourceWithClassCount(); ?></div>
 </div>
 <?php $this->trigger('view.details', ['entity' => $resource]); ?>

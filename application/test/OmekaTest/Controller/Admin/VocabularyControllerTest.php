@@ -681,8 +681,9 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         ] + $this->csrfField(VocabularyForm::class));
         $this->assertSame(200, $status);
         $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
-        $this->assertStringContainsString('Omeka already has this vocabulary, as "Review" with the namespace URI "http://example.org/review#". To update it, edit it.', strip_tags($page));
-        $this->assertStringContainsString(sprintf('<a href="/admin/vocabulary/%s/edit">edit it</a>', $this->vocabularyId), $page);
+        $this->assertStringContainsString('Omeka already has this vocabulary, as "Review" with the namespace URI "http://example.org/review#". To update it, use Update classes and properties on its page.', strip_tags($page));
+        // Its name links to its page.
+        $this->assertStringContainsString(sprintf('<a href="/admin/vocabulary/%s">Review</a>', $this->vocabularyId), $page);
         $this->reset(true);
         $this->signIn();
         $this->assertSame(0, $this->api()->search('vocabularies', ['prefix' => 'review2'])->getTotalResults());

@@ -94,15 +94,13 @@ class VocabularyController extends AbstractActionController
             if ($form->isValid()) {
                 $data = $form->getData();
                 // A vocabulary Omeka has in another form of the namespace is
-                // updated by editing it: imported, its terms would be twice.
+                // updated from its page: imported, its terms would be twice.
                 $other = $this->getVocabularyInAnotherForm(trim((string) $data['vocabulary-info']['o:namespace_uri']));
                 if ($other) {
                     $message = new Message(
-                        'Omeka already has this vocabulary, as "%1$s" with the namespace URI "%2$s". To update it, %3$sedit it%4$s.', // @translate
-                        htmlspecialchars($other->label()),
-                        htmlspecialchars($other->namespaceUri()),
-                        sprintf('<a href="%s">', htmlspecialchars($this->url()->fromRoute('admin/id', ['controller' => 'vocabulary', 'id' => $other->id(), 'action' => 'edit']))),
-                        '</a>'
+                        'Omeka already has this vocabulary, as "%1$s" with the namespace URI "%2$s". To update it, use Update classes and properties on its page.', // @translate
+                        sprintf('<a href="%s">%s</a>', htmlspecialchars($other->url()), htmlspecialchars($other->label())),
+                        htmlspecialchars($other->namespaceUri())
                     );
                     $message->setEscapeHtml(false);
                     $this->messenger()->addError($message);

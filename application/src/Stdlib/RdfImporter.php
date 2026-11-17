@@ -71,6 +71,15 @@ class RdfImporter
     protected $entityManager;
 
     /**
+     * The last file read and its graph: [key, graph], where the key is the
+     * file as read. A review reads its file for its changes, its terms only
+     * in Omeka, and its languages, so this parses it once a request.
+     *
+     * @var array|null
+     */
+    protected $lastFileGraph;
+
+    /**
      * Class types to import.
      *
      * @var array
@@ -209,9 +218,18 @@ class RdfImporter
                 if (!is_readable($file)) {
                     throw new ValidationException('Could not read vocabulary file.'); // @translate
                 }
-                return $this->readGraph(function (RdfGraph $graph, $format) use ($file, $namespaceUri) {
+                // The same file, unchanged, read the same way, is the same
+                // graph.
+                clearstatcache(true, $file);
+                $key = implode("\0", [$file, filemtime($file), filesize($file), $format, $namespaceUri]);
+                if ($this->lastFileGraph && $this->lastFileGraph[0] === $key) {
+                    return $this->lastFileGraph[1];
+                }
+                $graph = $this->readGraph(function (RdfGraph $graph, $format) use ($file, $namespaceUri) {
                     $graph->parseFile($file, $format, $namespaceUri);
                 }, $format, 'Could not parse vocabulary file.'); // @translate
+                $this->lastFileGraph = [$key, $graph];
+                return $graph;
             case 'url':
                 // Import from a URL.
                 if (!isset($options['url'])) {

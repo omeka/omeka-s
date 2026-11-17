@@ -289,6 +289,39 @@ class RdfImporterTest extends DbTestCase
         $this->assertSame(1, $vocabulary->propertyCount());
     }
 
+    public function testAFileIsParsedOnceUntilItChanges()
+    {
+        $services = self::getApplication()->getServiceManager();
+        $importer = new class($services->get('Omeka\ApiManager'), $services->get('Omeka\EntityManager')) extends RdfImporter {
+            public $reads = 0;
+
+            protected function readGraph(callable $read, $format, $error)
+            {
+                $this->reads++;
+                return parent::readGraph($read, $format, $error);
+            }
+        };
+        $file = tempnam(sys_get_temp_dir(), 'omeka-test-');
+        copy(__DIR__ . '/_files/multilingual.ttl', $file);
+        try {
+            $options = ['file' => $file, 'format' => 'turtle'];
+            // As a review reads its file for its changes, its terms only in
+            // Omeka, and its languages, in any reading.
+            $importer->getMembers('file', 'http://example.org/multi#', $options + ['lang' => 'fr']);
+            $importer->getLanguages('file', 'http://example.org/multi#', $options);
+            $importer->checkNamespaceUri('file', 'http://example.org/multi#', $options);
+            $this->assertSame(1, $importer->reads);
+            // Read another way, or changed, it's read again.
+            $importer->getMembers('file', 'http://example.org/multi#', ['format' => 'guess'] + $options);
+            $this->assertSame(2, $importer->reads);
+            touch($file, time() + 10);
+            $importer->getMembers('file', 'http://example.org/multi#', ['format' => 'guess'] + $options);
+            $this->assertSame(3, $importer->reads);
+        } finally {
+            unlink($file);
+        }
+    }
+
     public function memoryLimits()
     {
         return [

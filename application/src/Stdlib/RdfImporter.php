@@ -290,20 +290,6 @@ class RdfImporter
     }
 
     /**
-     * Suggest the namespace URI of a file's classes and properties, for when
-     * they don't use the one given.
-     *
-     * @see self::findNamespaceUri()
-     * @param RdfGraph $graph
-     * @param string $namespaceUri The namespace URI given
-     * @return string|null
-     */
-    public function suggestNamespaceUri(RdfGraph $graph, $namespaceUri)
-    {
-        return $this->findNamespaceUri($graph, $namespaceUri)[0];
-    }
-
-    /**
      * Get what a vocabulary file says of its vocabulary, for an import to
      * start from.
      *
@@ -796,7 +782,7 @@ class RdfImporter
     protected function getNoMembersException(RdfGraph $graph, $namespaceUri)
     {
         $exception = new ValidationException('No classes or properties found. Are you sure you used the correct namespace URI?'); // @translate
-        $suggestion = $this->suggestNamespaceUri($graph, $namespaceUri);
+        $suggestion = $this->findNamespaceUri($graph, $namespaceUri)[0];
         if (null !== $suggestion) {
             $exception->getErrorStore()->addError('o:namespace_uri', new Message(
                 'The file\'s classes and properties use the namespace URI "%s".', // @translate

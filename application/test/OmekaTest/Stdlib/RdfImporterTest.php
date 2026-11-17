@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Stdlib;
 
-use EasyRdf\Graph;
 use EasyRdf\Http;
 use EasyRdf\Http\Client as HttpClient;
 use EasyRdf\Http\Response;
@@ -835,10 +834,18 @@ class RdfImporterTest extends DbTestCase
     /**
      * @dataProvider namespaceSuggestions
      */
-    public function testSuggestNamespaceUri($turtle, $namespaceUri, $suggestion)
+    public function testRefusingAFileSuggestsTheNamespaceUriItsTermsUse($turtle, $namespaceUri, $suggestion)
     {
-        $graph = new Graph;
-        $graph->parse($turtle, 'turtle');
-        $this->assertSame($suggestion, $this->rdfImporter->suggestNamespaceUri($graph, $namespaceUri));
+        $file = tempnam(sys_get_temp_dir(), 'omeka-test-');
+        file_put_contents($file, $turtle);
+        try {
+            $this->rdfImporter->checkNamespaceUri('file', $namespaceUri, ['file' => $file, 'format' => 'turtle']);
+            $this->fail('A file without terms in the namespace was taken');
+        } catch (ValidationException $e) {
+            $messages = $e->getErrorStore()->getErrors()['o:namespace_uri'] ?? [];
+            $this->assertSame($suggestion, $messages ? (string) $messages[0]->getArgs()[0] : null);
+        } finally {
+            unlink($file);
+        }
     }
 }

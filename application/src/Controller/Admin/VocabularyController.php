@@ -11,7 +11,6 @@ use Omeka\Stdlib\NamespaceUri;
 use Omeka\Stdlib\VocabularyFileStore;
 use Omeka\Stdlib\VocabularyReview;
 use Laminas\Mvc\Controller\AbstractActionController;
-use Laminas\Session\Container;
 use Laminas\View\Model\ViewModel;
 
 class VocabularyController extends AbstractActionController
@@ -102,7 +101,6 @@ class VocabularyController extends AbstractActionController
         $form = $this->getForm(VocabularyForm::class, ['mode' => 'import_file']);
         $source = $this->getRequest()->isPost() ? $this->getPostedFileSource($form) : null;
         if ($source) {
-            $this->forgetEndedImports();
             $token = null;
             try {
                 $token = isset($source['file'])
@@ -195,7 +193,6 @@ class VocabularyController extends AbstractActionController
                     try {
                         $response = $this->rdfImporter->import('file', $data['vocabulary-info'], $options);
                         $this->fileStore->remove($token);
-                        $this->getImportSession()->offsetUnset($token . ':' . $format);
                         $message = new Message(
                             'Vocabulary successfully imported. %s', // @translate
                             sprintf(
@@ -618,8 +615,7 @@ class VocabularyController extends AbstractActionController
 
     /**
      * Get what a kept file says of its vocabulary, its title and description
-     * read in the installation's language where it has them; read once, and
-     * kept in the session for the import.
+     * read in the installation's language where it has them.
      *
      * @see RdfImporter::getVocabularyDetails()
      * @param string $token The file's token in the file store
@@ -628,43 +624,11 @@ class VocabularyController extends AbstractActionController
      */
     protected function getImportDetails($token, $format)
     {
-        // Read once an import, at its first step: the details step shows
-        // them, and posts back to itself.
-        $session = $this->getImportSession();
-        $key = $token . ':' . $format;
-        if (!isset($session[$key])) {
-            $session[$key] = $this->rdfImporter->getVocabularyDetails('file', [
-                'file' => $this->fileStore->getPath($token),
-                'format' => $format,
-                'lang' => strtok($this->getLocaleLanguage(), '-') ?: null,
-            ]);
-        }
-        return $session[$key];
-    }
-
-    /**
-     * Get the session container imports' details are kept in, by their
-     * file's token and format.
-     *
-     * @return Container
-     */
-    protected function getImportSession()
-    {
-        return new Container('OmekaVocabularyImport');
-    }
-
-    /**
-     * Forget the details of imports whose kept file has gone: cancelled,
-     * and cleared out after a day.
-     */
-    protected function forgetEndedImports()
-    {
-        $session = $this->getImportSession();
-        foreach (array_keys($session->getArrayCopy()) as $key) {
-            if (null === $this->fileStore->getPath(strtok($key, ':'))) {
-                $session->offsetUnset($key);
-            }
-        }
+        return $this->rdfImporter->getVocabularyDetails('file', [
+            'file' => $this->fileStore->getPath($token),
+            'format' => $format,
+            'lang' => strtok($this->getLocaleLanguage(), '-') ?: null,
+        ]);
     }
 
     /**

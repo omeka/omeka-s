@@ -356,6 +356,12 @@ class RdfImporterTest extends DbTestCase
         $this->assertSame('Une description.', $details['comment']);
     }
 
+    public function testVocabularyDetailsSkipAPrefixOmekaCannotUse()
+    {
+        // The ontology's prefix has a dot, so the namespace's is taken.
+        $this->assertSame('prefixes', $this->details('details-prefixes.ttl')['prefix']);
+    }
+
     public function testVocabularyDetailsOfAFileThatAlsoDeclaresAReusedVocabulary()
     {
         // Its own namespace, which has the most terms, though the other's

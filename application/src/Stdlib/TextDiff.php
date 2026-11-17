@@ -143,8 +143,9 @@ class TextDiff
                 $marked[] = [$word, !$matched];
             }
             if ($space !== '') {
-                // Unmatched space at a text's start (its word is empty) is a
-                // change of its own.
+                // The space after an unmatched word is a change where the next
+                // word is unmatched too, keeping a run of changes in one part,
+                // or where the word is empty, at a text's start.
                 $marked[] = [$space, $matched
                     ? $space !== $others[$match[$i]][1]
                     : $word === '' || (isset($units[$i + 1]) && !isset($match[$i + 1]))];

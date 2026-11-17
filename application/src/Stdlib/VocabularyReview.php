@@ -308,7 +308,7 @@ class VocabularyReview
      *
      * @param \Omeka\Api\Representation\VocabularyRepresentation $vocabulary
      * @param array $review
-     * @param array $importOptions
+     * @param array $given The import options given to start the review with
      * @return array
      */
     protected function getStartingImportOptions($vocabulary, array $review, array $given)

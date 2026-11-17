@@ -1,5 +1,7 @@
 <?php
 $translate = $this->plugin('translate');
+// In the delete confirmation, the counts say what deleting does.
+$deleting = !empty($this->deleting);
 ?>
 <h3><?php echo $this->escapeHtml($translate($resource->label())); ?></h3>
 <div class="o-description"><?php echo $this->escapeHtml($translate($resource->comment())); ?></div>
@@ -8,15 +10,15 @@ $translate = $this->plugin('translate');
     <div class="value"><?php echo $this->escapeHtml($resource->namespaceUri()); ?></div>
 </div>
 <div class="meta-group">
-    <h4><?php echo $translate('Values'); ?></h4>
+    <h4><?php echo $deleting ? $translate('Values deleted') : $translate('Values'); ?></h4>
     <div class="value"><?php echo $resource->valueCount(); ?></div>
 </div>
 <div class="meta-group">
-    <h4><?php echo $translate('Resource template properties'); ?></h4>
+    <h4><?php echo $deleting ? $translate('Resource template properties deleted') : $translate('Resource template properties'); ?></h4>
     <div class="value"><?php echo $resource->resourceTemplatePropertyCount(); ?></div>
 </div>
 <div class="meta-group">
-    <h4><?php echo $translate('Resources with its classes'); ?></h4>
+    <h4><?php echo $deleting ? $translate('Resources left without a class') : $translate('Resources with its classes'); ?></h4>
     <div class="value"><?php echo $resource->resourceCount(); ?></div>
 </div>
 <?php $this->trigger('view.details', ['entity' => $resource]); ?>

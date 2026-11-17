@@ -1162,13 +1162,17 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     public function testDetailsAndDeleteConfirmationSayHowMuchUsesIt()
     {
         // The details of any vocabulary, Omeka's own included, and the
-        // confirmation of deleting one, which shows its details.
+        // confirmation of deleting one, which says what deleting does.
         $dcterms = $this->api()->read('vocabularies', ['prefix' => 'dcterms'])->getContent();
-        foreach ([sprintf('/admin/vocabulary/%s/show-details', $dcterms->id()), sprintf('/admin/vocabulary/%s/delete-confirm', $this->vocabularyId)] as $path) {
+        $labels = [
+            sprintf('/admin/vocabulary/%s/show-details', $dcterms->id()) => ['Values', 'Resource template properties', 'Resources with its classes'],
+            sprintf('/admin/vocabulary/%s/delete-confirm', $this->vocabularyId) => ['Values deleted', 'Resource template properties deleted', 'Resources left without a class'],
+        ];
+        foreach ($labels as $path => $counts) {
             $status = $this->requestAs(self::ADMIN, 'GET', $path);
             $this->assertSame(200, $status, $path);
             $page = preg_replace('/\s+/', ' ', $this->getResponse()->getContent());
-            foreach (['Values', 'Resource template properties', 'Resources with its classes'] as $count) {
+            foreach ($counts as $count) {
                 $this->assertMatchesRegularExpression(sprintf('#<h4>%s</h4> <div class="value">\d+</div>#', $count), $page, $path);
             }
         }

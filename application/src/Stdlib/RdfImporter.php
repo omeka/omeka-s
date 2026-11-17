@@ -890,9 +890,9 @@ class RdfImporter
 
     /**
      * Get the prefix a file declares for its vocabulary
-     * (vann:preferredNamespacePrefix), such as "bibo", if it's a valid Omeka
-     * prefix. Only resources for this namespace are read, as a file may
-     * declare prefixes for vocabularies it reuses.
+     * (vann:preferredNamespacePrefix), such as "bibo": the first one Omeka can
+     * use. Only resources for this namespace are read, as a file may declare
+     * prefixes for vocabularies it reuses.
      *
      * @param RdfGraph $graph
      * @param string $namespaceUri
@@ -909,8 +909,8 @@ class RdfImporter
             } catch (\Throwable $e) {
                 continue;
             }
-            if ('' !== $prefix) {
-                return preg_match(Vocabulary::PREFIX_REGEX, $prefix) ? $prefix : null;
+            if ('' !== $prefix && preg_match(Vocabulary::PREFIX_REGEX, $prefix)) {
+                return $prefix;
             }
         }
         return null;

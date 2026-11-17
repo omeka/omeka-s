@@ -129,7 +129,7 @@ class VocabularyController extends AbstractActionController
     {
         $token = (string) $this->params()->fromQuery('file_token');
         $format = (string) $this->params()->fromQuery('format');
-        if (!in_array($format, ['guess', 'jsonld', 'ntriples', 'rdfxml', 'turtle'], true)) {
+        if (!isset(VocabularyForm::FORMATS[$format])) {
             $format = 'guess';
         }
         $path = $this->fileStore->getPath($token);
@@ -217,14 +217,8 @@ class VocabularyController extends AbstractActionController
      */
     public function editAction()
     {
-        $vocabulary = $this->api()->read('vocabularies', $this->params('id'))->getContent();
+        $vocabulary = $this->getVocabularyToUpdate();
         $form = $this->getForm(VocabularyForm::class, ['vocabulary' => $vocabulary]);
-        if ($vocabulary->isPermanent()) {
-            throw new Exception\PermissionDeniedException('Cannot edit a permanent vocabulary');
-        }
-        if (!$vocabulary->userIsAllowed('update')) {
-            throw new Exception\PermissionDeniedException('User does not have permission to edit this vocabulary');
-        }
         $form->setData([
             'vocabulary-info' => [
                 'o:label' => $vocabulary->label(),
@@ -636,19 +630,13 @@ class VocabularyController extends AbstractActionController
     {
         $locale = $this->getLocaleLanguage();
         $primary = strtok($locale, '-');
-        // For each language wanted: its exact tag (en-us), then the language
-        // alone (en), then the language in any region (en-GB).
-        foreach (array_unique([$primary, 'en']) as $wanted) {
-            $tags = $wanted === $primary ? array_unique([$locale, $primary]) : [$wanted];
-            foreach ($tags as $tag) {
-                foreach ($languages as $language) {
-                    if (strtolower($language) === $tag) {
-                        return $language;
-                    }
-                }
-            }
+        // In order: the installation's exact tag (en-us), its language alone
+        // (en), its language in any region (en-GB), then English the same
+        // way. A wanted tag ending in "-" matches any region.
+        foreach (array_unique([$locale, $primary, $primary . '-', 'en', 'en-']) as $wanted) {
             foreach ($languages as $language) {
-                if (0 === strpos(strtolower($language), $wanted . '-')) {
+                $tag = strtolower($language);
+                if ($tag === $wanted || ('-' === substr($wanted, -1) && 0 === strpos($tag, $wanted))) {
                     return $language;
                 }
             }

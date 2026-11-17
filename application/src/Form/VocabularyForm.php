@@ -6,6 +6,20 @@ use Omeka\Entity\Vocabulary;
 
 class VocabularyForm extends Form
 {
+    /**
+     * The formats a vocabulary file can be read in, with their labels, as
+     * the File format field offers them.
+     */
+    const FORMATS = [
+        'guess' => '[Autodetect]', // @translate
+        'jsonld' => 'JSON-LD (.jsonld)', // @translate
+        'ntriples' => 'N-Triples (.nt)', // @translate
+        'rdfxml' => 'RDF/XML (.rdf)', // @translate
+        // One option: EasyRdf reads Notation3 as Turtle, and two options of
+        // one value would both show as chosen.
+        'turtle' => 'Turtle or Notation3 (.ttl, .n3)', // @translate
+    ];
+
     protected $translator;
 
     /**
@@ -245,15 +259,7 @@ class VocabularyForm extends Form
             'type' => 'Select',
             'options' => [
                 'label' => 'File format', // @translate
-                'value_options' => [
-                    'guess' => '[Autodetect]', // @translate
-                    'jsonld' => 'JSON-LD (.jsonld)', // @translate
-                    'ntriples' => 'N-Triples (.nt)', // @translate
-                    'rdfxml' => 'RDF/XML (.rdf)', // @translate
-                    // One option: EasyRdf reads Notation3 as Turtle, and two
-                    // options of one value would both show as chosen.
-                    'turtle' => 'Turtle or Notation3 (.ttl, .n3)', // @translate
-                ],
+                'value_options' => self::FORMATS,
             ],
             'attributes' => [
                 'id' => 'format',

@@ -219,8 +219,10 @@ class RdfImporter
                 // and a large file's graph can take most of the memory limit.
                 // An EasyRdf graph refers to itself, so it's freed only when
                 // cycles are collected.
-                $this->lastFileGraph = null;
-                gc_collect_cycles();
+                if ($this->lastFileGraph) {
+                    $this->lastFileGraph = null;
+                    gc_collect_cycles();
+                }
                 $graph = $this->readGraph(function (RdfGraph $graph, $format) use ($file, $namespaceUri) {
                     $graph->parseFile($file, $format, $namespaceUri);
                 }, $format, 'Could not parse vocabulary file.'); // @translate
@@ -422,9 +424,7 @@ class RdfImporter
         }
 
         // Get classes and properties from the database.
-        $stored = $vocabulary
-            ? $this->getStoredMembers(['vocabulary_id' => $vocabulary->id()])
-            : ['classes' => [], 'properties' => []];
+        $stored = $this->getStoredMembers($vocabulary);
 
         // Get classes and properties from the RDF graph.
         $options = $this->addDefaultImportOptions($options);
@@ -464,10 +464,7 @@ class RdfImporter
      */
     public function getMembersNotInFile($strategy, $namespaceUri, array $options = [])
     {
-        $vocabulary = $this->getStoredVocabulary($namespaceUri, $options);
-        $stored = $vocabulary
-            ? $this->getStoredMembers(['vocabulary_id' => $vocabulary->id()])
-            : ['classes' => [], 'properties' => []];
+        $stored = $this->getStoredMembers($this->getStoredVocabulary($namespaceUri, $options));
         $members = $this->getMembers($strategy, $namespaceUri, $options);
         $notInFile = ['classes' => [], 'properties' => []];
         foreach (['classes', 'properties'] as $type) {
@@ -510,10 +507,7 @@ class RdfImporter
     {
         $labelProperty = $options['label_property'] ?? self::LABEL_PROPERTY;
         $graph = $this->getGraph($strategy, $namespaceUri, $options);
-        $vocabulary = $this->getStoredVocabulary($namespaceUri, $options);
-        $stored = $vocabulary
-            ? $this->getStoredMembers(['vocabulary_id' => $vocabulary->id()])
-            : ['classes' => [], 'properties' => []];
+        $stored = $this->getStoredMembers($this->getStoredVocabulary($namespaceUri, $options));
         $languages = $this->getGraphLanguages($graph, $namespaceUri, $labelProperty);
 
         // Ties go to the default language; none ("First available") wins only
@@ -616,16 +610,20 @@ class RdfImporter
     }
 
     /**
-     * Get the classes and properties of a vocabulary in Omeka.
+     * Get the classes and properties of a vocabulary in Omeka, none without
+     * a vocabulary.
      *
-     * @param array $query A query for the API, by vocabulary
+     * @param \Omeka\Api\Representation\VocabularyRepresentation|null $vocabulary
      * @return array
      */
-    protected function getStoredMembers(array $query)
+    protected function getStoredMembers($vocabulary)
     {
         $stored = ['classes' => [], 'properties' => []];
+        if (!$vocabulary) {
+            return $stored;
+        }
         foreach (['classes' => 'resource_classes', 'properties' => 'properties'] as $type => $resource) {
-            foreach ($this->apiManager->search($resource, $query)->getContent() as $term) {
+            foreach ($this->apiManager->search($resource, ['vocabulary_id' => $vocabulary->id()])->getContent() as $term) {
                 $stored[$type][$term->localName()] = [
                     'label' => $term->label(),
                     'comment' => $term->comment(),

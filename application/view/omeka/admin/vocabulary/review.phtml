@@ -36,25 +36,16 @@ $value = function ($value) use ($none, $escape) {
     }
     return sprintf('<span class="review-value">%s</span>', $escape($value));
 };
-// What differs is struck out or underlined, not only colored, and a line
-// break gets a sign.
-$marked = function (array $parts, $tag) use ($escape) {
-    $html = '';
-    foreach ($parts as [$text, $differs]) {
-        $text = $escape($text);
-        $html .= $differs
-            ? sprintf('<%1$s>%2$s</%1$s>', $tag, str_replace("\n", '<span class="review-line-break" aria-hidden="true">↵</span>' . "\n", $text))
-            : $text;
-    }
-    return sprintf('<span class="review-value">%s</span>', $html);
-};
-$fromTo = function ($from, $to) use ($value, $marked) {
+// A changed value, with what differs from the other value marked.
+$textDiff = $this->plugin('textDiff');
+$fromTo = function ($from, $to) use ($value, $textDiff) {
     [$from, $to] = [(string) $from, (string) $to];
     if ('' === $from || '' === $to) {
         return [$value($from), $value($to)];
     }
-    [$fromParts, $toParts] = \Omeka\Stdlib\TextDiff::words($from, $to);
-    return [$marked($fromParts, 'del'), $marked($toParts, 'ins')];
+    return array_map(function ($html) {
+        return sprintf('<span class="review-value">%s</span>', $html);
+    }, $textDiff($from, $to));
 };
 $byTerm = function ($a, $b) {
     return strnatcasecmp((string) $a, (string) $b);

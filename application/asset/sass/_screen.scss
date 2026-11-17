@@ -3684,8 +3684,9 @@ input[type=text].query-form-query {
     text-decoration: underline;
 }
 
-/* The sign for a line break added or removed. */
-.vocabularies.review .review-line-break {
+/* The sign the textDiff view helper gives a line break added or removed,
+   wherever it's used. */
+.text-diff-line-break {
     font-family: sans-serif;
 }
 

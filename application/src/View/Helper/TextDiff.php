@@ -1,11 +1,13 @@
 <?php
-namespace Omeka\Stdlib;
+namespace Omeka\View\Helper;
+
+use Laminas\View\Helper\AbstractHelper;
 
 /**
- * What differs between two texts, word by word, for the vocabulary review
- * page.
+ * View helper for marking what differs between two texts, word by word, such
+ * as a label or comment and its new version.
  */
-class TextDiff
+class TextDiff extends AbstractHelper
 {
     /**
      * The most words matched one by one in each text's middle, the part
@@ -13,6 +15,22 @@ class TextDiff
      * marked changed as a whole, so long texts can't hold up the page.
      */
     const MAX_WORDS = 600;
+
+    /**
+     * Mark what differs between two texts as HTML: struck out in the first
+     * (del), underlined in the second (ins), so it shows without color. The
+     * texts are escaped, and a changed line break, which wouldn't otherwise
+     * show, gets a sign.
+     *
+     * @param string $from
+     * @param string $to
+     * @return string[] [the first text's HTML, the second's]
+     */
+    public function __invoke($from, $to)
+    {
+        [$fromParts, $toParts] = $this->words($from, $to);
+        return [$this->mark($fromParts, 'del'), $this->mark($toParts, 'ins')];
+    }
 
     /**
      * Two texts, each as the parts it shares with the other and the parts it
@@ -24,10 +42,10 @@ class TextDiff
      * @return array [parts of $from, parts of $to], each part [text, whether
      *   it differs]; a text's parts, joined, are the text
      */
-    public static function words($from, $to)
+    public function words($from, $to)
     {
-        [$a, $b, $matchA, $matchB] = self::aligned($from, $to);
-        return [self::parts($a, $b, $matchA), self::parts($b, $a, $matchB)];
+        [$a, $b, $matchA, $matchB] = $this->aligned($from, $to);
+        return [$this->parts($a, $b, $matchA), $this->parts($b, $a, $matchB)];
     }
 
     /**
@@ -37,10 +55,10 @@ class TextDiff
      * @return array [units of $from, units of $to, indexes of $to's words by
      *   the indexes of $from's they match, and the reverse]
      */
-    protected static function aligned($from, $to)
+    protected function aligned($from, $to)
     {
-        $a = self::units($from);
-        $b = self::units($to);
+        $a = $this->units($from);
+        $b = $this->units($to);
         $wordsA = array_column($a, 0);
         $wordsB = array_column($b, 0);
         // What the texts share at their start and end needn't be matched.
@@ -58,7 +76,7 @@ class TextDiff
         $lengthB = count($b) - $start - $end;
         $pairs = $lengthA > self::MAX_WORDS || $lengthB > self::MAX_WORDS
             ? []
-            : self::shared(array_slice($wordsA, $start, $lengthA), array_slice($wordsB, $start, $lengthB));
+            : $this->shared(array_slice($wordsA, $start, $lengthA), array_slice($wordsB, $start, $lengthB));
         // Each text's words by the word of the other they match.
         $matchA = [];
         for ($i = 0; $i < $start; $i++) {
@@ -79,7 +97,7 @@ class TextDiff
      *
      * @return array [[word, space], …]
      */
-    protected static function units($text)
+    protected function units($text)
     {
         $text = (string) $text;
         if (!preg_match_all('/(\S*)(\s*)/u', $text, $matches, PREG_SET_ORDER)) {
@@ -100,7 +118,7 @@ class TextDiff
      *
      * @return array Indexes of $b by the indexes of $a they match
      */
-    protected static function shared(array $a, array $b)
+    protected function shared(array $a, array $b)
     {
         $n = count($a);
         $m = count($b);
@@ -134,7 +152,7 @@ class TextDiff
      * A text's parts, given which of the other's words its own match. A run
      * of changed words, with the space between them, is one part.
      */
-    protected static function parts(array $units, array $others, array $match)
+    protected function parts(array $units, array $others, array $match)
     {
         $marked = [];
         foreach ($units as $i => [$word, $space]) {
@@ -151,13 +169,13 @@ class TextDiff
                     : $word === '' || (isset($units[$i + 1]) && !isset($match[$i + 1]))];
             }
         }
-        return self::joined($marked);
+        return $this->joined($marked);
     }
 
     /**
      * Parts with neighbors of the same kind joined.
      */
-    protected static function joined(array $marked)
+    protected function joined(array $marked)
     {
         $parts = [];
         foreach ($marked as [$text, $kind]) {
@@ -169,5 +187,25 @@ class TextDiff
             }
         }
         return $parts;
+    }
+
+    /**
+     * A text's parts as HTML, escaped, with those that differ in a tag.
+     *
+     * @param array $parts As words() gives them
+     * @param string $tag "del" or "ins"
+     * @return string
+     */
+    protected function mark(array $parts, $tag)
+    {
+        $escape = $this->getView()->plugin('escapeHtml');
+        $html = '';
+        foreach ($parts as [$text, $differs]) {
+            $text = $escape($text);
+            $html .= $differs
+                ? sprintf('<%1$s>%2$s</%1$s>', $tag, str_replace("\n", '<span class="text-diff-line-break" aria-hidden="true">↵</span>' . "\n", $text))
+                : $text;
+        }
+        return $html;
     }
 }

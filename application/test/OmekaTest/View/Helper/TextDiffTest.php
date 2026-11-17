@@ -1,7 +1,8 @@
 <?php
-namespace OmekaTest\Stdlib;
+namespace OmekaTest\View\Helper;
 
-use Omeka\Stdlib\TextDiff;
+use Laminas\View\Renderer\PhpRenderer;
+use Omeka\View\Helper\TextDiff;
 use Omeka\Test\TestCase;
 
 class TextDiffTest extends TestCase
@@ -15,7 +16,7 @@ class TextDiffTest extends TestCase
             return implode('', array_map(function ($part) {
                 return $part[1] ? '[' . $part[0] . ']' : $part[0];
             }, $parts));
-        }, TextDiff::words($from, $to));
+        }, (new TextDiff)->words($from, $to));
     }
 
     /**
@@ -61,7 +62,7 @@ class TextDiffTest extends TestCase
     public function testAPartsTextIsTheTextWhateverDiffers()
     {
         foreach ([['', ''], ['', 'new'], ['old', ''], ["  a\tb \n", "a b"], ["Caf\xe9 au lait", 'Café au lait']] as [$from, $to]) {
-            [$fromParts, $toParts] = TextDiff::words($from, $to);
+            [$fromParts, $toParts] = (new TextDiff)->words($from, $to);
             $this->assertSame($from, implode('', array_column($fromParts, 0)));
             $this->assertSame($to, implode('', array_column($toParts, 0)));
         }
@@ -83,7 +84,18 @@ class TextDiffTest extends TestCase
     {
         $words = range(1, TextDiff::MAX_WORDS - 1);
         $start = microtime(true);
-        TextDiff::words(implode(' ', $words), implode(' ', array_reverse($words)));
+        (new TextDiff)->words(implode(' ', $words), implode(' ', array_reverse($words)));
         $this->assertLessThan(2, microtime(true) - $start);
+    }
+
+    public function testMarksWhatDiffersAsHtml()
+    {
+        $textDiff = new TextDiff;
+        $textDiff->setView(new PhpRenderer);
+        // Escaped, with a line break within a change given a sign.
+        $this->assertSame([
+            'a <del>&lt;b&gt;</del> c',
+            "a <ins>d<span class=\"text-diff-line-break\" aria-hidden=\"true\">↵</span>\ne</ins> c",
+        ], $textDiff('a <b> c', "a d\ne c"));
     }
 }

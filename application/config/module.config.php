@@ -423,6 +423,7 @@ return [
     'view_helpers' => [
         'invokables' => [
             'pageTitle' => View\Helper\PageTitle::class,
+            'textDiff' => View\Helper\TextDiff::class,
             'htmlElement' => View\Helper\HtmlElement::class,
             'hyperlink' => View\Helper\Hyperlink::class,
             'messages' => View\Helper\Messages::class,

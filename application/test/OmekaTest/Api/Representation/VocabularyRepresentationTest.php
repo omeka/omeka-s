@@ -37,12 +37,14 @@ class VocabularyRepresentationTest extends DbTestCase
             'o:prefix' => 'used',
             'o:label' => 'Used',
             'o:class' => [['o:local_name' => 'Thing', 'o:label' => 'Thing']],
-            'o:property' => [['o:local_name' => 'name', 'o:label' => 'Name']],
+            'o:property' => [['o:local_name' => 'name', 'o:label' => 'Name'], ['o:local_name' => 'title', 'o:label' => 'Title']],
         ])->getContent();
         $this->assertSame([0, 0, 0], $this->counts($vocabulary->id()));
 
         $classId = $vocabulary->resourceClasses()[0]->id();
-        $propertyId = $vocabulary->properties()[0]->id();
+        [$propertyId, $otherPropertyId] = array_map(function ($property) {
+            return $property->id();
+        }, $vocabulary->properties());
         $value = ['type' => 'literal', 'property_id' => $propertyId, '@value' => 'A name'];
         $this->api->create('items', [
             'o:resource_class' => ['o:id' => $classId],
@@ -53,15 +55,16 @@ class VocabularyRepresentationTest extends DbTestCase
         ]);
         $this->api->create('resource_templates', [
             'o:label' => 'Used',
-            'o:resource_template_property' => [['o:property' => ['o:id' => $propertyId]]],
+            'o:resource_template_property' => [['o:property' => ['o:id' => $propertyId]], ['o:property' => ['o:id' => $otherPropertyId]]],
         ]);
-        // Two values, one template property, and an item and an item set.
+        // Two values, one template (using two of its properties), and an
+        // item and an item set.
         $this->assertSame([2, 1, 2], $this->counts($vocabulary->id()));
     }
 
     /**
-     * A vocabulary's values, resource template properties, and resources
-     * with its classes.
+     * The numbers of values and resource templates using a vocabulary's
+     * properties, and of resources using its classes.
      *
      * @param int $vocabularyId
      * @return int[]
@@ -69,6 +72,6 @@ class VocabularyRepresentationTest extends DbTestCase
     protected function counts($vocabularyId)
     {
         $vocabulary = $this->api->read('vocabularies', $vocabularyId)->getContent();
-        return [$vocabulary->valueCount(), $vocabulary->resourceTemplatePropertyCount(), $vocabulary->resourceWithClassCount()];
+        return [$vocabulary->valueCount(), $vocabulary->resourceTemplateCount(), $vocabulary->resourceWithClassCount()];
     }
 }

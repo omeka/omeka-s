@@ -10,15 +10,15 @@ $deleting = !empty($this->deleting);
     <div class="value"><?php echo $this->escapeHtml($resource->namespaceUri()); ?></div>
 </div>
 <div class="meta-group">
-    <h4><?php echo $deleting ? $translate('Values deleted') : $translate('Values'); ?></h4>
+    <h4><?php echo $deleting ? $translate('Values deleted') : $translate('Values using its properties'); ?></h4>
     <div class="value"><?php echo $resource->valueCount(); ?></div>
 </div>
 <div class="meta-group">
-    <h4><?php echo $deleting ? $translate('Resource template properties deleted') : $translate('Resource template properties'); ?></h4>
-    <div class="value"><?php echo $resource->resourceTemplatePropertyCount(); ?></div>
+    <h4><?php echo $deleting ? $translate('Resource templates that lose properties') : $translate('Resource templates using its properties'); ?></h4>
+    <div class="value"><?php echo $resource->resourceTemplateCount(); ?></div>
 </div>
 <div class="meta-group">
-    <h4><?php echo $deleting ? $translate('Resources left without a class') : $translate('Resources with its classes'); ?></h4>
+    <h4><?php echo $deleting ? $translate('Resources left without a class') : $translate('Resources using its classes'); ?></h4>
     <div class="value"><?php echo $resource->resourceWithClassCount(); ?></div>
 </div>
 <?php $this->trigger('view.details', ['entity' => $resource]); ?>

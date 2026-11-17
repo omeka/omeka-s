@@ -44,15 +44,15 @@ $this->htmlElement('body')->appendAttribute('class', 'vocabularies show');
 </div>
 <?php // How much uses it, as in the Details sidebar on the list. ?>
 <div class="property">
-    <dt><?php echo $translate('Values'); ?></dt>
+    <dt><?php echo $translate('Values using its properties'); ?></dt>
     <dd class="value"><?php echo $vocabulary->valueCount(); ?></dd>
 </div>
 <div class="property">
-    <dt><?php echo $translate('Resource template properties'); ?></dt>
-    <dd class="value"><?php echo $vocabulary->resourceTemplatePropertyCount(); ?></dd>
+    <dt><?php echo $translate('Resource templates using its properties'); ?></dt>
+    <dd class="value"><?php echo $vocabulary->resourceTemplateCount(); ?></dd>
 </div>
 <div class="property">
-    <dt><?php echo $translate('Resources with its classes'); ?></dt>
+    <dt><?php echo $translate('Resources using its classes'); ?></dt>
     <dd class="value"><?php echo $vocabulary->resourceWithClassCount(); ?></dd>
 </div>
 </dl>

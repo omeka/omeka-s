@@ -375,7 +375,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $text = preg_replace('/\s+/', ' ', strip_tags($page));
         $this->assertStringContainsString('Prefix review Namespace URI http://example.org/review# Classes 1 Properties 1', $text);
         // How much uses it, as in the Details sidebar.
-        $this->assertStringContainsString('Properties 1 Values 0 Resource template properties 0 Resources with its classes 0', $text);
+        $this->assertStringContainsString('Properties 1 Values using its properties 0 Resource templates using its properties 0 Resources using its classes 0', $text);
         // The pages that change it, for one the user may change.
         $this->assertStringContainsString(sprintf('<a class="button" href="/admin/vocabulary/%s/update">Update classes and properties</a>', $this->vocabularyId), $page);
         $this->assertStringContainsString(sprintf('<a class="button" href="/admin/vocabulary/%s/edit">Edit vocabulary</a>', $this->vocabularyId), $page);
@@ -1163,7 +1163,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString(sprintf('<a class="delete button sidebar-content" data-sidebar-selector="#delete" data-sidebar-content-url="/admin/vocabulary/%s/delete-confirm" href="#">Delete</a>', $this->vocabularyId), $page);
         $this->assertStringContainsString('<div id="delete" class="sidebar">', $page);
         // Its counts aren't taken with the page.
-        $this->assertStringNotContainsString('<h4>Values</h4>', $page);
+        $this->assertStringNotContainsString('<h4>Values deleted</h4>', $page);
     }
 
     public function testDetailsAndDeleteConfirmationSayHowMuchUsesIt()
@@ -1172,8 +1172,8 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         // confirmation of deleting one, which says what deleting does.
         $dcterms = $this->api()->read('vocabularies', ['prefix' => 'dcterms'])->getContent();
         $labels = [
-            sprintf('/admin/vocabulary/%s/show-details', $dcterms->id()) => ['Values', 'Resource template properties', 'Resources with its classes'],
-            sprintf('/admin/vocabulary/%s/delete-confirm', $this->vocabularyId) => ['Values deleted', 'Resource template properties deleted', 'Resources left without a class'],
+            sprintf('/admin/vocabulary/%s/show-details', $dcterms->id()) => ['Values using its properties', 'Resource templates using its properties', 'Resources using its classes'],
+            sprintf('/admin/vocabulary/%s/delete-confirm', $this->vocabularyId) => ['Values deleted', 'Resource templates that lose properties', 'Resources left without a class'],
         ];
         foreach ($labels as $path => $counts) {
             $status = $this->requestAs(self::ADMIN, 'GET', $path);

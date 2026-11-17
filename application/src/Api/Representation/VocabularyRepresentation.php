@@ -161,13 +161,14 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     }
 
     /**
-     * Get the number of resource template properties of this vocabulary.
+     * Get the number of resource templates that use any of this vocabulary's
+     * properties.
      *
      * @return int
      */
-    public function resourceTemplatePropertyCount()
+    public function resourceTemplateCount()
     {
-        return $this->countByTerm('Omeka\Entity\ResourceTemplateProperty', 'property');
+        return $this->countByTerm('Omeka\Entity\ResourceTemplateProperty', 'property', 'DISTINCT e.resourceTemplate');
     }
 
     /**
@@ -186,12 +187,14 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      * @param string $entityClass
      * @param string $termField The entity's field that holds its term:
      *   "property" or "resourceClass"
+     * @param string $counted What to count, the entities by default, or
+     *   another of their fields, such as "DISTINCT e.resourceTemplate"
      * @return int
      */
-    protected function countByTerm($entityClass, $termField)
+    protected function countByTerm($entityClass, $termField, $counted = 'e.id')
     {
         return (int) $this->getServiceLocator()->get('Omeka\EntityManager')
-            ->createQuery(sprintf('SELECT COUNT(e.id) FROM %s e JOIN e.%s t WHERE t.vocabulary = :vocabulary', $entityClass, $termField))
+            ->createQuery(sprintf('SELECT COUNT(%s) FROM %s e JOIN e.%s t WHERE t.vocabulary = :vocabulary', $counted, $entityClass, $termField))
             ->setParameter('vocabulary', $this->id())
             ->getSingleScalarResult();
     }

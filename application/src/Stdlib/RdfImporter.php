@@ -838,6 +838,28 @@ class RdfImporter
     }
 
     /**
+     * Get the namespace URI a refused file's classes and properties do use,
+     * where the refusal is one getNoMembersException() made and names it,
+     * as from checkHasMembers().
+     *
+     * @param \Exception $e
+     * @return string|null
+     */
+    public function getFileNamespaceUri(\Exception $e)
+    {
+        if (!$e instanceof ValidationException) {
+            return null;
+        }
+        // The one argument of its o:namespace_uri message.
+        foreach ($e->getErrorStore()->getErrors()['o:namespace_uri'] ?? [] as $message) {
+            if ($message instanceof Message && $message->hasArgs()) {
+                return (string) $message->getArgs()[0];
+            }
+        }
+        return null;
+    }
+
+    /**
      * Count the classes and properties a graph has in a namespace, each once.
      *
      * @param RdfGraph $graph

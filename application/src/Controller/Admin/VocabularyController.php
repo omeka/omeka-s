@@ -302,7 +302,7 @@ class VocabularyController extends AbstractActionController
                     : $this->vocabularyReview->startFromUrl($vocabulary->id(), $source['url'], $importOptions);
                 return $this->redirect()->toUrl($reviewUrl);
             } catch (\Exception $e) {
-                $namespaceUri = $this->getFileNamespaceUri($e);
+                $namespaceUri = $this->rdfImporter->getFileNamespaceUri($e);
                 if (null === $namespaceUri) {
                     $this->messenger()->addErrors($this->getErrors($e));
                 } else {
@@ -690,28 +690,6 @@ class VocabularyController extends AbstractActionController
         foreach ($vocabularies as $vocabulary) {
             if ($vocabulary->namespaceUri() !== $namespaceUri && $vocabulary->id() !== $except->id()) {
                 return $vocabulary;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Where the importer refused a file for having no terms in the
-     * namespace, get the namespace URI its terms do use: the one argument of
-     * its o:namespace_uri message.
-     *
-     * @see RdfImporter::checkHasMembers()
-     * @param \Exception $e
-     * @return string|null
-     */
-    protected function getFileNamespaceUri(\Exception $e)
-    {
-        if (!$e instanceof ValidationException) {
-            return null;
-        }
-        foreach ($e->getErrorStore()->getErrors()['o:namespace_uri'] ?? [] as $message) {
-            if ($message instanceof Message && $message->hasArgs()) {
-                return (string) $message->getArgs()[0];
             }
         }
         return null;

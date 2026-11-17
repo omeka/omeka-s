@@ -811,7 +811,11 @@ class RdfImporterTest extends DbTestCase
                 'The file\'s classes and properties use the namespace URI "http://example.org/moved#".',
                 (string) $e->getErrorStore()->getErrors()['o:namespace_uri'][0]
             );
+            // As read back for the update page.
+            $this->assertSame('http://example.org/moved#', $this->rdfImporter->getFileNamespaceUri($e));
         }
+        // Any other refusal names none.
+        $this->assertNull($this->rdfImporter->getFileNamespaceUri(new ValidationException('Another refusal')));
     }
 
     public function namespaceSuggestions()

@@ -854,7 +854,8 @@ class VocabularyController extends AbstractActionController
 
     /**
      * Get the messages of an exception, with those in its error store, where
-     * the importer names the terms at fault.
+     * the importer names the terms at fault; or, where it has neither, that
+     * something went wrong, so the admin isn't left with nothing said.
      *
      * @param \Exception $e
      * @return array
@@ -863,9 +864,9 @@ class VocabularyController extends AbstractActionController
     {
         // An API refusal has no message of its own, only its reasons.
         $errors = '' === (string) $e->getMessage() ? [] : [$e->getMessage()];
-        if (method_exists($e, 'getErrorStore')) {
+        if (method_exists($e, 'getErrorStore') && $e->getErrorStore()->getErrors()) {
             $errors[] = $e->getErrorStore()->getErrors();
         }
-        return $errors;
+        return $errors ?: ['Something went wrong']; // @translate
     }
 }

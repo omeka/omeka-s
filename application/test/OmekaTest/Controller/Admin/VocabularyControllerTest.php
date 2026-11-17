@@ -1023,6 +1023,20 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame(['This import has ended. Choose the file again.'], $this->messages(Messenger::ERROR));
     }
 
+    public function testAnErrorWithNothingToSayStillSaysSomething()
+    {
+        $controller = $this->getApplicationServiceLocator()->get('ControllerManager')->get('Omeka\Controller\Admin\Vocabulary');
+        $getErrors = new \ReflectionMethod($controller, 'getErrors');
+        $getErrors->setAccessible(true);
+        $this->assertSame(['Something went wrong'], $getErrors->invoke($controller, new \Exception));
+        $this->assertSame(['Something went wrong'], $getErrors->invoke($controller, new \Omeka\Api\Exception\ValidationException));
+        // A message, or reasons, are said instead.
+        $this->assertSame(['Could not read vocabulary file.'], $getErrors->invoke($controller, new \Exception('Could not read vocabulary file.')));
+        $refusal = new \Omeka\Api\Exception\ValidationException;
+        $refusal->getErrorStore()->addError('o:prefix', 'The prefix cannot be empty.');
+        $this->assertSame([['o:prefix' => ['The prefix cannot be empty.']]], $getErrors->invoke($controller, $refusal));
+    }
+
     public function testEditRefusedForAnothersVocabulary()
     {
         $status = $this->requestAs(self::SUPERVISOR, 'GET', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId));

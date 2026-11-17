@@ -580,7 +580,7 @@ class RdfImporterTest extends DbTestCase
     public function testGetMissingTerms()
     {
         $vocabularyId = $this->storeComparedVocabulary();
-        $missing = $this->rdfImporter->getMissingTerms($vocabularyId, 'file', [
+        $missing = $this->rdfImporter->getMissingTerms($vocabularyId, 'file', 'http://example.org/compare#', [
             'file' => __DIR__ . '/_files/compare.ttl',
             'format' => 'turtle',
         ]);
@@ -593,10 +593,9 @@ class RdfImporterTest extends DbTestCase
     public function testGetMissingTermsReadingInAnotherNamespace()
     {
         $vocabularyId = $this->storeComparedVocabulary();
-        $missing = $this->rdfImporter->getMissingTerms($vocabularyId, 'file', [
+        $missing = $this->rdfImporter->getMissingTerms($vocabularyId, 'file', 'http://example.org/moved#', [
             'file' => __DIR__ . '/_files/compare-moved.ttl',
             'format' => 'turtle',
-            'namespace_uri' => 'http://example.org/moved#',
         ]);
         // The file has only name and title, in its own namespace.
         $this->assertSame([

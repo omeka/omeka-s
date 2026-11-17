@@ -448,14 +448,12 @@ class RdfImporter
      *
      * @param int $vocabularyId
      * @param string $strategy
-     * @param array $options As for getMembers(), and namespace_uri:
-     *   (optional) the namespace URI to read the file with
+     * @param string $namespaceUri The namespace URI to read the file with
+     * @param array $options As for getMembers()
      * @return array Labels by local name, under classes and properties
      */
-    public function getMissingTerms($vocabularyId, $strategy, array $options = [])
+    public function getMissingTerms($vocabularyId, $strategy, $namespaceUri, array $options = [])
     {
-        $namespaceUri = $options['namespace_uri']
-            ?? $this->apiManager->read('vocabularies', $vocabularyId)->getContent()->namespaceUri();
         $stored = $this->getStoredMembers(['vocabulary_id' => (int) $vocabularyId]);
         $members = $this->getMembers($strategy, $namespaceUri, $options);
         $missing = ['classes' => [], 'properties' => []];

@@ -166,9 +166,8 @@ class VocabularyReview
      */
     public function getMissingTerms(array $review, array $reading)
     {
-        return $this->rdfImporter->getMissingTerms($review['vocabulary_id'], 'file', [
+        return $this->rdfImporter->getMissingTerms($review['vocabulary_id'], 'file', $this->getNamespaceUri($review), [
             'file' => $review['file'],
-            'namespace_uri' => $this->getNamespaceUri($review),
         ] + $reading);
     }
 

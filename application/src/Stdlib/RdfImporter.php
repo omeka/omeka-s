@@ -939,7 +939,8 @@ class RdfImporter
      *
      * Attempts to get the label of the passed language. If one does not exist
      * it defaults to the first available label, if any. Blank labels are
-     * skipped.
+     * skipped. A label is trimmed, as the API trims one, so it's checked
+     * and stored the same whether a term is imported or updated.
      *
      * @param RdfResource $resource
      * @param string $labelProperty
@@ -949,7 +950,8 @@ class RdfImporter
      */
     protected function getLabel(RdfResource $resource, $labelProperty, $lang, $default)
     {
-        return $this->getText($resource, $labelProperty, $lang) ?? $default;
+        $label = $this->getText($resource, $labelProperty, $lang);
+        return null === $label ? $default : trim($label);
     }
 
     /**

@@ -272,6 +272,23 @@ class RdfImporterTest extends DbTestCase
         $this->assertSame(2, $api->search('properties', ['vocabulary_id' => $vocabularyId])->getTotalResults());
     }
 
+    public function testLabelsAreTrimmedAsTheApiTrimsThem()
+    {
+        $members = $this->members('padded-labels.ttl', 'http://example.org/padded#', ['format' => 'turtle']);
+        $this->assertSame('Padded', $members['classes']['Thing']['label']);
+        $this->assertSame(str_repeat('x', 255), $members['properties']['full']['label']);
+        // At the limit once trimmed, so imported rather than refused.
+        $vocabulary = $this->rdfImporter->import('file', [
+            'o:namespace_uri' => 'http://example.org/padded#',
+            'o:prefix' => 'padded',
+            'o:label' => 'Padded',
+        ], [
+            'file' => __DIR__ . '/_files/padded-labels.ttl',
+            'format' => 'turtle',
+        ])->getContent();
+        $this->assertSame(1, $vocabulary->propertyCount());
+    }
+
     public function memoryLimits()
     {
         return [

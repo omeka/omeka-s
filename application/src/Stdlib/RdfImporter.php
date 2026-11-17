@@ -424,69 +424,39 @@ class RdfImporter
 
         $em = $this->entityManager;
         $vocabulary = $em->find('Omeka\Entity\Vocabulary', $vocabId);
-        $classRepo = $em->getRepository('Omeka\Entity\ResourceClass');
-        $propertyRepo = $em->getRepository('Omeka\Entity\Property');
-
-        foreach ($diff['properties']['new'] as $localName => $info) {
-            if ($propertyRepo->findOneBy(['vocabulary' => $vocabulary, 'localName' => $localName])) {
-                continue;
+        foreach (['properties' => Property::class, 'classes' => ResourceClass::class] as $type => $entityClass) {
+            $changes = $diff[$type];
+            // The terms the diff names that the vocabulary has, by local
+            // name, found at once.
+            $terms = [];
+            $localNames = array_map('strval', array_keys($changes['new'] + $changes['label'] + $changes['comment']));
+            if ($localNames) {
+                foreach ($em->getRepository($entityClass)->findBy(['vocabulary' => $vocabulary, 'localName' => $localNames]) as $term) {
+                    $terms[$term->getLocalName()] = $term;
+                }
             }
-            $property = new Property;
-            $property->setVocabulary($vocabulary);
-            $property->setLocalName($localName);
-            $property->setLabel($info[0]);
-            $property->setComment($info[1]);
-            $em->persist($property);
-        }
-        foreach ($diff['properties']['label'] as $localName => $change) {
-            $property = $propertyRepo->findOneBy([
-                'vocabulary' => $vocabulary,
-                'localName' => $localName,
-            ]);
-            if ($property) {
-                $property->setLabel($change[1]);
+            foreach ($changes['new'] as $localName => $info) {
+                if (isset($terms[$localName])) {
+                    continue;
+                }
+                $term = new $entityClass;
+                $term->setVocabulary($vocabulary);
+                $term->setLocalName($localName);
+                $term->setLabel($info[0]);
+                $term->setComment($info[1]);
+                $em->persist($term);
             }
-        }
-        foreach ($diff['properties']['comment'] as $localName => $change) {
-            $property = $propertyRepo->findOneBy([
-                'vocabulary' => $vocabulary,
-                'localName' => $localName,
-            ]);
-            if ($property) {
-                $property->setComment($change[1]);
+            foreach ($changes['label'] as $localName => $change) {
+                if (isset($terms[$localName])) {
+                    $terms[$localName]->setLabel($change[1]);
+                }
             }
-        }
-
-        foreach ($diff['classes']['new'] as $localName => $info) {
-            if ($classRepo->findOneBy(['vocabulary' => $vocabulary, 'localName' => $localName])) {
-                continue;
-            }
-            $class = new ResourceClass;
-            $class->setVocabulary($vocabulary);
-            $class->setLocalName($localName);
-            $class->setLabel($info[0]);
-            $class->setComment($info[1]);
-            $em->persist($class);
-        }
-        foreach ($diff['classes']['label'] as $localName => $change) {
-            $class = $classRepo->findOneBy([
-                'vocabulary' => $vocabulary,
-                'localName' => $localName,
-            ]);
-            if ($class) {
-                $class->setLabel($change[1]);
+            foreach ($changes['comment'] as $localName => $change) {
+                if (isset($terms[$localName])) {
+                    $terms[$localName]->setComment($change[1]);
+                }
             }
         }
-        foreach ($diff['classes']['comment'] as $localName => $change) {
-            $class = $classRepo->findOneBy([
-                'vocabulary' => $vocabulary,
-                'localName' => $localName,
-            ]);
-            if ($class) {
-                $class->setComment($change[1]);
-            }
-        }
-
         $em->flush();
     }
 

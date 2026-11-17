@@ -989,7 +989,11 @@ class RdfImporter
                 if (!$paragraphs) {
                     return preg_replace('/\s+/u', ' ', $text);
                 }
-                $texts[] = preg_replace("/\n\s*\n\s*/u", "\n\n", $text);
+                // Keep its line breaks, which may be meant, but not the
+                // indentation of a wrapped line, as in "First line,\n    and
+                // the next.", and not more than one blank line in a row.
+                $text = preg_replace('/[ \t]*\n[ \t]*/u', "\n", $text);
+                $texts[] = preg_replace("/\n\n+/u", "\n\n", $text);
             }
             if ($texts) {
                 return implode("\n\n", $texts);

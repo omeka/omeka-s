@@ -341,9 +341,9 @@ class RdfImporterTest extends DbTestCase
         // Its own prefix, not the one of a vocabulary it reuses.
         $this->assertSame('decl', $details['prefix']);
         // In English by default, its description's values and paragraphs
-        // each a paragraph.
+        // each a paragraph, keeping a line break without its indentation.
         $this->assertSame('Declared vocabulary', $details['label']);
-        $this->assertSame("First paragraph.\n\nSecond paragraph.\n\nA changelog.", $details['comment']);
+        $this->assertSame("First paragraph,\nwrapped and indented.\n\nSecond paragraph.\n\nA changelog.", $details['comment']);
         // Its definitions' languages too.
         $this->assertSame(['de', 'en', 'es', 'fr'], $details['languages']);
 

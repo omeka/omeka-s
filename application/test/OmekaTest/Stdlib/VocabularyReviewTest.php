@@ -276,6 +276,33 @@ class VocabularyReviewTest extends DbTestCase
         $this->review->cancel($token);
     }
 
+    public function testStartFromUrlFollowsRedirects()
+    {
+        $client = new class extends HttpClient {
+            public $maxRedirects;
+            public $maxRedirectsAsked;
+
+            public function setConfig($config = [])
+            {
+                $this->maxRedirects = $config['maxredirects'] ?? $this->maxRedirects;
+                return parent::setConfig($config);
+            }
+
+            public function request($method = null)
+            {
+                $this->maxRedirectsAsked = $this->maxRedirects;
+                return new Response(200, ['Content-Type' => 'text/turtle'], file_get_contents(__DIR__ . '/_files/compare.ttl'));
+            }
+        };
+        $this->httpClient = Http::getDefaultHttpClient();
+        Http::setDefaultHttpClient($client);
+        // As EasyRdf's Graph::load() leaves the shared client.
+        $client->setConfig(['maxredirects' => 0]);
+        $url = $this->review->startFromUrl($this->vocabularyId, 'http://example.org/compare.ttl', ['format' => 'turtle']);
+        $this->assertSame(VocabularyReview::MAX_REDIRECTS, $client->maxRedirectsAsked);
+        $this->review->cancel(substr($url, strpos($url, '=') + 1));
+    }
+
     public function testStartFromUrlTheServerRefuses()
     {
         $this->answerRequests(new Response(404, [], 'Not found'));

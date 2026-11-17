@@ -34,6 +34,12 @@ class VocabularyReview
     const MAX_AGE = 86400;
 
     /**
+     * How many redirects fetching a file by URL follows, as EasyRdf's client
+     * does by default.
+     */
+    const MAX_REDIRECTS = 5;
+
+    /**
      * @var RdfImporter
      */
     protected $rdfImporter;
@@ -423,9 +429,14 @@ class VocabularyReview
         $client = Http::getDefaultHttpClient();
         $client->resetParameters(true);
         $client->setUri($url);
+        // Follow redirects, as from purl.org or http to https. EasyRdf's
+        // Graph::load() turns the shared client's following off, since it
+        // follows them itself, and the setting outlasts it.
         if ($client instanceof HttpClient) {
+            $client->setConfig(['maxredirects' => self::MAX_REDIRECTS]);
             $client->setHeaders('Accept', $accept);
         } else {
+            $client->setOptions(['maxredirects' => self::MAX_REDIRECTS]);
             $client->setHeaders(['Accept' => $accept]);
         }
         try {

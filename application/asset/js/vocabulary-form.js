@@ -38,13 +38,17 @@ $('[data-other-property]').each(function() {
 });
 
 $('#vocabulary-form').on('submit', function(e) {
-    // Only the import and Change namespace forms have a namespace URI.
+    // Only the import and Edit forms have a namespace URI.
     const namespaceUriInput = $('#o\\:namespace_uri');
     if (!namespaceUriInput.length) {
         return;
     }
-    // The user must confirm that the namespace URI does not end with / or #.
+    // The user must confirm that a namespace URI does not end with / or #,
+    // unless it's the vocabulary's own, unchanged.
     const namespaceUri = namespaceUriInput.val();
+    if (namespaceUri === namespaceUriInput.attr('data-saved-namespace-uri')) {
+        return;
+    }
     if (!(namespaceUri.endsWith('/') || namespaceUri.endsWith('#'))) {
         if (!window.confirm(namespaceUriInput.data('confirmEndsWith'))) {
             e.preventDefault();

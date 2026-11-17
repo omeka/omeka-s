@@ -224,9 +224,10 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Edit a vocabulary's label and comment. Its namespace URI is changed on
-     * a page of its own, and its classes and properties are updated from a
-     * file on another.
+     * Edit a vocabulary's label, comment, and namespace URI. Changing its
+     * namespace URI changes the URI of every one of its classes and
+     * properties. Its classes and properties are updated from a file on a
+     * page of their own.
      */
     public function editAction()
     {
@@ -242,40 +243,6 @@ class VocabularyController extends AbstractActionController
             'vocabulary-info' => [
                 'o:label' => $vocabulary->label(),
                 'o:comment' => $vocabulary->comment(),
-            ],
-        ]);
-        $view = new ViewModel;
-        $view->setVariable('vocabulary', $vocabulary);
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $form->setData($request->getPost()->toArray());
-            if ($form->isValid()) {
-                // Where the API refuses the vocabulary's own fields, it puts
-                // its reasons on the form, which is shown again.
-                $response = $this->api($form)->update('vocabularies', $this->params('id'), $form->getData()['vocabulary-info'], [], ['isPartial' => true]);
-                if ($response) {
-                    $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
-                    return $this->redirect()->toUrl($response->getContent()->url());
-                }
-            } else {
-                $this->messenger()->addFormErrors($form);
-            }
-        }
-        $view->setVariable('form', $form);
-        return $view;
-    }
-
-    /**
-     * Change a vocabulary's namespace URI, which changes the URI of every one
-     * of its classes and properties. The field starts with the vocabulary's
-     * own, to edit.
-     */
-    public function changeNamespaceAction()
-    {
-        $vocabulary = $this->getVocabularyToUpdate();
-        $form = $this->getForm(VocabularyForm::class, ['vocabulary' => $vocabulary, 'mode' => 'change_namespace']);
-        $form->setData([
-            'vocabulary-info' => [
                 'o:namespace_uri' => $vocabulary->namespaceUri(),
             ],
         ]);
@@ -285,25 +252,27 @@ class VocabularyController extends AbstractActionController
         if ($request->isPost()) {
             $form->setData($request->getPost()->toArray());
             if ($form->isValid()) {
-                $namespaceUri = $form->getData()['vocabulary-info']['o:namespace_uri'];
-                $other = $this->getVocabularyInAnotherForm($namespaceUri, $vocabulary);
-                if ($namespaceUri === $vocabulary->namespaceUri()) {
-                    $this->messenger()->addError('The vocabulary already has this namespace URI.'); // @translate
-                } elseif ($other) {
-                    // As an import is refused: their terms would be twice.
+                $info = $form->getData()['vocabulary-info'];
+                // A new namespace URI that's another form of another
+                // vocabulary's is refused, as an import is: their terms
+                // would be twice.
+                $other = $info['o:namespace_uri'] === $vocabulary->namespaceUri()
+                    ? null
+                    : $this->getVocabularyInAnotherForm($info['o:namespace_uri'], $vocabulary);
+                if ($other) {
                     $this->messenger()->addError(new Message(
                         'Another vocabulary, "%1$s", has this namespace URI in another form: "%2$s".', // @translate
                         $other->label(),
                         $other->namespaceUri()
                     ));
                 } else {
-                    // Where the API refuses it, as one another vocabulary
-                    // has, it puts its reasons on the form, which is shown
-                    // again.
-                    $response = $this->api($form)->update('vocabularies', $vocabulary->id(), ['o:namespace_uri' => $namespaceUri], [], ['isPartial' => true]);
+                    // Where the API refuses the vocabulary's own fields, as a
+                    // namespace URI another vocabulary has, it puts its
+                    // reasons on the form, which is shown again.
+                    $response = $this->api($form)->update('vocabularies', $this->params('id'), $info, [], ['isPartial' => true]);
                     if ($response) {
-                        $this->messenger()->addSuccess('Namespace successfully changed'); // @translate
-                        return $this->redirect()->toUrl($vocabulary->url());
+                        $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
+                        return $this->redirect()->toUrl($response->getContent()->url());
                     }
                 }
             } else {

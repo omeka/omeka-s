@@ -1,4 +1,5 @@
 <?php
+$this->headScript()->appendFile($this->assetUrl('js/vocabulary-form.js', 'Omeka'));
 $this->htmlElement('body')->appendAttribute('class', 'edit vocabularies');
 $translate = $this->plugin('translate');
 $form->prepare();
@@ -9,8 +10,6 @@ $form->prepare();
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
     <?php $this->trigger('view.edit.page_actions', ['resource' => $vocabulary]); ?>
-    <?php // The other changes, as on the vocabulary's page, since Edit also opens from the list. ?>
-    <?php echo $this->partial('omeka/admin/vocabulary/more-actions', ['vocabulary' => $vocabulary]); ?>
     <?php // Its confirmation loads when asked for, as from the list: its counts take a while on a large site. ?>
     <?php echo $this->hyperlink($translate('Delete'), '#', [
         'class' => 'delete button sidebar-content',

@@ -965,7 +965,12 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
                 'o:namespace_uri' => 'https://example.org/review',
                 'o:prefix' => 'review2',
             ]));
-            $this->assertStringContainsString('Omeka already has this vocabulary, as "Review"', strip_tags(html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5)));
+            $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+            $this->assertStringContainsString('Omeka already has this vocabulary, as "Review"', strip_tags($page));
+            // The file gives no prefix, but the one entered is shown, so
+            // the page doesn't ask for one.
+            $this->assertStringContainsString('value="review2"', $page);
+            $this->assertStringNotContainsString("The file doesn't give a namespace prefix", $page);
             $this->reset(true);
             $this->signIn();
             $this->assertSame(0, $this->api()->search('vocabularies', ['prefix' => 'review2'])->getTotalResults());

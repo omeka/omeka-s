@@ -3,6 +3,11 @@ $this->headScript()->appendFile($this->assetUrl('js/vocabulary-form.js', 'Omeka'
 $this->htmlElement('body')->appendAttribute('class', 'vocabularies import-details');
 $translate = $this->plugin('translate');
 $form->prepare();
+// Say what the file doesn't give only while its field is empty: after a
+// refused import, the field shows what the admin entered.
+$info = $form->get('vocabulary-info');
+$asksNamespaceUri = null === $details['namespace_uri'] && '' === trim((string) $info->get('o:namespace_uri')->getValue());
+$asksPrefix = null === $details['prefix'] && '' === trim((string) $info->get('o:prefix')->getValue());
 ?>
 
 <?php echo $this->pageTitle($translate('New vocabulary'), 1, $translate('Vocabularies'), $translate('Details')); ?>
@@ -14,10 +19,10 @@ $form->prepare();
     <button><?php echo $translate('Import'); ?></button>
 </div>
 <p><?php echo $translate('The vocabulary\'s details below are filled in from its file, where it gives them. Check them and change any as needed, then click Import.'); ?></p>
-<?php if (null === $details['namespace_uri']): ?>
+<?php if ($asksNamespaceUri): ?>
 <p><?php echo $translate('The file doesn\'t give a namespace URI for its classes and properties. Enter it below.'); ?></p>
 <?php endif; ?>
-<?php if (null === $details['prefix']): ?>
+<?php if ($asksPrefix): ?>
 <p><?php echo $translate('The file doesn\'t give a namespace prefix that can be used. Enter one below. It can\'t be changed after importing.'); ?></p>
 <?php endif; ?>
 <?php echo $this->formCollection($form, false); ?>

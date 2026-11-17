@@ -308,10 +308,10 @@ class VocabularyForm extends Form
             'type' => 'select',
             'options' => [
                 'label' => 'Comments', // @translate
-                'info' => 'Where each term\'s comment is read from: its comment (rdfs:comment), its definition (skos:definition) where it has one, or another property.', // @translate
+                'info' => 'A term\'s comment is read from its comment (rdfs:comment) or its definition (skos:definition, dcterms:description, or dc11:description), whichever it has. Choose which comes first for a term that has both, or another property.', // @translate
                 'value_options' => [
-                    'comment' => 'Comment', // @translate
-                    'definition' => 'Definition where there is one, else comment', // @translate
+                    'comment' => 'Comment, else definition', // @translate
+                    'definition' => 'Definition, else comment', // @translate
                     'other' => 'Another property…', // @translate
                 ],
             ],

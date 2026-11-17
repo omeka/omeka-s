@@ -31,15 +31,17 @@ class RdfImporter
     const LABEL_PROPERTY = 'skos:prefLabel|rdfs:label|foaf:name|rss:title|dc:title|dc11:title';
 
     /**
-     * Where a term's comment is read from by default: its comment.
+     * Where a term's comment is read from by default: its comment, else its
+     * definition or description, so a term that has only those isn't left
+     * without one.
      */
-    const COMMENT_PROPERTY = 'rdfs:comment';
+    const COMMENT_PROPERTY = 'rdfs:comment|skos:definition|dcterms:description|dc11:description';
 
     /**
-     * Where a term's comment is read from to use its definition where it has
-     * one, else its comment.
+     * Where a term's comment is read from to use its definition or
+     * description where it has one, else its comment.
      */
-    const DEFINITION_COMMENT_PROPERTY = 'skos:definition|rdfs:comment';
+    const DEFINITION_COMMENT_PROPERTY = 'skos:definition|dcterms:description|dc11:description|rdfs:comment';
 
     /**
      * The ways of reading comments that forms offer, by name.
@@ -389,7 +391,7 @@ class RdfImporter
             // Of every class and property, definitions included: the
             // namespace URI found may be corrected, and a file may translate
             // only its definitions.
-            'languages' => $this->getGraphLanguages($graph, null, self::LABEL_PROPERTY . '|' . self::COMMENT_PROPERTY . '|skos:definition'),
+            'languages' => $this->getGraphLanguages($graph, null, self::LABEL_PROPERTY . '|' . self::COMMENT_PROPERTY),
             'classes' => $counts['classes'],
             'properties' => $counts['properties'],
         ];

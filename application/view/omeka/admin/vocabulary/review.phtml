@@ -170,14 +170,14 @@ $changes = null !== $diff && ($termChanges || $fieldRows || $namespaceChanges);
             <label for="review-comments"><?php echo $translate('Comments'); ?></label>
             <a href="#" class="expand" aria-expanded="false" aria-controls="review-comments-description" aria-label="<?php echo $escape($translate('Expand')); ?>"></a>
             <div class="collapsible" id="review-comments-description">
-                <div class="field-description"><?php echo $translate('Where each term\'s comment is read from: its comment (rdfs:comment), its definition (skos:definition) where it has one, or another property.'); ?></div>
+                <div class="field-description"><?php echo $translate('A term\'s comment is read from its comment (rdfs:comment) or its definition (skos:definition, dcterms:description, or dc11:description), whichever it has. Choose which comes first for a term that has both, or another property.'); ?></div>
             </div>
         </div>
         <div class="inputs">
             <?php // The property to read them from, after, is shown only for another. ?>
             <select name="comments" id="review-comments" data-other-property="#review-comment-property">
-                <option value="comment"<?php echo 'comment' === $comments ? ' selected' : ''; ?>><?php echo $translate('Comment'); ?></option>
-                <option value="definition"<?php echo 'definition' === $comments ? ' selected' : ''; ?>><?php echo $translate('Definition where there is one, else comment'); ?></option>
+                <option value="comment"<?php echo 'comment' === $comments ? ' selected' : ''; ?>><?php echo $translate('Comment, else definition'); ?></option>
+                <option value="definition"<?php echo 'definition' === $comments ? ' selected' : ''; ?>><?php echo $translate('Definition, else comment'); ?></option>
                 <option value="other"<?php echo 'other' === $comments ? ' selected' : ''; ?>><?php echo $translate('Another property…'); ?></option>
             </select>
         </div>

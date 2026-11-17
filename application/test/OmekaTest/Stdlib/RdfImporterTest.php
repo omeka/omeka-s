@@ -417,6 +417,33 @@ class RdfImporterTest extends DbTestCase
         $this->details('empty.ttl');
     }
 
+    public function testCommentsAreReadFromCommentsElseDefinitionsByDefault()
+    {
+        $comments = function (array $options) {
+            $members = $this->members('descriptions.ttl', 'http://example.org/descriptions#', ['format' => 'turtle'] + $options);
+            return array_map(function ($term) {
+                return $term['comment'];
+            }, $members['properties']);
+        };
+        // A term with only a definition or description isn't left without a
+        // comment; one with both has its comment.
+        $this->assertSame([
+            'defined' => 'Its definition.',
+            'described' => 'Its description.',
+            'describedInDc11' => 'Its older description.',
+            'both' => 'Its comment.',
+            'bare' => null,
+        ], $comments([]));
+        // Chosen, its definition comes first.
+        $this->assertSame([
+            'defined' => 'Its definition.',
+            'described' => 'Its description.',
+            'describedInDc11' => 'Its older description.',
+            'both' => 'Its definition.',
+            'bare' => null,
+        ], $comments(['comment_property' => RdfImporter::DEFINITION_COMMENT_PROPERTY]));
+    }
+
     public function memoryLimits()
     {
         return [

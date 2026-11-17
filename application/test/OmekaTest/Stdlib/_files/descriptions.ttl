@@ -1,0 +1,23 @@
+# Terms described each a different way: only a definition, only a
+# description of either kind, both a comment and a definition, or not at all.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dc11: <http://purl.org/dc/elements/1.1/> .
+@prefix desc: <http://example.org/descriptions#> .
+
+desc:defined a rdf:Property ;
+    skos:definition "Its definition." .
+
+desc:described a rdf:Property ;
+    dcterms:description "Its description." .
+
+desc:describedInDc11 a rdf:Property ;
+    dc11:description "Its older description." .
+
+desc:both a rdf:Property ;
+    rdfs:comment "Its comment." ;
+    skos:definition "Its definition." .
+
+desc:bare a rdf:Property .

@@ -153,7 +153,9 @@ class VocabularyController extends AbstractActionController
                 'o:prefix' => $details['prefix'],
             ],
             'vocabulary-advanced' => [
-                'lang' => $this->getDefaultLanguage($details['languages']),
+                // The file's language nearest the installation's, else "",
+                // the "First available" option.
+                'lang' => $details['lang'] ?? '',
                 'comments' => 'comment',
             ],
         ]);
@@ -615,33 +617,8 @@ class VocabularyController extends AbstractActionController
         return $this->rdfImporter->getVocabularyDetails('file', [
             'file' => $this->fileStore->getPath($token),
             'format' => $format,
-            'lang' => strtok($this->getLocaleLanguage(), '-') ?: null,
+            'lang' => $this->getLocaleLanguage(),
         ]);
-    }
-
-    /**
-     * Get the default language to read a file's terms in: the installation's,
-     * else English, else "", the "First available" option.
-     *
-     * @param string[] $languages The file's languages
-     * @return string
-     */
-    protected function getDefaultLanguage(array $languages)
-    {
-        $locale = $this->getLocaleLanguage();
-        $primary = strtok($locale, '-');
-        // In order: the installation's exact tag (en-us), its language alone
-        // (en), its language in any region (en-GB), then English the same
-        // way. A wanted tag ending in "-" matches any region.
-        foreach (array_unique([$locale, $primary, $primary . '-', 'en', 'en-']) as $wanted) {
-            foreach ($languages as $language) {
-                $tag = strtolower($language);
-                if ($tag === $wanted || ('-' === substr($wanted, -1) && 0 === strpos($tag, $wanted))) {
-                    return $language;
-                }
-            }
-        }
-        return '';
     }
 
     /**

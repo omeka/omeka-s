@@ -310,7 +310,7 @@ class RdfImporter
      *
      * @param string $strategy "file" or "url"
      * @param array $options The file or URL, and the format; and lang: the
-     *   language to prefer for the label and comment
+     *   language to prefer, such as "fr-ca"
      * @return array
      *   - namespace_uri: null for a file that names its terms relative to
      *     itself
@@ -321,6 +321,8 @@ class RdfImporter
      *     relative to the file)
      *   - prefix, label, comment: null where the file says nothing
      *   - languages: of all its classes and properties
+     *   - lang: the one of those languages nearest the one preferred, which
+     *     the label and comment are read in; null for none
      * @throws ValidationException When the file can't be read, or has no
      *   classes or properties
      */
@@ -331,16 +333,18 @@ class RdfImporter
         if (null === $namespaceUri) {
             throw new ValidationException('No classes or properties found in this file.'); // @translate
         }
-        $lang = $options['lang'] ?? null;
+        // From every class and property, in any namespace, since the admin
+        // may correct the namespace URI found.
+        $languages = $this->getGraphLanguages($graph, null, self::LABEL_PROPERTY . '|' . self::COMMENT_PROPERTY);
+        $lang = $this->getMatchingLanguage($options['lang'] ?? null, $languages);
         return [
             'namespace_uri' => 'relative' === $source ? null : $namespaceUri,
             'namespace_source' => $source,
             'prefix' => $this->getVocabularyPrefix($graph, $namespaceUri),
             'label' => $this->getVocabularyTitle($graph, $namespaceUri, $lang),
             'comment' => $this->getVocabularyDescription($graph, $namespaceUri, $lang),
-            // From every class and property, in any namespace, since the
-            // admin may correct the namespace URI found.
-            'languages' => $this->getGraphLanguages($graph, null, self::LABEL_PROPERTY . '|' . self::COMMENT_PROPERTY),
+            'languages' => $languages,
+            'lang' => $lang,
         ];
     }
 
@@ -512,7 +516,7 @@ class RdfImporter
 
         // Ties go to the default language; none ("First available") wins only
         // outright.
-        $default = $this->getDefaultLanguage($languages);
+        $default = $this->getMatchingLanguage(null, $languages) ?? ($languages[0] ?? null);
         $lang = $default;
         $mostMatches = -1;
         foreach (array_unique(array_merge([$default], $languages, [null])) as $candidate) {
@@ -580,18 +584,30 @@ class RdfImporter
     }
 
     /**
-     * Get the default language of a file's terms: English, else a regional
-     * English, else the first.
+     * Get the one of a file's languages nearest a preferred one: the
+     * preferred tag itself (fr-ca), its language alone (fr), its language in
+     * any region (fr-CA for fr), then English the same way. Tags match in
+     * any case.
      *
-     * @param string[] $languages
-     * @return string|null
+     * @param string|null $preferred Such as "fr-ca"; null for English
+     * @param string[] $languages The file's languages
+     * @return string|null One of the file's languages, as it has it; null
+     *   where none is near
      */
-    protected function getDefaultLanguage(array $languages)
+    protected function getMatchingLanguage($preferred, array $languages)
     {
-        if (in_array('en', $languages, true)) {
-            return 'en';
+        $preferred = strtolower(str_replace('_', '-', (string) $preferred)) ?: 'en';
+        $primary = strtok($preferred, '-');
+        // A wanted tag ending in "-" matches its language in any region.
+        foreach (array_unique([$preferred, $primary, $primary . '-', 'en', 'en-']) as $wanted) {
+            foreach ($languages as $language) {
+                $tag = strtolower($language);
+                if ($tag === $wanted || ('-' === substr($wanted, -1) && 0 === strpos($tag, $wanted))) {
+                    return $language;
+                }
+            }
         }
-        return current(preg_grep('/^en-/i', $languages)) ?: ($languages[0] ?? null);
+        return null;
     }
 
     /**

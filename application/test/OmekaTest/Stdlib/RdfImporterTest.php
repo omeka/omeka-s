@@ -368,6 +368,19 @@ class RdfImporterTest extends DbTestCase
         $this->assertSame('Une description.', $details['comment']);
     }
 
+    public function testVocabularyDetailsInTheFilesLanguageNearestThePreferredOne()
+    {
+        // The language alone finds it in a region, for the title as for the
+        // classes and properties.
+        $details = $this->details('details-regional.ttl', ['lang' => 'fr']);
+        $this->assertSame('fr-CA', $details['lang']);
+        $this->assertSame('Régional', $details['label']);
+        // English, where the file doesn't have the language.
+        $details = $this->details('details-regional.ttl', ['lang' => 'de-at']);
+        $this->assertSame('en', $details['lang']);
+        $this->assertSame('Regional', $details['label']);
+    }
+
     public function testVocabularyDetailsSkipAPrefixOmekaCannotUse()
     {
         // The ontology's prefix has a dot, so the namespace's is taken.

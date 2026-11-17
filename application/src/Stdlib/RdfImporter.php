@@ -327,11 +327,9 @@ class RdfImporter
         return [
             'namespace_uri' => 'relative' === $source ? null : $namespaceUri,
             'namespace_source' => $source,
-            'prefix' => VocabularyRecords::getPrefix($graph, $namespaceUri),
-            'label' => VocabularyRecords::getText($graph, $namespaceUri, 'dcterms:title|dc11:title|rdfs:label', $lang, false),
-            // Some element sets describe themselves only in skos:note.
-            'comment' => VocabularyRecords::getText($graph, $namespaceUri, 'dcterms:description|dc11:description|rdfs:comment|skos:definition', $lang, true)
-                ?? VocabularyRecords::getText($graph, $namespaceUri, 'skos:note', $lang, true),
+            'prefix' => $this->getVocabularyPrefix($graph, $namespaceUri),
+            'label' => $this->getVocabularyTitle($graph, $namespaceUri, $lang),
+            'comment' => $this->getVocabularyDescription($graph, $namespaceUri, $lang),
             // From every class and property, in any namespace, since the
             // admin may correct the namespace URI found.
             'languages' => $this->getGraphLanguages($graph, null, self::LABEL_PROPERTY . '|' . self::COMMENT_PROPERTY),
@@ -888,6 +886,194 @@ class RdfImporter
             return [$mostUsed, 0 === strpos($mostUsed, self::RELATIVE_BASE) ? 'relative' : 'terms'];
         }
         return [null, null];
+    }
+
+    /**
+     * Get the prefix a file declares for its vocabulary
+     * (vann:preferredNamespacePrefix), such as "bibo", if it's a valid Omeka
+     * prefix. Only resources for this namespace are read, as a file may
+     * declare prefixes for vocabularies it reuses.
+     *
+     * @param RdfGraph $graph
+     * @param string $namespaceUri
+     * @return string|null
+     */
+    protected function getVocabularyPrefix(RdfGraph $graph, $namespaceUri)
+    {
+        $subjects = $this->getOntologiesFor($graph, $namespaceUri);
+        $subjects[] = $graph->resource($namespaceUri);
+        $subjects[] = $graph->resource(rtrim($namespaceUri, '#/'));
+        foreach ($subjects as $subject) {
+            try {
+                $prefix = trim((string) $subject->get('<http://purl.org/vocab/vann/preferredNamespacePrefix>'));
+            } catch (\Throwable $e) {
+                continue;
+            }
+            if ('' !== $prefix) {
+                return preg_match(Vocabulary::PREFIX_REGEX, $prefix) ? $prefix : null;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the title a file gives its vocabulary, on one line, such as "The
+     * Bibliographic Ontology".
+     *
+     * @param RdfGraph $graph
+     * @param string $namespaceUri
+     * @param string|null $lang The language to prefer
+     * @return string|null
+     */
+    protected function getVocabularyTitle(RdfGraph $graph, $namespaceUri, $lang)
+    {
+        return $this->findVocabularyText($graph, $namespaceUri, 'dcterms:title|dc11:title|rdfs:label', $lang, false);
+    }
+
+    /**
+     * Get the description a file gives its vocabulary, its paragraphs kept.
+     * Some element sets describe themselves only in skos:note.
+     *
+     * @param RdfGraph $graph
+     * @param string $namespaceUri
+     * @param string|null $lang The language to prefer
+     * @return string|null
+     */
+    protected function getVocabularyDescription(RdfGraph $graph, $namespaceUri, $lang)
+    {
+        return $this->findVocabularyText($graph, $namespaceUri, 'dcterms:description|dc11:description|rdfs:comment|skos:definition', $lang, true)
+            ?? $this->findVocabularyText($graph, $namespaceUri, 'skos:note', $lang, true);
+    }
+
+    /**
+     * Get the text of the first resource describing a file's vocabulary that
+     * has one of some properties.
+     *
+     * @param RdfGraph $graph
+     * @param string $namespaceUri
+     * @param string $properties Alternatives, as "a|b"
+     * @param string|null $lang
+     * @param bool $paragraphs True for a description, keeping its paragraphs
+     *   and all its values; false for a title, one value on one line
+     * @return string|null
+     */
+    protected function findVocabularyText(RdfGraph $graph, $namespaceUri, $properties, $lang, $paragraphs)
+    {
+        foreach ($this->getDescribingResources($graph, $namespaceUri) as $resource) {
+            try {
+                $values = $this->getValuesInPreferredLanguage($resource, $properties, $lang);
+            } catch (\Throwable $e) {
+                continue;
+            }
+            $texts = [];
+            foreach ($values as $value) {
+                $text = trim(str_replace(["\r\n", "\r"], "\n", (string) $value));
+                if ('' === $text || !mb_check_encoding($text, 'UTF-8')) {
+                    continue;
+                }
+                if (!$paragraphs) {
+                    return preg_replace('/\s+/u', ' ', $text);
+                }
+                $texts[] = preg_replace("/\n\s*\n\s*/u", "\n\n", $text);
+            }
+            if ($texts) {
+                return implode("\n\n", $texts);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the resources that may describe a file's vocabulary as a whole, in
+     * the order they're read: its owl:Ontology resources for the namespace,
+     * else its only owl:Ontology if it has just one; the namespace URI as a
+     * resource, with and without its closing # or /; and the resource most of
+     * its terms name with rdfs:isDefinedBy.
+     *
+     * @param RdfGraph $graph
+     * @param string $namespaceUri
+     * @return RdfResource[]
+     */
+    protected function getDescribingResources(RdfGraph $graph, $namespaceUri)
+    {
+        $resources = $this->getOntologiesFor($graph, $namespaceUri);
+        if (!$resources) {
+            $all = $graph->allOfType('owl:Ontology');
+            $resources = 1 === count($all) ? $all : [];
+        }
+        $resources[] = $graph->resource($namespaceUri);
+        $resources[] = $graph->resource(rtrim($namespaceUri, '#/'));
+        $counts = [];
+        foreach ($graph->resources() as $resource) {
+            if ($resource->isBNode() || 0 !== strpos($resource->getUri(), $namespaceUri)) {
+                continue;
+            }
+            foreach ($resource->allResources('rdfs:isDefinedBy') as $definedBy) {
+                if (!$definedBy->isBNode()) {
+                    $counts[$definedBy->getUri()] = ($counts[$definedBy->getUri()] ?? 0) + 1;
+                }
+            }
+        }
+        if ($counts) {
+            arsort($counts);
+            $resources[] = $graph->resource(array_key_first($counts));
+        }
+        return $resources;
+    }
+
+    /**
+     * Get a file's owl:Ontology resources for a namespace.
+     *
+     * @param RdfGraph $graph
+     * @param string $namespaceUri
+     * @return RdfResource[]
+     */
+    protected function getOntologiesFor(RdfGraph $graph, $namespaceUri)
+    {
+        $base = rtrim($namespaceUri, '#/');
+        $own = [];
+        foreach ($graph->allOfType('owl:Ontology') as $ontology) {
+            if (rtrim((string) $ontology->getUri(), '#/') === $base) {
+                $own[] = $ontology;
+            }
+        }
+        return $own;
+    }
+
+    /**
+     * Get a resource's values for the first of some properties that has them,
+     * in the preferred language, else English, else the first language one
+     * has. Values with no language come along with any.
+     *
+     * @param RdfResource $resource
+     * @param string $properties Alternatives, as "a|b"
+     * @param string|null $lang
+     * @return \EasyRdf\Literal[]
+     */
+    protected function getValuesInPreferredLanguage(RdfResource $resource, $properties, $lang)
+    {
+        foreach (array_unique(array_filter([$lang, 'en'])) as $language) {
+            foreach (explode('|', $properties) as $property) {
+                $values = array_filter($resource->all($property, 'literal'), function ($value) use ($language) {
+                    return in_array((string) $value->getLang(), [$language, ''], true);
+                });
+                if (array_filter($values, function ($value) use ($language) {
+                    return $language === $value->getLang();
+                })) {
+                    return array_values($values);
+                }
+            }
+        }
+        foreach (explode('|', $properties) as $property) {
+            $values = $resource->all($property, 'literal');
+            if ($values) {
+                $first = (string) $values[0]->getLang();
+                return array_values(array_filter($values, function ($value) use ($first) {
+                    return in_array((string) $value->getLang(), [$first, ''], true);
+                }));
+            }
+        }
+        return [];
     }
 
     /**

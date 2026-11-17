@@ -134,7 +134,7 @@ class VocabularyController extends AbstractActionController
         }
         $path = $this->fileStore->getPath($token);
         if (null === $path) {
-            $this->messenger()->addError('This import has ended. Choose the file again.'); // @translate
+            $this->messenger()->addError('This import has ended. Choose the file or enter its URL again.'); // @translate
             return $this->redirect()->toRoute('admin/default', ['controller' => 'vocabulary', 'action' => 'import']);
         }
         try {
@@ -504,7 +504,7 @@ class VocabularyController extends AbstractActionController
     {
         $review = $this->vocabularyReview->get($token);
         if (!$review || $review['vocabulary_id'] !== $vocabulary->id()) {
-            $this->messenger()->addError('This review has ended. Update the vocabulary\'s classes and properties to review its changes again.'); // @translate
+            $this->messenger()->addError('This review has ended. To review the changes again, use Update classes and properties.'); // @translate
             return null;
         }
         return $review;
@@ -693,7 +693,7 @@ class VocabularyController extends AbstractActionController
         if ($found) {
             $message = new Message(
                 $mayUpdate
-                    ? 'Omeka already has a vocabulary with the namespace URI this file appears to use, "%1$s": %2$s. If the file is that vocabulary, update it from its page instead. If not, enter the file\'s own namespace URI below.' // @translate
+                    ? 'Omeka already has a vocabulary with the namespace URI this file appears to use, "%1$s": %2$s. If the file is that vocabulary, use Update classes and properties on its page instead. If not, enter the file\'s own namespace URI below.' // @translate
                     : 'Omeka already has a vocabulary with the namespace URI this file appears to use, "%1$s": %2$s. If the file is a different vocabulary, enter its own namespace URI below.', // @translate
                 $namespaceUri,
                 $link

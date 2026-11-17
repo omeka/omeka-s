@@ -13,12 +13,12 @@ $form->prepare();
     <?php echo $this->hyperlink($translate('Cancel'), $this->url('admin/default', ['controller' => 'vocabulary', 'action' => 'browse']), ['class' => 'button']); ?>
     <button><?php echo $translate('Import'); ?></button>
 </div>
-<p><?php echo $translate('The fields below are filled in from the file. Check them, then import.'); ?></p>
+<p><?php echo $translate('The vocabulary\'s details below are filled in from its file, where it gives them. Check them and change any as needed, then click Import.'); ?></p>
 <?php if (null === $details['namespace_uri']): ?>
-<p><?php echo $translate('The file doesn\'t say which namespace URI its classes and properties are in. Enter it below.'); ?></p>
+<p><?php echo $translate('The file doesn\'t give a namespace URI for its classes and properties. Enter it below.'); ?></p>
 <?php endif; ?>
 <?php if (null === $details['prefix']): ?>
-<p><?php echo $translate('The file doesn\'t give a namespace prefix for this vocabulary. Enter one below. It can\'t be changed later.'); ?></p>
+<p><?php echo $translate('The file doesn\'t give a namespace prefix that can be used. Enter one below. It can\'t be changed after importing.'); ?></p>
 <?php endif; ?>
 <?php echo $this->formCollection($form, false); ?>
 <?php echo $this->form()->closeTag(); ?>

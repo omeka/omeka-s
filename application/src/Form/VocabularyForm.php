@@ -279,7 +279,7 @@ class VocabularyForm extends Form
             'type' => 'select',
             'options' => [
                 'label' => 'Preferred language', // @translate
-                'info' => 'The language to read labels and comments in, where the file has them in several.', // @translate
+                'info' => 'The language of the labels and comments to use, where the file has them in more than one.', // @translate
                 'value_options' => $languageOptions,
             ],
             'attributes' => [
@@ -293,7 +293,7 @@ class VocabularyForm extends Form
             'type' => 'select',
             'options' => [
                 'label' => 'Comments from', // @translate
-                'info' => 'A term\'s comment is read from its comment (rdfs:comment) or its definition (skos:definition, dcterms:description, or dc11:description), whichever it has. Choose which comes first for a term that has both, or another property.', // @translate
+                'info' => 'Each class and property takes its comment from its comment (rdfs:comment) or its definition (skos:definition, dcterms:description, or dc11:description), whichever it has. Choose which to use when it has both, or another property to take it from.', // @translate
                 'value_options' => [
                     'comment' => 'Comment, else definition', // @translate
                     'definition' => 'Definition, else comment', // @translate
@@ -311,7 +311,7 @@ class VocabularyForm extends Form
             'type' => 'text',
             'options' => [
                 'label' => 'Comment property', // @translate
-                'info' => 'Enter the property each term\'s comment is read from. Please use the full property URI enclosed in angle brackets.', // @translate
+                'info' => 'Enter the comment property. Please use the full property URI enclosed in angle brackets.', // @translate
             ],
             'attributes' => [
                 'id' => 'comment_property',

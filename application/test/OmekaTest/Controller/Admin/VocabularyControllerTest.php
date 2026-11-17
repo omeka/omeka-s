@@ -588,11 +588,11 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             'new_namespace_uri' => 'http://example.org/moved#',
         ])), ENT_QUOTES | ENT_HTML5);
         $text = preg_replace('/\s+/', ' ', strip_tags($page));
-        $this->assertStringContainsString('Accepting makes the changes below, from the file. It removes nothing.', $text);
+        $this->assertStringContainsString('Accepting makes the changes below, from the file. No class or property is removed.', $text);
         // The namespace URI is one of the vocabulary's changed fields, with
         // what it does to the terms.
         $this->assertStringContainsString('Namespace URI http://example.org/review# http://example.org/moved#', $text);
-        $this->assertStringContainsString('Changing the namespace changes the URI of every class and property in this vocabulary. Nothing is deleted.', $text);
+        $this->assertStringContainsString('Changing the namespace changes the URI of every class and property in this vocabulary.', $text);
         $this->assertStringNotContainsString('new addresses', $text);
         $this->assertStringContainsString('Changed property labels (1)', $page);
         // The file has no class, so Omeka's is listed, as kept.
@@ -652,7 +652,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $token = $this->startReview('changed-name.ttl');
         // Chosen, it's read, and shown as chosen, with Accept carrying it.
         $page = html_entity_decode($this->reviewPage($token, ['comments' => 'other', 'comment_property' => 'skos:definition']), ENT_QUOTES | ENT_HTML5);
-        $this->assertStringContainsString('<p>Choose how the file is read, then show the changes.</p>', $page);
+        $this->assertStringContainsString('<p>These choices decide which of the file\'s labels and comments are used. After changing them, click Show changes to see the result below.</p>', $page);
         $this->assertStringContainsString('<label for="review-comments">Comments from</label>', $page);
         $this->assertStringContainsString('<option value="other" selected>Another property…</option>', $page);
         $this->assertStringContainsString('<input type="text" name="comment_property" id="review-comment-property" value="skos:definition">', $page);
@@ -703,7 +703,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $status = $this->requestAs(self::ADMIN, 'GET', sprintf('/admin/vocabulary/%s/review?review=%s', $this->vocabularyId, $token));
         $this->assertSame(302, $status);
         $this->assertRedirectTo(sprintf('/admin/vocabulary/%s', $this->vocabularyId));
-        $this->assertSame(['This review has ended. Update the vocabulary\'s classes and properties to review its changes again.'], $this->messages(Messenger::ERROR));
+        $this->assertSame(['This review has ended. To review the changes again, use Update classes and properties.'], $this->messages(Messenger::ERROR));
     }
 
     /**
@@ -796,7 +796,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString('value="Declared vocabulary"', $page);
         $this->assertStringContainsString('value="http://example.org/declared#"', $page);
         $this->assertStringContainsString('value="decl"', $page);
-        $this->assertStringContainsString('The fields below are filled in from the file. Check them, then import.', $page);
+        $this->assertStringContainsString('The vocabulary\'s details below are filled in from its file, where it gives them. Check them and change any as needed, then click Import.', $page);
         $this->assertStringNotContainsString("The file doesn't give a namespace prefix", $page);
         // Its languages to choose from, English by default.
         $this->assertMatchesRegularExpression('#<option value="en" selected>[^<]*</option>#', $page);
@@ -930,7 +930,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         // Said on the details, where a namespace found wrong can be corrected.
         $this->requestAs(self::ADMIN, 'GET', $url);
         $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
-        $this->assertStringContainsString('Omeka already has a vocabulary with the namespace URI this file appears to use, "http://example.org/review#": Review. If the file is that vocabulary, update it from its page instead. If not, enter the file\'s own namespace URI below.', strip_tags($page));
+        $this->assertStringContainsString('Omeka already has a vocabulary with the namespace URI this file appears to use, "http://example.org/review#": Review. If the file is that vocabulary, use Update classes and properties on its page instead. If not, enter the file\'s own namespace URI below.', strip_tags($page));
         $this->assertStringContainsString(sprintf('<a href="/admin/vocabulary/%s">Review</a>', $this->vocabularyId), $page);
         // Refused if it's kept.
         try {
@@ -981,8 +981,8 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             $url = $this->importDetailsUrl();
             $this->requestAs(self::ADMIN, 'GET', $url);
             $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
-            $this->assertStringContainsString("The file doesn't say which namespace URI its classes and properties are in. Enter it below.", $page);
-            $this->assertStringContainsString("The file doesn't give a namespace prefix for this vocabulary. Enter one below. It can't be changed later.", $page);
+            $this->assertStringContainsString("The file doesn't give a namespace URI for its classes and properties. Enter it below.", $page);
+            $this->assertStringContainsString("The file doesn't give a namespace prefix that can be used. Enter one below. It can't be changed after importing.", $page);
             $this->assertStringContainsString('name="vocabulary-info[o:namespace_uri]" required id="o:namespace_uri" data-confirm-ends-with="', $page);
             $this->assertStringContainsString('value=""', $page);
             $this->assertSame(302, $this->finishImport($url, [
@@ -1005,7 +1005,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $status = $this->requestAs(self::ADMIN, 'GET', '/admin/vocabulary/import-details?file_token=unknown&format=turtle');
         $this->assertSame(302, $status);
         $this->assertRedirectTo('/admin/vocabulary/import');
-        $this->assertSame(['This import has ended. Choose the file again.'], $this->messages(Messenger::ERROR));
+        $this->assertSame(['This import has ended. Choose the file or enter its URL again.'], $this->messages(Messenger::ERROR));
     }
 
     public function testAnErrorWithNothingToSayStillSaysSomething()

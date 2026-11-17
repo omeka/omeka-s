@@ -14,6 +14,9 @@ $this->htmlElement('body')->appendAttribute('class', 'vocabularies show');
     <?php echo $this->hyperlink($translate('Edit vocabulary'), $vocabulary->url('edit'), ['class' => 'button']); ?>
     <?php endif; ?>
 </div>
+<div class="breadcrumbs">
+    <?php echo $this->hyperlink($translate('Back to vocabulary list'), $this->url('admin/default', ['controller' => 'vocabulary', 'action' => 'browse']), ['class' => 'o-icon-left']); ?>
+</div>
 
 <?php $this->trigger('view.show.before'); ?>
 <dl>

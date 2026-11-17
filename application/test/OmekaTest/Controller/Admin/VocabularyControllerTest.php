@@ -381,6 +381,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             $this->vocabularyId
         ), $page);
         $this->assertStringContainsString(sprintf('<a href="/admin/vocabulary/%s/properties">1</a>', $this->vocabularyId), $page);
+        $this->assertStringContainsString('<a class="o-icon-left" href="/admin/vocabulary">Back to vocabulary list</a>', $page);
     }
 
     public function testShowPageOffersNoChangesToAVocabularyTheUserMayNotChange()
@@ -407,6 +408,19 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->requestAs(self::ADMIN, 'GET', '/admin/vocabulary');
         $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
         $this->assertStringContainsString(sprintf('<a href="/admin/vocabulary/%s">Review</a>', $this->vocabularyId), $page);
+    }
+
+    public function testClassesAndPropertiesLeadBackToTheVocabularysPage()
+    {
+        foreach (['classes', 'properties'] as $action) {
+            $this->reset(true);
+            $this->requestAs(self::ADMIN, 'GET', sprintf('/admin/vocabulary/%s/%s', $this->vocabularyId, $action));
+            $this->assertSame(200, $this->getResponse()->getStatusCode());
+            $this->assertStringContainsString(
+                sprintf('<a class="o-icon-left" href="/admin/vocabulary/%s">Back to vocabulary</a>', $this->vocabularyId),
+                html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5)
+            );
+        }
     }
 
     public function testBrowseShowsEachVocabularysOwner()

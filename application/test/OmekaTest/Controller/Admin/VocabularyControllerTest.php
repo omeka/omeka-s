@@ -702,6 +702,34 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame(0, $this->api()->search('vocabularies', ['prefix' => 'review2'])->getTotalResults());
     }
 
+    public function testImportOfAVocabularyTheUserMayNotUpdateSaysOnlyThatOmekaHasIt()
+    {
+        // Dublin Core, which no one may update, in another form.
+        $this->serveFile('markup.ttl');
+        $status = $this->requestAs(self::ADMIN, 'POST', '/admin/vocabulary/import', [
+            'vocabulary-info' => [
+                'o:namespace_uri' => 'https://purl.org/dc/terms/',
+                'o:prefix' => 'dcterms2',
+                'o:label' => 'Dublin Core again',
+                'o:comment' => '',
+            ],
+            'vocabulary-file' => [
+                'import_type' => 'url',
+                'url' => 'http://example.org/review.ttl',
+                'format' => 'turtle',
+            ],
+            'vocabulary-advanced' => [
+                'lang' => '',
+                'label_property' => '',
+                'comment_property' => '',
+            ],
+        ] + $this->csrfField(VocabularyForm::class));
+        $this->assertSame(200, $status);
+        $text = strip_tags(html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
+        $this->assertStringContainsString('Omeka already has this vocabulary, as "Dublin Core" with the namespace URI "http://purl.org/dc/terms/".', $text);
+        $this->assertStringNotContainsString('To update it', $text);
+    }
+
     public function testImportTrimsTheNamespace()
     {
         $this->serveFile('../../../Stdlib/_files/definitions.ttl');
@@ -814,6 +842,35 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString('The namespace URI "http://purl.org/dc/terms/" is already taken.', $page);
         $this->assertStringNotContainsString('Namespace successfully changed', $page);
         $this->assertSame(self::NAMESPACE_URI, $this->vocabulary()->namespaceUri());
+    }
+
+    public function testChangeNamespaceRefusesAnotherFormOfAnotherVocabularys()
+    {
+        $this->reset(true);
+        $this->signIn();
+        $other = $this->api()->create('vocabularies', [
+            'o:namespace_uri' => 'http://example.org/other#',
+            'o:prefix' => 'other',
+            'o:label' => 'Other',
+        ])->getContent();
+        try {
+            // As an import of it is refused: its terms would be twice.
+            $status = $this->changeNamespace('https://example.org/other#');
+            $this->assertSame(200, $status);
+            $this->assertStringContainsString('Another vocabulary, "Other", has this namespace URI in another form: "http://example.org/other#".', html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
+            $this->assertSame(self::NAMESPACE_URI, $this->vocabulary()->namespaceUri());
+        } finally {
+            $this->reset(true);
+            $this->signIn();
+            $this->api()->delete('vocabularies', $other->id());
+        }
+    }
+
+    public function testChangeNamespaceToAnotherFormOfItsOwn()
+    {
+        $status = $this->changeNamespace('https://example.org/review#');
+        $this->assertSame(302, $status);
+        $this->assertSame('https://example.org/review#', $this->vocabulary()->namespaceUri());
     }
 
     public function testChangeNamespaceRefusedForAnothersVocabulary()

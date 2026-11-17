@@ -97,8 +97,11 @@ class VocabularyController extends AbstractActionController
                 // updated from its page: imported, its terms would be twice.
                 $other = $this->getVocabularyInAnotherForm(trim((string) $data['vocabulary-info']['o:namespace_uri']));
                 if ($other) {
+                    // How to update it, only to someone who may.
                     $message = new Message(
-                        'Omeka already has this vocabulary, as "%1$s" with the namespace URI "%2$s". To update it, use Update classes and properties on its page.', // @translate
+                        !$other->isPermanent() && $other->userIsAllowed('update')
+                            ? 'Omeka already has this vocabulary, as "%1$s" with the namespace URI "%2$s". To update it, use Update classes and properties on its page.' // @translate
+                            : 'Omeka already has this vocabulary, as "%1$s" with the namespace URI "%2$s".', // @translate
                         sprintf('<a href="%s">%s</a>', htmlspecialchars($other->url()), htmlspecialchars($other->label())),
                         htmlspecialchars($other->namespaceUri())
                     );
@@ -221,8 +224,16 @@ class VocabularyController extends AbstractActionController
             $form->setData($request->getPost()->toArray());
             if ($form->isValid()) {
                 $namespaceUri = $form->getData()['vocabulary-info']['o:namespace_uri'];
+                $other = $this->getVocabularyInAnotherForm($namespaceUri, $vocabulary);
                 if ($namespaceUri === $vocabulary->namespaceUri()) {
                     $this->messenger()->addError('The vocabulary already has this namespace URI.'); // @translate
+                } elseif ($other) {
+                    // As an import is refused: their terms would be twice.
+                    $this->messenger()->addError(new Message(
+                        'Another vocabulary, "%1$s", has this namespace URI in another form: "%2$s".', // @translate
+                        $other->label(),
+                        $other->namespaceUri()
+                    ));
                 } else {
                     // Where the API refuses it, as one another vocabulary
                     // has, it puts its reasons on the form, which is shown
@@ -547,13 +558,17 @@ class VocabularyController extends AbstractActionController
      * "#", "/", or neither, with http or https.
      *
      * @param string $namespaceUri
+     * @param \Omeka\Api\Representation\VocabularyRepresentation|null $except
+     *   A vocabulary not to count, such as one whose namespace URI changes
      * @return \Omeka\Api\Representation\VocabularyRepresentation|null
      */
-    protected function getVocabularyInAnotherForm($namespaceUri)
+    protected function getVocabularyInAnotherForm($namespaceUri, $except = null)
     {
         $vocabularies = $this->api()->search('vocabularies', ['namespace_uri' => NamespaceUri::getForms($namespaceUri)])->getContent();
         foreach ($vocabularies as $vocabulary) {
-            if ($vocabulary->namespaceUri() !== $namespaceUri) {
+            if ($vocabulary->namespaceUri() !== $namespaceUri
+                && (!$except || $vocabulary->id() !== $except->id())
+            ) {
                 return $vocabulary;
             }
         }

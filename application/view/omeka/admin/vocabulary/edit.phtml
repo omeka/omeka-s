@@ -10,7 +10,7 @@ $form->prepare();
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
     <?php $this->trigger('view.edit.page_actions', ['resource' => $vocabulary]); ?>
-    <?php // Its confirmation loads when asked for, as from the list: its counts take a while on a large site. ?>
+    <?php // Its confirmation loads when asked for, as from the list: its counts take a while on a large installation. ?>
     <?php echo $this->hyperlink($translate('Delete'), '#', [
         'class' => 'delete button sidebar-content',
         'data-sidebar-selector' => '#delete',

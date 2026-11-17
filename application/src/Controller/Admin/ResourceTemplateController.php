@@ -142,8 +142,8 @@ class ResourceTemplateController extends AbstractActionController
         ];
 
         // The vocabulary with the namespace URI, else one with another form
-        // of it, as when a template from one site has https://schema.org/
-        // and this site has http://schema.org/.
+        // of it, as when a template from another installation has
+        // https://schema.org/ and this one has http://schema.org/.
         $getVocab = function ($namespaceUri) use (&$vocabs) {
             if (isset($vocabs[$namespaceUri])) {
                 return $vocabs[$namespaceUri];

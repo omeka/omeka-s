@@ -345,7 +345,7 @@ class VocabularyReview
     }
 
     /**
-     * Check that a review's return URL, if any, is a path on this site.
+     * Check that a review's return URL, if any, is a local path.
      *
      * @param array $reviewOptions
      * @throws \InvalidArgumentException
@@ -359,7 +359,7 @@ class VocabularyReview
     }
 
     /**
-     * Check that a URL is a path on this site.
+     * Check that a URL is a local path.
      *
      * @param string $url
      * @return bool

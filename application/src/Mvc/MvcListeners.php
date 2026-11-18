@@ -10,6 +10,8 @@ use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\I18n\Translator\TranslatorInterface as TranslatorInterface;
 use Laminas\Mvc\Application as LaminasApplication;
+use Laminas\Http\Header\HeaderInterface;
+use Laminas\Http\Request as HttpRequest;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Permissions\Acl\Exception as AclException;
 use Laminas\Session\Config\SessionConfig;
@@ -152,7 +154,7 @@ class MvcListeners extends AbstractListenerAggregate
     /**
      * Set the default locale.
      *
-     * Note that we only set a defualt locale when the intl extension is loaded
+     * Note that we only set a default locale when the intl extension is loaded
      * and when the locale isn't "debug". The "debug" locale is a special case
      * used by Omeka to detect translated strings on the page wihout switching
      * to another language. Otherwise there will be a "Found unconstructed
@@ -279,6 +281,10 @@ class MvcListeners extends AbstractListenerAggregate
     /**
      * Authorize the current user against an API key.
      *
+     * The key is passed via the header "Authorization: Basic" (recommended) or
+     * via the query parameters "key_identity" and "key_credential", that are
+     * prioritary for compatibility.
+     *
      * @param MvcEvent $event
      */
     public function authenticateApiKey(MvcEvent $event)
@@ -289,8 +295,14 @@ class MvcListeners extends AbstractListenerAggregate
             return;
         }
 
-        $identity = $event->getRequest()->getQuery('key_identity');
-        $credential = $event->getRequest()->getQuery('key_credential');
+        $request = $event->getRequest();
+
+        // Don't mix the sources of the identity and of the credential.
+        $identity = $request->getQuery('key_identity');
+        $credential = $request->getQuery('key_credential');
+        if (is_null($identity) && is_null($credential)) {
+            [$identity, $credential] = $this->basicAuthApiKey($request);
+        }
 
         if (is_null($identity) || is_null($credential)) {
             // No identity/credential key to authenticate against.
@@ -302,6 +314,41 @@ class MvcListeners extends AbstractListenerAggregate
         $auth->getAdapter()->setIdentity($identity);
         $auth->getAdapter()->setCredential($credential);
         $auth->authenticate();
+    }
+
+    /**
+     * Get the api key passed with the header "Authorization: Basic".
+     *
+     * The key identity is the user and the key credential is the password.
+     *
+     * @param \Laminas\Stdlib\RequestInterface $request
+     * @return array The key identity and the key credential, that may be null.
+     */
+    protected function basicAuthApiKey($request)
+    {
+        $none = [null, null];
+        if (!$request instanceof HttpRequest) {
+            return $none;
+        }
+
+        // A repeated header returns an iterator, so there is no single key.
+        $header = $request->getHeaders()->get('Authorization');
+        if (!$header instanceof HeaderInterface) {
+            return $none;
+        }
+
+        // Another scheme may be managed by a module.
+        if (!preg_match('~^\s*Basic\s+(?<credentials>[A-Za-z0-9+/]+={0,2})\s*$~i', $header->getFieldValue(), $matches)) {
+            return $none;
+        }
+
+        // Only the key credential may contain a colon.
+        $credentials = base64_decode($matches['credentials'], true);
+        if ($credentials === false || !str_contains($credentials, ':')) {
+            return $none;
+        }
+
+        return explode(':', $credentials, 2);
     }
 
     /**

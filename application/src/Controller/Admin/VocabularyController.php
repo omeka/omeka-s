@@ -608,18 +608,9 @@ class VocabularyController extends AbstractActionController
         return $this->rdfImporter->getVocabularyDetails('file', [
             'file' => $this->fileStore->getPath($token),
             'format' => $format,
-            'lang' => $this->getLocaleLanguage(),
+            // As "en_US", which the importer matches as en-us.
+            'lang' => $this->settings()->get('locale'),
         ]);
-    }
-
-    /**
-     * Get the installation's language as a tag, such as "en-us".
-     *
-     * @return string
-     */
-    protected function getLocaleLanguage()
-    {
-        return strtolower(str_replace('_', '-', (string) ($this->settings()->get('locale') ?: 'en')));
     }
 
     /**

@@ -1110,7 +1110,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         // Both namespace URIs, as the importer refuses, beside the row
         // saying what to do when a vocabulary has moved.
         $this->assertStringContainsString('None of the file\'s classes or properties are in the namespace URI "http://example.org/review#". The file uses "http://example.org/moved#".', $page);
-        $this->assertStringContainsString('If the vocabulary has moved to a new namespace URI, change it first with Edit vocabulary', $page);
+        $this->assertStringContainsString(sprintf('If the vocabulary has moved to a new namespace URI, change it first with <a href="/admin/vocabulary/%s/edit">Edit vocabulary</a>.', $this->vocabularyId), $page);
     }
 
     public function testUpdateWithTermsTooLongToStoreNamesThem()

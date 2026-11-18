@@ -21,7 +21,7 @@ $form->prepare();
         <span class="label"><?php echo $translate('Namespace URI'); ?></span>
         <a href="#" class="expand" aria-expanded="false" aria-controls="namespace-uri-description" aria-label="<?php echo $escape($translate('Expand')); ?>"></a>
         <div class="collapsible" id="namespace-uri-description">
-            <div class="field-description"><?php echo $translate('Only the file\'s classes and properties in this namespace URI are compared. If the vocabulary has moved to a new namespace URI, change it first with Edit vocabulary, on the vocabulary\'s page.'); ?></div>
+            <div class="field-description"><?php echo sprintf($translate('Only the file\'s classes and properties in this namespace URI are compared. If the vocabulary has moved to a new namespace URI, change it first with %s.'), $this->hyperlink($translate('Edit vocabulary'), $vocabulary->url('edit'))); ?></div>
         </div>
     </div>
     <div class="inputs">

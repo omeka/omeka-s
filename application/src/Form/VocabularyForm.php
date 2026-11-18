@@ -28,8 +28,9 @@ class VocabularyForm extends Form
      *   with a vocabulary); "file", the file to import or update from (the
      *   default without one); "import_details", an import's second step; or
      *   "review", the import options a review's changes are shown with
-     * - languages: (optional) For "import_details" and "review", the file's
-     *   languages
+     * - languages: (optional) For "import_details" and "review", the
+     *   languages to choose from: the file's, and for "review" also the one
+     *   chosen, should the file no longer have it
      */
     protected $options = [
         'vocabulary' => null,

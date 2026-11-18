@@ -157,7 +157,7 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      */
     public function valueCount()
     {
-        return $this->getAdapter()->getTermUseCount($this->resource, 'Omeka\Entity\Value', 'property');
+        return $this->getAdapter()->getValueCount($this->resource);
     }
 
     /**
@@ -168,7 +168,7 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      */
     public function resourceTemplateCount()
     {
-        return $this->getAdapter()->getTermUseCount($this->resource, 'Omeka\Entity\ResourceTemplateProperty', 'property', 'DISTINCT e.resourceTemplate');
+        return $this->getAdapter()->getResourceTemplateCount($this->resource);
     }
 
     /**
@@ -178,6 +178,6 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      */
     public function resourceWithClassCount()
     {
-        return $this->getAdapter()->getTermUseCount($this->resource, 'Omeka\Entity\Resource', 'resourceClass');
+        return $this->getAdapter()->getResourceWithClassCount($this->resource);
     }
 }

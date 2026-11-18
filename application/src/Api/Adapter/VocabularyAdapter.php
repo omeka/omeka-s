@@ -286,8 +286,41 @@ class VocabularyAdapter extends AbstractEntityAdapter
     }
 
     /**
-     * Count the entities of a class that use one of a vocabulary's terms,
-     * such as the values of its properties.
+     * Get the number of values of a vocabulary's properties.
+     *
+     * @param Vocabulary $vocabulary
+     * @return int
+     */
+    public function getValueCount(Vocabulary $vocabulary)
+    {
+        return $this->getTermUseCount($vocabulary, 'Omeka\Entity\Value', 'property');
+    }
+
+    /**
+     * Get the number of resource templates that use any of a vocabulary's
+     * properties.
+     *
+     * @param Vocabulary $vocabulary
+     * @return int
+     */
+    public function getResourceTemplateCount(Vocabulary $vocabulary)
+    {
+        return $this->getTermUseCount($vocabulary, 'Omeka\Entity\ResourceTemplateProperty', 'property', 'DISTINCT e.resourceTemplate');
+    }
+
+    /**
+     * Get the number of resources whose class is one of a vocabulary's.
+     *
+     * @param Vocabulary $vocabulary
+     * @return int
+     */
+    public function getResourceWithClassCount(Vocabulary $vocabulary)
+    {
+        return $this->getTermUseCount($vocabulary, 'Omeka\Entity\Resource', 'resourceClass');
+    }
+
+    /**
+     * Count the entities of a class that use one of a vocabulary's terms.
      *
      * @param Vocabulary $vocabulary
      * @param string $entityClass
@@ -297,7 +330,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
      *   another of their fields, such as "DISTINCT e.resourceTemplate"
      * @return int
      */
-    public function getTermUseCount(Vocabulary $vocabulary, $entityClass, $termField, $counted = 'e.id')
+    protected function getTermUseCount(Vocabulary $vocabulary, $entityClass, $termField, $counted = 'e.id')
     {
         return (int) $this->getEntityManager()
             ->createQuery(sprintf('SELECT COUNT(%s) FROM %s e JOIN e.%s t WHERE t.vocabulary = :vocabulary', $counted, $entityClass, $termField))

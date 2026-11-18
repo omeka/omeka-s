@@ -22,6 +22,13 @@ class Vocabulary extends AbstractEntity
     const LABEL_MAX_LENGTH = 255;
 
     /**
+     * The import options: how a file is read, as its format, language, and
+     * label and comment properties. A vocabulary stores them, so an update
+     * reads the next version of its file the same way.
+     */
+    const IMPORT_OPTIONS = ['format', 'lang', 'label_property', 'comment_property'];
+
+    /**
      * @Id
      * @Column(type="integer")
      * @GeneratedValue

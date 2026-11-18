@@ -6,6 +6,7 @@ use Laminas\Router\RouteStackInterface;
 use Laminas\Session\Container;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Api\Manager as ApiManager;
+use Omeka\Entity\Vocabulary;
 use Omeka\Permissions\Exception\PermissionDeniedException;
 
 /**
@@ -125,7 +126,7 @@ class VocabularyReview
      */
     public function getImportOptions(array $review, array $choices = [])
     {
-        return array_intersect_key($choices, array_flip(RdfImporter::IMPORT_OPTIONS)) + $review['import_options'];
+        return array_intersect_key($choices, array_flip(Vocabulary::IMPORT_OPTIONS)) + $review['import_options'];
     }
 
     /**
@@ -214,7 +215,7 @@ class VocabularyReview
             throw new PermissionDeniedException('User does not have permission to update this vocabulary');
         }
         $diff = $this->getDiff($review, $importOptions);
-        $data = ['o:import_options' => array_intersect_key($importOptions, array_flip(RdfImporter::IMPORT_OPTIONS))];
+        $data = ['o:import_options' => array_intersect_key($importOptions, array_flip(Vocabulary::IMPORT_OPTIONS))];
         if (null !== $review['new_namespace_uri']) {
             $data['o:namespace_uri'] = $review['new_namespace_uri'];
         }
@@ -313,7 +314,7 @@ class VocabularyReview
     {
         // An empty option, as an unchanged form posts one, isn't a choice.
         $importOptions = array_filter(
-            array_intersect_key($given, array_flip(RdfImporter::IMPORT_OPTIONS)),
+            array_intersect_key($given, array_flip(Vocabulary::IMPORT_OPTIONS)),
             function ($value) {
                 return null !== $value && '' !== $value;
             }

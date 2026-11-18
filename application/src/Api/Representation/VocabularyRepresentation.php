@@ -33,7 +33,7 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      * Return the import options the vocabulary's file was read with, if
      * known.
      *
-     * @see \Omeka\Stdlib\RdfImporter::IMPORT_OPTIONS
+     * @see \Omeka\Entity\Vocabulary::IMPORT_OPTIONS
      * @return array|null
      */
     public function importOptions()
@@ -157,7 +157,7 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      */
     public function valueCount()
     {
-        return $this->countByTerm('Omeka\Entity\Value', 'property');
+        return $this->getAdapter()->getTermUseCount($this->resource, 'Omeka\Entity\Value', 'property');
     }
 
     /**
@@ -168,7 +168,7 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      */
     public function resourceTemplateCount()
     {
-        return $this->countByTerm('Omeka\Entity\ResourceTemplateProperty', 'property', 'DISTINCT e.resourceTemplate');
+        return $this->getAdapter()->getTermUseCount($this->resource, 'Omeka\Entity\ResourceTemplateProperty', 'property', 'DISTINCT e.resourceTemplate');
     }
 
     /**
@@ -178,24 +178,6 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
      */
     public function resourceWithClassCount()
     {
-        return $this->countByTerm('Omeka\Entity\Resource', 'resourceClass');
-    }
-
-    /**
-     * Count the entities of a class whose term is one of this vocabulary's.
-     *
-     * @param string $entityClass
-     * @param string $termField The entity's field that holds its term:
-     *   "property" or "resourceClass"
-     * @param string $counted What to count, the entities by default, or
-     *   another of their fields, such as "DISTINCT e.resourceTemplate"
-     * @return int
-     */
-    protected function countByTerm($entityClass, $termField, $counted = 'e.id')
-    {
-        return (int) $this->getServiceLocator()->get('Omeka\EntityManager')
-            ->createQuery(sprintf('SELECT COUNT(%s) FROM %s e JOIN e.%s t WHERE t.vocabulary = :vocabulary', $counted, $entityClass, $termField))
-            ->setParameter('vocabulary', $this->id())
-            ->getSingleScalarResult();
+        return $this->getAdapter()->getTermUseCount($this->resource, 'Omeka\Entity\Resource', 'resourceClass');
     }
 }

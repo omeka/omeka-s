@@ -690,7 +690,7 @@ class VocabularyController extends AbstractActionController
     {
         // An API refusal has no message of its own, only its reasons.
         $errors = '' === (string) $e->getMessage() ? [] : [$e->getMessage()];
-        if (method_exists($e, 'getErrorStore') && $e->getErrorStore()->getErrors()) {
+        if ($e instanceof ValidationException && $e->getErrorStore()->getErrors()) {
             $errors[] = $e->getErrorStore()->getErrors();
         }
         return $errors ?: ['Something went wrong']; // @translate

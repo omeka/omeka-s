@@ -7,7 +7,6 @@ use Omeka\Entity\EntityInterface;
 use Omeka\Entity\Vocabulary;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\Message;
-use Omeka\Stdlib\RdfImporter;
 
 class VocabularyAdapter extends AbstractEntityAdapter
 {
@@ -107,9 +106,9 @@ class VocabularyAdapter extends AbstractEntityAdapter
         if ($this->shouldHydrate($request, 'o:import_options')) {
             $importOptions = $request->getValue('o:import_options');
             if (is_array($importOptions)) {
-                // Keep only the keys in RdfImporter::IMPORT_OPTIONS, each as
+                // Keep only the keys in Vocabulary::IMPORT_OPTIONS, each as
                 // text or null.
-                $importOptions = array_intersect_key($importOptions, array_flip(RdfImporter::IMPORT_OPTIONS));
+                $importOptions = array_intersect_key($importOptions, array_flip(Vocabulary::IMPORT_OPTIONS));
                 foreach ($importOptions as $key => $value) {
                     $importOptions[$key] = is_scalar($value) ? (string) $value : null;
                 }
@@ -284,5 +283,25 @@ class VocabularyAdapter extends AbstractEntityAdapter
                 $uniqueLocalNames[] = $property->getLocalName();
             }
         }
+    }
+
+    /**
+     * Count the entities of a class that use one of a vocabulary's terms,
+     * such as the values of its properties.
+     *
+     * @param Vocabulary $vocabulary
+     * @param string $entityClass
+     * @param string $termField The entity's field that holds its term:
+     *   "property" or "resourceClass"
+     * @param string $counted What to count, the entities by default, or
+     *   another of their fields, such as "DISTINCT e.resourceTemplate"
+     * @return int
+     */
+    public function getTermUseCount(Vocabulary $vocabulary, $entityClass, $termField, $counted = 'e.id')
+    {
+        return (int) $this->getEntityManager()
+            ->createQuery(sprintf('SELECT COUNT(%s) FROM %s e JOIN e.%s t WHERE t.vocabulary = :vocabulary', $counted, $entityClass, $termField))
+            ->setParameter('vocabulary', $vocabulary->getId())
+            ->getSingleScalarResult();
     }
 }

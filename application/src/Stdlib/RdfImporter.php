@@ -38,13 +38,6 @@ class RdfImporter
     ];
 
     /**
-     * The import options: how a file is read, as its format, language, and
-     * label and comment properties. A vocabulary stores them, so an update
-     * reads the next version of its file the same way.
-     */
-    const IMPORT_OPTIONS = ['format', 'lang', 'label_property', 'comment_property'];
-
-    /**
      * The memory limit to raise PHP's to while reading a file, if PHP's is
      * lower.
      */
@@ -283,7 +276,7 @@ class RdfImporter
         $this->checkTermLengths($members);
 
         return $this->apiManager->create('vocabularies', array_merge($vocab, $vocabMembers, [
-            'o:import_options' => array_intersect_key($options, array_flip(self::IMPORT_OPTIONS)),
+            'o:import_options' => array_intersect_key($options, array_flip(Vocabulary::IMPORT_OPTIONS)),
         ]));
     }
 

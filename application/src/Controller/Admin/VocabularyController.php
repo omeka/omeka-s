@@ -341,13 +341,17 @@ class VocabularyController extends AbstractActionController
             $view->setVariable('diff', null);
             $view->setVariable('notInFile', null);
         }
-        // The file's languages, and the one chosen, even where the file no
-        // longer has it.
-        $lang = (string) ($importOptions['lang'] ?? '');
-        $view->setVariable('choices', $this->getForm(VocabularyForm::class, [
+        // The choices as the import options give them, with the file's
+        // languages and the one chosen, even where the file no longer has it.
+        $choiceValues = $this->getChoiceValues($importOptions);
+        $lang = $choiceValues['lang'];
+        $choices = $this->getForm(VocabularyForm::class, [
             'mode' => 'review',
             'languages' => array_values(array_unique(array_merge($languages, '' === $lang ? [] : [$lang]))),
-        ]));
+        ]);
+        $choices->setData($choiceValues);
+        $view->setVariable('choices', $choices);
+        $view->setVariable('choiceValues', $choiceValues);
         return $view;
     }
 
@@ -517,6 +521,28 @@ class VocabularyController extends AbstractActionController
             $choices['comment_property'] = $commentProperty;
         }
         return $choices;
+    }
+
+    /**
+     * Get the review page's choices as the import options give them: the
+     * reverse of getChoices(). A comment property the Comments from field
+     * doesn't offer, or a label property other than the default, was entered
+     * by hand, so its box is filled in.
+     *
+     * @param array $importOptions
+     * @return array lang, comments, label_property, and comment_property
+     */
+    protected function getChoiceValues(array $importOptions)
+    {
+        $commentProperty = $importOptions['comment_property'] ?? RdfImporter::COMMENT_PROPERTY;
+        $comments = array_search($commentProperty, RdfImporter::COMMENT_PROPERTY_CHOICES, true);
+        $labelProperty = $importOptions['label_property'] ?? RdfImporter::LABEL_PROPERTY;
+        return [
+            'lang' => (string) ($importOptions['lang'] ?? ''),
+            'comments' => false === $comments ? 'other' : $comments,
+            'label_property' => RdfImporter::LABEL_PROPERTY === $labelProperty ? '' : $labelProperty,
+            'comment_property' => false === $comments ? $commentProperty : '',
+        ];
     }
 
     /**

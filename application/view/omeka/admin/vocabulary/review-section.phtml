@@ -1,0 +1,47 @@
+<?php
+// One section of a review's changes: a table with a row for each term, in
+// natural order of their local names. A section of changes ("changes") gives
+// each term's value from and to, with Omeka's labels ("labels") naming the
+// terms; any other section ("terms") gives each term's values.
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$textDiff = $this->plugin('textDiff');
+$isChanges = isset($section['changes']);
+$terms = $isChanges ? $section['changes'] : $section['terms'];
+uksort($terms, function ($a, $b) {
+    return strnatcasecmp((string) $a, (string) $b);
+});
+$none = sprintf('<span class="review-none">%s</span>', $translate('None'));
+?>
+<h2 id="<?php echo $section['id']; ?>" tabindex="-1"><?php echo $escape(sprintf('%s (%s)', $section['heading'], count($terms))); ?></h2>
+<?php if (isset($section['note'])): ?>
+<p><?php echo $section['note']; ?></p>
+<?php endif; ?>
+<table class="tablesaw review-table <?php echo $section['class'] ?? ''; ?>" data-tablesaw-mode="stack">
+    <thead>
+        <tr>
+            <?php foreach ($section['columns'] as $column): ?>
+            <th><?php echo $escape($column); ?></th>
+            <?php endforeach; ?>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($terms as $localName => $values): ?>
+        <?php
+        $label = $isChanges ? (string) ($section['labels'][$localName] ?? '') : '';
+        $values = array_map('strval', array_values((array) $values));
+        // A changed value is marked word by word, where neither side is empty.
+        $cells = $isChanges && '' !== $values[0] && '' !== $values[1]
+            ? $textDiff($values[0], $values[1])
+            : array_map($escape, $values);
+        ?>
+        <tr>
+            <?php // The term heads its row, so a screen reader names it with each value. ?>
+            <td role="rowheader"><?php if ('' !== $label): ?><span class="review-term-label"><?php echo $escape($label); ?></span> <?php endif; ?><span class="field-term"><?php echo $escape($prefix . ':' . $localName); ?></span></td>
+            <?php foreach ($cells as $i => $cell): ?>
+            <td><?php echo '' === $values[$i] ? $none : sprintf('<span class="review-value">%s</span>', $cell); ?></td>
+            <?php endforeach; ?>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

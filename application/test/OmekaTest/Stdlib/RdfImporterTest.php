@@ -382,6 +382,16 @@ class RdfImporterTest extends DbTestCase
         $this->assertSame('Regional', $details['label']);
     }
 
+    public function testVocabularyDetailsTitleInItsOwnLanguageNearestThePreferredOne()
+    {
+        // The title has French where the class has no language at all, and
+        // its tag is found in any case.
+        $details = $this->details('details-titled.ttl', ['lang' => 'fr']);
+        $this->assertSame('Titré', $details['label']);
+        $this->assertNull($details['lang']);
+        $this->assertSame('Titled', $this->details('details-titled.ttl')['label']);
+    }
+
     public function testVocabularyDetailsSkipAPrefixOmekaCannotUse()
     {
         // The ontology's prefix has a dot, so the namespace's is taken.

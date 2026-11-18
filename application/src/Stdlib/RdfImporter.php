@@ -303,7 +303,8 @@ class RdfImporter
      *
      * @param string $strategy "file" or "url"
      * @param array $options The file or URL, and the format; and lang: the
-     *   language to prefer, such as "fr-ca"
+     *   language to prefer, such as "fr-ca", which the label and comment are
+     *   read in where they have it, or the nearest they have
      * @return array
      *   - namespace_uri: null for a file that names its terms relative to
      *     itself
@@ -314,8 +315,8 @@ class RdfImporter
      *     relative to the file)
      *   - prefix, label, comment: null where the file says nothing
      *   - languages: of all its classes and properties
-     *   - lang: the one of those languages nearest the one preferred, which
-     *     the label and comment are read in; null for none
+     *   - lang: the one of those languages nearest the one preferred, for
+     *     reading the classes and properties in; null for none
      * @throws ValidationException When the file can't be read, or has no
      *   classes or properties
      */
@@ -329,15 +330,17 @@ class RdfImporter
         // From every class and property, in any namespace, since the admin
         // may correct the namespace URI found.
         $languages = $this->getGraphLanguages($graph, null, self::LABEL_PROPERTY . '|' . self::COMMENT_PROPERTY);
-        $lang = $this->getMatchingLanguage($options['lang'] ?? null, $languages);
+        // The label and comment by the languages they have themselves, which
+        // may not be the classes' and properties'.
+        $preferred = $options['lang'] ?? null;
         return [
             'namespace_uri' => 'relative' === $source ? null : $namespaceUri,
             'namespace_source' => $source,
             'prefix' => $this->getVocabularyPrefix($graph, $namespaceUri),
-            'label' => $this->getVocabularyTitle($graph, $namespaceUri, $lang),
-            'comment' => $this->getVocabularyDescription($graph, $namespaceUri, $lang),
+            'label' => $this->getVocabularyTitle($graph, $namespaceUri, $preferred),
+            'comment' => $this->getVocabularyDescription($graph, $namespaceUri, $preferred),
             'languages' => $languages,
-            'lang' => $lang,
+            'lang' => $this->getMatchingLanguage($preferred, $languages),
         ];
     }
 
@@ -1119,23 +1122,32 @@ class RdfImporter
 
     /**
      * Get a resource's values for the first of some properties that has them,
-     * in the preferred language, else English, else the first language one
-     * has. Values with no language come along with any.
+     * in the language of theirs nearest the preferred one (fr finds fr-CA),
+     * else English the same way, else the first language one has. Values with
+     * no language come along with any.
      *
+     * @see self::getMatchingLanguage()
      * @param RdfResource $resource
      * @param string $properties Alternatives, as "a|b"
-     * @param string|null $lang
+     * @param string|null $lang Such as "fr-ca"
      * @return \EasyRdf\Literal[]
      */
     protected function getValuesInPreferredLanguage(RdfResource $resource, $properties, $lang)
     {
-        foreach (array_unique(array_filter([$lang, 'en'])) as $language) {
+        $languages = [];
+        foreach (explode('|', $properties) as $property) {
+            foreach ($resource->all($property, 'literal') as $value) {
+                $languages[] = strtolower((string) $value->getLang());
+            }
+        }
+        $language = $this->getMatchingLanguage($lang, array_values(array_filter(array_unique($languages), 'strlen')));
+        if (null !== $language) {
             foreach (explode('|', $properties) as $property) {
                 $values = array_filter($resource->all($property, 'literal'), function ($value) use ($language) {
-                    return in_array((string) $value->getLang(), [$language, ''], true);
+                    return in_array(strtolower((string) $value->getLang()), [$language, ''], true);
                 });
                 if (array_filter($values, function ($value) use ($language) {
-                    return $language === $value->getLang();
+                    return $language === strtolower((string) $value->getLang());
                 })) {
                     return array_values($values);
                 }

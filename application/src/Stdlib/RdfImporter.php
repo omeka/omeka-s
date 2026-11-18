@@ -826,37 +826,23 @@ class RdfImporter
      */
     protected function getNoMembersException(RdfGraph $graph, $namespaceUri)
     {
-        $exception = new ValidationException('No classes or properties found. Are you sure you used the correct namespace URI?'); // @translate
-        $suggestion = $this->findNamespaceUri($graph, $namespaceUri)[0];
-        if (null !== $suggestion) {
-            $exception->getErrorStore()->addError('o:namespace_uri', new Message(
-                'The file\'s classes and properties use the namespace URI "%s".', // @translate
-                $suggestion
-            ));
-        }
+        // As the API refuses: no message of its own, only its reason. Both
+        // namespace URIs are named where the file's is known, since they
+        // may differ only by a character, such as http and https.
+        $fileNamespaceUri = $this->findNamespaceUri($graph, $namespaceUri)[0];
+        $message = null === $fileNamespaceUri
+            ? new Message(
+                'None of the file\'s classes or properties are in the namespace URI "%s".', // @translate
+                $namespaceUri
+            )
+            : new Message(
+                'None of the file\'s classes or properties are in the namespace URI "%1$s". The file uses "%2$s".', // @translate
+                $namespaceUri,
+                $fileNamespaceUri
+            );
+        $exception = new ValidationException;
+        $exception->getErrorStore()->addError('o:namespace_uri', $message);
         return $exception;
-    }
-
-    /**
-     * Get the namespace URI a refused file's classes and properties do use,
-     * where the refusal is one getNoMembersException() made and names it,
-     * as from checkHasMembers().
-     *
-     * @param \Exception $e
-     * @return string|null
-     */
-    public function getFileNamespaceUri(\Exception $e)
-    {
-        if (!$e instanceof ValidationException) {
-            return null;
-        }
-        // The one argument of its o:namespace_uri message.
-        foreach ($e->getErrorStore()->getErrors()['o:namespace_uri'] ?? [] as $message) {
-            if ($message instanceof Message && $message->hasArgs()) {
-                return (string) $message->getArgs()[0];
-            }
-        }
-        return null;
     }
 
     /**

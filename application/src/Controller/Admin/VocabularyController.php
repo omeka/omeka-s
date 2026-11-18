@@ -302,23 +302,7 @@ class VocabularyController extends AbstractActionController
                     : $this->vocabularyReview->startFromUrl($vocabulary->id(), $source['url'], $importOptions);
                 return $this->redirect()->toUrl($reviewUrl);
             } catch (\Exception $e) {
-                $namespaceUri = $this->rdfImporter->getFileNamespaceUri($e);
-                if (null === $namespaceUri) {
-                    $this->messenger()->addErrors($this->getErrors($e));
-                } else {
-                    // Name both namespace URIs: they may differ only by a #
-                    // or / that's easy to miss. "change its namespace" links
-                    // to Edit, where the namespace is changed.
-                    $message = new Message(
-                        'None of this file\'s classes or properties are in this vocabulary\'s namespace, "%1$s". They use "%2$s". If the vocabulary has moved, %3$schange its namespace%4$s, then update it again.', // @translate
-                        htmlspecialchars($vocabulary->namespaceUri()),
-                        htmlspecialchars($namespaceUri),
-                        sprintf('<a href="%s">', htmlspecialchars($vocabulary->url('edit'))),
-                        '</a>'
-                    );
-                    $message->setEscapeHtml(false);
-                    $this->messenger()->addError($message);
-                }
+                $this->messenger()->addErrors($this->getErrors($e));
             }
         }
         $view->setVariable('form', $form);

@@ -178,12 +178,13 @@ class RdfImporterTest extends DbTestCase
             ]);
             $this->fail('The vocabulary was imported');
         } catch (ValidationException $e) {
-            $this->assertSame('No classes or properties found. Are you sure you used the correct namespace URI?', $e->getMessage());
-            // And the namespace the file's terms use.
+            // As the API refuses: no message of its own, only its reason,
+            // naming the namespace URI given and the one the file uses.
+            $this->assertSame('', $e->getMessage());
             $errors = $e->getErrorStore()->getErrors();
             $this->assertSame(['o:namespace_uri'], array_keys($errors));
             $this->assertSame(
-                ['The file\'s classes and properties use the namespace URI "http://example.org/multi#".'],
+                ['None of the file\'s classes or properties are in the namespace URI "http://example.org/multi". The file uses "http://example.org/multi#".'],
                 array_map('strval', $errors['o:namespace_uri'])
             );
         }
@@ -806,16 +807,22 @@ class RdfImporterTest extends DbTestCase
             $this->rdfImporter->checkHasMembers('file', 'http://example.org/compare#', $options);
             $this->fail('The file was taken');
         } catch (ValidationException $e) {
-            $this->assertSame('No classes or properties found. Are you sure you used the correct namespace URI?', $e->getMessage());
             $this->assertSame(
-                'The file\'s classes and properties use the namespace URI "http://example.org/moved#".',
+                'None of the file\'s classes or properties are in the namespace URI "http://example.org/compare#". The file uses "http://example.org/moved#".',
                 (string) $e->getErrorStore()->getErrors()['o:namespace_uri'][0]
             );
-            // As read back for the update page.
-            $this->assertSame('http://example.org/moved#', $this->rdfImporter->getFileNamespaceUri($e));
         }
-        // Any other refusal names none.
-        $this->assertNull($this->rdfImporter->getFileNamespaceUri(new ValidationException('Another refusal')));
+        // A file with no classes or properties anywhere names only the one
+        // given.
+        try {
+            $this->rdfImporter->checkHasMembers('file', 'http://example.org/compare#', ['file' => __DIR__ . '/_files/empty.ttl', 'format' => 'turtle']);
+            $this->fail('The file was taken');
+        } catch (ValidationException $e) {
+            $this->assertSame(
+                'None of the file\'s classes or properties are in the namespace URI "http://example.org/compare#".',
+                (string) $e->getErrorStore()->getErrors()['o:namespace_uri'][0]
+            );
+        }
     }
 
     public function namespaceSuggestions()
@@ -872,8 +879,11 @@ class RdfImporterTest extends DbTestCase
             $this->rdfImporter->checkHasMembers('file', $namespaceUri, ['file' => $file, 'format' => 'turtle']);
             $this->fail('A file without terms in the namespace was taken');
         } catch (ValidationException $e) {
-            $messages = $e->getErrorStore()->getErrors()['o:namespace_uri'] ?? [];
-            $this->assertSame($suggestion, $messages ? (string) $messages[0]->getArgs()[0] : null);
+            // Named after the one given, where the file's is known.
+            $expected = null === $suggestion
+                ? sprintf('None of the file\'s classes or properties are in the namespace URI "%s".', $namespaceUri)
+                : sprintf('None of the file\'s classes or properties are in the namespace URI "%s". The file uses "%s".', $namespaceUri, $suggestion);
+            $this->assertSame([$expected], array_map('strval', $e->getErrorStore()->getErrors()['o:namespace_uri']));
         } finally {
             unlink($file);
         }

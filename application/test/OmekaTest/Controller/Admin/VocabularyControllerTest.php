@@ -1103,9 +1103,10 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame(200, $status);
         $this->assertTemplateName('omeka/admin/vocabulary/update');
         $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
-        // Both namespaces, and how to move the vocabulary.
-        $this->assertStringContainsString(sprintf('None of this file\'s classes or properties are in this vocabulary\'s namespace, "http://example.org/review#". They use "http://example.org/moved#". If the vocabulary has moved, <a href="/admin/vocabulary/%s/edit">change its namespace</a>, then update it again.', $this->vocabularyId), $page);
-        $this->assertStringNotContainsString('Are you sure you used the correct namespace URI?', $page);
+        // Both namespace URIs, as the importer refuses, beside the row
+        // saying what to do when a vocabulary has moved.
+        $this->assertStringContainsString('None of the file\'s classes or properties are in the namespace URI "http://example.org/review#". The file uses "http://example.org/moved#".', $page);
+        $this->assertStringContainsString('If the vocabulary has moved to a new namespace URI, change it first with Edit vocabulary', $page);
     }
 
     public function testUpdateWithTermsTooLongToStoreNamesThem()

@@ -467,14 +467,17 @@ class RdfImporterTest extends DbTestCase
             'described' => 'Its description.',
             'describedInDc11' => 'Its older description.',
             'both' => 'Its comment.',
+            'commentedAndDescribed' => 'Its comment.',
             'bare' => null,
         ], $comments([]));
-        // Chosen, its definition comes first.
+        // Chosen, its definition comes first, and a description still comes
+        // after a comment.
         $this->assertSame([
             'defined' => 'Its definition.',
             'described' => 'Its description.',
             'describedInDc11' => 'Its older description.',
             'both' => 'Its definition.',
+            'commentedAndDescribed' => 'Its comment.',
             'bare' => null,
         ], $comments(['comment_property' => RdfImporter::DEFINITION_COMMENT_PROPERTY]));
     }

@@ -1,5 +1,6 @@
 # Terms described each a different way: only a definition, only a
-# description of either kind, both a comment and a definition, or not at all.
+# description of either kind, both a comment and a definition, a comment and
+# a description, as Dublin Core's terms have, or not at all.
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
@@ -20,4 +21,7 @@ desc:both a rdf:Property ;
     rdfs:comment "Its comment." ;
     skos:definition "Its definition." .
 
+desc:commentedAndDescribed a rdf:Property ;
+    rdfs:comment "Its comment." ;
+    dcterms:description "Its note on usage." .
 desc:bare a rdf:Property .

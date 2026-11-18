@@ -18,16 +18,18 @@ class RdfImporter
     const LABEL_PROPERTY = 'skos:prefLabel|rdfs:label|foaf:name|rss:title|dc:title|dc11:title';
 
     /**
-     * The default comment property: a term's comment, else its definition or
-     * description.
+     * The default comment property: a term's comment, else its definition,
+     * else its description.
      */
     const COMMENT_PROPERTY = 'rdfs:comment|skos:definition|dcterms:description|dc11:description';
 
     /**
-     * A comment property that reads a term's definition or description
-     * first.
+     * A comment property that reads a term's definition first, else its
+     * comment, else its description. A description comes last either way: in
+     * Dublin Core, for one, it's a note on usage, such as "Recommended
+     * practice is…", where the comment says what the term means.
      */
-    const DEFINITION_COMMENT_PROPERTY = 'skos:definition|dcterms:description|dc11:description|rdfs:comment';
+    const DEFINITION_COMMENT_PROPERTY = 'skos:definition|rdfs:comment|dcterms:description|dc11:description';
 
     /**
      * The comment properties the Comments field offers, by option value.

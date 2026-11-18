@@ -317,7 +317,7 @@ class VocabularyForm extends Form
             'type' => 'select',
             'options' => [
                 'label' => 'Comments from', // @translate
-                'info' => 'Each class and property takes its comment from its comment (rdfs:comment) or its definition (skos:definition, dcterms:description, or dc11:description), whichever it has. Choose which to use when it has both, or another property to take it from.', // @translate
+                'info' => 'Each class and property takes its comment from its comment (rdfs:comment) or its definition (skos:definition), whichever it has, else its description (dcterms:description or dc11:description). Choose which to use when it has both, or another property to take it from.', // @translate
                 'value_options' => [
                     'comment' => 'Comment, else definition', // @translate
                     'definition' => 'Definition, else comment', // @translate

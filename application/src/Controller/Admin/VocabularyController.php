@@ -329,18 +329,25 @@ class VocabularyController extends AbstractActionController
         $view->setVariable('token', $token);
         $view->setVariable('importOptions', $importOptions);
         $view->setVariable('form', $this->getForm(ConfirmForm::class));
+        $languages = [];
         try {
             $view->setVariable('diff', $this->vocabularyReview->getDiff($review, $importOptions));
             $view->setVariable('notInFile', $this->vocabularyReview->getMembersNotInFile($review, $importOptions));
-            $view->setVariable('languages', $this->vocabularyReview->getLanguages($review, $importOptions));
+            $languages = $this->vocabularyReview->getLanguages($review, $importOptions);
         } catch (\Exception $e) {
             // The chosen import options may make the file unreadable: say
             // why, and keep the choices to change.
             $this->messenger()->addErrors($this->getErrors($e));
             $view->setVariable('diff', null);
             $view->setVariable('notInFile', null);
-            $view->setVariable('languages', []);
         }
+        // The file's languages, and the one chosen, even where the file no
+        // longer has it.
+        $lang = (string) ($importOptions['lang'] ?? '');
+        $view->setVariable('choices', $this->getForm(VocabularyForm::class, [
+            'mode' => 'review',
+            'languages' => array_values(array_unique(array_merge($languages, '' === $lang ? [] : [$lang]))),
+        ]));
         return $view;
     }
 

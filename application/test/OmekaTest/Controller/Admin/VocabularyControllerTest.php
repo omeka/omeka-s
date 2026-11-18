@@ -618,9 +618,13 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $token = $this->startReview('changed-name.ttl');
         $page = html_entity_decode($this->reviewPage($token), ENT_QUOTES | ENT_HTML5);
         $this->assertStringContainsString('Changed property labels (1)', $page);
-        // Every choice is a row, its description folded behind its label.
-        $this->assertStringContainsString('<input type="text" name="label_property" id="review-label-property" value="">', $page);
-        $this->assertStringContainsString('<a href="#" class="expand" aria-expanded="false" aria-controls="review-label-property-description" aria-label="Expand"></a>', $page);
+        // Every choice is a row of the import's own fields, sent by GET
+        // under its own name, without the CSRF token a query can't carry.
+        $this->assertStringContainsString('<input type="text" name="label_property" id="label_property" value="">', $page);
+        $this->assertStringContainsString('<div class="field-description">Enter the label property.', $page);
+        $this->assertMatchesRegularExpression('#<form [^>]*method="get"[^>]*>#', $page);
+        preg_match('#<form [^>]*class="review-choices"[^>]*>.*?</form>#s', $page, $choices);
+        $this->assertStringNotContainsString('csrf', $choices[0]);
         $this->assertStringNotContainsString('Label and comment properties', $page);
 
         // Labels read from a property the file doesn't have are local names,
@@ -629,7 +633,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringNotContainsString('Changed property labels', $page);
         // Shown in its field, as the import options use it, and carried to
         // Accept.
-        $this->assertStringContainsString('<input type="text" name="label_property" id="review-label-property" value="skos:prefLabel">', $page);
+        $this->assertStringContainsString('<input type="text" name="label_property" id="label_property" value="skos:prefLabel">', $page);
         $this->assertStringContainsString('<input type="hidden" name="label_property" value="skos:prefLabel">', $page);
 
         // Accepted, it's stored in the import options.
@@ -653,14 +657,14 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         // Chosen, it's read, and shown as chosen, with Accept carrying it.
         $page = html_entity_decode($this->reviewPage($token, ['comments' => 'other', 'comment_property' => 'skos:definition']), ENT_QUOTES | ENT_HTML5);
         $this->assertStringContainsString('<p>These choices decide which of the file\'s labels and comments are used. After changing them, click Show changes to see the result below.</p>', $page);
-        $this->assertStringContainsString('<label for="review-comments">Comments from</label>', $page);
+        $this->assertStringContainsString('<label for="comments">Comments from</label>', $page);
         $this->assertStringContainsString('<option value="other" selected>Another property…</option>', $page);
-        $this->assertStringContainsString('<input type="text" name="comment_property" id="review-comment-property" value="skos:definition">', $page);
+        $this->assertStringContainsString('<input type="text" name="comment_property" id="comment_property" value="skos:definition">', $page);
         $this->assertStringContainsString('<input type="hidden" name="comment_property" value="skos:definition">', $page);
         // Entered but not chosen, it isn't.
         $page = html_entity_decode($this->reviewPage($token, ['comments' => 'definition', 'comment_property' => 'skos:definition']), ENT_QUOTES | ENT_HTML5);
         $this->assertStringContainsString('<option value="definition" selected>', $page);
-        $this->assertStringContainsString('<input type="text" name="comment_property" id="review-comment-property" value="">', $page);
+        $this->assertStringContainsString('<input type="text" name="comment_property" id="comment_property" value="">', $page);
     }
 
     public function testAnotherCommentPropertyLeftBlankKeepsTheReviewsImportOptions()

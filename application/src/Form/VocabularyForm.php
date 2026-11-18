@@ -26,8 +26,10 @@ class VocabularyForm extends Form
      * - vocabulary: (optional) The vocabulary to change, if any.
      * - mode: (optional) "edit", a vocabulary's own fields (the default
      *   with a vocabulary); "file", the file to import or update from (the
-     *   default without one); or "import_details", an import's second step.
-     * - languages: (optional) For "import_details", the file's languages
+     *   default without one); "import_details", an import's second step; or
+     *   "review", the import options a review's changes are shown with
+     * - languages: (optional) For "import_details" and "review", the file's
+     *   languages
      */
     protected $options = [
         'vocabulary' => null,
@@ -48,6 +50,7 @@ class VocabularyForm extends Form
         $hasPrefix = 'import_details' === $mode;
         $hasFile = 'file' === $mode;
         $hasAdvanced = 'import_details' === $mode;
+        $isReview = 'review' === $mode;
         $this->setAttribute('id', 'vocabulary-form');
         if ($hasInfo) {
             $this->add([
@@ -77,7 +80,19 @@ class VocabularyForm extends Form
                     'label' => 'Advanced', // @translate
                 ],
             ]);
-            $this->addAdvancedElements($this->getOption('languages'));
+            $this->addAdvancedElements($this->getOption('languages'), $this->get('vocabulary-advanced'));
+        }
+        if ($isReview) {
+            // The review page sends its choices by GET, as core's search
+            // forms do, so without CSRF, and under their own names, as
+            // ?lang=fr.
+            $this->remove($this->getName() ? sprintf('%s_csrf', $this->getName()) : 'csrf');
+            $languages = $this->getOption('languages');
+            $this->addAdvancedElements($languages, $this);
+            // Without languages, there's no language to choose.
+            if (!$languages) {
+                $this->remove('lang');
+            }
         }
 
         $inputFilter = $this->getInputFilter();
@@ -272,15 +287,17 @@ class VocabularyForm extends Form
      * Add the options of how an imported file is read.
      *
      * @param string[] $languages The file's languages
+     * @param \Laminas\Form\FieldsetInterface $fieldset Where to add them: the
+     *   Advanced fieldset, or the review page's form itself
      */
-    protected function addAdvancedElements(array $languages)
+    protected function addAdvancedElements(array $languages, $fieldset)
     {
         $languageOptions = ['' => 'First available']; // @translate
         foreach ($languages as $tag) {
             $name = extension_loaded('intl') ? \Locale::getDisplayName($tag) : $tag;
             $languageOptions[$tag] = $name === $tag ? $tag : sprintf('%s (%s)', $name, $tag);
         }
-        $this->get('vocabulary-advanced')->add([
+        $fieldset->add([
             'name' => 'lang',
             'type' => 'select',
             'options' => [
@@ -294,7 +311,7 @@ class VocabularyForm extends Form
         ]);
         // vocabulary-form.js shows the comment property only when
         // "Another property…" is chosen.
-        $this->get('vocabulary-advanced')->add([
+        $fieldset->add([
             'name' => 'comments',
             'type' => 'select',
             'options' => [
@@ -312,7 +329,7 @@ class VocabularyForm extends Form
                 'data-other-property' => '#comment_property',
             ],
         ]);
-        $this->get('vocabulary-advanced')->add([
+        $fieldset->add([
             'name' => 'comment_property',
             'type' => 'text',
             'options' => [
@@ -323,7 +340,7 @@ class VocabularyForm extends Form
                 'id' => 'comment_property',
             ],
         ]);
-        $this->get('vocabulary-advanced')->add([
+        $fieldset->add([
             'name' => 'label_property',
             'type' => 'text',
             'options' => [

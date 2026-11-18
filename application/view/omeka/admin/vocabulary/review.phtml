@@ -122,74 +122,25 @@ $changes = null !== $diff && ($termChanges || $namespaceChanges);
     <?php endforeach; ?>
 </form>
 
-<?php // The choices, as rows like core's form rows. ?>
+<?php // The choices, the same fields as an import's, sent by GET to show the changes again. ?>
+<?php
+$choices->setAttributes(['method' => 'get', 'action' => $this->url(null, [], true), 'class' => 'review-choices']);
+$choices->setData([
+    'lang' => $lang,
+    'comments' => $comments,
+    'comment_property' => $otherCommentProperty,
+    'label_property' => $otherLabelProperty,
+]);
+$choices->prepare();
+?>
 <p><?php echo $translate('These choices decide which of the file\'s labels and comments are used. After changing them, click Show changes to see the result below.'); ?></p>
-<form method="get" action="<?php echo $escape($this->url(null, [], true)); ?>" class="review-choices">
+<?php echo $this->form()->openTag($choices); ?>
     <input type="hidden" name="review" value="<?php echo $escape($token); ?>">
-    <?php if ($languages || '' !== $lang): ?>
-    <div class="field">
-        <div class="field-meta">
-            <label for="review-lang"><?php echo $translate('Preferred language'); ?></label>
-            <a href="#" class="expand" aria-expanded="false" aria-controls="review-lang-description" aria-label="<?php echo $escape($translate('Expand')); ?>"></a>
-            <div class="collapsible" id="review-lang-description">
-                <div class="field-description"><?php echo $translate('The language of the labels and comments to use, where the file has them in more than one.'); ?></div>
-            </div>
-        </div>
-        <div class="inputs">
-            <select name="lang" id="review-lang">
-                <option value=""<?php echo '' === $lang ? ' selected' : ''; ?>><?php echo $translate('First available'); ?></option>
-                <?php foreach (array_unique(array_merge($languages, '' === $lang ? [] : [$lang])) as $tag): ?>
-                <?php $name = extension_loaded('intl') ? \Locale::getDisplayName($tag) : $tag; ?>
-                <option value="<?php echo $escape($tag); ?>"<?php echo $lang === $tag ? ' selected' : ''; ?>><?php echo $escape($name === $tag ? $tag : sprintf('%s (%s)', $name, $tag)); ?></option>
-                <?php endforeach; ?>
-            </select>
-        </div>
-    </div>
-    <?php endif; ?>
-    <div class="field">
-        <div class="field-meta">
-            <label for="review-comments"><?php echo $translate('Comments from'); ?></label>
-            <a href="#" class="expand" aria-expanded="false" aria-controls="review-comments-description" aria-label="<?php echo $escape($translate('Expand')); ?>"></a>
-            <div class="collapsible" id="review-comments-description">
-                <div class="field-description"><?php echo $translate('Each class and property takes its comment from its comment (rdfs:comment) or its definition (skos:definition, dcterms:description, or dc11:description), whichever it has. Choose which to use when it has both, or another property to take it from.'); ?></div>
-            </div>
-        </div>
-        <div class="inputs">
-            <select name="comments" id="review-comments" data-other-property="#review-comment-property">
-                <option value="comment"<?php echo 'comment' === $comments ? ' selected' : ''; ?>><?php echo $translate('Comment, else definition'); ?></option>
-                <option value="definition"<?php echo 'definition' === $comments ? ' selected' : ''; ?>><?php echo $translate('Definition, else comment'); ?></option>
-                <option value="other"<?php echo 'other' === $comments ? ' selected' : ''; ?>><?php echo $translate('Another property…'); ?></option>
-            </select>
-        </div>
-    </div>
-    <div class="field">
-        <div class="field-meta">
-            <label for="review-comment-property"><?php echo $translate('Comment property'); ?></label>
-            <a href="#" class="expand" aria-expanded="false" aria-controls="review-comment-property-description" aria-label="<?php echo $escape($translate('Expand')); ?>"></a>
-            <div class="collapsible" id="review-comment-property-description">
-                <div class="field-description"><?php echo $translate('Enter the comment property. Please use the full property URI enclosed in angle brackets.'); ?></div>
-            </div>
-        </div>
-        <div class="inputs">
-            <input type="text" name="comment_property" id="review-comment-property" value="<?php echo $escape($otherCommentProperty); ?>">
-        </div>
-    </div>
-    <div class="field">
-        <div class="field-meta">
-            <label for="review-label-property"><?php echo $translate('Label property'); ?></label>
-            <a href="#" class="expand" aria-expanded="false" aria-controls="review-label-property-description" aria-label="<?php echo $escape($translate('Expand')); ?>"></a>
-            <div class="collapsible" id="review-label-property-description">
-                <div class="field-description"><?php echo $translate('Enter the label property. This is typically only needed if the vocabulary uses an unconventional property for labels. Please use the full property URI enclosed in angle brackets.'); ?></div>
-            </div>
-        </div>
-        <div class="inputs">
-            <input type="text" name="label_property" id="review-label-property" value="<?php echo $escape($otherLabelProperty); ?>">
-        </div>
-    </div>
+    <?php echo $this->formCollection($choices, false); ?>
     <div class="review-choices-actions">
         <button type="submit"><?php echo $translate('Show changes'); ?></button>
     </div>
-</form>
+<?php echo $this->form()->closeTag(); ?>
 
 <?php if (null !== $diff): ?>
 <?php if ($changes): ?>

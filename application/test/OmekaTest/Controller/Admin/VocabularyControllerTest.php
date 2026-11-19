@@ -10,12 +10,12 @@ use Omeka\Api\Exception\NotFoundException;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Entity\User;
 use Omeka\Entity\Vocabulary;
+use Omeka\File\StagedFiles;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\VocabularyForm;
 use Omeka\Mvc\Controller\Plugin\Messenger;
 use Omeka\Permissions\Exception\PermissionDeniedException;
 use Omeka\Stdlib\RdfImporter;
-use Omeka\Stdlib\VocabularyFileStore;
 use Omeka\Test\AbstractHttpControllerTestCase;
 
 /**
@@ -101,7 +101,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             $this->getApplicationServiceLocator()->get('Omeka\VocabularyReview')->cancel($token);
         }
         foreach ($this->importFiles as $token) {
-            $this->getApplicationServiceLocator()->get('Omeka\VocabularyFileStore')->remove($token);
+            $this->getApplicationServiceLocator()->get('Omeka\File\StagedFiles')->delete($token);
         }
         if ($this->vocabularyId && $this->vocabularyExists()) {
             $this->api()->delete('vocabularies', $this->vocabularyId);
@@ -1063,7 +1063,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->reset(true);
         $this->signIn();
         $services = $this->getApplicationServiceLocator();
-        $pattern = $services->get('Config')['temp_dir'] . '/' . VocabularyFileStore::FILE_PREFIX . '*';
+        $pattern = $services->get('Config')['temp_dir'] . '/' . StagedFiles::FILE_PREFIX . '*';
         $files = glob($pattern);
         try {
             $services->get('Omeka\VocabularyImport')->start(__DIR__ . '/../../Stdlib/_files/no-terms.ttl', [], ['format' => 'turtle']);
@@ -1095,7 +1095,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $url = $this->handImport('markup.ttl', ['o:label' => 'Markup'], ['format' => 'turtle']);
         parse_str((string) parse_url($url, PHP_URL_QUERY), $query);
         $services = $this->getApplicationServiceLocator();
-        $path = $services->get('Omeka\VocabularyFileStore')->getPath($query['file_token']);
+        $path = $services->get('Omeka\File\StagedFiles')->getPath($query['file_token']);
         $this->assertFileExists($path);
         $services->get('Omeka\VocabularyImport')->end($query['file_token']);
         $this->assertNull($services->get('Omeka\VocabularyImport')->get($query['file_token']));
@@ -1105,7 +1105,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     public function testImportFromTheFileLandsOnTheVocabularysPage()
     {
         $tempDir = $this->getApplicationServiceLocator()->get('Config')['temp_dir'];
-        $files = glob($tempDir . '/' . VocabularyFileStore::FILE_PREFIX . '*');
+        $files = glob($tempDir . '/' . StagedFiles::FILE_PREFIX . '*');
         try {
             $this->assertSame(302, $this->startImport('../../../Stdlib/_files/definitions.ttl'));
             $status = $this->finishImport($this->importDetailsUrl(), [
@@ -1124,8 +1124,8 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             $this->assertSame(sprintf('/admin/vocabulary/%s', $vocabulary->id()), $location);
             $this->assertSame('http://example.org/defs#', $vocabulary->namespaceUri());
             $this->assertSame(3, $vocabulary->propertyCount() + $vocabulary->resourceClassCount());
-            // The kept file is gone.
-            $this->assertSame($files, glob($tempDir . '/' . VocabularyFileStore::FILE_PREFIX . '*'));
+            // The staged file is gone.
+            $this->assertSame($files, glob($tempDir . '/' . StagedFiles::FILE_PREFIX . '*'));
         } finally {
             $this->deleteImported('defs');
         }
@@ -1193,10 +1193,10 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     public function testImportOfAFileWithoutTermsIsRefusedAtTheStart()
     {
         $tempDir = $this->getApplicationServiceLocator()->get('Config')['temp_dir'];
-        $files = glob($tempDir . '/' . VocabularyFileStore::FILE_PREFIX . '*');
+        $files = glob($tempDir . '/' . StagedFiles::FILE_PREFIX . '*');
         $this->assertSame(200, $this->startImport('../../../Stdlib/_files/no-terms.ttl'));
         $this->assertStringContainsString('No classes or properties found in this file.', $this->getResponse()->getContent());
-        $this->assertSame($files, glob($tempDir . '/' . VocabularyFileStore::FILE_PREFIX . '*'));
+        $this->assertSame($files, glob($tempDir . '/' . StagedFiles::FILE_PREFIX . '*'));
     }
 
     public function testImportOfAnEmptyFileSaysSo()

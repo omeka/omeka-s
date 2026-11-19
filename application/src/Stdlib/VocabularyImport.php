@@ -3,13 +3,14 @@ namespace Omeka\Stdlib;
 
 use Laminas\Router\RouteStackInterface;
 use Laminas\Session\Container;
+use Omeka\File\StagedFiles;
 use Omeka\Form\VocabularyForm;
 
 /**
  * Imports started on the import details page, by Import or by a module that
- * keeps vocabulary files: the file in the file store, and anything handed
- * with it for the page to start with, held in the session under the file's
- * token.
+ * keeps vocabulary files: the file, staged (StagedFiles), and anything
+ * handed with it for the page to start with, held in the session under the
+ * staged file's token.
  */
 class VocabularyImport
 {
@@ -30,9 +31,9 @@ class VocabularyImport
     protected $rdfImporter;
 
     /**
-     * @var VocabularyFileStore
+     * @var StagedFiles
      */
-    protected $fileStore;
+    protected $stagedFiles;
 
     /**
      * @var RouteStackInterface
@@ -44,17 +45,17 @@ class VocabularyImport
      */
     protected $session;
 
-    public function __construct(RdfImporter $rdfImporter, VocabularyFileStore $fileStore, RouteStackInterface $router)
+    public function __construct(RdfImporter $rdfImporter, StagedFiles $stagedFiles, RouteStackInterface $router)
     {
         $this->rdfImporter = $rdfImporter;
-        $this->fileStore = $fileStore;
+        $this->stagedFiles = $stagedFiles;
         $this->router = $router;
     }
 
     /**
      * Start an import of a file on the import details page.
      *
-     * @param string $filePath The file, copied into the file store, so the
+     * @param string $filePath The file, of which a copy is staged, so the
      *   caller may then delete it
      * @param array $vocabulary (optional) o:label, o:comment, o:namespace_uri,
      *   and o:prefix, each filled in in place of what the file says
@@ -66,10 +67,12 @@ class VocabularyImport
      *   any does, on the new vocabulary's page.
      * @throws \Omeka\Api\Exception\ValidationException When the file can't be
      *   read, or has no classes or properties
+     * @throws \Omeka\File\Exception\RuntimeException When the file can't be
+     *   staged
      */
     public function start($filePath, array $vocabulary = [], array $importOptions = [])
     {
-        return $this->begin($this->fileStore->keep($filePath), $vocabulary, $importOptions);
+        return $this->begin($this->stagedFiles->stage($filePath), $vocabulary, $importOptions);
     }
 
     /**
@@ -83,11 +86,11 @@ class VocabularyImport
      */
     public function startFromUrl($url, array $vocabulary = [], array $importOptions = [])
     {
-        return $this->begin($this->fileStore->keepFromUrl($url), $vocabulary, $importOptions);
+        return $this->begin($this->stagedFiles->stageContents($this->rdfImporter->fetchFile($url)), $vocabulary, $importOptions);
     }
 
     /**
-     * Get what an import of a kept file was handed, if anything.
+     * Get what an import of a staged file was handed, if anything.
      *
      * @param string $fileToken
      * @return array|null vocabulary and import_options
@@ -105,12 +108,12 @@ class VocabularyImport
      */
     public function end($fileToken)
     {
-        $this->fileStore->remove($fileToken);
+        $this->stagedFiles->delete($fileToken);
         $this->getSession()->offsetUnset((string) $fileToken);
     }
 
     /**
-     * Begin an import of a kept file: refuse it now if it can't be read or has
+     * Begin an import of a staged file: refuse it now if it can't be read or has
      * no classes or properties, while the page that chose it can say so, and
      * hold anything handed with it.
      *
@@ -128,9 +131,9 @@ class VocabularyImport
             $format = 'guess';
         }
         try {
-            $this->rdfImporter->getVocabularyDetails('file', ['file' => $this->fileStore->getPath($fileToken), 'format' => $format]);
+            $this->rdfImporter->getVocabularyDetails('file', ['file' => $this->stagedFiles->getPath($fileToken), 'format' => $format]);
         } catch (\Exception $e) {
-            $this->fileStore->remove($fileToken);
+            $this->stagedFiles->delete($fileToken);
             throw $e;
         }
         $handOff = [

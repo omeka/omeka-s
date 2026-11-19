@@ -7,11 +7,12 @@ use Laminas\Session\Container;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Api\Manager as ApiManager;
 use Omeka\Entity\Vocabulary;
+use Omeka\File\StagedFiles;
 use Omeka\Permissions\Exception\PermissionDeniedException;
 
 /**
  * Reviews of the changes a file would make to a vocabulary, held in the
- * session, with their files in the file store, until they're accepted or
+ * session, with their files staged (StagedFiles), until they're accepted or
  * cancelled.
  */
 class VocabularyReview
@@ -22,9 +23,9 @@ class VocabularyReview
     protected $rdfImporter;
 
     /**
-     * @var VocabularyFileStore
+     * @var StagedFiles
      */
-    protected $fileStore;
+    protected $stagedFiles;
 
     /**
      * @var ApiManager
@@ -46,11 +47,11 @@ class VocabularyReview
      */
     protected $session;
 
-    public function __construct(RdfImporter $rdfImporter, VocabularyFileStore $fileStore,
+    public function __construct(RdfImporter $rdfImporter, StagedFiles $stagedFiles,
         ApiManager $apiManager, EntityManager $entityManager, RouteStackInterface $router
     ) {
         $this->rdfImporter = $rdfImporter;
-        $this->fileStore = $fileStore;
+        $this->stagedFiles = $stagedFiles;
         $this->apiManager = $apiManager;
         $this->entityManager = $entityManager;
         $this->router = $router;
@@ -60,7 +61,7 @@ class VocabularyReview
      * Start a review of the changes a file would make to a vocabulary.
      *
      * @param int $vocabularyId
-     * @param string $filePath The file, copied into the file store, so the
+     * @param string $filePath The file, of which a copy is staged, so the
      *   caller may then delete it
      * @param array $importOptions The import options: format, lang,
      *   label_property, comment_property. Those not given, or empty, come from
@@ -80,11 +81,13 @@ class VocabularyReview
      * @throws ValidationException When another vocabulary has the new
      *   namespace URI in any form, or the file can't be read, has no terms in
      *   the namespace, or has terms too long to store
+     * @throws \Omeka\File\Exception\RuntimeException When the file can't be
+     *   staged
      */
     public function start($vocabularyId, $filePath, array $importOptions = [], array $reviewOptions = [])
     {
         $vocabulary = $this->getVocabularyToReview($vocabularyId, $reviewOptions);
-        return $this->begin($vocabulary, $this->fileStore->keep($filePath), $importOptions, $reviewOptions);
+        return $this->begin($vocabulary, $this->stagedFiles->stage($filePath), $importOptions, $reviewOptions);
     }
 
     /**
@@ -100,7 +103,7 @@ class VocabularyReview
     public function startFromUrl($vocabularyId, $url, array $importOptions = [], array $reviewOptions = [])
     {
         $vocabulary = $this->getVocabularyToReview($vocabularyId, $reviewOptions);
-        return $this->begin($vocabulary, $this->fileStore->keepFromUrl($url), $importOptions, $reviewOptions);
+        return $this->begin($vocabulary, $this->stagedFiles->stageContents($this->rdfImporter->fetchFile($url)), $importOptions, $reviewOptions);
     }
 
     /**
@@ -113,7 +116,7 @@ class VocabularyReview
     public function get($token)
     {
         $review = $this->getSession()->offsetGet((string) $token);
-        $file = is_array($review) ? $this->fileStore->getPath($review['file_token']) : null;
+        $file = is_array($review) ? $this->stagedFiles->getPath($review['file_token']) : null;
         if (null === $file) {
             return null;
         }
@@ -292,17 +295,17 @@ class VocabularyReview
     }
 
     /**
-     * Start a review of a file in the file store.
+     * Start a review of a staged file.
      *
      * @param \Omeka\Api\Representation\VocabularyRepresentation $vocabulary
-     * @param string $fileToken The file's token in the file store
+     * @param string $fileToken The staged file's token
      * @param array $importOptions
      * @param array $reviewOptions
      * @return string The review page's URL
      */
     protected function begin($vocabulary, $fileToken, array $importOptions, array $reviewOptions)
     {
-        $path = $this->fileStore->getPath($fileToken);
+        $path = $this->stagedFiles->getPath($fileToken);
         $newNamespaceUri = $reviewOptions['new_namespace_uri'] ?? null;
         $review = [
             'vocabulary_id' => $vocabulary->id(),
@@ -322,7 +325,7 @@ class VocabularyReview
             ]);
             $this->getDiff($review, $review['import_options']);
         } catch (\Exception $e) {
-            $this->fileStore->remove($fileToken);
+            $this->stagedFiles->delete($fileToken);
             throw $e;
         }
         unset($review['file']);
@@ -376,7 +379,7 @@ class VocabularyReview
         $session = $this->getSession();
         $review = $session->offsetGet((string) $token);
         if (is_array($review)) {
-            $this->fileStore->remove($review['file_token']);
+            $this->stagedFiles->delete($review['file_token']);
         }
         $session->offsetUnset((string) $token);
     }

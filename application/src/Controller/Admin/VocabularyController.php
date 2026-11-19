@@ -8,7 +8,7 @@ use Omeka\Form\VocabularyForm;
 use Omeka\Mvc\Exception;
 use Omeka\Stdlib\RdfImporter;
 use Omeka\Stdlib\Message;
-use Omeka\Stdlib\VocabularyFileStore;
+use Omeka\File\StagedFiles;
 use Omeka\Stdlib\VocabularyImport;
 use Omeka\Stdlib\VocabularyReview;
 use Laminas\Mvc\Controller\AbstractActionController;
@@ -27,9 +27,9 @@ class VocabularyController extends AbstractActionController
     protected $vocabularyReview;
 
     /**
-     * @var VocabularyFileStore
+     * @var StagedFiles
      */
-    protected $fileStore;
+    protected $stagedFiles;
 
     /**
      * @var VocabularyImport
@@ -39,15 +39,15 @@ class VocabularyController extends AbstractActionController
     /**
      * @param RdfImporter $rdfImporter
      * @param VocabularyReview $vocabularyReview
-     * @param VocabularyFileStore $fileStore
+     * @param StagedFiles $stagedFiles
      * @param VocabularyImport $vocabularyImport
      */
     public function __construct(RdfImporter $rdfImporter, VocabularyReview $vocabularyReview,
-        VocabularyFileStore $fileStore, VocabularyImport $vocabularyImport
+        StagedFiles $stagedFiles, VocabularyImport $vocabularyImport
     ) {
         $this->rdfImporter = $rdfImporter;
         $this->vocabularyReview = $vocabularyReview;
-        $this->fileStore = $fileStore;
+        $this->stagedFiles = $stagedFiles;
         $this->vocabularyImport = $vocabularyImport;
     }
 
@@ -134,7 +134,7 @@ class VocabularyController extends AbstractActionController
             $format = 'guess';
         }
         $handOff = $this->vocabularyImport->get($token);
-        $path = $this->fileStore->getPath($token);
+        $path = $this->stagedFiles->getPath($token);
         if (null === $path) {
             $this->vocabularyImport->end($token);
             $this->messenger()->addError('This import has ended. Choose the file or enter its URL again.'); // @translate
@@ -643,7 +643,7 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get what a file in the file store says of its vocabulary.
+     * Get what a staged file says of its vocabulary.
      *
      * @see RdfImporter::getVocabularyDetails()
      * @param string $token
@@ -653,7 +653,7 @@ class VocabularyController extends AbstractActionController
     protected function getImportDetails($token, $format)
     {
         return $this->rdfImporter->getVocabularyDetails('file', [
-            'file' => $this->fileStore->getPath($token),
+            'file' => $this->stagedFiles->getPath($token),
             'format' => $format,
             // As "en_US", which the importer matches as en-us.
             'lang' => $this->settings()->get('locale'),

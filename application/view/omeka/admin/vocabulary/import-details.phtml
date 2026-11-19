@@ -19,7 +19,7 @@ $sections = null === $members ? [] : array_filter([
 
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
-    <?php // To the list the import started from. The file stays in the file store until it's cleared out, after a day. ?>
+    <?php // To the list the import started from. The staged file stays until it's cleared out, after a day. ?>
     <?php echo $this->hyperlink($translate('Cancel'), $this->url('admin/default', ['controller' => 'vocabulary', 'action' => 'browse']), ['class' => 'button']); ?>
     <button><?php echo $translate('Import'); ?></button>
     <?php if ($updatable): ?>

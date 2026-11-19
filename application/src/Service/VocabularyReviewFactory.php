@@ -16,7 +16,7 @@ class VocabularyReviewFactory implements FactoryInterface
     {
         return new VocabularyReview(
             $serviceLocator->get('Omeka\RdfImporter'),
-            $serviceLocator->get('Omeka\VocabularyFileStore'),
+            $serviceLocator->get('Omeka\File\StagedFiles'),
             $serviceLocator->get('Omeka\ApiManager'),
             $serviceLocator->get('Omeka\EntityManager'),
             $serviceLocator->get('Router')

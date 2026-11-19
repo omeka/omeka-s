@@ -3,6 +3,8 @@ namespace Omeka\Stdlib;
 
 use Doctrine\ORM\EntityManager;
 use EasyRdf\Graph as RdfGraph;
+use EasyRdf\Http;
+use EasyRdf\Http\Client as HttpClient;
 use EasyRdf\Resource as RdfResource;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Api\Manager as ApiManager;
@@ -48,6 +50,12 @@ class RdfImporter
      * lower.
      */
     const MEMORY_LIMIT = '256M';
+
+    /**
+     * How many redirects fetching a URL follows: 5, as EasyRdf's HTTP client
+     * follows by default.
+     */
+    const MAX_REDIRECTS = 5;
 
     /**
      * A fake base for reading a file before its namespace URI is known. A
@@ -547,6 +555,42 @@ class RdfImporter
             : self::COMMENT_PROPERTY;
 
         return ['lang' => $lang, 'comment_property' => $commentProperty];
+    }
+
+    /**
+     * Fetch the vocabulary file at a URL with EasyRdf's HTTP client, asking
+     * for RDF formats, as EasyRdf does when it loads a URL, so it can be read
+     * as a file.
+     *
+     * @param string $url
+     * @return string The file's contents
+     * @throws ValidationException When it can't be fetched
+     */
+    public function fetchFile($url)
+    {
+        $accept = 'application/ld+json,application/rdf+xml;q=0.9,text/turtle;q=0.8,application/n-triples;q=0.7';
+        $client = Http::getDefaultHttpClient();
+        $client->resetParameters(true);
+        $client->setUri($url);
+        // Follow redirects, as from purl.org or http to https. EasyRdf's
+        // Graph::load() turns the shared client's following off, since it
+        // follows them itself, and the setting outlasts it.
+        if ($client instanceof HttpClient) {
+            $client->setConfig(['maxredirects' => self::MAX_REDIRECTS]);
+            $client->setHeaders('Accept', $accept);
+        } else {
+            $client->setOptions(['maxredirects' => self::MAX_REDIRECTS]);
+            $client->setHeaders(['Accept' => $accept]);
+        }
+        try {
+            $response = $client->request('GET');
+        } catch (\Exception $e) {
+            throw new ValidationException('Could not load vocabulary from URL.'); // @translate
+        }
+        if (!$response->isSuccessful()) {
+            throw new ValidationException('Could not load vocabulary from URL.'); // @translate
+        }
+        return $response->getBody();
     }
 
     /**

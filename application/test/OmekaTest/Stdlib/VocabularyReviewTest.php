@@ -6,9 +6,9 @@ use EasyRdf\Http\Client as HttpClient;
 use EasyRdf\Http\Response;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Entity\User;
+use Omeka\File\StagedFiles;
 use Omeka\Permissions\Exception\PermissionDeniedException;
 use Omeka\Stdlib\RdfImporter;
-use Omeka\Stdlib\VocabularyFileStore;
 use Omeka\Stdlib\VocabularyReview;
 use Omeka\Test\DbTestCase;
 
@@ -188,7 +188,7 @@ class VocabularyReviewTest extends DbTestCase
 
     public function testStartRefusesAFileWithoutTermsInTheNamespace()
     {
-        $pattern = $this->services->get('Config')['temp_dir'] . '/' . VocabularyFileStore::FILE_PREFIX . '*';
+        $pattern = $this->services->get('Config')['temp_dir'] . '/' . StagedFiles::FILE_PREFIX . '*';
         $files = glob($pattern);
         try {
             // The vocabulary's terms moved to another namespace in this file.
@@ -212,7 +212,7 @@ class VocabularyReviewTest extends DbTestCase
 
     public function testStartChecksWhatAcceptingWould()
     {
-        $pattern = $this->services->get('Config')['temp_dir'] . '/' . VocabularyFileStore::FILE_PREFIX . '*';
+        $pattern = $this->services->get('Config')['temp_dir'] . '/' . StagedFiles::FILE_PREFIX . '*';
         $files = glob($pattern);
         $file = __DIR__ . '/_files/compare.ttl';
         // A vocabulary no one may change.
@@ -245,7 +245,7 @@ class VocabularyReviewTest extends DbTestCase
         } finally {
             $this->api()->delete('vocabularies', $other->id());
         }
-        // No file kept for any of them.
+        // No file staged for any of them.
         $this->assertSame($files, glob($pattern));
         // Another form either way round: http://example.org/compare/# has
         // the vocabulary's as a form, though not the other way.
@@ -264,9 +264,9 @@ class VocabularyReviewTest extends DbTestCase
     public function testOldFilesAreRemovedWhenAReviewStarts()
     {
         $tempDir = $this->services->get('Config')['temp_dir'];
-        $old = tempnam($tempDir, VocabularyFileStore::FILE_PREFIX);
-        touch($old, time() - VocabularyFileStore::MAX_AGE - 60);
-        $recent = tempnam($tempDir, VocabularyFileStore::FILE_PREFIX);
+        $old = tempnam($tempDir, StagedFiles::FILE_PREFIX);
+        touch($old, time() - StagedFiles::MAX_AGE - 60);
+        $recent = tempnam($tempDir, StagedFiles::FILE_PREFIX);
         $this->review->cancel($this->start());
         $this->assertFileDoesNotExist($old);
         $this->assertFileExists($recent);
@@ -332,14 +332,14 @@ class VocabularyReviewTest extends DbTestCase
         // As EasyRdf's Graph::load() leaves the shared client.
         $client->setConfig(['maxredirects' => 0]);
         $url = $this->review->startFromUrl($this->vocabularyId, 'http://example.org/compare.ttl', ['format' => 'turtle']);
-        $this->assertSame(VocabularyFileStore::MAX_REDIRECTS, $client->maxRedirectsAsked);
+        $this->assertSame(RdfImporter::MAX_REDIRECTS, $client->maxRedirectsAsked);
         $this->review->cancel(substr($url, strpos($url, '=') + 1));
     }
 
     public function testStartFromUrlTheServerRefuses()
     {
         $this->answerRequests(new Response(404, [], 'Not found'));
-        $pattern = $this->services->get('Config')['temp_dir'] . '/' . VocabularyFileStore::FILE_PREFIX . '*';
+        $pattern = $this->services->get('Config')['temp_dir'] . '/' . StagedFiles::FILE_PREFIX . '*';
         $files = glob($pattern);
         try {
             $this->review->startFromUrl($this->vocabularyId, 'http://example.org/missing.ttl');

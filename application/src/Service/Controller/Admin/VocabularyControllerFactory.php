@@ -12,7 +12,7 @@ class VocabularyControllerFactory implements FactoryInterface
         return new VocabularyController(
             $services->get('Omeka\RdfImporter'),
             $services->get('Omeka\VocabularyReview'),
-            $services->get('Omeka\VocabularyFileStore'),
+            $services->get('Omeka\File\StagedFiles'),
             $services->get('Omeka\VocabularyImport')
         );
     }

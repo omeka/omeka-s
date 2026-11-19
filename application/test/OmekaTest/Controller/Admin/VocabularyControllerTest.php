@@ -603,7 +603,9 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     public function testReviewWithoutChangesOffersOnlyBack()
     {
         $page = html_entity_decode($this->reviewPage($this->startReview('unchanged.ttl')), ENT_QUOTES | ENT_HTML5);
-        $this->assertStringContainsString('This vocabulary already matches the file.', $page);
+        $this->assertStringContainsString('This vocabulary already matches the file, read with the choices above.', $page);
+        // Said once a choice changes, by the script.
+        $this->assertMatchesRegularExpression('#<p class="review-stale" role="status" data-watch="fieldset :input" hidden>The choices have changed\. Click Show changes to see the result\.</p>#', $page);
         $this->assertMatchesRegularExpression('#<button type="submit" class="button" formaction="[^"]*/cancel-review">Back</button>#', $page);
         $this->assertStringNotContainsString('Accept changes', $page);
 
@@ -904,6 +906,8 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->requestAs(self::ADMIN, 'GET', $this->importDetailsUrl());
         $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
         $this->assertStringContainsString('<button type="submit" name="preview" value="1" formnovalidate>Show classes and properties</button>', $page);
+        // Said once a field the list depends on changes, by the script.
+        $this->assertMatchesRegularExpression('#<p class="review-stale" role="status" data-watch="[^"]*" hidden>The fields above have changed\. Click Show classes and properties to see the result\.</p>#', $page);
         $this->assertStringContainsString('<a href="#import-classes">Classes (1)</a>', $page);
         $this->assertStringContainsString('<a href="#import-properties">Properties (1)</a>', $page);
         // In the language chosen, English, with the file's prefix.
@@ -1134,6 +1138,23 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         // The import is over, its file with the review now.
         $this->assertSame(302, $this->requestAs(self::ADMIN, 'GET', $url));
         $this->assertRedirectTo('/admin/vocabulary/import');
+    }
+
+    public function testReviewChangesKeepsTheChoicesMadeOnTheDetails()
+    {
+        $this->assertSame(302, $this->startImport('multilingual-name.ttl'));
+        $this->assertSame(302, $this->requestAs(self::ADMIN, 'POST', $this->importDetailsUrl(), [
+            'vocabulary-info' => ['o:label' => '', 'o:comment' => '', 'o:namespace_uri' => 'http://example.org/review#', 'o:prefix' => ''],
+            'vocabulary-advanced' => ['lang' => 'fr', 'comments' => 'definition', 'label_property' => '', 'comment_property' => ''],
+            'update' => '1',
+        ] + $this->csrfField(VocabularyForm::class)));
+        $location = $this->getResponse()->getHeaders()->get('Location')->getUri();
+        $token = $this->tokens[] = substr($location, strpos($location, '=') + 1);
+        $page = $this->reviewPage($token);
+        $this->assertMatchesRegularExpression('#<ins>Nom</ins>#', $page);
+        $page = html_entity_decode($page, ENT_QUOTES | ENT_HTML5);
+        $this->assertStringContainsString('<option value="fr" selected>', $page);
+        $this->assertStringContainsString('<option value="definition" selected>', $page);
     }
 
     public function testReviewChangesNeedsTheFormsCsrfField()

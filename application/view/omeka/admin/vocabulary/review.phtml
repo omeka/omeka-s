@@ -84,6 +84,8 @@ $choices->prepare();
     </fieldset>
     <div class="review-choices-actions">
         <button type="submit"><?php echo $translate('Show changes'); ?></button>
+        <?php // Shown by the script once a choice changes, as the changes below were worked out with the earlier ones. ?>
+        <p class="review-stale" role="status" data-watch="fieldset :input" hidden><?php echo $translate('The choices have changed. Click Show changes to see the result.'); ?></p>
     </div>
 <?php echo $this->form()->closeTag(); ?>
 
@@ -91,7 +93,7 @@ $choices->prepare();
 <?php if ($changes): ?>
 <p><?php echo sprintf($translate('Accepting makes the changes below, from %s.'), $escape($sourceLabel)); ?></p>
 <?php else: ?>
-<p><?php echo sprintf($translate('This vocabulary already matches %s.'), $escape($sourceLabel)); ?></p>
+<p><?php echo sprintf($translate('This vocabulary already matches %s, read with the choices above.'), $escape($sourceLabel)); ?></p>
 <?php endif; ?>
 <?php endif; ?>
 

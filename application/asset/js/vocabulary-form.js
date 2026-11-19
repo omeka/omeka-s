@@ -37,6 +37,15 @@ $('[data-other-field]').each(function() {
     choice.on('change', toggle);
 });
 
+// Under a Show button: once a field the result below depends on changes, say
+// that the result was shown with the earlier values.
+$('.review-stale').each(function() {
+    const note = $(this);
+    note.closest('form').find(note.data('watch')).on('input change', function() {
+        note.prop('hidden', false);
+    });
+});
+
 $('#vocabulary-form').on('submit', function(e) {
     // Only the import details and Edit forms have a namespace URI.
     const namespaceUriInput = $('#o\\:namespace_uri');

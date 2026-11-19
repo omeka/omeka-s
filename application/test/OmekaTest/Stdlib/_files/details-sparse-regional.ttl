@@ -1,0 +1,13 @@
+# Classes labeled in English, one of them also in American English, as a file
+# gives a few American spellings, and two also in Spanish.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sparse: <http://example.org/sparse#> .
+
+sparse:Colour a rdfs:Class ;
+    rdfs:label "Colour"@en, "Color"@en-US .
+
+sparse:Shape a rdfs:Class ;
+    rdfs:label "Shape"@en, "Forma"@es .
+
+sparse:Size a rdfs:Class ;
+    rdfs:label "Size"@en, "Tamaño"@es .

@@ -37,6 +37,8 @@ $sections = null === $members ? [] : array_filter([
 <div class="review-choices-actions">
     <?php // Posts the form to show the classes and properties again, without importing. ?>
     <button type="submit" name="preview" value="1" formnovalidate><?php echo $translate('Show classes and properties'); ?></button>
+    <?php // Shown by the script once a field the list below depends on changes. ?>
+    <p class="review-stale" role="status" data-watch="fieldset :input, [name='vocabulary-info[o:namespace_uri]'], [name='vocabulary-info[o:prefix]']" hidden><?php echo $translate('The fields above have changed. Click Show classes and properties to see the result.'); ?></p>
 </div>
 <?php echo $this->form()->closeTag(); ?>
 

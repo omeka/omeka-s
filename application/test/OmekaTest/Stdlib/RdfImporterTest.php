@@ -382,6 +382,14 @@ class RdfImporterTest extends DbTestCase
         $this->assertSame('Regional', $details['label']);
     }
 
+    public function testVocabularyDetailsInTheNearestLanguagesTagThatCoversTheMost()
+    {
+        // en-US labels one class of three, en all of them.
+        $this->assertSame('en', $this->details('details-sparse-regional.ttl', ['lang' => 'en_US'])['lang']);
+        // Where they cover as many, the tag itself.
+        $this->assertSame('en-GB', $this->details('details-regional.ttl', ['lang' => 'en-gb'])['lang']);
+    }
+
     public function testVocabularyDetailsTitleInItsOwnLanguageNearestThePreferredOne()
     {
         // The title has French where the class has no language at all, and

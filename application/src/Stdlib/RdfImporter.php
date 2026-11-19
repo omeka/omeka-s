@@ -331,7 +331,9 @@ class RdfImporter
         }
         // From every class and property, in any namespace, since the admin
         // may correct the namespace URI found.
-        $languages = $this->getGraphLanguages($graph, null, self::LABEL_PROPERTY . '|' . self::COMMENT_PROPERTY);
+        $coverage = $this->countGraphLanguages($graph, null, self::LABEL_PROPERTY . '|' . self::COMMENT_PROPERTY);
+        $languages = array_keys($coverage);
+        sort($languages);
         // The label and comment by the languages they have themselves, which
         // may not be the classes' and properties'.
         $preferred = $options['lang'] ?? null;
@@ -342,7 +344,7 @@ class RdfImporter
             'label' => $this->getVocabularyTitle($graph, $namespaceUri, $preferred),
             'comment' => $this->getVocabularyDescription($graph, $namespaceUri, $preferred),
             'languages' => $languages,
-            'lang' => $this->getMatchingLanguage($preferred, $languages),
+            'lang' => $this->getMatchingLanguage($preferred, $languages, $coverage),
         ];
     }
 
@@ -557,7 +559,24 @@ class RdfImporter
      */
     protected function getGraphLanguages(RdfGraph $graph, $namespaceUri, $property)
     {
-        $languages = [];
+        $languages = array_keys($this->countGraphLanguages($graph, $namespaceUri, $property));
+        sort($languages);
+        return $languages;
+    }
+
+    /**
+     * Count the classes and properties in a namespace, or in any, that have
+     * a property's values in each language.
+     *
+     * @see self::getGraphLanguages()
+     * @param RdfGraph $graph
+     * @param string|null $namespaceUri Null for any
+     * @param string $property A property, or alternatives as "a|b"
+     * @return int[] By language tag
+     */
+    protected function countGraphLanguages(RdfGraph $graph, $namespaceUri, $property)
+    {
+        $counts = [];
         foreach (array_merge($this->classTypes, $this->propertyTypes) as $type) {
             foreach ($graph->allOfType($type) as $resource) {
                 if (null !== $namespaceUri && $resource->getUri() !== $namespaceUri . $resource->localName()) {
@@ -569,16 +588,18 @@ class RdfImporter
                     // An invalid typed literal; reading the term reports it.
                     continue;
                 }
+                $languages = [];
                 foreach ($literals as $literal) {
                     if ($literal->getLang()) {
                         $languages[$literal->getLang()] = true;
                     }
                 }
+                foreach (array_keys($languages) as $language) {
+                    $counts[$language] = ($counts[$language] ?? 0) + 1;
+                }
             }
         }
-        $languages = array_keys($languages);
-        sort($languages);
-        return $languages;
+        return $counts;
     }
 
     /**
@@ -587,22 +608,41 @@ class RdfImporter
      * any region (fr-CA for fr), then English the same way. Tags match in
      * any case.
      *
+     * Given how many classes and properties each language covers, it takes
+     * the one of the nearest language's tags that covers the most, nearest
+     * first where they tie: a file may tag a few values en-US for an
+     * American spelling and the rest en, and en-US would leave most in
+     * whatever language comes first.
+     *
      * @param string|null $preferred Such as "fr-ca"; null for English
      * @param string[] $languages The file's languages
+     * @param int[] $coverage (optional) Classes and properties by language
      * @return string|null One of the file's languages, as it has it; null
      *   where none is near
      */
-    protected function getMatchingLanguage($preferred, array $languages)
+    protected function getMatchingLanguage($preferred, array $languages, array $coverage = [])
     {
         $preferred = strtolower(str_replace('_', '-', (string) $preferred)) ?: 'en';
-        $primary = strtok($preferred, '-');
-        // A wanted tag ending in "-" matches its language in any region.
-        foreach (array_unique([$preferred, $primary, $primary . '-', 'en', 'en-']) as $wanted) {
+        foreach (array_unique([$preferred, 'en']) as $wanted) {
+            $primary = strtok($wanted, '-');
+            // By nearness: 0 for the tag itself, 1 for its language alone, 2
+            // for its language in any region.
+            $nearness = [];
             foreach ($languages as $language) {
                 $tag = strtolower($language);
-                if ($tag === $wanted || ('-' === substr($wanted, -1) && 0 === strpos($tag, $wanted))) {
-                    return $language;
+                if ($tag === $wanted) {
+                    $nearness[$language] = 0;
+                } elseif ($tag === $primary) {
+                    $nearness[$language] = 1;
+                } elseif (0 === strpos($tag, $primary . '-')) {
+                    $nearness[$language] = 2;
                 }
+            }
+            if ($nearness) {
+                uksort($nearness, function ($a, $b) use ($nearness, $coverage) {
+                    return [$coverage[$b] ?? 0, $nearness[$a]] <=> [$coverage[$a] ?? 0, $nearness[$b]];
+                });
+                return array_key_first($nearness);
             }
         }
         return null;

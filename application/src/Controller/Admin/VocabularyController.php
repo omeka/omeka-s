@@ -187,10 +187,12 @@ class VocabularyController extends AbstractActionController
                 $this->messenger()->addFormErrors($form);
             } else {
                 try {
-                    // Read as the vocabulary was, as Update does. Where the
-                    // file uses another form of its namespace URI, the review
-                    // changes it to the file's along with the rest.
-                    $reviewUrl = $this->vocabularyReview->start($updatable->id(), $path, ['format' => $format],
+                    // With the choices made here, which the review offers in
+                    // turn; one left empty, as First available, is read as
+                    // the vocabulary was. Where the file uses another form of
+                    // its namespace URI, the review changes it to the file's
+                    // along with the rest.
+                    $reviewUrl = $this->vocabularyReview->start($updatable->id(), $path, $options,
                         $namespaceUri === $updatable->namespaceUri() ? [] : ['new_namespace_uri' => $namespaceUri]);
                     // The review keeps its own copy, so the import is over.
                     $this->fileStore->remove($token);

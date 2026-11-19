@@ -3625,21 +3625,27 @@ input[type=text].query-form-query {
 
 /* @group ----- Vocabulary: Review ----- */
 
-/* "Show changes" sits below the choices, outside a field, whose gray would
-   wash it out, with space to set it off from them. */
-.vocabularies.review .review-choices-actions {
-    margin: $spacing-medium 0 $spacing-large;
+/* Also the classes and properties an import adds, on the import details
+   page, which uses the review's sections; on vocabulary pages only, as the
+   class names are generic. */
+
+/* "Show changes", or "Show classes and properties", sits below the
+   choices, outside a field, whose gray would wash it out, with space to
+   set it off from them. */
+.vocabularies .review-choices-actions {
+    margin: $spacing-medium 0;
 }
 
 /* Section headings at h3's size: they head parts of one page, and at h2's
    size they vie with its title. */
-.vocabularies.review #content h2 {
+.vocabularies.review #content h2,
+.vocabularies.import-details #content h2 {
     font-size: 1.5 * $base-font-size;
     line-height: $base-line-height;
 }
 
 /* The links to the sections below, in a wrapping row, not a list. */
-.vocabularies.review .review-sections ul {
+.vocabularies .review-sections ul {
     display: flex;
     flex-wrap: wrap;
     gap: $spacing-small $spacing-medium;
@@ -3650,23 +3656,23 @@ input[type=text].query-form-query {
 
 /* In a table of changes, the first column holds only the term, so it's
    kept narrow, leaving room for the values from and to. */
-.vocabularies.review .review-changes th:first-child {
+.vocabularies .review-changes th:first-child {
     width: 25%;
 }
 
 /* Long comments make tall rows: align to the top, so each term stays
    beside the start of its values. */
-.vocabularies.review table.tablesaw.review-table td {
+.vocabularies table.tablesaw.review-table td {
     vertical-align: top;
 }
 
 /* The prefixed term (dcterms:title) on its own line, under its label. */
-.vocabularies.review .review-table .field-term {
+.vocabularies .review-table .field-term {
     display: block;
 }
 
 /* Values as they would be stored, line breaks and spacing included. */
-.vocabularies.review .review-value {
+.vocabularies .review-value {
     white-space: pre-wrap;
     word-wrap: break-word;
 }
@@ -3674,12 +3680,12 @@ input[type=text].query-form-query {
 /* What differs within a changed value: struck out where removed,
    underlined where added, each on a tint, so it shows without color and
    a changed space shows at all. */
-.vocabularies.review .review-value del {
+.vocabularies .review-value del {
     background-color: #fbe3e3;
     text-decoration: line-through;
 }
 
-.vocabularies.review .review-value ins {
+.vocabularies .review-value ins {
     background-color: #dff3df;
     text-decoration: underline;
 }
@@ -3691,7 +3697,7 @@ input[type=text].query-form-query {
 }
 
 /* Stands in for a missing value, set apart from real ones. */
-.vocabularies.review .review-none {
+.vocabularies .review-none {
     color: $copy-gray;
     font-style: italic;
 }

@@ -43,6 +43,11 @@ $('#vocabulary-form').on('submit', function(e) {
     if (!namespaceUriInput.length) {
         return;
     }
+    // Show classes and properties imports nothing, so has nothing to confirm.
+    const submitter = e.originalEvent && e.originalEvent.submitter;
+    if (submitter && 'preview' === submitter.name) {
+        return;
+    }
     // The user must confirm that a namespace URI does not end with / or #,
     // unless it's the vocabulary's own, unchanged.
     const namespaceUri = namespaceUriInput.val();

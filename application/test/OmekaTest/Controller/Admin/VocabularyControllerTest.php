@@ -894,6 +894,84 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         }
     }
 
+    public function testImportDetailsShowWhatImportingAdds()
+    {
+        $this->assertSame(302, $this->startImport('../../../Stdlib/_files/details-declared.ttl'));
+        $this->requestAs(self::ADMIN, 'GET', $this->importDetailsUrl());
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        $this->assertStringContainsString('<button type="submit" name="preview" value="1" formnovalidate>Show classes and properties</button>', $page);
+        $this->assertStringContainsString('<a href="#import-classes">Classes (1)</a>', $page);
+        $this->assertStringContainsString('<a href="#import-properties">Properties (1)</a>', $page);
+        // In the language chosen, English, with the file's prefix.
+        $this->assertMatchesRegularExpression('#<span class="field-term">decl:Thing</span></td>\s*<td><span class="review-value">Thing</span></td>#', $page);
+        $this->assertStringContainsString('<span class="field-term">decl:name</span>', $page);
+    }
+
+    public function testShowClassesAndPropertiesImportsNothing()
+    {
+        $this->assertSame(302, $this->startImport('../../../Stdlib/_files/details-declared.ttl'));
+        // Not yet valid to import: no prefix.
+        $this->assertSame(200, $this->requestAs(self::ADMIN, 'POST', $this->importDetailsUrl(), [
+            'vocabulary-info' => [
+                'o:label' => 'Declared vocabulary',
+                'o:comment' => '',
+                'o:namespace_uri' => 'http://example.org/declared#',
+                'o:prefix' => '',
+            ],
+            'vocabulary-advanced' => ['lang' => 'fr', 'comments' => 'comment', 'label_property' => '', 'comment_property' => ''],
+            'preview' => '1',
+        ]));
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        // In French now, without a prefix.
+        $this->assertMatchesRegularExpression('#<span class="field-term">Thing</span></td>\s*<td><span class="review-value">Chose</span></td>#', $page);
+        $this->assertStringNotContainsString('<li class="error">', $page);
+        $this->reset(true);
+        $this->signIn();
+        $this->assertSame(0, $this->api()->search('vocabularies', ['namespace_uri' => 'http://example.org/declared#'])->getTotalResults());
+    }
+
+    public function testShowClassesAndPropertiesInAnotherNamespaceSaysWhyThereAreNone()
+    {
+        $this->assertSame(302, $this->startImport('../../../Stdlib/_files/details-declared.ttl'));
+        $this->requestAs(self::ADMIN, 'POST', $this->importDetailsUrl(), [
+            'vocabulary-info' => ['o:label' => 'Declared vocabulary', 'o:comment' => '', 'o:namespace_uri' => 'http://example.org/other#', 'o:prefix' => 'decl'],
+            'preview' => '1',
+        ]);
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        $this->assertStringContainsString('None of the file\'s classes or properties are in the namespace URI "http://example.org/other#". The file uses "http://example.org/declared#".', $page);
+        $this->assertStringNotContainsString('id="import-classes"', $page);
+    }
+
+    public function testShowClassesAndPropertiesWarnsOfAVocabularyOmekaHas()
+    {
+        $this->assertSame(302, $this->startImport('../../../Stdlib/_files/definitions.ttl'));
+        // Another form of the tests' vocabulary's namespace URI, entered.
+        $this->requestAs(self::ADMIN, 'POST', $this->importDetailsUrl(), [
+            'vocabulary-info' => ['o:label' => 'Definitions', 'o:comment' => '', 'o:namespace_uri' => 'https://example.org/review', 'o:prefix' => 'defs'],
+            'preview' => '1',
+        ]);
+        $text = strip_tags(html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
+        $this->assertStringContainsString('Omeka already has this vocabulary, as "Review" with the namespace URI "http://example.org/review#". To update it, use Update classes and properties on its page.', $text);
+        // Not the warning of a namespace URI the file appears to use.
+        $this->assertStringNotContainsString('this file appears to use', $text);
+    }
+
+    public function testARefusedImportSaysWhyOnce()
+    {
+        try {
+            $this->assertSame(302, $this->startImport('../../../Stdlib/_files/details-declared.ttl'));
+            $this->assertSame(200, $this->finishImport($this->importDetailsUrl(), [
+                'o:label' => 'Declared vocabulary',
+                'o:namespace_uri' => 'http://example.org/other#',
+                'o:prefix' => 'decl',
+            ]));
+            $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+            $this->assertSame(1, substr_count($page, 'None of the file\'s classes or properties are in the namespace URI "http://example.org/other#".'));
+        } finally {
+            $this->deleteImported('decl');
+        }
+    }
+
     public function testImportFromTheFileLandsOnTheVocabularysPage()
     {
         $tempDir = $this->getApplicationServiceLocator()->get('Config')['temp_dir'];

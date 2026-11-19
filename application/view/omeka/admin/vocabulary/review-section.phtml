@@ -2,7 +2,8 @@
 // One section of a review's changes: a table with a row for each term, in
 // natural order of their local names. A section of changes ("changes") gives
 // each term's value from and to, with Omeka's labels ("labels") naming the
-// terms; any other section ("terms") gives each term's values.
+// terms; any other section ("terms") gives each term's values. Terms are
+// named with the prefix, where there is one yet.
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $textDiff = $this->plugin('textDiff');
@@ -37,7 +38,7 @@ $none = sprintf('<span class="review-none">%s</span>', $translate('None'));
         ?>
         <tr>
             <?php // The term heads its row, so a screen reader names it with each value. ?>
-            <td role="rowheader"><?php if ('' !== $label): ?><span class="review-term-label"><?php echo $escape($label); ?></span> <?php endif; ?><span class="field-term"><?php echo $escape($prefix . ':' . $localName); ?></span></td>
+            <td role="rowheader"><?php if ('' !== $label): ?><span class="review-term-label"><?php echo $escape($label); ?></span> <?php endif; ?><span class="field-term"><?php echo $escape('' === (string) $prefix ? $localName : $prefix . ':' . $localName); ?></span></td>
             <?php foreach ($cells as $i => $cell): ?>
             <td><?php echo '' === $values[$i] ? $none : sprintf('<span class="review-value">%s</span>', $cell); ?></td>
             <?php endforeach; ?>

@@ -160,32 +160,35 @@ class VocabularyController extends AbstractActionController
             ],
         ]);
         $request = $this->getRequest();
-        // The namespace URI found may be another vocabulary's, as when a
-        // file redeclares terms it reuses.
-        if (!$request->isPost() && null !== $details['namespace_uri']) {
-            $other = $this->getVocabularyWithNamespace($details['namespace_uri']);
-            if ($other) {
-                $this->messenger()->addWarning($this->getAlreadyHasMessage($other, true));
-            }
-        }
+        // Show classes and properties posts the form to show them again,
+        // with what's entered, without importing.
+        $isPreview = $request->isPost() && $request->getPost('preview');
         if ($request->isPost()) {
             $form->setData($request->getPost()->toArray());
+        }
+        // Say Omeka already has the vocabulary before an import is refused
+        // for it: on arrival, of the namespace URI found, which may be
+        // another vocabulary's, as when a file redeclares terms it reuses;
+        // on Show classes and properties, of the one entered.
+        if (!$request->isPost() || $isPreview) {
+            $namespaceUri = trim((string) $form->get('vocabulary-info')->get('o:namespace_uri')->getValue());
+            $other = '' === $namespaceUri ? null : $this->getVocabularyWithNamespace($namespaceUri);
+            if ($other) {
+                $this->messenger()->addWarning($this->getAlreadyHasMessage($other, !$request->isPost()));
+            }
+        }
+        $importRefused = false;
+        if ($request->isPost() && !$isPreview) {
             if ($form->isValid()) {
                 $data = $form->getData();
                 // Refuse a vocabulary Omeka already has under any form of
                 // this namespace URI: importing it would duplicate its terms.
                 $other = $this->getVocabularyWithNamespace($data['vocabulary-info']['o:namespace_uri']);
                 if ($other) {
+                    $importRefused = true;
                     $this->messenger()->addError($this->getAlreadyHasMessage($other));
                 } else {
-                    $advanced = $data['vocabulary-advanced'];
-                    $options = [
-                        'file' => $path,
-                        'format' => $format,
-                        'lang' => $this->getChosenLanguage($advanced) ?: null,
-                        'label_property' => $advanced['label_property'],
-                        'comment_property' => $this->getChosenCommentProperty($advanced),
-                    ];
+                    $options = $this->getImportOptions($path, $format, $data['vocabulary-advanced']);
                     try {
                         $response = $this->rdfImporter->import('file', $data['vocabulary-info'], $options);
                         $this->fileStore->remove($token);
@@ -201,6 +204,7 @@ class VocabularyController extends AbstractActionController
                         $this->messenger()->addSuccess($message);
                         return $this->redirect()->toUrl($response->getContent()->url());
                     } catch (\Exception $e) {
+                        $importRefused = true;
                         $this->messenger()->addErrors($this->getErrors($e));
                     }
                 }
@@ -211,6 +215,8 @@ class VocabularyController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('form', $form);
         $view->setVariable('details', $details);
+        // A refused import has said why already.
+        $view->setVariable('members', $this->getImportPreview($path, $format, $form, !$importRefused));
         return $view;
     }
 
@@ -544,6 +550,59 @@ class VocabularyController extends AbstractActionController
             'label_property' => RdfImporter::LABEL_PROPERTY === $labelProperty ? '' : $labelProperty,
             'comment_property' => false === $comments ? $commentProperty : '',
         ];
+    }
+
+    /**
+     * Get the import options the import details page's choices give, for
+     * importing its file or showing what importing adds.
+     *
+     * @param string $path The file's path
+     * @param string $format
+     * @param array $advanced The Advanced fieldset's values
+     * @return array
+     */
+    protected function getImportOptions($path, $format, array $advanced)
+    {
+        $labelProperty = trim((string) ($advanced['label_property'] ?? ''));
+        return [
+            'file' => $path,
+            'format' => $format,
+            'lang' => $this->getChosenLanguage($advanced) ?: null,
+            'label_property' => '' === $labelProperty ? null : $labelProperty,
+            'comment_property' => $this->getChosenCommentProperty($advanced),
+        ];
+    }
+
+    /**
+     * Get the classes and properties importing adds, as the import details
+     * page's namespace URI and choices read its file: null with no
+     * namespace URI yet, or where the file has no classes or properties in
+     * it, which an error message then says.
+     *
+     * @param string $path The file's path
+     * @param string $format
+     * @param VocabularyForm $form The import details form, with its values
+     * @param bool $sayWhy Whether to say why there are none
+     * @return array|null Labels and comments by local name, under classes
+     *   and properties
+     */
+    protected function getImportPreview($path, $format, VocabularyForm $form, $sayWhy)
+    {
+        $namespaceUri = trim((string) $form->get('vocabulary-info')->get('o:namespace_uri')->getValue());
+        if ('' === $namespaceUri) {
+            return null;
+        }
+        $advanced = array_map(fn ($element) => $element->getValue(), $form->get('vocabulary-advanced')->getElements());
+        $options = $this->getImportOptions($path, $format, $advanced);
+        try {
+            $this->rdfImporter->checkHasMembers('file', $namespaceUri, $options);
+            return $this->rdfImporter->getMembers('file', $namespaceUri, $options);
+        } catch (\Exception $e) {
+            if ($sayWhy) {
+                $this->messenger()->addErrors($this->getErrors($e));
+            }
+            return null;
+        }
     }
 
     /**

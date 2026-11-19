@@ -1123,7 +1123,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame(302, $this->requestAs(self::ADMIN, 'POST', $url, [
             'vocabulary-info' => ['o:label' => '', 'o:comment' => '', 'o:namespace_uri' => 'http://example.org/review#', 'o:prefix' => ''],
             'update' => '1',
-        ]));
+        ] + $this->csrfField(VocabularyForm::class)));
         $location = $this->getResponse()->getHeaders()->get('Location')->getUri();
         $this->assertStringStartsWith(sprintf('/admin/vocabulary/%s/review?review=', $this->vocabularyId), $location);
         $token = $this->tokens[] = substr($location, strpos($location, '=') + 1);
@@ -1136,13 +1136,53 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertRedirectTo('/admin/vocabulary/import');
     }
 
+    public function testReviewChangesNeedsTheFormsCsrfField()
+    {
+        $this->assertSame(302, $this->startImport('markup.ttl'));
+        $url = $this->importDetailsUrl();
+        $this->assertSame(200, $this->requestAs(self::ADMIN, 'POST', $url, [
+            'vocabulary-info' => ['o:label' => '', 'o:comment' => '', 'o:namespace_uri' => 'http://example.org/review#', 'o:prefix' => ''],
+            'update' => '1',
+        ]));
+        $this->assertTemplateName('omeka/admin/vocabulary/import-details');
+        // The import goes on.
+        $this->assertSame(200, $this->requestAs(self::ADMIN, 'GET', $url));
+    }
+
+    public function testReviewChangesRefusedSaysWhyOnce()
+    {
+        // The file's terms use https; the namespace URI entered is the
+        // vocabulary's own http form, which has none of them.
+        $this->assertSame(302, $this->startImport('other-form.ttl'));
+        $this->assertSame(200, $this->requestAs(self::ADMIN, 'POST', $this->importDetailsUrl(), [
+            'vocabulary-info' => ['o:label' => '', 'o:comment' => '', 'o:namespace_uri' => 'http://example.org/review#', 'o:prefix' => ''],
+            'update' => '1',
+        ] + $this->csrfField(VocabularyForm::class)));
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        $this->assertSame(1, substr_count($page, 'None of the file\'s classes or properties are in the namespace URI "http://example.org/review#".'));
+    }
+
+    public function testAnImportWithFormErrorsStillSaysWhatReviewChangesIsFor()
+    {
+        $this->assertSame(302, $this->startImport('markup.ttl'));
+        $this->assertSame(200, $this->finishImport($this->importDetailsUrl(), [
+            'o:label' => 'Review again',
+            'o:namespace_uri' => 'http://example.org/review#',
+            'o:prefix' => 'not a prefix',
+        ]));
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        $this->assertStringContainsString('The prefix may only contain letters, numbers, hyphens, and underscores.', $page);
+        $this->assertStringContainsString('Review already uses this namespace URI. To update it from the file, click Review changes.', strip_tags($page));
+        $this->assertStringContainsString('name="update"', $page);
+    }
+
     public function testReviewChangesOfAnotherFormOfTheNamespaceChangesItToo()
     {
         $this->assertSame(302, $this->startImport('other-form.ttl'));
         $this->assertSame(302, $this->requestAs(self::ADMIN, 'POST', $this->importDetailsUrl(), [
             'vocabulary-info' => ['o:label' => '', 'o:comment' => '', 'o:namespace_uri' => 'https://example.org/review#', 'o:prefix' => ''],
             'update' => '1',
-        ]));
+        ] + $this->csrfField(VocabularyForm::class)));
         $location = $this->getResponse()->getHeaders()->get('Location')->getUri();
         $token = $this->tokens[] = substr($location, strpos($location, '=') + 1);
         $text = preg_replace('/\s+/', ' ', strip_tags(html_entity_decode($this->reviewPage($token), ENT_QUOTES | ENT_HTML5)));

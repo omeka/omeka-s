@@ -1,0 +1,21 @@
+<?php
+// A review's sections of changes, or the classes and properties an import
+// adds: links to each section where there are several, then each section's
+// table (review-section.phtml). Each section gives its count, and "prefix"
+// names the terms.
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+?>
+<?php if (count($sections) > 1): ?>
+<nav class="review-sections" aria-label="<?php echo $escape($translate('Sections')); ?>">
+    <ul>
+        <?php foreach ($sections as $section): ?>
+        <li><a href="#<?php echo $section['id']; ?>"><?php echo $escape(sprintf('%s (%s)', $section['heading'], $section['count'])); ?></a></li>
+        <?php endforeach; ?>
+    </ul>
+</nav>
+<?php endif; ?>
+
+<?php foreach ($sections as $section): ?>
+<?php echo $this->partial('omeka/admin/vocabulary/review-section', ['section' => $section, 'prefix' => $prefix]); ?>
+<?php endforeach; ?>

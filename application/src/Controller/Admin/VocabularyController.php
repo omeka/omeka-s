@@ -163,75 +163,82 @@ class VocabularyController extends AbstractActionController
         // Show classes and properties posts the form to show them again,
         // with what's entered, without importing. Review changes posts it to
         // update the vocabulary Omeka already has from the file instead.
-        $isPreview = $request->isPost() && $request->getPost('preview');
-        $isUpdate = $request->isPost() && $request->getPost('update');
+        $isImport = $request->isPost() && !$request->getPost('preview') && !$request->getPost('update');
         if ($request->isPost()) {
             $form->setData($request->getPost()->toArray());
         }
+        // As entered, for importing and for showing what importing adds.
+        $namespaceUri = trim((string) $form->get('vocabulary-info')->get('o:namespace_uri')->getValue());
+        $options = $this->getImportOptions($path, $format, array_map(fn ($element) => $element->getValue(), $form->get('vocabulary-advanced')->getElements()));
         // The vocabulary Omeka already has under any form of the namespace
         // URI: on arrival, the one found, which may be another vocabulary's,
         // as when a file redeclares terms it reuses; then, the one entered.
-        $namespaceUri = trim((string) $form->get('vocabulary-info')->get('o:namespace_uri')->getValue());
         $other = '' === $namespaceUri ? null : $this->getVocabularyWithNamespace($namespaceUri);
         $updatable = $other && $this->userMayUpdate($other) ? $other : null;
-        if ($isUpdate && $updatable) {
+        // Whether a refusal has said why already, which the class and
+        // property list then doesn't say again.
+        $refused = false;
+        $valid = $isImport && $form->isValid();
+        if ($updatable && $request->getPost('update')) {
+            // Checked, as Update's own start is, though nothing is saved
+            // until the review is accepted.
+            $form->setValidationGroup(['csrf']);
+            if (!$form->isValid()) {
+                $this->messenger()->addFormErrors($form);
+            } else {
+                try {
+                    // Read as the vocabulary was, as Update does. Where the
+                    // file uses another form of its namespace URI, the review
+                    // changes it to the file's along with the rest.
+                    $reviewUrl = $this->vocabularyReview->start($updatable->id(), $path, ['format' => $format],
+                        $namespaceUri === $updatable->namespaceUri() ? [] : ['new_namespace_uri' => $namespaceUri]);
+                    // The review keeps its own copy, so the import is over.
+                    $this->fileStore->remove($token);
+                    return $this->redirect()->toUrl($reviewUrl);
+                } catch (\Exception $e) {
+                    $refused = true;
+                    $this->messenger()->addErrors($this->getErrors($e));
+                }
+            }
+        } elseif ($isImport && !$valid) {
+            $this->messenger()->addFormErrors($form);
+        } elseif ($valid && !$other) {
             try {
-                // Read as the vocabulary was, as Update does. Where the file
-                // uses another form of its namespace URI, the review changes
-                // it to the file's along with the rest.
-                $reviewUrl = $this->vocabularyReview->start($updatable->id(), $path, ['format' => $format],
-                    $namespaceUri === $updatable->namespaceUri() ? [] : ['new_namespace_uri' => $namespaceUri]);
-                // The review keeps its own copy, so the import is over.
+                $response = $this->rdfImporter->import('file', $form->getData()['vocabulary-info'], $options);
                 $this->fileStore->remove($token);
-                return $this->redirect()->toUrl($reviewUrl);
+                $message = new Message(
+                    'Vocabulary successfully imported. %s', // @translate
+                    sprintf(
+                        '<a href="%s">%s</a>',
+                        htmlspecialchars($this->url()->fromRoute('admin/default', ['controller' => 'vocabulary', 'action' => 'import'])),
+                        $this->translate('Import another vocabulary?')
+                    )
+                );
+                $message->setEscapeHtml(false);
+                $this->messenger()->addSuccess($message);
+                return $this->redirect()->toUrl($response->getContent()->url());
             } catch (\Exception $e) {
+                $refused = true;
                 $this->messenger()->addErrors($this->getErrors($e));
             }
         }
-        $importRefused = false;
-        if ($request->isPost() && !$isPreview && !$isUpdate) {
-            if ($form->isValid()) {
-                $data = $form->getData();
+        if ($other) {
+            if ($valid) {
                 // Refuse a vocabulary Omeka already has under any form of
                 // this namespace URI: importing it would duplicate its terms.
-                if ($other) {
-                    $importRefused = true;
-                    $this->messenger()->addError($this->getAlreadyHasMessage($other));
-                } else {
-                    $options = $this->getImportOptions($path, $format, $data['vocabulary-advanced']);
-                    try {
-                        $response = $this->rdfImporter->import('file', $data['vocabulary-info'], $options);
-                        $this->fileStore->remove($token);
-                        $message = new Message(
-                            'Vocabulary successfully imported. %s', // @translate
-                            sprintf(
-                                '<a href="%s">%s</a>',
-                                htmlspecialchars($this->url()->fromRoute('admin/default', ['controller' => 'vocabulary', 'action' => 'import'])),
-                                $this->translate('Import another vocabulary?')
-                            )
-                        );
-                        $message->setEscapeHtml(false);
-                        $this->messenger()->addSuccess($message);
-                        return $this->redirect()->toUrl($response->getContent()->url());
-                    } catch (\Exception $e) {
-                        $importRefused = true;
-                        $this->messenger()->addErrors($this->getErrors($e));
-                    }
-                }
+                $refused = true;
+                $this->messenger()->addError($this->getAlreadyHasMessage($other));
             } else {
-                $this->messenger()->addFormErrors($form);
+                // Said before an import is refused for it.
+                $this->messenger()->addWarning($this->getAlreadyHasMessage($other));
             }
-        } elseif ($other) {
-            // Said before an import is refused for it.
-            $this->messenger()->addWarning($this->getAlreadyHasMessage($other));
         }
         $view = new ViewModel;
         $view->setVariable('form', $form);
         $view->setVariable('details', $details);
         // The vocabulary Review changes updates from the file.
         $view->setVariable('updatable', $updatable);
-        // A refused import has said why already.
-        $view->setVariable('members', $this->getImportPreview($path, $format, $form, !$importRefused));
+        $view->setVariable('members', $this->getImportPreview($namespaceUri, $options, !$refused));
         return $view;
     }
 
@@ -535,9 +542,10 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get the import options chosen on the review page.
+     * Get the import options chosen on the review page or import details:
+     * only those given.
      *
-     * @param array $params The page's query, or its form's post
+     * @param array $params The review page's query, or a form's values
      * @return array
      */
     protected function getChoices(array $params)
@@ -581,7 +589,8 @@ class VocabularyController extends AbstractActionController
 
     /**
      * Get the import options the import details page's choices give, for
-     * importing its file or showing what importing adds.
+     * importing its file or showing what importing adds: each one, null
+     * where not chosen.
      *
      * @param string $path The file's path
      * @param string $format
@@ -590,14 +599,10 @@ class VocabularyController extends AbstractActionController
      */
     protected function getImportOptions($path, $format, array $advanced)
     {
-        $labelProperty = trim((string) ($advanced['label_property'] ?? ''));
-        return [
-            'file' => $path,
-            'format' => $format,
-            'lang' => $this->getChosenLanguage($advanced) ?: null,
-            'label_property' => '' === $labelProperty ? null : $labelProperty,
-            'comment_property' => $this->getChosenCommentProperty($advanced),
-        ];
+        return array_replace(
+            ['file' => $path, 'format' => $format, 'lang' => null, 'label_property' => null, 'comment_property' => null],
+            $this->getChoices($advanced)
+        );
     }
 
     /**
@@ -606,21 +611,17 @@ class VocabularyController extends AbstractActionController
      * namespace URI yet, or where the file has no classes or properties in
      * it, which an error message then says.
      *
-     * @param string $path The file's path
-     * @param string $format
-     * @param VocabularyForm $form The import details form, with its values
+     * @param string $namespaceUri
+     * @param array $options The import options, from getImportOptions()
      * @param bool $sayWhy Whether to say why there are none
      * @return array|null Labels and comments by local name, under classes
      *   and properties
      */
-    protected function getImportPreview($path, $format, VocabularyForm $form, $sayWhy)
+    protected function getImportPreview($namespaceUri, array $options, $sayWhy)
     {
-        $namespaceUri = trim((string) $form->get('vocabulary-info')->get('o:namespace_uri')->getValue());
         if ('' === $namespaceUri) {
             return null;
         }
-        $advanced = array_map(fn ($element) => $element->getValue(), $form->get('vocabulary-advanced')->getElements());
-        $options = $this->getImportOptions($path, $format, $advanced);
         try {
             $this->rdfImporter->checkHasMembers('file', $namespaceUri, $options);
             return $this->rdfImporter->getMembers('file', $namespaceUri, $options);

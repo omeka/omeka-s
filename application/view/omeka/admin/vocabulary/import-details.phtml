@@ -2,7 +2,6 @@
 $this->headScript()->appendFile($this->assetUrl('js/vocabulary-form.js', 'Omeka'));
 $this->htmlElement('body')->appendAttribute('class', 'vocabularies import-details');
 $translate = $this->plugin('translate');
-$escape = $this->plugin('escapeHtml');
 $form->prepare();
 // Say the file gives no namespace URI only while its field is empty: after
 // a refused import, the field shows what the admin entered.
@@ -10,17 +9,10 @@ $info = $form->get('vocabulary-info');
 $asksNamespaceUri = null === $details['namespace_uri'] && '' === trim((string) $info->get('o:namespace_uri')->getValue());
 
 // The classes and properties importing adds, in sections like a review's.
-$sections = [];
-if (null !== $members) {
-    $sections = [
-        ['id' => 'import-classes', 'heading' => $translate('Classes'), 'columns' => [$translate('Class'), $translate('Label'), $translate('Comment')], 'terms' => $members['classes']],
-        ['id' => 'import-properties', 'heading' => $translate('Properties'), 'columns' => [$translate('Property'), $translate('Label'), $translate('Comment')], 'terms' => $members['properties']],
-    ];
-    foreach ($sections as $key => $section) {
-        $sections[$key]['count'] = count($section['terms']);
-    }
-    $sections = array_filter($sections, fn ($section) => (bool) $section['count']);
-}
+$sections = null === $members ? [] : array_filter([
+    ['id' => 'import-classes', 'heading' => $translate('Classes'), 'columns' => [$translate('Class'), $translate('Label'), $translate('Comment')], 'terms' => $members['classes'], 'count' => count($members['classes'])],
+    ['id' => 'import-properties', 'heading' => $translate('Properties'), 'columns' => [$translate('Property'), $translate('Label'), $translate('Comment')], 'terms' => $members['properties'], 'count' => count($members['properties'])],
+], fn ($section) => (bool) $section['count']);
 ?>
 
 <?php echo $this->pageTitle($translate('New vocabulary'), 1, $translate('Vocabularies'), $translate('Details')); ?>
@@ -41,26 +33,11 @@ if (null !== $members) {
 <?php echo $this->formCollection($info, false); ?>
 <?php // Under its label, as the review's choices are. ?>
 <?php echo $this->formCollection($form->get('vocabulary-advanced')); ?>
-<?php // The form's own elements, outside its fieldsets: only its CSRF field. ?>
-<?php foreach ($form->getElements() as $element): ?>
-<?php echo $this->formElement($element); ?>
-<?php endforeach; ?>
+<?php echo $this->formRow($form->get('csrf')); ?>
 <div class="review-choices-actions">
     <?php // Posts the form to show the classes and properties again, without importing. ?>
     <button type="submit" name="preview" value="1" formnovalidate><?php echo $translate('Show classes and properties'); ?></button>
 </div>
 <?php echo $this->form()->closeTag(); ?>
 
-<?php if (count($sections) > 1): ?>
-<nav class="review-sections" aria-label="<?php echo $escape($translate('Sections')); ?>">
-    <ul>
-        <?php foreach ($sections as $section): ?>
-        <li><a href="#<?php echo $section['id']; ?>"><?php echo $escape(sprintf('%s (%s)', $section['heading'], $section['count'])); ?></a></li>
-        <?php endforeach; ?>
-    </ul>
-</nav>
-<?php endif; ?>
-
-<?php foreach ($sections as $section): ?>
-<?php echo $this->partial('omeka/admin/vocabulary/review-section', ['section' => $section, 'prefix' => trim((string) $info->get('o:prefix')->getValue())]); ?>
-<?php endforeach; ?>
+<?php echo $this->partial('omeka/admin/vocabulary/review-sections', ['sections' => $sections, 'prefix' => trim((string) $info->get('o:prefix')->getValue())]); ?>

@@ -68,15 +68,23 @@ class VocabularyReview
      *   (RdfImporter::guessImportOptions()).
      * @param array $reviewOptions
      *   - new_namespace_uri: (optional) A new namespace URI for the
-     *     vocabulary, the one the file's terms use, accepted with the changes
+     *     vocabulary, the one the file's terms use, accepted with the changes:
+     *     another form of the vocabulary's own, such as https for http, that
+     *     no other vocabulary has in any form
      * @return string The review page's URL. Accept and Cancel then go to the
      *   vocabulary's page.
-     * @throws ValidationException When the file can't be read, has no terms
-     *   in the namespace, or has terms too long to store
+     * @throws PermissionDeniedException When the user may not change the
+     *   vocabulary
+     * @throws \InvalidArgumentException When the new namespace URI isn't a
+     *   form of the vocabulary's
+     * @throws ValidationException When another vocabulary has the new
+     *   namespace URI in any form, or the file can't be read, has no terms in
+     *   the namespace, or has terms too long to store
      */
     public function start($vocabularyId, $filePath, array $importOptions = [], array $reviewOptions = [])
     {
-        return $this->begin($vocabularyId, $this->fileStore->keep($filePath), $importOptions, $reviewOptions);
+        $vocabulary = $this->getVocabularyToReview($vocabularyId, $reviewOptions);
+        return $this->begin($vocabulary, $this->fileStore->keep($filePath), $importOptions, $reviewOptions);
     }
 
     /**
@@ -91,7 +99,8 @@ class VocabularyReview
      */
     public function startFromUrl($vocabularyId, $url, array $importOptions = [], array $reviewOptions = [])
     {
-        return $this->begin($vocabularyId, $this->fileStore->keepFromUrl($url), $importOptions, $reviewOptions);
+        $vocabulary = $this->getVocabularyToReview($vocabularyId, $reviewOptions);
+        return $this->begin($vocabulary, $this->fileStore->keepFromUrl($url), $importOptions, $reviewOptions);
     }
 
     /**
@@ -237,27 +246,70 @@ class VocabularyReview
     }
 
     /**
-     * Start a review of a file in the file store.
+     * Get the vocabulary a review is to change, first checking what accepting
+     * it would need: that the user may change the vocabulary, and that a new
+     * namespace URI is another form of its own that no other vocabulary has
+     * in any form, as Edit requires of a namespace URI.
      *
      * @param int $vocabularyId
+     * @param array $reviewOptions
+     * @return \Omeka\Api\Representation\VocabularyRepresentation
+     * @throws PermissionDeniedException
+     * @throws \InvalidArgumentException
+     * @throws ValidationException
+     */
+    protected function getVocabularyToReview($vocabularyId, array $reviewOptions)
+    {
+        $vocabulary = $this->apiManager->read('vocabularies', $vocabularyId)->getContent();
+        if (!$vocabulary->userMayUpdate()) {
+            throw new PermissionDeniedException('User does not have permission to update this vocabulary');
+        }
+        $newNamespaceUri = $reviewOptions['new_namespace_uri'] ?? null;
+        if (null === $newNamespaceUri || $newNamespaceUri === $vocabulary->namespaceUri()) {
+            return $vocabulary;
+        }
+        // In any case, as Omeka finds a vocabulary by its namespace URI.
+        $forms = array_map('strtolower', Vocabulary::getNamespaceUriForms($vocabulary->namespaceUri()));
+        if (!in_array(strtolower($newNamespaceUri), $forms, true)) {
+            throw new \InvalidArgumentException('A review\'s new namespace URI must be another form of the vocabulary\'s.');
+        }
+        $holders = $this->apiManager->search('vocabularies', ['namespace_uri' => Vocabulary::getNamespaceUriForms($newNamespaceUri)])->getContent();
+        foreach ($holders as $holder) {
+            if ($holder->id() !== $vocabulary->id()) {
+                $exception = new ValidationException;
+                $exception->getErrorStore()->addError('o:namespace_uri', new Message(
+                    'Another vocabulary, "%1$s", has this namespace URI in another form: "%2$s".', // @translate
+                    $holder->label(),
+                    $holder->namespaceUri()
+                ));
+                throw $exception;
+            }
+        }
+        return $vocabulary;
+    }
+
+    /**
+     * Start a review of a file in the file store.
+     *
+     * @param \Omeka\Api\Representation\VocabularyRepresentation $vocabulary
      * @param string $fileToken The file's token in the file store
      * @param array $importOptions
      * @param array $reviewOptions
      * @return string The review page's URL
      */
-    protected function begin($vocabularyId, $fileToken, array $importOptions, array $reviewOptions)
+    protected function begin($vocabulary, $fileToken, array $importOptions, array $reviewOptions)
     {
         $path = $this->fileStore->getPath($fileToken);
+        $newNamespaceUri = $reviewOptions['new_namespace_uri'] ?? null;
         $review = [
-            'vocabulary_id' => null,
+            'vocabulary_id' => $vocabulary->id(),
             'file' => $path,
             'file_token' => $fileToken,
             'import_options' => [],
-            'new_namespace_uri' => $reviewOptions['new_namespace_uri'] ?? null,
+            // The vocabulary's own is no change.
+            'new_namespace_uri' => $newNamespaceUri === $vocabulary->namespaceUri() ? null : $newNamespaceUri,
         ];
         try {
-            $vocabulary = $this->apiManager->read('vocabularies', $vocabularyId)->getContent();
-            $review['vocabulary_id'] = $vocabulary->id();
             $review['import_options'] = $this->getStartingImportOptions($vocabulary, $review, $importOptions);
             // Without terms in the namespace, every term would seem dropped
             // from the file.

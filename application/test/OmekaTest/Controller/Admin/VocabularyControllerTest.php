@@ -597,14 +597,14 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     public function testReviewShowsAPendingNamespaceAndTermsOnlyInOmeka()
     {
         // The file is read in the pending namespace.
-        $page = html_entity_decode($this->reviewPage($this->startReview('moved-name.ttl', null, [
-            'new_namespace_uri' => 'http://example.org/moved#',
+        $page = html_entity_decode($this->reviewPage($this->startReview('other-form-name.ttl', null, [
+            'new_namespace_uri' => 'https://example.org/review#',
         ])), ENT_QUOTES | ENT_HTML5);
         $text = preg_replace('/\s+/', ' ', strip_tags($page));
         $this->assertStringContainsString('Accepting makes the changes below, from the file.', $text);
         // The namespace URI is one of the vocabulary's changed fields, with
         // what it does to the terms.
-        $this->assertStringContainsString('Namespace URI http://example.org/review# http://example.org/moved#', $text);
+        $this->assertStringContainsString('Namespace URI http://example.org/review# https://example.org/review#', $text);
         $this->assertStringContainsString('Changing the namespace changes the URI of every class and property in this vocabulary.', $text);
         $this->assertStringNotContainsString('new addresses', $text);
         $this->assertStringContainsString('Changed property labels (1)', $page);
@@ -715,14 +715,14 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     public function testAcceptAppliesNamespaceAndTermsTogether()
     {
         // As a module starts it, knowing the file's namespace.
-        $token = $this->startReview('moved-name.ttl', null, ['new_namespace_uri' => 'http://example.org/moved#']);
+        $token = $this->startReview('other-form-name.ttl', null, ['new_namespace_uri' => 'https://example.org/review#']);
 
         $status = $this->postReview('accept-review', $token);
         $this->assertSame(302, $status);
         $this->assertRedirectTo(sprintf('/admin/vocabulary/%s', $this->vocabularyId));
         $this->assertSame(['Changes to the vocabulary successfully made'], $this->messages(Messenger::SUCCESS));
         $vocabulary = $this->vocabulary();
-        $this->assertSame('http://example.org/moved#', $vocabulary->namespaceUri());
+        $this->assertSame('https://example.org/review#', $vocabulary->namespaceUri());
         $this->assertSame('Changed', $this->propertyLabel('review:name'));
         // How the file was read is stored.
         $this->assertSame('turtle', $this->vocabulary()->importOptions()['format']);
@@ -1589,12 +1589,14 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame(403, $status);
     }
 
-    public function testAcceptRefusedForPermanentVocabulary()
+    public function testReviewRefusedForPermanentVocabulary()
     {
         $dcterms = $this->api()->read('vocabularies', ['prefix' => 'dcterms'])->getContent();
-        $token = $this->startReview('dcterms-title.ttl', $dcterms->id());
-        $status = $this->postReview('accept-review', $token, self::ADMIN, $dcterms->id());
-        $this->assertSame(403, $status);
+        try {
+            $this->startReview('dcterms-title.ttl', $dcterms->id());
+            $this->fail('A review of Dublin Core started');
+        } catch (PermissionDeniedException $e) {
+        }
         $this->assertSame('Title', $this->propertyLabel('dcterms:title'));
     }
 

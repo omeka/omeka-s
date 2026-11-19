@@ -6,6 +6,7 @@ use EasyRdf\Http\Client as HttpClient;
 use EasyRdf\Http\Response;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Entity\User;
+use Omeka\Permissions\Exception\PermissionDeniedException;
 use Omeka\Stdlib\RdfImporter;
 use Omeka\Stdlib\VocabularyFileStore;
 use Omeka\Stdlib\VocabularyReview;
@@ -145,14 +146,14 @@ class VocabularyReviewTest extends DbTestCase
 
     public function testAcceptAppliesEverythingAndEnds()
     {
-        $token = $this->start('compare-moved.ttl', ['format' => 'turtle'], [
-            'new_namespace_uri' => 'http://example.org/moved#',
+        $token = $this->start('compare-other-form.ttl', ['format' => 'turtle'], [
+            'new_namespace_uri' => 'https://example.org/compare#',
         ]);
         $file = $this->review->get($token)['file'];
         $this->review->accept($token, $this->review->getImportOptions($this->review->get($token), ['lang' => 'en']));
 
         $vocabulary = $this->vocabulary();
-        $this->assertSame('http://example.org/moved#', $vocabulary->namespaceUri());
+        $this->assertSame('https://example.org/compare#', $vocabulary->namespaceUri());
         $this->assertSame('en', $vocabulary->importOptions()['lang']);
         // The term changes, found across the change of namespace.
         $this->assertSame('Heading', $this->propertyLabel('title'));
@@ -165,11 +166,11 @@ class VocabularyReviewTest extends DbTestCase
     {
         // The namespace of the file's terms, which another vocabulary has
         // since taken, so the API refuses it.
-        $token = $this->start('compare-moved.ttl', ['format' => 'turtle'], [
-            'new_namespace_uri' => 'http://example.org/moved#',
+        $token = $this->start('compare-other-form.ttl', ['format' => 'turtle'], [
+            'new_namespace_uri' => 'https://example.org/compare#',
         ]);
         $this->api()->create('vocabularies', [
-            'o:namespace_uri' => 'http://example.org/moved#',
+            'o:namespace_uri' => 'https://example.org/compare#',
             'o:prefix' => 'moved',
             'o:label' => 'Moved',
         ]);
@@ -207,6 +208,52 @@ class VocabularyReviewTest extends DbTestCase
         $this->assertNull($this->review->get($token));
         $this->assertFileDoesNotExist($file);
         $this->assertSame('Title', $this->propertyLabel('title'));
+    }
+
+    public function testStartChecksWhatAcceptingWould()
+    {
+        $pattern = $this->services->get('Config')['temp_dir'] . '/' . VocabularyFileStore::FILE_PREFIX . '*';
+        $files = glob($pattern);
+        $file = __DIR__ . '/_files/compare.ttl';
+        // A vocabulary no one may change.
+        $dcterms = $this->api()->read('vocabularies', ['prefix' => 'dcterms'])->getContent()->id();
+        try {
+            $this->review->start($dcterms, $file, ['format' => 'turtle']);
+            $this->fail('A review of Dublin Core started');
+        } catch (PermissionDeniedException $e) {
+        }
+        // A new namespace URI that isn't a form of the vocabulary's.
+        try {
+            $this->review->start($this->vocabularyId, $file, ['format' => 'turtle'], ['new_namespace_uri' => 'http://example.org/other#']);
+            $this->fail('A review moving the vocabulary elsewhere started');
+        } catch (\InvalidArgumentException $e) {
+        }
+        // One another vocabulary has in another form, as Edit refuses.
+        $other = $this->api()->create('vocabularies', [
+            'o:namespace_uri' => 'https://example.org/compare#',
+            'o:prefix' => 'compare2',
+            'o:label' => 'Compare again',
+        ])->getContent();
+        try {
+            $this->review->start($this->vocabularyId, $file, ['format' => 'turtle'], ['new_namespace_uri' => 'http://example.org/compare/']);
+            $this->fail('A review taking another vocabulary\'s namespace URI started');
+        } catch (ValidationException $e) {
+            $this->assertSame(
+                'Another vocabulary, "Compare again", has this namespace URI in another form: "https://example.org/compare#".',
+                (string) $e->getErrorStore()->getErrors()['o:namespace_uri'][0]
+            );
+        } finally {
+            $this->api()->delete('vocabularies', $other->id());
+        }
+        // No file kept for any of them.
+        $this->assertSame($files, glob($pattern));
+        // The vocabulary's own namespace URI is no change.
+        $token = $this->start('compare.ttl', ['format' => 'turtle'], ['new_namespace_uri' => self::NAMESPACE_URI]);
+        $this->assertNull($this->review->get($token)['new_namespace_uri']);
+        // In other capitals, the same to Omeka, it's a form of it.
+        $this->api()->update('vocabularies', $this->vocabularyId, ['o:namespace_uri' => 'http://EXAMPLE.org/compare#'], [], ['isPartial' => true]);
+        $token = $this->start('compare.ttl', ['format' => 'turtle'], ['new_namespace_uri' => self::NAMESPACE_URI]);
+        $this->assertSame(self::NAMESPACE_URI, $this->review->get($token)['new_namespace_uri']);
     }
 
     public function testOldFilesAreRemovedWhenAReviewStarts()

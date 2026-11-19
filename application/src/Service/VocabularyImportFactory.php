@@ -15,6 +15,7 @@ class VocabularyImportFactory implements FactoryInterface
     public function __invoke(ContainerInterface $serviceLocator, $requestedName, ?array $options = null)
     {
         return new VocabularyImport(
+            $serviceLocator->get('Omeka\RdfImporter'),
             $serviceLocator->get('Omeka\VocabularyFileStore'),
             $serviceLocator->get('Router')
         );

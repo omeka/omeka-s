@@ -7,6 +7,7 @@ use EasyRdf\Http\Response;
 use Laminas\Form\Element\Csrf;
 use Laminas\Stdlib\Parameters;
 use Omeka\Api\Exception\NotFoundException;
+use Omeka\Api\Exception\ValidationException;
 use Omeka\Entity\User;
 use Omeka\Entity\Vocabulary;
 use Omeka\Form\ConfirmForm;
@@ -1055,6 +1056,31 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         } finally {
             $this->deleteImported('defs');
         }
+    }
+
+    public function testAHandedFileThatCantBeImportedIsRefusedAtOnce()
+    {
+        $this->reset(true);
+        $this->signIn();
+        $services = $this->getApplicationServiceLocator();
+        $pattern = $services->get('Config')['temp_dir'] . '/' . VocabularyFileStore::FILE_PREFIX . '*';
+        $files = glob($pattern);
+        try {
+            $services->get('Omeka\VocabularyImport')->start(__DIR__ . '/../../Stdlib/_files/empty.ttl', [], ['format' => 'turtle']);
+            $this->fail('A file with no classes or properties was handed on.');
+        } catch (ValidationException $e) {
+            // Before the details page, and without keeping the file.
+            $this->assertSame($files, glob($pattern));
+        }
+    }
+
+    public function testAnImportHandedOnlyItsFileHoldsNothingElse()
+    {
+        // As Import starts one.
+        $url = $this->handImport('markup.ttl', [], ['format' => 'turtle']);
+        parse_str((string) parse_url($url, PHP_URL_QUERY), $query);
+        $this->assertNull($this->getApplicationServiceLocator()->get('Omeka\VocabularyImport')->get($query['file_token']));
+        $this->assertSame(200, $this->requestAs(self::ADMIN, 'GET', $url));
     }
 
     public function testImportFromTheFileLandsOnTheVocabularysPage()

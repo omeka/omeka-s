@@ -98,28 +98,21 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Import a vocabulary, first step: keep the chosen file, then go on to
-     * its details.
+     * Import a vocabulary, first step: start the import of the chosen file,
+     * then go on to its details.
      */
     public function importAction()
     {
         $form = $this->getForm(VocabularyForm::class, ['mode' => 'file']);
         $source = $this->getRequest()->isPost() ? $this->getPostedFileSource($form) : null;
         if ($source) {
-            $token = null;
+            $importOptions = ['format' => $source['format']];
             try {
-                $token = isset($source['file'])
-                    ? $this->fileStore->keep($source['file'])
-                    : $this->fileStore->keepFromUrl($source['url']);
-                // Refuse a file that can't be read, or has no terms, now.
-                $this->getImportDetails($token, $source['format']);
-                return $this->redirect()->toRoute('admin/default', ['controller' => 'vocabulary', 'action' => 'import-details'], [
-                    'query' => ['file_token' => $token, 'format' => $source['format']],
-                ]);
+                $importUrl = isset($source['file'])
+                    ? $this->vocabularyImport->start($source['file'], [], $importOptions)
+                    : $this->vocabularyImport->startFromUrl($source['url'], [], $importOptions);
+                return $this->redirect()->toUrl($importUrl);
             } catch (\Exception $e) {
-                if (null !== $token) {
-                    $this->fileStore->remove($token);
-                }
                 $this->messenger()->addErrors($this->getErrors($e));
             }
         }

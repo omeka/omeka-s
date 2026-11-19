@@ -5,9 +5,10 @@ use Laminas\Router\RouteStackInterface;
 use Laminas\Session\Container;
 
 /**
- * Imports handed to the import details page, as a module hands it a
- * vocabulary file it keeps: the file in the file store, and what the page
- * starts with, held in the session under the file's token.
+ * Imports started on the import details page, by Import or by a module that
+ * keeps vocabulary files: the file in the file store, and anything handed
+ * with it for the page to start with, held in the session under the file's
+ * token.
  */
 class VocabularyImport
 {
@@ -21,6 +22,11 @@ class VocabularyImport
      * format goes in the page's URL.
      */
     const CHOICES = ['lang', 'label_property', 'comment_property'];
+
+    /**
+     * @var RdfImporter
+     */
+    protected $rdfImporter;
 
     /**
      * @var VocabularyFileStore
@@ -37,8 +43,9 @@ class VocabularyImport
      */
     protected $session;
 
-    public function __construct(VocabularyFileStore $fileStore, RouteStackInterface $router)
+    public function __construct(RdfImporter $rdfImporter, VocabularyFileStore $fileStore, RouteStackInterface $router)
     {
+        $this->rdfImporter = $rdfImporter;
         $this->fileStore = $fileStore;
         $this->router = $router;
     }
@@ -56,19 +63,25 @@ class VocabularyImport
      * @return string The import details page's URL. The import then ends as
      *   any does, on the new vocabulary's page.
      * @throws \Omeka\Api\Exception\ValidationException When the file can't be
-     *   read
+     *   read, or has no classes or properties
      */
     public function start($filePath, array $vocabulary = [], array $importOptions = [])
     {
-        $token = $this->fileStore->keep($filePath);
-        $this->getSession()->offsetSet($token, [
-            'vocabulary' => array_intersect_key($vocabulary, array_flip(self::FIELDS)),
-            'import_options' => array_intersect_key($importOptions, array_flip(self::CHOICES)),
-        ]);
-        return $this->router->assemble(['controller' => 'vocabulary', 'action' => 'import-details'], [
-            'name' => 'admin/default',
-            'query' => ['file_token' => $token, 'format' => $importOptions['format'] ?? 'guess'],
-        ]);
+        return $this->begin($this->fileStore->keep($filePath), $vocabulary, $importOptions);
+    }
+
+    /**
+     * Start an import of the file at a URL, fetched once.
+     *
+     * @see self::start()
+     * @param string $url
+     * @param array $vocabulary
+     * @param array $importOptions
+     * @return string The import details page's URL
+     */
+    public function startFromUrl($url, array $vocabulary = [], array $importOptions = [])
+    {
+        return $this->begin($this->fileStore->keepFromUrl($url), $vocabulary, $importOptions);
     }
 
     /**
@@ -91,6 +104,38 @@ class VocabularyImport
     public function end($fileToken)
     {
         $this->getSession()->offsetUnset((string) $fileToken);
+    }
+
+    /**
+     * Begin an import of a kept file: refuse it now if it can't be read or has
+     * no classes or properties, while the page that chose it can say so, and
+     * hold anything handed with it.
+     *
+     * @param string $fileToken
+     * @param array $vocabulary
+     * @param array $importOptions
+     * @return string The import details page's URL
+     */
+    protected function begin($fileToken, array $vocabulary, array $importOptions)
+    {
+        $format = $importOptions['format'] ?? 'guess';
+        try {
+            $this->rdfImporter->getVocabularyDetails('file', ['file' => $this->fileStore->getPath($fileToken), 'format' => $format]);
+        } catch (\Exception $e) {
+            $this->fileStore->remove($fileToken);
+            throw $e;
+        }
+        $handOff = [
+            'vocabulary' => array_intersect_key($vocabulary, array_flip(self::FIELDS)),
+            'import_options' => array_intersect_key($importOptions, array_flip(self::CHOICES)),
+        ];
+        if ($handOff['vocabulary'] || $handOff['import_options']) {
+            $this->getSession()->offsetSet($fileToken, $handOff);
+        }
+        return $this->router->assemble(['controller' => 'vocabulary', 'action' => 'import-details'], [
+            'name' => 'admin/default',
+            'query' => ['file_token' => $fileToken, 'format' => $format],
+        ]);
     }
 
     /**

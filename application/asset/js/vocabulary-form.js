@@ -25,11 +25,11 @@ $('.import-type-select').on('change', function(e) {
     }
 });
 
-// The Comments field: the comment property is shown only when "Another
-// property…" is chosen.
-$('[data-other-property]').each(function() {
+// The Comments from and Preferred language fields: the text field each has
+// for another property or language is shown only when that choice is made.
+$('[data-other-field]').each(function() {
     const choice = $(this);
-    const field = $(choice.data('otherProperty')).closest('.field');
+    const field = $(choice.data('otherField')).closest('.field');
     const toggle = function() {
         field.toggle('other' === choice.val());
     };

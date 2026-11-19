@@ -23,7 +23,8 @@ $asksPrefix = null === $details['prefix'] && '' === trim((string) $info->get('o:
 <p><?php echo $translate('The file doesn\'t give a namespace URI for its classes and properties. Enter it below.'); ?></p>
 <?php endif; ?>
 <?php if ($asksPrefix): ?>
-<p><?php echo $translate('The file doesn\'t give a namespace prefix that can be used. Enter one below. It can\'t be changed after importing.'); ?></p>
+<?php // That it can't be changed later is said in the field's own help. ?>
+<p><?php echo $translate('The file doesn\'t give a namespace prefix that can be used. Enter one below.'); ?></p>
 <?php endif; ?>
 <?php echo $this->formCollection($form, false); ?>
 <?php echo $this->form()->closeTag(); ?>

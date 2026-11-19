@@ -649,6 +649,22 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $page = $this->reviewPage($token, ['lang' => 'fr']);
         $this->assertMatchesRegularExpression('#<ins>Nom</ins>#', $page);
         $this->assertStringContainsString('<option value="fr" selected>', html_entity_decode($page, ENT_QUOTES | ENT_HTML5));
+        // Entered under "Another language…", it's read the same, and shown
+        // as chosen.
+        $page = $this->reviewPage($token, ['lang' => 'other', 'other_lang' => ' fr ']);
+        $this->assertMatchesRegularExpression('#<ins>Nom</ins>#', $page);
+        $this->assertStringContainsString('<option value="fr" selected>', html_entity_decode($page, ENT_QUOTES | ENT_HTML5));
+    }
+
+    public function testAnotherLanguageLeftBlankKeepsTheReviewsImportOptions()
+    {
+        $this->api()->update('vocabularies', $this->vocabularyId, [
+            'o:import_options' => ['format' => 'turtle', 'lang' => 'fr'],
+        ], [], ['isPartial' => true]);
+        $token = $this->startReview('multilingual-name.ttl');
+        $page = $this->reviewPage($token, ['lang' => 'other', 'other_lang' => ' ']);
+        $this->assertMatchesRegularExpression('#<ins>Nom</ins>#', $page);
+        $this->assertStringContainsString('<input type="hidden" name="lang" value="fr">', html_entity_decode($page, ENT_QUOTES | ENT_HTML5));
     }
 
     public function testAnotherCommentPropertyChosenOnReview()
@@ -658,6 +674,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $page = html_entity_decode($this->reviewPage($token, ['comments' => 'other', 'comment_property' => 'skos:definition']), ENT_QUOTES | ENT_HTML5);
         $this->assertStringContainsString('<p>These choices decide which of the file\'s labels and comments are used. After changing them, click Show changes to see the result below.</p>', $page);
         $this->assertStringContainsString('<label for="comments">Comments from</label>', $page);
+        $this->assertStringContainsString('<option value="other">Another language…</option>', $page);
         $this->assertStringContainsString('<option value="other" selected>Another property…</option>', $page);
         $this->assertStringContainsString('<input type="text" name="comment_property" id="comment_property" value="skos:definition">', $page);
         $this->assertStringContainsString('<input type="hidden" name="comment_property" value="skos:definition">', $page);
@@ -806,9 +823,56 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertMatchesRegularExpression('#<option value="en" selected>[^<]*</option>#', $page);
         $this->assertMatchesRegularExpression('#<option value="fr">[^<]*</option>#', $page);
         $this->assertStringContainsString('<option value="definition">', $page);
-        // Another property's field, after the choice, which shows it.
-        $this->assertMatchesRegularExpression('#<select name="vocabulary-advanced\[comments\]" id="comments" data-other-property="\#comment_property">.*?<option value="other">Another property…</option>.*?name="vocabulary-advanced\[comment_property\]".*?name="vocabulary-advanced\[label_property\]"#s', $page);
+        // Another language's and another property's fields, each after the
+        // choice that shows it.
+        $this->assertMatchesRegularExpression('#<select name="vocabulary-advanced\[lang\]" id="lang" data-other-field="\#other_lang">.*?<option value="other">Another language…</option>.*?name="vocabulary-advanced\[other_lang\]"#s', $page);
+        $this->assertMatchesRegularExpression('#<select name="vocabulary-advanced\[comments\]" id="comments" data-other-field="\#comment_property">.*?<option value="other">Another property…</option>.*?name="vocabulary-advanced\[comment_property\]".*?name="vocabulary-advanced\[label_property\]"#s', $page);
+        // That the prefix can't be changed later, at its field.
+        $this->assertStringContainsString("Enter a concise vocabulary identifier used as a shorthand for the namespace URI. It can't be changed after importing.", $page);
         $this->assertStringNotContainsString('name="vocabulary-file[import_type]"', $page);
+    }
+
+    public function testImportWithAnotherLanguage()
+    {
+        try {
+            $this->assertSame(302, $this->startImport('../../../Stdlib/_files/details-declared.ttl'));
+            $this->assertSame(302, $this->finishImport($this->importDetailsUrl(), [
+                'o:label' => 'Declared',
+                'o:namespace_uri' => 'http://example.org/declared#',
+                'o:prefix' => 'decl',
+            ], ['lang' => 'other', 'other_lang' => ' pt-BR ']));
+            $this->reset(true);
+            $this->signIn();
+            $vocabulary = $this->api()->read('vocabularies', ['prefix' => 'decl'])->getContent();
+            $this->assertSame('pt-BR', $vocabulary->importOptions()['lang']);
+        } finally {
+            $this->deleteImported('decl');
+        }
+    }
+
+    public function testImportDetailsOfAFileWithNoLanguagesOfferNone()
+    {
+        try {
+            $this->assertSame(302, $this->startImport('../../../Stdlib/_files/definitions.ttl'));
+            $url = $this->importDetailsUrl();
+            $this->requestAs(self::ADMIN, 'GET', $url);
+            $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+            $this->assertStringNotContainsString('name="vocabulary-advanced[lang]"', $page);
+            $this->assertStringNotContainsString('name="vocabulary-advanced[other_lang]"', $page);
+            $this->assertStringContainsString('name="vocabulary-advanced[comments]"', $page);
+            // Imported with no preferred language.
+            $this->assertSame(302, $this->finishImport($url, [
+                'o:label' => 'Definitions',
+                'o:namespace_uri' => 'http://example.org/defs#',
+                'o:prefix' => 'defs',
+            ]));
+            $this->reset(true);
+            $this->signIn();
+            $vocabulary = $this->api()->read('vocabularies', ['prefix' => 'defs'])->getContent();
+            $this->assertNull($vocabulary->importOptions()['lang'] ?? null);
+        } finally {
+            $this->deleteImported('defs');
+        }
     }
 
     public function testImportDetailsStartInTheInstallationsLanguage()
@@ -840,7 +904,8 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
                 'o:label' => 'Definitions',
                 // Trimmed, as the file is read with it.
                 'o:namespace_uri' => ' http://example.org/defs# ',
-                'o:prefix' => 'defs',
+                // Trimmed, as the API trims it, not refused.
+                'o:prefix' => ' defs ',
             ]);
             $this->assertSame(302, $status);
             $location = $this->getResponse()->getHeaders()->get('Location')->getUri();
@@ -991,7 +1056,9 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             $this->requestAs(self::ADMIN, 'GET', $url);
             $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
             $this->assertStringContainsString("The file doesn't give a namespace URI for its classes and properties. Enter it below.", $page);
-            $this->assertStringContainsString("The file doesn't give a namespace prefix that can be used. Enter one below. It can't be changed after importing.", $page);
+            $this->assertStringContainsString("The file doesn't give a namespace prefix that can be used. Enter one below.", $page);
+            // Its permanence is said once, at the field.
+            $this->assertSame(1, substr_count($page, "It can't be changed after importing."));
             $this->assertStringContainsString('name="vocabulary-info[o:namespace_uri]" required id="o:namespace_uri" data-confirm-ends-with="', $page);
             $this->assertStringContainsString('value=""', $page);
             $this->assertSame(302, $this->finishImport($url, [

@@ -81,19 +81,22 @@ class VocabularyForm extends Form
                     'label' => 'Advanced', // @translate
                 ],
             ]);
-            $this->addAdvancedElements($this->getOption('languages'), $this->get('vocabulary-advanced'));
+            $languages = $this->getOption('languages');
+            $this->addAdvancedElements($languages, $this->get('vocabulary-advanced'));
+            // A file with no languages has none to choose here. Its review
+            // still offers another language, for a label or comment property
+            // whose languages the file's default ones don't show.
+            if (!$languages) {
+                $this->get('vocabulary-advanced')->remove('lang');
+                $this->get('vocabulary-advanced')->remove('other_lang');
+            }
         }
         if ($isReview) {
             // The review page sends its choices by GET, as core's search
             // forms do, so without CSRF, and under their own names, as
             // ?lang=fr.
             $this->remove($this->getName() ? sprintf('%s_csrf', $this->getName()) : 'csrf');
-            $languages = $this->getOption('languages');
-            $this->addAdvancedElements($languages, $this);
-            // Without languages, there's no language to choose.
-            if (!$languages) {
-                $this->remove('lang');
-            }
+            $this->addAdvancedElements($this->getOption('languages'), $this);
         }
 
         $inputFilter = $this->getInputFilter();
@@ -110,6 +113,10 @@ class VocabularyForm extends Form
         if ($hasPrefix) {
             $inputFilter->get('vocabulary-info')->add([
                 'name' => 'o:prefix',
+                // Trimmed, as the API trims it, so " bibo " isn't refused.
+                'filters' => [
+                    ['name' => 'StringTrim'],
+                ],
                 'validators' => [
                     [
                         'name' => 'Regex',
@@ -130,10 +137,16 @@ class VocabularyForm extends Form
             ]);
         }
         if ($hasAdvanced) {
-            $inputFilter->get('vocabulary-advanced')->add([
-                'name' => 'lang',
-                'required' => false,
-            ]);
+            if ($this->get('vocabulary-advanced')->has('lang')) {
+                $inputFilter->get('vocabulary-advanced')->add([
+                    'name' => 'lang',
+                    'required' => false,
+                ]);
+                $inputFilter->get('vocabulary-advanced')->add([
+                    'name' => 'other_lang',
+                    'required' => false,
+                ]);
+            }
             $inputFilter->get('vocabulary-advanced')->add([
                 'name' => 'comments',
                 'required' => false,
@@ -188,7 +201,7 @@ class VocabularyForm extends Form
                 'type' => 'text',
                 'options' => [
                     'label' => 'Namespace prefix', // @translate
-                    'info' => 'Enter a concise vocabulary identifier used as a shorthand for the namespace URI.', // @translate
+                    'info' => 'Enter a concise vocabulary identifier used as a shorthand for the namespace URI. It can\'t be changed after importing.', // @translate
                 ],
                 'attributes' => [
                     'required' => true,
@@ -298,6 +311,12 @@ class VocabularyForm extends Form
             $name = extension_loaded('intl') ? \Locale::getDisplayName($tag) : $tag;
             $languageOptions[$tag] = $name === $tag ? $tag : sprintf('%s (%s)', $name, $tag);
         }
+        // Any language, as for a label or comment property whose languages
+        // the list doesn't show: the list has only those of the file's
+        // default label and comment properties.
+        $languageOptions['other'] = 'Another language…'; // @translate
+        // vocabulary-form.js shows each "Another…" choice's text field only
+        // when the choice is made.
         $fieldset->add([
             'name' => 'lang',
             'type' => 'select',
@@ -308,10 +327,20 @@ class VocabularyForm extends Form
             ],
             'attributes' => [
                 'id' => 'lang',
+                'data-other-field' => '#other_lang',
             ],
         ]);
-        // vocabulary-form.js shows the comment property only when
-        // "Another property…" is chosen.
+        $fieldset->add([
+            'name' => 'other_lang',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Language tag', // @translate
+                'info' => 'Enter the tag of a language the list doesn\'t show, as the file writes it, such as fr or pt-BR.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'other_lang',
+            ],
+        ]);
         $fieldset->add([
             'name' => 'comments',
             'type' => 'select',
@@ -327,7 +356,7 @@ class VocabularyForm extends Form
             'attributes' => [
                 'id' => 'comments',
                 'value' => 'comment',
-                'data-other-property' => '#comment_property',
+                'data-other-field' => '#comment_property',
             ],
         ]);
         $fieldset->add([

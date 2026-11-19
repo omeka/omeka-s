@@ -182,7 +182,7 @@ class VocabularyController extends AbstractActionController
                     $options = [
                         'file' => $path,
                         'format' => $format,
-                        'lang' => '' === (string) $advanced['lang'] ? null : $advanced['lang'],
+                        'lang' => $this->getChosenLanguage($advanced) ?: null,
                         'label_property' => $advanced['label_property'],
                         'comment_property' => $this->getChosenCommentProperty($advanced),
                     ];
@@ -510,8 +510,9 @@ class VocabularyController extends AbstractActionController
     protected function getChoices(array $params)
     {
         $choices = [];
-        if (isset($params['lang']) && is_string($params['lang'])) {
-            $choices['lang'] = '' === $params['lang'] ? null : $params['lang'];
+        $lang = $this->getChosenLanguage($params);
+        if (null !== $lang) {
+            $choices['lang'] = '' === $lang ? null : $lang;
         }
         if (isset($params['label_property']) && is_string($params['label_property'])) {
             $choices['label_property'] = '' === trim($params['label_property']) ? null : trim($params['label_property']);
@@ -546,6 +547,27 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
+     * Get the language chosen: one the Preferred language field offers, "" for
+     * "First available", or the tag entered under "Another language…".
+     * Another with none entered is no choice.
+     *
+     * @param array $params With "lang" and "other_lang"
+     * @return string|null
+     */
+    protected function getChosenLanguage(array $params)
+    {
+        $lang = $params['lang'] ?? null;
+        if (!is_string($lang)) {
+            return null;
+        }
+        if ('other' === $lang) {
+            $other = is_string($params['other_lang'] ?? null) ? trim($params['other_lang']) : '';
+            return '' === $other ? null : $other;
+        }
+        return $lang;
+    }
+
+    /**
      * Get the comment property chosen: one the Comments field offers, or the
      * one entered under "Another property…". Another with none entered is no
      * choice.
@@ -577,7 +599,7 @@ class VocabularyController extends AbstractActionController
     protected function getReviewUrl($vocabulary, $token, array $params)
     {
         $query = ['review' => $token];
-        foreach (['lang', 'comments', 'label_property', 'comment_property'] as $key) {
+        foreach (['lang', 'other_lang', 'comments', 'label_property', 'comment_property'] as $key) {
             if (isset($params[$key]) && is_string($params[$key])) {
                 $query[$key] = $params[$key];
             }

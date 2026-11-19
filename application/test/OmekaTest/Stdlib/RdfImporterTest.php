@@ -112,6 +112,36 @@ class RdfImporterTest extends DbTestCase
         $this->assertSame(['label' => 'subtitle', 'comment' => null], $members['properties']['subtitle']);
     }
 
+    public function testReadingATermWithoutTheChosenLanguage()
+    {
+        $members = $this->members('fallback-languages.ttl', 'http://example.org/fallback#', ['format' => 'turtle', 'lang' => 'fr']);
+        // In French where a term has it.
+        $this->assertSame('Catalogue', $members['classes']['Catalog']['label']);
+        // Else in English, not the language listed first.
+        $this->assertSame(['label' => 'Relationship', 'comment' => 'A relationship.'], $members['classes']['Relationship']);
+        // Each language in any region, French first.
+        $this->assertSame('Courriel', $members['properties']['email']['label']);
+        $this->assertSame('end date', $members['properties']['endDate']['label']);
+        // Else in no language, else in the first.
+        $this->assertSame('Role', $members['classes']['Role']['label']);
+        $this->assertSame('haRuolo', $members['properties']['hadRole']['label']);
+        // A tag entered in another case, or for a region the file lacks, is
+        // read the same way.
+        $members = $this->members('fallback-languages.ttl', 'http://example.org/fallback#', ['format' => 'turtle', 'lang' => 'FR-BE']);
+        $this->assertSame('Catalogue', $members['classes']['Catalog']['label']);
+        $this->assertSame('Courriel', $members['properties']['email']['label']);
+    }
+
+    public function testReadingWithNoLanguageChosen()
+    {
+        // First available: each term's first label, whatever its language.
+        $members = $this->members('fallback-languages.ttl', 'http://example.org/fallback#', ['format' => 'turtle']);
+        $this->assertSame('Catalog', $members['classes']['Catalog']['label']);
+        $this->assertSame('Relación', $members['classes']['Relationship']['label']);
+        $this->assertSame('Rol', $members['classes']['Role']['label']);
+        $this->assertSame('E-Mail', $members['properties']['email']['label']);
+    }
+
     public function testReadingAFileThatMentionsRdfa()
     {
         // Guessing its format, EasyRdf takes the Turtle file for RDFa and

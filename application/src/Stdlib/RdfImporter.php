@@ -1271,8 +1271,8 @@ class RdfImporter
      * Get the label from an RDF resource.
      *
      * Attempts to get the label of the passed language. If one does not exist
-     * it defaults to the first available label, if any. It's trimmed, as the
-     * API trims one.
+     * it falls back as getText() does, then to the default. It's trimmed, as
+     * the API trims one.
      *
      * @param RdfResource $resource
      * @param string $labelProperty
@@ -1290,7 +1290,7 @@ class RdfImporter
      * Get the comment from an RDF resource.
      *
      * Attempts to get the comment of the passed language. If one does not exist
-     * it defaults to the first available comment, if any.
+     * it falls back as getText() does.
      *
      * @param RdfResource $resource
      * @param string $commentProperty
@@ -1304,9 +1304,17 @@ class RdfImporter
 
     /**
      * Get the text of a resource's first literal for a property that isn't
-     * blank, in the passed language if there is one, else in any. Files often
-     * leave a blank literal as a placeholder for a translation.
+     * blank. Files often leave a blank literal as a placeholder for a
+     * translation.
      *
+     * With a language passed, the literal is in the resource's language
+     * nearest it (fr finds fr-CA), else in English the same way, else in no
+     * language, else in whatever language comes first. So a term the file
+     * hasn't translated into the passed language reads in English where it
+     * can, not in the language the file happens to list first. With none
+     * passed, it is the first in any language.
+     *
+     * @see self::getMatchingLanguage()
      * @param RdfResource $resource
      * @param string $property A property, or alternatives as "a|b"
      * @param string|null $lang
@@ -1314,15 +1322,25 @@ class RdfImporter
      */
     protected function getText(RdfResource $resource, $property, $lang)
     {
-        $literals = $lang ? $this->getLiterals($resource, $property, $lang) : [];
-        foreach (array_merge($literals, $this->getLiterals($resource, $property)) as $literal) {
+        // The first text in each language, in the file's order; "" for none.
+        $texts = [];
+        foreach ($this->getLiterals($resource, $property) as $literal) {
             // A typed literal's value may be a number, a boolean, or a date.
             $text = (string) $literal;
             if ('' !== trim($text)) {
-                return $text;
+                $texts[(string) $literal->getLang()] ??= $text;
             }
         }
-        return null;
+        if ($lang) {
+            $language = $this->getMatchingLanguage($lang, array_filter(array_keys($texts), 'strlen'));
+            if (null !== $language) {
+                return $texts[$language];
+            }
+            if (isset($texts[''])) {
+                return $texts[''];
+            }
+        }
+        return $texts ? reset($texts) : null;
     }
 
     /**

@@ -81,13 +81,18 @@ class VocabularyReview
      * @throws ValidationException When another vocabulary has the new
      *   namespace URI in any form, or the file can't be read, has no terms in
      *   the namespace, or has terms too long to store
-     * @throws \Omeka\File\Exception\RuntimeException When the file can't be
-     *   staged
      */
     public function start($vocabularyId, $filePath, array $importOptions = [], array $reviewOptions = [])
     {
         $vocabulary = $this->getVocabularyToReview($vocabularyId, $reviewOptions);
-        return $this->begin($vocabulary, $this->stagedFiles->stage($filePath), $importOptions, $reviewOptions);
+        try {
+            $fileToken = $this->stagedFiles->stage($filePath);
+        } catch (\Omeka\File\Exception\RuntimeException $e) {
+            // Not with the staging failure's own message, which names a
+            // path on the server.
+            throw new ValidationException('Could not read vocabulary file.', 0, $e); // @translate
+        }
+        return $this->begin($vocabulary, $fileToken, $importOptions, $reviewOptions);
     }
 
     /**
@@ -103,7 +108,13 @@ class VocabularyReview
     public function startFromUrl($vocabularyId, $url, array $importOptions = [], array $reviewOptions = [])
     {
         $vocabulary = $this->getVocabularyToReview($vocabularyId, $reviewOptions);
-        return $this->begin($vocabulary, $this->stagedFiles->stageContents($this->rdfImporter->fetchFile($url)), $importOptions, $reviewOptions);
+        $contents = $this->rdfImporter->fetchFile($url);
+        try {
+            $fileToken = $this->stagedFiles->stageContents($contents);
+        } catch (\Omeka\File\Exception\RuntimeException $e) {
+            throw new ValidationException('Could not read vocabulary file.', 0, $e); // @translate
+        }
+        return $this->begin($vocabulary, $fileToken, $importOptions, $reviewOptions);
     }
 
     /**

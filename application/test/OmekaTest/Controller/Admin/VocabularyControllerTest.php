@@ -1074,6 +1074,19 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         }
     }
 
+    public function testAHandedFileThatCantBeStagedIsRefusedForTheAdmin()
+    {
+        $this->reset(true);
+        $this->signIn();
+        try {
+            $this->getApplicationServiceLocator()->get('Omeka\VocabularyImport')->start(__DIR__ . '/_files/missing.ttl');
+            $this->fail('A missing file was handed on.');
+        } catch (ValidationException $e) {
+            // Not the staging failure's own message, which names a path.
+            $this->assertSame('Could not read vocabulary file.', $e->getMessage());
+        }
+    }
+
     public function testAnImportHandedOnlyItsFileHoldsNothingElse()
     {
         // As Import starts one.

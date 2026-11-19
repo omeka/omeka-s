@@ -3,6 +3,7 @@ namespace Omeka\Stdlib;
 
 use Laminas\Router\RouteStackInterface;
 use Laminas\Session\Container;
+use Omeka\Api\Exception\ValidationException;
 use Omeka\File\StagedFiles;
 use Omeka\Form\VocabularyForm;
 
@@ -65,14 +66,19 @@ class VocabularyImport
      *   defaults
      * @return string The import details page's URL. The import then ends as
      *   any does, on the new vocabulary's page.
-     * @throws \Omeka\Api\Exception\ValidationException When the file can't be
-     *   read, or has no classes or properties
-     * @throws \Omeka\File\Exception\RuntimeException When the file can't be
-     *   staged
+     * @throws ValidationException When the file can't be read, or has no
+     *   classes or properties
      */
     public function start($filePath, array $vocabulary = [], array $importOptions = [])
     {
-        return $this->begin($this->stagedFiles->stage($filePath), $vocabulary, $importOptions);
+        try {
+            $fileToken = $this->stagedFiles->stage($filePath);
+        } catch (\Omeka\File\Exception\RuntimeException $e) {
+            // Not with the staging failure's own message, which names a
+            // path on the server.
+            throw new ValidationException('Could not read vocabulary file.', 0, $e); // @translate
+        }
+        return $this->begin($fileToken, $vocabulary, $importOptions);
     }
 
     /**
@@ -86,7 +92,13 @@ class VocabularyImport
      */
     public function startFromUrl($url, array $vocabulary = [], array $importOptions = [])
     {
-        return $this->begin($this->stagedFiles->stageContents($this->rdfImporter->fetchFile($url)), $vocabulary, $importOptions);
+        $contents = $this->rdfImporter->fetchFile($url);
+        try {
+            $fileToken = $this->stagedFiles->stageContents($contents);
+        } catch (\Omeka\File\Exception\RuntimeException $e) {
+            throw new ValidationException('Could not read vocabulary file.', 0, $e); // @translate
+        }
+        return $this->begin($fileToken, $vocabulary, $importOptions);
     }
 
     /**

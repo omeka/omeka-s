@@ -200,6 +200,18 @@ class VocabularyReviewTest extends DbTestCase
         $this->assertSame($files, glob($pattern));
     }
 
+    public function testStartRefusesAFileThatCantBeStagedForTheAdmin()
+    {
+        try {
+            $this->review->start($this->vocabularyId, __DIR__ . '/_files/missing.ttl');
+            $this->fail('The review started');
+        } catch (ValidationException $e) {
+            // Not the staging failure's own message, which names a path.
+            $this->assertSame('Could not read vocabulary file.', $e->getMessage());
+            $this->assertInstanceOf(\Omeka\File\Exception\RuntimeException::class, $e->getPrevious());
+        }
+    }
+
     public function testCancelChangesNothingAndEnds()
     {
         $token = $this->start('compare.ttl', ['format' => 'turtle']);

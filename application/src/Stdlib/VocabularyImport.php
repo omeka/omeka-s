@@ -97,12 +97,13 @@ class VocabularyImport
     }
 
     /**
-     * Forget what an import was handed, once it's done.
+     * End an import: forget what it was handed and remove its file.
      *
      * @param string $fileToken
      */
     public function end($fileToken)
     {
+        $this->fileStore->remove($fileToken);
         $this->getSession()->offsetUnset((string) $fileToken);
     }
 

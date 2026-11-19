@@ -136,13 +136,14 @@ class VocabularyController extends AbstractActionController
         $handOff = $this->vocabularyImport->get($token);
         $path = $this->fileStore->getPath($token);
         if (null === $path) {
+            $this->vocabularyImport->end($token);
             $this->messenger()->addError('This import has ended. Choose the file or enter its URL again.'); // @translate
             return $this->redirect()->toRoute('admin/default', ['controller' => 'vocabulary', 'action' => 'import']);
         }
         try {
             $details = $this->getImportDetails($token, $format);
         } catch (\Exception $e) {
-            $this->fileStore->remove($token);
+            $this->vocabularyImport->end($token);
             $this->messenger()->addErrors($this->getErrors($e));
             return $this->redirect()->toRoute('admin/default', ['controller' => 'vocabulary', 'action' => 'import']);
         }
@@ -204,7 +205,7 @@ class VocabularyController extends AbstractActionController
                     $reviewUrl = $this->vocabularyReview->start($updatable->id(), $path, $options,
                         $namespaceUri === $updatable->namespaceUri() ? [] : ['new_namespace_uri' => $namespaceUri]);
                     // The review keeps its own copy, so the import is over.
-                    $this->fileStore->remove($token);
+                    $this->vocabularyImport->end($token);
                     return $this->redirect()->toUrl($reviewUrl);
                 } catch (\Exception $e) {
                     $this->messenger()->addErrors($this->getErrors($e));
@@ -215,7 +216,6 @@ class VocabularyController extends AbstractActionController
         } elseif ($valid && !$other) {
             try {
                 $response = $this->rdfImporter->import('file', $form->getData()['vocabulary-info'], $options);
-                $this->fileStore->remove($token);
                 $this->vocabularyImport->end($token);
                 $message = new Message(
                     'Vocabulary successfully imported. %s', // @translate

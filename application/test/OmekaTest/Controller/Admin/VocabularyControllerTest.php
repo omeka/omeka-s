@@ -1083,6 +1083,18 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame(200, $this->requestAs(self::ADMIN, 'GET', $url));
     }
 
+    public function testEndingAnImportForgetsItAndRemovesItsFile()
+    {
+        $url = $this->handImport('markup.ttl', ['o:label' => 'Markup'], ['format' => 'turtle']);
+        parse_str((string) parse_url($url, PHP_URL_QUERY), $query);
+        $services = $this->getApplicationServiceLocator();
+        $path = $services->get('Omeka\VocabularyFileStore')->getPath($query['file_token']);
+        $this->assertFileExists($path);
+        $services->get('Omeka\VocabularyImport')->end($query['file_token']);
+        $this->assertNull($services->get('Omeka\VocabularyImport')->get($query['file_token']));
+        $this->assertFileDoesNotExist($path);
+    }
+
     public function testImportFromTheFileLandsOnTheVocabularysPage()
     {
         $tempDir = $this->getApplicationServiceLocator()->get('Config')['temp_dir'];

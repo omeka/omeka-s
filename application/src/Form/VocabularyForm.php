@@ -78,7 +78,9 @@ class VocabularyForm extends Form
                 'name' => 'vocabulary-advanced',
                 'type' => 'fieldset',
                 'options' => [
-                    'label' => 'Advanced', // @translate
+                    // How the classes and properties are read, under this
+                    // label on import details and the review alike.
+                    'label' => 'Classes and properties', // @translate
                 ],
             ]);
             $languages = $this->getOption('languages');

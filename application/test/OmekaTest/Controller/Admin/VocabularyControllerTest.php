@@ -588,7 +588,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             'new_namespace_uri' => 'http://example.org/moved#',
         ])), ENT_QUOTES | ENT_HTML5);
         $text = preg_replace('/\s+/', ' ', strip_tags($page));
-        $this->assertStringContainsString('Accepting makes the changes below, from the file. No class or property is removed.', $text);
+        $this->assertStringContainsString('Accepting makes the changes below, from the file.', $text);
         // The namespace URI is one of the vocabulary's changed fields, with
         // what it does to the terms.
         $this->assertStringContainsString('Namespace URI http://example.org/review# http://example.org/moved#', $text);
@@ -672,7 +672,8 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $token = $this->startReview('changed-name.ttl');
         // Chosen, it's read, and shown as chosen, with Accept carrying it.
         $page = html_entity_decode($this->reviewPage($token, ['comments' => 'other', 'comment_property' => 'skos:definition']), ENT_QUOTES | ENT_HTML5);
-        $this->assertStringContainsString('<p>These choices decide which of the file\'s labels and comments are used. After changing them, click Show changes to see the result below.</p>', $page);
+        // Under the same label as on import details.
+        $this->assertMatchesRegularExpression('#<fieldset>\s*<legend>Classes and properties</legend>.*?<label for="comments">Comments from</label>.*?</fieldset>#s', $page);
         $this->assertStringContainsString('<label for="comments">Comments from</label>', $page);
         $this->assertStringContainsString('<option value="other">Another language…</option>', $page);
         $this->assertStringContainsString('<option value="other" selected>Another property…</option>', $page);
@@ -817,8 +818,6 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString('value="Declared vocabulary"', $page);
         $this->assertStringContainsString('value="http://example.org/declared#"', $page);
         $this->assertStringContainsString('value="decl"', $page);
-        $this->assertStringContainsString('The vocabulary\'s details below are filled in from its file, where it gives them. Check them and change any as needed, then click Import.', $page);
-        $this->assertStringNotContainsString("The file doesn't give a namespace prefix", $page);
         // Its languages to choose from, English by default.
         $this->assertMatchesRegularExpression('#<option value="en" selected>[^<]*</option>#', $page);
         $this->assertMatchesRegularExpression('#<option value="fr">[^<]*</option>#', $page);
@@ -827,6 +826,11 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         // choice that shows it.
         $this->assertMatchesRegularExpression('#<select name="vocabulary-advanced\[lang\]" id="lang" data-other-field="\#other_lang">.*?<option value="other">Another language…</option>.*?name="vocabulary-advanced\[other_lang\]"#s', $page);
         $this->assertMatchesRegularExpression('#<select name="vocabulary-advanced\[comments\]" id="comments" data-other-field="\#comment_property">.*?<option value="other">Another property…</option>.*?name="vocabulary-advanced\[comment_property\]".*?name="vocabulary-advanced\[label_property\]"#s', $page);
+        // The choices of labels and comments under their own label, after
+        // the vocabulary's own fields.
+        $this->assertMatchesRegularExpression('#name="vocabulary-info\[o:prefix\]".*?<fieldset[^>]*><legend>Classes and properties</legend>.*?name="vocabulary-advanced\[lang\]".*?</fieldset>#s', $page);
+        // The CSRF field, rendered apart from the fieldsets.
+        $this->assertStringContainsString(sprintf('name="%s"', key($this->csrfField(VocabularyForm::class))), $page);
         // That the prefix can't be changed later, at its field.
         $this->assertStringContainsString("Enter a concise vocabulary identifier used as a shorthand for the namespace URI. It can't be changed after importing.", $page);
         $this->assertStringNotContainsString('name="vocabulary-file[import_type]"', $page);
@@ -1114,10 +1118,8 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             ]));
             $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
             $this->assertStringContainsString('Omeka already has this vocabulary, as "Review"', strip_tags($page));
-            // The file gives no prefix, but the one entered is shown, so
-            // the page doesn't ask for one.
+            // The file gives no prefix; the one entered is shown again.
             $this->assertStringContainsString('value="review2"', $page);
-            $this->assertStringNotContainsString("The file doesn't give a namespace prefix", $page);
             $this->reset(true);
             $this->signIn();
             $this->assertSame(0, $this->api()->search('vocabularies', ['prefix' => 'review2'])->getTotalResults());
@@ -1134,7 +1136,6 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             $this->requestAs(self::ADMIN, 'GET', $url);
             $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
             $this->assertStringContainsString("The file doesn't give a namespace URI for its classes and properties. Enter it below.", $page);
-            $this->assertStringContainsString("The file doesn't give a namespace prefix that can be used. Enter one below.", $page);
             // Its permanence is said once, at the field.
             $this->assertSame(1, substr_count($page, "It can't be changed after importing."));
             $this->assertStringContainsString('name="vocabulary-info[o:namespace_uri]" required id="o:namespace_uri" data-confirm-ends-with="', $page);

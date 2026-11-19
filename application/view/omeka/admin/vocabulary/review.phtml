@@ -75,10 +75,13 @@ $changes = null !== $diff && ($termChanges || $namespaceChanges);
 $choices->setAttributes(['method' => 'get', 'action' => $this->url(null, [], true), 'class' => 'review-choices']);
 $choices->prepare();
 ?>
-<p><?php echo $translate('These choices decide which of the file\'s labels and comments are used. After changing them, click Show changes to see the result below.'); ?></p>
 <?php echo $this->form()->openTag($choices); ?>
     <input type="hidden" name="review" value="<?php echo $escape($token); ?>">
-    <?php echo $this->formCollection($choices, false); ?>
+    <?php // Under the label import details gives the same choices. ?>
+    <fieldset>
+        <legend><?php echo $translate('Classes and properties'); ?></legend>
+        <?php echo $this->formCollection($choices, false); ?>
+    </fieldset>
     <div class="review-choices-actions">
         <button type="submit"><?php echo $translate('Show changes'); ?></button>
     </div>
@@ -86,7 +89,7 @@ $choices->prepare();
 
 <?php if (null !== $diff): ?>
 <?php if ($changes): ?>
-<p><?php echo sprintf($translate('Accepting makes the changes below, from %s. No class or property is removed.'), $escape($sourceLabel)); ?></p>
+<p><?php echo sprintf($translate('Accepting makes the changes below, from %s.'), $escape($sourceLabel)); ?></p>
 <?php else: ?>
 <p><?php echo sprintf($translate('This vocabulary already matches %s.'), $escape($sourceLabel)); ?></p>
 <?php endif; ?>

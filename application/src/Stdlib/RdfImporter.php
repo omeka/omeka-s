@@ -315,11 +315,6 @@ class RdfImporter
      * @return array
      *   - namespace_uri: null for a file that names its terms relative to
      *     itself
-     *   - namespace_source: where it was found: "declared"
-     *     (vann:preferredNamespaceUri), "ontology" (an owl:Ontology's URI),
-     *     "other_form" (another form of either), "terms" (the namespace most
-     *     of its terms use), or "relative" (none: its terms are named
-     *     relative to the file)
      *   - prefix, label, comment: null where the file says nothing
      *   - languages: of all its classes and properties
      *   - lang: the one of those languages nearest the one preferred, for
@@ -344,7 +339,6 @@ class RdfImporter
         $preferred = $options['lang'] ?? null;
         return [
             'namespace_uri' => 'relative' === $source ? null : $namespaceUri,
-            'namespace_source' => $source,
             'prefix' => $this->getVocabularyPrefix($graph, $namespaceUri),
             'label' => $this->getVocabularyTitle($graph, $namespaceUri, $preferred),
             'comment' => $this->getVocabularyDescription($graph, $namespaceUri, $preferred),

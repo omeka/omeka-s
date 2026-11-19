@@ -392,7 +392,6 @@ class RdfImporterTest extends DbTestCase
     {
         $details = $this->details('details-declared.ttl');
         $this->assertSame('http://example.org/declared#', $details['namespace_uri']);
-        $this->assertSame('declared', $details['namespace_source']);
         // Its own prefix, not the one of a vocabulary it reuses.
         $this->assertSame('decl', $details['prefix']);
         // In English by default, its description's values and paragraphs
@@ -459,7 +458,6 @@ class RdfImporterTest extends DbTestCase
         // is declared first.
         $details = $this->details('details-reused.ttl');
         $this->assertSame('http://example.org/own#', $details['namespace_uri']);
-        $this->assertSame('declared', $details['namespace_source']);
         // The languages of every class and property, as the namespace URI
         // found may be corrected.
         $this->assertSame(['it'], $details['languages']);
@@ -469,7 +467,6 @@ class RdfImporterTest extends DbTestCase
     {
         $details = $this->details('details-variant.ttl');
         $this->assertSame('http://example.org/variant#', $details['namespace_uri']);
-        $this->assertSame('other_form', $details['namespace_source']);
         // A prefix Omeka can't take is left for the admin to give.
         $this->assertNull($details['prefix']);
         $this->assertNull($details['label']);
@@ -481,7 +478,6 @@ class RdfImporterTest extends DbTestCase
     {
         $details = $this->details('details-terms.ttl');
         $this->assertSame('http://example.org/terms#', $details['namespace_uri']);
-        $this->assertSame('terms', $details['namespace_source']);
         $this->assertNull($details['prefix']);
         // From the record its terms name.
         $this->assertSame('Terms by their record', $details['label']);
@@ -492,7 +488,6 @@ class RdfImporterTest extends DbTestCase
         $details = $this->rdfImporter->getVocabularyDetails('file', ['file' => __DIR__ . '/_files/details-relative.rdf', 'format' => 'rdfxml']);
         // Its namespace URI is to be given.
         $this->assertNull($details['namespace_uri']);
-        $this->assertSame('relative', $details['namespace_source']);
         $this->assertSame('Relative vocabulary', $details['label']);
         // Read with one, its terms are in it.
         $members = $this->rdfImporter->getMembers('file', 'http://example.org/relative#', ['file' => __DIR__ . '/_files/details-relative.rdf', 'format' => 'rdfxml']);

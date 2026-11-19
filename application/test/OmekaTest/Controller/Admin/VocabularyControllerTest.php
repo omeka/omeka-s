@@ -991,6 +991,71 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         }
     }
 
+    /**
+     * Hand an import to the import details page, as a module would.
+     *
+     * @param string $file A file in _files, or a path relative to it
+     * @param array $vocabulary
+     * @param array $importOptions
+     * @return string The import details page's URL
+     */
+    protected function handImport($file, array $vocabulary = [], array $importOptions = [])
+    {
+        $this->reset(true);
+        $this->signIn();
+        $url = $this->getApplicationServiceLocator()->get('Omeka\VocabularyImport')->start(__DIR__ . '/_files/' . $file, $vocabulary, $importOptions);
+        parse_str((string) parse_url($url, PHP_URL_QUERY), $query);
+        $this->importFiles[] = $query['file_token'];
+        return $url;
+    }
+
+    public function testAHandedImportStartsWithWhatItWasHanded()
+    {
+        $url = $this->handImport('../../../Stdlib/_files/details-declared.ttl', [
+            'o:label' => 'Handed vocabulary',
+            'o:comment' => 'From a module.',
+            'o:prefix' => 'handed',
+        ], [
+            'format' => 'turtle',
+            'lang' => 'fr',
+            'comment_property' => RdfImporter::DEFINITION_COMMENT_PROPERTY,
+        ]);
+        $this->assertStringStartsWith('/admin/vocabulary/import-details?file_token=', $url);
+        $this->assertStringEndsWith('&format=turtle', $url);
+        $this->assertSame(200, $this->requestAs(self::ADMIN, 'GET', $url));
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        $this->assertStringContainsString('value="Handed vocabulary"', $page);
+        $this->assertStringContainsString('From a module.</textarea>', $page);
+        $this->assertStringContainsString('value="handed"', $page);
+        // What it wasn't handed, from the file.
+        $this->assertStringContainsString('value="http://example.org/declared#"', $page);
+        $this->assertMatchesRegularExpression('#name="vocabulary-advanced\[lang\]".*?<option value="fr" selected>#s', $page);
+        $this->assertStringContainsString('<option value="definition" selected>', $page);
+    }
+
+    public function testAHandedImportEndsAsAnyDoes()
+    {
+        try {
+            $url = $this->handImport('../../../Stdlib/_files/definitions.ttl', ['o:label' => 'Definitions', 'o:prefix' => 'defs'], ['format' => 'turtle']);
+            $this->assertSame(302, $this->finishImport($url, [
+                'o:label' => 'Definitions',
+                'o:namespace_uri' => 'http://example.org/defs#',
+                'o:prefix' => 'defs',
+            ]));
+            $location = $this->getResponse()->getHeaders()->get('Location')->getUri();
+            $this->reset(true);
+            $this->signIn();
+            $vocabulary = $this->api()->read('vocabularies', ['prefix' => 'defs'])->getContent();
+            // On the new vocabulary's page.
+            $this->assertSame(sprintf('/admin/vocabulary/%s', $vocabulary->id()), $location);
+            // And what it was handed is forgotten.
+            parse_str((string) parse_url($url, PHP_URL_QUERY), $query);
+            $this->assertNull($this->getApplicationServiceLocator()->get('Omeka\VocabularyImport')->get($query['file_token']));
+        } finally {
+            $this->deleteImported('defs');
+        }
+    }
+
     public function testImportFromTheFileLandsOnTheVocabularysPage()
     {
         $tempDir = $this->getApplicationServiceLocator()->get('Config')['temp_dir'];

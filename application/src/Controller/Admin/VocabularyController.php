@@ -9,6 +9,7 @@ use Omeka\Mvc\Exception;
 use Omeka\Stdlib\RdfImporter;
 use Omeka\Stdlib\Message;
 use Omeka\Stdlib\VocabularyFileStore;
+use Omeka\Stdlib\VocabularyImport;
 use Omeka\Stdlib\VocabularyReview;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
@@ -31,16 +32,23 @@ class VocabularyController extends AbstractActionController
     protected $fileStore;
 
     /**
+     * @var VocabularyImport
+     */
+    protected $vocabularyImport;
+
+    /**
      * @param RdfImporter $rdfImporter
      * @param VocabularyReview $vocabularyReview
      * @param VocabularyFileStore $fileStore
+     * @param VocabularyImport $vocabularyImport
      */
     public function __construct(RdfImporter $rdfImporter, VocabularyReview $vocabularyReview,
-        VocabularyFileStore $fileStore
+        VocabularyFileStore $fileStore, VocabularyImport $vocabularyImport
     ) {
         $this->rdfImporter = $rdfImporter;
         $this->vocabularyReview = $vocabularyReview;
         $this->fileStore = $fileStore;
+        $this->vocabularyImport = $vocabularyImport;
     }
 
     public function browseAction()
@@ -122,7 +130,8 @@ class VocabularyController extends AbstractActionController
 
     /**
      * Import a vocabulary, second step: its fields and import options, filled
-     * in from the file the query's file_token names.
+     * in from the file the query's file_token names, or from what a module
+     * handed the import (VocabularyImport::start()).
      */
     public function importDetailsAction()
     {
@@ -131,6 +140,7 @@ class VocabularyController extends AbstractActionController
         if (!isset(VocabularyForm::FORMATS[$format])) {
             $format = 'guess';
         }
+        $handOff = $this->vocabularyImport->get($token);
         $path = $this->fileStore->getPath($token);
         if (null === $path) {
             $this->messenger()->addError('This import has ended. Choose the file or enter its URL again.'); // @translate
@@ -145,12 +155,13 @@ class VocabularyController extends AbstractActionController
         }
         $form = $this->getForm(VocabularyForm::class, ['mode' => 'import_details', 'languages' => $details['languages']]);
         $form->setData([
-            'vocabulary-info' => [
+            // As the file says, where an import wasn't handed them instead.
+            'vocabulary-info' => array_replace([
                 'o:label' => $details['label'],
                 'o:comment' => $details['comment'],
                 'o:namespace_uri' => $details['namespace_uri'],
                 'o:prefix' => $details['prefix'],
-            ],
+            ], $handOff['vocabulary'] ?? []),
             'vocabulary-advanced' => [
                 // Nearest the installation's, else "", First available.
                 'lang' => $details['lang'] ?? '',
@@ -169,17 +180,14 @@ class VocabularyController extends AbstractActionController
         $namespaceUri = trim((string) $form->get('vocabulary-info')->get('o:namespace_uri')->getValue());
         $other = '' === $namespaceUri ? null : $this->getVocabularyWithNamespace($namespaceUri);
         $updatable = $other && $this->userMayUpdate($other) ? $other : null;
-        // One the admin may update starts with the choices it was read with,
-        // so the list, and the review Review changes leads to, read the file
-        // as before until a choice changes.
-        if (!$request->isPost() && $updatable && null !== $updatable->importOptions()) {
-            $values = VocabularyForm::getChoiceValues($updatable->importOptions());
-            // A language the file no longer has, under Another language.
-            if ('' !== $values['lang'] && !in_array($values['lang'], $details['languages'], true)) {
-                $values['other_lang'] = $values['lang'];
-                $values['lang'] = 'other';
-            }
-            $form->get('vocabulary-advanced')->populateValues($values);
+        // The choices start with those an import was handed, else, for a
+        // vocabulary the admin may update, those it was read with, so the
+        // list and the review Review changes leads to read the file as before
+        // until a choice changes.
+        if (!$request->isPost() && $handOff && $handOff['import_options']) {
+            $this->setStartingChoices($form, $handOff['import_options'], $details['languages']);
+        } elseif (!$request->isPost() && $updatable && null !== $updatable->importOptions()) {
+            $this->setStartingChoices($form, $updatable->importOptions(), $details['languages']);
         }
         // For importing and for the list: each import option, null where not
         // chosen.
@@ -216,6 +224,7 @@ class VocabularyController extends AbstractActionController
             try {
                 $response = $this->rdfImporter->import('file', $form->getData()['vocabulary-info'], $options);
                 $this->fileStore->remove($token);
+                $this->vocabularyImport->end($token);
                 $message = new Message(
                     'Vocabulary successfully imported. %s', // @translate
                     sprintf(
@@ -522,6 +531,31 @@ class VocabularyController extends AbstractActionController
     protected function userMayUpdate($vocabulary)
     {
         return !$vocabulary->isPermanent() && $vocabulary->userIsAllowed('update');
+    }
+
+    /**
+     * Start the import details' choices with import options: those given,
+     * with a language the file doesn't have under Another language.
+     *
+     * @param VocabularyForm $form
+     * @param array $importOptions lang, label_property, comment_property
+     * @param string[] $languages The file's
+     */
+    protected function setStartingChoices(VocabularyForm $form, array $importOptions, array $languages)
+    {
+        $values = VocabularyForm::getChoiceValues($importOptions);
+        $choices = [];
+        if (array_key_exists('lang', $importOptions)) {
+            $inFile = '' === $values['lang'] || in_array($values['lang'], $languages, true);
+            $choices += $inFile ? ['lang' => $values['lang']] : ['lang' => 'other', 'other_lang' => $values['lang']];
+        }
+        if (array_key_exists('comment_property', $importOptions)) {
+            $choices += ['comments' => $values['comments'], 'comment_property' => $values['comment_property']];
+        }
+        if (array_key_exists('label_property', $importOptions)) {
+            $choices['label_property'] = $values['label_property'];
+        }
+        $form->get('vocabulary-advanced')->populateValues($choices);
     }
 
     /**

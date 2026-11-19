@@ -90,15 +90,10 @@ class VocabularyForm extends Form
                     'label' => 'Classes and properties', // @translate
                 ],
             ]);
-            $languages = $this->getOption('languages');
-            $this->addAdvancedElements($languages, $this->get('vocabulary-advanced'));
-            // A file with no languages has none to choose here. Its review
-            // still offers another language, for a label or comment property
-            // whose languages the file's default ones don't show.
-            if (!$languages) {
-                $this->get('vocabulary-advanced')->remove('lang');
-                $this->get('vocabulary-advanced')->remove('other_lang');
-            }
+            // Offered for a file with no languages too: another language
+            // pairs with a label or comment property whose languages the
+            // file's default ones don't show.
+            $this->addAdvancedElements($this->getOption('languages'), $this->get('vocabulary-advanced'));
         }
         if ($isReview) {
             // The review page sends its choices by GET, as core's search
@@ -163,16 +158,14 @@ class VocabularyForm extends Form
             ]);
         }
         if ($hasAdvanced) {
-            if ($this->get('vocabulary-advanced')->has('lang')) {
-                $inputFilter->get('vocabulary-advanced')->add([
-                    'name' => 'lang',
-                    'required' => false,
-                ]);
-                $inputFilter->get('vocabulary-advanced')->add([
-                    'name' => 'other_lang',
-                    'required' => false,
-                ]);
-            }
+            $inputFilter->get('vocabulary-advanced')->add([
+                'name' => 'lang',
+                'required' => false,
+            ]);
+            $inputFilter->get('vocabulary-advanced')->add([
+                'name' => 'other_lang',
+                'required' => false,
+            ]);
             $inputFilter->get('vocabulary-advanced')->add([
                 'name' => 'comments',
                 'required' => false,

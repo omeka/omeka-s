@@ -870,26 +870,26 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         }
     }
 
-    public function testImportDetailsOfAFileWithNoLanguagesOfferNone()
+    public function testImportDetailsOfAFileWithNoLanguagesOfferFirstAvailableAndAnother()
     {
         try {
             $this->assertSame(302, $this->startImport('../../../Stdlib/_files/definitions.ttl'));
             $url = $this->importDetailsUrl();
             $this->requestAs(self::ADMIN, 'GET', $url);
             $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
-            $this->assertStringNotContainsString('name="vocabulary-advanced[lang]"', $page);
-            $this->assertStringNotContainsString('name="vocabulary-advanced[other_lang]"', $page);
-            $this->assertStringContainsString('name="vocabulary-advanced[comments]"', $page);
-            // Imported with no preferred language.
+            $this->assertMatchesRegularExpression('#<select name="vocabulary-advanced\[lang\]"[^>]*>\s*<option value="" selected>First available</option>\s*<option value="other">Another language…</option>\s*</select>#', $page);
+            $this->assertStringContainsString('name="vocabulary-advanced[other_lang]"', $page);
+            // Another language pairs with a property the file's default ones
+            // don't show, and is kept.
             $this->assertSame(302, $this->finishImport($url, [
                 'o:label' => 'Definitions',
                 'o:namespace_uri' => 'http://example.org/defs#',
                 'o:prefix' => 'defs',
-            ]));
+            ], ['lang' => 'other', 'other_lang' => 'fr']));
             $this->reset(true);
             $this->signIn();
             $vocabulary = $this->api()->read('vocabularies', ['prefix' => 'defs'])->getContent();
-            $this->assertNull($vocabulary->importOptions()['lang'] ?? null);
+            $this->assertSame('fr', $vocabulary->importOptions()['lang']);
         } finally {
             $this->deleteImported('defs');
         }

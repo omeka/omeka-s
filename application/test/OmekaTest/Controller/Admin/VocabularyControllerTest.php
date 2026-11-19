@@ -1186,6 +1186,57 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString('The vocabulary file is empty.', $this->getResponse()->getContent());
     }
 
+    /**
+     * Post an import's details that are refused, and check that nothing was
+     * imported.
+     *
+     * @param array $data The details page's post
+     * @return string The page, with its messages
+     */
+    protected function refusedImport(array $data)
+    {
+        try {
+            $this->assertSame(302, $this->startImport('../../../Stdlib/_files/definitions.ttl'));
+            $this->assertSame(200, $this->requestAs(self::ADMIN, 'POST', $this->importDetailsUrl(), $data));
+            $this->assertTemplateName('omeka/admin/vocabulary/import-details');
+            $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+            $this->reset(true);
+            $this->signIn();
+            $this->assertSame(0, $this->api()->search('vocabularies', ['namespace_uri' => 'http://example.org/defs#'])->getTotalResults());
+            return $page;
+        } finally {
+            $this->deleteImported('defs');
+        }
+    }
+
+    public function testImportDetailsRefuseAnEmptyLabel()
+    {
+        $page = $this->refusedImport([
+            'vocabulary-info' => ['o:label' => ' ', 'o:comment' => '', 'o:namespace_uri' => 'http://example.org/defs#', 'o:prefix' => 'defs'],
+            'vocabulary-advanced' => ['lang' => '', 'comments' => 'comment', 'label_property' => '', 'comment_property' => ''],
+        ] + $this->csrfField(VocabularyForm::class));
+        $this->assertStringContainsString('Label: Value is required and can\'t be empty', $page);
+    }
+
+    public function testImportDetailsRefuseALanguageTheFileDoesNotHave()
+    {
+        $page = $this->refusedImport([
+            'vocabulary-info' => ['o:label' => 'Definitions', 'o:comment' => '', 'o:namespace_uri' => 'http://example.org/defs#', 'o:prefix' => 'defs'],
+            'vocabulary-advanced' => ['lang' => 'de', 'comments' => 'comment', 'label_property' => '', 'comment_property' => ''],
+        ] + $this->csrfField(VocabularyForm::class));
+        // Another language is a choice of its own, with its tag entered.
+        $this->assertStringContainsString('Preferred language: The input was not found in the haystack', $page);
+    }
+
+    public function testAnImportPostedWithoutItsCsrfFieldMakesNothing()
+    {
+        $page = $this->refusedImport([
+            'vocabulary-info' => ['o:label' => 'Definitions', 'o:comment' => '', 'o:namespace_uri' => 'http://example.org/defs#', 'o:prefix' => 'defs'],
+            'vocabulary-advanced' => ['lang' => '', 'comments' => 'comment', 'label_property' => '', 'comment_property' => ''],
+        ]);
+        $this->assertStringContainsString('CSRF: Value is required and can\'t be empty', $page);
+    }
+
     public function testImportOfAVocabularyOmekaHasWarnsThenRefuses()
     {
         // Its terms are in the tests' vocabulary's namespace.

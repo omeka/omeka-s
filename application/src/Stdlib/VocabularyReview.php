@@ -69,18 +69,13 @@ class VocabularyReview
      * @param array $reviewOptions
      *   - new_namespace_uri: (optional) A new namespace URI for the
      *     vocabulary, the one the file's terms use, accepted with the changes
-     *   - return_url: (optional) Where Accept and Cancel go: a local path,
-     *     such as "/admin/vocabulary". By default, the vocabulary's page.
-     *   - source_label: (optional) What the review page calls the file, as
-     *     in "Accepting makes the changes below, from %s". By default, "the
-     *     file".
-     * @return string The review page's URL
+     * @return string The review page's URL. Accept and Cancel then go to the
+     *   vocabulary's page.
      * @throws ValidationException When the file can't be read, has no terms
      *   in the namespace, or has terms too long to store
      */
     public function start($vocabularyId, $filePath, array $importOptions = [], array $reviewOptions = [])
     {
-        $this->checkReturnUrl($reviewOptions);
         return $this->begin($vocabularyId, $this->fileStore->keep($filePath), $importOptions, $reviewOptions);
     }
 
@@ -96,7 +91,6 @@ class VocabularyReview
      */
     public function startFromUrl($vocabularyId, $url, array $importOptions = [], array $reviewOptions = [])
     {
-        $this->checkReturnUrl($reviewOptions);
         return $this->begin($vocabularyId, $this->fileStore->keepFromUrl($url), $importOptions, $reviewOptions);
     }
 
@@ -105,7 +99,7 @@ class VocabularyReview
      *
      * @param string $token
      * @return array|null vocabulary_id, file, file_token, import_options,
-     *   new_namespace_uri, return_url, source_label
+     *   new_namespace_uri
      */
     public function get($token)
     {
@@ -243,20 +237,6 @@ class VocabularyReview
     }
 
     /**
-     * Get where a review's Accept and Cancel go.
-     *
-     * @param array $review
-     * @return string
-     */
-    public function getReturnUrl(array $review)
-    {
-        return $review['return_url'] ?? $this->router->assemble(
-            ['controller' => 'vocabulary', 'id' => $review['vocabulary_id']],
-            ['name' => 'admin/id']
-        );
-    }
-
-    /**
      * Start a review of a file in the file store.
      *
      * @param int $vocabularyId
@@ -274,8 +254,6 @@ class VocabularyReview
             'file_token' => $fileToken,
             'import_options' => [],
             'new_namespace_uri' => $reviewOptions['new_namespace_uri'] ?? null,
-            'return_url' => $reviewOptions['return_url'] ?? null,
-            'source_label' => $reviewOptions['source_label'] ?? null,
         ];
         try {
             $vocabulary = $this->apiManager->read('vocabularies', $vocabularyId)->getContent();
@@ -346,33 +324,6 @@ class VocabularyReview
             $this->fileStore->remove($review['file_token']);
         }
         $session->offsetUnset((string) $token);
-    }
-
-    /**
-     * Check that a review's return URL, if any, is a local path.
-     *
-     * @param array $reviewOptions
-     * @throws \InvalidArgumentException
-     */
-    protected function checkReturnUrl(array $reviewOptions)
-    {
-        $returnUrl = $reviewOptions['return_url'] ?? null;
-        if (null !== $returnUrl && !$this->isLocalPath($returnUrl)) {
-            throw new \InvalidArgumentException('A review\'s return URL must be a local path.');
-        }
-    }
-
-    /**
-     * Check that a URL is a path on this host: one leading /, not followed by
-     * another / or a \ (which browsers take for another host), and no \ or
-     * space.
-     *
-     * @param string $url
-     * @return bool
-     */
-    protected function isLocalPath($url)
-    {
-        return is_string($url) && 1 === preg_match('#^/(?![/\\\\])[^\\\\\s]*$#', $url);
     }
 
     /**

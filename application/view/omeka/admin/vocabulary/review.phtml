@@ -3,7 +3,6 @@ $this->headScript()->appendFile($this->assetUrl('js/vocabulary-form.js', 'Omeka'
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'vocabularies review');
-$sourceLabel = $review['source_label'] ?? $translate('the file');
 
 // Omeka's labels, which name the terms whose labels and comments change.
 $labels = ['classes' => [], 'properties' => []];
@@ -32,7 +31,7 @@ if (null !== $diff) {
         ['id' => 'review-property-comments', 'heading' => $translate('Changed property comments'), 'columns' => [$kinds['properties'], $translate('From'), $translate('To')], 'changes' => $diff['properties']['comment'], 'labels' => $labels['properties'], 'class' => 'review-changes'],
         ['id' => 'review-class-comments', 'heading' => $translate('Changed class comments'), 'columns' => [$kinds['classes'], $translate('From'), $translate('To')], 'changes' => $diff['classes']['comment'], 'labels' => $labels['classes'], 'class' => 'review-changes'],
     ];
-    $onlyInOmeka = sprintf($translate('This vocabulary has these, and %s doesn\'t. Accepting keeps them.'), $escape($sourceLabel));
+    $onlyInOmeka = $translate('This vocabulary has these, and the file doesn\'t. Accepting keeps them.');
     $sections[] = ['id' => 'review-properties-only-in-omeka', 'heading' => $translate('Properties only in Omeka'), 'columns' => [$kinds['properties'], $translate('Label')], 'terms' => $notInFile['properties'], 'note' => $onlyInOmeka];
     $sections[] = ['id' => 'review-classes-only-in-omeka', 'heading' => $translate('Classes only in Omeka'), 'columns' => [$kinds['classes'], $translate('Label')], 'terms' => $notInFile['classes'], 'note' => $onlyInOmeka];
 }
@@ -91,9 +90,9 @@ $choices->prepare();
 
 <?php if (null !== $diff): ?>
 <?php if ($changes): ?>
-<p><?php echo sprintf($translate('Accepting makes the changes below, from %s.'), $escape($sourceLabel)); ?></p>
+<p><?php echo $translate('Accepting makes the changes below, from the file.'); ?></p>
 <?php else: ?>
-<p><?php echo sprintf($translate('This vocabulary already matches %s, read with the choices above.'), $escape($sourceLabel)); ?></p>
+<p><?php echo $translate('This vocabulary already matches the file, read with the choices above.'); ?></p>
 <?php endif; ?>
 <?php endif; ?>
 

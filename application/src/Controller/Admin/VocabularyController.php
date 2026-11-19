@@ -413,7 +413,7 @@ class VocabularyController extends AbstractActionController
             return $this->redirect()->toUrl($this->getReviewUrl($vocabulary, $token, $post));
         }
         $this->messenger()->addSuccess('Changes to the vocabulary successfully made'); // @translate
-        return $this->redirect()->toUrl($this->vocabularyReview->getReturnUrl($review));
+        return $this->redirect()->toUrl($vocabulary->url());
     }
 
     /**
@@ -435,7 +435,7 @@ class VocabularyController extends AbstractActionController
             return $this->redirect()->toUrl($this->getReviewUrl($vocabulary, $token, $post));
         }
         $this->vocabularyReview->cancel($token);
-        return $this->redirect()->toUrl($this->vocabularyReview->getReturnUrl($review));
+        return $this->redirect()->toUrl($vocabulary->url());
     }
 
     public function deleteAction()

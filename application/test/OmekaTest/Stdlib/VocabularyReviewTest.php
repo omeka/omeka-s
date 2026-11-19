@@ -209,25 +209,6 @@ class VocabularyReviewTest extends DbTestCase
         $this->assertSame('Title', $this->propertyLabel('title'));
     }
 
-    public function testReturnUrl()
-    {
-        $token = $this->start('compare.ttl', ['format' => 'turtle'], ['return_url' => '/admin/item?page=2']);
-        $this->assertSame('/admin/item?page=2', $this->review->getReturnUrl($this->review->get($token)));
-        $this->review->cancel($token);
-        // By default, the vocabulary's page.
-        $token = $this->start('compare.ttl', ['format' => 'turtle']);
-        $this->assertSame(sprintf('/admin/vocabulary/%s', $this->vocabularyId), $this->review->getReturnUrl($this->review->get($token)));
-        $this->review->cancel($token);
-
-        foreach (['https://example.com/admin', '//example.com/admin', '/\\example.com', 'admin/vocabulary'] as $returnUrl) {
-            try {
-                $this->review->start($this->vocabularyId, __DIR__ . '/_files/compare.ttl', [], ['return_url' => $returnUrl]);
-                $this->fail("A return URL of $returnUrl was taken");
-            } catch (\InvalidArgumentException $e) {
-            }
-        }
-    }
-
     public function testOldFilesAreRemovedWhenAReviewStarts()
     {
         $tempDir = $this->services->get('Config')['temp_dir'];

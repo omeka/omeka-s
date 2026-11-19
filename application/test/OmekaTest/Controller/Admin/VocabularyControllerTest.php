@@ -507,9 +507,8 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringNotContainsString('name="vocabulary-info[o:prefix]"', $page);
         $this->assertStringNotContainsString('name="vocabulary-file[import_type]"', $page);
         $this->assertStringNotContainsString('name="vocabulary-advanced[lang]"', $page);
-        // Core's Cancel, one page back: Edit opens from the vocabulary's page
-        // or the list.
-        $this->assertStringContainsString('<a class="cancel button" href="#">Cancel</a>', $page);
+        // Cancel leads to the vocabulary's page, as Save does.
+        $this->assertStringContainsString(sprintf('<a class="button" href="/admin/vocabulary/%s">Cancel</a>', $this->vocabularyId), $page);
         $this->assertStringNotContainsString('More actions', $page);
     }
 
@@ -819,6 +818,8 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString('name="vocabulary-file[import_type]"', $page);
         $this->assertStringNotContainsString('name="vocabulary-info[o:label]"', $page);
         $this->assertStringNotContainsString('name="vocabulary-advanced[comments]"', $page);
+        // Cancel leads to the list, as the next page's does.
+        $this->assertStringContainsString('<a class="button" href="/admin/vocabulary">Cancel</a>', $page);
     }
 
     public function testImportReadsTheFileThenShowsItsDetails()

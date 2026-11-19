@@ -17,7 +17,8 @@ $form->prepare();
         'data-sidebar-content-url' => $vocabulary->url('delete-confirm'),
     ]); ?>
     <?php // Core's Cancel goes one page back, which suits Edit: it opens from the vocabulary's page or the list. ?>
-    <?php echo $this->cancelButton(); ?>
+    <?php // To the vocabulary's page, where Save leads too, not one page back. ?>
+    <?php echo $this->hyperlink($translate('Cancel'), $vocabulary->url(), ['class' => 'button']); ?>
     <button><?php echo $translate('Save'); ?></button>
 </div>
 <?php $this->trigger('view.edit.form.before', ['form' => $form]); ?>

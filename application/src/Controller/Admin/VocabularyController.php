@@ -90,8 +90,8 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Import a vocabulary, first step: store the chosen file in the file
-     * store, and go on to the details step.
+     * Import a vocabulary, first step: keep the chosen file, then go on to
+     * its details.
      */
     public function importAction()
     {
@@ -121,9 +121,8 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Import a vocabulary, second step: its fields and import options,
-     * filled in from the file. The query gives the file's token in the file
-     * store, and its format.
+     * Import a vocabulary, second step: its fields and import options, filled
+     * in from the file the query's file_token names.
      */
     public function importDetailsAction()
     {
@@ -153,45 +152,42 @@ class VocabularyController extends AbstractActionController
                 'o:prefix' => $details['prefix'],
             ],
             'vocabulary-advanced' => [
-                // The file's language nearest the installation's, else "",
-                // the "First available" option.
+                // Nearest the installation's, else "", First available.
                 'lang' => $details['lang'] ?? '',
                 'comments' => 'comment',
             ],
         ]);
         $request = $this->getRequest();
-        // Show classes and properties posts the form to show them again,
-        // with what's entered, without importing. Review changes posts it to
-        // update the vocabulary Omeka already has from the file instead.
+        // Show classes and properties and Review changes post the form too,
+        // without importing.
         $isImport = $request->isPost() && !$request->getPost('preview') && !$request->getPost('update');
         if ($request->isPost()) {
             $form->setData($request->getPost()->toArray());
         }
-        // As entered, for importing and for showing what importing adds.
+        // For importing and for the list: each import option, null where not
+        // chosen.
         $namespaceUri = trim((string) $form->get('vocabulary-info')->get('o:namespace_uri')->getValue());
-        $options = $this->getImportOptions($path, $format, array_map(fn ($element) => $element->getValue(), $form->get('vocabulary-advanced')->getElements()));
-        // The vocabulary Omeka already has under any form of the namespace
-        // URI: on arrival, the one found, which may be another vocabulary's,
-        // as when a file redeclares terms it reuses; then, the one entered.
+        $options = array_replace(
+            ['file' => $path, 'format' => $format, 'lang' => null, 'label_property' => null, 'comment_property' => null],
+            VocabularyForm::getChosenImportOptions(array_map(fn ($element) => $element->getValue(), $form->get('vocabulary-advanced')->getElements()))
+        );
+        // A vocabulary Omeka has under any form of the namespace URI. One found
+        // may be another vocabulary's, where a file redeclares terms it reuses.
         $other = '' === $namespaceUri ? null : $this->getVocabularyWithNamespace($namespaceUri);
         $updatable = $other && $this->userMayUpdate($other) ? $other : null;
-        // Whether a refusal has said why already, which the class and
-        // property list then doesn't say again.
+        // A refusal says why itself, so the list doesn't say it again.
         $refused = false;
         $valid = $isImport && $form->isValid();
         if ($updatable && $request->getPost('update')) {
-            // Checked, as Update's own start is, though nothing is saved
-            // until the review is accepted.
+            // Only the CSRF field, as Update's own start checks it.
             $form->setValidationGroup(['csrf']);
             if (!$form->isValid()) {
                 $this->messenger()->addFormErrors($form);
             } else {
                 try {
-                    // With the choices made here, which the review offers in
-                    // turn; one left empty, as First available, is read as
-                    // the vocabulary was. Where the file uses another form of
-                    // its namespace URI, the review changes it to the file's
-                    // along with the rest.
+                    // With this page's choices; one left empty is read as the
+                    // vocabulary was. A namespace URI in another form changes
+                    // to the file's with the rest.
                     $reviewUrl = $this->vocabularyReview->start($updatable->id(), $path, $options,
                         $namespaceUri === $updatable->namespaceUri() ? [] : ['new_namespace_uri' => $namespaceUri]);
                     // The review keeps its own copy, so the import is over.
@@ -226,8 +222,7 @@ class VocabularyController extends AbstractActionController
         }
         if ($other) {
             if ($valid) {
-                // Refuse a vocabulary Omeka already has under any form of
-                // this namespace URI: importing it would duplicate its terms.
+                // Importing it would duplicate its terms.
                 $refused = true;
                 $this->messenger()->addError($this->getAlreadyHasMessage($other));
             } else {
@@ -265,12 +260,10 @@ class VocabularyController extends AbstractActionController
             $form->setData($request->getPost()->toArray());
             if ($form->isValid()) {
                 $info = $form->getData()['vocabulary-info'];
-                // Compared before the update, which changes what
-                // $vocabulary reads.
+                // Before the update, which changes what $vocabulary reads.
                 $moved = $info['o:namespace_uri'] !== $vocabulary->namespaceUri();
-                // Refuse another vocabulary's namespace URI in a different
-                // form, such as https://schema.org/ where it has
-                // http://schema.org/. The API refuses an exact match itself.
+                // Another vocabulary's namespace URI in another form, such as
+                // https for http; the API refuses an exact match itself.
                 $other = $moved ? $this->getVocabularyInAnotherForm($info['o:namespace_uri'], $vocabulary) : null;
                 if ($other) {
                     $this->messenger()->addError(new Message(
@@ -285,8 +278,7 @@ class VocabularyController extends AbstractActionController
                         if (!$moved) {
                             $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
                         } else {
-                            // A vocabulary that has moved is usually updated
-                            // from its file at the new namespace next.
+                            // A moved vocabulary is usually updated next.
                             $message = new Message(
                                 'Vocabulary successfully updated. %s', // @translate
                                 sprintf(
@@ -310,8 +302,7 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Update a vocabulary from a newer version of its file, by way of a
-     * review.
+     * Update a vocabulary from a newer file, by way of a review.
      */
     public function updateAction()
     {
@@ -340,8 +331,7 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Show the changes a review's file would make, read with the import
-     * options chosen on the page.
+     * Show the changes a review's file would make, with the page's choices.
      */
     public function reviewAction()
     {
@@ -351,7 +341,7 @@ class VocabularyController extends AbstractActionController
         if (!$review) {
             return $this->redirect()->toUrl($vocabulary->url());
         }
-        $importOptions = $this->vocabularyReview->getImportOptions($review, $this->getChoices($this->params()->fromQuery()));
+        $importOptions = $this->vocabularyReview->getImportOptions($review, VocabularyForm::getChosenImportOptions($this->params()->fromQuery()));
 
         $view = new ViewModel;
         $view->setVariable('vocabulary', $vocabulary);
@@ -365,15 +355,13 @@ class VocabularyController extends AbstractActionController
             $view->setVariable('notInFile', $this->vocabularyReview->getMembersNotInFile($review, $importOptions));
             $languages = $this->vocabularyReview->getLanguages($review, $importOptions);
         } catch (\Exception $e) {
-            // The chosen import options may make the file unreadable: say
-            // why, and keep the choices to change.
+            // The choices may make the file unreadable; keep them to change.
             $this->messenger()->addErrors($this->getErrors($e));
             $view->setVariable('diff', null);
             $view->setVariable('notInFile', null);
         }
-        // The choices as the import options give them, with the file's
-        // languages and the one chosen, even where the file no longer has it.
-        $choiceValues = $this->getChoiceValues($importOptions);
+        // The file's languages, and the one chosen even if the file dropped it.
+        $choiceValues = VocabularyForm::getChoiceValues($importOptions);
         $lang = $choiceValues['lang'];
         $choices = $this->getForm(VocabularyForm::class, [
             'mode' => 'review',
@@ -397,7 +385,7 @@ class VocabularyController extends AbstractActionController
         if (!$review) {
             return $this->redirect()->toUrl($vocabulary->url());
         }
-        $choices = $this->getChoices($post);
+        $choices = VocabularyForm::getChosenImportOptions($post);
         $form = $this->getForm(ConfirmForm::class);
         $form->setData($post);
         if (!$form->isValid()) {
@@ -497,8 +485,7 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get the vocabulary of the request, refusing one the user may not
-     * change.
+     * Get the request's vocabulary, refusing one the user may not change.
      *
      * @return \Omeka\Api\Representation\VocabularyRepresentation
      */
@@ -515,8 +502,7 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Whether the user may update a vocabulary: not one of Omeka's own, and
-     * theirs to change.
+     * Whether the user may update a vocabulary: not a permanent one, and theirs.
      *
      * @param \Omeka\Api\Representation\VocabularyRepresentation $vocabulary
      * @return bool
@@ -544,80 +530,13 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get the import options chosen on the review page or import details:
-     * only those given.
-     *
-     * @param array $params The review page's query, or a form's values
-     * @return array
-     */
-    protected function getChoices(array $params)
-    {
-        $choices = [];
-        $lang = $this->getChosenLanguage($params);
-        if (null !== $lang) {
-            $choices['lang'] = '' === $lang ? null : $lang;
-        }
-        if (isset($params['label_property']) && is_string($params['label_property'])) {
-            $choices['label_property'] = '' === trim($params['label_property']) ? null : trim($params['label_property']);
-        }
-        $commentProperty = $this->getChosenCommentProperty($params);
-        if (null !== $commentProperty) {
-            $choices['comment_property'] = $commentProperty;
-        }
-        return $choices;
-    }
-
-    /**
-     * Get the review page's choices as the import options give them: the
-     * reverse of getChoices(). A comment property the Comments from field
-     * doesn't offer, or a label property other than the default, was entered
-     * by hand, so its box is filled in.
-     *
-     * @param array $importOptions
-     * @return array lang, comments, label_property, and comment_property
-     */
-    protected function getChoiceValues(array $importOptions)
-    {
-        $commentProperty = $importOptions['comment_property'] ?? RdfImporter::COMMENT_PROPERTY;
-        $comments = array_search($commentProperty, RdfImporter::COMMENT_PROPERTY_CHOICES, true);
-        $labelProperty = $importOptions['label_property'] ?? RdfImporter::LABEL_PROPERTY;
-        return [
-            'lang' => (string) ($importOptions['lang'] ?? ''),
-            'comments' => false === $comments ? 'other' : $comments,
-            'label_property' => RdfImporter::LABEL_PROPERTY === $labelProperty ? '' : $labelProperty,
-            'comment_property' => false === $comments ? $commentProperty : '',
-        ];
-    }
-
-    /**
-     * Get the import options the import details page's choices give, for
-     * importing its file or showing what importing adds: each one, null
-     * where not chosen.
-     *
-     * @param string $path The file's path
-     * @param string $format
-     * @param array $advanced The Advanced fieldset's values
-     * @return array
-     */
-    protected function getImportOptions($path, $format, array $advanced)
-    {
-        return array_replace(
-            ['file' => $path, 'format' => $format, 'lang' => null, 'label_property' => null, 'comment_property' => null],
-            $this->getChoices($advanced)
-        );
-    }
-
-    /**
-     * Get the classes and properties importing adds, as the import details
-     * page's namespace URI and choices read its file: null with no
-     * namespace URI yet, or where the file has no classes or properties in
-     * it, which an error message then says.
+     * Get the classes and properties importing adds: null without a namespace
+     * URI, or where the file has none in it.
      *
      * @param string $namespaceUri
-     * @param array $options The import options, from getImportOptions()
+     * @param array $options The import options, as importing uses them
      * @param bool $sayWhy Whether to say why there are none
-     * @return array|null Labels and comments by local name, under classes
-     *   and properties
+     * @return array|null Labels and comments by local name, by kind
      */
     protected function getImportPreview($namespaceUri, array $options, $sayWhy)
     {
@@ -636,48 +555,6 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get the language chosen: one the Preferred language field offers, "" for
-     * "First available", or the tag entered under "Another language…".
-     * Another with none entered is no choice.
-     *
-     * @param array $params With "lang" and "other_lang"
-     * @return string|null
-     */
-    protected function getChosenLanguage(array $params)
-    {
-        $lang = $params['lang'] ?? null;
-        if (!is_string($lang)) {
-            return null;
-        }
-        if ('other' === $lang) {
-            $other = is_string($params['other_lang'] ?? null) ? trim($params['other_lang']) : '';
-            return '' === $other ? null : $other;
-        }
-        return $lang;
-    }
-
-    /**
-     * Get the comment property chosen: one the Comments field offers, or the
-     * one entered under "Another property…". Another with none entered is no
-     * choice.
-     *
-     * @param array $params With "comments" and "comment_property"
-     * @return string|null
-     */
-    protected function getChosenCommentProperty(array $params)
-    {
-        $comments = $params['comments'] ?? null;
-        if (!is_string($comments)) {
-            return null;
-        }
-        if ('other' === $comments) {
-            $property = is_string($params['comment_property'] ?? null) ? trim($params['comment_property']) : '';
-            return '' === $property ? null : $property;
-        }
-        return RdfImporter::COMMENT_PROPERTY_CHOICES[$comments] ?? null;
-    }
-
-    /**
      * Get the URL of a review's page, with the choices made on it.
      *
      * @param \Omeka\Api\Representation\VocabularyRepresentation $vocabulary
@@ -688,7 +565,7 @@ class VocabularyController extends AbstractActionController
     protected function getReviewUrl($vocabulary, $token, array $params)
     {
         $query = ['review' => $token];
-        foreach (['lang', 'other_lang', 'comments', 'label_property', 'comment_property'] as $key) {
+        foreach (VocabularyForm::CHOICE_FIELDS as $key) {
             if (isset($params[$key]) && is_string($params[$key])) {
                 $query[$key] = $params[$key];
             }
@@ -762,9 +639,8 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get the message that a vocabulary Omeka has already uses the namespace
-     * URI an import gives, in any form, with what the admin may do instead:
-     * as a warning before Import, and as Import's refusal.
+     * Get the message that a vocabulary Omeka has uses an import's namespace
+     * URI, in any form: Import's warning, and its refusal.
      *
      * @param \Omeka\Api\Representation\VocabularyRepresentation $vocabulary
      * @return Message
@@ -801,8 +677,8 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get the messages of an exception, with those in its error store, or
-     * else that something went wrong.
+     * Get an exception's messages and its error store's, else that something
+     * went wrong.
      *
      * @param \Exception $e
      * @return array

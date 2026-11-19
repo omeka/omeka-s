@@ -3,6 +3,7 @@ namespace Omeka\Form;
 
 use Laminas\Form\Form;
 use Omeka\Entity\Vocabulary;
+use Omeka\Stdlib\RdfImporter;
 
 class VocabularyForm extends Form
 {
@@ -19,6 +20,12 @@ class VocabularyForm extends Form
         // one value would both show as chosen.
         'turtle' => 'Turtle or Notation3 (.ttl, .n3)', // @translate
     ];
+
+    /**
+     * The fields that choose how a file is read: on the review page by these
+     * names, and on import details in the Advanced fieldset.
+     */
+    const CHOICE_FIELDS = ['lang', 'other_lang', 'comments', 'label_property', 'comment_property'];
 
     protected $translator;
 
@@ -388,5 +395,94 @@ class VocabularyForm extends Form
     public function setTranslator($translator)
     {
         $this->translator = $translator;
+    }
+
+    /**
+     * Get the import options the choice fields' values give: only those
+     * chosen. Static, as the review page's query and Accept's post give the
+     * values as well as the fields do.
+     *
+     * @param array $values By field name, as CHOICE_FIELDS names them
+     * @return array lang, label_property, and comment_property, where chosen
+     */
+    public static function getChosenImportOptions(array $values)
+    {
+        $importOptions = [];
+        $lang = self::getChosenLanguage($values);
+        if (null !== $lang) {
+            $importOptions['lang'] = '' === $lang ? null : $lang;
+        }
+        if (isset($values['label_property']) && is_string($values['label_property'])) {
+            $importOptions['label_property'] = '' === trim($values['label_property']) ? null : trim($values['label_property']);
+        }
+        $commentProperty = self::getChosenCommentProperty($values);
+        if (null !== $commentProperty) {
+            $importOptions['comment_property'] = $commentProperty;
+        }
+        return $importOptions;
+    }
+
+    /**
+     * Get the choice fields' values for import options: the reverse of
+     * getChosenImportOptions(). A comment property the Comments from field
+     * doesn't offer, or a label property other than the default, was entered
+     * by hand, so its box is filled in.
+     *
+     * @param array $importOptions
+     * @return array lang, comments, label_property, and comment_property
+     */
+    public static function getChoiceValues(array $importOptions)
+    {
+        $commentProperty = $importOptions['comment_property'] ?? RdfImporter::COMMENT_PROPERTY;
+        $comments = array_search($commentProperty, RdfImporter::COMMENT_PROPERTY_CHOICES, true);
+        $labelProperty = $importOptions['label_property'] ?? RdfImporter::LABEL_PROPERTY;
+        return [
+            'lang' => (string) ($importOptions['lang'] ?? ''),
+            'comments' => false === $comments ? 'other' : $comments,
+            'label_property' => RdfImporter::LABEL_PROPERTY === $labelProperty ? '' : $labelProperty,
+            'comment_property' => false === $comments ? $commentProperty : '',
+        ];
+    }
+
+    /**
+     * Get the language chosen: one the Preferred language field offers, "" for
+     * "First available", or the tag entered under "Another language…".
+     * Another with none entered is no choice.
+     *
+     * @param array $values With "lang" and "other_lang"
+     * @return string|null
+     */
+    protected static function getChosenLanguage(array $values)
+    {
+        $lang = $values['lang'] ?? null;
+        if (!is_string($lang)) {
+            return null;
+        }
+        if ('other' === $lang) {
+            $other = is_string($values['other_lang'] ?? null) ? trim($values['other_lang']) : '';
+            return '' === $other ? null : $other;
+        }
+        return $lang;
+    }
+
+    /**
+     * Get the comment property chosen: one the Comments field offers, or the
+     * one entered under "Another property…". Another with none entered is no
+     * choice.
+     *
+     * @param array $values With "comments" and "comment_property"
+     * @return string|null
+     */
+    protected static function getChosenCommentProperty(array $values)
+    {
+        $comments = $values['comments'] ?? null;
+        if (!is_string($comments)) {
+            return null;
+        }
+        if ('other' === $comments) {
+            $property = is_string($values['comment_property'] ?? null) ? trim($values['comment_property']) : '';
+            return '' === $property ? null : $property;
+        }
+        return RdfImporter::COMMENT_PROPERTY_CHOICES[$comments] ?? null;
     }
 }

@@ -188,11 +188,22 @@ class RdfImporterTest extends DbTestCase
 
     public function testReadingAnEmptyFile()
     {
-        // Some formats read an empty file as empty RDF, but none reads
-        // anything from it, so it's an error, as when guessing alone.
-        $this->expectException(ValidationException::class);
-        $this->expectExceptionMessage('Could not parse vocabulary file.');
-        $this->members('empty.ttl', 'http://example.org/empty#', ['format' => 'guess']);
+        // Refused before it's read: no format reads anything from one, and
+        // JSON-LD's reader, which guessing the format tries, warns on one.
+        $blank = tempnam(sys_get_temp_dir(), 'blank');
+        file_put_contents($blank, " \n\t\n");
+        try {
+            foreach ([__DIR__ . '/_files/empty.ttl', $blank] as $file) {
+                try {
+                    $this->rdfImporter->getMembers('file', 'http://example.org/empty#', ['file' => $file, 'format' => 'guess']);
+                    $this->fail('An empty file was read');
+                } catch (ValidationException $e) {
+                    $this->assertSame('The vocabulary file is empty.', $e->getMessage());
+                }
+            }
+        } finally {
+            unlink($blank);
+        }
     }
 
     public function testImportingWithAnotherFormOfTheNamespace()
@@ -493,7 +504,7 @@ class RdfImporterTest extends DbTestCase
     {
         $this->expectException(ValidationException::class);
         $this->expectExceptionMessage('No classes or properties found in this file.');
-        $this->details('empty.ttl');
+        $this->details('no-terms.ttl');
     }
 
     public function testCommentsAreReadFromCommentsElseDefinitionsByDefault()
@@ -875,7 +886,7 @@ class RdfImporterTest extends DbTestCase
         // A file with no classes or properties anywhere names only the one
         // given.
         try {
-            $this->rdfImporter->checkHasMembers('file', 'http://example.org/compare#', ['file' => __DIR__ . '/_files/empty.ttl', 'format' => 'turtle']);
+            $this->rdfImporter->checkHasMembers('file', 'http://example.org/compare#', ['file' => __DIR__ . '/_files/no-terms.ttl', 'format' => 'turtle']);
             $this->fail('The file was taken');
         } catch (ValidationException $e) {
             $this->assertSame(

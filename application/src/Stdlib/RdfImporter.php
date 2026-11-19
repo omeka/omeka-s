@@ -212,6 +212,7 @@ class RdfImporter
                 if ($this->lastFileGraph && $this->lastFileGraph[0] === $key) {
                     return $this->lastFileGraph[1];
                 }
+                $this->checkFileHasText($file);
                 // Free the last graph before reading another, so the two
                 // aren't in memory at once: an import's details and then the
                 // import itself read one file twice, with different bases,
@@ -792,6 +793,33 @@ class RdfImporter
             throw new ValidationException($error);
         }
         return $graph;
+    }
+
+    /**
+     * Refuse a file that is empty or only white space, before it's read: no
+     * format reads anything from one, and JSON-LD's reader, which guessing
+     * the format tries, warns on one before it fails.
+     *
+     * @param string $file
+     * @throws ValidationException
+     */
+    protected function checkFileHasText($file)
+    {
+        $handle = fopen($file, 'rb');
+        if (false === $handle) {
+            throw new ValidationException('Could not read vocabulary file.'); // @translate
+        }
+        try {
+            // Text, if any, nearly always starts in the first block.
+            while (!feof($handle)) {
+                if ('' !== trim((string) fread($handle, 8192))) {
+                    return;
+                }
+            }
+        } finally {
+            fclose($handle);
+        }
+        throw new ValidationException('The vocabulary file is empty.'); // @translate
     }
 
     /**

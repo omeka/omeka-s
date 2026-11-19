@@ -1066,7 +1066,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $pattern = $services->get('Config')['temp_dir'] . '/' . VocabularyFileStore::FILE_PREFIX . '*';
         $files = glob($pattern);
         try {
-            $services->get('Omeka\VocabularyImport')->start(__DIR__ . '/../../Stdlib/_files/empty.ttl', [], ['format' => 'turtle']);
+            $services->get('Omeka\VocabularyImport')->start(__DIR__ . '/../../Stdlib/_files/no-terms.ttl', [], ['format' => 'turtle']);
             $this->fail('A file with no classes or properties was handed on.');
         } catch (ValidationException $e) {
             // Before the details page, and without keeping the file.
@@ -1175,9 +1175,15 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     {
         $tempDir = $this->getApplicationServiceLocator()->get('Config')['temp_dir'];
         $files = glob($tempDir . '/' . VocabularyFileStore::FILE_PREFIX . '*');
-        $this->assertSame(200, $this->startImport('../../../Stdlib/_files/empty.ttl'));
+        $this->assertSame(200, $this->startImport('../../../Stdlib/_files/no-terms.ttl'));
         $this->assertStringContainsString('No classes or properties found in this file.', $this->getResponse()->getContent());
         $this->assertSame($files, glob($tempDir . '/' . VocabularyFileStore::FILE_PREFIX . '*'));
+    }
+
+    public function testImportOfAnEmptyFileSaysSo()
+    {
+        $this->assertSame(200, $this->startImport('../../../Stdlib/_files/empty.ttl', 'guess'));
+        $this->assertStringContainsString('The vocabulary file is empty.', $this->getResponse()->getContent());
     }
 
     public function testImportOfAVocabularyOmekaHasWarnsThenRefuses()

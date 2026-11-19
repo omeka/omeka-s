@@ -740,7 +740,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $status = $this->requestAs(self::ADMIN, 'GET', sprintf('/admin/vocabulary/%s/review?review=%s', $this->vocabularyId, $token));
         $this->assertSame(302, $status);
         $this->assertRedirectTo(sprintf('/admin/vocabulary/%s', $this->vocabularyId));
-        $this->assertSame(['This review has ended. To review the changes again, use Update classes and properties.'], $this->messages(Messenger::ERROR));
+        $this->assertSame(['This review has ended.'], $this->messages(Messenger::ERROR));
     }
 
     /**

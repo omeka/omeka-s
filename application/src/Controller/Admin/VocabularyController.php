@@ -551,7 +551,7 @@ class VocabularyController extends AbstractActionController
     {
         $review = $this->vocabularyReview->get($token);
         if (!$review || $review['vocabulary_id'] !== $vocabulary->id()) {
-            $this->messenger()->addError('This review has ended. To review the changes again, use Update classes and properties.'); // @translate
+            $this->messenger()->addError('This review has ended.'); // @translate
             return null;
         }
         return $review;

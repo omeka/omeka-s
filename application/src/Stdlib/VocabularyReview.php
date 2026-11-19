@@ -209,7 +209,7 @@ class VocabularyReview
     {
         $review = $this->get($token);
         if (!$review) {
-            throw new ValidationException('This review has ended. To review the changes again, use Update classes and properties.'); // @translate
+            throw new ValidationException('This review has ended.'); // @translate
         }
         $vocabulary = $this->apiManager->read('vocabularies', $review['vocabulary_id'])->getContent();
         // The importer writes to the vocabulary directly, without the API's

@@ -141,6 +141,23 @@ class VocabularyForm extends Form
         }
         if ($hasFile) {
             $inputFilter->get('vocabulary-file')->add([
+                'name' => 'file',
+                'type' => \Laminas\InputFilter\FileInput::class,
+                'required' => false,
+                'validators' => [
+                    [
+                        'name' => \Laminas\Validator\File\UploadFile::class,
+                        'options' => [
+                            'messages' => [
+                                // In place of the validator's own, which names
+                                // php.ini's upload_max_filesize.
+                                \Laminas\Validator\File\UploadFile::INI_SIZE => 'The file is larger than this server accepts for uploads. Choose URL and enter the file\'s address instead.', // @translate
+                            ],
+                        ],
+                    ],
+                ],
+            ]);
+            $inputFilter->get('vocabulary-file')->add([
                 'name' => 'url',
                 'required' => false,
             ]);

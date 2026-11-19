@@ -454,6 +454,19 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString('Choose a file or enter a URL.', $this->getResponse()->getContent());
     }
 
+    public function testAFileTooLargeToUploadSaysWhatToDo()
+    {
+        // As PHP passes an upload over upload_max_filesize.
+        $files = ['vocabulary-file' => ['file' => ['name' => 'large.ttl', 'type' => 'text/turtle', 'tmp_name' => '', 'error' => UPLOAD_ERR_INI_SIZE, 'size' => 0]]];
+        $data = ['vocabulary-file' => ['import_type' => 'upload', 'format' => 'guess']] + $this->csrfField(VocabularyForm::class);
+        foreach (['/admin/vocabulary/import', sprintf('/admin/vocabulary/%s/update', $this->vocabularyId)] as $path) {
+            $this->assertSame(200, $this->requestAs(self::ADMIN, 'POST', $path, $data, $files));
+            $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+            $this->assertStringContainsString("The file is larger than this server accepts for uploads. Choose URL and enter the file's address instead.", $page, $path);
+            $this->assertStringNotContainsString('php.ini', $page, $path);
+        }
+    }
+
     public function testUpdateStartsWithTheStoredFormat()
     {
         $this->api()->update('vocabularies', $this->vocabularyId, [

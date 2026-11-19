@@ -1,10 +1,10 @@
 <?php
 namespace OmekaTest\Controller\Admin;
 
-use EasyRdf\Http;
-use EasyRdf\Http\Client as HttpClient;
-use EasyRdf\Http\Response;
 use Laminas\Form\Element\Csrf;
+use Laminas\Http\Client as HttpClient;
+use Laminas\Http\Request;
+use Laminas\Http\Response;
 use Laminas\Stdlib\Parameters;
 use Omeka\Api\Exception\NotFoundException;
 use Omeka\Api\Exception\ValidationException;
@@ -39,11 +39,12 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     protected $vocabularyId;
 
     /**
-     * EasyRdf's HTTP client, while a test answers its requests.
+     * The client answering the importer's requests in place of a server,
+     * put in each request's services.
      *
      * @var HttpClient|null
      */
-    protected $httpClient;
+    protected $servedClient;
 
     /**
      * The tokens of the reviews a test starts.
@@ -92,9 +93,6 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
 
     public function tearDown(): void
     {
-        if ($this->httpClient) {
-            Http::setDefaultHttpClient($this->httpClient);
-        }
         $this->reset(true);
         $this->signIn();
         foreach ($this->tokens as $token) {
@@ -151,6 +149,11 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     {
         $this->reset(true);
         $this->signIn($email);
+        if ($this->servedClient) {
+            $services = $this->getApplicationServiceLocator();
+            $services->setAllowOverride(true);
+            $services->setService('Omeka\HttpClientNoPrivate', $this->servedClient);
+        }
         $this->getRequest()->setFiles(new Parameters($files));
         try {
             $this->dispatch($path, $method, $data);
@@ -246,8 +249,8 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     }
 
     /**
-     * Answer EasyRdf's requests with a file of the tests', in place of the
-     * server at the URL asked for.
+     * Answer the importer's requests with a file of the tests', in place of
+     * the server at the URL asked for.
      *
      * @param string $file A file in _files
      */
@@ -256,14 +259,13 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $client = new class extends HttpClient {
             public $body;
 
-            public function request($method = null)
+            public function send(?Request $request = null)
             {
-                return new Response(200, ['Content-Type' => 'text/turtle'], $this->body);
+                return (new Response)->setStatusCode(200)->setContent($this->body);
             }
         };
         $client->body = file_get_contents(__DIR__ . '/_files/' . $file);
-        $this->httpClient ??= Http::getDefaultHttpClient();
-        Http::setDefaultHttpClient($client);
+        $this->servedClient = $client;
     }
 
     /**

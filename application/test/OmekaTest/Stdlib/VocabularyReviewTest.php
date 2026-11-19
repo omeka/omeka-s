@@ -1,9 +1,9 @@
 <?php
 namespace OmekaTest\Stdlib;
 
-use EasyRdf\Http;
-use EasyRdf\Http\Client as HttpClient;
-use EasyRdf\Http\Response;
+use Laminas\Http\Client as HttpClient;
+use Laminas\Http\Request;
+use Laminas\Http\Response;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Entity\User;
 use Omeka\File\StagedFiles;
@@ -36,11 +36,11 @@ class VocabularyReviewTest extends DbTestCase
     protected $vocabularyId;
 
     /**
-     * EasyRdf's HTTP client, while a test answers its requests.
+     * The importer's own HTTP client, while a test answers its requests.
      *
      * @var HttpClient|null
      */
-    protected $httpClient;
+    protected $importerClient;
 
     /**
      * The tokens of the reviews a test starts, ended after it, so their
@@ -77,8 +77,9 @@ class VocabularyReviewTest extends DbTestCase
         foreach ($this->tokens as $token) {
             $this->review->cancel($token);
         }
-        if ($this->httpClient) {
-            Http::setDefaultHttpClient($this->httpClient);
+        if ($this->importerClient) {
+            $property = new \ReflectionProperty(RdfImporter::class, 'httpClient');
+            $property->setValue($this->services->get('Omeka\RdfImporter'), $this->importerClient);
         }
         $this->services->get('Omeka\AuthenticationService')->clearIdentity();
         parent::tearDown();
@@ -286,32 +287,38 @@ class VocabularyReviewTest extends DbTestCase
     }
 
     /**
-     * Answer EasyRdf's requests with a response, in place of a server.
+     * Answer the importer's requests with a response, in place of a server.
      *
+     * @param int $status
+     * @param string $body
      * @return HttpClient The client answering, which counts the requests in
-     *   $requests
+     *   $requests and keeps the redirects it was told to follow
      */
-    protected function answerRequests(Response $response)
+    protected function answerRequests($status, $body)
     {
         $client = new class extends HttpClient {
             public $response;
             public $requests = 0;
+            public $maxRedirects;
 
-            public function request($method = null)
+            public function send(?Request $request = null)
             {
                 $this->requests++;
+                $this->maxRedirects = $this->config['maxredirects'];
                 return $this->response;
             }
         };
-        $client->response = $response;
-        $this->httpClient = Http::getDefaultHttpClient();
-        Http::setDefaultHttpClient($client);
+        $client->response = (new Response)->setStatusCode($status)->setContent($body);
+        $importer = $this->services->get('Omeka\RdfImporter');
+        $property = new \ReflectionProperty($importer, 'httpClient');
+        $this->importerClient ??= $property->getValue($importer);
+        $property->setValue($importer, $client);
         return $client;
     }
 
     public function testStartFromUrlFetchesOnce()
     {
-        $client = $this->answerRequests(new Response(200, ['Content-Type' => 'text/turtle'], file_get_contents(__DIR__ . '/_files/compare.ttl')));
+        $client = $this->answerRequests(200, file_get_contents(__DIR__ . '/_files/compare.ttl'));
         $url = $this->review->startFromUrl($this->vocabularyId, 'http://example.org/compare.ttl', ['format' => 'turtle']);
         $token = substr($url, strpos($url, '=') + 1);
         $review = $this->review->get($token);
@@ -323,34 +330,15 @@ class VocabularyReviewTest extends DbTestCase
 
     public function testStartFromUrlFollowsRedirects()
     {
-        $client = new class extends HttpClient {
-            public $maxRedirects;
-            public $maxRedirectsAsked;
-
-            public function setConfig($config = [])
-            {
-                $this->maxRedirects = $config['maxredirects'] ?? $this->maxRedirects;
-                return parent::setConfig($config);
-            }
-
-            public function request($method = null)
-            {
-                $this->maxRedirectsAsked = $this->maxRedirects;
-                return new Response(200, ['Content-Type' => 'text/turtle'], file_get_contents(__DIR__ . '/_files/compare.ttl'));
-            }
-        };
-        $this->httpClient = Http::getDefaultHttpClient();
-        Http::setDefaultHttpClient($client);
-        // As EasyRdf's Graph::load() leaves the shared client.
-        $client->setConfig(['maxredirects' => 0]);
+        $client = $this->answerRequests(200, file_get_contents(__DIR__ . '/_files/compare.ttl'));
         $url = $this->review->startFromUrl($this->vocabularyId, 'http://example.org/compare.ttl', ['format' => 'turtle']);
-        $this->assertSame(RdfImporter::MAX_REDIRECTS, $client->maxRedirectsAsked);
+        $this->assertSame(RdfImporter::MAX_REDIRECTS, $client->maxRedirects);
         $this->review->cancel(substr($url, strpos($url, '=') + 1));
     }
 
     public function testStartFromUrlTheServerRefuses()
     {
-        $this->answerRequests(new Response(404, [], 'Not found'));
+        $this->answerRequests(404, 'Not found');
         $pattern = $this->services->get('Config')['temp_dir'] . '/' . StagedFiles::FILE_PREFIX . '*';
         $files = glob($pattern);
         try {

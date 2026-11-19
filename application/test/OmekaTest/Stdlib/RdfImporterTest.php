@@ -729,6 +729,19 @@ class RdfImporterTest extends DbTestCase
         }
     }
 
+    public function testFetchingAPrivateAddressIsRefused()
+    {
+        $rdfImporter = self::getApplication()->getServiceManager()->get('Omeka\RdfImporter');
+        try {
+            $rdfImporter->fetchFile('http://127.0.0.1/vocabulary.ttl');
+            $this->fail('A private address was fetched');
+        } catch (ValidationException $e) {
+            $this->assertSame('Could not load vocabulary from URL.', $e->getMessage());
+            // Refused by core's client before any request, as URL media are.
+            $this->assertSame('Cannot make request to a private host', $e->getPrevious()->getMessage());
+        }
+    }
+
     public function testReadingAnEmptyUrl()
     {
         // As a URL that can't be loaded, not EasyRdf's own message.

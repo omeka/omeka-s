@@ -3,14 +3,14 @@ namespace Omeka\Stdlib;
 
 use Doctrine\ORM\EntityManager;
 use EasyRdf\Graph as RdfGraph;
-use EasyRdf\Http;
-use EasyRdf\Http\Client as HttpClient;
 use EasyRdf\Resource as RdfResource;
+use Laminas\Http\Client as HttpClient;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Api\Manager as ApiManager;
 use Omeka\Entity\Property;
 use Omeka\Entity\Vocabulary;
 use Omeka\Entity\ResourceClass;
+use Omeka\Http\ClientNoPrivate;
 
 class RdfImporter
 {
@@ -52,8 +52,8 @@ class RdfImporter
     const MEMORY_LIMIT = '256M';
 
     /**
-     * How many redirects fetching a URL follows: 5, as EasyRdf's HTTP client
-     * follows by default.
+     * How many redirects fetching a URL follows: 5, as EasyRdf's and Laminas'
+     * HTTP clients follow by default.
      */
     const MAX_REDIRECTS = 5;
 
@@ -74,6 +74,13 @@ class RdfImporter
      * @var EntityManager
      */
     protected $entityManager;
+
+    /**
+     * The client fetchFile() fetches with.
+     *
+     * @var HttpClient|null
+     */
+    protected $httpClient;
 
     /**
      * The last file read, [key, graph], so a request parses it once.
@@ -111,10 +118,12 @@ class RdfImporter
         'owl:InverseFunctionalProperty',
     ];
 
-    public function __construct(ApiManager $apiManager, EntityManager $entityManager)
-    {
+    public function __construct(ApiManager $apiManager, EntityManager $entityManager,
+        ?HttpClient $httpClient = null
+    ) {
         $this->apiManager = $apiManager;
         $this->entityManager = $entityManager;
+        $this->httpClient = $httpClient;
     }
 
     /**
@@ -558,9 +567,10 @@ class RdfImporter
     }
 
     /**
-     * Fetch the vocabulary file at a URL with EasyRdf's HTTP client, asking
-     * for RDF formats, as EasyRdf does when it loads a URL, so it can be read
-     * as a file.
+     * Fetch the vocabulary file at a URL, so it can be read as a file. It's
+     * fetched with core's client that refuses private and reserved addresses
+     * (Omeka\HttpClientNoPrivate), as URL media are, asking for RDF formats as
+     * EasyRdf does when it loads a URL.
      *
      * @param string $url
      * @return string The file's contents
@@ -568,26 +578,18 @@ class RdfImporter
      */
     public function fetchFile($url)
     {
-        $accept = 'application/ld+json,application/rdf+xml;q=0.9,text/turtle;q=0.8,application/n-triples;q=0.7';
-        $client = Http::getDefaultHttpClient();
-        $client->resetParameters(true);
-        $client->setUri($url);
-        // Follow redirects, as from purl.org or http to https. EasyRdf's
-        // Graph::load() turns the shared client's following off, since it
-        // follows them itself, and the setting outlasts it.
-        if ($client instanceof HttpClient) {
-            $client->setConfig(['maxredirects' => self::MAX_REDIRECTS]);
-            $client->setHeaders('Accept', $accept);
-        } else {
-            $client->setOptions(['maxredirects' => self::MAX_REDIRECTS]);
-            $client->setHeaders(['Accept' => $accept]);
-        }
+        $client = $this->httpClient ?? new ClientNoPrivate;
         try {
-            $response = $client->request('GET');
+            $client->setUri($url);
+            $client->setMethod('GET');
+            $client->setHeaders(['Accept' => 'application/ld+json,application/rdf+xml;q=0.9,text/turtle;q=0.8,application/n-triples;q=0.7']);
+            // Follow redirects, as from purl.org or http to https.
+            $client->setOptions(['maxredirects' => self::MAX_REDIRECTS]);
+            $response = $client->send();
         } catch (\Exception $e) {
-            throw new ValidationException('Could not load vocabulary from URL.'); // @translate
+            throw new ValidationException('Could not load vocabulary from URL.', 0, $e); // @translate
         }
-        if (!$response->isSuccessful()) {
+        if (!$response->isSuccess()) {
             throw new ValidationException('Could not load vocabulary from URL.'); // @translate
         }
         return $response->getBody();

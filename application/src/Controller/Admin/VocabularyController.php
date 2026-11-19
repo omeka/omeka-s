@@ -172,7 +172,7 @@ class VocabularyController extends AbstractActionController
         // may be another vocabulary's, where a file redeclares terms it reuses.
         $namespaceUri = trim((string) $form->get('vocabulary-info')->get('o:namespace_uri')->getValue());
         $other = '' === $namespaceUri ? null : $this->getVocabularyWithNamespace($namespaceUri);
-        $updatable = $other && $this->userMayUpdate($other) ? $other : null;
+        $updatable = $other && $other->userMayUpdate() ? $other : null;
         // The choices start with those an import was handed, else, for a
         // vocabulary the admin may update, those it was read with, so the
         // list and the review Review changes leads to read the file as before
@@ -516,17 +516,6 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Whether the user may update a vocabulary: not a permanent one, and theirs.
-     *
-     * @param \Omeka\Api\Representation\VocabularyRepresentation $vocabulary
-     * @return bool
-     */
-    protected function userMayUpdate($vocabulary)
-    {
-        return !$vocabulary->isPermanent() && $vocabulary->userIsAllowed('update');
-    }
-
-    /**
      * Start the import details' choices with import options: those given,
      * with a language the file doesn't have under Another language.
      *
@@ -687,7 +676,7 @@ class VocabularyController extends AbstractActionController
     protected function getAlreadyHasMessage($vocabulary)
     {
         $message = new Message(
-            $this->userMayUpdate($vocabulary)
+            $vocabulary->userMayUpdate()
                 ? '%s already uses this namespace URI. To update it from the file, click Review changes. To import the file as a new vocabulary, enter its own namespace URI.' // @translate
                 : '%s already uses this namespace URI. To import the file as a new vocabulary, enter its own namespace URI.', // @translate
             sprintf('<a href="%s">%s</a>', htmlspecialchars($vocabulary->url()), htmlspecialchars($vocabulary->label()))

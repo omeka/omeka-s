@@ -55,6 +55,18 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     }
 
     /**
+     * Check whether the current user may change this vocabulary, by editing
+     * it or updating its classes and properties: one the user may update,
+     * and not a permanent one, which no one may change.
+     *
+     * @return bool
+     */
+    public function userMayUpdate()
+    {
+        return !$this->isPermanent() && $this->userIsAllowed('update');
+    }
+
+    /**
      * Return the vocabulary prefix.
      *
      * @return string

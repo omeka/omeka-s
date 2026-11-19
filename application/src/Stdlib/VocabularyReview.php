@@ -211,7 +211,7 @@ class VocabularyReview
         $vocabulary = $this->apiManager->read('vocabularies', $review['vocabulary_id'])->getContent();
         // The importer writes to the vocabulary directly, without the API's
         // permission checks, so check them here.
-        if ($vocabulary->isPermanent() || !$vocabulary->userIsAllowed('update')) {
+        if (!$vocabulary->userMayUpdate()) {
             throw new PermissionDeniedException('User does not have permission to update this vocabulary');
         }
         $diff = $this->getDiff($review, $importOptions);

@@ -3,6 +3,7 @@ namespace Omeka\Stdlib;
 
 use Laminas\Router\RouteStackInterface;
 use Laminas\Session\Container;
+use Omeka\Form\VocabularyForm;
 
 /**
  * Imports started on the import details page, by Import or by a module that
@@ -57,9 +58,10 @@ class VocabularyImport
      *   caller may then delete it
      * @param array $vocabulary (optional) o:label, o:comment, o:namespace_uri,
      *   and o:prefix, each filled in in place of what the file says
-     * @param array $importOptions (optional) format, and lang,
-     *   label_property, and comment_property, which the page's choices start
-     *   with in place of its defaults
+     * @param array $importOptions (optional) format, one the Import page
+     *   offers (others are guessed); and lang, label_property, and
+     *   comment_property, which the page's choices start with in place of its
+     *   defaults
      * @return string The import details page's URL. The import then ends as
      *   any does, on the new vocabulary's page.
      * @throws \Omeka\Api\Exception\ValidationException When the file can't be
@@ -119,7 +121,12 @@ class VocabularyImport
      */
     protected function begin($fileToken, array $vocabulary, array $importOptions)
     {
+        // As import details read it: a format their File format field doesn't
+        // offer is guessed.
         $format = $importOptions['format'] ?? 'guess';
+        if (!isset(VocabularyForm::FORMATS[$format])) {
+            $format = 'guess';
+        }
         try {
             $this->rdfImporter->getVocabularyDetails('file', ['file' => $this->fileStore->getPath($fileToken), 'format' => $format]);
         } catch (\Exception $e) {

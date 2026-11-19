@@ -247,6 +247,11 @@ class VocabularyReviewTest extends DbTestCase
         }
         // No file kept for any of them.
         $this->assertSame($files, glob($pattern));
+        // Another form either way round: http://example.org/compare/# has
+        // the vocabulary's as a form, though not the other way.
+        $getVocabulary = new \ReflectionMethod($this->review, 'getVocabularyToReview');
+        $vocabulary = $getVocabulary->invoke($this->review, $this->vocabularyId, ['new_namespace_uri' => 'http://example.org/compare/#']);
+        $this->assertSame($this->vocabularyId, $vocabulary->id());
         // The vocabulary's own namespace URI is no change.
         $token = $this->start('compare.ttl', ['format' => 'turtle'], ['new_namespace_uri' => self::NAMESPACE_URI]);
         $this->assertNull($this->review->get($token)['new_namespace_uri']);

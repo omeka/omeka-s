@@ -174,14 +174,19 @@ class VocabularyController extends AbstractActionController
         $namespaceUri = trim((string) $form->get('vocabulary-info')->get('o:namespace_uri')->getValue());
         $other = '' === $namespaceUri ? null : $this->getVocabularyWithNamespace($namespaceUri);
         $updatable = $other && $other->userMayUpdate() ? $other : null;
-        // The choices start with those an import was handed, else, for a
-        // vocabulary the admin may update, those it was read with, so the
-        // list and the review Review changes leads to read the file as before
-        // until a choice changes.
-        if (!$request->isPost() && $handOff && $handOff['import_options']) {
-            $this->setStartingChoices($form, $handOff['import_options'], $details['languages']);
-        } elseif (!$request->isPost() && $updatable && null !== $updatable->importOptions()) {
-            $this->setStartingChoices($form, $updatable->importOptions(), $details['languages']);
+        // The choices start, for a vocabulary the admin may update, as it was
+        // read, so the list and the review Review changes leads to read the
+        // file as before until a choice changes; one it was read without, as
+        // no choice. Those an import was handed go over them.
+        if (!$request->isPost()) {
+            $stored = $updatable ? $updatable->importOptions() : null;
+            $startingChoices = array_replace(
+                null === $stored ? [] : $stored + array_fill_keys(VocabularyImport::CHOICES, null),
+                $handOff['import_options'] ?? []
+            );
+            if ($startingChoices) {
+                $this->setStartingChoices($form, $startingChoices, $details['languages']);
+            }
         }
         // For importing and for the list: each import option, null where not
         // chosen.
@@ -656,14 +661,21 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get a vocabulary with a namespace URI, in any form.
+     * Get a vocabulary with a namespace URI, in any form: the one with it as
+     * given, where an installation has vocabularies in two forms of it.
      *
      * @param string $namespaceUri
      * @return \Omeka\Api\Representation\VocabularyRepresentation|null
      */
     protected function getVocabularyWithNamespace($namespaceUri)
     {
-        return $this->api()->searchOne('vocabularies', ['namespace_uri' => Vocabulary::getNamespaceUriForms($namespaceUri)])->getContent();
+        $vocabularies = $this->api()->search('vocabularies', ['namespace_uri' => Vocabulary::getNamespaceUriForms($namespaceUri)])->getContent();
+        foreach ($vocabularies as $vocabulary) {
+            if ($vocabulary->namespaceUri() === $namespaceUri) {
+                return $vocabulary;
+            }
+        }
+        return $vocabularies[0] ?? null;
     }
 
     /**

@@ -268,9 +268,12 @@ class VocabularyReview
         if (null === $newNamespaceUri || $newNamespaceUri === $vocabulary->namespaceUri()) {
             return $vocabulary;
         }
-        // In any case, as Omeka finds a vocabulary by its namespace URI.
-        $forms = array_map('strtolower', Vocabulary::getNamespaceUriForms($vocabulary->namespaceUri()));
-        if (!in_array(strtolower($newNamespaceUri), $forms, true)) {
+        // Either way round, since a form drops every closing "#" and "/"
+        // (http://example.org/ns/# has http://example.org/ns# as a form, but
+        // not the other way), and in any case, as Omeka finds a vocabulary by
+        // its namespace URI.
+        $isFormOf = fn ($a, $b) => in_array(strtolower($a), array_map('strtolower', Vocabulary::getNamespaceUriForms($b)), true);
+        if (!$isFormOf($newNamespaceUri, $vocabulary->namespaceUri()) && !$isFormOf($vocabulary->namespaceUri(), $newNamespaceUri)) {
             throw new \InvalidArgumentException('A review\'s new namespace URI must be another form of the vocabulary\'s.');
         }
         $holders = $this->apiManager->search('vocabularies', ['namespace_uri' => Vocabulary::getNamespaceUriForms($newNamespaceUri)])->getContent();

@@ -1083,6 +1083,13 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame(200, $this->requestAs(self::ADMIN, 'GET', $url));
     }
 
+    public function testAHandedFormatImportDetailsDoNotOfferIsGuessed()
+    {
+        $url = $this->handImport('markup.ttl', [], ['format' => 'n3']);
+        $this->assertStringEndsWith('&format=guess', $url);
+        $this->assertSame(200, $this->requestAs(self::ADMIN, 'GET', $url));
+    }
+
     public function testEndingAnImportForgetsItAndRemovesItsFile()
     {
         $url = $this->handImport('markup.ttl', ['o:label' => 'Markup'], ['format' => 'turtle']);
@@ -1333,6 +1340,62 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $page = html_entity_decode($page, ENT_QUOTES | ENT_HTML5);
         $this->assertStringContainsString('<option value="fr" selected>', $page);
         $this->assertStringContainsString('<option value="definition" selected>', $page);
+    }
+
+    public function testAHandedImportOfAVocabularyOmekaHasStartsAsItWasReadWithWhatItWasHanded()
+    {
+        $this->api()->update('vocabularies', $this->vocabularyId, [
+            'o:import_options' => ['format' => 'turtle', 'lang' => 'fr', 'comment_property' => RdfImporter::DEFINITION_COMMENT_PROPERTY],
+        ], [], ['isPartial' => true]);
+        $url = $this->handImport('multilingual-name.ttl', [], ['format' => 'turtle', 'lang' => 'en']);
+        $this->requestAs(self::ADMIN, 'GET', $url);
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        // The language it was handed, and the comments as Omeka read them.
+        $this->assertMatchesRegularExpression('#name="vocabulary-advanced\[lang\]".*?<option value="en" selected>#s', $page);
+        $this->assertStringContainsString('<option value="definition" selected>', $page);
+    }
+
+    public function testImportDetailsOfAVocabularyReadWithoutALanguageStartOnFirstAvailable()
+    {
+        // Import options given through the API may leave the language out,
+        // which reads the file as First available does.
+        $this->api()->update('vocabularies', $this->vocabularyId, ['o:import_options' => ['format' => 'turtle']], [], ['isPartial' => true]);
+        $this->assertSame(302, $this->startImport('multilingual-name.ttl'));
+        $url = $this->importDetailsUrl();
+        $this->requestAs(self::ADMIN, 'GET', $url);
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        $this->assertMatchesRegularExpression('#name="vocabulary-advanced\[lang\]"[^>]*><option value="" selected>#', $page);
+    }
+
+    public function testImportDetailsFindTheVocabularyWithTheNamespaceUriAsGiven()
+    {
+        // As an installation may have from before Omeka refused another form
+        // of a namespace URI: the tests' vocabulary in http, and one in https.
+        $https = $this->api()->create('vocabularies', [
+            'o:namespace_uri' => 'https://example.org/review#',
+            'o:prefix' => 'reviewhttps',
+            'o:label' => 'Review in https',
+        ])->getContent();
+        try {
+            // Its terms are in the https form.
+            $this->assertSame(302, $this->startImport('other-form.ttl'));
+            $url = $this->importDetailsUrl();
+            $this->requestAs(self::ADMIN, 'GET', $url);
+            $text = strip_tags(html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
+            $this->assertStringContainsString('Review in https already uses this namespace URI.', $text);
+            // And Review changes reviews that one.
+            $this->assertSame(302, $this->requestAs(self::ADMIN, 'POST', $url, [
+                'vocabulary-info' => ['o:label' => '', 'o:comment' => '', 'o:namespace_uri' => 'https://example.org/review#', 'o:prefix' => ''],
+                'update' => '1',
+            ] + $this->csrfField(VocabularyForm::class)));
+            $location = $this->getResponse()->getHeaders()->get('Location')->getUri();
+            $this->assertStringStartsWith(sprintf('/admin/vocabulary/%s/review?review=', $https->id()), $location);
+            $this->tokens[] = substr($location, strpos($location, '=') + 1);
+        } finally {
+            $this->reset(true);
+            $this->signIn();
+            $this->api()->delete('vocabularies', $https->id());
+        }
     }
 
     public function testImportDetailsOfAVocabularyOmekaHasStartAsItWasRead()

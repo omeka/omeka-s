@@ -164,17 +164,29 @@ class VocabularyController extends AbstractActionController
         if ($request->isPost()) {
             $form->setData($request->getPost()->toArray());
         }
+        // A vocabulary Omeka has under any form of the namespace URI. One found
+        // may be another vocabulary's, where a file redeclares terms it reuses.
+        $namespaceUri = trim((string) $form->get('vocabulary-info')->get('o:namespace_uri')->getValue());
+        $other = '' === $namespaceUri ? null : $this->getVocabularyWithNamespace($namespaceUri);
+        $updatable = $other && $this->userMayUpdate($other) ? $other : null;
+        // One the admin may update starts with the choices it was read with,
+        // so the list, and the review Review changes leads to, read the file
+        // as before until a choice changes.
+        if (!$request->isPost() && $updatable && null !== $updatable->importOptions()) {
+            $values = VocabularyForm::getChoiceValues($updatable->importOptions());
+            // A language the file no longer has, under Another language.
+            if ('' !== $values['lang'] && !in_array($values['lang'], $details['languages'], true)) {
+                $values['other_lang'] = $values['lang'];
+                $values['lang'] = 'other';
+            }
+            $form->get('vocabulary-advanced')->populateValues($values);
+        }
         // For importing and for the list: each import option, null where not
         // chosen.
-        $namespaceUri = trim((string) $form->get('vocabulary-info')->get('o:namespace_uri')->getValue());
         $options = array_replace(
             ['file' => $path, 'format' => $format, 'lang' => null, 'label_property' => null, 'comment_property' => null],
             VocabularyForm::getChosenImportOptions(array_map(fn ($element) => $element->getValue(), $form->get('vocabulary-advanced')->getElements()))
         );
-        // A vocabulary Omeka has under any form of the namespace URI. One found
-        // may be another vocabulary's, where a file redeclares terms it reuses.
-        $other = '' === $namespaceUri ? null : $this->getVocabularyWithNamespace($namespaceUri);
-        $updatable = $other && $this->userMayUpdate($other) ? $other : null;
         // A refusal says why itself, so the list doesn't say it again.
         $refused = false;
         $valid = $isImport && $form->isValid();

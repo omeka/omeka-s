@@ -512,11 +512,13 @@ class RdfImporter
         $labelProperty = $options['label_property'] ?? self::LABEL_PROPERTY;
         $graph = $this->getGraph($strategy, $namespaceUri, $options);
         $stored = $this->getStoredMembers($this->getStoredVocabulary($namespaceUri, $options));
-        $languages = $this->getGraphLanguages($graph, $namespaceUri, $labelProperty);
+        $coverage = $this->countGraphLanguages($graph, $namespaceUri, $labelProperty);
+        $languages = array_keys($coverage);
+        sort($languages);
 
-        // Ties go to the default language; none ("First available") wins only
-        // outright.
-        $default = $this->getMatchingLanguage(null, $languages) ?? ($languages[0] ?? null);
+        // Ties go to the default language, chosen as import details choose
+        // theirs; none ("First available") wins only outright.
+        $default = $this->getMatchingLanguage(null, $languages, $coverage) ?? ($languages[0] ?? null);
         $lang = $default;
         $mostMatches = -1;
         foreach (array_unique(array_merge([$default], $languages, [null])) as $candidate) {

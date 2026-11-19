@@ -784,6 +784,9 @@ class RdfImporterTest extends DbTestCase
             'in the first available' => ['multilingual.ttl', 'http://example.org/multi#', [], ['lang' => 'en', 'comment_property' => $comment]],
             'definitions' => ['definitions.ttl', 'http://example.org/defs#', ['comment_property' => $definition], ['lang' => null, 'comment_property' => $definition]],
             'comments' => ['definitions.ttl', 'http://example.org/defs#', ['comment_property' => $comment], ['lang' => null, 'comment_property' => $comment]],
+            // Each class has one label, so every language ties, and the tie
+            // goes to the language covering the most, as on import details.
+            'the best covered, in a tie' => ['details-double-typed.ttl', 'http://example.org/twice#', ['lang' => 'en'], ['lang' => 'en-US', 'comment_property' => $comment]],
         ];
     }
 

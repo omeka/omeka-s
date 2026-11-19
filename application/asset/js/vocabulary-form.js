@@ -37,13 +37,31 @@ $('[data-other-field]').each(function() {
     choice.on('change', toggle);
 });
 
-// Under a Show button: once a field the result below depends on changes, say
-// that the result was shown with the earlier values.
+// Whether a field's value differs from the one the page was drawn with.
+const isChanged = function(field) {
+    if ('SELECT' === field.tagName) {
+        // Drawn with no option selected, a select shows its first.
+        const drawn = [...field.options].findIndex((option) => option.defaultSelected);
+        return field.selectedIndex !== Math.max(0, drawn);
+    }
+    if ('checkbox' === field.type || 'radio' === field.type) {
+        return field.checked !== field.defaultChecked;
+    }
+    return field.value !== field.defaultValue;
+};
+
+// Under a Show button: says the result below was shown with other values
+// while a field it depends on differs from the one the page was drawn with,
+// as after a change, or when the browser restores changed values on Back.
 $('.review-stale').each(function() {
     const note = $(this);
-    note.closest('form').find(note.data('watch')).on('input change', function() {
-        note.prop('hidden', false);
-    });
+    const fields = note.closest('form').find(note.data('watch'));
+    const update = function() {
+        note.prop('hidden', !fields.toArray().some(isChanged));
+    };
+    fields.on('input change', update);
+    $(window).on('pageshow', update);
+    update();
 });
 
 $('#vocabulary-form').on('submit', function(e) {

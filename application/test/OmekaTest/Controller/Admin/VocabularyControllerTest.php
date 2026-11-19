@@ -1157,6 +1157,44 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString('<option value="definition" selected>', $page);
     }
 
+    public function testImportDetailsOfAVocabularyOmekaHasStartAsItWasRead()
+    {
+        $this->api()->update('vocabularies', $this->vocabularyId, [
+            'o:import_options' => ['format' => 'turtle', 'lang' => 'fr', 'comment_property' => RdfImporter::DEFINITION_COMMENT_PROPERTY],
+        ], [], ['isPartial' => true]);
+        $this->assertSame(302, $this->startImport('multilingual-name.ttl'));
+        $url = $this->importDetailsUrl();
+        $this->requestAs(self::ADMIN, 'GET', $url);
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        $this->assertMatchesRegularExpression('#name="vocabulary-advanced\[lang\]".*?<option value="fr" selected>#s', $page);
+        $this->assertStringContainsString('<option value="definition" selected>', $page);
+        // The list reads it so too.
+        $this->assertMatchesRegularExpression('#<span class="field-term">name</span></td>\s*<td><span class="review-value">Nom</span>#', $page);
+        // And so does the review, with the page left as it was.
+        $this->assertSame(302, $this->requestAs(self::ADMIN, 'POST', $url, [
+            'vocabulary-info' => ['o:label' => '', 'o:comment' => '', 'o:namespace_uri' => 'http://example.org/review#', 'o:prefix' => ''],
+            'vocabulary-advanced' => ['lang' => 'fr', 'comments' => 'definition', 'label_property' => '', 'comment_property' => ''],
+            'update' => '1',
+        ] + $this->csrfField(VocabularyForm::class)));
+        $location = $this->getResponse()->getHeaders()->get('Location')->getUri();
+        $token = $this->tokens[] = substr($location, strpos($location, '=') + 1);
+        $page = html_entity_decode($this->reviewPage($token), ENT_QUOTES | ENT_HTML5);
+        $this->assertStringContainsString('<option value="fr" selected>', $page);
+        $this->assertStringContainsString('<option value="definition" selected>', $page);
+    }
+
+    public function testImportDetailsStartOnALanguageTheFileNoLongerHasAsAnother()
+    {
+        $this->api()->update('vocabularies', $this->vocabularyId, [
+            'o:import_options' => ['format' => 'turtle', 'lang' => 'de'],
+        ], [], ['isPartial' => true]);
+        $this->assertSame(302, $this->startImport('multilingual-name.ttl'));
+        $this->requestAs(self::ADMIN, 'GET', $this->importDetailsUrl());
+        $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+        $this->assertStringContainsString('<option value="other" selected>Another language…</option>', $page);
+        $this->assertMatchesRegularExpression('#<input type="text" name="vocabulary-advanced\[other_lang\]"[^>]*value="de"#', $page);
+    }
+
     public function testReviewChangesNeedsTheFormsCsrfField()
     {
         $this->assertSame(302, $this->startImport('markup.ttl'));

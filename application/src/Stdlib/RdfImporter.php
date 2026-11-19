@@ -14,12 +14,15 @@ class RdfImporter
 {
     /**
      * The properties a term's label is read from by default, in order.
+     * Vocabularies' import options store this value, so it must never
+     * change.
      */
     const LABEL_PROPERTY = 'skos:prefLabel|rdfs:label|foaf:name|rss:title|dc:title|dc11:title';
 
     /**
      * The default comment property: a term's comment, else its definition,
-     * else its description.
+     * else its description. Vocabularies' import options store this value, so
+     * it must never change.
      */
     const COMMENT_PROPERTY = 'rdfs:comment|skos:definition|dcterms:description|dc11:description';
 
@@ -28,6 +31,7 @@ class RdfImporter
      * comment, else its description. A description comes last either way: in
      * Dublin Core, for one, it's a note on usage, such as "Recommended
      * practice is…", where the comment says what the term means.
+     * Vocabularies' import options store this value, so it must never change.
      */
     const DEFINITION_COMMENT_PROPERTY = 'skos:definition|rdfs:comment|dcterms:description|dc11:description';
 

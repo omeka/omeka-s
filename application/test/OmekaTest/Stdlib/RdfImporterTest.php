@@ -4,6 +4,9 @@ namespace Omeka\Stdlib;
 use EasyRdf\Http;
 use EasyRdf\Http\Client as HttpClient;
 use EasyRdf\Http\Response;
+use Laminas\Http\Client as LaminasClient;
+use Laminas\Http\Request as LaminasRequest;
+use Laminas\Http\Response as LaminasResponse;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Test\DbTestCase;
 
@@ -727,6 +730,83 @@ class RdfImporterTest extends DbTestCase
             $detail = (string) $e->getErrorStore()->getErrors()['term'][0];
             $this->assertStringStartsWith('http://example.org/invalid#Thing: ', $detail);
         }
+    }
+
+    /**
+     * A client answering fetchFile()'s requests in turn, keeping each one's
+     * Accept header. Like Laminas' client told to follow no redirects, it
+     * moves to a redirect's location without following it.
+     *
+     * @param LaminasResponse[] $responses
+     * @return LaminasClient
+     */
+    protected function answerFetches(array $responses)
+    {
+        $client = new class extends LaminasClient {
+            public $responses = [];
+            public $accepts = [];
+
+            public function send(?LaminasRequest $request = null)
+            {
+                $accept = $this->getRequest()->getHeaders()->get('Accept');
+                $this->accepts[] = $accept ? $accept->getFieldValue() : null;
+                $response = array_shift($this->responses);
+                if ($response->isRedirect()) {
+                    $this->resetParameters(false, false);
+                    $this->setUri($response->getHeaders()->get('Location')->getFieldValue());
+                }
+                return $response;
+            }
+        };
+        $client->responses = $responses;
+        return $client;
+    }
+
+    protected function redirectTo($location)
+    {
+        $response = (new LaminasResponse)->setStatusCode(302);
+        $response->getHeaders()->addHeaderLine('Location', $location);
+        return $response;
+    }
+
+    protected function fetchingImporter(LaminasClient $client)
+    {
+        $services = self::getApplication()->getServiceManager();
+        return new RdfImporter($services->get('Omeka\ApiManager'), $services->get('Omeka\EntityManager'), $client);
+    }
+
+    public function testFetchingAsksForRdfAtEachRedirect()
+    {
+        // As purl.org's addresses redirect, where a server that answers by
+        // format would send its web page to a request without the header.
+        $client = $this->answerFetches([
+            $this->redirectTo('https://example.org/vocabulary'),
+            $this->redirectTo('https://example.org/vocabulary.ttl'),
+            (new LaminasResponse)->setStatusCode(200)->setContent('The file'),
+        ]);
+        $this->assertSame('The file', $this->fetchingImporter($client)->fetchFile('http://example.org/vocabulary'));
+        $this->assertCount(3, $client->accepts);
+        foreach ($client->accepts as $accept) {
+            $this->assertStringContainsString('text/turtle', (string) $accept);
+        }
+        $this->assertSame('https://example.org/vocabulary.ttl', $client->getUri()->toString());
+    }
+
+    public function testFetchingStopsAfterTooManyRedirects()
+    {
+        $responses = [];
+        for ($i = 0; $i <= RdfImporter::MAX_REDIRECTS + 1; $i++) {
+            $responses[] = $this->redirectTo('https://example.org/' . $i);
+        }
+        $client = $this->answerFetches($responses);
+        try {
+            $this->fetchingImporter($client)->fetchFile('http://example.org/vocabulary');
+            $this->fail('The redirects were followed without end');
+        } catch (ValidationException $e) {
+            $this->assertSame('Could not load vocabulary from URL.', $e->getMessage());
+        }
+        // The first request and one for each redirect followed.
+        $this->assertCount(RdfImporter::MAX_REDIRECTS + 1, $client->accepts);
     }
 
     public function testFetchingAPrivateAddressIsRefused()

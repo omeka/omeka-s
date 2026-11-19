@@ -292,19 +292,17 @@ class VocabularyReviewTest extends DbTestCase
      * @param int $status
      * @param string $body
      * @return HttpClient The client answering, which counts the requests in
-     *   $requests and keeps the redirects it was told to follow
+     *   $requests
      */
     protected function answerRequests($status, $body)
     {
         $client = new class extends HttpClient {
             public $response;
             public $requests = 0;
-            public $maxRedirects;
 
             public function send(?Request $request = null)
             {
                 $this->requests++;
-                $this->maxRedirects = $this->config['maxredirects'];
                 return $this->response;
             }
         };
@@ -326,14 +324,6 @@ class VocabularyReviewTest extends DbTestCase
         $this->review->getDiff($review, $review['import_options']);
         $this->assertSame(1, $client->requests);
         $this->review->cancel($token);
-    }
-
-    public function testStartFromUrlFollowsRedirects()
-    {
-        $client = $this->answerRequests(200, file_get_contents(__DIR__ . '/_files/compare.ttl'));
-        $url = $this->review->startFromUrl($this->vocabularyId, 'http://example.org/compare.ttl', ['format' => 'turtle']);
-        $this->assertSame(RdfImporter::MAX_REDIRECTS, $client->maxRedirects);
-        $this->review->cancel(substr($url, strpos($url, '=') + 1));
     }
 
     public function testStartFromUrlTheServerRefuses()

@@ -52,8 +52,8 @@ class RdfImporter
     const MEMORY_LIMIT = '256M';
 
     /**
-     * How many redirects fetching a URL follows: 5, as EasyRdf's and Laminas'
-     * HTTP clients follow by default.
+     * How many redirects fetching a URL follows: 5, as EasyRdf's HTTP client
+     * follows by default.
      */
     const MAX_REDIRECTS = 5;
 
@@ -581,11 +581,19 @@ class RdfImporter
         $client = $this->httpClient ?? new ClientNoPrivate;
         try {
             $client->setUri($url);
-            $client->setMethod('GET');
-            $client->setHeaders(['Accept' => 'application/ld+json,application/rdf+xml;q=0.9,text/turtle;q=0.8,application/n-triples;q=0.7']);
-            // Follow redirects, as from purl.org or http to https.
-            $client->setOptions(['maxredirects' => self::MAX_REDIRECTS]);
-            $response = $client->send();
+            // Follow redirects, as from purl.org or http to https, here rather
+            // than in the client, which drops the Accept header when it
+            // follows one, so a server that answers by format, as
+            // dublincore.org does, would send its web page. Told to follow
+            // none, the client still moves to a redirect's location, so
+            // sending again follows it.
+            $client->setOptions(['maxredirects' => 0]);
+            $redirects = 0;
+            do {
+                $client->setMethod('GET');
+                $client->setHeaders(['Accept' => 'application/ld+json,application/rdf+xml;q=0.9,text/turtle;q=0.8,application/n-triples;q=0.7']);
+                $response = $client->send();
+            } while ($response->isRedirect() && $response->getHeaders()->has('Location') && $redirects++ < self::MAX_REDIRECTS);
         } catch (\Exception $e) {
             throw new ValidationException('Could not load vocabulary from URL.', 0, $e); // @translate
         }

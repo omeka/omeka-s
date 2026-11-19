@@ -1166,6 +1166,9 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString(sprintf('<a href="/admin/vocabulary/%s">Review</a>', $this->vocabularyId), $page);
         // After Import, which Enter still means.
         $this->assertMatchesRegularExpression('#<button>Import</button>\s*<button type="submit" name="update" value="1" formnovalidate>Review changes</button>#', $page);
+        // Without the file's classes and properties, which importing under
+        // the namespace URI wouldn't add.
+        $this->assertStringNotContainsString('class="field-term"', $page);
         // Refused if it's kept.
         try {
             $this->assertSame(200, $this->finishImport($url, [
@@ -1190,6 +1193,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $text = strip_tags(html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
         $this->assertStringContainsString('Dublin Core already uses this namespace URI. To import the file as a new vocabulary, enter its own namespace URI.', $text);
         $this->assertStringNotContainsString('Review changes', $text);
+        $this->assertStringNotContainsString('class="field-term"', $this->getResponse()->getContent());
         // Nor will it start a review.
         $this->assertSame(200, $this->requestAs(self::ADMIN, 'POST', $url, [
             'vocabulary-info' => ['o:label' => 'Title', 'o:comment' => '', 'o:namespace_uri' => 'http://purl.org/dc/terms/', 'o:prefix' => ''],
@@ -1247,9 +1251,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
         $this->assertMatchesRegularExpression('#name="vocabulary-advanced\[lang\]".*?<option value="fr" selected>#s', $page);
         $this->assertStringContainsString('<option value="definition" selected>', $page);
-        // The list reads it so too.
-        $this->assertMatchesRegularExpression('#<span class="field-term">name</span></td>\s*<td><span class="review-value">Nom</span>#', $page);
-        // And so does the review, with the page left as it was.
+        // The review reads it so, with the page left as it was.
         $this->assertSame(302, $this->requestAs(self::ADMIN, 'POST', $url, [
             'vocabulary-info' => ['o:label' => '', 'o:comment' => '', 'o:namespace_uri' => 'http://example.org/review#', 'o:prefix' => ''],
             'vocabulary-advanced' => ['lang' => 'fr', 'comments' => 'definition', 'label_property' => '', 'comment_property' => ''],

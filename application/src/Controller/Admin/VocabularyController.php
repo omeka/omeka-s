@@ -195,7 +195,7 @@ class VocabularyController extends AbstractActionController
             ['file' => $path, 'format' => $format, 'lang' => null, 'label_property' => null, 'comment_property' => null],
             VocabularyForm::getChosenImportOptions(array_map(fn ($element) => $element->getValue(), $form->get('vocabulary-advanced')->getElements()))
         );
-        // A refusal says why itself, so the list doesn't say it again.
+        // A failed import says why itself, so the list doesn't say it again.
         $refused = false;
         $valid = $isImport && $form->isValid();
         if ($updatable && $request->getPost('update')) {
@@ -214,7 +214,6 @@ class VocabularyController extends AbstractActionController
                     $this->fileStore->remove($token);
                     return $this->redirect()->toUrl($reviewUrl);
                 } catch (\Exception $e) {
-                    $refused = true;
                     $this->messenger()->addErrors($this->getErrors($e));
                 }
             }
@@ -244,7 +243,6 @@ class VocabularyController extends AbstractActionController
         if ($other) {
             if ($valid) {
                 // Importing it would duplicate its terms.
-                $refused = true;
                 $this->messenger()->addError($this->getAlreadyHasMessage($other));
             } else {
                 // Said before an import is refused for it.
@@ -256,7 +254,9 @@ class VocabularyController extends AbstractActionController
         $view->setVariable('details', $details);
         // The vocabulary Review changes updates from the file.
         $view->setVariable('updatable', $updatable);
-        $view->setVariable('members', $this->getImportPreview($namespaceUri, $options, !$refused));
+        // None under a namespace URI Omeka has, since importing under it is
+        // refused.
+        $view->setVariable('members', $other ? null : $this->getImportPreview($namespaceUri, $options, !$refused));
         return $view;
     }
 

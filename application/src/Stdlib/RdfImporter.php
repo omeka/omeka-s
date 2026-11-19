@@ -566,7 +566,8 @@ class RdfImporter
 
     /**
      * Count the classes and properties in a namespace, or in any, that have
-     * a property's values in each language.
+     * a property's values in each language: each once, though it may have
+     * more than one type, such as rdfs:Class and owl:Class.
      *
      * @see self::getGraphLanguages()
      * @param RdfGraph $graph
@@ -577,11 +578,14 @@ class RdfImporter
     protected function countGraphLanguages(RdfGraph $graph, $namespaceUri, $property)
     {
         $counts = [];
+        $counted = [];
         foreach (array_merge($this->classTypes, $this->propertyTypes) as $type) {
             foreach ($graph->allOfType($type) as $resource) {
-                if (null !== $namespaceUri && $resource->getUri() !== $namespaceUri . $resource->localName()) {
+                $uri = $resource->getUri();
+                if (isset($counted[$uri]) || (null !== $namespaceUri && $uri !== $namespaceUri . $resource->localName())) {
                     continue;
                 }
+                $counted[$uri] = true;
                 try {
                     $literals = $this->getLiterals($resource, $property);
                 } catch (ValidationException $e) {

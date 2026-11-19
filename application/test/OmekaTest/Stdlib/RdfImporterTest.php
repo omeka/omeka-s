@@ -390,6 +390,12 @@ class RdfImporterTest extends DbTestCase
         $this->assertSame('en-GB', $this->details('details-regional.ttl', ['lang' => 'en-gb'])['lang']);
     }
 
+    public function testVocabularyDetailsCountAClassTypedTwiceOnce()
+    {
+        // en labels two classes, each typed twice; en-US labels three.
+        $this->assertSame('en-US', $this->details('details-double-typed.ttl', ['lang' => 'en_US'])['lang']);
+    }
+
     public function testVocabularyDetailsTitleInItsOwnLanguageNearestThePreferredOne()
     {
         // The title has French where the class has no language at all, and

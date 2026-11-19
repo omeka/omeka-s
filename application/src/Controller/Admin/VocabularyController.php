@@ -161,29 +161,39 @@ class VocabularyController extends AbstractActionController
         ]);
         $request = $this->getRequest();
         // Show classes and properties posts the form to show them again,
-        // with what's entered, without importing.
+        // with what's entered, without importing. Review changes posts it to
+        // update the vocabulary Omeka already has from the file instead.
         $isPreview = $request->isPost() && $request->getPost('preview');
+        $isUpdate = $request->isPost() && $request->getPost('update');
         if ($request->isPost()) {
             $form->setData($request->getPost()->toArray());
         }
-        // Say Omeka already has the vocabulary before an import is refused
-        // for it: on arrival, of the namespace URI found, which may be
-        // another vocabulary's, as when a file redeclares terms it reuses;
-        // on Show classes and properties, of the one entered.
-        if (!$request->isPost() || $isPreview) {
-            $namespaceUri = trim((string) $form->get('vocabulary-info')->get('o:namespace_uri')->getValue());
-            $other = '' === $namespaceUri ? null : $this->getVocabularyWithNamespace($namespaceUri);
-            if ($other) {
-                $this->messenger()->addWarning($this->getAlreadyHasMessage($other, !$request->isPost()));
+        // The vocabulary Omeka already has under any form of the namespace
+        // URI: on arrival, the one found, which may be another vocabulary's,
+        // as when a file redeclares terms it reuses; then, the one entered.
+        $namespaceUri = trim((string) $form->get('vocabulary-info')->get('o:namespace_uri')->getValue());
+        $other = '' === $namespaceUri ? null : $this->getVocabularyWithNamespace($namespaceUri);
+        $updatable = $other && $this->userMayUpdate($other) ? $other : null;
+        if ($isUpdate && $updatable) {
+            try {
+                // Read as the vocabulary was, as Update does. Where the file
+                // uses another form of its namespace URI, the review changes
+                // it to the file's along with the rest.
+                $reviewUrl = $this->vocabularyReview->start($updatable->id(), $path, ['format' => $format],
+                    $namespaceUri === $updatable->namespaceUri() ? [] : ['new_namespace_uri' => $namespaceUri]);
+                // The review keeps its own copy, so the import is over.
+                $this->fileStore->remove($token);
+                return $this->redirect()->toUrl($reviewUrl);
+            } catch (\Exception $e) {
+                $this->messenger()->addErrors($this->getErrors($e));
             }
         }
         $importRefused = false;
-        if ($request->isPost() && !$isPreview) {
+        if ($request->isPost() && !$isPreview && !$isUpdate) {
             if ($form->isValid()) {
                 $data = $form->getData();
                 // Refuse a vocabulary Omeka already has under any form of
                 // this namespace URI: importing it would duplicate its terms.
-                $other = $this->getVocabularyWithNamespace($data['vocabulary-info']['o:namespace_uri']);
                 if ($other) {
                     $importRefused = true;
                     $this->messenger()->addError($this->getAlreadyHasMessage($other));
@@ -211,10 +221,15 @@ class VocabularyController extends AbstractActionController
             } else {
                 $this->messenger()->addFormErrors($form);
             }
+        } elseif ($other) {
+            // Said before an import is refused for it.
+            $this->messenger()->addWarning($this->getAlreadyHasMessage($other));
         }
         $view = new ViewModel;
         $view->setVariable('form', $form);
         $view->setVariable('details', $details);
+        // The vocabulary Review changes updates from the file.
+        $view->setVariable('updatable', $updatable);
         // A refused import has said why already.
         $view->setVariable('members', $this->getImportPreview($path, $format, $form, !$importRefused));
         return $view;
@@ -491,6 +506,18 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
+     * Whether the user may update a vocabulary: not one of Omeka's own, and
+     * theirs to change.
+     *
+     * @param \Omeka\Api\Representation\VocabularyRepresentation $vocabulary
+     * @return bool
+     */
+    protected function userMayUpdate($vocabulary)
+    {
+        return !$vocabulary->isPermanent() && $vocabulary->userIsAllowed('update');
+    }
+
+    /**
      * Get a review of the vocabulary, or say it has ended.
      *
      * @param string $token
@@ -732,35 +759,21 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get the message that Omeka already has a vocabulary being imported.
+     * Get the message that a vocabulary Omeka has already uses the namespace
+     * URI an import gives, in any form, with what the admin may do instead:
+     * as a warning before Import, and as Import's refusal.
      *
      * @param \Omeka\Api\Representation\VocabularyRepresentation $vocabulary
-     * @param bool $found Whether its namespace URI was read from the file,
-     *   rather than entered by the admin
      * @return Message
      */
-    protected function getAlreadyHasMessage($vocabulary, $found = false)
+    protected function getAlreadyHasMessage($vocabulary)
     {
-        $mayUpdate = !$vocabulary->isPermanent() && $vocabulary->userIsAllowed('update');
-        $link = sprintf('<a href="%s">%s</a>', htmlspecialchars($vocabulary->url()), htmlspecialchars($vocabulary->label()));
-        $namespaceUri = htmlspecialchars($vocabulary->namespaceUri());
-        if ($found) {
-            $message = new Message(
-                $mayUpdate
-                    ? 'Omeka already has a vocabulary with the namespace URI this file appears to use, "%1$s": %2$s. If the file is that vocabulary, use Update classes and properties on its page instead. If not, enter the file\'s own namespace URI below.' // @translate
-                    : 'Omeka already has a vocabulary with the namespace URI this file appears to use, "%1$s": %2$s. If the file is a different vocabulary, enter its own namespace URI below.', // @translate
-                $namespaceUri,
-                $link
-            );
-        } else {
-            $message = new Message(
-                $mayUpdate
-                    ? 'Omeka already has this vocabulary, as "%1$s" with the namespace URI "%2$s". To update it, use Update classes and properties on its page.' // @translate
-                    : 'Omeka already has this vocabulary, as "%1$s" with the namespace URI "%2$s".', // @translate
-                $link,
-                $namespaceUri
-            );
-        }
+        $message = new Message(
+            $this->userMayUpdate($vocabulary)
+                ? '%s already uses this namespace URI. To update it from the file, click Review changes. To import the file as a new vocabulary, enter its own namespace URI.' // @translate
+                : '%s already uses this namespace URI. To import the file as a new vocabulary, enter its own namespace URI.', // @translate
+            sprintf('<a href="%s">%s</a>', htmlspecialchars($vocabulary->url()), htmlspecialchars($vocabulary->label()))
+        );
         $message->setEscapeHtml(false);
         return $message;
     }

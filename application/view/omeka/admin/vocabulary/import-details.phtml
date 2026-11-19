@@ -30,6 +30,10 @@ if (null !== $members) {
     <?php // To the list the import started from. The file stays in the file store until it's cleared out, after a day. ?>
     <?php echo $this->hyperlink($translate('Cancel'), $this->url('admin/default', ['controller' => 'vocabulary', 'action' => 'browse']), ['class' => 'button']); ?>
     <button><?php echo $translate('Import'); ?></button>
+    <?php if ($updatable): ?>
+    <?php // After Import, which Enter in a field still means. Starts Update's review with this file, ending the import. ?>
+    <button type="submit" name="update" value="1" formnovalidate><?php echo $translate('Review changes'); ?></button>
+    <?php endif; ?>
 </div>
 <?php if ($asksNamespaceUri): ?>
 <p><?php echo $translate('The file doesn\'t give a namespace URI for its classes and properties. Enter it below.'); ?></p>

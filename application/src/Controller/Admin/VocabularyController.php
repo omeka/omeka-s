@@ -148,21 +148,7 @@ class VocabularyController extends AbstractActionController
         }
 
         // The form: what the file says, then what was posted.
-        $form = $this->getForm(VocabularyForm::class, ['mode' => 'import_details', 'languages' => $details['languages']]);
-        $form->setData([
-            // As the file says, where an import wasn't handed them instead.
-            'vocabulary-info' => array_replace([
-                'o:label' => $details['label'],
-                'o:comment' => $details['comment'],
-                'o:namespace_uri' => $details['namespace_uri'],
-                'o:prefix' => $details['prefix'],
-            ], $import['vocabulary']),
-            'vocabulary-advanced' => [
-                // Nearest the installation's, else "", First available.
-                'lang' => $details['lang'] ?? '',
-                'comments' => 'comment',
-            ],
-        ]);
+        $form = $this->getImportDetailsForm($details, $import);
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setData($request->getPost()->toArray());
@@ -171,30 +157,31 @@ class VocabularyController extends AbstractActionController
         // A vocabulary Omeka has under any form of the namespace URI, and, on
         // the first visit, the choices to start with.
         $namespaceUri = trim((string) $form->get('vocabulary-info')->get('o:namespace_uri')->getValue());
-        $found = '' === $namespaceUri ? null : $this->vocabularyAdapter->findByNamespaceUri($namespaceUri);
-        $other = $found ? $this->vocabularyAdapter->getRepresentation($found) : null;
+        $other = $this->getVocabularyByNamespaceUri($namespaceUri);
         $updatable = $other && $other->userMayUpdate() ? $other : null;
         if (!$request->isPost()) {
-            $startingChoices = $this->getStartingChoices($updatable, $import);
-            if ($startingChoices) {
-                $form->setStartingChoices($startingChoices);
-            }
+            $form->setStartingChoices($this->getStartingChoices($updatable, $import));
         }
         // The import options chosen, none for a choice not made, as an
         // Another… field left empty.
         $chosen = VocabularyForm::getChosenImportOptions(array_map(fn ($element) => $element->getValue(), $form->get('vocabulary-advanced')->getElements()));
-        // For importing and for the list: each import option, null where not
-        // chosen.
-        $options = ['file' => $import['file'], 'format' => $format];
-        foreach (VocabularyImport::CHOICES as $choice) {
-            $options[$choice] = $chosen[$choice] ?? null;
-        }
+        $options = $this->getImportOptions($import, $format, $chosen);
 
-        // The button clicked.
+        // The button clicked; none on a first visit. Show classes and
+        // properties only draws the page again, as does Review changes once
+        // the namespace URI is no longer a vocabulary's the admin may update.
+        $button = null;
+        if ($request->getPost('update')) {
+            $button = 'review';
+        } elseif ($request->getPost('preview')) {
+            $button = 'show';
+        } elseif ($request->isPost()) {
+            $button = 'import';
+        }
         // A failed import says why itself, so the list doesn't say it again.
         $refused = false;
         $saidOmekaHasIt = false;
-        if ($updatable && $request->getPost('update')) {
+        if ('review' === $button && $updatable) {
             // Review changes: hand the file to Update's review. Only the CSRF
             // field is checked, as the review's own start checks the rest.
             $form->setValidationGroup(['csrf']);
@@ -213,12 +200,7 @@ class VocabularyController extends AbstractActionController
                     $this->messenger()->addErrors($this->getErrors($e));
                 }
             }
-        } elseif ($request->getPost('update') || $request->getPost('preview')) {
-            // Show classes and properties, or Review changes under a namespace
-            // URI no longer a vocabulary's the admin may update: only draw the
-            // page again.
-        } elseif ($request->isPost()) {
-            // Import.
+        } elseif ('import' === $button) {
             if (!$form->isValid()) {
                 $this->messenger()->addFormErrors($form);
             } elseif ($other) {
@@ -229,16 +211,7 @@ class VocabularyController extends AbstractActionController
                 try {
                     $response = $this->rdfImporter->import('file', $form->getData()['vocabulary-info'], $options);
                     $this->vocabularyImport->end($token);
-                    $message = new Message(
-                        'Vocabulary successfully imported. %s', // @translate
-                        sprintf(
-                            '<a href="%s">%s</a>',
-                            htmlspecialchars($this->url()->fromRoute('admin/default', ['controller' => 'vocabulary', 'action' => 'import'])),
-                            $this->translate('Import another vocabulary?')
-                        )
-                    );
-                    $message->setEscapeHtml(false);
-                    $this->messenger()->addSuccess($message);
+                    $this->messenger()->addSuccess($this->getImportedMessage());
                     return $this->redirect()->toUrl($response->getContent()->url());
                 } catch (\Exception $e) {
                     $refused = true;
@@ -289,20 +262,10 @@ class VocabularyController extends AbstractActionController
                 // any form, and shows why on the form.
                 $response = $this->api($form)->update('vocabularies', $this->params('id'), $info, [], ['isPartial' => true]);
                 if ($response) {
-                    if (!$moved) {
-                        $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
+                    if ($moved) {
+                        $this->messenger()->addSuccess($this->getMovedMessage($vocabulary));
                     } else {
-                        // A moved vocabulary is usually updated next.
-                        $message = new Message(
-                            'Vocabulary successfully updated. %s', // @translate
-                            sprintf(
-                                '<a href="%s">%s</a>',
-                                htmlspecialchars($vocabulary->url('update')),
-                                $this->translate('Update its classes and properties?')
-                            )
-                        );
-                        $message->setEscapeHtml(false);
-                        $this->messenger()->addSuccess($message);
+                        $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
                     }
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
@@ -372,18 +335,8 @@ class VocabularyController extends AbstractActionController
             $view->setVariable('diff', null);
             $view->setVariable('notInFile', null);
         }
-        // The file's languages, and the one chosen even if the file dropped it.
         $choiceValues = VocabularyForm::getChoiceValues($importOptions);
-        $lang = $choiceValues['lang'];
-        if ('' !== $lang && !in_array($lang, $languages, true)) {
-            $languages[] = $lang;
-        }
-        $choices = $this->getForm(VocabularyForm::class, [
-            'mode' => 'review',
-            'languages' => $languages,
-        ]);
-        $choices->setData($choiceValues);
-        $view->setVariable('choices', $choices);
+        $view->setVariable('choices', $this->getReviewChoicesForm($choiceValues, $languages));
         $view->setVariable('choiceValues', $choiceValues);
         return $view;
     }
@@ -550,6 +503,48 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
+     * Get the import details form, filled in with what an import's file says
+     * of its vocabulary, or what a module handed the import in its place.
+     *
+     * @param array $details As getImportDetails() gives them
+     * @param array $import As VocabularyImport::get() gives it
+     * @return VocabularyForm
+     */
+    protected function getImportDetailsForm(array $details, array $import)
+    {
+        $form = $this->getForm(VocabularyForm::class, ['mode' => 'import_details', 'languages' => $details['languages']]);
+        $form->setData([
+            'vocabulary-info' => array_replace([
+                'o:label' => $details['label'],
+                'o:comment' => $details['comment'],
+                'o:namespace_uri' => $details['namespace_uri'],
+                'o:prefix' => $details['prefix'],
+            ], $import['vocabulary']),
+            'vocabulary-advanced' => [
+                // Nearest the installation's, else "", First available.
+                'lang' => $details['lang'] ?? '',
+                'comments' => 'comment',
+            ],
+        ]);
+        return $form;
+    }
+
+    /**
+     * Get the vocabulary Omeka has under any form of a namespace URI.
+     *
+     * @param string $namespaceUri
+     * @return \Omeka\Api\Representation\VocabularyRepresentation|null
+     */
+    protected function getVocabularyByNamespaceUri($namespaceUri)
+    {
+        if ('' === $namespaceUri) {
+            return null;
+        }
+        $vocabulary = $this->vocabularyAdapter->findByNamespaceUri($namespaceUri);
+        return $vocabulary ? $this->vocabularyAdapter->getRepresentation($vocabulary) : null;
+    }
+
+    /**
      * Get the choices import details start with on the first visit: how the
      * file of a vocabulary Omeka has, which the admin may update, was last
      * read, so Review changes reads it the same way, then any a module handed
@@ -575,6 +570,24 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
+     * Get the import options to import and to list the classes and properties
+     * with: the file, its format, and each choice, null where none was made.
+     *
+     * @param array $import As VocabularyImport::get() gives it
+     * @param string $format
+     * @param array $chosen As VocabularyForm::getChosenImportOptions() gives them
+     * @return array
+     */
+    protected function getImportOptions(array $import, $format, array $chosen)
+    {
+        $options = ['file' => $import['file'], 'format' => $format];
+        foreach (VocabularyImport::CHOICES as $choice) {
+            $options[$choice] = $chosen[$choice] ?? null;
+        }
+        return $options;
+    }
+
+    /**
      * Get the classes and properties importing adds: null without a namespace
      * URI, or where the file has none in it.
      *
@@ -597,6 +610,26 @@ class VocabularyController extends AbstractActionController
             }
             return null;
         }
+    }
+
+    /**
+     * Get the message that a vocabulary was imported, with a link to import
+     * another.
+     *
+     * @return Message
+     */
+    protected function getImportedMessage()
+    {
+        $message = new Message(
+            'Vocabulary successfully imported. %s', // @translate
+            sprintf(
+                '<a href="%s">%s</a>',
+                htmlspecialchars($this->url()->fromRoute('admin/default', ['controller' => 'vocabulary', 'action' => 'import'])),
+                $this->translate('Import another vocabulary?')
+            )
+        );
+        $message->setEscapeHtml(false);
+        return $message;
     }
 
     /**
@@ -636,6 +669,27 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
+     * Get the message that a vocabulary's namespace URI was changed, with a
+     * link to update its classes and properties, which usually comes next.
+     *
+     * @param \Omeka\Api\Representation\VocabularyRepresentation $vocabulary
+     * @return Message
+     */
+    protected function getMovedMessage($vocabulary)
+    {
+        $message = new Message(
+            'Vocabulary successfully updated. %s', // @translate
+            sprintf(
+                '<a href="%s">%s</a>',
+                htmlspecialchars($vocabulary->url('update')),
+                $this->translate('Update its classes and properties?')
+            )
+        );
+        $message->setEscapeHtml(false);
+        return $message;
+    }
+
+    /**
      * Get a review of the vocabulary, or say it has ended.
      *
      * @param string $token
@@ -650,6 +704,26 @@ class VocabularyController extends AbstractActionController
             return null;
         }
         return $review;
+    }
+
+    /**
+     * Get the review page's form of choices, set to those the changes were
+     * worked out with. It offers the file's languages, and the one chosen
+     * even if the file dropped it.
+     *
+     * @param array $choiceValues As VocabularyForm::getChoiceValues() gives them
+     * @param string[] $languages The file's languages
+     * @return VocabularyForm
+     */
+    protected function getReviewChoicesForm(array $choiceValues, array $languages)
+    {
+        $lang = $choiceValues['lang'];
+        if ('' !== $lang && !in_array($lang, $languages, true)) {
+            $languages[] = $lang;
+        }
+        $choices = $this->getForm(VocabularyForm::class, ['mode' => 'review', 'languages' => $languages]);
+        $choices->setData($choiceValues);
+        return $choices;
     }
 
     /**

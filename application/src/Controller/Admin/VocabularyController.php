@@ -104,11 +104,9 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Import a vocabulary, second step: its details, as the file gives them
-     * or a module handed them (VocabularyImport::start()). The page's form
-     * posts here, by three buttons: Import, Show classes and properties,
-     * which only draws the page again, and, for a vocabulary Omeka has,
-     * Review changes.
+     * Import a vocabulary, second and last step: its details, as the file
+     * gives them or a module handed them (VocabularyImport::start()), with
+     * Import, Show classes and properties, and Review changes.
      */
     public function importDetailsAction()
     {
@@ -480,9 +478,8 @@ class VocabularyController extends AbstractActionController
         }
         $importOptions = $this->vocabularyReview->getImportOptions($review, VocabularyForm::getChosenImportOptions($this->params()->fromQuery()));
 
-        // Accept and Cancel post to their own actions with this page's query:
-        // the review, and the choices the changes below were worked out with,
-        // which Accept applies.
+        // Accept and Cancel post with this page's query: the review and its
+        // choices.
         $query = $this->params()->fromQuery();
         $form = $this->getForm(ConfirmForm::class);
         $form->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'accept-review'], ['query' => $query], true));

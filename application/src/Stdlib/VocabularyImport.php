@@ -9,15 +9,9 @@ use Omeka\File\StagedFiles;
 use Omeka\Form\VocabularyForm;
 
 /**
- * Imports of vocabulary files, from the file to the new vocabulary, for core's
- * Import and import details pages and for a module that keeps vocabulary
- * files. start() stages the file (StagedFiles) and returns the import details
- * page's URL; that page reads what the file says (getDetails()), finds a
- * vocabulary Omeka already has (findVocabulary()), lists the classes and
- * properties (getMembers()), and imports (import()), which ends the import. A
- * module may also hand the import some of the vocabulary's fields and the
- * page's starting choices, its hand-off, held in the session under the staged
- * file's token until the import ends.
+ * Imports of vocabulary files, with their files staged (StagedFiles), from
+ * start() to import(). A module may hand an import some of the vocabulary's
+ * fields and the page's starting choices, held in the session until it ends.
  */
 class VocabularyImport
 {
@@ -117,8 +111,7 @@ class VocabularyImport
     }
 
     /**
-     * Get an import: its staged file, and anything it was handed, as
-     * VocabularyReview::get() gets a review.
+     * Get an import: its staged file and anything it was handed.
      *
      * @param string $fileToken
      * @return array|null file_token, file, vocabulary, and import_options;
@@ -159,8 +152,7 @@ class VocabularyImport
     }
 
     /**
-     * Get the vocabulary Omeka has under any form of a namespace URI, which
-     * an import under it would duplicate.
+     * Get the vocabulary Omeka has under any form of a namespace URI.
      *
      * @param string $namespaceUri
      * @return \Omeka\Api\Representation\VocabularyRepresentation|null
@@ -203,8 +195,8 @@ class VocabularyImport
      * @param array $vocabulary o:label, o:comment, o:namespace_uri, o:prefix
      * @param array $importOptions format, lang, label_property, comment_property
      * @return \Omeka\Api\Representation\VocabularyRepresentation
-     * @throws ValidationException When the import is refused; the import goes
-     *   on
+     * @throws ValidationException When the import is refused, leaving the
+     *   import open
      */
     public function import(array $import, array $vocabulary, array $importOptions)
     {

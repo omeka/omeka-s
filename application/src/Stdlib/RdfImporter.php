@@ -624,8 +624,7 @@ class RdfImporter
 
     /**
      * Count the classes and properties in a namespace, or in any, that have
-     * a property's values in each language: each once, though it may have
-     * more than one type, such as rdfs:Class and owl:Class.
+     * a property's values in each language.
      *
      * @see self::getGraphLanguages()
      * @param RdfGraph $graph
@@ -636,29 +635,22 @@ class RdfImporter
     protected function countGraphLanguages(RdfGraph $graph, $namespaceUri, $property)
     {
         $counts = [];
-        $counted = [];
-        foreach (array_merge($this->classTypes, $this->propertyTypes) as $type) {
-            foreach ($graph->allOfType($type) as $resource) {
-                $uri = $resource->getUri();
-                if (isset($counted[$uri]) || (null !== $namespaceUri && !$this->isInNamespace($resource, $namespaceUri))) {
-                    continue;
+        $resources = $this->getMemberResources($graph, $namespaceUri);
+        foreach ($resources['classes'] + $resources['properties'] as $resource) {
+            try {
+                $literals = $this->getLiterals($resource, $property);
+            } catch (ValidationException $e) {
+                // An invalid typed literal; reading the term reports it.
+                continue;
+            }
+            $languages = [];
+            foreach ($literals as $literal) {
+                if ($literal->getLang()) {
+                    $languages[$literal->getLang()] = true;
                 }
-                $counted[$uri] = true;
-                try {
-                    $literals = $this->getLiterals($resource, $property);
-                } catch (ValidationException $e) {
-                    // An invalid typed literal; reading the term reports it.
-                    continue;
-                }
-                $languages = [];
-                foreach ($literals as $literal) {
-                    if ($literal->getLang()) {
-                        $languages[$literal->getLang()] = true;
-                    }
-                }
-                foreach (array_keys($languages) as $language) {
-                    $counts[$language] = ($counts[$language] ?? 0) + 1;
-                }
+            }
+            foreach (array_keys($languages) as $language) {
+                $counts[$language] = ($counts[$language] ?? 0) + 1;
             }
         }
         return $counts;
@@ -981,19 +973,32 @@ class RdfImporter
      */
     protected function countMembers(RdfGraph $graph, $namespaceUri)
     {
-        $counts = [];
+        return array_map('count', $this->getMemberResources($graph, $namespaceUri));
+    }
+
+    /**
+     * Get a graph's classes and properties in a namespace, or in any, each
+     * once, though it may have more than one type, such as rdfs:Class and
+     * owl:Class.
+     *
+     * @param RdfGraph $graph
+     * @param string|null $namespaceUri Null for any
+     * @return array classes and properties, each RdfResource[] by URI
+     */
+    protected function getMemberResources(RdfGraph $graph, $namespaceUri = null)
+    {
+        $resources = [];
         foreach (['classes' => $this->classTypes, 'properties' => $this->propertyTypes] as $kind => $types) {
-            $uris = [];
+            $resources[$kind] = [];
             foreach ($types as $type) {
                 foreach ($graph->allOfType($type) as $resource) {
-                    if ($this->isInNamespace($resource, $namespaceUri)) {
-                        $uris[$resource->getUri()] = true;
+                    if (null === $namespaceUri || $this->isInNamespace($resource, $namespaceUri)) {
+                        $resources[$kind][$resource->getUri()] = $resource;
                     }
                 }
             }
-            $counts[$kind] = count($uris);
         }
-        return $counts;
+        return $resources;
     }
 
     /**
@@ -1310,18 +1315,16 @@ class RdfImporter
     protected function getMostUsedNamespaceUri(RdfGraph $graph)
     {
         $counts = [];
-        foreach (array_merge($this->classTypes, $this->propertyTypes) as $type) {
-            foreach ($graph->allOfType($type) as $resource) {
-                $uri = (string) $resource->getUri();
-                $localName = (string) $resource->localName();
-                // Without a base, a file's relative URIs resolve against its
-                // path on the server.
-                if ($resource->isBNode() || '' === $localName || !preg_match('#^https?://#', $uri)) {
-                    continue;
-                }
-                $namespaceUri = substr($uri, 0, -strlen($localName));
-                $counts[$namespaceUri] = ($counts[$namespaceUri] ?? 0) + 1;
+        $resources = $this->getMemberResources($graph);
+        foreach ($resources['classes'] + $resources['properties'] as $uri => $resource) {
+            $localName = (string) $resource->localName();
+            // Without a base, a file's relative URIs resolve against its
+            // path on the server.
+            if ($resource->isBNode() || '' === $localName || !preg_match('#^https?://#', $uri)) {
+                continue;
             }
+            $namespaceUri = substr($uri, 0, -strlen($localName));
+            $counts[$namespaceUri] = ($counts[$namespaceUri] ?? 0) + 1;
         }
         arsort($counts);
         return key($counts);

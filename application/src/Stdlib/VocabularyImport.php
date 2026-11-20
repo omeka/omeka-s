@@ -98,19 +98,27 @@ class VocabularyImport
         } catch (\Omeka\File\Exception\RuntimeException $e) {
             throw new ValidationException('Could not read vocabulary file.', 0, $e); // @translate
         }
+        // Staged, so it needn't stay in memory while the file is read.
+        unset($contents);
         return $this->begin($fileToken, $vocabulary, $importOptions);
     }
 
     /**
-     * Get what an import of a staged file was handed, if anything.
+     * Get an import: its staged file, and anything it was handed, as
+     * VocabularyReview::get() gets a review.
      *
      * @param string $fileToken
-     * @return array|null vocabulary and import_options
+     * @return array|null file, vocabulary, and import_options; null once the
+     *   file is gone
      */
     public function get($fileToken)
     {
-        $import = $this->getSession()->offsetGet((string) $fileToken);
-        return is_array($import) ? $import : null;
+        $file = $this->stagedFiles->getPath($fileToken);
+        if (null === $file) {
+            return null;
+        }
+        $handOff = $this->getSession()->offsetGet((string) $fileToken);
+        return ['file' => $file] + (is_array($handOff) ? $handOff : []) + ['vocabulary' => [], 'import_options' => []];
     }
 
     /**

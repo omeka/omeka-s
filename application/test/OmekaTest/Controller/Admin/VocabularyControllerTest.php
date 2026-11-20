@@ -1100,7 +1100,10 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         // As Import starts one.
         $url = $this->handImport('markup.ttl', [], ['format' => 'turtle']);
         parse_str((string) parse_url($url, PHP_URL_QUERY), $query);
-        $this->assertNull($this->getApplicationServiceLocator()->get('Omeka\VocabularyImport')->get($query['file_token']));
+        $import = $this->getApplicationServiceLocator()->get('Omeka\VocabularyImport')->get($query['file_token']);
+        $this->assertFileExists($import['file']);
+        $this->assertSame([], $import['vocabulary']);
+        $this->assertSame([], $import['import_options']);
         $this->assertSame(200, $this->requestAs(self::ADMIN, 'GET', $url));
     }
 

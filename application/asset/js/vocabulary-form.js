@@ -25,8 +25,9 @@ $('.import-type-select').on('change', function(e) {
     }
 });
 
-// The Comments from and Preferred language fields: the text field each has
-// for another property or language is shown only when that choice is made.
+// The Preferred language, Labels from, and Comments from fields: the text
+// field each has for another language or property is shown only when that
+// choice is made.
 $('[data-other-field]').each(function() {
     const choice = $(this);
     const field = $(choice.data('otherField')).closest('.field');

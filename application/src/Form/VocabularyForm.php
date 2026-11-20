@@ -429,6 +429,29 @@ class VocabularyForm extends Form
     }
 
     /**
+     * Start the import details' choices with import options: those given,
+     * with a language the file doesn't have under Another language.
+     *
+     * @param array $importOptions lang, label_property, comment_property
+     */
+    public function setStartingChoices(array $importOptions)
+    {
+        $values = self::getChoiceValues($importOptions);
+        $choices = [];
+        if (array_key_exists('lang', $importOptions)) {
+            $inFile = '' === $values['lang'] || in_array($values['lang'], $this->getOption('languages') ?? [], true);
+            $choices += $inFile ? ['lang' => $values['lang']] : ['lang' => 'other', 'other_lang' => $values['lang']];
+        }
+        if (array_key_exists('label_property', $importOptions)) {
+            $choices += ['labels' => $values['labels'], 'label_property' => $values['label_property']];
+        }
+        if (array_key_exists('comment_property', $importOptions)) {
+            $choices += ['comments' => $values['comments'], 'comment_property' => $values['comment_property']];
+        }
+        $this->get('vocabulary-advanced')->populateValues($choices);
+    }
+
+    /**
      * Get the import options the choice fields' values give: only those
      * chosen. Static, as the review page's query and Accept's post give the
      * values as well as the fields do.
@@ -439,15 +462,27 @@ class VocabularyForm extends Form
     public static function getChosenImportOptions(array $values)
     {
         $importOptions = [];
-        $lang = self::getChosenLanguage($values);
-        if (null !== $lang) {
+        // One the field offers, "" for First available, or the tag entered
+        // under Another language.
+        $lang = $values['lang'] ?? null;
+        if ('other' === $lang) {
+            $lang = self::getOtherValue($values, 'other_lang');
+        }
+        if (is_string($lang)) {
             $importOptions['lang'] = '' === $lang ? null : $lang;
         }
-        $labelProperty = self::getChosenLabelProperty($values);
-        if (false !== $labelProperty) {
+        // The default, which is no label property of its own, or the one
+        // entered under Another property.
+        $labels = $values['labels'] ?? null;
+        $labelProperty = 'other' === $labels ? self::getOtherValue($values, 'label_property') : null;
+        if ('label' === $labels || null !== $labelProperty) {
             $importOptions['label_property'] = $labelProperty;
         }
-        $commentProperty = self::getChosenCommentProperty($values);
+        // One the field offers, or the one entered under Another property.
+        $comments = $values['comments'] ?? null;
+        $commentProperty = 'other' === $comments
+            ? self::getOtherValue($values, 'comment_property')
+            : (is_string($comments) ? RdfImporter::COMMENT_PROPERTY_CHOICES[$comments] ?? null : null);
         if (null !== $commentProperty) {
             $importOptions['comment_property'] = $commentProperty;
         }
@@ -480,65 +515,16 @@ class VocabularyForm extends Form
     }
 
     /**
-     * Get the language chosen: one the Preferred language field offers, "" for
-     * "First available", or the tag entered under "Another language…".
-     * Another with none entered is no choice.
-     *
-     * @param array $values With "lang" and "other_lang"
-     * @return string|null
-     */
-    protected static function getChosenLanguage(array $values)
-    {
-        $lang = $values['lang'] ?? null;
-        if (!is_string($lang)) {
-            return null;
-        }
-        if ('other' === $lang) {
-            $other = is_string($values['other_lang'] ?? null) ? trim($values['other_lang']) : '';
-            return '' === $other ? null : $other;
-        }
-        return $lang;
-    }
-
-    /**
-     * Get the label property chosen: null for the default the Labels from
-     * field offers, or the one entered under "Another property…". Another
-     * with none entered is no choice.
-     *
-     * @param array $values With "labels" and "label_property"
-     * @return string|null|false False for no choice
-     */
-    protected static function getChosenLabelProperty(array $values)
-    {
-        $labels = $values['labels'] ?? null;
-        if ('label' === $labels) {
-            return null;
-        }
-        if ('other' === $labels) {
-            $property = is_string($values['label_property'] ?? null) ? trim($values['label_property']) : '';
-            return '' === $property ? false : $property;
-        }
-        return false;
-    }
-
-    /**
-     * Get the comment property chosen: one the Comments field offers, or the
-     * one entered under "Another property…". Another with none entered is no
+     * Get the text entered under an "Another…" choice; none entered is no
      * choice.
      *
-     * @param array $values With "comments" and "comment_property"
+     * @param array $values
+     * @param string $field
      * @return string|null
      */
-    protected static function getChosenCommentProperty(array $values)
+    protected static function getOtherValue(array $values, $field)
     {
-        $comments = $values['comments'] ?? null;
-        if (!is_string($comments)) {
-            return null;
-        }
-        if ('other' === $comments) {
-            $property = is_string($values['comment_property'] ?? null) ? trim($values['comment_property']) : '';
-            return '' === $property ? null : $property;
-        }
-        return RdfImporter::COMMENT_PROPERTY_CHOICES[$comments] ?? null;
+        $value = is_string($values[$field] ?? null) ? trim($values[$field]) : '';
+        return '' === $value ? null : $value;
     }
 }

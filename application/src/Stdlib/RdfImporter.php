@@ -600,7 +600,11 @@ class RdfImporter
         if (!$response->isSuccess()) {
             throw new ValidationException('Could not load vocabulary from URL.'); // @translate
         }
-        return $response->getBody();
+        // The client keeps its last response, so let it go: a large file
+        // is read next, and the memory is better spent there.
+        $body = $response->getBody();
+        $client->resetParameters();
+        return $body;
     }
 
     /**
@@ -1424,20 +1428,19 @@ class RdfImporter
     }
 
     /**
-     * Get a resource's literals for a property, in a language if one is
-     * passed. EasyRdf checks a typed literal against its datatype only when
-     * it's fetched, not while parsing, so an invalid one fails here.
+     * Get a resource's literals for a property. EasyRdf checks a typed
+     * literal against its datatype only when it's fetched, not while parsing,
+     * so an invalid one fails here.
      *
      * @param RdfResource $resource
      * @param string $property A property, or alternatives as "a|b"
-     * @param string|null $lang
      * @return \EasyRdf\Literal[]
      * @throws ValidationException Naming the term
      */
-    protected function getLiterals(RdfResource $resource, $property, $lang = null)
+    protected function getLiterals(RdfResource $resource, $property)
     {
         try {
-            return $resource->all($property, 'literal', $lang);
+            return $resource->all($property, 'literal');
         } catch (\InvalidArgumentException | \UnexpectedValueException $e) {
             $exception = new ValidationException('A class or property has a label or comment that isn\'t valid for its datatype.'); // @translate
             $exception->getErrorStore()->addError('term', new Message(

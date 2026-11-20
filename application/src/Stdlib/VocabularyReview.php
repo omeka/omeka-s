@@ -114,6 +114,8 @@ class VocabularyReview
         } catch (\Omeka\File\Exception\RuntimeException $e) {
             throw new ValidationException('Could not read vocabulary file.', 0, $e); // @translate
         }
+        // Staged, so it needn't stay in memory while the file is read.
+        unset($contents);
         return $this->begin($vocabulary, $fileToken, $importOptions, $reviewOptions);
     }
 
@@ -225,12 +227,9 @@ class VocabularyReview
         if (!$review) {
             throw new ValidationException('This review has ended.'); // @translate
         }
-        $vocabulary = $this->apiManager->read('vocabularies', $review['vocabulary_id'])->getContent();
         // The importer writes to the vocabulary directly, without the API's
-        // permission checks, so check them here.
-        if (!$vocabulary->userMayUpdate()) {
-            throw new PermissionDeniedException('User does not have permission to update this vocabulary');
-        }
+        // permission checks, so check them here, as start() did.
+        $this->getVocabularyToReview($review['vocabulary_id'], []);
         $diff = $this->getDiff($review, $importOptions);
         $data = ['o:import_options' => array_intersect_key($importOptions, array_flip(Vocabulary::IMPORT_OPTIONS))];
         if (null !== $review['new_namespace_uri']) {

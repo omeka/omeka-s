@@ -36,11 +36,7 @@ $sections = null === $members ? [] : array_filter([
 <?php echo $this->formRow($form->get('csrf')); ?>
 <div class="review-choices-actions">
     <?php // Posts the form to show the classes and properties again, without importing. Over a list, the script makes it inactive until a field the list depends on changes. ?>
-    <?php if ($sections): ?>
-    <button type="submit" name="preview" value="1" formnovalidate class="review-show" data-watch="fieldset :input, [name='vocabulary-info[o:namespace_uri]'], [name='vocabulary-info[o:prefix]']"><?php echo $translate('Show classes and properties'); ?></button>
-    <?php else: ?>
-    <button type="submit" name="preview" value="1" formnovalidate><?php echo $translate('Show classes and properties'); ?></button>
-    <?php endif; ?>
+    <button type="submit" name="preview" value="1" formnovalidate<?php if ($sections): ?> class="review-show" data-watch="fieldset :input, [name='vocabulary-info[o:namespace_uri]'], [name='vocabulary-info[o:prefix]']"<?php endif; ?>><?php echo $translate('Show classes and properties'); ?></button>
 </div>
 <?php echo $this->form()->closeTag(); ?>
 

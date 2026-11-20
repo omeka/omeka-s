@@ -69,7 +69,9 @@ $('.review-show').each(function() {
     const button = $(this);
     const fields = button.closest('form').find(button.data('watch'));
     const update = function() {
-        const changed = fields.toArray().some(isChanged);
+        // Only shown fields count: an Another… text field, hidden while
+        // another choice is made, is ignored, as the server ignores it.
+        const changed = fields.filter(':visible').toArray().some(isChanged);
         setInactive(button, !changed);
         setInactive($('.review-accept'), changed);
     };

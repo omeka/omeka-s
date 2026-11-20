@@ -641,7 +641,7 @@ class RdfImporter
         foreach (array_merge($this->classTypes, $this->propertyTypes) as $type) {
             foreach ($graph->allOfType($type) as $resource) {
                 $uri = $resource->getUri();
-                if (isset($counted[$uri]) || (null !== $namespaceUri && $uri !== $namespaceUri . $resource->localName())) {
+                if (isset($counted[$uri]) || (null !== $namespaceUri && !$this->isInNamespace($resource, $namespaceUri))) {
                     continue;
                 }
                 $counted[$uri] = true;
@@ -674,8 +674,8 @@ class RdfImporter
      * Given how many classes and properties each language covers, it takes
      * the one of the nearest language's tags that covers the most, nearest
      * first where they tie: a file may tag a few values en-US for an
-     * American spelling and the rest en, and en-US would leave most in
-     * whatever language comes first.
+     * American spelling and the rest en, and the starting choice should be
+     * the tag the file mostly uses.
      *
      * @param string|null $preferred Such as "fr-ca"; null for English
      * @param string[] $languages The file's languages
@@ -987,7 +987,7 @@ class RdfImporter
             $uris = [];
             foreach ($types as $type) {
                 foreach ($graph->allOfType($type) as $resource) {
-                    if ($resource->getUri() === $namespaceUri . $resource->localName()) {
+                    if ($this->isInNamespace($resource, $namespaceUri)) {
                         $uris[$resource->getUri()] = true;
                     }
                 }
@@ -1009,7 +1009,12 @@ class RdfImporter
      * @param RdfGraph $graph
      * @param string|null $except A namespace URI that matched no terms, which
      *   isn't returned itself
-     * @return array [namespace URI, source], or [null, null]
+     * @return array [namespace URI, source], or [null, null]. The source is
+     *   "declared" (vann:preferredNamespaceUri), "ontology" (an owl:Ontology
+     *   URI), "other_form" (another form of $except or of either of those),
+     *   "terms" (the namespace most terms use), or "relative" (none: the
+     *   terms are named relative to the file, so the namespace URI is
+     *   RELATIVE_BASE's)
      */
     protected function findNamespaceUri(RdfGraph $graph, $except = null)
     {
@@ -1340,7 +1345,7 @@ class RdfImporter
         foreach ($types as $type) {
             foreach ($graph->allOfType($type) as $resource) {
                 // The resource must be a local member of the vocabulary.
-                if ($resource->getUri() === $namespaceUri . $resource->localName()) {
+                if ($this->isInNamespace($resource, $namespaceUri)) {
                     $members[$resource->localName()] = [
                         'label' => $this->getLabel($resource, $labelProperty, $lang, $resource->localName()),
                         'comment' => $this->getComment($resource, $commentProperty, $lang),
@@ -1425,6 +1430,20 @@ class RdfImporter
             }
         }
         return $texts ? reset($texts) : null;
+    }
+
+    /**
+     * Whether a resource is a class or property of a namespace: its URI is
+     * the namespace URI followed by its local name, as
+     * http://purl.org/dc/terms/title is of http://purl.org/dc/terms/.
+     *
+     * @param RdfResource $resource
+     * @param string $namespaceUri
+     * @return bool
+     */
+    protected function isInNamespace(RdfResource $resource, $namespaceUri)
+    {
+        return $resource->getUri() === $namespaceUri . $resource->localName();
     }
 
     /**

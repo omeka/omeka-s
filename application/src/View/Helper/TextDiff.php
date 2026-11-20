@@ -28,7 +28,7 @@ class TextDiff extends AbstractHelper
      */
     public function __invoke($from, $to)
     {
-        [$fromParts, $toParts] = $this->words($from, $to);
+        [$fromParts, $toParts] = $this->getParts($from, $to);
         return [$this->mark($fromParts, 'del'), $this->mark($toParts, 'ins')];
     }
 
@@ -42,10 +42,10 @@ class TextDiff extends AbstractHelper
      * @return array [parts of $from, parts of $to], each part [text, whether
      *   it differs]; a text's parts, joined, are the text
      */
-    protected function words($from, $to)
+    protected function getParts($from, $to)
     {
-        [$a, $b, $matchA, $matchB] = $this->aligned($from, $to);
-        return [$this->parts($a, $b, $matchA), $this->parts($b, $a, $matchB)];
+        [$a, $b, $matchA, $matchB] = $this->align($from, $to);
+        return [$this->getTextParts($a, $b, $matchA), $this->getTextParts($b, $a, $matchB)];
     }
 
     /**
@@ -55,10 +55,10 @@ class TextDiff extends AbstractHelper
      * @return array [units of $from, units of $to, indexes of $to's words by
      *   the indexes of $from's they match, and the reverse]
      */
-    protected function aligned($from, $to)
+    protected function align($from, $to)
     {
-        $a = $this->units($from);
-        $b = $this->units($to);
+        $a = $this->getUnits($from);
+        $b = $this->getUnits($to);
         $wordsA = array_column($a, 0);
         $wordsB = array_column($b, 0);
         // What the texts share at their start and end needn't be matched.
@@ -76,7 +76,7 @@ class TextDiff extends AbstractHelper
         $lengthB = count($b) - $start - $end;
         $pairs = $lengthA > self::MAX_WORDS || $lengthB > self::MAX_WORDS
             ? []
-            : $this->shared(array_slice($wordsA, $start, $lengthA), array_slice($wordsB, $start, $lengthB));
+            : $this->getMatches(array_slice($wordsA, $start, $lengthA), array_slice($wordsB, $start, $lengthB));
         // Each text's words by the word of the other they match.
         $matchA = [];
         for ($i = 0; $i < $start; $i++) {
@@ -97,7 +97,7 @@ class TextDiff extends AbstractHelper
      *
      * @return array [[word, space], …]
      */
-    protected function units($text)
+    protected function getUnits($text)
     {
         $text = (string) $text;
         if (!preg_match_all('/(\S*)(\s*)/u', $text, $matches, PREG_SET_ORDER)) {
@@ -118,7 +118,7 @@ class TextDiff extends AbstractHelper
      *
      * @return array Indexes of $b by the indexes of $a they match
      */
-    protected function shared(array $a, array $b)
+    protected function getMatches(array $a, array $b)
     {
         $n = count($a);
         $m = count($b);
@@ -152,7 +152,7 @@ class TextDiff extends AbstractHelper
      * A text's parts, given which of the other's words its own match. A run
      * of changed words, with the space between them, is one part.
      */
-    protected function parts(array $units, array $others, array $match)
+    protected function getTextParts(array $units, array $others, array $match)
     {
         $marked = [];
         foreach ($units as $i => [$word, $space]) {
@@ -169,21 +169,21 @@ class TextDiff extends AbstractHelper
                     : $word === '' || (isset($units[$i + 1]) && !isset($match[$i + 1]))];
             }
         }
-        return $this->joined($marked);
+        return $this->joinParts($marked);
     }
 
     /**
-     * Parts with neighbors of the same kind joined.
+     * Parts with neighbors that both differ, or both don't, joined.
      */
-    protected function joined(array $marked)
+    protected function joinParts(array $marked)
     {
         $parts = [];
-        foreach ($marked as [$text, $kind]) {
+        foreach ($marked as [$text, $differs]) {
             $last = count($parts) - 1;
-            if ($last >= 0 && $parts[$last][1] === $kind) {
+            if ($last >= 0 && $parts[$last][1] === $differs) {
                 $parts[$last][0] .= $text;
             } else {
-                $parts[] = [$text, $kind];
+                $parts[] = [$text, $differs];
             }
         }
         return $parts;
@@ -192,7 +192,7 @@ class TextDiff extends AbstractHelper
     /**
      * A text's parts as HTML, escaped, with those that differ in a tag.
      *
-     * @param array $parts As words() gives them
+     * @param array $parts As getTextParts() gives them
      * @param string $tag "del" or "ins"
      * @return string
      */

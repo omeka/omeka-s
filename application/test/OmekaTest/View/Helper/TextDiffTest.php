@@ -15,7 +15,7 @@ class TextDiffTest extends TestCase
         $textDiff = new class extends TextDiff {
             public function partsOf($from, $to)
             {
-                return $this->words($from, $to);
+                return $this->getParts($from, $to);
             }
         };
         return $textDiff->partsOf($from, $to);

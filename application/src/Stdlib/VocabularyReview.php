@@ -140,12 +140,12 @@ class VocabularyReview
      * Get a review's import options, with any the admin chose.
      *
      * @param array $review
-     * @param array $choices Import options; others are ignored
+     * @param array $chosen Import options chosen; other keys are ignored
      * @return array
      */
-    public function getImportOptions(array $review, array $choices = [])
+    public function getImportOptions(array $review, array $chosen = [])
     {
-        return array_intersect_key($choices, array_flip(Vocabulary::IMPORT_OPTIONS)) + $review['import_options'];
+        return array_intersect_key($chosen, array_flip(Vocabulary::IMPORT_OPTIONS)) + $review['import_options'];
     }
 
     /**

@@ -8,10 +8,11 @@ use Omeka\File\StagedFiles;
 use Omeka\Form\VocabularyForm;
 
 /**
- * Imports started on the import details page, by Import or by a module that
- * keeps vocabulary files: the file, staged (StagedFiles), and anything
- * handed with it for the page to start with, held in the session under the
- * staged file's token.
+ * Starts imports, for core's Import and for a module that keeps vocabulary
+ * files: it stages the file (StagedFiles) and sends the admin to the import
+ * details page, which reads it. A module may also hand the import some of the
+ * vocabulary's fields and the page's starting choices, its hand-off, held in
+ * the session under the staged file's token until the import ends.
  */
 class VocabularyImport
 {

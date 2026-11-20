@@ -165,10 +165,12 @@ class VocabularyController extends AbstractActionController
         $namespaceUri = trim((string) $form->get('vocabulary-info')->get('o:namespace_uri')->getValue());
         $other = '' === $namespaceUri ? null : $this->getVocabularyWithNamespace($namespaceUri);
         $updatable = $other && $other->userMayUpdate() ? $other : null;
-        // The choices start, for a vocabulary the admin may update, as it was
-        // read, so the list and the review Review changes leads to read the
-        // file as before until a choice changes; one it was read without, as
-        // no choice. Those an import was handed go over them.
+        // The starting choices, on the first visit:
+        // - for a vocabulary Omeka has and the admin may update, how its file
+        //   was last read, so the list, and the review the Review changes
+        //   button opens, read the file the same way until a choice changes.
+        //   An import option it was read without starts on its default.
+        // - over those, any a module handed this import.
         if (!$request->isPost()) {
             $stored = $updatable ? $updatable->importOptions() : null;
             $startingChoices = array_replace(
@@ -182,7 +184,7 @@ class VocabularyController extends AbstractActionController
         // For importing and for the list: each import option, null where not
         // chosen.
         $options = array_replace(
-            ['file' => $import['file'], 'format' => $format, 'lang' => null, 'label_property' => null, 'comment_property' => null],
+            ['file' => $import['file'], 'format' => $format] + array_fill_keys(VocabularyImport::CHOICES, null),
             VocabularyForm::getChosenImportOptions(array_map(fn ($element) => $element->getValue(), $form->get('vocabulary-advanced')->getElements()))
         );
         // A failed import says why itself, so the list doesn't say it again.
@@ -393,7 +395,7 @@ class VocabularyController extends AbstractActionController
         if (!$review) {
             return $this->redirect()->toUrl($vocabulary->url());
         }
-        $choices = VocabularyForm::getChosenImportOptions($post);
+        $chosen = VocabularyForm::getChosenImportOptions($post);
         $form = $this->getForm(ConfirmForm::class);
         $form->setData($post);
         if (!$form->isValid()) {
@@ -401,7 +403,7 @@ class VocabularyController extends AbstractActionController
             return $this->redirect()->toUrl($this->getReviewUrl($vocabulary, $token, $post));
         }
         try {
-            $this->vocabularyReview->accept($token, $this->vocabularyReview->getImportOptions($review, $choices));
+            $this->vocabularyReview->accept($token, $this->vocabularyReview->getImportOptions($review, $chosen));
         } catch (ValidationException $e) {
             $this->messenger()->addErrors($this->getErrors($e));
             return $this->redirect()->toUrl($this->getReviewUrl($vocabulary, $token, $post));

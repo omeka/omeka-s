@@ -1028,6 +1028,13 @@ class RdfImporterTest extends DbTestCase
                 'http://example.org/given#',
                 'http://example.org/elsewhere#',
             ],
+            'the one most terms use, a term with two types counted once' => [
+                $prefixes . '<http://example.org/twice#a> a rdf:Property, owl:ObjectProperty .
+                <http://example.org/twice#b> a rdf:Property, owl:ObjectProperty . ' . $elsewhere . '
+                <http://example.org/elsewhere#c> a rdf:Property .',
+                'http://example.org/given#',
+                'http://example.org/elsewhere#',
+            ],
             'none, without terms' => [
                 $prefixes . '<http://example.org/doc> rdfs:label "No terms" .',
                 'http://example.org/given#',

@@ -96,7 +96,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
             // Checked only when the namespace URI is new to the vocabulary,
             // other than in capitals, so vocabularies already held in two
             // forms stay editable.
-            if ('' !== $namespaceUri && 0 !== strcasecmp((string) $entity->getNamespaceUri(), $namespaceUri)) {
+            if ('' !== $namespaceUri && strtolower((string) $entity->getNamespaceUri()) !== strtolower($namespaceUri)) {
                 $this->validateNamespaceUriForms($namespaceUri, $entity->getId(), $errorStore);
             }
             $entity->setNamespaceUri($namespaceUri);
@@ -113,10 +113,13 @@ class VocabularyAdapter extends AbstractEntityAdapter
         if ($this->shouldHydrate($request, 'o:import_options')) {
             $importOptions = $request->getValue('o:import_options');
             if (is_array($importOptions)) {
-                $importOptions = array_intersect_key($importOptions, array_flip(Vocabulary::IMPORT_OPTIONS));
+                $kept = [];
                 foreach ($importOptions as $key => $value) {
-                    $importOptions[$key] = is_scalar($value) ? (string) $value : null;
+                    if (in_array($key, Vocabulary::IMPORT_OPTIONS, true)) {
+                        $kept[$key] = is_scalar($value) ? (string) $value : null;
+                    }
                 }
+                $importOptions = $kept;
             }
             $entity->setImportOptions($importOptions ?: null);
         }
@@ -311,7 +314,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
         }
         $vocabularies = $qb->getQuery()->getResult();
         foreach ($vocabularies as $vocabulary) {
-            if (0 === strcasecmp($vocabulary->getNamespaceUri(), (string) $namespaceUri)) {
+            if (strtolower($vocabulary->getNamespaceUri()) === strtolower((string) $namespaceUri)) {
                 return $vocabulary;
             }
         }
@@ -333,7 +336,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
     public function validateNamespaceUriForms($namespaceUri, $exceptId, ErrorStore $errorStore)
     {
         $other = $this->findByNamespaceUri($namespaceUri, $exceptId);
-        if ($other && 0 !== strcasecmp($other->getNamespaceUri(), (string) $namespaceUri)) {
+        if ($other && strtolower($other->getNamespaceUri()) !== strtolower((string) $namespaceUri)) {
             $errorStore->addError('o:namespace_uri', new Message(
                 'Another vocabulary, "%1$s", has this namespace URI in another form: "%2$s".', // @translate
                 $other->getLabel(),

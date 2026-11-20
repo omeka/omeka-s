@@ -297,7 +297,7 @@ class VocabularyReview
             throw new \InvalidArgumentException('A review\'s new namespace URI must be another form of the vocabulary\'s.');
         }
         // A change only in capitals isn't a new namespace URI to the API.
-        if (0 === strcasecmp($newNamespaceUri, $vocabulary->namespaceUri())) {
+        if (strtolower($newNamespaceUri) === strtolower($vocabulary->namespaceUri())) {
             return $vocabulary;
         }
         // Refused now, while the page that chose the file can say why, as the

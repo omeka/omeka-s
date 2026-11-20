@@ -2,21 +2,11 @@
 $this->headScript()->appendFile($this->assetUrl('js/vocabulary-form.js', 'Omeka'));
 $this->htmlElement('body')->appendAttribute('class', 'vocabularies import-details');
 $translate = $this->plugin('translate');
-$escape = $this->plugin('escapeHtml');
-// Import posts to the form's own action. Show classes and properties draws
-// this page again, and Review changes goes to Update for the vocabulary Omeka
-// has.
-$query = ['query' => ['file_token' => $token, 'format' => $format]];
-$showUrl = $this->url('admin/default', ['controller' => 'vocabulary', 'action' => 'import-details'], $query);
-$updateUrl = null;
-if ($updatable) {
-    $updateUrl = $this->url('admin/id', ['controller' => 'vocabulary', 'action' => 'update', 'id' => $updatable->id()], $query);
-}
 $form->prepare();
 // Say the file gives no namespace URI only while its field is empty: after
 // a refused import, the field shows what the admin entered.
 $info = $form->get('vocabulary-info');
-$asksNamespaceUri = null === $details['namespace_uri'] && '' === trim((string) $info->get('o:namespace_uri')->getValue());
+$asksNamespaceUri = null === $fileDetails['namespace_uri'] && '' === trim((string) $info->get('o:namespace_uri')->getValue());
 
 // The classes and properties importing adds, in sections like a review's.
 $sections = [];
@@ -34,10 +24,10 @@ if ($members && $members['properties']) {
 <div id="page-actions">
     <?php // To the list the import started from. ?>
     <?php echo $this->hyperlink($translate('Cancel'), $this->url('admin/default', ['controller' => 'vocabulary', 'action' => 'browse']), ['class' => 'button']); ?>
-    <button><?php echo $translate('Import'); ?></button>
+    <button name="import" value="1"><?php echo $translate('Import'); ?></button>
     <?php if ($updatable): ?>
     <?php // After Import, so Enter in a field still imports. ?>
-    <button type="submit" formaction="<?php echo $escape($updateUrl); ?>" formnovalidate><?php echo $translate('Review changes'); ?></button>
+    <button type="submit" name="review_changes" value="1" formnovalidate><?php echo $translate('Review changes'); ?></button>
     <?php endif; ?>
 </div>
 <?php if ($asksNamespaceUri): ?>
@@ -49,7 +39,7 @@ if ($members && $members['properties']) {
 <?php echo $this->formRow($form->get('csrf')); ?>
 <div class="review-choices-actions">
     <?php // Shows the list again, without importing. ?>
-    <button type="submit" formaction="<?php echo $escape($showUrl); ?>" formnovalidate<?php if ($sections): ?> class="review-show" data-watch="[name^='vocabulary-advanced['], [name='vocabulary-info[o:namespace_uri]'], [name='vocabulary-info[o:prefix]']"<?php endif; ?>><?php echo $translate('Show classes and properties'); ?></button>
+    <button type="submit" formnovalidate<?php if ($sections): ?> class="review-show" data-watch="[name^='vocabulary-advanced['], [name='vocabulary-info[o:namespace_uri]'], [name='vocabulary-info[o:prefix]']"<?php endif; ?>><?php echo $translate('Show classes and properties'); ?></button>
 </div>
 <?php echo $this->form()->closeTag(); ?>
 

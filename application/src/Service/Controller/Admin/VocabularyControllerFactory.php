@@ -10,10 +10,8 @@ class VocabularyControllerFactory implements FactoryInterface
     public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         return new VocabularyController(
-            $services->get('Omeka\RdfImporter'),
-            $services->get('Omeka\VocabularyReview'),
             $services->get('Omeka\VocabularyImport'),
-            $services->get('Omeka\ApiAdapterManager')->get('vocabularies')
+            $services->get('Omeka\VocabularyReview')
         );
     }
 }

@@ -48,22 +48,17 @@ $changes = null !== $diff && ($termChanges || $namespaceChanges);
 
 <?php echo $this->pageTitle($vocabulary->label(), 1, $translate('Vocabularies'), $translate('Review changes')); ?>
 
-<?php // Only the actions and hidden inputs, so the form of choices doesn't nest in it. ?>
-<form method="post" action="<?php echo $escape($this->url(null, ['action' => 'accept-review'], true)); ?>">
+<?php // Accept and Cancel, in a form of their own, so the form of choices doesn't nest in it. ?>
+<?php echo $this->form()->openTag($form); ?>
     <div id="page-actions">
         <?php // With nothing to change, there's nothing to accept; Back ends the review as Cancel does. ?>
-        <button type="submit" class="button" formaction="<?php echo $escape($this->url(null, ['action' => 'cancel-review'], true)); ?>"><?php echo (null !== $diff && !$changes) ? $translate('Back') : $translate('Cancel'); ?></button>
+        <button type="submit" class="button" formaction="<?php echo $escape($cancelUrl); ?>"><?php echo (null !== $diff && !$changes) ? $translate('Back') : $translate('Cancel'); ?></button>
         <?php if ($changes): ?>
         <button type="submit" class="review-accept" data-inactive-title="<?php echo $escape($translate('Show changes first')); ?>"><?php echo $translate('Accept changes'); ?></button>
         <?php endif; ?>
     </div>
-    <input type="hidden" name="review" value="<?php echo $escape($token); ?>">
-    <?php // The import options the changes below were read with, which Accept applies. ?>
-    <?php foreach ($choiceValues as $name => $choiceValue): ?>
-    <input type="hidden" name="<?php echo $escape($name); ?>" value="<?php echo $escape($choiceValue); ?>">
-    <?php endforeach; ?>
     <?php echo $this->formElement($form->get($form->getName() . '_csrf')); ?>
-</form>
+<?php echo $this->form()->closeTag(); ?>
 
 <?php // The choices, sent by GET to show the changes again. ?>
 <?php

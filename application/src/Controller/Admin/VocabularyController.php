@@ -536,11 +536,11 @@ class VocabularyController extends AbstractActionController
             $inFile = '' === $values['lang'] || in_array($values['lang'], $languages, true);
             $choices += $inFile ? ['lang' => $values['lang']] : ['lang' => 'other', 'other_lang' => $values['lang']];
         }
+        if (array_key_exists('label_property', $importOptions)) {
+            $choices += ['labels' => $values['labels'], 'label_property' => $values['label_property']];
+        }
         if (array_key_exists('comment_property', $importOptions)) {
             $choices += ['comments' => $values['comments'], 'comment_property' => $values['comment_property']];
-        }
-        if (array_key_exists('label_property', $importOptions)) {
-            $choices['label_property'] = $values['label_property'];
         }
         $form->get('vocabulary-advanced')->populateValues($choices);
     }

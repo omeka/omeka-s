@@ -639,8 +639,9 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString('Changed property labels (1)', $page);
         // Every choice is a row of the import's own fields, sent by GET
         // under its own name, without the CSRF token a query can't carry.
+        $this->assertMatchesRegularExpression('#<select name="labels" id="labels" data-other-field="\#label_property">\s*<option value="label" selected(="selected")?>Preferred label, else label</option>#', $page);
         $this->assertStringContainsString('<input type="text" name="label_property" id="label_property" value="">', $page);
-        $this->assertStringContainsString('<div class="field-description">Enter the label property.', $page);
+        $this->assertStringContainsString('<div class="field-description">The property\'s full URI, in angle brackets, such as <http://www.w3.org/2004/02/skos/core#altLabel>.', $page);
         $this->assertMatchesRegularExpression('#<form [^>]*method="get"[^>]*>#', $page);
         preg_match('#<form [^>]*class="review-choices"[^>]*>.*?</form>#s', $page, $choices);
         $this->assertStringNotContainsString('csrf', $choices[0]);
@@ -648,15 +649,17 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
 
         // Labels read from a property the file doesn't have are local names,
         // which never take the place of Omeka's labels.
-        $page = html_entity_decode($this->reviewPage($token, ['label_property' => 'skos:prefLabel']), ENT_QUOTES | ENT_HTML5);
+        $page = html_entity_decode($this->reviewPage($token, ['labels' => 'other', 'label_property' => 'skos:prefLabel']), ENT_QUOTES | ENT_HTML5);
         $this->assertStringNotContainsString('Changed property labels', $page);
         // Shown in its field, as the import options use it, and carried to
         // Accept.
+        $this->assertMatchesRegularExpression('#<select name="labels"[^>]*>.*?<option value="other" selected(="selected")?>#s', $page);
         $this->assertStringContainsString('<input type="text" name="label_property" id="label_property" value="skos:prefLabel">', $page);
+        $this->assertStringContainsString('<input type="hidden" name="labels" value="other">', $page);
         $this->assertStringContainsString('<input type="hidden" name="label_property" value="skos:prefLabel">', $page);
 
         // Accepted, it's stored in the import options.
-        $this->postReview('accept-review', $token, self::ADMIN, null, ['label_property' => 'skos:prefLabel']);
+        $this->postReview('accept-review', $token, self::ADMIN, null, ['labels' => 'other', 'label_property' => 'skos:prefLabel']);
         $this->assertSame('skos:prefLabel', $this->vocabulary()->importOptions()['label_property']);
     }
 
@@ -846,7 +849,8 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         // Another language's and another property's fields, each after the
         // choice that shows it.
         $this->assertMatchesRegularExpression('#<select name="vocabulary-advanced\[lang\]" id="lang" data-other-field="\#other_lang">.*?<option value="other">Another language…</option>.*?name="vocabulary-advanced\[other_lang\]"#s', $page);
-        $this->assertMatchesRegularExpression('#<select name="vocabulary-advanced\[comments\]" id="comments" data-other-field="\#comment_property">.*?<option value="other">Another property…</option>.*?name="vocabulary-advanced\[comment_property\]".*?name="vocabulary-advanced\[label_property\]"#s', $page);
+        // Labels before comments, as everywhere else.
+        $this->assertMatchesRegularExpression('#<select name="vocabulary-advanced\[labels\]" id="labels" data-other-field="\#label_property">.*?<option value="other">Another property…</option>.*?name="vocabulary-advanced\[label_property\]".*?<select name="vocabulary-advanced\[comments\]" id="comments" data-other-field="\#comment_property">.*?<option value="other">Another property…</option>.*?name="vocabulary-advanced\[comment_property\]"#s', $page);
         // The choices of labels and comments under their own label, after
         // the vocabulary's own fields.
         $this->assertMatchesRegularExpression('#name="vocabulary-info\[o:prefix\]".*?<fieldset[^>]*><legend>Classes and properties</legend>.*?name="vocabulary-advanced\[lang\]".*?</fieldset>#s', $page);

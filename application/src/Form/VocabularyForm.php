@@ -25,7 +25,7 @@ class VocabularyForm extends Form
      * The fields that choose how a file is read: on the review page by these
      * names, and on import details in the Advanced fieldset.
      */
-    const CHOICE_FIELDS = ['lang', 'other_lang', 'comments', 'label_property', 'comment_property'];
+    const CHOICE_FIELDS = ['lang', 'other_lang', 'labels', 'label_property', 'comments', 'comment_property'];
 
     protected $translator;
 
@@ -164,6 +164,10 @@ class VocabularyForm extends Form
             ]);
             $inputFilter->get('vocabulary-advanced')->add([
                 'name' => 'other_lang',
+                'required' => false,
+            ]);
+            $inputFilter->get('vocabulary-advanced')->add([
+                'name' => 'labels',
                 'required' => false,
             ]);
             $inputFilter->get('vocabulary-advanced')->add([
@@ -341,7 +345,7 @@ class VocabularyForm extends Form
             'type' => 'select',
             'options' => [
                 'label' => 'Preferred language', // @translate
-                'info' => 'The language of the labels and comments to use, where the file has them in more than one.', // @translate
+                'info' => 'The language of the labels and comments to use, where the file has them in more than one. A class or property without it takes English where it can.', // @translate
                 'value_options' => $languageOptions,
             ],
             'attributes' => [
@@ -354,10 +358,38 @@ class VocabularyForm extends Form
             'type' => 'text',
             'options' => [
                 'label' => 'Language tag', // @translate
-                'info' => 'Enter the tag of a language the list doesn\'t show, as the file writes it, such as fr or pt-BR.', // @translate
+                'info' => 'Enter a language the list doesn\'t show, by its tag, such as fr or pt-BR.', // @translate
             ],
             'attributes' => [
                 'id' => 'other_lang',
+            ],
+        ]);
+        $fieldset->add([
+            'name' => 'labels',
+            'type' => 'select',
+            'options' => [
+                'label' => 'Labels from', // @translate
+                'info' => 'Labels come from a class or property\'s preferred label (skos:prefLabel) or label (rdfs:label), else its name or title (foaf:name, rss:title, dc:title, or dc11:title). Choose another property to take them from.', // @translate
+                'value_options' => [
+                    'label' => 'Preferred label, else label', // @translate
+                    'other' => 'Another property…', // @translate
+                ],
+            ],
+            'attributes' => [
+                'id' => 'labels',
+                'value' => 'label',
+                'data-other-field' => '#label_property',
+            ],
+        ]);
+        $fieldset->add([
+            'name' => 'label_property',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Label property', // @translate
+                'info' => 'The property\'s full URI, in angle brackets, such as <http://www.w3.org/2004/02/skos/core#altLabel>.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'label_property',
             ],
         ]);
         $fieldset->add([
@@ -365,7 +397,7 @@ class VocabularyForm extends Form
             'type' => 'select',
             'options' => [
                 'label' => 'Comments from', // @translate
-                'info' => 'Each class and property takes its comment from its comment (rdfs:comment) or its definition (skos:definition), whichever it has, else its description (dcterms:description or dc11:description). Choose which to use when it has both, or another property to take it from.', // @translate
+                'info' => 'Comments come from a class or property\'s comment (rdfs:comment) or definition (skos:definition), whichever it has, else its description (dcterms:description or dc11:description). Choose which comes first when it has both, or another property to take them from.', // @translate
                 'value_options' => [
                     'comment' => 'Comment, else definition', // @translate
                     'definition' => 'Definition, else comment', // @translate
@@ -383,21 +415,10 @@ class VocabularyForm extends Form
             'type' => 'text',
             'options' => [
                 'label' => 'Comment property', // @translate
-                'info' => 'Enter the comment property. Please use the full property URI enclosed in angle brackets.', // @translate
+                'info' => 'The property\'s full URI, in angle brackets, such as <http://www.w3.org/2004/02/skos/core#scopeNote>.', // @translate
             ],
             'attributes' => [
                 'id' => 'comment_property',
-            ],
-        ]);
-        $fieldset->add([
-            'name' => 'label_property',
-            'type' => 'text',
-            'options' => [
-                'label' => 'Label property', // @translate
-                'info' => 'Enter the label property. This is typically only needed if the vocabulary uses an unconventional property for labels. Please use the full property URI enclosed in angle brackets.', // @translate
-            ],
-            'attributes' => [
-                'id' => 'label_property',
             ],
         ]);
     }
@@ -422,8 +443,9 @@ class VocabularyForm extends Form
         if (null !== $lang) {
             $importOptions['lang'] = '' === $lang ? null : $lang;
         }
-        if (isset($values['label_property']) && is_string($values['label_property'])) {
-            $importOptions['label_property'] = '' === trim($values['label_property']) ? null : trim($values['label_property']);
+        $labelProperty = self::getChosenLabelProperty($values);
+        if (false !== $labelProperty) {
+            $importOptions['label_property'] = $labelProperty;
         }
         $commentProperty = self::getChosenCommentProperty($values);
         if (null !== $commentProperty) {
@@ -434,22 +456,25 @@ class VocabularyForm extends Form
 
     /**
      * Get the choice fields' values for import options: the reverse of
-     * getChosenImportOptions(). A comment property the Comments from field
-     * doesn't offer, or a label property other than the default, was entered
-     * by hand, so its box is filled in.
+     * getChosenImportOptions(). A label or comment property the Labels from
+     * or Comments from field doesn't offer was entered by hand, so its box is
+     * filled in.
      *
      * @param array $importOptions
-     * @return array lang, comments, label_property, and comment_property
+     * @return array lang, labels, label_property, comments, and
+     *   comment_property
      */
     public static function getChoiceValues(array $importOptions)
     {
         $commentProperty = $importOptions['comment_property'] ?? RdfImporter::COMMENT_PROPERTY;
         $comments = array_search($commentProperty, RdfImporter::COMMENT_PROPERTY_CHOICES, true);
         $labelProperty = $importOptions['label_property'] ?? RdfImporter::LABEL_PROPERTY;
+        $isDefaultLabel = RdfImporter::LABEL_PROPERTY === $labelProperty;
         return [
             'lang' => (string) ($importOptions['lang'] ?? ''),
+            'labels' => $isDefaultLabel ? 'label' : 'other',
+            'label_property' => $isDefaultLabel ? '' : $labelProperty,
             'comments' => false === $comments ? 'other' : $comments,
-            'label_property' => RdfImporter::LABEL_PROPERTY === $labelProperty ? '' : $labelProperty,
             'comment_property' => false === $comments ? $commentProperty : '',
         ];
     }
@@ -473,6 +498,27 @@ class VocabularyForm extends Form
             return '' === $other ? null : $other;
         }
         return $lang;
+    }
+
+    /**
+     * Get the label property chosen: null for the default the Labels from
+     * field offers, or the one entered under "Another property…". Another
+     * with none entered is no choice.
+     *
+     * @param array $values With "labels" and "label_property"
+     * @return string|null|false False for no choice
+     */
+    protected static function getChosenLabelProperty(array $values)
+    {
+        $labels = $values['labels'] ?? null;
+        if ('label' === $labels) {
+            return null;
+        }
+        if ('other' === $labels) {
+            $property = is_string($values['label_property'] ?? null) ? trim($values['label_property']) : '';
+            return '' === $property ? false : $property;
+        }
+        return false;
     }
 
     /**

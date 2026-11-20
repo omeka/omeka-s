@@ -17,7 +17,8 @@ class VocabularyImportFactory implements FactoryInterface
         return new VocabularyImport(
             $serviceLocator->get('Omeka\RdfImporter'),
             $serviceLocator->get('Omeka\File\StagedFiles'),
-            $serviceLocator->get('Router')
+            $serviceLocator->get('Router'),
+            $serviceLocator->get('Omeka\ApiAdapterManager')->get('vocabularies')
         );
     }
 }

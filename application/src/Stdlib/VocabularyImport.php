@@ -3,16 +3,21 @@ namespace Omeka\Stdlib;
 
 use Laminas\Router\RouteStackInterface;
 use Laminas\Session\Container;
+use Omeka\Api\Adapter\VocabularyAdapter;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\File\StagedFiles;
 use Omeka\Form\VocabularyForm;
 
 /**
- * Starts imports, for core's Import and for a module that keeps vocabulary
- * files: it stages the file (StagedFiles) and sends the admin to the import
- * details page, which reads it. A module may also hand the import some of the
- * vocabulary's fields and the page's starting choices, its hand-off, held in
- * the session under the staged file's token until the import ends.
+ * Imports of vocabulary files, from the file to the new vocabulary, for core's
+ * Import and import details pages and for a module that keeps vocabulary
+ * files. start() stages the file (StagedFiles) and returns the import details
+ * page's URL; that page reads what the file says (getDetails()), finds a
+ * vocabulary Omeka already has (findVocabulary()), lists the classes and
+ * properties (getMembers()), and imports (import()), which ends the import. A
+ * module may also hand the import some of the vocabulary's fields and the
+ * page's starting choices, its hand-off, held in the session under the staged
+ * file's token until the import ends.
  */
 class VocabularyImport
 {
@@ -43,15 +48,22 @@ class VocabularyImport
     protected $router;
 
     /**
+     * @var VocabularyAdapter
+     */
+    protected $vocabularyAdapter;
+
+    /**
      * @var Container
      */
     protected $session;
 
-    public function __construct(RdfImporter $rdfImporter, StagedFiles $stagedFiles, RouteStackInterface $router)
-    {
+    public function __construct(RdfImporter $rdfImporter, StagedFiles $stagedFiles, RouteStackInterface $router,
+        VocabularyAdapter $vocabularyAdapter
+    ) {
         $this->rdfImporter = $rdfImporter;
         $this->stagedFiles = $stagedFiles;
         $this->router = $router;
+        $this->vocabularyAdapter = $vocabularyAdapter;
     }
 
     /**
@@ -109,8 +121,8 @@ class VocabularyImport
      * VocabularyReview::get() gets a review.
      *
      * @param string $fileToken
-     * @return array|null file, vocabulary, and import_options; null once the
-     *   file is gone
+     * @return array|null file_token, file, vocabulary, and import_options;
+     *   null once the file is gone
      */
     public function get($fileToken)
     {
@@ -120,10 +132,85 @@ class VocabularyImport
         }
         $handOff = $this->getSession()->offsetGet((string) $fileToken);
         return [
+            'file_token' => (string) $fileToken,
             'file' => $file,
             'vocabulary' => $handOff['vocabulary'] ?? [],
             'import_options' => $handOff['import_options'] ?? [],
         ];
+    }
+
+    /**
+     * Get what an import's file says of its vocabulary.
+     *
+     * @see RdfImporter::getVocabularyDetails()
+     * @param array $import As get() gives it
+     * @param string $format
+     * @param string|null $lang The language to prefer, such as the
+     *   installation's locale
+     * @return array
+     */
+    public function getDetails(array $import, $format, $lang = null)
+    {
+        return $this->rdfImporter->getVocabularyDetails('file', [
+            'file' => $import['file'],
+            'format' => $format,
+            'lang' => $lang,
+        ]);
+    }
+
+    /**
+     * Get the vocabulary Omeka has under any form of a namespace URI, which
+     * an import under it would duplicate.
+     *
+     * @param string $namespaceUri
+     * @return \Omeka\Api\Representation\VocabularyRepresentation|null
+     */
+    public function findVocabulary($namespaceUri)
+    {
+        if ('' === (string) $namespaceUri) {
+            return null;
+        }
+        $vocabulary = $this->vocabularyAdapter->findByNamespaceUri($namespaceUri);
+        if (!$vocabulary) {
+            return null;
+        }
+        return $this->vocabularyAdapter->getRepresentation($vocabulary);
+    }
+
+    /**
+     * Get the classes and properties importing would add, refusing a file
+     * with none in the namespace.
+     *
+     * @param array $import As get() gives it
+     * @param string $namespaceUri
+     * @param array $importOptions format, lang, label_property, comment_property
+     * @return array Labels and comments by local name, by kind
+     * @throws ValidationException When the file has no classes or properties
+     *   in the namespace
+     */
+    public function getMembers(array $import, $namespaceUri, array $importOptions)
+    {
+        $options = ['file' => $import['file']] + $importOptions;
+        $this->rdfImporter->checkHasMembers('file', $namespaceUri, $options);
+        return $this->rdfImporter->getMembers('file', $namespaceUri, $options);
+    }
+
+    /**
+     * Import the vocabulary, and end the import, as VocabularyReview::accept()
+     * ends a review.
+     *
+     * @param array $import As get() gives it
+     * @param array $vocabulary o:label, o:comment, o:namespace_uri, o:prefix
+     * @param array $importOptions format, lang, label_property, comment_property
+     * @return \Omeka\Api\Representation\VocabularyRepresentation
+     * @throws ValidationException When the import is refused; the import goes
+     *   on
+     */
+    public function import(array $import, array $vocabulary, array $importOptions)
+    {
+        $response = $this->rdfImporter->import('file', $vocabulary, ['file' => $import['file']] + $importOptions);
+        $this->end($import['file_token']);
+        return $response->getContent();
     }
 
     /**

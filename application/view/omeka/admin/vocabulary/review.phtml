@@ -1,0 +1,109 @@
+<?php
+$this->headScript()->appendFile($this->assetUrl('js/vocabulary-form.js', 'Omeka'));
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'vocabularies review');
+
+// Omeka's labels, which name the terms whose labels and comments change.
+$labels = ['classes' => [], 'properties' => []];
+foreach ($vocabulary->resourceClasses() as $class) {
+    $labels['classes'][$class->localName()] = $class->label();
+}
+foreach ($vocabulary->properties() as $property) {
+    $labels['properties'][$property->localName()] = $property->label();
+}
+
+// Whether the review also changes the namespace URI, shown whole rather
+// than marked word by word.
+$namespaceChanges = null !== $review['new_namespace_uri'];
+
+// Labels first, which everyone sees, then new terms, comments, and the terms
+// only in Omeka, which aren't changes.
+$sections = [];
+if (null !== $diff) {
+    $kinds = ['properties' => $translate('Property'), 'classes' => $translate('Class')];
+    $sections = [
+        ['id' => 'review-property-labels', 'heading' => $translate('Changed property labels'), 'columns' => [$kinds['properties'], $translate('From'), $translate('To')], 'changes' => $diff['properties']['label'], 'labels' => $labels['properties'], 'class' => 'review-changes'],
+        ['id' => 'review-class-labels', 'heading' => $translate('Changed class labels'), 'columns' => [$kinds['classes'], $translate('From'), $translate('To')], 'changes' => $diff['classes']['label'], 'labels' => $labels['classes'], 'class' => 'review-changes'],
+        ['id' => 'review-new-properties', 'heading' => $translate('New properties'), 'columns' => [$kinds['properties'], $translate('Label'), $translate('Comment')], 'terms' => $diff['properties']['new']],
+        ['id' => 'review-new-classes', 'heading' => $translate('New classes'), 'columns' => [$kinds['classes'], $translate('Label'), $translate('Comment')], 'terms' => $diff['classes']['new']],
+        ['id' => 'review-property-comments', 'heading' => $translate('Changed property comments'), 'columns' => [$kinds['properties'], $translate('From'), $translate('To')], 'changes' => $diff['properties']['comment'], 'labels' => $labels['properties'], 'class' => 'review-changes'],
+        ['id' => 'review-class-comments', 'heading' => $translate('Changed class comments'), 'columns' => [$kinds['classes'], $translate('From'), $translate('To')], 'changes' => $diff['classes']['comment'], 'labels' => $labels['classes'], 'class' => 'review-changes'],
+    ];
+    $onlyInOmeka = $translate('This vocabulary has these, and the file doesn\'t. Accepting keeps them.');
+    $sections[] = ['id' => 'review-properties-only-in-omeka', 'heading' => $translate('Properties only in Omeka'), 'columns' => [$kinds['properties'], $translate('Label')], 'terms' => $notInFile['properties'], 'note' => $onlyInOmeka];
+    $sections[] = ['id' => 'review-classes-only-in-omeka', 'heading' => $translate('Classes only in Omeka'), 'columns' => [$kinds['classes'], $translate('Label')], 'terms' => $notInFile['classes'], 'note' => $onlyInOmeka];
+}
+$termChanges = 0;
+foreach ($sections as $key => $section) {
+    $sections[$key]['count'] = count($section['changes'] ?? $section['terms']);
+    // A section with a note, of the terms only in Omeka, isn't a change.
+    $termChanges += isset($section['note']) ? 0 : $sections[$key]['count'];
+}
+$sections = array_filter($sections, function ($section) {
+    return (bool) $section['count'];
+});
+$changes = null !== $diff && ($termChanges || $namespaceChanges);
+?>
+
+<?php echo $this->pageTitle($vocabulary->label(), 1, $translate('Vocabularies'), $translate('Review changes')); ?>
+
+<?php // Accept and Cancel, in a form of their own, so the form of choices doesn't nest in it. ?>
+<?php echo $this->form()->openTag($form); ?>
+    <div id="page-actions">
+        <?php // With nothing to change, there's nothing to accept; Back ends the review as Cancel does. ?>
+        <button type="submit" class="button" formaction="<?php echo $escape($cancelUrl); ?>"><?php echo (null !== $diff && !$changes) ? $translate('Back') : $translate('Cancel'); ?></button>
+        <?php if ($changes): ?>
+        <button type="submit" class="review-accept" data-inactive-title="<?php echo $escape($translate('Show changes first')); ?>"><?php echo $translate('Accept changes'); ?></button>
+        <?php endif; ?>
+    </div>
+    <?php echo $this->formElement($form->get($form->getName() . '_csrf')); ?>
+<?php echo $this->form()->closeTag(); ?>
+
+<?php // The choices, sent by GET to show the changes again. ?>
+<?php
+$choices->setAttributes(['method' => 'get', 'action' => $this->url(null, [], true), 'class' => 'review-choices']);
+$choices->prepare();
+?>
+<?php echo $this->form()->openTag($choices); ?>
+    <input type="hidden" name="review" value="<?php echo $escape($token); ?>">
+    <?php // Under the label import details gives the same choices. ?>
+    <fieldset>
+        <legend><?php echo $translate('Classes and properties'); ?></legend>
+        <?php echo $this->formCollection($choices, false); ?>
+    </fieldset>
+    <div class="review-choices-actions">
+        <button type="submit" class="review-show" data-watch="fieldset :input"><?php echo $translate('Show changes'); ?></button>
+    </div>
+<?php echo $this->form()->closeTag(); ?>
+
+<?php if (null !== $diff): ?>
+<?php if ($changes): ?>
+<p><?php echo $translate('Accepting makes the changes below, from the file.'); ?></p>
+<?php else: ?>
+<p><?php echo $translate('With the choices above, the file makes no changes to this vocabulary.'); ?></p>
+<?php endif; ?>
+<?php endif; ?>
+
+<?php if ($namespaceChanges): ?>
+<h2><?php echo $translate('Vocabulary'); ?></h2>
+<table class="tablesaw review-table review-changes" data-tablesaw-mode="stack">
+    <thead>
+        <tr>
+            <th><?php echo $translate('Field'); ?></th>
+            <th><?php echo $translate('From'); ?></th>
+            <th><?php echo $translate('To'); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td role="rowheader"><?php echo $escape($translate('Namespace URI')); ?></td>
+            <td><span class="review-value"><?php echo $escape($vocabulary->namespaceUri()); ?></span></td>
+            <td><span class="review-value"><?php echo $escape($review['new_namespace_uri']); ?></span></td>
+        </tr>
+    </tbody>
+</table>
+<p><?php echo $translate('Changing the namespace changes the URI of every class and property in this vocabulary.'); ?></p>
+<?php endif; ?>
+
+<?php echo $this->partial('omeka/admin/vocabulary/review-sections', ['sections' => $sections, 'prefix' => $vocabulary->prefix()]); ?>

@@ -1,0 +1,11 @@
+# A class whose label is its local name, as many classes' are, and a
+# property with no label at all.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix local: <http://example.org/local#> .
+
+local:Part a rdfs:Class ;
+    rdfs:label "Part"@en, "Teil"@de .
+
+local:unlabeled a rdf:Property ;
+    rdfs:comment "A property the file gives no label."@en .

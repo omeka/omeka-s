@@ -1,0 +1,18 @@
+# Labels and comments in English and French, where some French ones are
+# empty placeholders. The class's local name differs from its English label.
+# One property has only placeholders.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix multi: <http://example.org/multi#> .
+
+multi:CreativeWork a rdfs:Class ;
+    rdfs:label "Work"@en, ""@fr ;
+    rdfs:comment "A creative work."@en, ""@fr .
+
+multi:title a rdf:Property ;
+    rdfs:label "Title"@en, "Titre"@fr ;
+    rdfs:comment "The work's title."@en, "Le titre de l'oeuvre."@fr .
+
+multi:subtitle a rdf:Property ;
+    rdfs:label " "@fr ;
+    rdfs:comment ""@fr .

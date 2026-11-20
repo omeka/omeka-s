@@ -1,0 +1,15 @@
+# A vocabulary that declares its namespace with https while its terms use
+# http, declares a prefix Omeka can't take, and describes itself only in a
+# note.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix variant: <http://example.org/variant#> .
+
+<http://example.org/variant> a owl:Ontology ;
+    vann:preferredNamespaceUri "https://example.org/variant#" ;
+    vann:preferredNamespacePrefix "my.prefix" ;
+    skos:note "Described in a note."@en .
+
+variant:Thing a rdfs:Class .

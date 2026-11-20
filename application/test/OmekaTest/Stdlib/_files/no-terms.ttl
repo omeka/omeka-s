@@ -1,0 +1,4 @@
+# RDF without any class or property in it.
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+<http://example.org/document> dcterms:title "A document" .

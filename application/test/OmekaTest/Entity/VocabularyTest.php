@@ -60,6 +60,46 @@ class VocabularyTest extends TestCase
         $this->assertEquals($label, $this->vocabulary->getLabel());
     }
 
+    public function testGetNamespaceUriForms()
+    {
+        $this->assertSame([
+            'http://example.org/ns#',
+            'http://example.org/ns/',
+            'http://example.org/ns',
+            'http://example.org/ns/#',
+            'https://example.org/ns#',
+            'https://example.org/ns/',
+            'https://example.org/ns',
+            'https://example.org/ns/#',
+        ], Vocabulary::getNamespaceUriForms('http://example.org/ns#'));
+    }
+
+    public function testGetNamespaceUriFormsGoBothWays()
+    {
+        // A form of a form is a form of the first, so http://example.org/ns/#
+        // and http://example.org/ns# find each other.
+        $this->assertContains('http://example.org/ns/#', Vocabulary::getNamespaceUriForms('http://example.org/ns#'));
+        $this->assertContains('http://example.org/ns#', Vocabulary::getNamespaceUriForms('http://example.org/ns/#'));
+    }
+
+    public function testGetNamespaceUriFormsOfASchemeInCapitals()
+    {
+        // As the database matches namespace URIs whatever their capitals.
+        $this->assertContains('https://example.org/ns#', Vocabulary::getNamespaceUriForms('HTTP://example.org/ns#'));
+        $this->assertContains('http://example.org/ns#', Vocabulary::getNamespaceUriForms('HTTPS://example.org/ns#'));
+    }
+
+    public function testGetNamespaceUriFormsStartsWithTheOneGiven()
+    {
+        $this->assertSame('https://example.org/ns', Vocabulary::getNamespaceUriForms('https://example.org/ns')[0]);
+        $this->assertCount(8, Vocabulary::getNamespaceUriForms('https://example.org/ns'));
+    }
+
+    public function testGetNamespaceUriFormsOfAnotherScheme()
+    {
+        $this->assertSame(['urn:example:', 'urn:example:#', 'urn:example:/', 'urn:example:/#'], Vocabulary::getNamespaceUriForms('urn:example:'));
+    }
+
     public function testSetComment()
     {
         $comment = 'test-comment';

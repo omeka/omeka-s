@@ -1,0 +1,24 @@
+# Labels in several languages, none of them on every term, and listed in no
+# particular order, as in many translated files.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix fb: <http://example.org/fallback#> .
+
+fb:Catalog a rdfs:Class ;
+    rdfs:label "Catalog"@en, "Catalogue"@fr, "Catálogo"@es .
+
+fb:Relationship a rdfs:Class ;
+    rdfs:label "Relación"@es, "Relationship"@en, "Relazione"@it ;
+    rdfs:comment "Una relación."@es, "A relationship."@en .
+
+fb:Role a rdfs:Class ;
+    rdfs:label "Rol"@es, "Role" .
+
+fb:hadRole a rdf:Property ;
+    rdfs:label "haRuolo"@it, "sehraná role"@cs .
+
+fb:email a rdf:Property ;
+    rdfs:label "E-Mail"@de, "Email"@en-US, "Courriel"@fr-CA .
+
+fb:endDate a rdf:Property ;
+    rdfs:label "datum konce"@cs, "end date"@en-GB .

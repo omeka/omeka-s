@@ -277,6 +277,8 @@ return [
             'Omeka\Cli' => Service\CliFactory::class,
             'Omeka\Paginator' => Service\PaginatorFactory::class,
             'Omeka\RdfImporter' => Service\RdfImporterFactory::class,
+            'Omeka\VocabularyReview' => Service\VocabularyReviewFactory::class,
+            'Omeka\VocabularyImport' => Service\VocabularyImportFactory::class,
             'Omeka\Site\ThemeManager' => Service\ThemeManagerFactory::class,
             'Omeka\Site\NavigationLinkManager' => Service\NavigationLinkManagerFactory::class,
             'Omeka\Site\NavigationTranslator' => Service\SiteNavigationTranslatorFactory::class,
@@ -288,6 +290,7 @@ return [
             'Omeka\File\MediaTypeMap' => Service\MediaTypeMapFactory::class,
             'Omeka\File\ThumbnailManager' => Service\File\ThumbnailManagerFactory::class,
             'Omeka\File\TempFileFactory' => Service\File\TempFileFactoryFactory::class,
+            'Omeka\File\StagedFiles' => Service\File\StagedFilesFactory::class,
             'Omeka\File\Downloader' => Service\File\DownloaderFactory::class,
             'Omeka\File\Uploader' => Service\File\UploaderFactory::class,
             'Omeka\File\Validator' => Service\File\ValidatorFactory::class,
@@ -421,6 +424,7 @@ return [
     'view_helpers' => [
         'invokables' => [
             'pageTitle' => View\Helper\PageTitle::class,
+            'textDiff' => View\Helper\TextDiff::class,
             'htmlElement' => View\Helper\HtmlElement::class,
             'hyperlink' => View\Helper\Hyperlink::class,
             'messages' => View\Helper\Messages::class,
@@ -770,6 +774,7 @@ return [
                 'prefix' => 'Prefix', // @translate
                 'resource_class_count' => 'Resource class count', // @translate
                 'property_count' => 'Property count', // @translate
+                'owner_name' => 'Owner', // @translate
                 'id' => 'ID', // @translate
             ],
             'resource_classes' => [

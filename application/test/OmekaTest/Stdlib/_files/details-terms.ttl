@@ -1,0 +1,17 @@
+# A vocabulary that declares nothing of itself: its namespace is the one
+# its terms use, and its title is on the record they name, as element sets
+# from the Open Metadata Registry have it.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix terms: <http://example.org/terms#> .
+
+<http://example.org/terms-record> dcterms:title "Terms by their record"@en .
+
+terms:Thing a rdfs:Class ;
+    rdfs:isDefinedBy <http://example.org/terms-record> .
+terms:name a rdf:Property ;
+    rdfs:isDefinedBy <http://example.org/terms-record> .
+terms:other a rdf:Property ;
+    rdfs:isDefinedBy <http://example.org/terms-record> .
+<http://example.org/elsewhere#thing> a rdfs:Class .

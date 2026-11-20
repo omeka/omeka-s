@@ -1,0 +1,13 @@
+# Two of the comparison tests' terms, in another form of their namespace
+# URI, https for http, as a vocabulary whose namespace URI changed form.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix compare: <https://example.org/compare#> .
+
+compare:name a rdf:Property ;
+    rdfs:label "Name" ;
+    rdfs:comment "A name." .
+
+compare:title a rdf:Property ;
+    rdfs:label "Heading" ;
+    rdfs:comment "The title." .

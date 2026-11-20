@@ -1,0 +1,29 @@
+# The vocabulary the comparison tests store, as a later file: values that
+# differ from Omeka's only in spacing, a comment the file no longer has, one
+# that's empty in Omeka, a label the file no longer has, real changes, and a
+# new term. Omeka also has a term the file doesn't.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix compare: <http://example.org/compare#> .
+
+compare:Thing a rdfs:Class ;
+    rdfs:label "Thing" ;
+    rdfs:comment """A   thing.
+  """ .
+
+compare:name a rdf:Property ;
+    rdfs:label " Name  " .
+
+compare:note a rdf:Property ;
+    rdfs:label "Note" .
+
+compare:unlabeled a rdf:Property ;
+    rdfs:comment "Has a label in Omeka." .
+
+compare:title a rdf:Property ;
+    rdfs:label "Heading" ;
+    rdfs:comment "The work's heading." .
+
+compare:added a rdf:Property ;
+    rdfs:label "Added" ;
+    rdfs:comment "A new term." .

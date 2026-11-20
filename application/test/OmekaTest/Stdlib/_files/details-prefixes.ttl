@@ -1,0 +1,13 @@
+# A vocabulary whose ontology declares a prefix Omeka can't use, and whose
+# namespace declares one it can.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+
+<http://example.org/prefixes> a owl:Ontology ;
+    vann:preferredNamespaceUri "http://example.org/prefixes#" ;
+    vann:preferredNamespacePrefix "my.prefixes" .
+
+<http://example.org/prefixes#> vann:preferredNamespacePrefix "prefixes" .
+
+<http://example.org/prefixes#Thing> a rdfs:Class .

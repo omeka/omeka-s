@@ -12,6 +12,8 @@ class VocabularyFormFactory implements FactoryInterface
         $form = new VocabularyForm;
         $form->setTranslator($services->get('MvcTranslator'));
         $form->setOption('vocabulary', $options['vocabulary'] ?? null);
+        $form->setOption('mode', $options['mode'] ?? null);
+        $form->setOption('languages', $options['languages'] ?? []);
         return $form;
     }
 }

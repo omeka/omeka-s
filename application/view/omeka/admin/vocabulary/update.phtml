@@ -1,127 +1,31 @@
 <?php
-$translate = $this->plugin('translate');
+$this->headScript()->appendFile($this->assetUrl('js/vocabulary-form.js', 'Omeka'));
 $this->htmlElement('body')->appendAttribute('class', 'vocabularies update');
-$changedProperties = [];
-foreach ($diff['properties']['label'] as $localName => $change) {
-    $changedProperties[] = ['label', $localName, $change];
-}
-foreach ($diff['properties']['comment'] as $localName => $change) {
-    $changedProperties[] = ['comment', $localName, $change];
-}
-
-$changedClasses = [];
-foreach ($diff['classes']['label'] as $localName => $change) {
-    $changedClasses[] = ['label', $localName, $change];
-}
-foreach ($diff['classes']['comment'] as $localName => $change) {
-    $changedClasses[] = ['comment', $localName, $change];
-}
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$form->prepare();
 ?>
-<?php echo $this->pageTitle($vocabulary->label(), 1, $translate('Vocabularies'), $translate('Update')); ?>
+
+<?php echo $this->pageTitle($vocabulary->label(), 1, $translate('Vocabularies'), $translate('Update classes and properties')); ?>
+
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
-    <a href="<?php echo $this->escapeHtml($this->url(null, ['action' => 'browse'], true)); ?>" class="button"><?php echo $translate('Cancel'); ?></a>
-    <button><?php echo $translate('Accept changes'); ?></button>
+    <?php // To the vocabulary's page, not one page back. ?>
+    <?php echo $this->hyperlink($translate('Cancel'), $vocabulary->url(), ['class' => 'button']); ?>
+    <button><?php echo $translate('Review changes'); ?></button>
+</div>
+<?php // The namespace the file's terms are matched in. ?>
+<div class="field">
+    <div class="field-meta">
+        <span class="label"><?php echo $translate('Namespace URI'); ?></span>
+        <a href="#" class="expand" aria-expanded="false" aria-controls="namespace-uri-description" aria-label="<?php echo $escape($translate('Expand')); ?>"></a>
+        <div class="collapsible" id="namespace-uri-description">
+            <div class="field-description"><?php echo sprintf($translate('Only the file\'s classes and properties in this namespace URI are compared. If the vocabulary has moved to a new namespace URI, change it first with %s.'), $this->hyperlink($translate('Edit vocabulary'), $vocabulary->url('edit'))); ?></div>
+        </div>
+    </div>
+    <div class="inputs">
+        <?php echo $escape($vocabulary->namespaceUri()); ?>
+    </div>
 </div>
 <?php echo $this->formCollection($form, false); ?>
 <?php echo $this->form()->closeTag(); ?>
-
-<h3>Changed Properties</h3>
-<?php if ($changedProperties): ?>
-<table class="tablesaw" data-tablesaw-mode="stack">
-<thead>
-    <tr>
-        <th>Local name</th>
-        <th>Type</th>
-        <th>From</th>
-        <th>To</th>
-    </tr>
-</thead>
-<tbody>
-    <?php foreach ($changedProperties as $changedProperty): ?>
-    <tr>
-        <td><?php echo $changedProperty[1]; ?></td>
-        <td><?php echo $changedProperty[0]; ?></td>
-        <td><?php echo $changedProperty[2][0]; ?></td>
-        <td><?php echo $changedProperty[2][1]; ?></td>
-    </tr>
-    <?php endforeach; ?>
-</tbody>
-</table>
-<?php else: ?>
-<p>No changed properties found.</p>
-<?php endif; ?>
-
-<h3>Changed Classes</h3>
-<?php if ($changedClasses): ?>
-<table class="tablesaw" data-tablesaw-mode="stack">
-<thead>
-    <tr>
-        <th>Local name</th>
-        <th>Type</th>
-        <th>From</th>
-        <th>To</th>
-    </tr>
-</thead>
-<tbody>
-    <?php foreach ($changedClasses as $changedClass): ?>
-    <tr>
-        <td><?php echo $changedClass[1]; ?></td>
-        <td><?php echo $changedClass[0]; ?></td>
-        <td><?php echo $changedClass[2][0]; ?></td>
-        <td><?php echo $changedClass[2][1]; ?></td>
-    </tr>
-    <?php endforeach; ?>
-</tbody>
-</table>
-<?php else: ?>
-<p>No changed classes found.</p>
-<?php endif; ?>
-
-<h3>New Properties</h3>
-<?php if ($diff['properties']['new']): ?>
-<table class="tablesaw" data-tablesaw-mode="stack">
-<thead>
-    <tr>
-        <th>Local name</th>
-        <th>Label</th>
-        <th>Comment</th>
-    </tr>
-</thead>
-<tbody>
-    <?php foreach ($diff['properties']['new'] as $localName => $info): ?>
-    <tr>
-        <td><?php echo $localName; ?></td>
-        <td><?php echo $info[0]; ?></td>
-        <td><?php echo $info[1]; ?></td>
-    </tr>
-    <?php endforeach; ?>
-</tbody>
-</table>
-<?php else: ?>
-<p>No new properties found.</p>
-<?php endif; ?>
-
-<h3>New Classes</h3>
-<?php if ($diff['classes']['new']): ?>
-<table class="tablesaw" data-tablesaw-mode="stack">
-<thead>
-    <tr>
-        <th>Local name</th>
-        <th>Label</th>
-        <th>Comment</th>
-    </tr>
-</thead>
-<tbody>
-    <?php foreach ($diff['classes']['new'] as $localName => $info): ?>
-    <tr>
-        <td><?php echo $localName; ?></td>
-        <td><?php echo $info[0]; ?></td>
-        <td><?php echo $info[1]; ?></td>
-    </tr>
-    <?php endforeach; ?>
-</tbody>
-</table>
-<?php else: ?>
-<p>No new classes found.</p>
-<?php endif; ?>

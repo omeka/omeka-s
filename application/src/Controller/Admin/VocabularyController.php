@@ -127,6 +127,7 @@ class VocabularyController extends AbstractActionController
      */
     public function importDetailsAction()
     {
+        // The import and what its file says, else back to Import.
         $token = (string) $this->params()->fromQuery('file_token');
         $format = (string) $this->params()->fromQuery('format');
         if (!isset(VocabularyForm::FORMATS[$format])) {
@@ -145,6 +146,8 @@ class VocabularyController extends AbstractActionController
             $this->messenger()->addErrors($this->getErrors($e));
             return $this->redirect()->toRoute('admin/default', ['controller' => 'vocabulary', 'action' => 'import']);
         }
+
+        // The form: what the file says, then what was posted.
         $form = $this->getForm(VocabularyForm::class, ['mode' => 'import_details', 'languages' => $details['languages']]);
         $form->setData([
             // As the file says, where an import wasn't handed them instead.
@@ -161,32 +164,18 @@ class VocabularyController extends AbstractActionController
             ],
         ]);
         $request = $this->getRequest();
-        // Show classes and properties and Review changes post the form too,
-        // without importing.
-        $isImport = $request->isPost() && !$request->getPost('preview') && !$request->getPost('update');
         if ($request->isPost()) {
             $form->setData($request->getPost()->toArray());
         }
-        // A vocabulary Omeka has under any form of the namespace URI.
+
+        // A vocabulary Omeka has under any form of the namespace URI, and, on
+        // the first visit, the choices to start with.
         $namespaceUri = trim((string) $form->get('vocabulary-info')->get('o:namespace_uri')->getValue());
         $found = '' === $namespaceUri ? null : $this->vocabularyAdapter->findByNamespaceUri($namespaceUri);
         $other = $found ? $this->vocabularyAdapter->getRepresentation($found) : null;
         $updatable = $other && $other->userMayUpdate() ? $other : null;
-        // On the first visit, the choices start from how an updatable
-        // vocabulary's file was last read, so Review changes reads it the same
-        // way, then from any a module handed this import.
         if (!$request->isPost()) {
-            $startingChoices = [];
-            $stored = $updatable ? $updatable->importOptions() : null;
-            if (null !== $stored) {
-                // A choice the file wasn't read with is set to null, which
-                // starts its field on its default; unset, it would keep its
-                // preset, such as the installation's language.
-                foreach (VocabularyImport::CHOICES as $choice) {
-                    $startingChoices[$choice] = $stored[$choice] ?? null;
-                }
-            }
-            $startingChoices = array_replace($startingChoices, $import['import_options']);
+            $startingChoices = $this->getStartingChoices($updatable, $import);
             if ($startingChoices) {
                 $form->setStartingChoices($startingChoices);
             }
@@ -200,11 +189,14 @@ class VocabularyController extends AbstractActionController
         foreach (VocabularyImport::CHOICES as $choice) {
             $options[$choice] = $chosen[$choice] ?? null;
         }
+
+        // The button clicked.
         // A failed import says why itself, so the list doesn't say it again.
         $refused = false;
-        $valid = $isImport && $form->isValid();
+        $saidOmekaHasIt = false;
         if ($updatable && $request->getPost('update')) {
-            // Only the CSRF field, as Update's own start checks it.
+            // Review changes: hand the file to Update's review. Only the CSRF
+            // field is checked, as the review's own start checks the rest.
             $form->setValidationGroup(['csrf']);
             if (!$form->isValid()) {
                 $this->messenger()->addFormErrors($form);
@@ -221,37 +213,44 @@ class VocabularyController extends AbstractActionController
                     $this->messenger()->addErrors($this->getErrors($e));
                 }
             }
-        } elseif ($isImport && !$valid) {
-            $this->messenger()->addFormErrors($form);
-        } elseif ($valid && !$other) {
-            try {
-                $response = $this->rdfImporter->import('file', $form->getData()['vocabulary-info'], $options);
-                $this->vocabularyImport->end($token);
-                $message = new Message(
-                    'Vocabulary successfully imported. %s', // @translate
-                    sprintf(
-                        '<a href="%s">%s</a>',
-                        htmlspecialchars($this->url()->fromRoute('admin/default', ['controller' => 'vocabulary', 'action' => 'import'])),
-                        $this->translate('Import another vocabulary?')
-                    )
-                );
-                $message->setEscapeHtml(false);
-                $this->messenger()->addSuccess($message);
-                return $this->redirect()->toUrl($response->getContent()->url());
-            } catch (\Exception $e) {
-                $refused = true;
-                $this->messenger()->addErrors($this->getErrors($e));
-            }
-        }
-        if ($other) {
-            if ($valid) {
+        } elseif ($request->getPost('update') || $request->getPost('preview')) {
+            // Show classes and properties, or Review changes under a namespace
+            // URI no longer a vocabulary's the admin may update: only draw the
+            // page again.
+        } elseif ($request->isPost()) {
+            // Import.
+            if (!$form->isValid()) {
+                $this->messenger()->addFormErrors($form);
+            } elseif ($other) {
                 // Importing it would duplicate its terms.
                 $this->messenger()->addError($this->getAlreadyHasMessage($other));
+                $saidOmekaHasIt = true;
             } else {
-                // Said before an import is refused for it.
-                $this->messenger()->addWarning($this->getAlreadyHasMessage($other));
+                try {
+                    $response = $this->rdfImporter->import('file', $form->getData()['vocabulary-info'], $options);
+                    $this->vocabularyImport->end($token);
+                    $message = new Message(
+                        'Vocabulary successfully imported. %s', // @translate
+                        sprintf(
+                            '<a href="%s">%s</a>',
+                            htmlspecialchars($this->url()->fromRoute('admin/default', ['controller' => 'vocabulary', 'action' => 'import'])),
+                            $this->translate('Import another vocabulary?')
+                        )
+                    );
+                    $message->setEscapeHtml(false);
+                    $this->messenger()->addSuccess($message);
+                    return $this->redirect()->toUrl($response->getContent()->url());
+                } catch (\Exception $e) {
+                    $refused = true;
+                    $this->messenger()->addErrors($this->getErrors($e));
+                }
             }
         }
+        if ($other && !$saidOmekaHasIt) {
+            // Said before an import is refused for it.
+            $this->messenger()->addWarning($this->getAlreadyHasMessage($other));
+        }
+
         $view = new ViewModel;
         $view->setVariable('form', $form);
         $view->setVariable('details', $details);
@@ -501,88 +500,6 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get the request's vocabulary, refusing one the user may not change.
-     *
-     * @return \Omeka\Api\Representation\VocabularyRepresentation
-     */
-    protected function getVocabularyToUpdate()
-    {
-        $vocabulary = $this->api()->read('vocabularies', $this->params('id'))->getContent();
-        if ($vocabulary->isPermanent()) {
-            throw new Exception\PermissionDeniedException('Cannot update a permanent vocabulary');
-        }
-        if (!$vocabulary->userIsAllowed('update')) {
-            throw new Exception\PermissionDeniedException('User does not have permission to update this vocabulary');
-        }
-        return $vocabulary;
-    }
-
-    /**
-     * Get a review of the vocabulary, or say it has ended.
-     *
-     * @param string $token
-     * @param \Omeka\Api\Representation\VocabularyRepresentation $vocabulary
-     * @return array|null
-     */
-    protected function getReview($token, $vocabulary)
-    {
-        $review = $this->vocabularyReview->get($token);
-        if (!$review || $review['vocabulary_id'] !== $vocabulary->id()) {
-            $this->messenger()->addError('This review has ended.'); // @translate
-            return null;
-        }
-        return $review;
-    }
-
-    /**
-     * Get the classes and properties importing adds: null without a namespace
-     * URI, or where the file has none in it.
-     *
-     * @param string $namespaceUri
-     * @param array $options The import options, as importing uses them
-     * @param bool $sayWhy Whether to say why there are none
-     * @return array|null Labels and comments by local name, by kind
-     */
-    protected function getImportPreview($namespaceUri, array $options, $sayWhy)
-    {
-        if ('' === $namespaceUri) {
-            return null;
-        }
-        try {
-            $this->rdfImporter->checkHasMembers('file', $namespaceUri, $options);
-            return $this->rdfImporter->getMembers('file', $namespaceUri, $options);
-        } catch (\Exception $e) {
-            if ($sayWhy) {
-                $this->messenger()->addErrors($this->getErrors($e));
-            }
-            return null;
-        }
-    }
-
-    /**
-     * Get the URL of a review's page, with the choices made on it.
-     *
-     * @param \Omeka\Api\Representation\VocabularyRepresentation $vocabulary
-     * @param string $token
-     * @param array $params
-     * @return string
-     */
-    protected function getReviewUrl($vocabulary, $token, array $params)
-    {
-        $query = ['review' => $token];
-        foreach (VocabularyForm::CHOICE_FIELDS as $key) {
-            if (isset($params[$key]) && is_string($params[$key])) {
-                $query[$key] = $params[$key];
-            }
-        }
-        return $this->url()->fromRoute('admin/id', [
-            'controller' => 'vocabulary',
-            'id' => $vocabulary->id(),
-            'action' => 'review',
-        ], ['query' => $query]);
-    }
-
-    /**
      * Get the file a posted form chooses, saying why where there's none.
      *
      * @param VocabularyForm $form
@@ -633,6 +550,56 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
+     * Get the choices import details start with on the first visit: how the
+     * file of a vocabulary Omeka has, which the admin may update, was last
+     * read, so Review changes reads it the same way, then any a module handed
+     * the import.
+     *
+     * @param \Omeka\Api\Representation\VocabularyRepresentation|null $updatable
+     * @param array $import As VocabularyImport::get() gives it
+     * @return array
+     */
+    protected function getStartingChoices($updatable, array $import)
+    {
+        $startingChoices = [];
+        $stored = $updatable ? $updatable->importOptions() : null;
+        if (null !== $stored) {
+            // A choice the file wasn't read with is set to null, which starts
+            // its field on its default; unset, it would keep its preset, such
+            // as the installation's language.
+            foreach (VocabularyImport::CHOICES as $choice) {
+                $startingChoices[$choice] = $stored[$choice] ?? null;
+            }
+        }
+        return array_replace($startingChoices, $import['import_options']);
+    }
+
+    /**
+     * Get the classes and properties importing adds: null without a namespace
+     * URI, or where the file has none in it.
+     *
+     * @param string $namespaceUri
+     * @param array $options The import options, as importing uses them
+     * @param bool $sayWhy Whether to say why there are none
+     * @return array|null Labels and comments by local name, by kind
+     */
+    protected function getImportPreview($namespaceUri, array $options, $sayWhy)
+    {
+        if ('' === $namespaceUri) {
+            return null;
+        }
+        try {
+            $this->rdfImporter->checkHasMembers('file', $namespaceUri, $options);
+            return $this->rdfImporter->getMembers('file', $namespaceUri, $options);
+        } catch (\Exception $e) {
+            if ($sayWhy) {
+                $this->messenger()->addErrors($this->getErrors($e));
+            }
+            return null;
+        }
+    }
+
+    /**
      * Get the message that a vocabulary Omeka has uses an import's namespace
      * URI, in any form: Import's warning, and its refusal.
      *
@@ -649,6 +616,63 @@ class VocabularyController extends AbstractActionController
         );
         $message->setEscapeHtml(false);
         return $message;
+    }
+
+    /**
+     * Get the request's vocabulary, refusing one the user may not change.
+     *
+     * @return \Omeka\Api\Representation\VocabularyRepresentation
+     */
+    protected function getVocabularyToUpdate()
+    {
+        $vocabulary = $this->api()->read('vocabularies', $this->params('id'))->getContent();
+        if ($vocabulary->isPermanent()) {
+            throw new Exception\PermissionDeniedException('Cannot update a permanent vocabulary');
+        }
+        if (!$vocabulary->userIsAllowed('update')) {
+            throw new Exception\PermissionDeniedException('User does not have permission to update this vocabulary');
+        }
+        return $vocabulary;
+    }
+
+    /**
+     * Get a review of the vocabulary, or say it has ended.
+     *
+     * @param string $token
+     * @param \Omeka\Api\Representation\VocabularyRepresentation $vocabulary
+     * @return array|null
+     */
+    protected function getReview($token, $vocabulary)
+    {
+        $review = $this->vocabularyReview->get($token);
+        if (!$review || $review['vocabulary_id'] !== $vocabulary->id()) {
+            $this->messenger()->addError('This review has ended.'); // @translate
+            return null;
+        }
+        return $review;
+    }
+
+    /**
+     * Get the URL of a review's page, with the choices made on it.
+     *
+     * @param \Omeka\Api\Representation\VocabularyRepresentation $vocabulary
+     * @param string $token
+     * @param array $params
+     * @return string
+     */
+    protected function getReviewUrl($vocabulary, $token, array $params)
+    {
+        $query = ['review' => $token];
+        foreach (VocabularyForm::CHOICE_FIELDS as $key) {
+            if (isset($params[$key]) && is_string($params[$key])) {
+                $query[$key] = $params[$key];
+            }
+        }
+        return $this->url()->fromRoute('admin/id', [
+            'controller' => 'vocabulary',
+            'id' => $vocabulary->id(),
+            'action' => 'review',
+        ], ['query' => $query]);
     }
 
     /**

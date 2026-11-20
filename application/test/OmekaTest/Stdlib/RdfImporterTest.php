@@ -844,15 +844,24 @@ class RdfImporterTest extends DbTestCase
         $this->assertSame(3, $vocabulary->propertyCount() + $vocabulary->resourceClassCount());
     }
 
-    public function testImportAcceptsAnotherFormOfANamespaceOmekaHas()
+    public function testImportRefusesAnotherFormOfANamespaceOmekaHas()
     {
-        // Only the import form refuses it; scripts and modules may import it.
+        // Refused by the API, so a script's or module's import is too: its
+        // classes and properties would be held twice.
         self::getApplication()->getServiceManager()->get('Omeka\ApiManager')->create('vocabularies', [
             'o:namespace_uri' => 'https://example.org/multi#',
             'o:prefix' => 'multihttps',
             'o:label' => 'Multi over https',
         ]);
-        $this->assertSame('http://example.org/multi#', $this->importInFrench()->namespaceUri());
+        try {
+            $this->importInFrench();
+            $this->fail('Another form of a namespace URI Omeka has was imported');
+        } catch (ValidationException $e) {
+            $this->assertSame(
+                'Another vocabulary, "Multi over https", has this namespace URI in another form: "https://example.org/multi#".',
+                (string) $e->getErrorStore()->getErrors()['o:namespace_uri'][0]
+            );
+        }
     }
 
     public function testImportStoresHowTheFileWasRead()

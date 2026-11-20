@@ -249,6 +249,24 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     }
 
     /**
+     * Create a vocabulary as Omeka did before it refused another form of a
+     * vocabulary's namespace URI, as an installation may still have one.
+     *
+     * @return int Its id
+     */
+    protected function createVocabularyAsBefore($namespaceUri, $prefix, $label)
+    {
+        $entityManager = $this->getApplicationServiceLocator()->get('Omeka\EntityManager');
+        $vocabulary = new Vocabulary;
+        $vocabulary->setNamespaceUri($namespaceUri);
+        $vocabulary->setPrefix($prefix);
+        $vocabulary->setLabel($label);
+        $entityManager->persist($vocabulary);
+        $entityManager->flush();
+        return $vocabulary->getId();
+    }
+
+    /**
      * Answer the importer's requests with a file of the tests', in place of
      * the server at the URL asked for.
      *
@@ -549,11 +567,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         // namespace, so it isn't refused.
         $this->reset(true);
         $this->signIn();
-        $other = $this->api()->create('vocabularies', [
-            'o:namespace_uri' => 'https://example.org/review#',
-            'o:prefix' => 'other',
-            'o:label' => 'Other',
-        ])->getContent();
+        $otherId = $this->createVocabularyAsBefore('https://example.org/review#', 'other', 'Other');
         try {
             $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), $this->edit([
                 'o:label' => 'Renamed',
@@ -563,7 +577,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         } finally {
             $this->reset(true);
             $this->signIn();
-            $this->api()->delete('vocabularies', $other->id());
+            $this->api()->delete('vocabularies', $otherId);
         }
     }
 
@@ -1415,11 +1429,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     {
         // As an installation may have from before Omeka refused another form
         // of a namespace URI: the tests' vocabulary in http, and one in https.
-        $https = $this->api()->create('vocabularies', [
-            'o:namespace_uri' => 'https://example.org/review#',
-            'o:prefix' => 'reviewhttps',
-            'o:label' => 'Review in https',
-        ])->getContent();
+        $httpsId = $this->createVocabularyAsBefore('https://example.org/review#', 'reviewhttps', 'Review in https');
         try {
             // Its terms are in the https form.
             $this->assertSame(302, $this->startImport('other-form.ttl'));
@@ -1433,12 +1443,12 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
                 'update' => '1',
             ] + $this->csrfField(VocabularyForm::class)));
             $location = $this->getResponse()->getHeaders()->get('Location')->getUri();
-            $this->assertStringStartsWith(sprintf('/admin/vocabulary/%s/review?review=', $https->id()), $location);
+            $this->assertStringStartsWith(sprintf('/admin/vocabulary/%s/review?review=', $httpsId), $location);
             $this->tokens[] = substr($location, strpos($location, '=') + 1);
         } finally {
             $this->reset(true);
             $this->signIn();
-            $this->api()->delete('vocabularies', $https->id());
+            $this->api()->delete('vocabularies', $httpsId);
         }
     }
 

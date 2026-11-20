@@ -92,7 +92,18 @@ class VocabularyAdapter extends AbstractEntityAdapter
         $this->hydrateOwner($request, $entity);
 
         if ($this->shouldHydrate($request, 'o:namespace_uri')) {
-            $entity->setNamespaceUri(trim($request->getValue('o:namespace_uri')));
+            $namespaceUri = trim($request->getValue('o:namespace_uri'));
+            // Refuse a namespace URI that another vocabulary already has in
+            // another form, such as https://schema.org/ when
+            // http://schema.org/ is taken. Check it only when the namespace
+            // URI is new to this vocabulary: on create, or when an update
+            // changes it other than in capitals. An installation may have two
+            // such vocabularies from before this rule, and they must stay
+            // editable.
+            if ('' !== $namespaceUri && 0 !== strcasecmp((string) $entity->getNamespaceUri(), $namespaceUri)) {
+                $this->validateNamespaceUriForms($namespaceUri, $entity->getId(), $errorStore);
+            }
+            $entity->setNamespaceUri($namespaceUri);
         }
         if ($this->shouldHydrate($request, 'o:prefix')) {
             $entity->setPrefix(trim($request->getValue('o:prefix')));
@@ -282,6 +293,69 @@ class VocabularyAdapter extends AbstractEntityAdapter
             } else {
                 $uniqueLocalNames[] = $property->getLocalName();
             }
+        }
+    }
+
+    /**
+     * Get the vocabulary that has a namespace URI, either exactly or in
+     * another form of it (Vocabulary::getNamespaceUriForms()), such as
+     * https://schema.org/ for http://schema.org/. An exact match, ignoring
+     * capitals as the database does, comes first; otherwise, where two
+     * vocabularies match, the oldest.
+     *
+     * It queries the database directly, not through the API, so a module
+     * that filters API searches can't hide a vocabulary from the namespace
+     * URI check.
+     *
+     * @param string $namespaceUri
+     * @param int|null $exceptId A vocabulary to leave out, such as the one a
+     *   namespace URI is checked for
+     * @return Vocabulary|null
+     */
+    public function findByNamespaceUri($namespaceUri, $exceptId = null)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('v')
+            ->from(Vocabulary::class, 'v')
+            ->where($qb->expr()->in('v.namespaceUri', ':forms'))
+            ->setParameter('forms', Vocabulary::getNamespaceUriForms($namespaceUri))
+            ->orderBy('v.id', 'ASC');
+        if (null !== $exceptId) {
+            $qb->andWhere($qb->expr()->neq('v.id', ':except'))
+                ->setParameter('except', $exceptId);
+        }
+        $vocabularies = $qb->getQuery()->getResult();
+        foreach ($vocabularies as $vocabulary) {
+            if (0 === strcasecmp($vocabulary->getNamespaceUri(), (string) $namespaceUri)) {
+                return $vocabulary;
+            }
+        }
+        return $vocabularies[0] ?? null;
+    }
+
+    /**
+     * Refuse a namespace URI that another vocabulary has in another form,
+     * such as https://schema.org/ when another has http://schema.org/: the
+     * two would hold the same classes and properties twice. Another
+     * vocabulary with exactly the namespace URI isn't refused here, since
+     * validateEntity() refuses it as already taken.
+     *
+     * @param string $namespaceUri
+     * @param int|null $exceptId The vocabulary the namespace URI is for, or
+     *   null when it's being created
+     * @param ErrorStore $errorStore
+     */
+    public function validateNamespaceUriForms($namespaceUri, $exceptId, ErrorStore $errorStore)
+    {
+        $other = $this->findByNamespaceUri($namespaceUri, $exceptId);
+        // An exact match, ignoring capitals as the database does, is left to
+        // validateEntity().
+        if ($other && 0 !== strcasecmp($other->getNamespaceUri(), (string) $namespaceUri)) {
+            $errorStore->addError('o:namespace_uri', new Message(
+                'Another vocabulary, "%1$s", has this namespace URI in another form: "%2$s".', // @translate
+                $other->getLabel(),
+                $other->getNamespaceUri()
+            ));
         }
     }
 

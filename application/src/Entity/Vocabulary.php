@@ -173,9 +173,9 @@ class Vocabulary extends AbstractEntity
 
     /**
      * Get the forms of a namespace URI that name the same vocabulary: itself,
-     * then ending in "#", "/", and neither, each with http and https. For
-     * example, http://schema.org/ and https://schema.org/ are forms of one
-     * namespace URI.
+     * then ending in "#", "/", neither, and "/#", each with http and https.
+     * For example, http://schema.org/ and https://schema.org/ are forms of
+     * one namespace URI.
      *
      * @param string $namespaceUri
      * @return string[]
@@ -184,11 +184,11 @@ class Vocabulary extends AbstractEntity
     {
         $namespaceUri = (string) $namespaceUri;
         $base = rtrim($namespaceUri, '#/');
-        $forms = [$namespaceUri, $base . '#', $base . '/', $base];
+        $forms = [$namespaceUri, $base . '#', $base . '/', $base, $base . '/#'];
         foreach ($forms as $form) {
-            if (0 === strpos($form, 'http://')) {
+            if (0 === stripos($form, 'http://')) {
                 $forms[] = 'https://' . substr($form, 7);
-            } elseif (0 === strpos($form, 'https://')) {
+            } elseif (0 === stripos($form, 'https://')) {
                 $forms[] = 'http://' . substr($form, 8);
             }
         }

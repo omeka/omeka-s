@@ -1,9 +1,9 @@
 <?php
 namespace Omeka\Controller\Admin;
 
+use Omeka\Api\Adapter\VocabularyAdapter;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Form\ConfirmForm;
-use Omeka\Entity\Vocabulary;
 use Omeka\Form\VocabularyForm;
 use Omeka\Mvc\Exception;
 use Omeka\Stdlib\RdfImporter;
@@ -31,16 +31,23 @@ class VocabularyController extends AbstractActionController
     protected $vocabularyImport;
 
     /**
+     * @var VocabularyAdapter
+     */
+    protected $vocabularyAdapter;
+
+    /**
      * @param RdfImporter $rdfImporter
      * @param VocabularyReview $vocabularyReview
      * @param VocabularyImport $vocabularyImport
+     * @param VocabularyAdapter $vocabularyAdapter
      */
     public function __construct(RdfImporter $rdfImporter, VocabularyReview $vocabularyReview,
-        VocabularyImport $vocabularyImport
+        VocabularyImport $vocabularyImport, VocabularyAdapter $vocabularyAdapter
     ) {
         $this->rdfImporter = $rdfImporter;
         $this->vocabularyReview = $vocabularyReview;
         $this->vocabularyImport = $vocabularyImport;
+        $this->vocabularyAdapter = $vocabularyAdapter;
     }
 
     public function browseAction()
@@ -163,7 +170,8 @@ class VocabularyController extends AbstractActionController
         // A vocabulary Omeka has under any form of the namespace URI. One found
         // may be another vocabulary's, where a file redeclares terms it reuses.
         $namespaceUri = trim((string) $form->get('vocabulary-info')->get('o:namespace_uri')->getValue());
-        $other = '' === $namespaceUri ? null : $this->getVocabularyWithNamespace($namespaceUri);
+        $found = '' === $namespaceUri ? null : $this->vocabularyAdapter->findByNamespaceUri($namespaceUri);
+        $other = $found ? $this->vocabularyAdapter->getRepresentation($found) : null;
         $updatable = $other && $other->userMayUpdate() ? $other : null;
         // The starting choices, on the first visit:
         // - for a vocabulary Omeka has and the admin may update, how its file
@@ -273,36 +281,26 @@ class VocabularyController extends AbstractActionController
                 $info = $form->getData()['vocabulary-info'];
                 // Before the update, which changes what $vocabulary reads.
                 $moved = $info['o:namespace_uri'] !== $vocabulary->namespaceUri();
-                // Another vocabulary's namespace URI in another form, such as
-                // https for http; the API refuses an exact match itself.
-                $other = $moved ? $this->getVocabularyInAnotherForm($info['o:namespace_uri'], $vocabulary) : null;
-                if ($other) {
-                    $this->messenger()->addError(new Message(
-                        'Another vocabulary, "%1$s", has this namespace URI in another form: "%2$s".', // @translate
-                        $other->label(),
-                        $other->namespaceUri()
-                    ));
-                } else {
-                    // The API puts its refusals on the form.
-                    $response = $this->api($form)->update('vocabularies', $this->params('id'), $info, [], ['isPartial' => true]);
-                    if ($response) {
-                        if (!$moved) {
-                            $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
-                        } else {
-                            // A moved vocabulary is usually updated next.
-                            $message = new Message(
-                                'Vocabulary successfully updated. %s', // @translate
-                                sprintf(
-                                    '<a href="%s">%s</a>',
-                                    htmlspecialchars($vocabulary->url('update')),
-                                    $this->translate('Update its classes and properties?')
-                                )
-                            );
-                            $message->setEscapeHtml(false);
-                            $this->messenger()->addSuccess($message);
-                        }
-                        return $this->redirect()->toUrl($response->getContent()->url());
+                // The API refuses a namespace URI another vocabulary has, in
+                // any form, and shows why on the form.
+                $response = $this->api($form)->update('vocabularies', $this->params('id'), $info, [], ['isPartial' => true]);
+                if ($response) {
+                    if (!$moved) {
+                        $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
+                    } else {
+                        // A moved vocabulary is usually updated next.
+                        $message = new Message(
+                            'Vocabulary successfully updated. %s', // @translate
+                            sprintf(
+                                '<a href="%s">%s</a>',
+                                htmlspecialchars($vocabulary->url('update')),
+                                $this->translate('Update its classes and properties?')
+                            )
+                        );
+                        $message->setEscapeHtml(false);
+                        $this->messenger()->addSuccess($message);
                     }
+                    return $this->redirect()->toUrl($response->getContent()->url());
                 }
             } else {
                 $this->messenger()->addFormErrors($form);
@@ -627,24 +625,6 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Get a vocabulary with a namespace URI, in any form: the one with it as
-     * given, where an installation has vocabularies in two forms of it.
-     *
-     * @param string $namespaceUri
-     * @return \Omeka\Api\Representation\VocabularyRepresentation|null
-     */
-    protected function getVocabularyWithNamespace($namespaceUri)
-    {
-        $vocabularies = $this->api()->search('vocabularies', ['namespace_uri' => Vocabulary::getNamespaceUriForms($namespaceUri)])->getContent();
-        foreach ($vocabularies as $vocabulary) {
-            if ($vocabulary->namespaceUri() === $namespaceUri) {
-                return $vocabulary;
-            }
-        }
-        return $vocabularies[0] ?? null;
-    }
-
-    /**
      * Get the message that a vocabulary Omeka has uses an import's namespace
      * URI, in any form: Import's warning, and its refusal.
      *
@@ -661,25 +641,6 @@ class VocabularyController extends AbstractActionController
         );
         $message->setEscapeHtml(false);
         return $message;
-    }
-
-    /**
-     * Get a vocabulary, other than $except, whose namespace URI is a
-     * different form of this one. An exact match isn't returned.
-     *
-     * @param string $namespaceUri
-     * @param \Omeka\Api\Representation\VocabularyRepresentation $except
-     * @return \Omeka\Api\Representation\VocabularyRepresentation|null
-     */
-    protected function getVocabularyInAnotherForm($namespaceUri, $except)
-    {
-        $vocabularies = $this->api()->search('vocabularies', ['namespace_uri' => Vocabulary::getNamespaceUriForms($namespaceUri)])->getContent();
-        foreach ($vocabularies as $vocabulary) {
-            if ($vocabulary->namespaceUri() !== $namespaceUri && $vocabulary->id() !== $except->id()) {
-                return $vocabulary;
-            }
-        }
-        return null;
     }
 
     /**

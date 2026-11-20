@@ -4,6 +4,7 @@ namespace Omeka\Stdlib;
 use Doctrine\ORM\EntityManager;
 use Laminas\Router\RouteStackInterface;
 use Laminas\Session\Container;
+use Omeka\Api\Adapter\VocabularyAdapter;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Api\Manager as ApiManager;
 use Omeka\Entity\Vocabulary;
@@ -43,18 +44,25 @@ class VocabularyReview
     protected $router;
 
     /**
+     * @var VocabularyAdapter
+     */
+    protected $vocabularyAdapter;
+
+    /**
      * @var Container
      */
     protected $session;
 
     public function __construct(RdfImporter $rdfImporter, StagedFiles $stagedFiles,
-        ApiManager $apiManager, EntityManager $entityManager, RouteStackInterface $router
+        ApiManager $apiManager, EntityManager $entityManager, RouteStackInterface $router,
+        VocabularyAdapter $vocabularyAdapter
     ) {
         $this->rdfImporter = $rdfImporter;
         $this->stagedFiles = $stagedFiles;
         $this->apiManager = $apiManager;
         $this->entityManager = $entityManager;
         $this->router = $router;
+        $this->vocabularyAdapter = $vocabularyAdapter;
     }
 
     /**
@@ -261,9 +269,9 @@ class VocabularyReview
 
     /**
      * Get the vocabulary a review is to change, first checking what accepting
-     * it would need: that the user may change the vocabulary, and that a new
-     * namespace URI is another form of its own that no other vocabulary has
-     * in any form, as Edit requires of a namespace URI.
+     * it will need: that the user may change the vocabulary, and that a new
+     * namespace URI is a form of the vocabulary's own, such as https for
+     * http, and no other vocabulary has it in any form.
      *
      * @param int $vocabularyId
      * @param array $reviewOptions
@@ -282,25 +290,34 @@ class VocabularyReview
         if (null === $newNamespaceUri || $newNamespaceUri === $vocabulary->namespaceUri()) {
             return $vocabulary;
         }
-        // Either way round, since a form drops every closing "#" and "/"
-        // (http://example.org/ns/# has http://example.org/ns# as a form, but
-        // not the other way), and in any case, as Omeka finds a vocabulary by
-        // its namespace URI.
+        // Compared both ways and ignoring capitals. The forms of a namespace
+        // URI are worked out from it with every closing "#" and "/" removed,
+        // so http://example.org/ns// has http://example.org/ns# among its
+        // forms, but not the other way.
         $isFormOf = fn ($a, $b) => in_array(strtolower($a), array_map('strtolower', Vocabulary::getNamespaceUriForms($b)), true);
         if (!$isFormOf($newNamespaceUri, $vocabulary->namespaceUri()) && !$isFormOf($vocabulary->namespaceUri(), $newNamespaceUri)) {
             throw new \InvalidArgumentException('A review\'s new namespace URI must be another form of the vocabulary\'s.');
         }
-        $holders = $this->apiManager->search('vocabularies', ['namespace_uri' => Vocabulary::getNamespaceUriForms($newNamespaceUri)])->getContent();
-        foreach ($holders as $holder) {
-            if ($holder->id() !== $vocabulary->id()) {
-                $exception = new ValidationException;
-                $exception->getErrorStore()->addError('o:namespace_uri', new Message(
-                    'Another vocabulary, "%1$s", has this namespace URI in another form: "%2$s".', // @translate
-                    $holder->label(),
-                    $holder->namespaceUri()
-                ));
-                throw $exception;
-            }
+        // Refuse it now, while the page that chose the file can say why,
+        // rather than when the API refuses it at Accept. A change only in
+        // capitals isn't a new namespace URI to the API, so isn't checked.
+        if (0 === strcasecmp($newNamespaceUri, $vocabulary->namespaceUri())) {
+            return $vocabulary;
+        }
+        $exception = new ValidationException;
+        $errorStore = $exception->getErrorStore();
+        // Another vocabulary with another form of it, as the API refuses...
+        $this->vocabularyAdapter->validateNamespaceUriForms($newNamespaceUri, $vocabulary->id(), $errorStore);
+        // ...or with exactly it, ignoring capitals, which the API refuses as
+        // already taken.
+        if (!$errorStore->hasErrors() && $this->vocabularyAdapter->findByNamespaceUri($newNamespaceUri, $vocabulary->id())) {
+            $errorStore->addError('o:namespace_uri', new Message(
+                'The namespace URI "%s" is already taken.', // @translate
+                $newNamespaceUri
+            ));
+        }
+        if ($errorStore->hasErrors()) {
+            throw $exception;
         }
         return $vocabulary;
     }

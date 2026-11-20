@@ -417,7 +417,7 @@ class VocabularyController extends AbstractActionController
             $this->messenger()->addErrors($this->getErrors($e));
             return $this->redirect()->toUrl($this->getReviewUrl($vocabulary, $token, $post));
         }
-        $this->messenger()->addSuccess('Changes to the vocabulary successfully made'); // @translate
+        $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
         return $this->redirect()->toUrl($vocabulary->url());
     }
 

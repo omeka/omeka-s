@@ -618,7 +618,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     public function testReviewWithoutChangesOffersOnlyBack()
     {
         $page = html_entity_decode($this->reviewPage($this->startReview('unchanged.ttl')), ENT_QUOTES | ENT_HTML5);
-        $this->assertStringContainsString('This vocabulary already matches the file, read with the choices above.', $page);
+        $this->assertStringContainsString('With the choices above, the file makes no changes to this vocabulary.', $page);
         // Made inactive by the script until a choice changes.
         $this->assertStringContainsString('<button type="submit" class="review-show" data-watch="fieldset :input">Show changes</button>', $page);
         $this->assertMatchesRegularExpression('#<button type="submit" class="button" formaction="[^"]*/cancel-review">Back</button>#', $page);
@@ -727,7 +727,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $status = $this->postReview('accept-review', $token);
         $this->assertSame(302, $status);
         $this->assertRedirectTo(sprintf('/admin/vocabulary/%s', $this->vocabularyId));
-        $this->assertSame(['Changes to the vocabulary successfully made'], $this->messages(Messenger::SUCCESS));
+        $this->assertSame(['Vocabulary successfully updated'], $this->messages(Messenger::SUCCESS));
         $vocabulary = $this->vocabulary();
         $this->assertSame('https://example.org/review#', $vocabulary->namespaceUri());
         $this->assertSame('Changed', $this->propertyLabel('review:name'));

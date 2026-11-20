@@ -8,7 +8,6 @@ $this->htmlElement('body')->appendAttribute('class', 'vocabularies show');
 
 <div id="page-actions">
     <?php $this->trigger('view.show.page_actions', ['resource' => $vocabulary]); ?>
-    <?php // The pages that change it, each of which comes back here. ?>
     <?php if ($vocabulary->userMayUpdate()): ?>
     <?php echo $this->hyperlink($translate('Update classes and properties'), $vocabulary->url('update'), ['class' => 'button']); ?>
     <?php echo $this->hyperlink($translate('Edit vocabulary'), $vocabulary->url('edit'), ['class' => 'button']); ?>
@@ -42,7 +41,6 @@ $this->htmlElement('body')->appendAttribute('class', 'vocabularies show');
     <dt><?php echo $translate('Properties'); ?></dt>
     <dd class="value"><?php echo $this->hyperlink($vocabulary->propertyCount(), $vocabulary->url('properties')); ?></dd>
 </div>
-<?php // How much uses it, as in the Details sidebar on the list. ?>
 <div class="property">
     <dt><?php echo $translate('Values using its properties'); ?></dt>
     <dd class="value"><?php echo $vocabulary->valueCount(); ?></dd>

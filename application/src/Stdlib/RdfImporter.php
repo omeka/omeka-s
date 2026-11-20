@@ -230,12 +230,11 @@ class RdfImporter
                     return $this->lastFileGraph[1];
                 }
                 $this->checkFileHasText($file);
-                // Free the last graph before reading another, so the two
-                // aren't in memory at once: an import's details and then the
-                // import itself read one file twice, with different bases,
-                // and a large file's graph can take most of the memory limit.
-                // An EasyRdf graph refers to itself, so it's freed only when
-                // cycles are collected.
+                // Free the last graph before reading another: import details
+                // and then the import read one file twice, and a large file's
+                // graph can take most of the memory limit. An EasyRdf graph
+                // refers to itself, so it's freed only when cycles are
+                // collected.
                 if ($this->lastFileGraph) {
                     $this->lastFileGraph = null;
                     gc_collect_cycles();
@@ -1398,10 +1397,8 @@ class RdfImporter
      *
      * With a language passed, the literal is in the resource's language
      * nearest it (fr finds fr-CA), else in English the same way, else in no
-     * language, else in whatever language comes first. So a term the file
-     * hasn't translated into the passed language reads in English where it
-     * can, not in the language the file happens to list first. With none
-     * passed, it is the first in any language.
+     * language, else in whatever language comes first. With none passed, it
+     * is the first in any language.
      *
      * @see self::getMatchingLanguage()
      * @param RdfResource $resource

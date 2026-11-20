@@ -9,7 +9,7 @@ $form->prepare();
 
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
-    <?php // To the list, as the import's next page does, not one page back, which may be that page. ?>
+    <?php // To the list, not one page back. ?>
     <?php echo $this->hyperlink($translate('Cancel'), $this->url('admin/default', ['controller' => 'vocabulary', 'action' => 'browse']), ['class' => 'button']); ?>
     <button><?php echo $translate('Next'); ?></button>
 </div>

@@ -62,7 +62,7 @@ class VocabularyController extends AbstractActionController
     }
 
     /**
-     * Show a vocabulary. The pages that change it come back here.
+     * Show a vocabulary.
      */
     public function showAction()
     {
@@ -167,18 +167,15 @@ class VocabularyController extends AbstractActionController
         if ($request->isPost()) {
             $form->setData($request->getPost()->toArray());
         }
-        // A vocabulary Omeka has under any form of the namespace URI. One found
-        // may be another vocabulary's, where a file redeclares terms it reuses.
+        // A vocabulary Omeka has under any form of the namespace URI.
         $namespaceUri = trim((string) $form->get('vocabulary-info')->get('o:namespace_uri')->getValue());
         $found = '' === $namespaceUri ? null : $this->vocabularyAdapter->findByNamespaceUri($namespaceUri);
         $other = $found ? $this->vocabularyAdapter->getRepresentation($found) : null;
         $updatable = $other && $other->userMayUpdate() ? $other : null;
-        // The starting choices, on the first visit:
-        // - for a vocabulary Omeka has and the admin may update, how its file
-        //   was last read, so the list, and the review the Review changes
-        //   button opens, read the file the same way until a choice changes.
-        //   An import option it was read without starts on its default.
-        // - over those, any a module handed this import.
+        // On the first visit, the choices start from how an updatable
+        // vocabulary's file was last read (one it wasn't read with, on its
+        // default), so Review changes reads it the same way, then from any a
+        // module handed this import.
         if (!$request->isPost()) {
             $stored = $updatable ? $updatable->importOptions() : null;
             $startingChoices = array_replace(

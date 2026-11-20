@@ -290,26 +290,21 @@ class VocabularyReview
         if (null === $newNamespaceUri || $newNamespaceUri === $vocabulary->namespaceUri()) {
             return $vocabulary;
         }
-        // Compared both ways and ignoring capitals. The forms of a namespace
-        // URI are worked out from it with every closing "#" and "/" removed,
-        // so http://example.org/ns// has http://example.org/ns# among its
-        // forms, but not the other way.
+        // Compared both ways, ignoring capitals: http://example.org/ns// has
+        // http://example.org/ns# among its forms, but not the other way.
         $isFormOf = fn ($a, $b) => in_array(strtolower($a), array_map('strtolower', Vocabulary::getNamespaceUriForms($b)), true);
         if (!$isFormOf($newNamespaceUri, $vocabulary->namespaceUri()) && !$isFormOf($vocabulary->namespaceUri(), $newNamespaceUri)) {
             throw new \InvalidArgumentException('A review\'s new namespace URI must be another form of the vocabulary\'s.');
         }
-        // Refuse it now, while the page that chose the file can say why,
-        // rather than when the API refuses it at Accept. A change only in
-        // capitals isn't a new namespace URI to the API, so isn't checked.
+        // A change only in capitals isn't a new namespace URI to the API.
         if (0 === strcasecmp($newNamespaceUri, $vocabulary->namespaceUri())) {
             return $vocabulary;
         }
+        // Refused now, while the page that chose the file can say why, as the
+        // API would refuse it at Accept: another form of it, or exactly it.
         $exception = new ValidationException;
         $errorStore = $exception->getErrorStore();
-        // Another vocabulary with another form of it, as the API refuses...
         $this->vocabularyAdapter->validateNamespaceUriForms($newNamespaceUri, $vocabulary->id(), $errorStore);
-        // ...or with exactly it, ignoring capitals, which the API refuses as
-        // already taken.
         if (!$errorStore->hasErrors() && $this->vocabularyAdapter->findByNamespaceUri($newNamespaceUri, $vocabulary->id())) {
             $errorStore->addError('o:namespace_uri', new Message(
                 'The namespace URI "%s" is already taken.', // @translate

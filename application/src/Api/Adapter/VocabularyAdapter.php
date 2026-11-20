@@ -93,13 +93,9 @@ class VocabularyAdapter extends AbstractEntityAdapter
 
         if ($this->shouldHydrate($request, 'o:namespace_uri')) {
             $namespaceUri = trim($request->getValue('o:namespace_uri'));
-            // Refuse a namespace URI that another vocabulary already has in
-            // another form, such as https://schema.org/ when
-            // http://schema.org/ is taken. Check it only when the namespace
-            // URI is new to this vocabulary: on create, or when an update
-            // changes it other than in capitals. An installation may have two
-            // such vocabularies from before this rule, and they must stay
-            // editable.
+            // Checked only when the namespace URI is new to the vocabulary,
+            // other than in capitals, so vocabularies already held in two
+            // forms stay editable.
             if ('' !== $namespaceUri && 0 !== strcasecmp((string) $entity->getNamespaceUri(), $namespaceUri)) {
                 $this->validateNamespaceUriForms($namespaceUri, $entity->getId(), $errorStore);
             }
@@ -117,8 +113,6 @@ class VocabularyAdapter extends AbstractEntityAdapter
         if ($this->shouldHydrate($request, 'o:import_options')) {
             $importOptions = $request->getValue('o:import_options');
             if (is_array($importOptions)) {
-                // Keep only the keys in Vocabulary::IMPORT_OPTIONS, each as
-                // text or null.
                 $importOptions = array_intersect_key($importOptions, array_flip(Vocabulary::IMPORT_OPTIONS));
                 foreach ($importOptions as $key => $value) {
                     $importOptions[$key] = is_scalar($value) ? (string) $value : null;
@@ -348,8 +342,6 @@ class VocabularyAdapter extends AbstractEntityAdapter
     public function validateNamespaceUriForms($namespaceUri, $exceptId, ErrorStore $errorStore)
     {
         $other = $this->findByNamespaceUri($namespaceUri, $exceptId);
-        // An exact match, ignoring capitals as the database does, is left to
-        // validateEntity().
         if ($other && 0 !== strcasecmp($other->getNamespaceUri(), (string) $namespaceUri)) {
             $errorStore->addError('o:namespace_uri', new Message(
                 'Another vocabulary, "%1$s", has this namespace URI in another form: "%2$s".', // @translate

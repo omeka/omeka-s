@@ -55,9 +55,8 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     }
 
     /**
-     * Check whether the current user may change this vocabulary, by editing
-     * it or updating its classes and properties: one the user may update,
-     * and not a permanent one, which no one may change.
+     * Check whether the current user may change this vocabulary: one they
+     * may update that isn't permanent.
      *
      * @return bool
      */

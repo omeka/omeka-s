@@ -25,9 +25,7 @@ $('.import-type-select').on('change', function(e) {
     }
 });
 
-// The Preferred language, Labels from, and Comments from fields: the text
-// field each has for another language or property is shown only when that
-// choice is made.
+// Show an Another… text field only while its choice is made.
 $('[data-other-field]').each(function() {
     const choice = $(this);
     const field = $(choice.data('otherField')).closest('.field');
@@ -59,16 +57,13 @@ const setInactive = function(button, inactive) {
     }
 };
 
-// A Show button is active only while a field the result below depends on
-// differs from the one the page was drawn with, as after a change, or when
-// the browser restores changed values on Back. Meanwhile Accept, which
-// applies the choices the result below was worked out with, is inactive.
+// Show is active only while a watched field has changed, and Accept only
+// while none has.
 $('.review-show').each(function() {
     const button = $(this);
     const fields = button.closest('form').find(button.data('watch'));
     const update = function() {
-        // Only shown fields count: an Another… text field, hidden while
-        // another choice is made, is ignored, as the server ignores it.
+        // Hidden Another… fields don't count, as the server ignores them.
         const changed = fields.filter(':visible').toArray().some(isChanged);
         setInactive(button, !changed);
         setInactive($('.review-accept'), changed);
@@ -88,15 +83,12 @@ $('#vocabulary-form').on('submit', function(e) {
     if (!namespaceUriInput.length) {
         return;
     }
-    // A button that skips the browser's checks, as Show classes and
-    // properties and Review changes do, imports nothing, so has nothing to
-    // confirm.
+    // Show and Review changes import nothing, so have nothing to confirm.
     const submitter = e.originalEvent && e.originalEvent.submitter;
     if (submitter && submitter.formNoValidate) {
         return;
     }
-    // The user must confirm that a namespace URI does not end with / or #,
-    // unless it's the vocabulary's own, unchanged.
+    // The user must confirm that the namespace URI does not end with / or #.
     const namespaceUri = namespaceUriInput.val();
     if (namespaceUri === namespaceUriInput.data('savedNamespaceUri')) {
         return;

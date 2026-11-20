@@ -85,14 +85,10 @@ class VocabularyForm extends Form
                 'name' => 'vocabulary-advanced',
                 'type' => 'fieldset',
                 'options' => [
-                    // How the classes and properties are read, under this
-                    // label on import details and the review alike.
                     'label' => 'Classes and properties', // @translate
                 ],
             ]);
-            // Offered for a file with no languages too: another language
-            // pairs with a label or comment property whose languages the
-            // file's default ones don't show.
+            // Offered for a file with no languages too, for Another language…
             $this->addAdvancedElements($this->getOption('languages'), $this->get('vocabulary-advanced'));
         }
         if ($isReview) {

@@ -19,11 +19,11 @@ $sections = null === $members ? [] : array_filter([
 
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
-    <?php // To the list the import started from. The staged file stays until it's cleared out, after a day. ?>
+    <?php // To the list the import started from. ?>
     <?php echo $this->hyperlink($translate('Cancel'), $this->url('admin/default', ['controller' => 'vocabulary', 'action' => 'browse']), ['class' => 'button']); ?>
     <button><?php echo $translate('Import'); ?></button>
     <?php if ($updatable): ?>
-    <?php // After Import, which Enter in a field still means. Starts Update's review with this file, ending the import. ?>
+    <?php // After Import, so Enter in a field still imports. ?>
     <button type="submit" name="update" value="1" formnovalidate><?php echo $translate('Review changes'); ?></button>
     <?php endif; ?>
 </div>
@@ -35,7 +35,7 @@ $sections = null === $members ? [] : array_filter([
 <?php echo $this->formCollection($form->get('vocabulary-advanced')); ?>
 <?php echo $this->formRow($form->get('csrf')); ?>
 <div class="review-choices-actions">
-    <?php // Posts the form to show the classes and properties again, without importing. Over a list, the script makes it inactive until a field the list depends on changes. ?>
+    <?php // Shows the list again, without importing. ?>
     <button type="submit" name="preview" value="1" formnovalidate<?php if ($sections): ?> class="review-show" data-watch="fieldset :input, [name='vocabulary-info[o:namespace_uri]'], [name='vocabulary-info[o:prefix]']"<?php endif; ?>><?php echo $translate('Show classes and properties'); ?></button>
 </div>
 <?php echo $this->form()->closeTag(); ?>

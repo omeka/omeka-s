@@ -51,9 +51,7 @@ const isChanged = function(field) {
     return field.value !== field.defaultValue;
 };
 
-// Make a button inactive or active, as core's query form does, keeping an
-// inactive one focusable so a screen reader still finds it, and giving it
-// its title for being inactive, if it has one.
+// Make a button inactive or active.
 const setInactive = function(button, inactive) {
     button.toggleClass('inactive', inactive).attr('aria-disabled', inactive ? 'true' : null);
     if (button.data('inactiveTitle')) {
@@ -100,7 +98,7 @@ $('#vocabulary-form').on('submit', function(e) {
     // The user must confirm that a namespace URI does not end with / or #,
     // unless it's the vocabulary's own, unchanged.
     const namespaceUri = namespaceUriInput.val();
-    if (namespaceUri === namespaceUriInput.attr('data-saved-namespace-uri')) {
+    if (namespaceUri === namespaceUriInput.data('savedNamespaceUri')) {
         return;
     }
     if (!(namespaceUri.endsWith('/') || namespaceUri.endsWith('#'))) {

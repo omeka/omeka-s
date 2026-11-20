@@ -799,6 +799,31 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     }
 
     /**
+     * The URL an import's details page's Import posts to: finish-import.
+     *
+     * @param string $url The details page's URL
+     * @param string $action
+     * @return string
+     */
+    protected function importActionUrl($url, $action)
+    {
+        return str_replace('/import-details?', '/' . $action . '?', $url);
+    }
+
+    /**
+     * The URL an import's details page's Review changes posts to: Update, for
+     * the vocabulary Omeka has.
+     *
+     * @param string $url The details page's URL
+     * @param int|null $vocabularyId By default, the tests' vocabulary
+     * @return string
+     */
+    protected function updateFromImportUrl($url, $vocabularyId = null)
+    {
+        return str_replace('/import-details?', sprintf('/%s/update?', $vocabularyId ?? $this->vocabularyId), $url);
+    }
+
+    /**
      * Post the details step of an import.
      *
      * @param string $url
@@ -808,7 +833,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
      */
     protected function finishImport($url, array $info, array $advanced = [])
     {
-        return $this->requestAs(self::ADMIN, 'POST', $url, [
+        return $this->requestAs(self::ADMIN, 'POST', $this->importActionUrl($url, 'finish-import'), [
             'vocabulary-info' => $info + ['o:comment' => ''],
             'vocabulary-advanced' => $advanced + [
                 'lang' => '',
@@ -944,7 +969,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
         // Over a list, made inactive by the script until a field the list
         // depends on changes.
-        $this->assertMatchesRegularExpression('#<button type="submit" name="preview" value="1" formnovalidate class="review-show" data-watch="[^"]*">Show classes and properties</button>#', $page);
+        $this->assertMatchesRegularExpression('#<button type="submit" formaction="[^"]*/import-details\?[^"]*" formnovalidate class="review-show" data-watch="[^"]*">Show classes and properties</button>#', $page);
         $this->assertStringContainsString('<a href="#import-classes">Classes (1)</a>', $page);
         $this->assertStringContainsString('<a href="#import-properties">Properties (1)</a>', $page);
         // In the language chosen, English, with the file's prefix.
@@ -964,7 +989,6 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
                 'o:prefix' => '',
             ],
             'vocabulary-advanced' => ['lang' => 'fr', 'comments' => 'comment', 'label_property' => '', 'comment_property' => ''],
-            'preview' => '1',
         ]));
         $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
         // In French now, without a prefix.
@@ -980,7 +1004,6 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame(302, $this->startImport('../../../Stdlib/_files/details-declared.ttl'));
         $this->requestAs(self::ADMIN, 'POST', $this->importDetailsUrl(), [
             'vocabulary-info' => ['o:label' => 'Declared vocabulary', 'o:comment' => '', 'o:namespace_uri' => 'http://example.org/other#', 'o:prefix' => 'decl'],
-            'preview' => '1',
         ]);
         $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
         $this->assertStringContainsString('None of the file\'s classes or properties are in the namespace URI "http://example.org/other#". The file uses "http://example.org/declared#".', $page);
@@ -993,7 +1016,6 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         // Another form of the tests' vocabulary's namespace URI, entered.
         $this->requestAs(self::ADMIN, 'POST', $this->importDetailsUrl(), [
             'vocabulary-info' => ['o:label' => 'Definitions', 'o:comment' => '', 'o:namespace_uri' => 'https://example.org/review', 'o:prefix' => 'defs'],
-            'preview' => '1',
         ]);
         $text = strip_tags(html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
         $this->assertSame(1, substr_count($text, 'Review already uses this namespace URI. To update it from the file, click Review changes. To import the file as a new vocabulary, enter its own namespace URI.'));
@@ -1254,7 +1276,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     {
         try {
             $this->assertSame(302, $this->startImport('../../../Stdlib/_files/definitions.ttl'));
-            $this->assertSame(200, $this->requestAs(self::ADMIN, 'POST', $this->importDetailsUrl(), $data));
+            $this->assertSame(200, $this->requestAs(self::ADMIN, 'POST', $this->importActionUrl($this->importDetailsUrl(), 'finish-import'), $data));
             $this->assertTemplateName('omeka/admin/vocabulary/import-details');
             $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
             $this->reset(true);
@@ -1305,7 +1327,9 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString('Review already uses this namespace URI. To update it from the file, click Review changes. To import the file as a new vocabulary, enter its own namespace URI.', strip_tags($page));
         $this->assertStringContainsString(sprintf('<a href="/admin/vocabulary/%s">Review</a>', $this->vocabularyId), $page);
         // After Import, which Enter still means.
-        $this->assertMatchesRegularExpression('#<button>Import</button>\s*<button type="submit" name="update" value="1" formnovalidate>Review changes</button>#', $page);
+        $this->assertMatchesRegularExpression('#<button>Import</button>\s*<button type="submit" formaction="/admin/vocabulary/\d+/update\?file_token=[^"]*" formnovalidate>Review changes</button>#', $page);
+        // Import is the form's own action, so Enter in a field imports.
+        $this->assertMatchesRegularExpression('#<form [^>]*action="/admin/vocabulary/finish-import\?file_token=[0-9a-f]+&format=turtle"#', $page);
         // Without the file's classes and properties, which importing under
         // the namespace URI wouldn't add.
         $this->assertStringNotContainsString('class="field-term"', $page);
@@ -1318,7 +1342,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             ]));
             $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
             $this->assertStringContainsString('Review already uses this namespace URI. To update it from the file, click Review changes. To import the file as a new vocabulary, enter its own namespace URI.', strip_tags($page));
-            $this->assertStringContainsString('name="update"', $page);
+            $this->assertStringContainsString(sprintf('/admin/vocabulary/%s/update?file_token=', $this->vocabularyId), $page);
         } finally {
             $this->deleteImported('review2');
         }
@@ -1335,9 +1359,8 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringNotContainsString('Review changes', $text);
         $this->assertStringNotContainsString('class="field-term"', $this->getResponse()->getContent());
         // Nor will it start a review.
-        $this->assertSame(200, $this->requestAs(self::ADMIN, 'POST', $url, [
+        $this->assertSame(200, $this->requestAs(self::ADMIN, 'POST', $this->updateFromImportUrl($url), [
             'vocabulary-info' => ['o:label' => 'Title', 'o:comment' => '', 'o:namespace_uri' => 'http://purl.org/dc/terms/', 'o:prefix' => ''],
-            'update' => '1',
         ]));
         $this->assertTemplateName('omeka/admin/vocabulary/import-details');
     }
@@ -1347,9 +1370,8 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         // Its terms are in the tests' vocabulary's namespace.
         $this->assertSame(302, $this->startImport('markup.ttl'));
         $url = $this->importDetailsUrl();
-        $this->assertSame(302, $this->requestAs(self::ADMIN, 'POST', $url, [
+        $this->assertSame(302, $this->requestAs(self::ADMIN, 'POST', $this->updateFromImportUrl($url), [
             'vocabulary-info' => ['o:label' => '', 'o:comment' => '', 'o:namespace_uri' => 'http://example.org/review#', 'o:prefix' => ''],
-            'update' => '1',
         ] + $this->csrfField(VocabularyForm::class)));
         $location = $this->getResponse()->getHeaders()->get('Location')->getUri();
         $this->assertStringStartsWith(sprintf('/admin/vocabulary/%s/review?review=', $this->vocabularyId), $location);
@@ -1366,10 +1388,9 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     public function testReviewChangesKeepsTheChoicesMadeOnTheDetails()
     {
         $this->assertSame(302, $this->startImport('multilingual-name.ttl'));
-        $this->assertSame(302, $this->requestAs(self::ADMIN, 'POST', $this->importDetailsUrl(), [
+        $this->assertSame(302, $this->requestAs(self::ADMIN, 'POST', $this->updateFromImportUrl($this->importDetailsUrl()), [
             'vocabulary-info' => ['o:label' => '', 'o:comment' => '', 'o:namespace_uri' => 'http://example.org/review#', 'o:prefix' => ''],
             'vocabulary-advanced' => ['lang' => 'fr', 'comments' => 'definition', 'label_property' => '', 'comment_property' => ''],
-            'update' => '1',
         ] + $this->csrfField(VocabularyForm::class)));
         $location = $this->getResponse()->getHeaders()->get('Location')->getUri();
         $token = $this->tokens[] = substr($location, strpos($location, '=') + 1);
@@ -1388,10 +1409,9 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         ], [], ['isPartial' => true]);
         $this->assertSame(302, $this->startImport('multilingual-name.ttl'));
         // First available and the default label, chosen on the details.
-        $this->assertSame(302, $this->requestAs(self::ADMIN, 'POST', $this->importDetailsUrl(), [
+        $this->assertSame(302, $this->requestAs(self::ADMIN, 'POST', $this->updateFromImportUrl($this->importDetailsUrl()), [
             'vocabulary-info' => ['o:label' => '', 'o:comment' => '', 'o:namespace_uri' => 'http://example.org/review#', 'o:prefix' => ''],
             'vocabulary-advanced' => ['lang' => '', 'labels' => 'label', 'comments' => 'comment'],
-            'update' => '1',
         ] + $this->csrfField(VocabularyForm::class)));
         $location = $this->getResponse()->getHeaders()->get('Location')->getUri();
         $token = $this->tokens[] = substr($location, strpos($location, '=') + 1);
@@ -1437,10 +1457,10 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             $this->requestAs(self::ADMIN, 'GET', $url);
             $text = strip_tags(html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
             $this->assertStringContainsString('Review in https already uses this namespace URI.', $text);
-            // And Review changes reviews that one.
-            $this->assertSame(302, $this->requestAs(self::ADMIN, 'POST', $url, [
+            // And Review changes, which goes to that one's Update, reviews it.
+            $this->assertStringContainsString(sprintf('/admin/vocabulary/%s/update?file_token=', $httpsId), $this->getResponse()->getContent());
+            $this->assertSame(302, $this->requestAs(self::ADMIN, 'POST', $this->updateFromImportUrl($url, $httpsId), [
                 'vocabulary-info' => ['o:label' => '', 'o:comment' => '', 'o:namespace_uri' => 'https://example.org/review#', 'o:prefix' => ''],
-                'update' => '1',
             ] + $this->csrfField(VocabularyForm::class)));
             $location = $this->getResponse()->getHeaders()->get('Location')->getUri();
             $this->assertStringStartsWith(sprintf('/admin/vocabulary/%s/review?review=', $httpsId), $location);
@@ -1464,10 +1484,9 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertMatchesRegularExpression('#name="vocabulary-advanced\[lang\]".*?<option value="fr" selected>#s', $page);
         $this->assertStringContainsString('<option value="definition" selected>', $page);
         // The review reads it so, with the page left as it was.
-        $this->assertSame(302, $this->requestAs(self::ADMIN, 'POST', $url, [
+        $this->assertSame(302, $this->requestAs(self::ADMIN, 'POST', $this->updateFromImportUrl($url), [
             'vocabulary-info' => ['o:label' => '', 'o:comment' => '', 'o:namespace_uri' => 'http://example.org/review#', 'o:prefix' => ''],
             'vocabulary-advanced' => ['lang' => 'fr', 'comments' => 'definition', 'label_property' => '', 'comment_property' => ''],
-            'update' => '1',
         ] + $this->csrfField(VocabularyForm::class)));
         $location = $this->getResponse()->getHeaders()->get('Location')->getUri();
         $token = $this->tokens[] = substr($location, strpos($location, '=') + 1);
@@ -1492,9 +1511,8 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     {
         $this->assertSame(302, $this->startImport('markup.ttl'));
         $url = $this->importDetailsUrl();
-        $this->assertSame(200, $this->requestAs(self::ADMIN, 'POST', $url, [
+        $this->assertSame(200, $this->requestAs(self::ADMIN, 'POST', $this->updateFromImportUrl($url), [
             'vocabulary-info' => ['o:label' => '', 'o:comment' => '', 'o:namespace_uri' => 'http://example.org/review#', 'o:prefix' => ''],
-            'update' => '1',
         ]));
         $this->assertTemplateName('omeka/admin/vocabulary/import-details');
         // The import goes on.
@@ -1506,9 +1524,8 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         // The file's terms use https; the namespace URI entered is the
         // vocabulary's own http form, which has none of them.
         $this->assertSame(302, $this->startImport('other-form.ttl'));
-        $this->assertSame(200, $this->requestAs(self::ADMIN, 'POST', $this->importDetailsUrl(), [
+        $this->assertSame(200, $this->requestAs(self::ADMIN, 'POST', $this->updateFromImportUrl($this->importDetailsUrl()), [
             'vocabulary-info' => ['o:label' => '', 'o:comment' => '', 'o:namespace_uri' => 'http://example.org/review#', 'o:prefix' => ''],
-            'update' => '1',
         ] + $this->csrfField(VocabularyForm::class)));
         $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
         $this->assertSame(1, substr_count($page, 'None of the file\'s classes or properties are in the namespace URI "http://example.org/review#".'));
@@ -1525,15 +1542,14 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
         $this->assertStringContainsString('The prefix may only contain letters, numbers, hyphens, and underscores.', $page);
         $this->assertStringContainsString('Review already uses this namespace URI. To update it from the file, click Review changes.', strip_tags($page));
-        $this->assertStringContainsString('name="update"', $page);
+        $this->assertStringContainsString(sprintf('/admin/vocabulary/%s/update?file_token=', $this->vocabularyId), $page);
     }
 
     public function testReviewChangesOfAnotherFormOfTheNamespaceChangesItToo()
     {
         $this->assertSame(302, $this->startImport('other-form.ttl'));
-        $this->assertSame(302, $this->requestAs(self::ADMIN, 'POST', $this->importDetailsUrl(), [
+        $this->assertSame(302, $this->requestAs(self::ADMIN, 'POST', $this->updateFromImportUrl($this->importDetailsUrl()), [
             'vocabulary-info' => ['o:label' => '', 'o:comment' => '', 'o:namespace_uri' => 'https://example.org/review#', 'o:prefix' => ''],
-            'update' => '1',
         ] + $this->csrfField(VocabularyForm::class)));
         $location = $this->getResponse()->getHeaders()->get('Location')->getUri();
         $token = $this->tokens[] = substr($location, strpos($location, '=') + 1);
@@ -1596,6 +1612,52 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame(302, $status);
         $this->assertRedirectTo('/admin/vocabulary/import');
         $this->assertSame(['This import has ended. Choose the file or enter its URL again.'], $this->messages(Messenger::ERROR));
+    }
+
+    public function testReviewChangesForAnotherVocabularyDrawsTheDetailsAgain()
+    {
+        // Posted to the Update of a vocabulary the file isn't, as when the
+        // page's namespace URI was changed after it was drawn: no review.
+        $otherId = $this->api()->create('vocabularies', [
+            'o:namespace_uri' => 'http://example.org/unrelated#',
+            'o:prefix' => 'unrelated',
+            'o:label' => 'Unrelated',
+        ])->getContent()->id();
+        try {
+            $this->assertSame(302, $this->startImport('unchanged.ttl'));
+            $status = $this->requestAs(self::ADMIN, 'POST', $this->updateFromImportUrl($this->importDetailsUrl(), $otherId), [
+                'vocabulary-info' => ['o:label' => '', 'o:comment' => '', 'o:namespace_uri' => self::NAMESPACE_URI, 'o:prefix' => ''],
+            ] + $this->csrfField(VocabularyForm::class));
+            $this->assertSame(200, $status);
+            $this->assertTemplateName('omeka/admin/vocabulary/import-details');
+        } finally {
+            $this->reset(true);
+            $this->signIn();
+            $this->api()->delete('vocabularies', $otherId);
+        }
+    }
+
+    public function testReviewChangesForAVocabularyThatIsGoneDrawsTheDetailsAgain()
+    {
+        // As when the vocabulary was deleted in another tab after the page
+        // was drawn: the page again, not an error.
+        $this->assertSame(302, $this->startImport('unchanged.ttl'));
+        $status = $this->requestAs(self::ADMIN, 'POST', $this->updateFromImportUrl($this->importDetailsUrl(), 999999), [
+            'vocabulary-info' => ['o:label' => '', 'o:comment' => '', 'o:namespace_uri' => self::NAMESPACE_URI, 'o:prefix' => ''],
+        ] + $this->csrfField(VocabularyForm::class));
+        $this->assertSame(200, $status);
+        $this->assertTemplateName('omeka/admin/vocabulary/import-details');
+    }
+
+    public function testImportAndReviewChangesTakeOnlyPosts()
+    {
+        // Reached otherwise, as by reloading the page they drew after a
+        // refusal, they go back to the import's details.
+        foreach (['/admin/vocabulary/finish-import', sprintf('/admin/vocabulary/%s/update', $this->vocabularyId)] as $path) {
+            $status = $this->requestAs(self::ADMIN, 'GET', $path . '?file_token=unknown&format=turtle');
+            $this->assertSame(302, $status);
+            $this->assertRedirectTo('/admin/vocabulary/import-details?file_token=unknown&format=turtle');
+        }
     }
 
     public function testAnErrorWithNothingToSayStillSaysSomething()

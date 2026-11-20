@@ -198,19 +198,10 @@ class VocabularyAdapter extends AbstractEntityAdapter
             );
         }
         if (isset($query['namespace_uri'])) {
-            if (is_array($query['namespace_uri'])) {
-                // Any of them, such as Vocabulary::getNamespaceUriForms()
-                // gives; an empty list matches nothing.
-                $namespaceUris = array_values(array_filter(array_map('strval', $query['namespace_uri']), 'strlen'));
-                $qb->andWhere($namespaceUris
-                    ? $qb->expr()->in('omeka_root.namespaceUri', $qb->createNamedParameter($namespaceUris))
-                    : $qb->expr()->isNull('omeka_root.id'));
-            } else {
-                $qb->andWhere($qb->expr()->eq(
-                    "omeka_root.namespaceUri",
-                    $qb->createNamedParameter($query['namespace_uri']))
-                );
-            }
+            $qb->andWhere($qb->expr()->eq(
+                "omeka_root.namespaceUri",
+                $qb->createNamedParameter($query['namespace_uri']))
+            );
         }
         if (isset($query['prefix'])) {
             $qb->andWhere($qb->expr()->eq(

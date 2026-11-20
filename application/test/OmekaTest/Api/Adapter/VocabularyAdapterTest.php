@@ -92,19 +92,6 @@ class VocabularyAdapterTest extends DbTestCase
         $this->assertSame('fr', $vocabulary->importOptions()['lang']);
     }
 
-    public function testSearchByAnyOfSeveralNamespaceUris()
-    {
-        $vocabulary = $this->create();
-        $api = $this->services->get('Omeka\ApiManager');
-        $found = $api->search('vocabularies', ['namespace_uri' => ['http://example.org/other#', 'http://example.org/options#']])->getContent();
-        $this->assertSame([$vocabulary->id()], array_map(function ($vocabulary) {
-            return $vocabulary->id();
-        }, $found));
-        $this->assertSame(0, $api->search('vocabularies', ['namespace_uri' => ['http://example.org/other#']])->getTotalResults());
-        // None at all matches none, not every vocabulary.
-        $this->assertSame(0, $api->search('vocabularies', ['namespace_uri' => []])->getTotalResults());
-    }
-
     public function testSortByOwnerName()
     {
         // Omeka's own have no owner, so the admin's comes last going up

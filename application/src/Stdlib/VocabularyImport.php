@@ -119,7 +119,11 @@ class VocabularyImport
             return null;
         }
         $handOff = $this->getSession()->offsetGet((string) $fileToken);
-        return ['file' => $file] + (is_array($handOff) ? $handOff : []) + ['vocabulary' => [], 'import_options' => []];
+        return [
+            'file' => $file,
+            'vocabulary' => $handOff['vocabulary'] ?? [],
+            'import_options' => $handOff['import_options'] ?? [],
+        ];
     }
 
     /**

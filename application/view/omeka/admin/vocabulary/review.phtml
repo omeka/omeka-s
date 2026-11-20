@@ -37,6 +37,7 @@ if (null !== $diff) {
 $termChanges = 0;
 foreach ($sections as $key => $section) {
     $sections[$key]['count'] = count($section['changes'] ?? $section['terms']);
+    // A section with a note, of the terms only in Omeka, isn't a change.
     $termChanges += isset($section['note']) ? 0 : $sections[$key]['count'];
 }
 $sections = array_filter($sections, function ($section) {
@@ -61,11 +62,7 @@ $changes = null !== $diff && ($termChanges || $namespaceChanges);
     <?php foreach ($choiceValues as $name => $choiceValue): ?>
     <input type="hidden" name="<?php echo $escape($name); ?>" value="<?php echo $escape($choiceValue); ?>">
     <?php endforeach; ?>
-    <?php foreach ($form->getElements() as $element): ?>
-    <?php if ($element instanceof \Laminas\Form\Element\Csrf): ?>
-    <?php echo $this->formHidden($element); ?>
-    <?php endif; ?>
-    <?php endforeach; ?>
+    <?php echo $this->formElement($form->get($form->getName() . '_csrf')); ?>
 </form>
 
 <?php // The choices, sent by GET to show the changes again. ?>

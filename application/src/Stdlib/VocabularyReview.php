@@ -372,12 +372,12 @@ class VocabularyReview
     protected function getStartingImportOptions($vocabulary, array $review, array $given)
     {
         // "" isn't a choice; null is the default, chosen.
-        $importOptions = array_filter(
-            array_intersect_key($given, array_flip(Vocabulary::IMPORT_OPTIONS)),
-            function ($value) {
-                return '' !== $value;
+        $importOptions = [];
+        foreach ($given as $key => $value) {
+            if (in_array($key, Vocabulary::IMPORT_OPTIONS, true) && '' !== $value) {
+                $importOptions[$key] = $value;
             }
-        );
+        }
         $stored = $vocabulary->importOptions();
         if (null !== $stored) {
             return $importOptions + $stored;

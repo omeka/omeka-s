@@ -184,13 +184,14 @@ class Vocabulary extends AbstractEntity
         $namespaceUri = (string) $namespaceUri;
         $base = rtrim($namespaceUri, '#/');
         $forms = [$namespaceUri, $base . '#', $base . '/', $base, $base . '/#'];
+        $otherScheme = [];
         foreach ($forms as $form) {
             if (0 === stripos($form, 'http://')) {
-                $forms[] = 'https://' . substr($form, 7);
+                $otherScheme[] = 'https://' . substr($form, 7);
             } elseif (0 === stripos($form, 'https://')) {
-                $forms[] = 'http://' . substr($form, 8);
+                $otherScheme[] = 'http://' . substr($form, 8);
             }
         }
-        return array_values(array_unique($forms));
+        return array_values(array_unique(array_merge($forms, $otherScheme)));
     }
 }

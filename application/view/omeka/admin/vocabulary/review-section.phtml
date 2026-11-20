@@ -30,6 +30,8 @@ $none = sprintf('<span class="review-none">%s</span>', $translate('None'));
         <?php foreach ($terms as $localName => $values): ?>
         <?php
         $label = $isChanges ? (string) ($section['labels'][$localName] ?? '') : '';
+        // [from, to] for a change, a term's label and comment, or the lone
+        // label of a term only in Omeka, as a list of strings.
         $values = array_map('strval', array_values((array) $values));
         // A changed value is marked word by word, where neither side is empty.
         $cells = $isChanges && '' !== $values[0] && '' !== $values[1]

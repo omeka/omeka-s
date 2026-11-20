@@ -33,6 +33,13 @@ $this->htmlElement('body')->appendAttribute('class', 'vocabs browse');
     </thead>
     <tbody>
         <?php foreach ($vocabularies as $vocabulary): ?>
+        <?php
+        if ($owner = $vocabulary->owner()) {
+            $ownerText = $this->hyperlink($owner->name(), $owner->url());
+        } else {
+            $ownerText = $translate('[No owner]');
+        }
+        ?>
         <tr>
             <td>
                 <?php echo $this->hyperlink($translate($vocabulary->label()), $vocabulary->url()); ?>
@@ -63,7 +70,7 @@ $this->htmlElement('body')->appendAttribute('class', 'vocabs browse');
             <td><?php echo $escape($translate($vocabulary->prefix())); ?></td>
             <td><?php echo $this->hyperlink($vocabulary->resourceClassCount(), $this->url('admin/id', ['action' => 'classes', 'id' => $vocabulary->id()], true)); ?></td>
             <td><?php echo $this->hyperlink($vocabulary->propertyCount(), $this->url('admin/id', ['action' => 'properties', 'id' => $vocabulary->id()], true)); ?></td>
-            <td><?php echo ($owner = $vocabulary->owner()) ? $this->hyperlink($owner->name(), $owner->url()) : $translate('[No owner]'); ?></td>
+            <td><?php echo $ownerText; ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

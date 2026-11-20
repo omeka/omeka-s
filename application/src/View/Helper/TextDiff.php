@@ -102,7 +102,7 @@ class TextDiff extends AbstractHelper
         $text = (string) $text;
         if (!preg_match_all('/(\S*)(\s*)/u', $text, $matches, PREG_SET_ORDER)) {
             // Text that isn't valid UTF-8 is one word, and differs as a whole.
-            return $text === '' ? [] : [[$text, '']];
+            return [[$text, '']];
         }
         $units = [];
         foreach ($matches as [$all, $word, $space]) {
@@ -136,9 +136,13 @@ class TextDiff extends AbstractHelper
             }
         }
         $pairs = [];
-        for ($i = 0, $j = 0; $i < $n && $j < $m;) {
+        $i = 0;
+        $j = 0;
+        while ($i < $n && $j < $m) {
             if ($a[$i] === $b[$j]) {
-                $pairs[$i++] = $j++;
+                $pairs[$i] = $j;
+                $i++;
+                $j++;
             } elseif ($lengths[$i + 1][$j] >= $lengths[$i][$j + 1]) {
                 $i++;
             } else {
@@ -161,12 +165,15 @@ class TextDiff extends AbstractHelper
                 $marked[] = [$word, !$matched];
             }
             if ($space !== '') {
-                // The space after an unmatched word is a change where the next
-                // word is unmatched too, keeping a run of changes in one part,
-                // or where the word is empty, at a text's start.
-                $marked[] = [$space, $matched
-                    ? $space !== $others[$match[$i]][1]
-                    : $word === '' || (isset($units[$i + 1]) && !isset($match[$i + 1]))];
+                if ($matched) {
+                    $changed = $space !== $others[$match[$i]][1];
+                } else {
+                    // The space after an unmatched word is a change where the
+                    // next word is unmatched too, keeping a run of changes in
+                    // one part, or where the word is empty, at a text's start.
+                    $changed = $word === '' || (isset($units[$i + 1]) && !isset($match[$i + 1]));
+                }
+                $marked[] = [$space, $changed];
             }
         }
         return $this->joinParts($marked);

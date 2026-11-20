@@ -173,15 +173,20 @@ class VocabularyController extends AbstractActionController
         $other = $found ? $this->vocabularyAdapter->getRepresentation($found) : null;
         $updatable = $other && $other->userMayUpdate() ? $other : null;
         // On the first visit, the choices start from how an updatable
-        // vocabulary's file was last read (one it wasn't read with, on its
-        // default), so Review changes reads it the same way, then from any a
-        // module handed this import.
+        // vocabulary's file was last read, so Review changes reads it the same
+        // way, then from any a module handed this import.
         if (!$request->isPost()) {
+            $startingChoices = [];
             $stored = $updatable ? $updatable->importOptions() : null;
-            $startingChoices = array_replace(
-                null === $stored ? [] : $stored + array_fill_keys(VocabularyImport::CHOICES, null),
-                $import['import_options']
-            );
+            if (null !== $stored) {
+                // A choice the file wasn't read with is set to null, which
+                // starts its field on its default; unset, it would keep its
+                // preset, such as the installation's language.
+                foreach (VocabularyImport::CHOICES as $choice) {
+                    $startingChoices[$choice] = $stored[$choice] ?? null;
+                }
+            }
+            $startingChoices = array_replace($startingChoices, $import['import_options']);
             if ($startingChoices) {
                 $form->setStartingChoices($startingChoices);
             }
@@ -191,7 +196,10 @@ class VocabularyController extends AbstractActionController
         $chosen = VocabularyForm::getChosenImportOptions(array_map(fn ($element) => $element->getValue(), $form->get('vocabulary-advanced')->getElements()));
         // For importing and for the list: each import option, null where not
         // chosen.
-        $options = array_replace(['file' => $import['file'], 'format' => $format] + array_fill_keys(VocabularyImport::CHOICES, null), $chosen);
+        $options = ['file' => $import['file'], 'format' => $format];
+        foreach (VocabularyImport::CHOICES as $choice) {
+            $options[$choice] = $chosen[$choice] ?? null;
+        }
         // A failed import says why itself, so the list doesn't say it again.
         $refused = false;
         $valid = $isImport && $form->isValid();
@@ -368,9 +376,12 @@ class VocabularyController extends AbstractActionController
         // The file's languages, and the one chosen even if the file dropped it.
         $choiceValues = VocabularyForm::getChoiceValues($importOptions);
         $lang = $choiceValues['lang'];
+        if ('' !== $lang && !in_array($lang, $languages, true)) {
+            $languages[] = $lang;
+        }
         $choices = $this->getForm(VocabularyForm::class, [
             'mode' => 'review',
-            'languages' => array_values(array_unique(array_merge($languages, '' === $lang ? [] : [$lang]))),
+            'languages' => $languages,
         ]);
         $choices->setData($choiceValues);
         $view->setVariable('choices', $choices);

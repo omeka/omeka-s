@@ -69,6 +69,7 @@ $('.review-show').each(function() {
         setInactive($('.review-accept'), changed);
     };
     fields.on('input change', update);
+    // After Back, when the browser restores the fields' values.
     $(window).on('pageshow', update);
     update();
 });
@@ -83,7 +84,8 @@ $('#vocabulary-form').on('submit', function(e) {
     if (!namespaceUriInput.length) {
         return;
     }
-    // Show and Review changes import nothing, so have nothing to confirm.
+    // Show and Review changes, the buttons with formnovalidate, import
+    // nothing, so have nothing to confirm.
     const submitter = e.originalEvent && e.originalEvent.submitter;
     if (submitter && submitter.formNoValidate) {
         return;

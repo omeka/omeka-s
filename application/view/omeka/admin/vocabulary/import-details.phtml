@@ -9,10 +9,13 @@ $info = $form->get('vocabulary-info');
 $asksNamespaceUri = null === $details['namespace_uri'] && '' === trim((string) $info->get('o:namespace_uri')->getValue());
 
 // The classes and properties importing adds, in sections like a review's.
-$sections = null === $members ? [] : array_filter([
-    ['id' => 'import-classes', 'heading' => $translate('Classes'), 'columns' => [$translate('Class'), $translate('Label'), $translate('Comment')], 'terms' => $members['classes'], 'count' => count($members['classes'])],
-    ['id' => 'import-properties', 'heading' => $translate('Properties'), 'columns' => [$translate('Property'), $translate('Label'), $translate('Comment')], 'terms' => $members['properties'], 'count' => count($members['properties'])],
-], fn ($section) => (bool) $section['count']);
+$sections = [];
+if ($members && $members['classes']) {
+    $sections[] = ['id' => 'import-classes', 'heading' => $translate('Classes'), 'columns' => [$translate('Class'), $translate('Label'), $translate('Comment')], 'terms' => $members['classes'], 'count' => count($members['classes'])];
+}
+if ($members && $members['properties']) {
+    $sections[] = ['id' => 'import-properties', 'heading' => $translate('Properties'), 'columns' => [$translate('Property'), $translate('Label'), $translate('Comment')], 'terms' => $members['properties'], 'count' => count($members['properties'])];
+}
 ?>
 
 <?php echo $this->pageTitle($translate('New vocabulary'), 1, $translate('Vocabularies'), $translate('Details')); ?>
@@ -36,7 +39,7 @@ $sections = null === $members ? [] : array_filter([
 <?php echo $this->formRow($form->get('csrf')); ?>
 <div class="review-choices-actions">
     <?php // Shows the list again, without importing. ?>
-    <button type="submit" name="preview" value="1" formnovalidate<?php if ($sections): ?> class="review-show" data-watch="fieldset :input, [name='vocabulary-info[o:namespace_uri]'], [name='vocabulary-info[o:prefix]']"<?php endif; ?>><?php echo $translate('Show classes and properties'); ?></button>
+    <button type="submit" name="preview" value="1" formnovalidate<?php if ($sections): ?> class="review-show" data-watch="[name^='vocabulary-advanced['], [name='vocabulary-info[o:namespace_uri]'], [name='vocabulary-info[o:prefix]']"<?php endif; ?>><?php echo $translate('Show classes and properties'); ?></button>
 </div>
 <?php echo $this->form()->closeTag(); ?>
 

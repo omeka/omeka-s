@@ -392,6 +392,8 @@ class RdfImporter
         foreach (['properties' => Property::class, 'classes' => ResourceClass::class] as $type => $entityClass) {
             $changes = $diff[$type];
             $terms = [];
+            // As strings, since an array key turns a local name such as "0"
+            // into an integer.
             $localNames = array_map('strval', array_keys($changes['new'] + $changes['label'] + $changes['comment']));
             if ($localNames) {
                 foreach ($em->getRepository($entityClass)->findBy(['vocabulary' => $vocabulary, 'localName' => $localNames]) as $term) {
@@ -542,11 +544,14 @@ class RdfImporter
                 foreach ($terms as $localName => $term) {
                     $resource = $graph->resource($namespaceUri . $localName);
                     $label = $this->getLabel($resource, $labelProperty, $candidate, (string) $localName);
-                    $matches += $this->getComparableText($label) === $this->getComparableText($term['label']) ? 1 : 0;
+                    if ($this->getComparableText($label) === $this->getComparableText($term['label'])) {
+                        $matches++;
+                    }
                 }
             }
             if ($matches > $mostMatches) {
-                [$lang, $mostMatches] = [$candidate, $matches];
+                $lang = $candidate;
+                $mostMatches = $matches;
             }
         }
 
@@ -592,7 +597,10 @@ class RdfImporter
                 $client->setMethod('GET');
                 $client->setHeaders(['Accept' => 'application/ld+json,application/rdf+xml;q=0.9,text/turtle;q=0.8,application/n-triples;q=0.7']);
                 $response = $client->send();
-            } while ($response->isRedirect() && $response->getHeaders()->has('Location') && $redirects++ < self::MAX_REDIRECTS);
+                $follow = $response->isRedirect() && $response->getHeaders()->has('Location')
+                    && $redirects < self::MAX_REDIRECTS;
+                $redirects++;
+            } while ($follow);
         } catch (\Exception $e) {
             throw new ValidationException('Could not load vocabulary from URL.', 0, $e); // @translate
         }
@@ -694,7 +702,13 @@ class RdfImporter
             }
             if ($nearness) {
                 uksort($nearness, function ($a, $b) use ($nearness, $coverage) {
-                    return [$coverage[$b] ?? 0, $nearness[$a]] <=> [$coverage[$a] ?? 0, $nearness[$b]];
+                    // The most covered first, then the nearest.
+                    $coverageA = $coverage[$a] ?? 0;
+                    $coverageB = $coverage[$b] ?? 0;
+                    if ($coverageA !== $coverageB) {
+                        return $coverageB <=> $coverageA;
+                    }
+                    return $nearness[$a] <=> $nearness[$b];
                 });
                 return array_key_first($nearness);
             }
@@ -712,9 +726,11 @@ class RdfImporter
      */
     protected function getStoredVocabulary($namespaceUri, array $options)
     {
-        return $this->apiManager->search('vocabularies', isset($options['vocabulary_id'])
+        $query = isset($options['vocabulary_id'])
             ? ['id' => (int) $options['vocabulary_id']]
-            : ['namespace_uri' => $namespaceUri])->getContent()[0] ?? null;
+            : ['namespace_uri' => $namespaceUri];
+        $vocabularies = $this->apiManager->search('vocabularies', $query)->getContent();
+        return $vocabularies[0] ?? null;
     }
 
     /**
@@ -1055,7 +1071,9 @@ class RdfImporter
                     }
                     $count = array_sum($this->countMembers($graph, $form));
                     if ($count > $bestCount) {
-                        [$best, $bestCount, $bestIsBase] = [$form, $count, $form === $base];
+                        $best = $form;
+                        $bestCount = $count;
+                        $bestIsBase = $form === $base;
                     }
                 }
             }
@@ -1284,13 +1302,19 @@ class RdfImporter
         $language = $this->getMatchingLanguage($lang, array_values(array_filter(array_unique($languages), 'strlen')));
         if (null !== $language) {
             foreach (explode('|', $properties) as $property) {
-                $values = array_filter($resource->all($property, 'literal'), function ($value) use ($language) {
-                    return in_array(strtolower((string) $value->getLang()), [$language, ''], true);
-                });
-                if (array_filter($values, function ($value) use ($language) {
-                    return $language === strtolower((string) $value->getLang());
-                })) {
-                    return array_values($values);
+                $values = [];
+                $hasLanguage = false;
+                foreach ($resource->all($property, 'literal') as $value) {
+                    $valueLanguage = strtolower((string) $value->getLang());
+                    if ($language === $valueLanguage) {
+                        $hasLanguage = true;
+                    }
+                    if ($language === $valueLanguage || '' === $valueLanguage) {
+                        $values[] = $value;
+                    }
+                }
+                if ($hasLanguage) {
+                    return $values;
                 }
             }
         }
@@ -1298,9 +1322,13 @@ class RdfImporter
             $values = $resource->all($property, 'literal');
             if ($values) {
                 $first = (string) $values[0]->getLang();
-                return array_values(array_filter($values, function ($value) use ($first) {
-                    return in_array((string) $value->getLang(), [$first, ''], true);
-                }));
+                $inFirst = [];
+                foreach ($values as $value) {
+                    if (in_array((string) $value->getLang(), [$first, ''], true)) {
+                        $inFirst[] = $value;
+                    }
+                }
+                return $inFirst;
             }
         }
         return [];
@@ -1327,7 +1355,7 @@ class RdfImporter
             $counts[$namespaceUri] = ($counts[$namespaceUri] ?? 0) + 1;
         }
         arsort($counts);
-        return key($counts);
+        return array_key_first($counts);
     }
 
     /**

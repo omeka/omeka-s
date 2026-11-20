@@ -95,7 +95,7 @@ class VocabularyForm extends Form
             // The review page sends its choices by GET, as core's search
             // forms do, so without CSRF, and under their own names, as
             // ?lang=fr.
-            $this->remove($this->getName() ? sprintf('%s_csrf', $this->getName()) : 'csrf');
+            $this->remove('csrf');
             $this->addAdvancedElements($this->getOption('languages'), $this);
         }
 
@@ -435,14 +435,21 @@ class VocabularyForm extends Form
         $values = self::getChoiceValues($importOptions);
         $choices = [];
         if (array_key_exists('lang', $importOptions)) {
-            $inFile = '' === $values['lang'] || in_array($values['lang'], $this->getOption('languages') ?? [], true);
-            $choices += $inFile ? ['lang' => $values['lang']] : ['lang' => 'other', 'other_lang' => $values['lang']];
+            $lang = $values['lang'];
+            if ('' === $lang || in_array($lang, $this->getOption('languages') ?? [], true)) {
+                $choices['lang'] = $lang;
+            } else {
+                $choices['lang'] = 'other';
+                $choices['other_lang'] = $lang;
+            }
         }
         if (array_key_exists('label_property', $importOptions)) {
-            $choices += ['labels' => $values['labels'], 'label_property' => $values['label_property']];
+            $choices['labels'] = $values['labels'];
+            $choices['label_property'] = $values['label_property'];
         }
         if (array_key_exists('comment_property', $importOptions)) {
-            $choices += ['comments' => $values['comments'], 'comment_property' => $values['comment_property']];
+            $choices['comments'] = $values['comments'];
+            $choices['comment_property'] = $values['comment_property'];
         }
         $this->get('vocabulary-advanced')->populateValues($choices);
     }
@@ -470,17 +477,23 @@ class VocabularyForm extends Form
         // The default, which is no label property of its own, or the one
         // entered under Another property.
         $labels = $values['labels'] ?? null;
-        $labelProperty = 'other' === $labels ? self::getOtherValue($values, 'label_property') : null;
-        if ('label' === $labels || null !== $labelProperty) {
-            $importOptions['label_property'] = $labelProperty;
+        if ('label' === $labels) {
+            $importOptions['label_property'] = null;
+        } elseif ('other' === $labels) {
+            $labelProperty = self::getOtherValue($values, 'label_property');
+            if (null !== $labelProperty) {
+                $importOptions['label_property'] = $labelProperty;
+            }
         }
         // One the field offers, or the one entered under Another property.
         $comments = $values['comments'] ?? null;
-        $commentProperty = 'other' === $comments
-            ? self::getOtherValue($values, 'comment_property')
-            : (is_string($comments) ? RdfImporter::COMMENT_PROPERTY_CHOICES[$comments] ?? null : null);
-        if (null !== $commentProperty) {
-            $importOptions['comment_property'] = $commentProperty;
+        if ('other' === $comments) {
+            $commentProperty = self::getOtherValue($values, 'comment_property');
+            if (null !== $commentProperty) {
+                $importOptions['comment_property'] = $commentProperty;
+            }
+        } elseif (is_string($comments) && isset(RdfImporter::COMMENT_PROPERTY_CHOICES[$comments])) {
+            $importOptions['comment_property'] = RdfImporter::COMMENT_PROPERTY_CHOICES[$comments];
         }
         return $importOptions;
     }

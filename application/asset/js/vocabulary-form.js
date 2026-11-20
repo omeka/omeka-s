@@ -50,18 +50,35 @@ const isChanged = function(field) {
     return field.value !== field.defaultValue;
 };
 
-// Under a Show button: says the result below was shown with other values
-// while a field it depends on differs from the one the page was drawn with,
-// as after a change, or when the browser restores changed values on Back.
-$('.review-stale').each(function() {
-    const note = $(this);
-    const fields = note.closest('form').find(note.data('watch'));
+// Make a button inactive or active, as core's query form does, keeping an
+// inactive one focusable so a screen reader still finds it, and giving it
+// its title for being inactive, if it has one.
+const setInactive = function(button, inactive) {
+    button.toggleClass('inactive', inactive).attr('aria-disabled', inactive ? 'true' : null);
+    if (button.data('inactiveTitle')) {
+        button.attr('title', inactive ? button.data('inactiveTitle') : null);
+    }
+};
+
+// A Show button is active only while a field the result below depends on
+// differs from the one the page was drawn with, as after a change, or when
+// the browser restores changed values on Back. Meanwhile Accept, which
+// applies the choices the result below was worked out with, is inactive.
+$('.review-show').each(function() {
+    const button = $(this);
+    const fields = button.closest('form').find(button.data('watch'));
     const update = function() {
-        note.prop('hidden', !fields.toArray().some(isChanged));
+        const changed = fields.toArray().some(isChanged);
+        setInactive(button, !changed);
+        setInactive($('.review-accept'), changed);
     };
     fields.on('input change', update);
     $(window).on('pageshow', update);
     update();
+});
+
+$(document).on('click', '.review-show.inactive, .review-accept.inactive', function(e) {
+    e.preventDefault();
 });
 
 $('#vocabulary-form').on('submit', function(e) {

@@ -35,11 +35,11 @@ $sections = null === $members ? [] : array_filter([
 <?php echo $this->formCollection($form->get('vocabulary-advanced')); ?>
 <?php echo $this->formRow($form->get('csrf')); ?>
 <div class="review-choices-actions">
-    <?php // Posts the form to show the classes and properties again, without importing. ?>
-    <button type="submit" name="preview" value="1" formnovalidate><?php echo $translate('Show classes and properties'); ?></button>
+    <?php // Posts the form to show the classes and properties again, without importing. Over a list, the script makes it inactive until a field the list depends on changes. ?>
     <?php if ($sections): ?>
-    <?php // Shown by the script while a field the list below depends on has changed. ?>
-    <p class="review-stale" role="status" data-watch="fieldset :input, [name='vocabulary-info[o:namespace_uri]'], [name='vocabulary-info[o:prefix]']" hidden><?php echo $translate('The fields above have changed. Click Show classes and properties to see the result.'); ?></p>
+    <button type="submit" name="preview" value="1" formnovalidate class="review-show" data-watch="fieldset :input, [name='vocabulary-info[o:namespace_uri]'], [name='vocabulary-info[o:prefix]']"><?php echo $translate('Show classes and properties'); ?></button>
+    <?php else: ?>
+    <button type="submit" name="preview" value="1" formnovalidate><?php echo $translate('Show classes and properties'); ?></button>
     <?php endif; ?>
 </div>
 <?php echo $this->form()->closeTag(); ?>

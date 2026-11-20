@@ -619,15 +619,17 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     {
         $page = html_entity_decode($this->reviewPage($this->startReview('unchanged.ttl')), ENT_QUOTES | ENT_HTML5);
         $this->assertStringContainsString('This vocabulary already matches the file, read with the choices above.', $page);
-        // Said once a choice changes, by the script.
-        $this->assertMatchesRegularExpression('#<p class="review-stale" role="status" data-watch="fieldset :input" hidden>The choices have changed\. Click Show changes to see the result\.</p>#', $page);
+        // Made inactive by the script until a choice changes.
+        $this->assertStringContainsString('<button type="submit" class="review-show" data-watch="fieldset :input">Show changes</button>', $page);
         $this->assertMatchesRegularExpression('#<button type="submit" class="button" formaction="[^"]*/cancel-review">Back</button>#', $page);
         $this->assertStringNotContainsString('Accept changes', $page);
 
         // With changes, Cancel and Accept.
         $page = html_entity_decode($this->reviewPage($this->startReview('changed-name.ttl')), ENT_QUOTES | ENT_HTML5);
         $this->assertMatchesRegularExpression('#formaction="[^"]*/cancel-review">Cancel</button>#', $page);
-        $this->assertStringContainsString('Accept changes', $page);
+        // Made inactive by the script while a choice differs from those the
+        // changes were worked out with.
+        $this->assertStringContainsString('<button type="submit" class="review-accept" data-inactive-title="Show changes first">Accept changes</button>', $page);
     }
 
     public function testLabelPropertyChosenOnReview()
@@ -922,9 +924,9 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame(302, $this->startImport('../../../Stdlib/_files/details-declared.ttl'));
         $this->requestAs(self::ADMIN, 'GET', $this->importDetailsUrl());
         $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
-        $this->assertStringContainsString('<button type="submit" name="preview" value="1" formnovalidate>Show classes and properties</button>', $page);
-        // Said once a field the list depends on changes, by the script.
-        $this->assertMatchesRegularExpression('#<p class="review-stale" role="status" data-watch="[^"]*" hidden>The fields above have changed\. Click Show classes and properties to see the result\.</p>#', $page);
+        // Over a list, made inactive by the script until a field the list
+        // depends on changes.
+        $this->assertMatchesRegularExpression('#<button type="submit" name="preview" value="1" formnovalidate class="review-show" data-watch="[^"]*">Show classes and properties</button>#', $page);
         $this->assertStringContainsString('<a href="#import-classes">Classes (1)</a>', $page);
         $this->assertStringContainsString('<a href="#import-properties">Properties (1)</a>', $page);
         // In the language chosen, English, with the file's prefix.

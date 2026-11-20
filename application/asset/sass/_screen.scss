@@ -3636,12 +3636,6 @@ input[type=text].query-form-query {
     margin: $spacing-medium 0;
 }
 
-/* Says the result below was shown before a choice changed, close under the
-   button that shows it again. */
-.vocabularies .review-stale {
-    margin: $spacing-small 0 0;
-}
-
 /* Section headings at h3's size: they head parts of one page, and at h2's
    size they vie with its title. */
 .vocabularies.review #content h2,

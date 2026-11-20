@@ -54,7 +54,8 @@ $changes = null !== $diff && ($termChanges || $namespaceChanges);
         <?php // With nothing to change, there's nothing to accept; Back ends the review as Cancel does. ?>
         <button type="submit" class="button" formaction="<?php echo $escape($this->url(null, ['action' => 'cancel-review'], true)); ?>"><?php echo (null !== $diff && !$changes) ? $translate('Back') : $translate('Cancel'); ?></button>
         <?php if ($changes): ?>
-        <button type="submit"><?php echo $translate('Accept changes'); ?></button>
+        <?php // Inactive, by the script, while the choices below differ from those the changes were worked out with, which are the ones it applies. ?>
+        <button type="submit" class="review-accept" data-inactive-title="<?php echo $escape($translate('Show changes first')); ?>"><?php echo $translate('Accept changes'); ?></button>
         <?php endif; ?>
     </div>
     <input type="hidden" name="review" value="<?php echo $escape($token); ?>">
@@ -82,9 +83,8 @@ $choices->prepare();
         <?php echo $this->formCollection($choices, false); ?>
     </fieldset>
     <div class="review-choices-actions">
-        <button type="submit"><?php echo $translate('Show changes'); ?></button>
-        <?php // Shown by the script while a choice differs from the one the changes below were worked out with. ?>
-        <p class="review-stale" role="status" data-watch="fieldset :input" hidden><?php echo $translate('The choices have changed. Click Show changes to see the result.'); ?></p>
+        <?php // Inactive, by the script, until a choice differs from the one the changes below were worked out with. ?>
+        <button type="submit" class="review-show" data-watch="fieldset :input"><?php echo $translate('Show changes'); ?></button>
     </div>
 <?php echo $this->form()->closeTag(); ?>
 

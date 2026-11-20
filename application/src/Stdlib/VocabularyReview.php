@@ -64,8 +64,9 @@ class VocabularyReview
      * @param string $filePath The file, of which a copy is staged, so the
      *   caller may then delete it
      * @param array $importOptions The import options: format, lang,
-     *   label_property, comment_property. Those not given, or empty, come from
-     *   the vocabulary's import options, else from a guess
+     *   label_property, comment_property. Null is the default chosen (First
+     *   available, or the default property); those not given, or "", come
+     *   from the vocabulary's import options, else from a guess
      *   (RdfImporter::guessImportOptions()).
      * @param array $reviewOptions
      *   - new_namespace_uri: (optional) A new namespace URI for the
@@ -358,18 +359,18 @@ class VocabularyReview
      */
     protected function getStartingImportOptions($vocabulary, array $review, array $given)
     {
-        // An empty option, as an unchanged form posts one, isn't a choice.
+        // "" isn't a choice; null is the default, chosen.
         $importOptions = array_filter(
             array_intersect_key($given, array_flip(Vocabulary::IMPORT_OPTIONS)),
             function ($value) {
-                return null !== $value && '' !== $value;
+                return '' !== $value;
             }
         );
         $stored = $vocabulary->importOptions();
         if (null !== $stored) {
             return $importOptions + $stored;
         }
-        if (!isset($importOptions['lang']) || !isset($importOptions['comment_property'])) {
+        if (!array_key_exists('lang', $importOptions) || !array_key_exists('comment_property', $importOptions)) {
             $guess = $this->rdfImporter->guessImportOptions('file', $this->getNamespaceUri($review), [
                 'file' => $review['file'],
                 'vocabulary_id' => $vocabulary->id(),

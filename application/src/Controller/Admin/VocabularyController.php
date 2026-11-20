@@ -181,12 +181,12 @@ class VocabularyController extends AbstractActionController
                 $form->setStartingChoices($startingChoices);
             }
         }
+        // The import options chosen, none for a choice not made, as an
+        // Another… field left empty.
+        $chosen = VocabularyForm::getChosenImportOptions(array_map(fn ($element) => $element->getValue(), $form->get('vocabulary-advanced')->getElements()));
         // For importing and for the list: each import option, null where not
         // chosen.
-        $options = array_replace(
-            ['file' => $import['file'], 'format' => $format] + array_fill_keys(VocabularyImport::CHOICES, null),
-            VocabularyForm::getChosenImportOptions(array_map(fn ($element) => $element->getValue(), $form->get('vocabulary-advanced')->getElements()))
-        );
+        $options = array_replace(['file' => $import['file'], 'format' => $format] + array_fill_keys(VocabularyImport::CHOICES, null), $chosen);
         // A failed import says why itself, so the list doesn't say it again.
         $refused = false;
         $valid = $isImport && $form->isValid();
@@ -197,10 +197,10 @@ class VocabularyController extends AbstractActionController
                 $this->messenger()->addFormErrors($form);
             } else {
                 try {
-                    // With this page's choices; one left empty is read as the
-                    // vocabulary was. A namespace URI in another form changes
-                    // to the file's with the rest.
-                    $reviewUrl = $this->vocabularyReview->start($updatable->id(), $import['file'], $options, ['new_namespace_uri' => $namespaceUri]);
+                    // With this page's choices, a default chosen among them;
+                    // one not made is read as the vocabulary was. A namespace
+                    // URI in another form changes to the file's with the rest.
+                    $reviewUrl = $this->vocabularyReview->start($updatable->id(), $import['file'], ['format' => $format] + $chosen, ['new_namespace_uri' => $namespaceUri]);
                     // The review keeps its own copy, so the import is over.
                     $this->vocabularyImport->end($token);
                     return $this->redirect()->toUrl($reviewUrl);

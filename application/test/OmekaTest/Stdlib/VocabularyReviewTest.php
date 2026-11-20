@@ -132,13 +132,18 @@ class VocabularyReviewTest extends DbTestCase
         $review = $this->review->get($this->start());
         $this->assertSame(['format' => 'turtle', 'lang' => null, 'comment_property' => RdfImporter::COMMENT_PROPERTY], $review['import_options']);
 
-        // The stored import options, where those given are empty, as an
-        // unchanged form posts them.
+        // The stored import options, where those given are "", which isn't a
+        // choice.
         $this->api()->update('vocabularies', $this->vocabularyId, [
             'o:import_options' => ['lang' => 'fr', 'comment_property' => RdfImporter::DEFINITION_COMMENT_PROPERTY],
         ], [], ['isPartial' => true]);
-        $review = $this->review->get($this->start('compare.ttl', ['format' => 'turtle', 'lang' => '', 'comment_property' => null]));
+        $review = $this->review->get($this->start('compare.ttl', ['format' => 'turtle', 'lang' => '', 'comment_property' => '']));
         $this->assertSame(['format' => 'turtle', 'lang' => 'fr', 'comment_property' => RdfImporter::DEFINITION_COMMENT_PROPERTY], $review['import_options']);
+
+        // Null is the default, chosen over the stored option: First
+        // available, and the default comments.
+        $review = $this->review->get($this->start('compare.ttl', ['format' => 'turtle', 'lang' => null, 'comment_property' => null]));
+        $this->assertSame(['format' => 'turtle', 'lang' => null, 'comment_property' => null], $review['import_options']);
 
         // An option given, over the stored one.
         $review = $this->review->get($this->start('compare.ttl', ['format' => 'turtle', 'lang' => 'en']));

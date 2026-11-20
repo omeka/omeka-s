@@ -1366,6 +1366,26 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString('<option value="definition" selected>', $page);
     }
 
+    public function testReviewChangesKeepsADefaultChosenOverTheStoredChoice()
+    {
+        // Read in French before; import details start there.
+        $this->api()->update('vocabularies', $this->vocabularyId, [
+            'o:import_options' => ['format' => 'turtle', 'lang' => 'fr'],
+        ], [], ['isPartial' => true]);
+        $this->assertSame(302, $this->startImport('multilingual-name.ttl'));
+        // First available and the default label, chosen on the details.
+        $this->assertSame(302, $this->requestAs(self::ADMIN, 'POST', $this->importDetailsUrl(), [
+            'vocabulary-info' => ['o:label' => '', 'o:comment' => '', 'o:namespace_uri' => 'http://example.org/review#', 'o:prefix' => ''],
+            'vocabulary-advanced' => ['lang' => '', 'labels' => 'label', 'comments' => 'comment'],
+            'update' => '1',
+        ] + $this->csrfField(VocabularyForm::class)));
+        $location = $this->getResponse()->getHeaders()->get('Location')->getUri();
+        $token = $this->tokens[] = substr($location, strpos($location, '=') + 1);
+        // The review starts with them, not with the stored French.
+        $page = html_entity_decode($this->reviewPage($token), ENT_QUOTES | ENT_HTML5);
+        $this->assertMatchesRegularExpression('#<select name="lang"[^>]*><option value="" selected>#', $page);
+    }
+
     public function testAHandedImportOfAVocabularyOmekaHasStartsAsItWasReadWithWhatItWasHanded()
     {
         $this->api()->update('vocabularies', $this->vocabularyId, [

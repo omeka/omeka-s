@@ -1,13 +1,15 @@
-#!/bin/bash
+#!/bin/sh
+set -e
 
-cp config/database.ini.dist config/database.ini
+if [ -n "$MYSQL_HOST" ]; then
+    {
+        echo "user     = \"$MYSQL_USER\""
+        echo "password = \"$MYSQL_PASSWORD\""
+        echo "dbname   = \"$MYSQL_DATABASE\""
+        echo "host     = \"$MYSQL_HOST\""
+    } > config/database.ini
+fi
 
-sed -i -e 's/user     = ""/user     = "'$MYSQL_USER'"/g' config/database.ini
-
-sed -i -e 's/password = ""/password = "'$MYSQL_PASSWORD'"/g' config/database.ini
-
-sed -i -e 's/dbname   = ""/dbname   = "'$MYSQL_DATABASE'"/g' config/database.ini
-
-sed -i -e 's/host     = ""/host     = "'$MYSQL_HOST'"/g' config/database.ini
+chown www-data:www-data files
 
 exec "$@"

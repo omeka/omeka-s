@@ -83,8 +83,8 @@ class ModuleManagerFactory implements FactoryInterface
         $status = $serviceLocator->get('Omeka\Status');
         try {
             $statement = $connection->prepare("SELECT * FROM module");
-            $statement->execute();
-            $dbModules = $statement->fetchAll();
+            $result = $statement->executeQuery();
+            $dbModules = $result->fetchAllAssociative();
             $status->setIsInstalled(true);
         } catch (\Exception $e) {
             // If the module table is not found we can assume that the

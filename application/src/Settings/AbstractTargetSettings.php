@@ -97,7 +97,7 @@ abstract class AbstractTargetSettings extends AbstractSettings
             throw new Exception\RuntimeException('Cannot manage settings when no target ID is set.');
         }
         $sql = sprintf('SELECT * FROM %s WHERE %s = ?', $this->getTableName(), $this->getTargetIdColumnName());
-        $settings = $this->connection->fetchAll($sql, [$this->targetId]);
+        $settings = $this->connection->fetchAllAssociative($sql, [$this->targetId]);
         foreach ($settings as $setting) {
             $id = strtolower($setting['id']);
             $this->cache[$id] = $this->connection->convertToPHPValue($setting['value'], 'json_array');
@@ -110,7 +110,7 @@ abstract class AbstractTargetSettings extends AbstractSettings
             throw new Exception\RuntimeException('Cannot manage a settings when no target ID is set.');
         }
         $sql = sprintf('SELECT * FROM %s WHERE id = ? AND %s = ?', $this->getTableName(), $this->getTargetIdColumnName());
-        $setting = $this->connection->fetchAssoc($sql, [$id, $this->targetId]);
+        $setting = $this->connection->fetchAssociative($sql, [$id, $this->targetId]);
         if ($setting) {
             $this->connection->update(
                 $this->getTableName(),

@@ -51,7 +51,7 @@ class Db implements SaveHandlerInterface
     #[\ReturnTypeWillChange]
     public function read($id)
     {
-        $session = $this->conn->fetchAssoc('SELECT * FROM session WHERE id = ?', [$id]);
+        $session = $this->conn->fetchAssociative('SELECT * FROM session WHERE id = ?', [$id]);
         if ($session) {
             if (($session['modified'] + $this->lifetime) > time()) {
                 return $session['data'];
@@ -93,10 +93,6 @@ class Db implements SaveHandlerInterface
         $sql = 'DELETE FROM session WHERE modified < ?';
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(1, (time() - $this->lifetime));
-        if ($stmt->execute()) {
-            return $stmt->rowCount();
-        } else {
-            return false;
-        }
+        return $stmt->executeStatement();
     }
 }

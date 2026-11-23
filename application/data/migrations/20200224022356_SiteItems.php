@@ -30,8 +30,8 @@ class SiteItems implements ConstructedMigrationInterface
         $conn->exec('ALTER TABLE item_site ADD CONSTRAINT FK_A1734D1FF6BD1646 FOREIGN KEY (site_id) REFERENCES site (id) ON DELETE CASCADE;');
 
         $sites = [];
-        $stmt = $conn->query('SELECT id, item_pool FROM site');
-        while ($row = $stmt->fetch()) {
+        $stmt = $conn->executeQuery('SELECT id, item_pool FROM site');
+        while ($row = $stmt->fetchAssociative()) {
             $sites[$row['id']] = json_decode($row['item_pool'], true);
         }
         $this->dispatcher->dispatch('Omeka\Job\UpdateSiteItems', [

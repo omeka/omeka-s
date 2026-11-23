@@ -99,15 +99,14 @@ class UpdateSiteItems extends AbstractJob
                 foreach ($bindValues as $position => $value) {
                     $stmt->bindValue($position + 1, $value);
                 }
-                $stmt->execute();
+                $stmt->executeStatement();
             }
         }
 
         if (in_array($action, ['remove'])) {
             foreach (array_chunk($itemIds, 1000) as $itemIdsChunk) {
                 $sql = sprintf('DELETE FROM item_site WHERE site_id = ? AND item_id IN (?)');
-                $stmt = $conn->executeQuery($sql, [$siteId, $itemIdsChunk], [null, Connection::PARAM_INT_ARRAY]);
-                $stmt->execute();
+                $conn->executeStatement($sql, [$siteId, $itemIdsChunk], [null, Connection::PARAM_INT_ARRAY]);
             }
         }
     }

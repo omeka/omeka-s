@@ -159,7 +159,7 @@ abstract class AbstractSettings implements SettingsInterface, EventManagerAwareI
     protected function setCache()
     {
         $sql = sprintf('SELECT * FROM %s', $this->getTableName());
-        $settings = $this->connection->fetchAll($sql);
+        $settings = $this->connection->fetchAllAssociative($sql);
         foreach ($settings as $setting) {
             $id = strtolower($setting['id']);
             $this->cache[$id] = $this->connection->convertToPHPValue($setting['value'], 'json_array');
@@ -169,7 +169,7 @@ abstract class AbstractSettings implements SettingsInterface, EventManagerAwareI
     protected function setSetting($id, $value)
     {
         $sql = sprintf('SELECT * FROM %s WHERE id = ?', $this->getTableName());
-        $setting = $this->connection->fetchAssoc($sql, [$id]);
+        $setting = $this->connection->fetchAssociative($sql, [$id]);
         if ($setting) {
             $this->connection->update(
                 $this->getTableName(),

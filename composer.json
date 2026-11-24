@@ -27,7 +27,6 @@
         "laminas/laminas-i18n": "^2.7.3",
         "laminas/laminas-i18n-resources": "^2.5.2",
         "laminas/laminas-inputfilter": "^2.7.2",
-        "laminas/laminas-json": "^3.0",
         "laminas/laminas-math": "^3.0",
         "laminas/laminas-modulemanager": "^2.11.0",
         "laminas/laminas-mvc-i18n": "^1.0",

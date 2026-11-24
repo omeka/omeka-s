@@ -1,0 +1,85 @@
+<?php
+$rows = $element->getValue();
+$fields = array_map(function ($field) {
+    if (!in_array($field['type'], ['textarea', 'select', 'text', 'url', 'email', 'number', 'tel', 'asset', 'color_picker'])) {
+        $field['type'] = 'text';
+    }
+    return $field;
+}, $element->getFields());
+$sortable = $element->isSortable();
+$minRows = $element->getMinRows();
+$maxRows = $element->getMaxRows();
+while (count($rows) < $minRows) {
+    $rows[] = [];
+}
+$rowCount = count($rows);
+
+$this->headLink()->appendStylesheet($this->assetUrl('css/repeatable-form.css', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/repeatable-form.js', 'Omeka'));
+if ($sortable) {
+    $this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
+}
+$fieldTypes = array_column($fields, 'type');
+if (in_array('asset', $fieldTypes)) {
+    $this->headLink()->appendStylesheet($this->assetUrl('css/asset-form.css', 'Omeka'));
+    $this->headScript()->appendFile($this->assetUrl('js/asset-form.js', 'Omeka'));
+}
+if (in_array('color_picker', $fieldTypes)) {
+    $this->headScript()->appendFile($this->assetUrl('js/color-picker.js', 'Omeka'));
+}
+?>
+<div class="repeatable-form-element"
+     data-min-rows="<?php echo $this->escapeHtmlAttr($minRows); ?>"
+     data-max-rows="<?php echo $this->escapeHtmlAttr($maxRows ?? ''); ?>"
+     <?php echo $sortable ? 'data-sortable' : ''; ?>>
+    <input type="hidden"
+           name="<?php echo $this->escapeHtmlAttr($element->getName()); ?>"
+           value="<?php echo $this->escapeHtmlAttr(json_encode($rows)); ?>">
+    <ul class="repeatable-rows">
+        <?php foreach ($rows as $row): ?>
+        <li>
+            <?php if ($sortable): ?>
+            <span class="sortable-handle" aria-hidden="true"></span>
+            <?php endif; ?>
+            <div class="repeatable-fields">
+                <?php foreach ($fields as $fieldName => $field): ?>
+                <?php echo $this->partial('common/repeatable-form-field', [
+                    'fieldName' => $fieldName,
+                    'field' => $field,
+                    'fieldValue' => $row[$fieldName] ?? '',
+                ]); ?>
+                <?php endforeach; ?>
+            </div>
+            <button type="button" class="repeatable-remove o-icon-delete"
+                    aria-label="<?php echo $this->translate('Remove'); ?>"
+                    title="<?php echo $this->translate('Remove'); ?>"
+                    <?php echo $rowCount === $minRows ? 'disabled' : ''; ?>></button>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+    <template class="repeatable-row-template">
+        <li>
+            <?php if ($sortable): ?>
+            <span class="sortable-handle" aria-hidden="true"></span>
+            <?php endif; ?>
+            <div class="repeatable-fields">
+                <?php foreach ($fields as $fieldName => $field): ?>
+                <?php echo $this->partial('common/repeatable-form-field', [
+                    'fieldName' => $fieldName,
+                    'field' => $field,
+                    'fieldValue' => '',
+                ]); ?>
+                <?php endforeach; ?>
+            </div>
+            <button type="button" class="repeatable-remove o-icon-delete"
+                    aria-label="<?php echo $this->translate('Remove'); ?>"
+                    title="<?php echo $this->translate('Remove'); ?>"></button>
+        </li>
+    </template>
+    <button type="button" class="repeatable-add o-icon-add"
+            aria-label="<?php echo $this->translate('Add'); ?>"
+            title="<?php echo $this->translate('Add'); ?>"
+            <?php echo $maxRows !== null && $rowCount === $maxRows ? 'disabled' : ''; ?>>
+        <?php echo $this->translate('Add'); ?>
+    </button>
+</div>

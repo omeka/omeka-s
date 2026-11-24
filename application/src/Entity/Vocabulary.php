@@ -171,10 +171,11 @@ class Vocabulary extends AbstractEntity
     }
 
     /**
-     * Get the forms of a namespace URI that name the same vocabulary: itself,
-     * then ending in "#", "/", neither, and "/#", each with http and https.
-     * For example, http://schema.org/ and https://schema.org/ are forms of
-     * one namespace URI.
+     * Get the forms of a namespace URI that likely name the same vocabulary:
+     * itself, then ending in "#", "/", neither, and "/#", each with http and
+     * https. For example, http://schema.org/ and https://schema.org/ are
+     * forms of one namespace URI. Namespace URIs are opaque, so the forms
+     * are used to find a likely duplicate, never to refuse one.
      *
      * @param string $namespaceUri
      * @return string[]

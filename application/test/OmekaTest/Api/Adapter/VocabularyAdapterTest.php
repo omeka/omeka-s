@@ -3,7 +3,6 @@ namespace OmekaTest\Api\Adapter;
 
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Entity\User;
-use Omeka\Entity\Vocabulary;
 use Omeka\Test\DbTestCase;
 
 /**
@@ -130,54 +129,31 @@ class VocabularyAdapterTest extends DbTestCase
         ]));
     }
 
-    /**
-     * Create a vocabulary as Omeka did before it refused another form of a
-     * vocabulary's namespace URI, as an installation may still have one.
-     *
-     * @return int Its id
-     */
-    protected function createVocabularyAsBefore($namespaceUri, $prefix, $label)
-    {
-        $entityManager = $this->services->get('Omeka\EntityManager');
-        $vocabulary = new Vocabulary;
-        $vocabulary->setNamespaceUri($namespaceUri);
-        $vocabulary->setPrefix($prefix);
-        $vocabulary->setLabel($label);
-        $entityManager->persist($vocabulary);
-        $entityManager->flush();
-        return $vocabulary->getId();
-    }
-
-    public function testAnotherFormOfANamespaceUriIsReportedWithOtherErrors()
+    public function testAnotherFormOfANamespaceUriIsAccepted()
     {
         $this->create();
-        // Another form of its namespace URI, and its prefix.
-        $this->assertSame(['o:namespace_uri', 'o:prefix'], $this->errorFields([
+        // Namespace URIs are opaque, so another form is only a likely
+        // duplicate, which import details point out.
+        $other = $this->create([
             'o:namespace_uri' => 'https://example.org/options/',
-            'o:prefix' => 'options',
-        ]));
-    }
-
-    public function testFullUpdateOfAVocabularyHeldInTwoForms()
-    {
-        // As an installation may have from before: one vocabulary in http,
-        // and another in https.
-        $vocabulary = $this->create();
-        $this->createVocabularyAsBefore('https://example.org/options#', 'optionshttps', 'Options in https');
-        $updated = $this->services->get('Omeka\ApiManager')->update('vocabularies', $vocabulary->id(), [
+            'o:prefix' => 'optionshttps',
+        ]);
+        $this->assertSame('https://example.org/options/', $other->namespaceUri());
+        // The exact namespace URI is taken.
+        $this->assertSame(['o:namespace_uri'], $this->errorFields([
             'o:namespace_uri' => 'http://example.org/options#',
-            'o:prefix' => 'options',
-            'o:label' => 'Renamed',
-        ])->getContent();
-        $this->assertSame('Renamed', $updated->label());
+        ]));
     }
 
     public function testFindByNamespaceUri()
     {
-        // As an installation may have from before: one vocabulary in http,
-        // and a newer one in https.
+        // One vocabulary in http, and a newer one in https.
         $http = $this->create();
-        $httpsId = $this->createVocabularyAsBefore('https://example.org/options/', 'optionshttps', 'Options in https');
+        $httpsId = $this->create([
+            'o:namespace_uri' => 'https://example.org/options/',
+            'o:prefix' => 'optionshttps',
+            'o:label' => 'Options in https',
+        ])->id();
         $adapter = $this->services->get('Omeka\ApiAdapterManager')->get('vocabularies');
         // An exact match first, whatever its capitals, as the database
         // matches.

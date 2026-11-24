@@ -149,45 +149,44 @@ class VocabularyController extends AbstractActionController
         $chosen = $optionsForm->getChosen();
         $importOptions = $this->vocabularyImport->getImportOptions($import, $chosen);
 
+        // Omeka's vocabulary under the namespace URI, exactly or in another
+        // form, such as https for http. Only an exact match can't be imported
+        // again. Namespace URIs are opaque, so another form is only a likely
+        // duplicate: it's pointed out, and the user decides. A change only in
+        // capitals isn't another form to the API.
+        $otherForm = $existing && strtolower($existing->namespaceUri()) !== strtolower($namespaceUri);
+        $existingMessage = null;
+        if ($existing) {
+            if ($otherForm && $existing->userMayUpdate()) {
+                $text = '%1$s uses another form of this namespace URI, %2$s, so the file may hold the same vocabulary. To update it from the file and move it to this namespace URI, click Review changes. To import the file as a new vocabulary anyway, give it a prefix of its own and click Import.'; // @translate
+            } elseif ($otherForm) {
+                $text = '%1$s uses another form of this namespace URI, %2$s, so the file may hold the same vocabulary. To import the file as a new vocabulary anyway, give it a prefix of its own and click Import.'; // @translate
+            } elseif ($existing->userMayUpdate()) {
+                $text = '%s already uses this namespace URI. To update it from the file, click Review changes. To import the file as a new vocabulary, enter its own namespace URI.'; // @translate
+            } else {
+                $text = '%s already uses this namespace URI. To import the file as a new vocabulary, enter its own namespace URI.'; // @translate
+            }
+            $existingMessage = new Message(
+                $text,
+                sprintf('<a href="%s">%s</a>', htmlspecialchars($existing->url()), htmlspecialchars($existing->label())),
+                htmlspecialchars($existing->namespaceUri())
+            );
+            $existingMessage->setEscapeHtml(false);
+        }
+
         // What's known of the namespace URI, worked out on every request,
-        // whatever was clicked: the vocabulary Omeka has under it, else the
-        // classes and properties importing would add, or why there are none.
+        // whatever was clicked: the classes and properties importing would
+        // add, or why there are none. Not under an exact match, since
+        // importing it again would duplicate its terms.
         $members = null;
         $membersFailure = null;
-        if (!$existing && '' !== $namespaceUri) {
+        if ((!$existing || $otherForm) && '' !== $namespaceUri) {
             try {
                 $members = $this->vocabularyImport->getMembers($import, $namespaceUri, $importOptions);
             } catch (\Exception $e) {
                 // Said after the buttons, so a refused Import's form errors
                 // don't say it again under the field's label.
                 $membersFailure = $e;
-            }
-        }
-        if ($existing) {
-            // Importing it would duplicate its terms. Where the vocabulary has
-            // another form of it, such as http for https, say which, since
-            // Review changes moves the vocabulary to this one. A change only
-            // in capitals isn't another form to the API.
-            $otherForm = strtolower($existing->namespaceUri()) !== strtolower($namespaceUri);
-            if ($otherForm && $existing->userMayUpdate()) {
-                $text = '%1$s uses another form of this namespace URI, %2$s. To update it from the file and move it to this namespace URI, click Review changes. To import the file as a new vocabulary, enter its own namespace URI.'; // @translate
-            } elseif ($otherForm) {
-                $text = '%1$s uses another form of this namespace URI, %2$s. To import the file as a new vocabulary, enter its own namespace URI.'; // @translate
-            } elseif ($existing->userMayUpdate()) {
-                $text = '%s already uses this namespace URI. To update it from the file, click Review changes. To import the file as a new vocabulary, enter its own namespace URI.'; // @translate
-            } else {
-                $text = '%s already uses this namespace URI. To import the file as a new vocabulary, enter its own namespace URI.'; // @translate
-            }
-            $message = new Message(
-                $text,
-                sprintf('<a href="%s">%s</a>', htmlspecialchars($existing->url()), htmlspecialchars($existing->label())),
-                htmlspecialchars($existing->namespaceUri())
-            );
-            $message->setEscapeHtml(false);
-            if ($request->getPost('import')) {
-                $this->messenger()->addError($message);
-            } else {
-                $this->messenger()->addWarning($message);
             }
         }
 
@@ -197,8 +196,8 @@ class VocabularyController extends AbstractActionController
             if (!$form->isValid()) {
                 $this->messenger()->addFormErrors($form);
             } elseif (null !== $members) {
-                // Not when Omeka has the vocabulary, which is said above, or
-                // the classes and properties couldn't be read, said below.
+                // Not under an exact match, or when the classes and
+                // properties couldn't be read, both said below.
                 try {
                     $vocabulary = $this->vocabularyImport->import($import['token'], $form->getData(), $importOptions);
                     $message = new Message(
@@ -230,6 +229,15 @@ class VocabularyController extends AbstractActionController
                 // The namespace URI was changed after the page offered Review
                 // changes.
                 $this->messenger()->addError('No vocabulary you may update uses this namespace URI, so there are no changes to review.'); // @translate
+            }
+        }
+        // Said after the buttons, so a successful Import or Review changes
+        // doesn't carry it to the next page. An exact match refuses Import.
+        if ($existingMessage) {
+            if ($request->getPost('import') && !$otherForm) {
+                $this->messenger()->addError($existingMessage);
+            } else {
+                $this->messenger()->addWarning($existingMessage);
             }
         }
         if ($membersFailure) {
@@ -264,8 +272,8 @@ class VocabularyController extends AbstractActionController
         if ($request->isPost()) {
             $form->setData($request->getPost()->toArray());
             if ($form->isValid()) {
-                // The API refuses a namespace URI another vocabulary has, in
-                // any form, and shows why on the form.
+                // The API refuses a namespace URI another vocabulary has, and
+                // shows why on the form.
                 $response = $this->api($form)->update('vocabularies', $this->params('id'), $form->getData(), [], ['isPartial' => true]);
                 if ($response) {
                     $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate

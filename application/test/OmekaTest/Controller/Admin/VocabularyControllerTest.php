@@ -251,21 +251,17 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
     }
 
     /**
-     * Create a vocabulary as Omeka did before it refused another form of a
-     * vocabulary's namespace URI, as an installation may still have one.
+     * Create another vocabulary.
      *
      * @return int Its id
      */
-    protected function createVocabularyAsBefore($namespaceUri, $prefix, $label)
+    protected function createVocabulary($namespaceUri, $prefix, $label)
     {
-        $entityManager = $this->getApplicationServiceLocator()->get('Omeka\EntityManager');
-        $vocabulary = new Vocabulary;
-        $vocabulary->setNamespaceUri($namespaceUri);
-        $vocabulary->setPrefix($prefix);
-        $vocabulary->setLabel($label);
-        $entityManager->persist($vocabulary);
-        $entityManager->flush();
-        return $vocabulary->getId();
+        return $this->api()->create('vocabularies', [
+            'o:namespace_uri' => $namespaceUri,
+            'o:prefix' => $prefix,
+            'o:label' => $label,
+        ])->getContent()->id();
     }
 
     /**
@@ -569,27 +565,6 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame('http://example.org/moved#', $vocabulary->namespaceUri());
         $this->assertSame('Review', $vocabulary->label());
         $this->assertSame('<i>stored property label</i>', $this->propertyLabel('review:name'));
-    }
-
-    public function testEditKeepsAnUnchangedNamespaceThatAnotherFormOfIsTaken()
-    {
-        // Two forms of one namespace URI, as an installation may have from
-        // before they were refused: editing either's label is no change of
-        // namespace, so it isn't refused.
-        $this->reset(true);
-        $this->signIn();
-        $otherId = $this->createVocabularyAsBefore('https://example.org/review#', 'other', 'Other');
-        try {
-            $status = $this->requestAs(self::ADMIN, 'POST', sprintf('/admin/vocabulary/%s/edit', $this->vocabularyId), $this->edit([
-                'o:label' => 'Renamed',
-            ]));
-            $this->assertSame(302, $status);
-            $this->assertSame('Renamed', $this->vocabulary()->label());
-        } finally {
-            $this->reset(true);
-            $this->signIn();
-            $this->api()->delete('vocabularies', $otherId);
-        }
     }
 
     public function testEditShowsARefusedNamespaceUriAtItsField()
@@ -1083,8 +1058,9 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             'o:label' => 'Definitions', 'o:comment' => '', 'o:namespace_uri' => 'https://example.org/review', 'o:prefix' => 'defs',
         ]);
         $text = strip_tags(html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
-        // Saying which form it has, since Review changes moves it.
-        $this->assertSame(1, substr_count($text, 'Review uses another form of this namespace URI, http://example.org/review#. To update it from the file and move it to this namespace URI, click Review changes. To import the file as a new vocabulary, enter its own namespace URI.'));
+        // Saying which form it has, since Review changes moves it, and that
+        // importing anyway is the user's choice.
+        $this->assertSame(1, substr_count($text, 'Review uses another form of this namespace URI, http://example.org/review#, so the file may hold the same vocabulary. To update it from the file and move it to this namespace URI, click Review changes. To import the file as a new vocabulary anyway, give it a prefix of its own and click Import.'));
     }
 
     public function testImportWithNoTermsInTheNamespaceIsNotTriedAndSaysWhyOnce()
@@ -1494,7 +1470,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             'o:label' => 'Title', 'o:comment' => '', 'o:namespace_uri' => 'https://purl.org/dc/terms/', 'o:prefix' => '',
         ]);
         $text = strip_tags(html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
-        $this->assertStringContainsString('Dublin Core uses another form of this namespace URI, http://purl.org/dc/terms/. To import the file as a new vocabulary, enter its own namespace URI.', $text);
+        $this->assertStringContainsString('Dublin Core uses another form of this namespace URI, http://purl.org/dc/terms/, so the file may hold the same vocabulary. To import the file as a new vocabulary anyway, give it a prefix of its own and click Import.', $text);
         $this->assertStringNotContainsString('Review changes', $text);
     }
 
@@ -1583,9 +1559,8 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
 
     public function testImportDetailsFindTheVocabularyWithTheNamespaceUriAsGiven()
     {
-        // As an installation may have from before Omeka refused another form
-        // of a namespace URI: the tests' vocabulary in http, and one in https.
-        $httpsId = $this->createVocabularyAsBefore('https://example.org/review#', 'reviewhttps', 'Review in https');
+        // The tests' vocabulary in http, and another in https.
+        $httpsId = $this->createVocabulary('https://example.org/review#', 'reviewhttps', 'Review in https');
         try {
             // Its terms are in the https form.
             $this->assertSame(302, $this->startImport('other-form.ttl'));
@@ -1697,23 +1672,29 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertStringContainsString('Namespace URI http://example.org/review# https://example.org/review#', $text);
     }
 
-    public function testImportRefusesAnotherFormOfANamespaceOmekaHas()
+    public function testImportAcceptsAnotherFormOfANamespaceOmekaHas()
     {
         try {
-            $this->startImport('../../../Stdlib/_files/definitions.ttl');
-            // Edited to another form of the tests' vocabulary's.
-            $this->assertSame(200, $this->finishImport($this->importDetailsUrl(), [
+            // A file whose terms are in the https form of the tests'
+            // vocabulary's namespace URI.
+            $this->assertSame(302, $this->startImport('other-form.ttl'));
+            $url = $this->importDetailsUrl();
+            // Said, with the classes and properties importing would add,
+            // since namespace URIs are opaque and the user decides.
+            $this->requestAs(self::ADMIN, 'GET', $url);
+            $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
+            $this->assertStringContainsString('Review uses another form of this namespace URI, http://example.org/review#, so the file may hold the same vocabulary.', strip_tags($page));
+            $this->assertStringContainsString('class="field-term"', $page);
+            // Imported, with no warning carried to the new vocabulary's page.
+            $this->assertSame(302, $this->finishImport($url, [
                 'o:label' => 'Review again',
-                'o:namespace_uri' => 'https://example.org/review',
+                'o:namespace_uri' => 'https://example.org/review#',
                 'o:prefix' => 'review2',
             ]));
-            $page = html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5);
-            $this->assertStringContainsString('Review uses another form of this namespace URI, http://example.org/review#.', strip_tags($page));
-            // The file gives no prefix; the one entered is shown again.
-            $this->assertStringContainsString('value="review2"', $page);
+            $this->assertSame([], $this->messages(Messenger::WARNING));
             $this->reset(true);
             $this->signIn();
-            $this->assertSame(0, $this->api()->search('vocabularies', ['prefix' => 'review2'])->getTotalResults());
+            $this->assertSame(1, $this->api()->search('vocabularies', ['prefix' => 'review2'])->getTotalResults());
         } finally {
             $this->deleteImported('review2');
         }
@@ -1810,7 +1791,7 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
         $this->assertSame(self::NAMESPACE_URI, $this->vocabulary()->namespaceUri());
     }
 
-    public function testChangeNamespaceRefusesAnotherFormOfAnotherVocabularys()
+    public function testChangeNamespaceAcceptsAnotherFormOfAnotherVocabularys()
     {
         $this->reset(true);
         $this->signIn();
@@ -1820,11 +1801,9 @@ class VocabularyControllerTest extends AbstractHttpControllerTestCase
             'o:label' => 'Other',
         ])->getContent();
         try {
-            // As an import of it is refused: its terms would be twice.
-            $status = $this->changeNamespace('https://example.org/other#');
-            $this->assertSame(200, $status);
-            $this->assertStringContainsString('Another vocabulary, "Other", has this namespace URI in another form: "http://example.org/other#".', html_entity_decode($this->getResponse()->getContent(), ENT_QUOTES | ENT_HTML5));
-            $this->assertSame(self::NAMESPACE_URI, $this->vocabulary()->namespaceUri());
+            // Namespace URIs are opaque: only an exact match is taken.
+            $this->assertSame(302, $this->changeNamespace('https://example.org/other#'));
+            $this->assertSame('https://example.org/other#', $this->vocabulary()->namespaceUri());
         } finally {
             $this->reset(true);
             $this->signIn();

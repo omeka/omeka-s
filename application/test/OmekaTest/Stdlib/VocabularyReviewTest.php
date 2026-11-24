@@ -6,7 +6,6 @@ use Laminas\Http\Request;
 use Laminas\Http\Response;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Entity\User;
-use Omeka\Entity\Vocabulary;
 use Omeka\File\Stager;
 use Omeka\Permissions\Exception\PermissionDeniedException;
 use Omeka\Stdlib\RdfImporter;
@@ -133,28 +132,23 @@ class VocabularyReviewTest extends DbTestCase
     }
 
     /**
-     * Create a vocabulary as Omeka did before it refused another form of a
-     * vocabulary's namespace URI, as an installation may still have one.
+     * Create another vocabulary.
      *
      * @return int Its id
      */
-    protected function createVocabularyAsBefore($namespaceUri, $prefix, $label)
+    protected function createVocabulary($namespaceUri, $prefix, $label)
     {
-        $entityManager = $this->services->get('Omeka\EntityManager');
-        $vocabulary = new Vocabulary;
-        $vocabulary->setNamespaceUri($namespaceUri);
-        $vocabulary->setPrefix($prefix);
-        $vocabulary->setLabel($label);
-        $entityManager->persist($vocabulary);
-        $entityManager->flush();
-        return $vocabulary->getId();
+        return $this->api()->create('vocabularies', [
+            'o:namespace_uri' => $namespaceUri,
+            'o:prefix' => $prefix,
+            'o:label' => $label,
+        ])->getContent()->id();
     }
 
     public function testAVocabularyHeldInTwoFormsStillChangesItsNamespaceUrisCase()
     {
-        // As an installation may have from before: the tests' vocabulary in
-        // http, and another in https.
-        $otherId = $this->createVocabularyAsBefore('https://example.org/compare#', 'compare2', 'Compare again');
+        // The tests' vocabulary in http, and another in https.
+        $otherId = $this->createVocabulary('https://example.org/compare#', 'compare2', 'Compare again');
         try {
             // A namespace URI changed only in case is no new one to the API.
             $this->api()->update('vocabularies', $this->vocabularyId, ['o:namespace_uri' => 'http://EXAMPLE.org/compare#'], [], ['isPartial' => true]);
@@ -217,7 +211,7 @@ class VocabularyReviewTest extends DbTestCase
         $token = $this->start('compare-other-form.ttl', ['format' => 'turtle'], [
             'new_namespace_uri' => 'https://example.org/compare#',
         ]);
-        $this->createVocabularyAsBefore('https://example.org/compare#', 'moved', 'Moved');
+        $this->createVocabulary('https://example.org/compare#', 'moved', 'Moved');
         try {
             $this->review->accept($token, $this->review->get($token)['import_options']);
             $this->fail('The review was accepted');
@@ -294,21 +288,17 @@ class VocabularyReviewTest extends DbTestCase
             $this->fail('A review moving the vocabulary elsewhere started');
         } catch (\InvalidArgumentException $e) {
         }
-        // One another vocabulary has in another form, as the API refuses.
-        $otherId = $this->createVocabularyAsBefore('https://example.org/compare#', 'compare2', 'Compare again');
+        // No file staged for any of them.
+        $this->assertSame($files, glob($pattern));
+        // Another vocabulary having another form of it is no matter, since
+        // namespace URIs are opaque: only an exact match is taken.
+        $otherId = $this->createVocabulary('https://example.org/compare/', 'compare2', 'Compare again');
         try {
-            $this->review->start($this->vocabularyId, $file, ['format' => 'turtle'], ['new_namespace_uri' => 'http://example.org/compare/']);
-            $this->fail('A review taking another vocabulary\'s namespace URI started');
-        } catch (ValidationException $e) {
-            $this->assertSame(
-                'Another vocabulary, "Compare again", has this namespace URI in another form: "https://example.org/compare#".',
-                (string) $e->getErrorStore()->getErrors()['o:namespace_uri'][0]
-            );
+            $token = $this->start('compare-other-form.ttl', ['format' => 'turtle'], ['new_namespace_uri' => 'https://example.org/compare#']);
+            $this->assertSame('https://example.org/compare#', $this->review->get($token)['new_namespace_uri']);
         } finally {
             $this->api()->delete('vocabularies', $otherId);
         }
-        // No file staged for any of them.
-        $this->assertSame($files, glob($pattern));
         // Compared both ways: http://example.org/compare// has the
         // vocabulary's http://example.org/compare# among its forms, though not
         // the other way.
@@ -326,10 +316,10 @@ class VocabularyReviewTest extends DbTestCase
 
     public function testStartRefusesAnotherVocabularysExactNamespaceUri()
     {
-        // As an installation may have from before: the tests' vocabulary in
-        // http, and another in https. A review can't take the other's, in any
-        // capitals, which the API would refuse at Accept as already taken.
-        $this->createVocabularyAsBefore('https://example.org/compare#', 'compare2', 'Compare again');
+        // The tests' vocabulary in http, and another in https. A review
+        // can't take the other's, in any capitals, which the API would refuse
+        // at Accept as already taken.
+        $this->createVocabulary('https://example.org/compare#', 'compare2', 'Compare again');
         $file = __DIR__ . '/_files/compare.ttl';
         foreach (['https://example.org/compare#', 'HTTPS://Example.org/compare#'] as $newNamespaceUri) {
             try {
@@ -344,20 +334,20 @@ class VocabularyReviewTest extends DbTestCase
         }
     }
 
-    public function testAcceptRefusesAFormAnotherVocabularyHasTakenSince()
+    public function testAcceptRefusesTheNamespaceUriAnotherVocabularyHasTakenSince()
     {
-        // The namespace of the file's terms, another form of which another
-        // vocabulary has since taken.
+        // The namespace of the file's terms, which another vocabulary has
+        // since taken exactly.
         $token = $this->start('compare-other-form.ttl', ['format' => 'turtle'], [
             'new_namespace_uri' => 'https://example.org/compare#',
         ]);
-        $this->createVocabularyAsBefore('https://example.org/compare/', 'moved', 'Moved');
+        $this->createVocabulary('https://example.org/compare#', 'moved', 'Moved');
         try {
             $this->review->accept($token, $this->review->get($token)['import_options']);
             $this->fail('The review was accepted');
         } catch (ValidationException $e) {
             $this->assertSame(
-                'Another vocabulary, "Moved", has this namespace URI in another form: "https://example.org/compare/".',
+                'The namespace URI "https://example.org/compare#" is already taken.',
                 (string) $e->getErrorStore()->getErrors()['o:namespace_uri'][0]
             );
         }

@@ -92,14 +92,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
         $this->hydrateOwner($request, $entity);
 
         if ($this->shouldHydrate($request, 'o:namespace_uri')) {
-            $namespaceUri = trim($request->getValue('o:namespace_uri'));
-            // Checked only when the namespace URI is new to the vocabulary,
-            // other than in capitals, so vocabularies already held in two
-            // forms stay editable.
-            if ('' !== $namespaceUri && strtolower((string) $entity->getNamespaceUri()) !== strtolower($namespaceUri)) {
-                $this->validateNamespaceUriForms($namespaceUri, $entity->getId(), $errorStore);
-            }
-            $entity->setNamespaceUri($namespaceUri);
+            $entity->setNamespaceUri(trim($request->getValue('o:namespace_uri')));
         }
         if ($this->shouldHydrate($request, 'o:prefix')) {
             $entity->setPrefix(trim($request->getValue('o:prefix')));
@@ -291,9 +284,11 @@ class VocabularyAdapter extends AbstractEntityAdapter
      * capitals as the database does, comes first; otherwise, where two
      * vocabularies match, the oldest.
      *
-     * It queries the database directly, not through the API, so a module
-     * that filters API searches can't hide a vocabulary from the namespace
-     * URI check.
+     * Namespace URIs are opaque, so another form is only a likely
+     * duplicate, which import details point out; only an exact match is
+     * refused, as already taken. It queries the database directly, not
+     * through the API, so a module that filters API searches can't hide a
+     * vocabulary from that check.
      *
      * @param string $namespaceUri
      * @param int|null $exceptId A vocabulary to leave out, such as the one a
@@ -319,30 +314,6 @@ class VocabularyAdapter extends AbstractEntityAdapter
             }
         }
         return $vocabularies[0] ?? null;
-    }
-
-    /**
-     * Refuse a namespace URI that another vocabulary has in another form,
-     * such as https://schema.org/ when another has http://schema.org/: the
-     * two would hold the same classes and properties twice. Another
-     * vocabulary with exactly the namespace URI isn't refused here, since
-     * validateEntity() refuses it as already taken.
-     *
-     * @param string $namespaceUri
-     * @param int|null $exceptId The vocabulary the namespace URI is for, or
-     *   null when it's being created
-     * @param ErrorStore $errorStore
-     */
-    public function validateNamespaceUriForms($namespaceUri, $exceptId, ErrorStore $errorStore)
-    {
-        $other = $this->findByNamespaceUri($namespaceUri, $exceptId);
-        if ($other && strtolower($other->getNamespaceUri()) !== strtolower((string) $namespaceUri)) {
-            $errorStore->addError('o:namespace_uri', new Message(
-                'Another vocabulary, "%1$s", has this namespace URI in another form: "%2$s".', // @translate
-                $other->getLabel(),
-                $other->getNamespaceUri()
-            ));
-        }
     }
 
     /**

@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Controller\Admin;
 
-use Omeka\Api\Adapter\VocabularyAdapter;
 use Omeka\DataType\Manager as DataTypeManager;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\ResourceTemplateForm;
@@ -16,15 +15,9 @@ class ResourceTemplateController extends AbstractActionController
 {
     protected $dataTypeManager;
 
-    /**
-     * @var VocabularyAdapter
-     */
-    protected $vocabularyAdapter;
-
-    public function __construct(DataTypeManager $dataTypeManager, VocabularyAdapter $vocabularyAdapter)
+    public function __construct(DataTypeManager $dataTypeManager)
     {
         $this->dataTypeManager = $dataTypeManager;
-        $this->vocabularyAdapter = $vocabularyAdapter;
     }
 
     public function browseAction()
@@ -147,14 +140,13 @@ class ResourceTemplateController extends AbstractActionController
             'resource:media',
         ];
 
-        // The vocabulary with the namespace URI, else one with another form
-        // of it, as when a template from another installation has
-        // https://schema.org/ and this one has http://schema.org/.
         $getVocab = function ($namespaceUri) use (&$vocabs) {
             if (isset($vocabs[$namespaceUri])) {
                 return $vocabs[$namespaceUri];
             }
-            $vocab = $this->vocabularyAdapter->findByNamespaceUri($namespaceUri);
+            $vocab = $this->api()->searchOne('vocabularies', [
+                'namespace_uri' => $namespaceUri,
+            ])->getContent();
             if ($vocab) {
                 $vocabs[$namespaceUri] = $vocab;
                 return $vocab;
@@ -164,9 +156,9 @@ class ResourceTemplateController extends AbstractActionController
 
         if (isset($import['o:resource_class'])) {
             if ($vocab = $getVocab($import['o:resource_class']['vocabulary_namespace_uri'])) {
-                $import['o:resource_class']['vocabulary_prefix'] = $vocab->getPrefix();
+                $import['o:resource_class']['vocabulary_prefix'] = $vocab->prefix();
                 $class = $this->api()->searchOne('resource_classes', [
-                    'vocabulary_id' => $vocab->getId(),
+                    'vocabulary_namespace_uri' => $import['o:resource_class']['vocabulary_namespace_uri'],
                     'local_name' => $import['o:resource_class']['local_name'],
                 ])->getContent();
                 if ($class) {
@@ -178,9 +170,9 @@ class ResourceTemplateController extends AbstractActionController
         foreach (['o:title_property', 'o:description_property'] as $property) {
             if (isset($import[$property])) {
                 if ($vocab = $getVocab($import[$property]['vocabulary_namespace_uri'])) {
-                    $import[$property]['vocabulary_prefix'] = $vocab->getPrefix();
+                    $import[$property]['vocabulary_prefix'] = $vocab->prefix();
                     $prop = $this->api()->searchOne('properties', [
-                        'vocabulary_id' => $vocab->getId(),
+                        'vocabulary_namespace_uri' => $import[$property]['vocabulary_namespace_uri'],
                         'local_name' => $import[$property]['local_name'],
                     ])->getContent();
                     if ($prop) {
@@ -192,9 +184,9 @@ class ResourceTemplateController extends AbstractActionController
 
         foreach ($import['o:resource_template_property'] as $key => $property) {
             if ($vocab = $getVocab($property['vocabulary_namespace_uri'])) {
-                $import['o:resource_template_property'][$key]['vocabulary_prefix'] = $vocab->getPrefix();
+                $import['o:resource_template_property'][$key]['vocabulary_prefix'] = $vocab->prefix();
                 $prop = $this->api()->searchOne('properties', [
-                    'vocabulary_id' => $vocab->getId(),
+                    'vocabulary_namespace_uri' => $property['vocabulary_namespace_uri'],
                     'local_name' => $property['local_name'],
                 ])->getContent();
                 if ($prop) {

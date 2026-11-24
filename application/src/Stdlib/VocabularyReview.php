@@ -80,7 +80,7 @@ class VocabularyReview
      *   - new_namespace_uri: (optional) A new namespace URI for the
      *     vocabulary, the one the file's terms use, accepted with the changes:
      *     another form of the vocabulary's own, such as https for http, that
-     *     no other vocabulary has in any form
+     *     no other vocabulary has
      * @return string The review page's URL. Accept and Cancel then go to the
      *   vocabulary's page.
      * @throws PermissionDeniedException When the user may not change the
@@ -88,8 +88,8 @@ class VocabularyReview
      * @throws \InvalidArgumentException When the new namespace URI isn't a
      *   form of the vocabulary's
      * @throws ValidationException When another vocabulary has the new
-     *   namespace URI in any form, or the file can't be read, has no terms in
-     *   the namespace, or has terms too long to store
+     *   namespace URI, or the file can't be read, has no terms in the
+     *   namespace, or has terms too long to store
      */
     public function start($vocabularyId, $filePath, array $importOptions = [], array $reviewOptions = [])
     {
@@ -284,17 +284,14 @@ class VocabularyReview
             return $vocabulary;
         }
         // Refused now, while the page that chose the file can say why, as the
-        // API would refuse it at Accept: another form of it, or exactly it.
-        $exception = new ValidationException;
-        $errorStore = $exception->getErrorStore();
-        $this->vocabularyAdapter->validateNamespaceUriForms($newNamespaceUri, $vocabulary->id(), $errorStore);
-        if (!$errorStore->hasErrors() && $this->vocabularyAdapter->findByNamespaceUri($newNamespaceUri, $vocabulary->id())) {
-            $errorStore->addError('o:namespace_uri', new Message(
+        // API would refuse it at Accept: another vocabulary has exactly it.
+        $other = $this->vocabularyAdapter->findByNamespaceUri($newNamespaceUri, $vocabulary->id());
+        if ($other && strtolower($other->getNamespaceUri()) === strtolower($newNamespaceUri)) {
+            $exception = new ValidationException;
+            $exception->getErrorStore()->addError('o:namespace_uri', new Message(
                 'The namespace URI "%s" is already taken.', // @translate
                 $newNamespaceUri
             ));
-        }
-        if ($errorStore->hasErrors()) {
             throw $exception;
         }
         return $vocabulary;

@@ -56,6 +56,7 @@ $this->headScript()->appendFile($this->assetUrl('js/asset-browse.js', 'Omeka'));
                     <li><?php echo $asset->link('', 'edit', [
                         'class' => 'o-icon-edit',
                         'title' => $translate('Edit'),
+                        'aria-label' => $translate('Edit') . ' ' . $asset->name(),
                     ]); ?></li>
                     <?php endif; ?>
                     <?php if ($asset->userIsAllowed('delete')): ?>
@@ -64,6 +65,7 @@ $this->headScript()->appendFile($this->assetUrl('js/asset-browse.js', 'Omeka'));
                         'data-sidebar-content-url' => $asset->url('delete-confirm'),
                         'class' => 'o-icon-delete sidebar-content',
                         'title' => $translate('Delete'),
+                        'aria-label' => $translate('Delete') . ' ' . $asset->name(),
                     ]); ?></li>
                     <?php endif; ?>
                     <li><?php echo $this->hyperlink('', '#', [
@@ -71,6 +73,7 @@ $this->headScript()->appendFile($this->assetUrl('js/asset-browse.js', 'Omeka'));
                         'data-sidebar-content-url' => $asset->url('show-details'),
                         'class' => 'o-icon-more sidebar-content',
                         'title' => $translate('Details'),
+                        'aria-label' => $translate('Details') . ' ' . $asset->name(),
                     ]); ?></li>
                 </ul>
             </td>

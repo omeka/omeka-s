@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Settings;
 
+use Doctrine\DBAL\ParameterType;
 use Omeka\Service\Exception;
 
 /**
@@ -127,7 +128,7 @@ abstract class AbstractTargetSettings extends AbstractSettings
             $this->connection->insert(
                 $this->getTableName(),
                 ['value' => $value, $this->getTargetIdColumnName() => $this->targetId, 'id' => $id],
-                ['json_array', \PDO::PARAM_INT]
+                ['json_array', ParameterType::INTEGER]
             );
             $this->getEventManager()->trigger('setting.insert', $this, [
                 'target_id' => $this->targetId,
@@ -145,7 +146,7 @@ abstract class AbstractTargetSettings extends AbstractSettings
         $this->connection->delete(
             $this->getTableName(),
             [$this->getTargetIdColumnName() => $this->targetId, 'id' => $id],
-            [\PDO::PARAM_INT]
+            [ParameterType::INTEGER]
         );
     }
 }

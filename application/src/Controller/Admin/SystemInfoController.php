@@ -54,7 +54,7 @@ class SystemInfoController extends AbstractActionController
 
     protected function getSystemInfo()
     {
-        $conn = $this->connection->getWrappedConnection();
+        $conn = $this->connection->getNativeConnection();
         $mode = $this->connection->fetchColumn('SELECT @@sql_mode');
 
         $extensions = get_loaded_extensions();

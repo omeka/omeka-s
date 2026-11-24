@@ -3,20 +3,20 @@ namespace Omeka\Db\Logging;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Logging\SQLLogger;
-use PDO;
+use Doctrine\DBAL\ParameterType;
 use SplFileObject;
 
 class FileSqlLogger implements SQLLogger
 {
     /**
-     * List of PDO and Doctrine built-in types
+     * List of Doctrine built-in types
      */
     protected $types = [
-        PDO::PARAM_BOOL => 'PARAM_BOOL',
-        PDO::PARAM_NULL => 'PARAM_NULL',
-        PDO::PARAM_INT => 'PARAM_INT',
-        PDO::PARAM_STR => 'PARAM_STR',
-        PDO::PARAM_LOB => 'PARAM_LOB',
+        ParameterType::BOOLEAN => 'PARAM_BOOL',
+        ParameterType::NULL => 'PARAM_NULL',
+        ParameterType::INTEGER => 'PARAM_INT',
+        ParameterType::STRING => 'PARAM_STR',
+        ParameterType::LARGE_OBJECT => 'PARAM_LOB',
         Connection::PARAM_INT_ARRAY => 'PARAM_INT_ARRAY',
         Connection::PARAM_STR_ARRAY => 'PARAM_STR_ARRAY',
     ];

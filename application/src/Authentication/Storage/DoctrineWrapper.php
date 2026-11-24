@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Authentication\Storage;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\ORM\EntityRepository;
 use Laminas\Authentication\Storage\StorageInterface;
 

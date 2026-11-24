@@ -54,6 +54,10 @@ class VocabularyAdapter extends AbstractEntityAdapter
                 $this->sortByCount($qb, $query, 'properties');
             } elseif ('resource_class_count' == $query['sort_by']) {
                 $this->sortByCount($qb, $query, 'resourceClasses');
+            } elseif ('owner_name' == $query['sort_by']) {
+                $ownerAlias = $qb->createAlias();
+                $qb->leftJoin('omeka_root.owner', $ownerAlias)
+                    ->addOrderBy("$ownerAlias.name", $query['sort_order']);
             } else {
                 parent::sortQuery($qb, $query);
             }
@@ -66,13 +70,19 @@ class VocabularyAdapter extends AbstractEntityAdapter
         if (array_key_exists('o:class', $data)
             && !is_array($data['o:class'])
         ) {
-            $errorStore->addError('o:item_set', 'Classes must be an array'); // @translate
+            $errorStore->addError('o:class', 'Classes must be an array'); // @translate
         }
 
         if (array_key_exists('o:property', $data)
             && !is_array($data['o:property'])
         ) {
-            $errorStore->addError('o:item_set', 'Properties must be an array'); // @translate
+            $errorStore->addError('o:property', 'Properties must be an array'); // @translate
+        }
+
+        if (isset($data['o:import_options'])
+            && !is_array($data['o:import_options'])
+        ) {
+            $errorStore->addError('o:import_options', 'Import options must be an array'); // @translate
         }
     }
 
@@ -92,6 +102,19 @@ class VocabularyAdapter extends AbstractEntityAdapter
         }
         if ($this->shouldHydrate($request, 'o:comment')) {
             $entity->setComment($request->getValue('o:comment'));
+        }
+        if ($this->shouldHydrate($request, 'o:import_options')) {
+            $importOptions = $request->getValue('o:import_options');
+            if (is_array($importOptions)) {
+                $kept = [];
+                foreach ($importOptions as $key => $value) {
+                    if (in_array($key, Vocabulary::IMPORT_OPTIONS, true)) {
+                        $kept[$key] = is_scalar($value) ? (string) $value : null;
+                    }
+                }
+                $importOptions = $kept;
+            }
+            $entity->setImportOptions($importOptions ?: null);
         }
 
         if ($this->shouldHydrate($request, 'o:class')) {
@@ -244,7 +267,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
         $uniqueLocalNames = [];
         foreach ($entity->getProperties() as $property) {
             if (in_array($property->getLocalName(), $uniqueLocalNames)) {
-                $errorStore->addError('o:resource_class', new Message(
+                $errorStore->addError('o:property', new Message(
                     'The local name "%s" is already taken.', // @translate
                     $property->getLocalName()
                 ));
@@ -252,5 +275,97 @@ class VocabularyAdapter extends AbstractEntityAdapter
                 $uniqueLocalNames[] = $property->getLocalName();
             }
         }
+    }
+
+    /**
+     * Get the vocabulary that has a namespace URI, either exactly or in
+     * another form of it (Vocabulary::getNamespaceUriForms()), such as
+     * https://schema.org/ for http://schema.org/. An exact match, ignoring
+     * capitals as the database does, comes first; otherwise, where two
+     * vocabularies match, the oldest.
+     *
+     * Namespace URIs are opaque, so another form is only a likely
+     * duplicate, which import details point out; only an exact match is
+     * refused, as already taken. It queries the database directly, not
+     * through the API, so a module that filters API searches can't hide a
+     * vocabulary from that check.
+     *
+     * @param string $namespaceUri
+     * @param int|null $exceptId A vocabulary to leave out, such as the one a
+     *   namespace URI is checked for
+     * @return Vocabulary|null
+     */
+    public function findByNamespaceUri($namespaceUri, $exceptId = null)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('v')
+            ->from(Vocabulary::class, 'v')
+            ->where($qb->expr()->in('v.namespaceUri', ':forms'))
+            ->setParameter('forms', Vocabulary::getNamespaceUriForms($namespaceUri))
+            ->orderBy('v.id', 'ASC');
+        if (null !== $exceptId) {
+            $qb->andWhere($qb->expr()->neq('v.id', ':except'))
+                ->setParameter('except', $exceptId);
+        }
+        $vocabularies = $qb->getQuery()->getResult();
+        foreach ($vocabularies as $vocabulary) {
+            if (strtolower($vocabulary->getNamespaceUri()) === strtolower((string) $namespaceUri)) {
+                return $vocabulary;
+            }
+        }
+        return $vocabularies[0] ?? null;
+    }
+
+    /**
+     * Get the number of values of a vocabulary's properties.
+     *
+     * @param Vocabulary $vocabulary
+     * @return int
+     */
+    public function getValueCount(Vocabulary $vocabulary)
+    {
+        return $this->getTermUseCount($vocabulary, 'Omeka\Entity\Value', 'property');
+    }
+
+    /**
+     * Get the number of resource templates that use any of a vocabulary's
+     * properties.
+     *
+     * @param Vocabulary $vocabulary
+     * @return int
+     */
+    public function getResourceTemplateCount(Vocabulary $vocabulary)
+    {
+        return $this->getTermUseCount($vocabulary, 'Omeka\Entity\ResourceTemplateProperty', 'property', 'DISTINCT e.resourceTemplate');
+    }
+
+    /**
+     * Get the number of resources whose class is one of a vocabulary's.
+     *
+     * @param Vocabulary $vocabulary
+     * @return int
+     */
+    public function getResourceWithClassCount(Vocabulary $vocabulary)
+    {
+        return $this->getTermUseCount($vocabulary, 'Omeka\Entity\Resource', 'resourceClass');
+    }
+
+    /**
+     * Count the entities of a class that use one of a vocabulary's terms.
+     *
+     * @param Vocabulary $vocabulary
+     * @param string $entityClass
+     * @param string $termField The entity's field that holds its term:
+     *   "property" or "resourceClass"
+     * @param string $counted What to count, the entities by default, or
+     *   another of their fields, such as "DISTINCT e.resourceTemplate"
+     * @return int
+     */
+    protected function getTermUseCount(Vocabulary $vocabulary, $entityClass, $termField, $counted = 'e.id')
+    {
+        return (int) $this->getEntityManager()
+            ->createQuery(sprintf('SELECT COUNT(%s) FROM %s e JOIN e.%s t WHERE t.vocabulary = :vocabulary', $counted, $entityClass, $termField))
+            ->setParameter('vocabulary', $vocabulary->getId())
+            ->getSingleScalarResult();
     }
 }

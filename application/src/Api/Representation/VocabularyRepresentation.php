@@ -25,7 +25,20 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
             'o:label' => $this->label(),
             'o:comment' => $this->comment(),
             'o:owner' => $owner,
+            'o:import_options' => $this->importOptions(),
         ];
+    }
+
+    /**
+     * Return the import options the vocabulary's file was read with, if
+     * known.
+     *
+     * @see \Omeka\Entity\Vocabulary::IMPORT_OPTIONS
+     * @return array|null
+     */
+    public function importOptions()
+    {
+        return $this->resource->getImportOptions();
     }
 
     /**
@@ -39,6 +52,17 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     public function isPermanent()
     {
         return in_array($this->prefix(), ['dcterms', 'dctype']);
+    }
+
+    /**
+     * Check whether the current user may change this vocabulary: one they
+     * may update that isn't permanent.
+     *
+     * @return bool
+     */
+    public function userMayUpdate()
+    {
+        return !$this->isPermanent() && $this->userIsAllowed('update');
     }
 
     /**
@@ -135,5 +159,36 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
     public function resourceClassCount()
     {
         return count($this->resource->getResourceClasses());
+    }
+
+    /**
+     * Get the number of values of this vocabulary's properties.
+     *
+     * @return int
+     */
+    public function valueCount()
+    {
+        return $this->getAdapter()->getValueCount($this->resource);
+    }
+
+    /**
+     * Get the number of resource templates that use any of this vocabulary's
+     * properties.
+     *
+     * @return int
+     */
+    public function resourceTemplateCount()
+    {
+        return $this->getAdapter()->getResourceTemplateCount($this->resource);
+    }
+
+    /**
+     * Get the number of resources whose class is one of this vocabulary's.
+     *
+     * @return int
+     */
+    public function resourceWithClassCount()
+    {
+        return $this->getAdapter()->getResourceWithClassCount($this->resource);
     }
 }

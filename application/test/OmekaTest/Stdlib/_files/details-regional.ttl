@@ -1,0 +1,9 @@
+# A class labeled in English, British English, and Canadian French, in a
+# vocabulary titled in English and Canadian French.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix regional: <http://example.org/regional#> .
+
+regional:Colour a rdfs:Class ;
+    rdfs:label "Colour"@en-GB, "Color"@en, "Couleur"@fr-CA .
+
+<http://example.org/regional> rdfs:label "Regional"@en, "Régional"@fr-CA .

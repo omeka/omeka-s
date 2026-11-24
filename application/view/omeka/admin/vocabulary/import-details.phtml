@@ -1,0 +1,49 @@
+<?php
+$this->headScript()->appendFile($this->assetUrl('js/vocabulary-form.js', 'Omeka'));
+$this->htmlElement('body')->appendAttribute('class', 'vocabularies import-details');
+$translate = $this->plugin('translate');
+$form->prepare();
+$optionsForm->prepare();
+// Say the file gives no namespace URI only while its field is empty: after
+// a refused import, the field shows what the admin entered.
+$asksNamespaceUri = null === $fileDetails['namespace_uri'] && '' === trim((string) $form->get('o:namespace_uri')->getValue());
+
+// The classes and properties importing adds, in sections like a review's.
+$sections = [];
+if ($members && $members['classes']) {
+    $sections[] = ['id' => 'import-classes', 'heading' => $translate('Classes'), 'columns' => [$translate('Class'), $translate('Label'), $translate('Comment')], 'terms' => $members['classes'], 'count' => count($members['classes'])];
+}
+if ($members && $members['properties']) {
+    $sections[] = ['id' => 'import-properties', 'heading' => $translate('Properties'), 'columns' => [$translate('Property'), $translate('Label'), $translate('Comment')], 'terms' => $members['properties'], 'count' => count($members['properties'])];
+}
+?>
+
+<?php echo $this->pageTitle($translate('New vocabulary'), 1, $translate('Vocabularies'), $translate('Details')); ?>
+
+<?php echo $this->form()->openTag($form); ?>
+<div id="page-actions">
+    <?php // To the list the import started from, leaving the import to end after a day. ?>
+    <?php echo $this->hyperlink($translate('Cancel'), $this->url('admin/default', ['controller' => 'vocabulary', 'action' => 'browse']), ['class' => 'button']); ?>
+    <button name="import" value="1"><?php echo $translate('Import'); ?></button>
+    <?php if ($updatable): ?>
+    <?php // After Import, so Enter in a field still imports. ?>
+    <button type="submit" name="review_changes" value="1" formnovalidate><?php echo $translate('Review changes'); ?></button>
+    <?php endif; ?>
+</div>
+<?php if ($asksNamespaceUri): ?>
+<p><?php echo $translate('The file doesn\'t give a namespace URI for its classes and properties. Enter it below.'); ?></p>
+<?php endif; ?>
+<?php // The vocabulary's fields and the CSRF field. ?>
+<?php echo $this->formCollection($form, false); ?>
+<?php // The choices, from a form of their own, posted with this one. ?>
+<fieldset id="import-options">
+    <legend><?php echo $translate('Classes and properties'); ?></legend>
+    <?php echo $this->formCollection($optionsForm, false); ?>
+</fieldset>
+<div class="review-choices-actions">
+    <?php // Shows the list again, without importing. ?>
+    <button type="submit" formnovalidate<?php if ($sections): ?> class="review-show" data-watch="#import-options :input, [name='o:namespace_uri'], [name='o:prefix']"<?php endif; ?>><?php echo $translate('Show classes and properties'); ?></button>
+</div>
+<?php echo $this->form()->closeTag(); ?>
+
+<?php echo $this->partial('omeka/admin/vocabulary/review-sections', ['sections' => $sections, 'prefix' => trim((string) $form->get('o:prefix')->getValue())]); ?>

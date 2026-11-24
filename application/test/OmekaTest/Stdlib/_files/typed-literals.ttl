@@ -1,0 +1,14 @@
+# Labels and comments given as typed literals, which EasyRdf reads as
+# numbers, booleans, and dates.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix typed: <http://example.org/typed#> .
+
+typed:Number a rdfs:Class ;
+    rdfs:label "1"^^xsd:integer ;
+    rdfs:comment "2020-01-01"^^xsd:date .
+
+typed:flag a rdf:Property ;
+    rdfs:label "false"^^xsd:boolean ;
+    rdfs:comment "true"^^xsd:boolean .

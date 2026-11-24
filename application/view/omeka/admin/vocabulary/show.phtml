@@ -1,0 +1,57 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'vocabularies show');
+?>
+
+<?php echo $this->pageTitle($translate($vocabulary->label()), 1, $translate('Vocabularies')); ?>
+
+<div id="page-actions">
+    <?php $this->trigger('view.show.page_actions', ['resource' => $vocabulary]); ?>
+    <?php if ($vocabulary->userMayUpdate()): ?>
+    <?php echo $this->hyperlink($translate('Update classes and properties'), $vocabulary->url('update'), ['class' => 'button']); ?>
+    <?php echo $this->hyperlink($translate('Edit vocabulary'), $vocabulary->url('edit'), ['class' => 'button']); ?>
+    <?php endif; ?>
+</div>
+<div class="breadcrumbs">
+    <?php echo $this->hyperlink($translate('Back to vocabulary list'), $this->url('admin/default', ['controller' => 'vocabulary', 'action' => 'browse']), ['class' => 'o-icon-left']); ?>
+</div>
+
+<?php $this->trigger('view.show.before'); ?>
+<dl>
+<?php if ('' !== (string) $vocabulary->comment()): ?>
+<div class="property">
+    <dt><?php echo $translate('Comment'); ?></dt>
+    <dd class="value"><?php echo $escape($translate($vocabulary->comment())); ?></dd>
+</div>
+<?php endif; ?>
+<div class="property">
+    <dt><?php echo $translate('Prefix'); ?></dt>
+    <dd class="value"><?php echo $escape($vocabulary->prefix()); ?></dd>
+</div>
+<div class="property">
+    <dt><?php echo $translate('Namespace URI'); ?></dt>
+    <dd class="value"><?php echo $escape($vocabulary->namespaceUri()); ?></dd>
+</div>
+<div class="property">
+    <dt><?php echo $translate('Classes'); ?></dt>
+    <dd class="value"><?php echo $this->hyperlink($vocabulary->resourceClassCount(), $vocabulary->url('classes')); ?></dd>
+</div>
+<div class="property">
+    <dt><?php echo $translate('Properties'); ?></dt>
+    <dd class="value"><?php echo $this->hyperlink($vocabulary->propertyCount(), $vocabulary->url('properties')); ?></dd>
+</div>
+<div class="property">
+    <dt><?php echo $translate('Values using its properties'); ?></dt>
+    <dd class="value"><?php echo $vocabulary->valueCount(); ?></dd>
+</div>
+<div class="property">
+    <dt><?php echo $translate('Resource templates using its properties'); ?></dt>
+    <dd class="value"><?php echo $vocabulary->resourceTemplateCount(); ?></dd>
+</div>
+<div class="property">
+    <dt><?php echo $translate('Resources using its classes'); ?></dt>
+    <dd class="value"><?php echo $vocabulary->resourceWithClassCount(); ?></dd>
+</div>
+</dl>
+<?php $this->trigger('view.show.after'); ?>

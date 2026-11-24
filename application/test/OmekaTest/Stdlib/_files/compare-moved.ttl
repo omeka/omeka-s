@@ -1,0 +1,13 @@
+# Two of the comparison tests' terms, in another namespace, as a vocabulary
+# whose namespace changed.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix moved: <http://example.org/moved#> .
+
+moved:name a rdf:Property ;
+    rdfs:label "Name" ;
+    rdfs:comment "A name." .
+
+moved:title a rdf:Property ;
+    rdfs:label "Heading" ;
+    rdfs:comment "The title." .

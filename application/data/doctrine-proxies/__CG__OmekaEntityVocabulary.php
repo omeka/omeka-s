@@ -67,10 +67,10 @@ class Vocabulary extends \Omeka\Entity\Vocabulary implements \Doctrine\ORM\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'owner', 'namespaceUri', 'prefix', 'label', 'comment', 'resourceClasses', 'properties'];
+            return ['__isInitialized__', 'id', 'owner', 'namespaceUri', 'prefix', 'label', 'comment', 'importOptions', 'resourceClasses', 'properties'];
         }
 
-        return ['__isInitialized__', 'id', 'owner', 'namespaceUri', 'prefix', 'label', 'comment', 'resourceClasses', 'properties'];
+        return ['__isInitialized__', 'id', 'owner', 'namespaceUri', 'prefix', 'label', 'comment', 'importOptions', 'resourceClasses', 'properties'];
     }
 
     /**
@@ -300,6 +300,28 @@ class Vocabulary extends \Omeka\Entity\Vocabulary implements \Doctrine\ORM\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getComment', []);
 
         return parent::getComment();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setImportOptions(?array $importOptions = NULL)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setImportOptions', [$importOptions]);
+
+        return parent::setImportOptions($importOptions);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getImportOptions()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getImportOptions', []);
+
+        return parent::getImportOptions();
     }
 
     /**

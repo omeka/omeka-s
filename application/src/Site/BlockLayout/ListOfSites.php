@@ -17,7 +17,14 @@ class ListOfSites extends AbstractBlockLayout implements TemplateableBlockLayout
         'summaries' => true,
         'thumbnails' => true,
         'exclude_current' => true,
+        'heading_level' => 'none',
+        'use_heading_size' => false,
     ];
+
+    /**
+     * The heading levels a site title may be rendered with.
+     */
+    protected $headingLevels = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 
     public function getLabel()
     {
@@ -29,7 +36,35 @@ class ListOfSites extends AbstractBlockLayout implements TemplateableBlockLayout
     ) {
         $data = $block ? $block->data() + $this->defaults : $this->defaults;
 
+        $headingLevelOptions = ['none' => 'None']; // @translate
+        foreach ($this->headingLevels as $headingLevel) {
+            $headingLevelOptions[$headingLevel] = strtoupper($headingLevel);
+        }
+
         $form = new Form();
+        $form->add([
+            'name' => 'o:block[__blockIndex__][o:data][heading_level]',
+            'type' => Element\Select::class,
+            'options' => [
+                'label' => 'Heading level', // @translate
+                'info' => 'The heading level used for each site title. Choose the level that fits the page structure; choose None for no heading.', // @translate
+                'value_options' => $headingLevelOptions,
+            ],
+            'attributes' => [
+                'id' => 'list-of-sites-heading-level',
+            ],
+        ]);
+        $form->add([
+            'name' => 'o:block[__blockIndex__][o:data][use_heading_size]',
+            'type' => Element\Checkbox::class,
+            'options' => [
+                'label' => 'Use heading size', // @translate
+                'info' => 'Apply the size and weight of the selected heading. Unchecked, site titles keep the default size; ignored when the heading level is None.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'list-of-sites-use-heading-size',
+            ],
+        ]);
         $form->add([
             'name' => 'o:block[__blockIndex__][o:data][sort]',
             'type' => Element\Select::class,
@@ -101,6 +136,8 @@ class ListOfSites extends AbstractBlockLayout implements TemplateableBlockLayout
         ]);
 
         $form->setData([
+            'o:block[__blockIndex__][o:data][heading_level]' => $data['heading_level'],
+            'o:block[__blockIndex__][o:data][use_heading_size]' => $data['use_heading_size'],
             'o:block[__blockIndex__][o:data][sort]' => $data['sort'],
             'o:block[__blockIndex__][o:data][limit]' => $data['limit'],
             'o:block[__blockIndex__][o:data][pagination]' => $data['pagination'],
@@ -120,6 +157,10 @@ class ListOfSites extends AbstractBlockLayout implements TemplateableBlockLayout
         $summaries = $block->dataValue('summaries', $this->defaults['summaries']);
         $thumbnails = $block->dataValue('thumbnails', $this->defaults['thumbnails']);
         $excludeCurrent = $block->dataValue('exclude_current', $this->defaults['exclude_current']);
+
+        $headingLevel = $block->dataValue('heading_level', $this->defaults['heading_level']);
+        $headingLevel = in_array($headingLevel, $this->headingLevels, true) ? $headingLevel : null;
+        $useHeadingSize = (bool) $block->dataValue('use_heading_size', $this->defaults['use_heading_size']);
 
         $data = [];
         if ($pagination) {
@@ -163,6 +204,8 @@ class ListOfSites extends AbstractBlockLayout implements TemplateableBlockLayout
             'pagination' => $pagination,
             'summaries' => $summaries,
             'thumbnails' => $thumbnails,
+            'headingLevel' => $headingLevel,
+            'useHeadingSize' => $useHeadingSize,
         ]);
     }
 }

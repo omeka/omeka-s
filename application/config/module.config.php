@@ -288,6 +288,7 @@ return [
             'Omeka\File\MediaTypeMap' => Service\MediaTypeMapFactory::class,
             'Omeka\File\ThumbnailManager' => Service\File\ThumbnailManagerFactory::class,
             'Omeka\File\TempFileFactory' => Service\File\TempFileFactoryFactory::class,
+            'Omeka\File\Stager' => Service\File\StagerFactory::class,
             'Omeka\File\Downloader' => Service\File\DownloaderFactory::class,
             'Omeka\File\Uploader' => Service\File\UploaderFactory::class,
             'Omeka\File\Validator' => Service\File\ValidatorFactory::class,

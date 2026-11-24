@@ -6,6 +6,10 @@ $this->htmlElement('body')->appendAttribute('class', 'browse vocabularies vocabu
 
 <?php echo $this->pageTitle($translate($vocabulary->label()), 1, $translate('Vocabularies'), $translate('Properties')); ?>
 
+<div class="breadcrumbs">
+    <?php echo $this->hyperlink($translate('Back to vocabulary'), $vocabulary->url(), ['class' => 'o-icon-left']); ?>
+</div>
+
 <p><?php echo $escape($translate($vocabulary->comment())); ?></p>
 <p><strong><?php echo $translate('Prefix:'); ?></strong> <?php echo $escape($vocabulary->prefix()); ?><br>
 <strong><?php echo $translate('Namespace URI:'); ?></strong> <?php echo $escape($vocabulary->namespaceUri()); ?></p>

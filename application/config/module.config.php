@@ -277,6 +277,8 @@ return [
             'Omeka\Cli' => Service\CliFactory::class,
             'Omeka\Paginator' => Service\PaginatorFactory::class,
             'Omeka\RdfImporter' => Service\RdfImporterFactory::class,
+            'Omeka\VocabularyReview' => Service\VocabularyReviewFactory::class,
+            'Omeka\VocabularyImport' => Service\VocabularyImportFactory::class,
             'Omeka\Site\ThemeManager' => Service\ThemeManagerFactory::class,
             'Omeka\Site\NavigationLinkManager' => Service\NavigationLinkManagerFactory::class,
             'Omeka\Site\NavigationTranslator' => Service\SiteNavigationTranslatorFactory::class,
@@ -422,6 +424,7 @@ return [
     'view_helpers' => [
         'invokables' => [
             'pageTitle' => View\Helper\PageTitle::class,
+            'textDiff' => View\Helper\TextDiff::class,
             'htmlElement' => View\Helper\HtmlElement::class,
             'hyperlink' => View\Helper\Hyperlink::class,
             'messages' => View\Helper\Messages::class,
@@ -539,7 +542,6 @@ return [
         'factories' => [
             'Omeka\Form\ResourceForm' => Service\Form\ResourceFormFactory::class,
             'Omeka\Form\ItemStubForm' => Service\Form\ItemStubFormFactory::class,
-            'Omeka\Form\VocabularyForm' => Service\Form\VocabularyFormFactory::class,
             'Omeka\Form\ResourceBatchUpdateForm' => Service\Form\ResourceBatchUpdateFormFactory::class,
             'Omeka\Form\UserForm' => Service\Form\UserFormFactory::class,
             'Omeka\Form\SettingForm' => Service\Form\SettingFormFactory::class,
@@ -771,6 +773,7 @@ return [
                 'prefix' => 'Prefix', // @translate
                 'resource_class_count' => 'Resource class count', // @translate
                 'property_count' => 'Property count', // @translate
+                'owner_name' => 'Owner', // @translate
                 'id' => 'ID', // @translate
             ],
             'resource_classes' => [
@@ -990,5 +993,6 @@ return [
         'Required field must be completed', // @translate
         'Annotate value', // @translate
         'Edit annotations', // @translate
+        'The namespace URI you entered does not end with a / or #, as is normally expected for namespace URIs. Would you like to save anyway?', // @translate
     ],
 ];

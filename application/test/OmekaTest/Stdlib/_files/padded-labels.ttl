@@ -1,0 +1,15 @@
+# Labels with surrounding whitespace, as multi-line literals often have:
+# one short, and one at Omeka's 255-character limit only once trimmed.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix padded: <http://example.org/padded#> .
+
+padded:Thing a rdfs:Class ;
+    rdfs:label """
+        Padded
+    """ .
+
+padded:full a rdf:Property ;
+    rdfs:label """
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    """ .

@@ -70,10 +70,10 @@ class PropertyAdapter extends AbstractEntityAdapter
         $this->hydrateOwner($request, $entity);
 
         if ($this->shouldHydrate($request, 'o:local_name')) {
-            $entity->setLocalName($request->getValue('o:local_name'));
+            $entity->setLocalName(trim((string) $request->getValue('o:local_name')));
         }
         if ($this->shouldHydrate($request, 'o:label')) {
-            $entity->setLabel($request->getValue('o:label'));
+            $entity->setLabel(trim((string) $request->getValue('o:label')));
         }
         if ($this->shouldHydrate($request, 'o:comment')) {
             $entity->setComment($request->getValue('o:comment'));
@@ -84,6 +84,8 @@ class PropertyAdapter extends AbstractEntityAdapter
         ) {
             $adapter = $this->getAdapter('vocabularies');
             $vocabularyEntity = $adapter->findEntity($data['o:vocabulary']['o:id']);
+            // Adding a property changes its vocabulary.
+            $this->authorize($vocabularyEntity, Request::UPDATE);
             $entity->setVocabulary($vocabularyEntity);
         }
     }
@@ -206,14 +208,26 @@ class PropertyAdapter extends AbstractEntityAdapter
 
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
     {
-        // Validate local name
-        if (false == $entity->getLocalName()) {
+        // Validate local name, which may be "0", so test for '' only.
+        $localName = (string) $entity->getLocalName();
+        if ('' === $localName) {
             $errorStore->addError('o:local_name', 'The local name cannot be empty.'); // @translate
+        } elseif (mb_strlen($localName) > Vocabulary::LOCAL_NAME_MAX_LENGTH) {
+            $errorStore->addError('o:local_name', new Message(
+                'The local name cannot be longer than %s characters.', // @translate
+                Vocabulary::LOCAL_NAME_MAX_LENGTH
+            ));
         }
 
         // Validate label
-        if (false == $entity->getLabel()) {
+        $label = (string) $entity->getLabel();
+        if ('' === $label) {
             $errorStore->addError('o:label', 'The label cannot be empty.'); // @translate
+        } elseif (mb_strlen($label) > Vocabulary::LABEL_MAX_LENGTH) {
+            $errorStore->addError('o:label', new Message(
+                'The label cannot be longer than %s characters.', // @translate
+                Vocabulary::LABEL_MAX_LENGTH
+            ));
         }
 
         // Validate vocabulary

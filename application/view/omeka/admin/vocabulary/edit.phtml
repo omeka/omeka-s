@@ -10,18 +10,25 @@ $form->prepare();
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
     <?php $this->trigger('view.edit.page_actions', ['resource' => $vocabulary]); ?>
-    <a href="#" class="delete button"><?php echo $translate('Delete'); ?></a>
-    <?php echo $this->cancelButton(); ?>
+    <?php echo $this->hyperlink($translate('Delete'), '#', [
+        'class' => 'delete button sidebar-content',
+        'data-sidebar-selector' => '#delete',
+        'data-sidebar-content-url' => $vocabulary->url('delete-confirm'),
+    ]); ?>
+    <?php // To the vocabulary's page, not one page back. ?>
+    <?php echo $this->hyperlink($translate('Cancel'), $vocabulary->url(), ['class' => 'button']); ?>
     <button><?php echo $translate('Save'); ?></button>
 </div>
 <?php $this->trigger('view.edit.form.before', ['form' => $form]); ?>
-<?php echo $this->formRow($form->get('csrf')); ?>
-<?php echo $this->formCollection($form->get('vocabulary-info')); ?>
-<p><?php echo $this->translate('You may update this vocabulary to a newer version. You will be able to review the changes before you accept.'); ?></p>
-<?php echo $this->formCollection($form->get('vocabulary-file')); ?>
-<?php echo $this->formCollection($form->get('vocabulary-advanced')); ?>
+<fieldset>
+    <legend><?php echo $translate('Basic info'); ?></legend>
+    <?php echo $this->formCollection($form, false); ?>
+</fieldset>
 <?php $this->trigger('view.edit.form.after', ['form' => $form]); ?>
 <?php echo $this->form()->closeTag(); ?>
-<?php echo $this->deleteConfirm($vocabulary, 'vocabulary'); ?>
+<div id="delete" class="sidebar">
+    <?php echo $this->hyperlink('', '#', ['class' => 'sidebar-close o-icon-close', 'title' => $translate('Close')]); ?>
+    <div class="sidebar-content"></div>
+</div>
 
 <?php $this->trigger('view.edit.after'); ?>

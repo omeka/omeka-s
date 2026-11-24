@@ -1,0 +1,433 @@
+<?php
+namespace OmekaTest\Stdlib;
+
+use Laminas\Http\Client as HttpClient;
+use Laminas\Http\Request;
+use Laminas\Http\Response;
+use Omeka\Api\Exception\ValidationException;
+use Omeka\Entity\User;
+use Omeka\Entity\Vocabulary;
+use Omeka\File\Stager;
+use Omeka\Permissions\Exception\PermissionDeniedException;
+use Omeka\Stdlib\RdfImporter;
+use Omeka\Stdlib\VocabularyReview;
+use Omeka\Test\DbTestCase;
+
+/**
+ * Reviews of a vocabulary's changes from the comparison tests' files, which
+ * RdfImporterTest's are.
+ */
+class VocabularyReviewTest extends DbTestCase
+{
+    const NAMESPACE_URI = 'http://example.org/compare#';
+
+    /**
+     * @var \Laminas\ServiceManager\ServiceManager
+     */
+    protected $services;
+
+    /**
+     * @var VocabularyReview
+     */
+    protected $review;
+
+    /**
+     * @var int
+     */
+    protected $vocabularyId;
+
+    /**
+     * The importer's own HTTP client, while a test answers its requests.
+     *
+     * @var HttpClient|null
+     */
+    protected $importerClient;
+
+    /**
+     * The tokens of the reviews a test starts, ended after it, so their
+     * files don't stay.
+     *
+     * @var string[]
+     */
+    protected $tokens = [];
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->services = self::getApplication()->getServiceManager();
+        $admin = $this->services->get('Omeka\EntityManager')->getRepository(User::class)
+            ->findOneBy(['email' => 'admin@example.com']);
+        $this->services->get('Omeka\AuthenticationService')->getStorage()->write($admin);
+        $this->review = $this->services->get('Omeka\VocabularyReview');
+        $this->vocabularyId = $this->api()->create('vocabularies', [
+            'o:namespace_uri' => self::NAMESPACE_URI,
+            'o:prefix' => 'compare',
+            'o:label' => 'Compare',
+            'o:class' => [
+                ['o:local_name' => 'Thing', 'o:label' => 'Thing', 'o:comment' => 'A thing.'],
+            ],
+            'o:property' => [
+                ['o:local_name' => 'name', 'o:label' => 'Name', 'o:comment' => 'A name.'],
+                ['o:local_name' => 'title', 'o:label' => 'Title', 'o:comment' => 'The title.'],
+            ],
+        ])->getContent()->id();
+    }
+
+    public function tearDown(): void
+    {
+        foreach ($this->tokens as $token) {
+            $this->review->cancel($token);
+        }
+        if ($this->importerClient) {
+            $property = new \ReflectionProperty(RdfImporter::class, 'httpClient');
+            $property->setValue($this->services->get('Omeka\RdfImporter'), $this->importerClient);
+        }
+        $this->services->get('Omeka\AuthenticationService')->clearIdentity();
+        parent::tearDown();
+    }
+
+    protected function api()
+    {
+        return $this->services->get('Omeka\ApiManager');
+    }
+
+    /**
+     * Start a review of one of RdfImporterTest's files.
+     *
+     * @return string The review's token
+     */
+    protected function start($file = 'compare.ttl', array $importOptions = ['format' => 'turtle'], array $reviewOptions = [])
+    {
+        $url = $this->review->start($this->vocabularyId, dirname(__DIR__) . '/Stdlib/_files/' . $file, $importOptions, $reviewOptions);
+        $this->assertMatchesRegularExpression(sprintf('#^/admin/vocabulary/%s/review\?token=[0-9a-f]{32}$#', $this->vocabularyId), $url);
+        return $this->tokens[] = substr($url, strpos($url, '=') + 1);
+    }
+
+    protected function vocabulary()
+    {
+        $this->services->get('Omeka\EntityManager')->clear();
+        return $this->api()->read('vocabularies', $this->vocabularyId)->getContent();
+    }
+
+    protected function propertyLabel($localName)
+    {
+        return $this->api()->search('properties', ['vocabulary_id' => $this->vocabularyId, 'local_name' => $localName])->getContent()[0]->label();
+    }
+
+    public function testGetGivesTheToken()
+    {
+        $token = $this->start();
+        $this->assertSame($token, $this->review->get($token)['token']);
+    }
+
+    public function testStartKeepsACopyOfTheFile()
+    {
+        $copy = tempnam(sys_get_temp_dir(), 'test');
+        copy(__DIR__ . '/_files/compare.ttl', $copy);
+        $url = $this->review->start($this->vocabularyId, $copy, ['format' => 'turtle']);
+        unlink($copy);
+        $review = $this->review->get(substr($url, strpos($url, '=') + 1));
+        $this->assertNotSame($copy, $review['files']['source']);
+        $this->assertFileEquals(__DIR__ . '/_files/compare.ttl', $review['files']['source']);
+        $this->review->cancel(substr($url, strpos($url, '=') + 1));
+    }
+
+    /**
+     * Create a vocabulary as Omeka did before it refused another form of a
+     * vocabulary's namespace URI, as an installation may still have one.
+     *
+     * @return int Its id
+     */
+    protected function createVocabularyAsBefore($namespaceUri, $prefix, $label)
+    {
+        $entityManager = $this->services->get('Omeka\EntityManager');
+        $vocabulary = new Vocabulary;
+        $vocabulary->setNamespaceUri($namespaceUri);
+        $vocabulary->setPrefix($prefix);
+        $vocabulary->setLabel($label);
+        $entityManager->persist($vocabulary);
+        $entityManager->flush();
+        return $vocabulary->getId();
+    }
+
+    public function testAVocabularyHeldInTwoFormsStillChangesItsNamespaceUrisCase()
+    {
+        // As an installation may have from before: the tests' vocabulary in
+        // http, and another in https.
+        $otherId = $this->createVocabularyAsBefore('https://example.org/compare#', 'compare2', 'Compare again');
+        try {
+            // A namespace URI changed only in case is no new one to the API.
+            $this->api()->update('vocabularies', $this->vocabularyId, ['o:namespace_uri' => 'http://EXAMPLE.org/compare#'], [], ['isPartial' => true]);
+            $this->assertSame('http://EXAMPLE.org/compare#', $this->vocabulary()->namespaceUri());
+            // Nor to a review, which may change it back.
+            $token = $this->start('compare.ttl', ['format' => 'turtle'], ['new_namespace_uri' => self::NAMESPACE_URI]);
+            $this->assertSame(self::NAMESPACE_URI, $this->review->get($token)['new_namespace_uri']);
+        } finally {
+            $this->api()->delete('vocabularies', $otherId);
+        }
+    }
+
+    public function testStartingImportOptions()
+    {
+        // With no stored import options, a guess, of the language and
+        // comments.
+        $review = $this->review->get($this->start());
+        $this->assertSame(['format' => 'turtle', 'lang' => null, 'comment_property' => RdfImporter::COMMENT_PROPERTY], $review['import_options']);
+
+        // The stored import options, where those given are "", which isn't a
+        // choice.
+        $this->api()->update('vocabularies', $this->vocabularyId, [
+            'o:import_options' => ['lang' => 'fr', 'comment_property' => RdfImporter::DEFINITION_COMMENT_PROPERTY],
+        ], [], ['isPartial' => true]);
+        $review = $this->review->get($this->start('compare.ttl', ['format' => 'turtle', 'lang' => '', 'comment_property' => '']));
+        $this->assertSame(['format' => 'turtle', 'lang' => 'fr', 'comment_property' => RdfImporter::DEFINITION_COMMENT_PROPERTY], $review['import_options']);
+
+        // Null is the default, chosen over the stored option: First
+        // available, and the default comments.
+        $review = $this->review->get($this->start('compare.ttl', ['format' => 'turtle', 'lang' => null, 'comment_property' => null]));
+        $this->assertSame(['format' => 'turtle', 'lang' => null, 'comment_property' => null], $review['import_options']);
+
+        // An option given, over the stored one.
+        $review = $this->review->get($this->start('compare.ttl', ['format' => 'turtle', 'lang' => 'en']));
+        $this->assertSame('en', $review['import_options']['lang']);
+    }
+
+    public function testAcceptAppliesEverythingAndEnds()
+    {
+        $token = $this->start('compare-other-form.ttl', ['format' => 'turtle'], [
+            'new_namespace_uri' => 'https://example.org/compare#',
+        ]);
+        $file = $this->review->get($token)['files']['source'];
+        $this->review->accept($token, $this->review->getImportOptions($this->review->get($token), ['lang' => 'en']));
+
+        $vocabulary = $this->vocabulary();
+        $this->assertSame('https://example.org/compare#', $vocabulary->namespaceUri());
+        $this->assertSame('en', $vocabulary->importOptions()['lang']);
+        // The term changes, found across the change of namespace.
+        $this->assertSame('Heading', $this->propertyLabel('title'));
+        // The review has ended, and its file gone.
+        $this->assertNull($this->review->get($token));
+        $this->assertFileDoesNotExist($file);
+    }
+
+    public function testAcceptChangesNothingWhenRefused()
+    {
+        // The namespace of the file's terms, which another vocabulary has
+        // since taken, so the API refuses it.
+        $token = $this->start('compare-other-form.ttl', ['format' => 'turtle'], [
+            'new_namespace_uri' => 'https://example.org/compare#',
+        ]);
+        $this->createVocabularyAsBefore('https://example.org/compare#', 'moved', 'Moved');
+        try {
+            $this->review->accept($token, $this->review->get($token)['import_options']);
+            $this->fail('The review was accepted');
+        } catch (ValidationException $e) {
+        }
+        $this->assertSame(self::NAMESPACE_URI, $this->vocabulary()->namespaceUri());
+        $this->assertSame('Title', $this->propertyLabel('title'));
+        // The review goes on.
+        $this->assertNotNull($this->review->get($token));
+        $this->review->cancel($token);
+    }
+
+    public function testAcceptRefusesAnEndedReview()
+    {
+        $token = $this->start();
+        $importOptions = $this->review->get($token)['import_options'];
+        $this->review->cancel($token);
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('This review has ended.');
+        $this->review->accept($token, $importOptions);
+    }
+
+    public function testStartRefusesAFileWithoutTermsInTheNamespace()
+    {
+        $pattern = $this->services->get('Config')['temp_dir'] . '/' . Stager::FILE_PREFIX . '*';
+        $files = glob($pattern);
+        try {
+            // The vocabulary's terms moved to another namespace in this file.
+            $this->review->start($this->vocabularyId, __DIR__ . '/_files/compare-moved.ttl', ['format' => 'turtle']);
+            $this->fail('The review started');
+        } catch (ValidationException $e) {
+            $this->assertStringContainsString('http://example.org/moved#', (string) $e->getErrorStore()->getErrors()['o:namespace_uri'][0]);
+        }
+        $this->assertSame($files, glob($pattern));
+    }
+
+    public function testStartRefusesAFileThatCantBeStagedForTheAdmin()
+    {
+        try {
+            $this->review->start($this->vocabularyId, __DIR__ . '/_files/missing.ttl');
+            $this->fail('The review started');
+        } catch (ValidationException $e) {
+            // Not the staging failure's own message, which names a path.
+            $this->assertSame('Could not read vocabulary file.', $e->getMessage());
+            $this->assertInstanceOf(\Omeka\File\Exception\RuntimeException::class, $e->getPrevious());
+        }
+    }
+
+    public function testCancelChangesNothingAndEnds()
+    {
+        $token = $this->start('compare.ttl', ['format' => 'turtle']);
+        $file = $this->review->get($token)['files']['source'];
+        $this->review->cancel($token);
+        $this->assertNull($this->review->get($token));
+        $this->assertFileDoesNotExist($file);
+        $this->assertSame('Title', $this->propertyLabel('title'));
+    }
+
+    public function testStartChecksWhatAcceptingWould()
+    {
+        $pattern = $this->services->get('Config')['temp_dir'] . '/' . Stager::FILE_PREFIX . '*';
+        $files = glob($pattern);
+        $file = __DIR__ . '/_files/compare.ttl';
+        // A vocabulary no one may change.
+        $dcterms = $this->api()->read('vocabularies', ['prefix' => 'dcterms'])->getContent()->id();
+        try {
+            $this->review->start($dcterms, $file, ['format' => 'turtle']);
+            $this->fail('A review of Dublin Core started');
+        } catch (PermissionDeniedException $e) {
+        }
+        // A new namespace URI that isn't a form of the vocabulary's.
+        try {
+            $this->review->start($this->vocabularyId, $file, ['format' => 'turtle'], ['new_namespace_uri' => 'http://example.org/other#']);
+            $this->fail('A review moving the vocabulary elsewhere started');
+        } catch (\InvalidArgumentException $e) {
+        }
+        // One another vocabulary has in another form, as the API refuses.
+        $otherId = $this->createVocabularyAsBefore('https://example.org/compare#', 'compare2', 'Compare again');
+        try {
+            $this->review->start($this->vocabularyId, $file, ['format' => 'turtle'], ['new_namespace_uri' => 'http://example.org/compare/']);
+            $this->fail('A review taking another vocabulary\'s namespace URI started');
+        } catch (ValidationException $e) {
+            $this->assertSame(
+                'Another vocabulary, "Compare again", has this namespace URI in another form: "https://example.org/compare#".',
+                (string) $e->getErrorStore()->getErrors()['o:namespace_uri'][0]
+            );
+        } finally {
+            $this->api()->delete('vocabularies', $otherId);
+        }
+        // No file staged for any of them.
+        $this->assertSame($files, glob($pattern));
+        // Compared both ways: http://example.org/compare// has the
+        // vocabulary's http://example.org/compare# among its forms, though not
+        // the other way.
+        $getVocabulary = new \ReflectionMethod($this->review, 'getVocabularyToReview');
+        $vocabulary = $getVocabulary->invoke($this->review, $this->vocabularyId, ['new_namespace_uri' => 'http://example.org/compare//']);
+        $this->assertSame($this->vocabularyId, $vocabulary->id());
+        // The vocabulary's own namespace URI is no change.
+        $token = $this->start('compare.ttl', ['format' => 'turtle'], ['new_namespace_uri' => self::NAMESPACE_URI]);
+        $this->assertNull($this->review->get($token)['new_namespace_uri']);
+        // In other capitals, the same to Omeka, it's a form of it.
+        $this->api()->update('vocabularies', $this->vocabularyId, ['o:namespace_uri' => 'http://EXAMPLE.org/compare#'], [], ['isPartial' => true]);
+        $token = $this->start('compare.ttl', ['format' => 'turtle'], ['new_namespace_uri' => self::NAMESPACE_URI]);
+        $this->assertSame(self::NAMESPACE_URI, $this->review->get($token)['new_namespace_uri']);
+    }
+
+    public function testStartRefusesAnotherVocabularysExactNamespaceUri()
+    {
+        // As an installation may have from before: the tests' vocabulary in
+        // http, and another in https. A review can't take the other's, in any
+        // capitals, which the API would refuse at Accept as already taken.
+        $this->createVocabularyAsBefore('https://example.org/compare#', 'compare2', 'Compare again');
+        $file = __DIR__ . '/_files/compare.ttl';
+        foreach (['https://example.org/compare#', 'HTTPS://Example.org/compare#'] as $newNamespaceUri) {
+            try {
+                $this->review->start($this->vocabularyId, $file, ['format' => 'turtle'], ['new_namespace_uri' => $newNamespaceUri]);
+                $this->fail(sprintf('A review taking %s started', $newNamespaceUri));
+            } catch (ValidationException $e) {
+                $this->assertSame(
+                    sprintf('The namespace URI "%s" is already taken.', $newNamespaceUri),
+                    (string) $e->getErrorStore()->getErrors()['o:namespace_uri'][0]
+                );
+            }
+        }
+    }
+
+    public function testAcceptRefusesAFormAnotherVocabularyHasTakenSince()
+    {
+        // The namespace of the file's terms, another form of which another
+        // vocabulary has since taken.
+        $token = $this->start('compare-other-form.ttl', ['format' => 'turtle'], [
+            'new_namespace_uri' => 'https://example.org/compare#',
+        ]);
+        $this->createVocabularyAsBefore('https://example.org/compare/', 'moved', 'Moved');
+        try {
+            $this->review->accept($token, $this->review->get($token)['import_options']);
+            $this->fail('The review was accepted');
+        } catch (ValidationException $e) {
+            $this->assertSame(
+                'Another vocabulary, "Moved", has this namespace URI in another form: "https://example.org/compare/".',
+                (string) $e->getErrorStore()->getErrors()['o:namespace_uri'][0]
+            );
+        }
+        $this->assertSame(self::NAMESPACE_URI, $this->vocabulary()->namespaceUri());
+    }
+
+    public function testOldFilesAreRemovedWhenAReviewStarts()
+    {
+        $tempDir = $this->services->get('Config')['temp_dir'];
+        $old = tempnam($tempDir, Stager::FILE_PREFIX);
+        touch($old, time() - Stager::MAX_AGE - 60);
+        $recent = tempnam($tempDir, Stager::FILE_PREFIX);
+        $this->review->cancel($this->start());
+        $this->assertFileDoesNotExist($old);
+        $this->assertFileExists($recent);
+        unlink($recent);
+    }
+
+    /**
+     * Answer the importer's requests with a response, in place of a server.
+     *
+     * @param int $status
+     * @param string $body
+     * @return HttpClient The client answering, which counts the requests in
+     *   $requests
+     */
+    protected function answerRequests($status, $body)
+    {
+        $client = new class extends HttpClient {
+            public $response;
+            public $requests = 0;
+
+            public function send(?Request $request = null)
+            {
+                $this->requests++;
+                return $this->response;
+            }
+        };
+        $client->response = (new Response)->setStatusCode($status)->setContent($body);
+        $importer = $this->services->get('Omeka\RdfImporter');
+        $property = new \ReflectionProperty($importer, 'httpClient');
+        $this->importerClient ??= $property->getValue($importer);
+        $property->setValue($importer, $client);
+        return $client;
+    }
+
+    public function testStartFromUrlFetchesOnce()
+    {
+        $client = $this->answerRequests(200, file_get_contents(__DIR__ . '/_files/compare.ttl'));
+        $url = $this->review->startFromUrl($this->vocabularyId, 'http://example.org/compare.ttl', ['format' => 'turtle']);
+        $token = substr($url, strpos($url, '=') + 1);
+        $review = $this->review->get($token);
+        $this->review->getDiff($review, $review['import_options']);
+        $this->review->getDiff($review, $review['import_options']);
+        $this->assertSame(1, $client->requests);
+        $this->review->cancel($token);
+    }
+
+    public function testStartFromUrlTheServerRefuses()
+    {
+        $this->answerRequests(404, 'Not found');
+        $pattern = $this->services->get('Config')['temp_dir'] . '/' . Stager::FILE_PREFIX . '*';
+        $files = glob($pattern);
+        try {
+            $this->review->startFromUrl($this->vocabularyId, 'http://example.org/missing.ttl');
+            $this->fail('The review started');
+        } catch (ValidationException $e) {
+            $this->assertSame('Could not load vocabulary from URL.', $e->getMessage());
+        }
+        // No file is left for the review that didn't start.
+        $this->assertSame($files, glob($pattern));
+    }
+}

@@ -9,6 +9,7 @@ use Omeka\Permissions\Assertion\AssertionNegation;
 use Omeka\Permissions\Assertion\HasSitePermissionAssertion;
 use Omeka\Permissions\Assertion\IsSelfAssertion;
 use Omeka\Permissions\Assertion\OwnsEntityAssertion;
+use Omeka\Permissions\Assertion\OwnsVocabularyAssertion;
 use Omeka\Permissions\Assertion\SiteIsPublicAssertion;
 use Omeka\Permissions\Assertion\SitePageIsPublicAssertion;
 use Omeka\Permissions\Assertion\UserIsAdminAssertion;
@@ -961,6 +962,12 @@ class AclFactory implements FactoryInterface
             'Omeka\Entity\Vocabulary',
             ['update', 'delete'],
             new AssertionNegation(new OwnsEntityAssertion)
+        );
+        $acl->deny(
+            'site_admin',
+            ['Omeka\Entity\ResourceClass', 'Omeka\Entity\Property'],
+            ['update', 'delete'],
+            new AssertionNegation(new OwnsVocabularyAssertion)
         );
 
         $acl->deny(

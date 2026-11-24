@@ -381,6 +381,7 @@ CREATE TABLE `vocabulary` (
   `prefix` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   `label` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `comment` longtext COLLATE utf8mb4_unicode_ci,
+  `import_options` longtext COLLATE utf8mb4_unicode_ci COMMENT '(DC2Type:json)',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_9099C97B9B267FDF` (`namespace_uri`),
   UNIQUE KEY `UNIQ_9099C97B93B1868E` (`prefix`),

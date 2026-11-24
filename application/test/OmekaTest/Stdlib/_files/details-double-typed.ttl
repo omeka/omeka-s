@@ -1,0 +1,20 @@
+# Two classes labeled in English, each typed twice, and three labeled in
+# American English, each typed once.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix twice: <http://example.org/twice#> .
+
+twice:Album a rdfs:Class, owl:Class ;
+    rdfs:label "Album"@en .
+
+twice:Book a rdfs:Class, owl:Class ;
+    rdfs:label "Book"@en .
+
+twice:Color a rdfs:Class ;
+    rdfs:label "Color"@en-US .
+
+twice:Map a rdfs:Class ;
+    rdfs:label "Map"@en-US .
+
+twice:Print a rdfs:Class ;
+    rdfs:label "Print"@en-US .

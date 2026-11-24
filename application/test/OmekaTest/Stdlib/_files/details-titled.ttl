@@ -1,0 +1,11 @@
+# A vocabulary titled in English and Canadian French, its tag in lower case,
+# whose one class is labeled with no language.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+<http://example.org/titled> a owl:Ontology ;
+    dcterms:title "Titled"@en, "Titré"@fr-ca .
+
+<http://example.org/titled#Thing> a rdfs:Class ;
+    rdfs:label "Thing" .

@@ -1,0 +1,7 @@
+# This vocabulary is also published as RDFa. EasyRdf guesses a file that
+# mentions RDFa near its start to be RDFa.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix mention: <http://example.org/mention#> .
+
+mention:Thing a rdfs:Class ;
+    rdfs:label "Thing" .

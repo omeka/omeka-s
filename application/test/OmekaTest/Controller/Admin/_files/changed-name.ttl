@@ -1,0 +1,12 @@
+# The tests' vocabulary, with its property's label changed and a new
+# property.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix review: <http://example.org/review#> .
+
+review:name a rdf:Property ;
+    rdfs:label "Changed" ;
+    rdfs:comment "<i>stored property comment</i>" .
+
+review:added a rdf:Property ;
+    rdfs:label "Added" .

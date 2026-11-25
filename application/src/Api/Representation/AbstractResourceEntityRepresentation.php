@@ -388,6 +388,16 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
+     * Unset a term in the representations.
+     *
+     * @param string $term The prefix:local_part
+     */
+    public function unsetTerm($term)
+    {
+        unset($this->{'values'}[$term]);
+    }
+
+    /**
      * Get value representations where this resource is the RDF object.
      *
      * @param int $page

@@ -33,6 +33,11 @@ class Gd extends AbstractThumbnailer
     protected $icc;
 
     /**
+     * @var int The exif orientation of the original image.
+     */
+    protected $orientation = 1;
+
+    /**
      * Check whether the GD extension is loaded.
      *
      * @throws Exception\InvalidThumbnailer
@@ -63,6 +68,7 @@ class Gd extends AbstractThumbnailer
                 $origImage = imagecreatefromjpeg($sourcePath);
                 $inputPel = new \lsolesen\pel\PelJpeg($sourcePath);
                 $this->icc = $inputPel->getIcc();
+                $this->orientation = $this->getExifOrientation($inputPel);
                 break;
             case 'image/png':
                 $origImage = imagecreatefrompng($sourcePath);
@@ -86,6 +92,10 @@ class Gd extends AbstractThumbnailer
 
     public function create($strategy, $constraint, array $options = [])
     {
+        if ($this->orientation > 1 && $this->getOption('autoOrient', true)) {
+            $this->autoOrient();
+        }
+
         switch ($strategy) {
             case 'square':
                 $tempImage = $this->createSquare($constraint, $options);
@@ -112,6 +122,86 @@ class Gd extends AbstractThumbnailer
         }
 
         return $tempPath;
+    }
+
+    /**
+     * Get the exif orientation of a jpeg image, 1 when there is none.
+     *
+     * The exif extension is not required: the data are read with the library
+     * that is already used to manage the icc profile.
+     *
+     * @return int
+     */
+    protected function getExifOrientation(\lsolesen\pel\PelJpeg $pelJpeg)
+    {
+        try {
+            $exif = $pelJpeg->getExif();
+            $tiff = $exif ? $exif->getTiff() : null;
+            $ifd = $tiff ? $tiff->getIfd() : null;
+            $entry = $ifd ? $ifd->getEntry(\lsolesen\pel\PelTag::ORIENTATION) : null;
+            $orientation = $entry ? (int) $entry->getValue() : 1;
+        } catch (\Throwable $e) {
+            return 1;
+        }
+        return $orientation >= 1 && $orientation <= 8 ? $orientation : 1;
+    }
+
+    /**
+     * Rotate and flip the original image according to the exif orientation.
+     *
+     * The thumbnail is saved without exif data, so the transformation must be
+     * applied to the pixels. It is done once, even when multiple thumbnails
+     * are created from the same source.
+     */
+    protected function autoOrient()
+    {
+        // Rotations are counterclockwise with imagerotate(), unlike exif.
+        switch ($this->orientation) {
+            case 2:
+                imageflip($this->origImage, IMG_FLIP_HORIZONTAL);
+                break;
+            case 3:
+                $this->rotate(180);
+                break;
+            case 4:
+                imageflip($this->origImage, IMG_FLIP_VERTICAL);
+                break;
+            case 5:
+                $this->rotate(270);
+                imageflip($this->origImage, IMG_FLIP_HORIZONTAL);
+                break;
+            case 6:
+                $this->rotate(270);
+                break;
+            case 7:
+                $this->rotate(270);
+                imageflip($this->origImage, IMG_FLIP_VERTICAL);
+                break;
+            case 8:
+                $this->rotate(90);
+                break;
+            case 1:
+            default:
+                break;
+        }
+
+        $this->orientation = 1;
+        $this->origWidth = imagesx($this->origImage);
+        $this->origHeight = imagesy($this->origImage);
+    }
+
+    /**
+     * Rotate the original image counterclockwise by a multiple of 90 degrees.
+     *
+     * @param int $degrees
+     */
+    protected function rotate($degrees)
+    {
+        $rotated = imagerotate($this->origImage, $degrees, 0);
+        if ($rotated === false) {
+            throw new Exception\CannotCreateThumbnailException;
+        }
+        $this->origImage = $rotated;
     }
 
     /**

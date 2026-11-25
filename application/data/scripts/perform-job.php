@@ -36,6 +36,10 @@ $viewHelperManager->get('BasePath')->setBasePath($options['base-path']);
 $serviceLocator->get('Router')->setBaseUrl($options['base-path']);
 
 $serverUrlParts = parse_url($options['server-url']);
+if (!is_array($serverUrlParts) || !isset($serverUrlParts['scheme'], $serverUrlParts['host'])) {
+    $logger->err('Invalid server URL given; use --server-url <scheme://host>');
+    exit;
+}
 $scheme = $serverUrlParts['scheme'];
 $host = $serverUrlParts['host'];
 if (isset($serverUrlParts['port'])) {

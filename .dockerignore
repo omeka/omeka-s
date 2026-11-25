@@ -1,0 +1,13 @@
+.git
+.github
+node_modules
+vendor
+build
+files/*
+!files/index.html
+config/database.ini
+config/local.config.php
+logs/*.log
+.htaccess
+Dockerfile
+.dockerignore

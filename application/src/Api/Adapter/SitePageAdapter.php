@@ -74,6 +74,17 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
             );
         }
 
+        if (isset($query['media_id']) && is_numeric($query['media_id'])) {
+            $blocksAlias = $this->createAlias();
+            $qb->innerJoin('omeka_root.blocks', $blocksAlias);
+            $attachmentsAlias = $this->createAlias();
+            $qb->innerJoin("$blocksAlias.attachments", $attachmentsAlias);
+            $qb->andWhere($qb->expr()->eq(
+                "$attachmentsAlias.media",
+                $this->createNamedParameter($qb, $query['media_id']))
+            );
+        }
+
         if (isset($query['slug'])) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.slug',

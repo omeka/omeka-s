@@ -5,6 +5,7 @@ use Omeka\Form\ModuleStateChangeForm;
 use Omeka\Form\ConfirmForm;
 use Omeka\Module\Exception\ModuleCannotInstallException;
 use Omeka\Module\Manager as OmekaModuleManager;
+use Omeka\Stdlib\PsrMessage;
 use Laminas\ModuleManager\ModuleManager;
 use Omeka\Mvc\Exception;
 use Laminas\Form\Form;
@@ -50,7 +51,8 @@ class ModuleController extends AbstractActionController
             $modules = array_merge(
                 $this->omekaModules->getModulesByState('not_found'),
                 $this->omekaModules->getModulesByState('invalid_module'),
-                $this->omekaModules->getModulesByState('invalid_ini')
+                $this->omekaModules->getModulesByState('invalid_ini'),
+                $this->omekaModules->getModulesByState('invalid_omeka_version')
             );
         } elseif ($state) {
             $modules = $this->omekaModules->getModulesByState($state);
@@ -98,7 +100,7 @@ class ModuleController extends AbstractActionController
     public function installAction()
     {
         if (!$this->getRequest()->isPost()) {
-            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'not_installed']], true);
         }
         $id = $this->params()->fromQuery('id');
         $form = $this->getForm(ModuleStateChangeForm::class, [
@@ -117,7 +119,10 @@ class ModuleController extends AbstractActionController
             $this->omekaModules->install($module);
         } catch (ModuleCannotInstallException $e) {
             $this->messenger()->addError($e->getMessage());
-            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'not_installed']], true);
+        } catch (\Exception $e) {
+            $this->addModuleErrorMessage($e);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'not_installed']], true);
         }
         $this->messenger()->addSuccess('The module was successfully installed'); // @translate
         if ($module->isConfigurable()) {
@@ -126,7 +131,7 @@ class ModuleController extends AbstractActionController
                 ['query' => ['id' => $module->getId()]], true
             );
         }
-        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'not_installed']], true);
     }
 
     public function uninstallConfirmAction()
@@ -175,7 +180,12 @@ class ModuleController extends AbstractActionController
         if (!$module) {
             throw new Exception\NotFoundException;
         }
-        $this->omekaModules->uninstall($module);
+        try {
+            $this->omekaModules->uninstall($module);
+        } catch (\Exception $e) {
+            $this->addModuleErrorMessage($e);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        }
         $this->messenger()->addSuccess('The module was successfully uninstalled'); // @translate
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
@@ -186,7 +196,7 @@ class ModuleController extends AbstractActionController
     public function activateAction()
     {
         if (!$this->getRequest()->isPost()) {
-            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'not_active']], true);
         }
         $id = $this->params()->fromQuery('id');
         $form = $this->getForm(ModuleStateChangeForm::class, [
@@ -203,7 +213,7 @@ class ModuleController extends AbstractActionController
         }
         $this->omekaModules->activate($module);
         $this->messenger()->addSuccess('The module was successfully activated'); // @translate
-        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'not_active']], true);
     }
 
     /**
@@ -212,7 +222,7 @@ class ModuleController extends AbstractActionController
     public function deactivateAction()
     {
         if (!$this->getRequest()->isPost()) {
-            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'active']], true);
         }
         $id = $this->params()->fromQuery('id');
         $form = $this->getForm(ModuleStateChangeForm::class, [
@@ -229,7 +239,7 @@ class ModuleController extends AbstractActionController
         }
         $this->omekaModules->deactivate($module);
         $this->messenger()->addSuccess('The module was successfully deactivated'); // @translate
-        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'active']], true);
     }
 
     /**
@@ -238,7 +248,7 @@ class ModuleController extends AbstractActionController
     public function upgradeAction()
     {
         if (!$this->getRequest()->isPost()) {
-            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'needs_upgrade']], true);
         }
         $id = $this->params()->fromQuery('id');
         $form = $this->getForm(ModuleStateChangeForm::class, [
@@ -253,9 +263,14 @@ class ModuleController extends AbstractActionController
         if (!$module) {
             throw new Exception\NotFoundException;
         }
-        $this->omekaModules->upgrade($module);
+        try {
+            $this->omekaModules->upgrade($module);
+        } catch (\Exception $e) {
+            $this->addModuleErrorMessage($e);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'needs_upgrade']], true);
+        }
         $this->messenger()->addSuccess('The module was successfully upgraded'); // @translate
-        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'needs_upgrade']], true);
     }
 
     /**
@@ -285,7 +300,7 @@ class ModuleController extends AbstractActionController
                 unset($this->getRequest()->getPost()["{$formName}_csrf"]);
                 if (false !== $moduleObject->handleConfigForm($this)) {
                     $this->messenger()->addSuccess('The module was successfully configured'); // @translate
-                    return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+                    return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => ['state' => 'active']], true);
                 }
                 $this->messenger()->addError('There was a problem during configuration'); // @translate
             } else {
@@ -312,5 +327,27 @@ class ModuleController extends AbstractActionController
         $view->setTerminal(true);
         $view->setVariable('module', $module);
         return $view;
+    }
+
+    /**
+     * Add module error message to messenger.
+     *
+     * Display the hint about error logging and the exception short message.
+     */
+    protected function addModuleErrorMessage(\Throwable $e): void
+    {
+        if (!ini_get('display_errors')) {
+            $message = new PsrMessage(
+                'To learn how to see more detailed information about this error, see the Omeka S User Manual page on {link}retrieving error messages{link_end}.', // @translate
+                ['link' => '<a href="https://omeka.org/s/docs/user-manual/errorLogging/">', 'link_end' => '</a>']
+            );
+            $message->setEscapeHtml(false);
+            $this->messenger()->addError($message);
+        }
+        $this->messenger()->addError(sprintf(
+            '%s: %s', // @translate
+            get_class($e),
+            $e->getMessage()
+        ));
     }
 }

@@ -8,6 +8,7 @@ $lang = $this->lang();
 $valueLang = $filterLocale ? [$lang, ''] : null;
 
 $this->htmlElement('body')->appendAttribute('class', 'item-set resource browse');
+$this->headMeta()->appendName('robots', 'noindex');
 ?>
 
 <?php echo $this->pageTitle($translate('Item sets'), 2); ?>

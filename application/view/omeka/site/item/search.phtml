@@ -1,6 +1,7 @@
 <?php
 $translate = $this->plugin('translate');
 $this->htmlElement('body')->appendAttribute('class', 'items search');
+$this->headMeta()->appendName('robots', 'noindex');
 ?>
 
 <?php echo $this->pageTitle($translate('Advanced item search'), 2); ?>

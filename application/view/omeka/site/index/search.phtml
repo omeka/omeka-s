@@ -3,6 +3,7 @@ $translate = $this->plugin('translate');
 $hyperlink = $this->plugin('hyperlink');
 $url = $this->plugin('url');
 $this->htmlElement('body')->appendAttribute('class', 'index search');
+$this->headMeta()->appendName('robots', 'noindex');
 
 $filterLocale = (bool) $this->siteSetting('filter_locale_values');
 $lang = $this->lang();

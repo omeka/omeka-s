@@ -33,7 +33,7 @@ class ThumbnailManager
      */
     public function buildThumbnailer()
     {
-        return $this->services->build('Omeka\File\Thumbnailer');
+        return $this->services->get('Omeka\File\Thumbnailer');
     }
 
     /**

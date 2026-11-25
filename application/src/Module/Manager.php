@@ -297,26 +297,32 @@ class Manager implements ResourceInterface
             ));
         }
 
-        $oldVersion = $module->getDb('version');
-        $newVersion = $module->getIni('version');
-
-        // Invoke the module's upgrade method
-        $this->getModuleObject($module)->upgrade(
-            $oldVersion,
-            $newVersion,
-            $this->serviceLocator
-        );
-
-        // Update the module entity
         $entity = $this->getModuleEntity($module);
-        if ($entity instanceof ModuleEntity) {
-            $entity->setVersion($newVersion);
-            $this->getEntityManager()->flush();
-        } else {
+        if (!$entity instanceof ModuleEntity) {
             throw new Exception\ModuleNotInDatabaseException(sprintf(
                 $t->translate('Module "%s" not found in database during upgrade'),
                 $module->getId()
             ));
+        }
+
+        $oldVersion = $module->getDb('version');
+        $newVersion = $module->getIni('version');
+
+        // Set version before upgrade so background jobs can be dispatched,
+        // avoiding random race condition.
+        $entity->setVersion($newVersion);
+        $this->getEntityManager()->flush();
+
+        try {
+            $this->getModuleObject($module)->upgrade(
+                $oldVersion,
+                $newVersion,
+                $this->serviceLocator
+            );
+        } catch (\Throwable $e) {
+            $entity->setVersion($oldVersion);
+            $this->getEntityManager()->flush();
+            throw $e;
         }
 
         $module->setState($module->getDb('is_active')

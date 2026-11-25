@@ -201,7 +201,33 @@ class UserForm extends Form implements EventManagerAwareInterface
                 'label' => 'Default sites for items', // @translate
                 'empty_option' => '',
                 'filter_resource_representations' => function ($sites) {
-                    // The user must have permission to assign items to the site.
+                    // The user must have permission to assign items to the
+                    // site.
+                    foreach ($sites as $index => $site) {
+                        if (!$site->userIsAllowed('can-assign-items')) {
+                            unset($sites[$index]);
+                        }
+                    }
+                    return $sites;
+                },
+            ],
+        ]);
+        $settingsFieldset->add([
+            'name' => 'default_item_set_sites',
+            'type' => SiteSelect::class,
+            'attributes' => [
+                'value' => $userId ? $this->userSettings->get('default_item_set_sites', null, $userId) : [],
+                'class' => 'chosen-select',
+                'data-placeholder' => 'Select sites', // @translate
+                'multiple' => true,
+                'id' => 'default_item_set_sites',
+            ],
+            'options' => [
+                'label' => 'Default sites for item sets', // @translate
+                'empty_option' => '',
+                'filter_resource_representations' => function ($sites) {
+                    // The user must have permission to assign items to the
+                    // site.
                     foreach ($sites as $index => $site) {
                         if (!$site->userIsAllowed('can-assign-items')) {
                             unset($sites[$index]);

@@ -30,37 +30,10 @@ class SiteRepresentation extends AbstractEntityRepresentation
     }
     public function getJsonLd()
     {
-        $pages = [];
-        foreach ($this->pages() as $pageRepresentation) {
-            $pages[] = $pageRepresentation->getReference();
-        }
+        $owner = $this->owner();
+        $homepage = $this->homepage();
+        $thumbnail = $this->thumbnail();
 
-        $owner = null;
-        if ($this->owner()) {
-            $owner = $this->owner()->getReference();
-        }
-
-        $homepage = null;
-        if ($this->homepage()) {
-            $homepage = $this->homepage()->getReference();
-        }
-
-        $thumbnail = null;
-        if ($this->thumbnail()) {
-            $thumbnail = $this->thumbnail()->getReference();
-        }
-
-        $created = [
-            '@value' => $this->getDateTime($this->created()),
-            '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
-        ];
-        $modified = null;
-        if ($this->modified()) {
-            $modified = [
-                '@value' => $this->getDateTime($this->modified()),
-                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
-            ];
-        }
         $url = $this->getViewHelper('Url');
         $itemsUrl = $url(
             'api/default',
@@ -76,16 +49,16 @@ class SiteRepresentation extends AbstractEntityRepresentation
             'o:theme' => $this->theme(),
             'o:title' => $this->title(),
             'o:summary' => $this->summary(),
-            'o:thumbnail' => $thumbnail,
+            'o:thumbnail' => $thumbnail ? $thumbnail->getReference()->jsonSerialize() : null,
             'o:navigation' => $this->navigation(),
-            'o:homepage' => $homepage,
+            'o:homepage' => $homepage ? $homepage->getReference()->jsonSerialize() : null,
             'o:item_pool' => $this->itemPool(),
-            'o:owner' => $owner,
-            'o:created' => $created,
-            'o:modified' => $modified,
+            'o:owner' => $owner ? $owner->getReference()->jsonSerialize() : null,
+            'o:created' => $this->getDateTime($this->created())->getJsonLd(),
+            'o:modified' => $this->getDateTime($this->modified())->getJsonLd(),
             'o:is_public' => $this->isPublic(),
             'o:assign_new_items' => $this->assignNewItems(),
-            'o:page' => $pages,
+            'o:page' => array_map(fn ($v) => $v->getReference()->jsonSerialize(), $this->pages()),
             'o:site_permission' => $this->sitePermissions(),
             'o:site_item_set' => $this->siteItemSets(),
             'o:site_item' => ['@id' => $itemsUrl],

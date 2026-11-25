@@ -30,7 +30,7 @@ class SitePageBlockRepresentation extends AbstractRepresentation
             'o:layout' => $this->layout(),
             'o:data' => $this->data(),
             'o:layout_data' => $this->layoutData(),
-            'o:attachment' => $this->attachments(),
+            'o:attachment' => array_map(fn ($v) => $v->jsonSerialize(), $this->attachments()),
         ];
     }
 

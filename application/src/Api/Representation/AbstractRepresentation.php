@@ -48,10 +48,14 @@ abstract class AbstractRepresentation implements RepresentationInterface
     /**
      * Get a JSON serializable instance of DateTime.
      *
-     * @param \DateTime $dateTime
+     * DateTime may be null, in which case json-serialized output will be null.
+     * To get json-serializable output of current DateTime, pass `new \DateTime()`
+     * as parameter.
+     *
+     * @param \DateTime|null $dateTime
      * @return DateTime
      */
-    protected function getDateTime(\DateTime $dateTime)
+    protected function getDateTime(?\DateTime $dateTime): DateTime
     {
         return new DateTime($dateTime);
     }
@@ -97,7 +101,7 @@ abstract class AbstractRepresentation implements RepresentationInterface
     /**
      * Get one thumbnail of this representation.
      *
-     * @return Asset
+     * @return AssetRepresentation|null
      */
     public function thumbnail()
     {

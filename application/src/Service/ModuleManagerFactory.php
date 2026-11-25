@@ -8,9 +8,9 @@ use Composer\Semver\Comparator;
 use Composer\Semver\Semver;
 use Interop\Container\ContainerInterface;
 use Omeka\Module as CoreModule;
+use Omeka\Module\InfoReader;
 use Omeka\Module\Manager as ModuleManager;
 use SplFileInfo;
-use Laminas\Config\Reader\Ini as IniReader;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
 /**
@@ -27,54 +27,85 @@ class ModuleManagerFactory implements FactoryInterface
     public function __invoke(ContainerInterface $serviceLocator, $requestedName, ?array $options = null)
     {
         $manager = new ModuleManager($serviceLocator);
-        $iniReader = new IniReader;
+        $infoReader = new InfoReader();
         $connection = $serviceLocator->get('Omeka\Connection');
 
+        // Load installed.json once for all Composer-installed modules.
+        $infoReader->loadComposerInstalled();
+
         // Get all modules from the filesystem.
-        foreach (new DirectoryIterator(OMEKA_PATH . '/modules') as $dir) {
-
-            // Module must be a directory
-            if (!$dir->isDir() || $dir->isDot()) {
+        // Scan local modules first so they take precedence over add-ons.
+        // Note: composer-addons/modules/ is scanned even though installed.json contains
+        // the module list. This ensures Module.php exists, handles out-of-sync
+        // cases, and maintains consistency with how modules/ works. The
+        // installed.json is only used for metadata (name, version, etc.), not
+        // for discovering which modules are installed.
+        $modulePaths = [
+            OMEKA_PATH . '/modules',
+            OMEKA_PATH . '/composer-addons/modules',
+        ];
+        $registered = [];
+        foreach ($modulePaths as $modulePath) {
+            if (!is_dir($modulePath)) {
                 continue;
             }
+            foreach (new DirectoryIterator($modulePath) as $dir) {
 
-            $module = $manager->registerModule($dir->getBasename());
+                // Module must be a directory.
+                if (!$dir->isDir() || $dir->isDot()) {
+                    continue;
+                }
 
-            // Module directory must contain config/module.ini
-            $iniFile = new SplFileInfo($dir->getPathname() . '/config/module.ini');
-            if (!$iniFile->isReadable() || !$iniFile->isFile()) {
-                $module->setState(ModuleManager::STATE_INVALID_INI);
-                continue;
-            }
+                // Skip if module already registered (local takes precedence).
+                $moduleId = $dir->getBasename();
+                if (isset($registered[$moduleId])) {
+                    continue;
+                }
+                $registered[$moduleId] = true;
 
-            $ini = $iniReader->fromFile($iniFile->getRealPath());
+                $module = $manager->registerModule($moduleId);
 
-            // The INI configuration must be under the [info] header.
-            if (!isset($ini['info'])) {
-                $module->setState(ModuleManager::STATE_INVALID_INI);
-                continue;
-            }
+                // Only use installed.json for modules in composer-addons/modules/.
+                // Local modules in modules/ must read their own files.
+                $info = null;
+                $isComposerAddon = strpos($dir->getPathname(), '/composer-addons/modules/') !== false;
+                if ($isComposerAddon) {
+                    // Try installed.json first to avoid checking compatibility.
+                    $info = $infoReader->getFromComposerInstalled($moduleId, 'module');
+                }
+                if (empty($info)) {
+                    // Fallback: read from individual files (manual modules).
+                    $info = $infoReader->read($dir->getPathname(), 'module');
+                }
 
-            $module->setIni($ini['info']);
+                // Module must have valid info.
+                if (!$infoReader->isValid($info)) {
+                    $module->setState(ModuleManager::STATE_INVALID_INI);
+                    continue;
+                }
 
-            // Module INI must be valid
-            if (!$manager->iniIsValid($module)) {
-                $module->setState(ModuleManager::STATE_INVALID_INI);
-                continue;
-            }
+                // Check configurable from module.config.php (priority) or module.ini (fallback).
+                $info['configurable'] = $this->isModuleConfigurable($dir->getPathname(), $info);
 
-            // Module directory must contain Module.php
-            $moduleFile = new SplFileInfo($dir->getPathname() . '/Module.php');
-            if (!$moduleFile->isReadable() || !$moduleFile->isFile()) {
-                $module->setState(ModuleManager::STATE_INVALID_MODULE);
-                continue;
-            }
-            $module->setModuleFilePath($moduleFile->getRealPath());
+                $module->setIni($info);
 
-            $omekaConstraint = $module->getIni('omeka_version_constraint');
-            if ($omekaConstraint !== null && !Semver::satisfies(CoreModule::VERSION, $omekaConstraint)) {
-                $module->setState(ModuleManager::STATE_INVALID_OMEKA_VERSION);
-                continue;
+                // Module directory must contain Module.php.
+                $moduleFile = new SplFileInfo($dir->getPathname() . '/Module.php');
+                if (!$moduleFile->isReadable() || !$moduleFile->isFile()) {
+                    $module->setState(ModuleManager::STATE_INVALID_MODULE);
+                    continue;
+                }
+                $module->setModuleFilePath($moduleFile->getRealPath());
+
+                // Check Omeka version constraint only for manual modules.
+                // Composer add-ons use require.omeka/omeka-s for version checking.
+                if (!$isComposerAddon) {
+                    $omekaConstraint = $module->getIni('omeka_version_constraint');
+                    if ($omekaConstraint !== null && !Semver::satisfies(CoreModule::VERSION, $omekaConstraint)) {
+                        $module->setState(ModuleManager::STATE_INVALID_OMEKA_VERSION);
+                        continue;
+                    }
+                }
             }
         }
 
@@ -123,7 +154,7 @@ class ModuleManagerFactory implements FactoryInterface
             }
 
             // Module class must extend Omeka\Module\AbstractModule
-            // (delay this check until here to avoid loading non-active module files)
+            // This check is delayed here to avoid loading non-active modules.
             require_once $module->getModuleFilePath();
             $moduleClass = $module->getId() . '\Module';
             if (!class_exists($moduleClass)
@@ -133,13 +164,13 @@ class ModuleManagerFactory implements FactoryInterface
                 continue;
             }
 
-            // Module valid, installed, and active
+            // Module valid, installed, and active.
             $module->setState(ModuleManager::STATE_ACTIVE);
         }
 
         foreach ($manager->getModules() as $id => $module) {
             if (!$module->getState()) {
-                // Module in filesystem but not installed
+                // Module in filesystem but not installed.
                 $module->setState(ModuleManager::STATE_NOT_INSTALLED);
             }
         }
@@ -148,5 +179,44 @@ class ModuleManagerFactory implements FactoryInterface
         $manager->sortModules();
 
         return $manager;
+    }
+
+    /**
+     * Determine if a module is configurable.
+     *
+     * Priority:
+     * 1. module.config.php ['module_config']['configurable']
+     * 2. module.ini 'configurable' (fallback, already in $info)
+     *
+     * Note: Some module.config.php files use self::CONSTANT which requires the
+     * module class context. We use error handling to gracefully skip those.
+     *
+     * @param string $modulePath Path to the module directory
+     * @param array $info Module info from InfoReader
+     * @return bool
+     */
+    protected function isModuleConfigurable(string $modulePath, array $info): bool
+    {
+        // Priority 1: Check module.config.php.
+        $configFile = $modulePath . '/config/module.config.php';
+        if (is_file($configFile) && is_readable($configFile)) {
+            // Convert errors to exceptions to catch undefined constants, etc.
+            set_error_handler(function ($severity, $message) {
+                throw new \ErrorException($message, 0, $severity);
+            });
+            try {
+                $config = include $configFile;
+                if (is_array($config) && isset($config['module_config']['configurable'])) {
+                    restore_error_handler();
+                    return (bool) $config['module_config']['configurable'];
+                }
+            } catch (\Throwable $e) {
+                // Config file uses module-specific constants or has errors, skip.
+            }
+            restore_error_handler();
+        }
+
+        // Priority 2: Fallback to module.ini (already read into $info).
+        return !empty($info['configurable']);
     }
 }

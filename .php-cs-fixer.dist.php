@@ -50,6 +50,7 @@ return $config
             ->exclude('application/data/doctrine-proxies')
             ->exclude('application/data/media-types')
             ->exclude('application/data/overrides')
+            ->exclude('composer-addons')
             ->exclude('config')
             ->exclude('files')
             ->exclude('modules')

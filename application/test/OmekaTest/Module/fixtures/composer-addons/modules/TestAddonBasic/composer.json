@@ -1,0 +1,20 @@
+{
+    "name": "test/omeka-s-module-test-addon-basic",
+    "type": "omeka-s-module",
+    "description": "Basic test module installed via composer in composer-addons/modules/",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Test Author",
+            "email": "test@example.org"
+        }
+    ],
+    "keywords": ["Omeka S", "module", "test"],
+    "extra": {
+        "installer-name": "TestAddonBasic",
+        "label": "Test Addon Basic"
+    },
+    "require": {
+        "omeka/omeka-s": "^4.0"
+    }
+}

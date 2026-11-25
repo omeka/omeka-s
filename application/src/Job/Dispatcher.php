@@ -80,7 +80,11 @@ class Dispatcher
         $job->setStatus(Job::STATUS_STARTING);
         $job->setClass($class);
         $job->setArgs($args);
-        $job->setOwner($this->auth->getIdentity());
+        $owner = $this->auth->getIdentity();
+        if ($owner) {
+            $owner = $this->entityManager->getReference(\Omeka\Entity\User::class, $owner->getId());
+        }
+        $job->setOwner($owner);
         $this->entityManager->persist($job);
         $this->entityManager->flush();
 

@@ -19,7 +19,7 @@ if ($assetId) {
     <?php if ($asset): ?>
     <span class="selected-asset">
         <?php
-        echo sprintf('<img class="selected-asset-image" src="%s" alt="%s"><div class="selected-asset-name">%s</div>',
+        echo sprintf('<img loading="lazy" class="selected-asset-image" src="%s" alt="%s"><div class="selected-asset-name">%s</div>',
             $this->escapeHtml($asset->assetUrl()),
             $this->escapeHtml($asset->altText()),
             $this->escapeHtml($asset->name())
@@ -28,7 +28,7 @@ if ($assetId) {
     </span>
     <?php else: ?>
     <span class="selected-asset" style="display: none;">
-        <img class="selected-asset-image"><div class="selected-asset-name"></div>
+        <img loading="lazy" class="selected-asset-image"><div class="selected-asset-name"></div>
     </span>
     <?php endif; ?>
     <span class="no-selected-asset">

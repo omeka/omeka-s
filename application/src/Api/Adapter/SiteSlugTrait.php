@@ -2,7 +2,6 @@
 namespace Omeka\Api\Adapter;
 
 use Omeka\Entity\Site;
-use PDO;
 
 /**
  * Trait for shared slug behavior for sites and pages
@@ -42,7 +41,7 @@ trait SiteSlugTrait
             ->from($table)
             ->where($where);
         $stmt = $qb->execute();
-        $similarSlugs = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        $similarSlugs = $stmt->fetchFirstColumn();
 
         if (!($similarSlugs && in_array($slug, $similarSlugs))) {
             return $slug;

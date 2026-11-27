@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Settings;
 
+use Doctrine\DBAL\ParameterType;
 use Omeka\Service\Exception;
 
 /**
@@ -97,7 +98,7 @@ abstract class AbstractTargetSettings extends AbstractSettings
             throw new Exception\RuntimeException('Cannot manage settings when no target ID is set.');
         }
         $sql = sprintf('SELECT * FROM %s WHERE %s = ?', $this->getTableName(), $this->getTargetIdColumnName());
-        $settings = $this->connection->fetchAll($sql, [$this->targetId]);
+        $settings = $this->connection->fetchAllAssociative($sql, [$this->targetId]);
         foreach ($settings as $setting) {
             $id = strtolower($setting['id']);
             $this->cache[$id] = $this->connection->convertToPHPValue($setting['value'], 'json_array');
@@ -110,7 +111,7 @@ abstract class AbstractTargetSettings extends AbstractSettings
             throw new Exception\RuntimeException('Cannot manage a settings when no target ID is set.');
         }
         $sql = sprintf('SELECT * FROM %s WHERE id = ? AND %s = ?', $this->getTableName(), $this->getTargetIdColumnName());
-        $setting = $this->connection->fetchAssoc($sql, [$id, $this->targetId]);
+        $setting = $this->connection->fetchAssociative($sql, [$id, $this->targetId]);
         if ($setting) {
             $this->connection->update(
                 $this->getTableName(),
@@ -127,7 +128,7 @@ abstract class AbstractTargetSettings extends AbstractSettings
             $this->connection->insert(
                 $this->getTableName(),
                 ['value' => $value, $this->getTargetIdColumnName() => $this->targetId, 'id' => $id],
-                ['json_array', \PDO::PARAM_INT]
+                ['json_array', ParameterType::INTEGER]
             );
             $this->getEventManager()->trigger('setting.insert', $this, [
                 'target_id' => $this->targetId,
@@ -145,7 +146,7 @@ abstract class AbstractTargetSettings extends AbstractSettings
         $this->connection->delete(
             $this->getTableName(),
             [$this->getTargetIdColumnName() => $this->targetId, 'id' => $id],
-            [\PDO::PARAM_INT]
+            [ParameterType::INTEGER]
         );
     }
 }

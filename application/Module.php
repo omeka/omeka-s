@@ -278,8 +278,8 @@ class Module extends AbstractModule
         $context[self::OMEKA_VOCABULARY_TERM] = self::OMEKA_VOCABULARY_IRI;
         $stmt = $this->getServiceLocator()
             ->get('Omeka\Connection')
-            ->query('SELECT * FROM vocabulary;');
-        while ($row = $stmt->fetch()) {
+            ->executeQuery('SELECT * FROM vocabulary;');
+        while ($row = $stmt->fetchAssociative()) {
             $context[$row['prefix']] = $row['namespace_uri'];
         }
         $context['o-cnt'] = 'http://www.w3.org/2011/content#';
@@ -387,7 +387,7 @@ class Module extends AbstractModule
         $stmt = $services->get('Omeka\Connection')->prepare($sql);
         $stmt->bindValue('property_id', $titleProperty->getId());
         $stmt->bindValue('resource_template_id', $resourceTemplate->getId());
-        $stmt->execute();
+        $stmt->executeStatement();
     }
 
     /**

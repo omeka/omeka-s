@@ -55,7 +55,7 @@ class SystemInfoController extends AbstractActionController
 
     protected function getSystemInfo()
     {
-        $conn = $this->connection->getWrappedConnection();
+        $conn = $this->connection->getNativeConnection();
         $isSqlite = ConnectionFactory::isSqlite($this->connection);
 
         $extensions = get_loaded_extensions();

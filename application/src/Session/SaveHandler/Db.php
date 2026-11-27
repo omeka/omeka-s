@@ -18,6 +18,11 @@ class Db implements SaveHandlerInterface
     protected $lifetime;
 
     /**
+     * @var array
+     */
+    protected $foundRows = [];
+
+    /**
      * Constructor
      *
      * @param Connection $conn
@@ -52,7 +57,13 @@ class Db implements SaveHandlerInterface
     #[\ReturnTypeWillChange]
     public function read($id)
     {
-        $session = $this->conn->fetchAssoc('SELECT * FROM session WHERE id = ?', [$id]);
+        if (isset($this->foundRows[$id])) {
+            $session = $this->foundRows[$id];
+            unset($this->foundRows[$id]);
+        } else {
+            $session = $this->doRead($id);
+        }
+
         if ($session) {
             if (($session['modified'] + $this->lifetime) > time()) {
                 return $session['data'];
@@ -99,10 +110,45 @@ class Db implements SaveHandlerInterface
         $sql = 'DELETE FROM session WHERE modified < ?';
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(1, (time() - $this->lifetime));
-        if ($stmt->execute()) {
-            return $stmt->rowCount();
-        } else {
-            return false;
+        return $stmt->executeStatement();
+    }
+
+    /**
+     * Create a new session ID
+     *
+     * Uses PHP's default ID generation.
+     *
+     * @return string
+     */
+    public function create_sid()
+    {
+        return session_create_id();
+    }
+
+    /**
+     * Validate whether the given session ID exists
+     *
+     * @param string $id
+     * @return bool
+     */
+    public function validateId($id)
+    {
+        $session = $this->doRead($id);
+        if ($session) {
+            $this->foundRows[$id] = $session;
+            return true;
         }
+        return false;
+    }
+
+    /**
+     * Attempt to read the given session id's row
+     *
+     * @param string $id
+     * @return array|false
+     */
+    protected function doRead($id)
+    {
+        return $this->conn->fetchAssociative('SELECT * FROM session WHERE id = ?', [$id]);
     }
 }

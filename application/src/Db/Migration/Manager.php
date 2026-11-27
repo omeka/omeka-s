@@ -3,7 +3,6 @@ namespace Omeka\Db\Migration;
 
 use Doctrine\DBAL\Connection;
 use GlobIterator;
-use PDO;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 
@@ -145,7 +144,7 @@ class Manager
     {
         $completed = $this->conn
             ->executeQuery("SELECT version FROM migration")
-            ->fetchAll(PDO::FETCH_COLUMN);
+            ->fetchFirstColumn();
         if (!$completed) {
             $completed = [];
         }

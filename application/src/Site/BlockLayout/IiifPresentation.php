@@ -70,7 +70,7 @@ class IiifPresentation extends AbstractBlockLayout
         $blockData['title'] = is_string($blockData['title'])
             ? trim($blockData['title'])
             : $this->defaultBlockData['title'];
-        $blockData['show_title'] = $blockData['show_title'];
+        $blockData['show_title'] = (bool) $blockData['show_title'];
         $block->setData($blockData);
     }
 
@@ -81,7 +81,7 @@ class IiifPresentation extends AbstractBlockLayout
             return;
         }
 
-        return $view->partial($templateViewScript, [
+        return $view->render($templateViewScript, [
             'block' => $block,
             'manifestUrl' => $manifestUrl,
             'title' => $block->dataValue('title'),

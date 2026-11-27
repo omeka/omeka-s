@@ -85,7 +85,11 @@ class EntityManagerFactory implements FactoryInterface
             }
         }
 
-        // Add custom functions.
+        // Add custom functions. They must be registered on SQLite too: DQL
+        // using them (e.g. GROUP_CONCAT in AbstractResourceEntityAdapter::
+        // sortQuery()) fails at parse time with "Expected known function"
+        // otherwise. On SQLite, the MySQL SQL they emit is translated by
+        // Omeka\Db\Connection\SqliteCompatConnection.
         $emConfig->setCustomNumericFunctions($config['entity_manager']['functions']['numeric']);
         $emConfig->setCustomStringFunctions($config['entity_manager']['functions']['string']);
         $emConfig->setCustomDatetimeFunctions($config['entity_manager']['functions']['datetime']);

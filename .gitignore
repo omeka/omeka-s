@@ -6,6 +6,7 @@
 /config/database.ini
 /logs/sql.log
 /logs/application.log
+/db/
 /files/
 /modules/
 /themes/
